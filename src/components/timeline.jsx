@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as d3 from "d3";
-import data from "../data/durations.json";
+import durations from "../data/durations.json";
 import "../styles/timeline.css";
 
 /* ===== BCE/CE helpers (no year 0) ===== */
@@ -8,13 +8,83 @@ const toAstronomical = (y) => (y <= 0 ? y + 1 : y);
 const fromAstronomical = (a) => (a <= 0 ? a - 1 : a);
 const formatYear = (y) => (y < 0 ? `${Math.abs(y)} BCE` : y > 0 ? `${y} CE` : "—");
 
+/* ===== Colors for Symbolic Systems ===== */
+const SymbolicSystemColorPairs = {
+  Sumerian: "#1D4ED8",
+  Akkadian: "#7C4DFF",
+  Egyptian: "#FF3B30",
+  "Ancient Egyptian": "#FF3B30",
+};
+
+/* ===== Label sizing vs zoom ===== */
+const LABEL_BASE_PX = 11;
+
+/* ===== NEW: render + hover constants ===== */
+const BASE_OPACITY = 0.3;
+const HOVER_OPACITY = 1;
+const AUTHOR_BASE_STROKE = 2;    // at k = 1
+const TEXT_BASE_R = 3.5;         // at k = 1
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+/* ===== Small utils ===== */
+const hashString = (str) => {
+  let h = 2166136261 >>> 0; // FNV-ish
+  for (let i = 0; i < (str || "").length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return (h >>> 0) / 2 ** 32; // 0..1
+};
+function getTextDate(row) {
+  const v = Number(row?.["Dataviz date"]);
+  return Number.isFinite(v) ? v : NaN;
+}
+function pickSystemColor(tagsStr) {
+  if (!tagsStr) return "#444";
+  const parts = String(tagsStr).split(",").map((s) => s.trim());
+  for (const p of parts) if (SymbolicSystemColorPairs[p]) return SymbolicSystemColorPairs[p];
+  return "#444";
+}
+
+/* ===== Dynamic dataset discovery ===== */
+function useDiscoveredDatasets() {
+  const authorModules =
+    import.meta.glob("../data/**/*_authors.json", { eager: true, import: "default" }) || {};
+  const textModules =
+    import.meta.glob("../data/**/*_texts.json", { eager: true, import: "default" }) || {};
+  const folderOf = (p) => {
+    const m = p.match(/\/data\/([^/]+)\//);
+    return m ? m[1] : null;
+  };
+  const folders = new Set([
+    ...Object.keys(authorModules).map(folderOf),
+    ...Object.keys(textModules).map(folderOf),
+  ]);
+
+  const registry = [];
+  folders.forEach((folder) => {
+    if (!folder) return;
+    const durationId = `${folder}-composite`;
+    const authors = Object.entries(authorModules)
+      .filter(([p]) => folderOf(p) === folder)
+      .flatMap(([, data]) => (Array.isArray(data) ? data : []));
+    const texts = Object.entries(textModules)
+      .filter(([p]) => folderOf(p) === folder)
+      .flatMap(([, data]) => (Array.isArray(data) ? data : []));
+    registry.push({ folder, durationId, authors, texts });
+  });
+  return registry;
+}
+
 export default function Timeline() {
   const wrapRef = useRef(null);
   const svgRef = useRef(null);
   const axisRef = useRef(null);
   const gridRef = useRef(null);
-  const singlesRef = useRef(null);
-  const compositesRef = useRef(null);
+  const outlinesRef = useRef(null);
+  const segmentsRef = useRef(null);
+  const authorsRef = useRef(null);
+  const textsRef = useRef(null);
 
   /* ---- Responsive sizing ---- */
   const [size, setSize] = useState({ width: 800, height: 400 });
@@ -37,10 +107,9 @@ export default function Timeline() {
   const axisY = innerHeight;
 
   /* ---- Time domain & base scales ---- */
-  const domainHuman = useMemo(() => [-6000, 2025], []);
+  const domainHuman = useMemo(() => [-7000, 2025], []);
   const domainAstro = useMemo(() => domainHuman.map(toAstronomical), [domainHuman]);
 
-  // X: time scale; Y: identity (pixels->pixels) so we can rescale with zoom
   const x = useMemo(
     () => d3.scaleLinear().domain(domainAstro).range([0, innerWidth]),
     [domainAstro, innerWidth]
@@ -50,78 +119,152 @@ export default function Timeline() {
     [innerHeight]
   );
 
-  /* ---- Ticks: every 500y + special "0", exclude 2025 ---- */
+  /* ---- Ticks ---- */
   const tickAstro = useMemo(() => {
     const human = [];
-    for (let y = -6000; y <= 2000; y += 500) if (y !== 0) human.push(y);
+    for (let y = -7000; y <= 2000; y += 500) if (y !== 0) human.push(y);
     const astro = human.map(toAstronomical);
-    astro.push(0.5); // draw as "0"
+    astro.push(0.5);
     astro.sort((a, b) => a - b);
     return astro;
   }, []);
   const formatTick = (a) => (Math.abs(a - 0.5) < 1e-6 ? "0" : formatYear(fromAstronomical(a)));
 
-  /* ---- Data split: singles vs composites ---- */
+  /* ---- Prepare composite OUTLINES ---- */
   const DEFAULT_BAR_PX = 24;
-  const { singles, composites } = useMemo(() => {
-    const s = [];
-    const c = [];
-    for (const d of data) {
-      if (Array.isArray(d.segments) && d.segments.length) c.push(d);
-      else s.push(d);
-    }
-    return { singles: s, composites: c };
-  }, []);
+  const outlines = useMemo(() => {
+    const rows = durations
+      .filter(
+        (d) =>
+          d &&
+          (Array.isArray(d.segments) ? d.segments.length > 0 : d.start != null && d.end != null)
+      )
+      .map((d) => {
+        let start, end;
+        if (Array.isArray(d.segments) && d.segments.length > 0) {
+          start = d3.min(d.segments, (s) => s.start);
+          end = d3.max(d.segments, (s) => s.end);
+        } else {
+          start = d.start;
+          end = d.end;
+        }
+        const y = d.yRel != null ? d.yRel * innerHeight : d.y != null ? d.y : 0;
+        const h =
+          d.hRel != null ? d.hRel * innerHeight : d.height != null ? d.height : DEFAULT_BAR_PX;
+        return { id: d.id, name: d.name, color: d.color || "#999", start, end, y, h };
+      });
+    return rows;
+  }, [durations, innerHeight]);
 
-  /* ---- Resolve y/height for singles ---- */
-  const singleRows = useMemo(() => {
-    return singles.map((d, i) => {
-      const y = d.yRel != null ? d.yRel * innerHeight : d.y != null ? d.y : i * 36;
+  /* ---- Segment hover rects ---- */
+  const segments = useMemo(() => {
+    const rows = [];
+    for (const d of durations) {
+      if (!Array.isArray(d.segments)) continue;
+      const color = d.color || "#999";
+      const y = d.yRel != null ? d.yRel * innerHeight : d.y != null ? d.y : 0;
       const h =
         d.hRel != null ? d.hRel * innerHeight : d.height != null ? d.height : DEFAULT_BAR_PX;
-      return { ...d, y, h, color: d.color || "#4f46e5" };
-    });
-  }, [singles, innerHeight]);
 
-  /* ---- Resolve segments for composites (inherit parent yRel/hRel if missing) ---- */
-  const compositeRows = useMemo(() => {
-    return composites.map((group) => {
-      const baseColor = group.color || "#9ca3af";
-      const segs = group.segments.map((s, i) => {
-        const y =
-          s.yRel != null
-            ? s.yRel * innerHeight
-            : s.y != null
-            ? s.y
-            : group.yRel != null
-            ? group.yRel * innerHeight
-            : group.y != null
-            ? group.y
-            : i * 36;
-
-        const h =
-          s.hRel != null
-            ? s.hRel * innerHeight
-            : s.height != null
-            ? s.height
-            : group.hRel != null
-            ? group.hRel * innerHeight
-            : group.height != null
-            ? group.height
-            : DEFAULT_BAR_PX;
-
-        return {
-          id: `${group.id}__seg_${i}`,
+      d.segments.forEach((s, i) => {
+        rows.push({
+          id: `${d.id}__seg_${i}`,
+          parentId: d.id,
+          parentColor: color,
           start: s.start,
           end: s.end,
           y,
           h,
-          color: s.color || baseColor
-        };
+          label: s.label,
+          tag: s.tag,
+          note: s.note,
+        });
       });
-      return { id: group.id, name: group.name, color: baseColor, segments: segs };
+    }
+    return rows;
+  }, [durations, innerHeight]);
+
+  /* ---- Datasets ---- */
+  const datasetRegistry = useDiscoveredDatasets();
+
+  /* ---- Authors & Texts rows ---- */
+  const { authorRows, textRows } = useMemo(() => {
+    const outlinesById = new Map(outlines.map((o) => [o.id, o]));
+    const rowsA = [];
+    const rowsT = [];
+
+    for (const ds of datasetRegistry) {
+      const band = outlinesById.get(ds.durationId);
+      if (!band) continue;
+
+      const bandY = band.y;
+      const bandH = band.h;
+      const pad = Math.min(6, Math.max(2, bandH * 0.15));
+      const yForKey = (key) => {
+        const r = hashString(`${ds.durationId}::${key || "anon"}`);
+        return bandY + pad + r * Math.max(1, bandH - 2 * pad);
+      };
+
+      const authorY = new Map();
+
+      // AUTHORS
+      for (const a of ds.authors || []) {
+        const name = a?.Author ?? a?.author ?? "";
+        const birth = Number(a?.Dataviz_birth);
+        const death = Number(a?.Dataviz_death);
+        if (!Number.isFinite(birth) || !Number.isFinite(death)) continue;
+        const color = pickSystemColor(a?.["Symbolic System Tags"]);
+        const y = yForKey(name);
+        authorY.set(name, y);
+        rowsA.push({
+          id: `${ds.durationId}__author__${name || hashString(JSON.stringify(a))}`,
+          durationId: ds.durationId,
+          name,
+          start: birth,
+          end: death,
+          y,
+          color,
+        });
+      }
+
+      // TEXTS
+      for (const t of ds.texts || []) {
+        const authorName = t?.Author ?? t?.author ?? "";
+        const title = t?.Title ?? t?.title ?? t?.Name ?? "";
+        const when = getTextDate(t);
+        if (!Number.isFinite(when)) continue;
+        const color = pickSystemColor(t?.["Symbolic System Tags"]);
+        const y =
+          authorName && authorY.has(authorName)
+            ? authorY.get(authorName)
+            : yForKey(authorName || title || `text-${hashString(JSON.stringify(t))}`);
+        rowsT.push({
+          id: `${ds.durationId}__text__${title || hashString(JSON.stringify(t))}__${when}`,
+          durationId: ds.durationId,
+          title,
+          authorName,
+          when,
+          y,
+          color,
+        });
+      }
+    }
+
+    // Clamp to band extent
+    const bandExtent = new Map(
+      outlines.map((o) => [o.id, { min: Math.min(o.start, o.end), max: Math.max(o.start, o.end) }])
+    );
+    const filtA = rowsA.filter((r) => {
+      const e = bandExtent.get(r.durationId);
+      return e ? r.end >= e.min && r.start <= e.max : true;
     });
-  }, [composites, innerHeight]);
+    const filtT = rowsT.filter((r) => {
+      const e = bandExtent.get(r.durationId);
+      return e ? r.when >= e.min && r.when <= e.max : true;
+    });
+
+    return { authorRows: filtA, textRows: filtT };
+  }, [datasetRegistry, outlines]);
 
   /* ========= Draw/Update ========= */
   useEffect(() => {
@@ -129,180 +272,277 @@ export default function Timeline() {
     const gRoot = svg.select("g.chart");
     const gAxis = d3.select(axisRef.current);
     const gGrid = d3.select(gridRef.current);
-    const gSingles = d3.select(singlesRef.current);
-    const gComposites = d3.select(compositesRef.current);
+    const gOut = d3.select(outlinesRef.current);
+    const gSeg = d3.select(segmentsRef.current);
+    const gAuthors = d3.select(authorsRef.current);
+    const gTexts = d3.select(textsRef.current);
 
     gRoot.attr("transform", `translate(${margin.left},${margin.top})`);
-
-    // JOIN singles
-    const singleSel = gSingles
-      .selectAll("g.bar.single")
-      .data(singleRows, (d) => d.id)
-      .join((enter) => {
-        const g = enter.append("g").attr("class", "bar single");
-        g.append("rect");
-        g.append("text")
-          .attr("class", "barLabel")
-          .attr("dy", "0.32em")
-          .style("dominant-baseline", "middle");
-        return g;
-      });
-
-    // JOIN composites (one path per composite, + one label)
-    const compSel = gComposites
-      .selectAll("g.bar.composite")
-      .data(compositeRows, (d) => d.id)
-      .join((enter) => {
-        const g = enter.append("g").attr("class", "bar composite");
-        g.append("path")
-          .attr("class", "compositeShape")
-          .attr("stroke", "none")
-          .attr("fill-rule", "nonzero");
-        g.append("text")
-          .attr("class", "barLabel")
-          .attr("dy", "0.32em")
-          .style("dominant-baseline", "middle");
-        return g;
-      });
 
     const axisFor = (scale) => d3.axisBottom(scale).tickValues(tickAstro).tickFormat(formatTick);
     const gridFor = (scale) =>
       d3.axisBottom(scale).tickValues(tickAstro).tickSize(-innerHeight).tickFormat(() => "");
 
-    // --- Debug + crisp pixel helpers ---
-const DPR = window.devicePixelRatio || 1;
-
-// Half a device pixel in CSS px (works for DPR 1, 1.5, 2, etc.)
-const HALF_DPR_PX = 0.5 / DPR;
-
-// Snap an x (CSS px) to the center of the nearest device pixel:
-const snapX = (x) => Math.round(x * DPR) / DPR + HALF_DPR_PX;
-
-// Log a few tick positions
-function logGrid(where) {
-  const sample = [];
-  d3.select(gridRef.current).selectAll(".tick").each(function(d, i) {
-    if (i < 6) {
-      const tr = d3.select(this).attr("transform"); // "translate(x,0)"
-      sample.push({ i, tick: d, transform: tr });
+    // crisp grid lines
+    const DPR = window.devicePixelRatio || 1;
+    const HALF_DPR_PX = 0.5 / DPR;
+    const snapX = (x) => Math.round(x * DPR) / DPR + HALF_DPR_PX;
+    function snapGrid(zx) {
+      d3.select(gridRef.current)
+        .selectAll(".tick")
+        .attr("transform", function (d) {
+          const x = zx(d);
+          const snapped = snapX(x);
+          return `translate(${snapped},0)`;
+        });
+      d3.select(gridRef.current).select(".domain").attr("display", "none");
     }
-  });
-  console.log(`[grid ${where}] DPR=${DPR}`, sample);
-}
 
-// Move each tick group to a snapped x so its 1px stroke sits perfectly
-function snapGrid(zx) {
-  d3.select(gridRef.current)
-    .selectAll(".tick")
-    .attr("transform", function(d, i) {
-      const x = zx(d);               // x in CSS px
-      const snapped = snapX(x);      // snap to device pixel center
-      if (i < 6) {
-        console.log("[snap]", { i, tick: d, x, snapped, delta: snapped - x });
-      }
-      return `translate(${snapped},0)`;
-    });
+    // OUTLINES
+    const outlineSel = gOut
+      .selectAll("g.durationOutline")
+      .data(outlines, (d) => d.id)
+      .join((enter) => {
+        const g = enter.append("g").attr("class", "durationOutline").attr("data-id", (d) => d.id);
 
-  // Optional: hide the horizontal domain baseline
-  d3.select(gridRef.current).select(".domain").attr("display", "none");
-}
+        g.append("rect")
+          .attr("class", "outlineRect")
+          .attr("fill", "none")
+          .attr("stroke", (d) => d.color)
+          .attr("stroke-width", 1.5)
+          .attr("vector-effect", "non-scaling-stroke")
+          .attr("shape-rendering", "geometricPrecision")
+          .attr("opacity", 0.3);
 
+        g.append("text")
+          .attr("class", "durationLabel")
+          .attr("dy", "0.32em")
+          .style("dominant-baseline", "middle")
+          .attr("fill", (d) => d.color)
+          .attr("opacity", 0.3)
+          .style("font-weight", 600)
+          .style("pointer-events", "none")
+          .text((d) => d.name);
 
-    function apply(zx, zy) {
-      // Axis anchored to bottom
+        return g;
+      });
+
+    // AUTHORS (lifespan lines)
+    const authorSel = gAuthors
+      .selectAll("line.author")
+      .data(authorRows, (d) => d.id)
+      .join(
+        (enter) =>
+          enter
+            .append("line")
+            .attr("class", "author")
+            .attr("vector-effect", "non-scaling-stroke")
+            .attr("stroke-linecap", "round")
+            .attr("stroke", (d) => d.color || "#222")
+            .attr("opacity", BASE_OPACITY), // NEW
+        (update) => update,
+        (exit) => exit.remove()
+      );
+
+    // TEXTS (dots)
+    const textSel = gTexts
+      .selectAll("circle.textDot")
+      .data(textRows, (d) => d.id)
+      .join(
+        (enter) =>
+          enter
+            .append("circle")
+            .attr("class", "textDot")
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 1)
+            .attr("fill", (d) => d.color || "#444")
+            .attr("opacity", BASE_OPACITY), // NEW
+        (update) => update,
+        (exit) => exit.remove()
+      );
+
+    // --- Helpers for hover logic ---
+    const overlaps = (a0, a1, b0, b1) => Math.max(a0, b0) <= Math.min(a1, b1);
+
+    function setHoverForSegment(seg, isOn) {
+      const { start, end, parentId } = seg;
+
+      // highlight only items that land inside the hovered segment's time range
+      authorSel
+        .filter((d) => overlaps(Math.min(d.start, d.end), Math.max(d.start, d.end), start, end))
+        .attr("opacity", isOn ? HOVER_OPACITY : BASE_OPACITY);
+
+      textSel
+        .filter((d) => d.when >= start && d.when <= end)
+        .attr("opacity", isOn ? HOVER_OPACITY : BASE_OPACITY);
+
+      // dim the rest when hovering (optional; comment out if you prefer non-dimming)
+      authorSel
+        .filter((d) => !overlaps(Math.min(d.start, d.end), Math.max(d.start, d.end), start, end))
+        .attr("opacity", isOn ? BASE_OPACITY : BASE_OPACITY);
+
+      textSel
+        .filter((d) => !(d.when >= start && d.when <= end))
+        .attr("opacity", isOn ? BASE_OPACITY : BASE_OPACITY);
+
+      // labels of the parent duration
+      gOut
+        .selectAll("g.durationOutline")
+        .filter((o) => o.id === parentId)
+        .select("text.durationLabel")
+        .attr("opacity", isOn ? 1 : 0.3);
+    }
+
+    // SEGMENTS (hover hits)
+    const segSel = gSeg
+      .selectAll("rect.segmentHit")
+      .data(segments, (d) => d.id)
+      .join((enter) =>
+        enter
+          .append("rect")
+          .attr("class", "segmentHit")
+          .attr("fill", "transparent")
+          .attr("pointer-events", "all")
+          .attr("stroke", "none")
+          .attr("stroke-width", 1.5)
+          .attr("vector-effect", "non-scaling-stroke")
+          .attr("shape-rendering", "geometricPrecision")
+          .on("mouseenter", function (event, d) {
+            d3.select(this).attr("stroke", d.parentColor).attr("opacity", 1);
+            setHoverForSegment(d, true); // NEW
+          })
+          .on("mouseleave", function (event, d) {
+            d3.select(this).attr("stroke", "none").attr("opacity", null);
+            setHoverForSegment(d, false); // NEW (restore)
+          })
+      );
+
+    function apply(zx, zy, k = 1) {
+      // Axis & grid
       gAxis.attr("transform", `translate(${margin.left},${margin.top + axisY})`).call(axisFor(zx));
-
-      // Grid (CSS handles stroke/dots)
       gGrid.attr("transform", `translate(0,${axisY})`).call(gridFor(zx));
-      logGrid("beforeSnap");
       snapGrid(zx);
-      logGrid("afterSnap");  
-      // Singles
-      singleSel.attr("transform", (d) => {
+
+      // Outlines
+      outlineSel.select("rect.outlineRect").each(function (d) {
         const x0 = zx(toAstronomical(d.start));
         const x1 = zx(toAstronomical(d.end));
         const yTop = zy(d.y);
-        return `translate(${Math.min(x0, x1)},${yTop})`;
+        const hPix = zy(d.y + d.h) - zy(d.y);
+        d3.select(this)
+          .attr("x", Math.min(x0, x1))
+          .attr("y", yTop)
+          .attr("width", Math.abs(x1 - x0))
+          .attr("height", hPix);
       });
-      singleSel
-        .select("rect")
-        .attr("width", (d) =>
-          Math.abs(zx(toAstronomical(d.end)) - zx(toAstronomical(d.start)))
-        )
-        .attr("height", (d) => zy(d.y + d.h) - zy(d.y))
-        .attr("fill", (d) => d.color);
-      singleSel
-        .select("text")
-        .attr("x", 8)
-        .attr("y", (d) => (zy(d.y + d.h) - zy(d.y)) / 2)
-        .text((d) => d.name);
 
-      // Composites: union of rectangles as one path (no seams)
-      compSel.each(function (grp) {
+      // Labels (zoom-relative font size)
+      const fontPx = LABEL_BASE_PX * k;
+      outlineSel.each(function (d) {
         const g = d3.select(this);
-        const path = g.select("path.compositeShape");
+        const x0 = zx(toAstronomical(d.start));
+        const x1 = zx(toAstronomical(d.end));
+        const yTop = zy(d.y);
+        const hPix = zy(d.y + d.h) - zy(d.y);
+        g.select("text.durationLabel")
+          .attr("x", Math.min(x0, x1) + 4)
+          .attr("y", yTop + hPix / 3)
+          .style("font-size", `${fontPx}px`);
+      });
 
-        let dstr = "";
-        let xLeft = Infinity;
-        let topSeg = grp.segments[0] || { y: 0, h: 0 };
+      // Segment hover rects
+      segSel.each(function (d) {
+        const x0 = zx(toAstronomical(d.start));
+        const x1 = zx(toAstronomical(d.end));
+        const yTop = zy(d.y);
+        const hPix = zy(d.y + d.h) - zy(d.y);
+        d3.select(this)
+          .attr("x", Math.min(x0, x1))
+          .attr("y", yTop)
+          .attr("width", Math.abs(x1 - x0))
+          .attr("height", hPix);
+      });
 
-        grp.segments.forEach((s) => {
-          const x0 = Math.min(zx(toAstronomical(s.start)), zx(toAstronomical(s.end)));
-          const x1 = Math.max(zx(toAstronomical(s.start)), zx(toAstronomical(s.end)));
-          const w = x1 - x0;
-          const yTop = zy(s.y);
-          const hPix = zy(s.y + s.h) - zy(s.y);
-          dstr += `M ${x0},${yTop} h ${w} v ${hPix} h ${-w} Z `;
-          if (x0 < xLeft) xLeft = x0;
-          if (s && s.y < topSeg.y) topSeg = s;
-        });
+      // Authors (lifespan lines) — positions + ZOOMED SIZE
+      const strokeW = clamp(AUTHOR_BASE_STROKE * k, 1, 6); // NEW
+      authorSel.each(function (d) {
+        const x0 = zx(toAstronomical(d.start));
+        const x1 = zx(toAstronomical(d.end));
+        const yPix = zy(d.y);
+        d3.select(this)
+          .attr("x1", Math.min(x0, x1))
+          .attr("x2", Math.max(x0, x1))
+          .attr("y1", yPix)
+          .attr("y2", yPix)
+          .attr("stroke-width", strokeW); // NEW
+      });
 
-        path.attr("d", dstr).attr("fill", grp.color).attr("stroke", "none");
-
-        const topY = zy(topSeg.y);
-        const topH = zy(topSeg.y + topSeg.h) - zy(topSeg.y);
-
-        g.select("text.barLabel")
-          .attr("x", (isFinite(xLeft) ? xLeft : 0) + 8)
-          .attr("y", topY + topH / 2)
-          .text(grp.name);
+      // Texts (dots) — positions + ZOOMED SIZE
+      const r = clamp(TEXT_BASE_R * k, 2, 12); // NEW
+      textSel.each(function (d) {
+        const cx = zx(toAstronomical(d.when));
+        const cy = zy(d.y);
+        d3.select(this).attr("cx", cx).attr("cy", cy).attr("r", r); // NEW
       });
     }
 
-const MIN_ZOOM = 0.8;
-const MAX_ZOOM = 22;
+    // Zoom behavior
+    const MIN_ZOOM = 0.9;
+    const MAX_ZOOM = 22;
 
-const zoom = d3.zoom()
-  .scaleExtent([MIN_ZOOM, MAX_ZOOM])
-  .translateExtent([[0, 0], [innerWidth, innerHeight]])
-  .extent([[0, 0], [innerWidth, innerHeight]])
-  .on("zoom", (event) => {
-    const t = event.transform;
-    const zx = t.rescaleX(x);
-    const zy = t.rescaleY(y0);
-    apply(zx, zy);
-  });
+    const zoom = d3
+      .zoom()
+      .scaleExtent([MIN_ZOOM, MAX_ZOOM])
+      .translateExtent([
+        [0, 0],
+        [innerWidth, innerHeight],
+      ])
+      .extent([
+        [0, 0],
+        [innerWidth, innerHeight],
+      ])
+      .on("zoom", (event) => {
+        const t = event.transform;
+        const zx = t.rescaleX(x);
+        const zy = t.rescaleY(y0);
+        apply(zx, zy, t.k);
+      });
 
-const svgSel = d3.select(svgRef.current).call(zoom);
+    const svgSel = d3.select(svgRef.current).call(zoom);
 
-const s  = MIN_ZOOM;
-const tx = (innerWidth  - innerWidth  * s) / 2;
-const ty = (innerHeight - innerHeight * s) / 2;
-
-svgSel.call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(s));
-   
+    // Initial zoom (centered)
+    const s = MIN_ZOOM;
+    const tx = (innerWidth - innerWidth * s) / 2;
+    const ty = (innerHeight - innerHeight * s) / 2;
+    svgSel.call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(s));
 
     return () => d3.select(svgRef.current).on(".zoom", null);
-  }, [singleRows, compositeRows, width, height, innerWidth, innerHeight, axisY, margin.left, margin.top, tickAstro, x, y0]);
+  }, [
+    outlines,
+    segments,
+    authorRows,
+    textRows,
+    width,
+    height,
+    innerWidth,
+    innerHeight,
+    axisY,
+    margin.left,
+    margin.top,
+    tickAstro,
+    x,
+    y0,
+  ]);
 
   return (
     <div ref={wrapRef} className="timelineWrap" style={{ width: "100%", height: "100%" }}>
       <svg ref={svgRef} className="timelineSvg" width={width} height={height}>
         <g className="chart" transform={`translate(${margin.left},${margin.top})`}>
           <g ref={gridRef} className="grid" />
-          {/* composites behind singles so singles sit on top if overlapping */}
-          <g ref={compositesRef} className="composites" />
-          <g ref={singlesRef} className="bars" />
+          <g ref={outlinesRef} className="durations" />
+          <g ref={segmentsRef} className="segments" />
+          <g ref={authorsRef} className="authors" />
+          <g ref={textsRef} className="texts" />
         </g>
         <g ref={axisRef} className="axis" />
       </svg>

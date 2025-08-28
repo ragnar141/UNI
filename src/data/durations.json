@@ -1,253 +1,41 @@
 [
   {
-    "id": "north-african-berber-amazigh-punic-carthaginian-phoenician-1-0",
-    "name": "North-African (Berber/Punic)",
-    "start": -3000,
-    "end": -146,
-    "color": "#0E9F9A",
-    "yRel": 0.083,
-    "hRel": 0.02
-  },
-  {
-    "id": "anatolian-hittite-thracian-balkan-2-0",
-    "name": "Anatolian (Hittite/Thracian/Balkan)",
-    "start": -3000,
-    "end": -330,
-    "color": "#E53935",
-    "yRel": 0.146,
-    "hRel": 0.02
-  },
-  {
-    "id": "semitic-phoenician-aramaic-hebrew-3-0",
-    "name": "Semitic (Phoenician/Aramaic/Hebrew)",
-    "start": -3500,
-    "end": -330,
-    "color": "#1E40FF",
-    "yRel": 0.125,
-    "hRel": 0.02
-  },
-  {
-    "id": "mesopotamian-babylonian-akkadian-assyrian-sumerian-5-0",
-    "name": "Mesopotamian (Babylonian/Akkadian/Assyrian/Sumerian)",
-    "start": -5500,
-    "end": -330,
-    "color": "#4FC3F7",
-    "yRel": 0.188,
-    "hRel": 0.02
-  },
-  {
-    "id": "egyptian-6-0",
+    "id": "egyptian-composite",
     "name": "Egyptian",
-    "start": -5000,
-    "end": -330,
-    "color": "#9C27B0",
+    "color": "#FF3B30",
     "yRel": 0.167,
-    "hRel": 0.02
-  },
-  {
-    "id": "persian-alchaemenid-elamite-zoroastrian-parthian-indic-7-0",
-    "name": "Persian (Alchaemenid/Elamite/Zoroastrian/Parthian/Indic)",
-    "start": -5200,
-    "end": -330,
-    "color": "#00C853",
-    "yRel": 0.209,
-    "hRel": 0.02
-  },
-  
-  {
-    "id": "hellenistic-composite",
-    "name": "Greek (Mycenaean/Minoan/Hellenic/Hellenistic)",
-    "color": "#FFD500",
     "hRel": 0.02,
     "segments": [
-      { "start": -3000, "end": -146,  "yRel": 0.104 },
-      { "start": -330,  "end": -146,  "yRel": 0.125 },
-      { "start": -330,  "end": -146, "yRel": 0.146 },
-      { "start": -330,  "end": -146,  "yRel": 0.167 },
-      { "start": -330,  "end": -146,  "yRel": 0.188 },
-      { "start": -330,  "end": -146, "yRel": 0.209 }
+      { "start": -5000, "end": -3100, "label": "Pre-Dynastic Period", "tag": "Pre-Dynastic", "note": "Transformation of Nile Valley communities; regional cultures, emergent elites, proto-writing and iconography." },
+      { "start": -3100, "end": -2686, "label": "Early Dynastic Period", "tag": "Early Dynastic", "note": "Unification of Upper and Lower Egypt; royal titulary crystallizes; Memphis as political center." },
+      { "start": -2686, "end": -2181, "label": "Old Kingdom", "tag": "Old Kingdom", "note": "First ‘golden age’; pyramid complexes; centralized kingship and state institutions." },
+      { "start": -2181, "end": -2055, "label": "First Intermediate Period", "tag": "First Intermediate", "note": "Decentralization and rival houses; regional artistic and textual diversity." },
+      { "start": -2055, "end": -1650, "label": "Middle Kingdom", "tag": "Middle Kingdom", "note": "Theban reunification; administrative reforms; classical literature and refined ideology of kingship." },
+      { "start": -1650, "end": -1550, "label": "Second Intermediate Period", "tag": "Second Intermediate", "note": "Hyksos and multi-polar rule; military and technological transfers (e.g., chariot, composite bow)." },
+      { "start": -1550, "end": -1069, "label": "New Kingdom", "tag": "New Kingdom", "note": "Imperial apex; expansion into Levant and Nubia; monumental temples; international diplomacy." },
+      { "start": -1069, "end": -664, "label": "Third Intermediate Period", "tag": "Third Intermediate", "note": "Divided authority (Tanis, Thebes, Libyan/Nubian lines); sacral kingship and regionalization." },
+      { "start": -664, "end": -332, "label": "Late Period", "tag": "Late Period", "note": "Saite renaissance; recurrent foreign interventions (Assyrian, Persian); resilient Egyptian culture pre-Hellenistic era." }
     ]
   },
   {
-    "id": "roman-composite",
-    "name": "Roman (Italic/Etruscan/Latin)",
-    "color": "#FCA5A5",
-    "hRel": 0.02,
-    "segments": [
-      { "start": -1200, "end": 395, "yRel": 0.062 },
-      { "start": -146,  "end": 395, "yRel": 0.083 },
-      { "start": -146,   "end": 395, "yRel": 0.104 },
-      { "start": -146,   "end": 395, "yRel": 0.125 },
-      { "start": -146,  "end": 395, "yRel": 0.146 },
-      { "start": -146,   "end": 395, "yRel": 0.167 }
-      
-    ]
-  },
-
-  {
-    "id": "parthian/sassanian",
-    "name": "Parthian, Sassanian",
-    "start": -146,
-    "end": 651,
-    "color": "#2563EB",
-    "yRel": 0.209,
-    "hRel": 0.02
-  },
-  {
-    "id": "armenian",
-    "name": "Armenian",
-    "start": 405,
-    "end": 2025,
-    "color": "#A16207",
-    "yRel": 0.23,
-    "hRel": 0.02
-  },
-  {
-    "id": "wri",
-    "name": "Western Roman Empire",
-    "start": 395,
-    "end": 476,
-    "color": "#6D28D9",
-    "yRel": 0.062,
-    "hRel": 0.062
-  },
-  {
-    "id": "anglosaxon",
-    "name": "Anglo-Saxon, Norman England, Welsh, Irish, Scottish, English",
-    "start": 410,
-    "end": 2025,
-    "color": "#2F9E44",
-    "yRel": 0.02,
-    "hRel": 0.02
-  },
-  {
-    "id": "ere",
-    "name": "Eastern Roman Empire (Byzantine Empire)",
-    "start": 395,
-    "end": 1453,
-    "color": "#7F1D1D",
-    "yRel": 0.167,
-    "hRel": 0.02
-  },
-  {
-    "id": "franks",
-    "name": "Franks, Carolingian Empire",
-    "color": "#7F1D1D",
-    "hRel": 0.02,
-    "segments": [
-      { "start": 476, "end": 843, "yRel": 0.062 },
-      { "start": 774, "end": 843, "yRel": 0.083 }      
-    ]
-  },
-  {
-    "id": "ostrogoths",
-    "name": "Ostrogoths",
-    "start": 476,
-    "end": 554,
-    "color": "#7F1D1D",
-    "yRel": 0.083,
-    "hRel": 0.02
-  },
-  {
-    "id": "lombards",
-    "name": "Lombards",
-    "start": 554,
-    "end": 774,
-    "color": "#FACC15",
-    "yRel": 0.083,
-    "hRel": 0.02
-  },
-   {
-    "id": "visigoths",
-    "name": "Visigoths",
-    "start": 476,
-    "end": 711,
-    "color": "#15803D",
-    "yRel": 0.104,
-    "hRel": 0.02
-  },
-  {
-    "id": "islamic-persian-central-asia",
-    "name": "Islamic Persia and Central Asia",
-    "start": 651,
-    "end": 2025,
-    "color": "#FF3131",
-    "yRel": 0.209,
-    "hRel": 0.02
-  },
-   {
-    "id": "islamic-north-africa-near-east",
-    "name": "Islamic North Africa and Near East",
-    "start": 642,
-    "end": 2025,
-    "color": "#FF3131",
-    "yRel": 0.146,
-    "hRel": 0.02
-  },
-    {
-    "id": "ottoman-empire",
-    "name": "Ottoman Empire",
-    "start": 1453,
-    "end": 1922,
-    "color": "#7FFF00",
-    "yRel": 0.167,
-    "hRel": 0.02
-  },
-    {
-    "id": "islamic-iberia",
-    "name": "Islamic Iberia",
-    "start": 711,
-    "end": 1085,
-    "color": "#FF3131",
-    "yRel": 0.104,
-    "hRel": 0.02
-  },
-  {
-    "id": "italia",
-    "name": "Italia",
-    "start": 1050,
-    "end": 2025,
-    "color": "#007FFF",
-    "yRel": 0.041,
-    "hRel": 0.02
-  },
-  {
-    "id": "eastfrancia",
-    "name": "East Francia, Holy Roman Empire, Germany",
-    "start": 843,
-    "end": 2025,
-    "color": "#DA70D6",
-    "yRel": 0.062,
-    "hRel": 0.02
-  },
-   {
-    "id": "westfrancia",
-    "name": "West Francia, France",
-    "start": 843,
-    "end": 2025,
-    "color": "#6F00FF",
-    "yRel": 0.083,
-    "hRel": 0.02
-  },
-   {
-    "id": "espana",
-    "name": "Spain",
-    "start": 1085,
-    "end": 2025,
-    "color": "#FFD400",
-    "yRel": 0.104,
-    "hRel": 0.02
-  },
-     {
-    "id": "mongol",
-    "name": "Mongol Empire",
-    "start": 1206,
-    "end": 1691,
-    "color": "#FFD400",
-    "yRel": 0.188,
-    "hRel": 0.02
-  }
-
-
-
+  "id": "mesopotamian-composite",
+  "name": "Mesopotamian",
+  "color": "#1D4ED8",
+  "yRel": 0.189,
+  "hRel": 0.02,
+  "segments": [
+    { "start": -5500, "end": -3700, "label": "Ubaid Period", "tag": "Ubaid", "note": "Village culture, irrigation, Eridu temples; foundations of urban life." },
+    { "start": -3700, "end": -3100, "label": "Uruk Period", "tag": "Uruk", "note": "Rise of Uruk as first true city; proto-writing, monumental temples." },
+    { "start": -3100, "end": -2900, "label": "Jemdet Nasr Period", "tag": "Jemdet Nasr", "note": "Short transitional era; early writing and administrative expansion." },
+    { "start": -2900, "end": -2334, "label": "Early Dynastic Period", "tag": "Early Dynastic", "note": "Sumerian city-states; early kingship, conflict, and literature." },
+    { "start": -2334, "end": -2154, "label": "Akkadian Empire", "tag": "Akkadian", "note": "First empire under Sargon; Semitic dominance; collapse after 180 years." },
+    { "start": -2154, "end": -2112, "label": "Gutian Domination", "tag": "Gutian", "note": "Instability under Gutian rule; interregnum following Akkadian fall." },
+    { "start": -2112, "end": -2004, "label": "Ur III Period", "tag": "Ur III", "note": "Neo-Sumerian revival; centralized state; flourishing literature and law." },
+    { "start": -2004, "end": -1595, "label": "Isin-Larsa and Old Babylonian", "tag": "Isin-Larsa/Old Babylonian", "note": "Amorite dynasties; rivalry of Isin and Larsa; Hammurabi’s Babylonian unification; fall to Hittites." },
+    { "start": -1595, "end": -912, "label": "Kassite, Middle Babylonian & Middle Assyrian", "tag": "Kassite/Middle", "note": "Kassite stability; Babylonian fragmentation; Assyria’s rise as militarized state; regional diplomacy." },
+    { "start": -911, "end": -612, "label": "Neo-Assyrian Empire", "tag": "Neo-Assyrian", "note": "Imperial apex; provincial system, mass deportations; Nineveh and Ashurbanipal’s library; collapse in 612 BCE." },
+    { "start": -626, "end": -539, "label": "Neo-Babylonian Period", "tag": "Neo-Babylonian", "note": "Nabopolassar and Nebuchadnezzar II; Babylonian cultural revival; conquest of Jerusalem; fall to Persians." },
+    { "start": -539, "end": -331, "label": "Achaemenid Period", "tag": "Achaemenid", "note": "Babylon as Persian provincial center; preserved prestige; ends with Alexander’s conquest." }
+  ]
+}
 ]
