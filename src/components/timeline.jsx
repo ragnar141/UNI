@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import * as d3 from "d3";
 import durations from "../data/durations.json";
 import "../styles/timeline.css";
+import TextCard from "./textCard";
+import AuthorCard from "./authorCard";
 
 /* ===== BCE/CE helpers (no year 0) ===== */
 const toAstronomical = (y) => (y <= 0 ? y + 1 : y);
@@ -87,12 +89,14 @@ function useDiscoveredDatasets() {
 export default function Timeline() {
   const wrapRef = useRef(null);
   const svgRef = useRef(null);
+  
   const axisRef = useRef(null);
   const gridRef = useRef(null);
   const outlinesRef = useRef(null);
   const segmentsRef = useRef(null);
   const authorsRef = useRef(null);
   const textsRef = useRef(null);
+  
 
   // current zoom scale
   const kRef = useRef(1);
@@ -105,6 +109,22 @@ export default function Timeline() {
 
   /* ---- Responsive sizing ---- */
   const [size, setSize] = useState({ width: 800, height: 400 });
+  const [selectedText, setSelectedText] = useState(null);
+  const [showMore, setShowMore] = useState(false);
+  const [cardPos, setCardPos] = useState({ left: 16, top: 16 });
+  const [selectedAuthor, setSelectedAuthor] = useState(null);
+  const [showMoreAuthor, setShowMoreAuthor] = useState(false);
+  const [authorCardPos, setAuthorCardPos] = useState({ left: 16, top: 16 });
+   const closeAll = () => {
+    setSelectedText(null);
+    setSelectedAuthor(null);
+    setShowMore(false);
+    setShowMoreAuthor(false);
+  };
+  const modalOpen = !!(selectedText || selectedAuthor);
+  const lastTransformRef = useRef(null);  // remembers the latest d3.zoom transform
+  const didInitRef = useRef(false);       // tracks first-time init
+
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
@@ -225,46 +245,112 @@ export default function Timeline() {
       const authorY = new Map();
 
       // AUTHORS → unique lane per author
-      for (const a of ds.authors || []) {
-        const name = a?.Author ?? a?.author ?? "";
-        const birth = Number(a?.Dataviz_birth);
-        const death = Number(a?.Dataviz_death);
-        if (!Number.isFinite(birth) || !Number.isFinite(death)) continue;
-        const color = pickSystemColor(a?.["Symbolic System Tags"]);
-        const y = yForKey(name);
-        authorY.set(name, y);
-        rowsA.push({
-          id: `${ds.durationId}__author__${name || hashString(JSON.stringify(a))}`,
-          durationId: ds.durationId,
-          name,
-          start: birth,
-          end: death,
-          y,
-          color,
-        });
-      }
+      // AUTHORS → unique lane per author (custom field mapping like texts)
+for (const a of (ds.authors || [])) {
+  const name                  = (a["Author"] || a["author"] || "").trim();
+  const displayBirth          = (a["D.O.B."] || "").trim();
+  const displayDeath          = (a["D.O.D."] || "").trim();
+  const socioPoliticalTags    = (a["Socio-political Tags"] || "").trim();
+  const symbolicSystemTags    = (a["Symbolic System Tags"] || "").trim();
+  const jungianArchetypesTags = (a["Jungian Archetypes Tags"] || "").trim();
+  const category              = (a["Category"] || "").trim();
+  const shortDescription      = (a["Short Description"] || "").trim();
+
+  const birthNum = Number(a?.Dataviz_birth);
+  const deathNum = Number(a?.Dataviz_death);
+  if (!Number.isFinite(birthNum) || !Number.isFinite(deathNum)) continue;
+
+  const color = pickSystemColor(symbolicSystemTags);
+  const y = yForKey(name);
+  authorY.set(name, y); // keep if you’ll reuse lane positions later
+
+  rowsA.push({
+    id: `${ds.durationId}__author__${name || hashString(JSON.stringify(a))}`,
+    durationId: ds.durationId,
+    name,
+    start: birthNum,
+    end: deathNum,
+    y,
+    color,
+
+    // payload for tooltips / future AuthorCard
+    displayBirth: displayBirth || formatYear(birthNum),
+    displayDeath: displayDeath || formatYear(deathNum),
+    socioPoliticalTags,
+    symbolicSystemTags,
+    jungianArchetypesTags,
+    category,
+    shortDescription,
+  });
+}
+
 
       // TEXTS → unique lane per text (not tied to author lane)
-      for (const t of ds.texts || []) {
-        const authorName = t?.Author ?? t?.author ?? "";
-        const title = t?.Title ?? t?.title ?? t?.Name ?? "";
-        const when = getTextDate(t);
-        if (!Number.isFinite(when)) continue;
-        const color = pickSystemColor(t?.["Symbolic System Tags"]);
+      // TEXTS → unique lane per text (not tied to author lane)
+for (const t of (ds.texts || [])) {
+  // Core fields from the standardized schema
+  const title                    = (t["Name"] || "").trim();
+  const authorName               = (t["Author"] || "").trim();
+  const approxDateStr            = (t["Approx. Date"] || "").trim();
+  const metaphysicalTags         = (t["Metaphysical Tags"] || "").trim();
+  const artsAndSciencesTags      = (t["Arts and Sciences Tags"] || "").trim();
+  const accessLevel              = (t["Access Level"] || "").trim();
+  const shortDescription         = (t["Short Description"] || "").trim();
+  const jungianArchetypesTags    = (t["Jungian Archetypes Tags"] || "").trim();
+  const neumannStagesTags        = (t["Neumann Stages Tags"] || "").trim();
+  const originalGeo              = (t["Original Geographical Location"] || "").trim();
+  const originalLanguage         = (t["Original Language"] || "").trim();
+  const comteanFramework         = (t["Comtean framework"] || "").trim();
+  const category                 = (t["Category"] || "").trim();
+  const socioPoliticalTags       = (t["Socio-political Tags"] || "").trim();
+  const literaryFormsTags        = (t["Literary Forms Tags"] || "").trim();
+  const literaryContentTags      = (t["Literary Content Tags"] || "").trim();
+  const symbolicSystemTags       = (t["Symbolic System Tags"] || "").trim();
 
-        const textKey = `${authorName || "anon"}::${title || ""}::${when}`;
-        const y = yForKey(textKey);
+  // Positioning anchor (numeric) stays driven by Dataviz date
+  const when = getTextDate(t); // expects numeric in t["Dataviz date"]
+  if (!Number.isFinite(when)) continue;
 
-        rowsT.push({
-          id: `${ds.durationId}__text__${title || hashString(JSON.stringify(t))}__${when}`,
-          durationId: ds.durationId,
-          title,
-          authorName,
-          when,
-          y,
-          color,
-        });
-      }
+  const color = pickSystemColor(symbolicSystemTags);
+
+  // Vertical lane key: stable per (author, title, when)
+  const textKey = `${authorName || "anon"}::${title || ""}::${when}`;
+  const y = yForKey(textKey);
+
+  // Prefer the human-readable string, fallback to formatted numeric
+  const displayDate = approxDateStr || formatYear(when);
+
+  rowsT.push({
+    // identity / placement
+    id: `${ds.durationId}__text__${title || hashString(JSON.stringify(t))}__${when}`,
+    durationId: ds.durationId,
+    when,
+    y,
+    color,
+
+    // canonical display fields
+    title,
+    authorName,
+    displayDate,
+
+    // payload for tooltips / side panels / filters
+    metaphysicalTags,
+    artsAndSciencesTags,
+    accessLevel,
+    shortDescription,
+    jungianArchetypesTags,
+    neumannStagesTags,
+    originalGeographicalLocation: originalGeo,
+    originalLanguage,
+    comteanFramework,
+    category,
+    socioPoliticalTags,
+    literaryFormsTags,
+    literaryContentTags,
+    symbolicSystemTags,
+  });
+}
+
     }
 
     // Clamp to band extent
@@ -282,6 +368,25 @@ export default function Timeline() {
 
     return { authorRows: filtA, textRows: filtT };
   }, [datasetRegistry, outlines]);
+
+  // Close with ESC when a card is open
+useEffect(() => {
+  if (!modalOpen) return;
+  const onKey = (e) => {
+    if (e.key === "Escape") closeAll();
+  };
+  window.addEventListener("keydown", onKey);
+  return () => window.removeEventListener("keydown", onKey);
+}, [modalOpen]);
+
+// Hide any tooltips the moment a modal opens
+useEffect(() => {
+  if (!modalOpen) return;
+  const wrapEl = wrapRef.current;
+  if (!wrapEl) return;
+  d3.select(wrapEl).selectAll(".tl-tooltip").style("opacity", 0).style("display", "none");
+}, [modalOpen]);
+
 
   /* ========= Draw/Update ========= */
   useEffect(() => {
@@ -322,7 +427,8 @@ export default function Timeline() {
     const tx = (innerWidth - innerWidth * s) / 2;
     const ty = (innerHeight - innerHeight * s) / 2;
     const t0 = d3.zoomIdentity.translate(tx, ty).scale(s);
-    kRef.current = t0.k; // seed k for initial enter sizes
+    const tInit = lastTransformRef.current ?? t0;
+    kRef.current = tInit.k;
 
     // ----- Three tooltip DIVs (inside wrapper, above SVG) -----
     const wrapEl = wrapRef.current;
@@ -645,11 +751,11 @@ function textAnchorClient(el, d) {
           showSegAnchored(seg);  // keep the segment tooltip visible
        }
 
-     const html = tipHTML(`Name: ${d.name || ""}`, `Dates: ${fmtRange(d.start, d.end)}`);
+     const html = tipHTML(`${d.name || ""}`, ` ${fmtRange(d.start, d.end)}`);
    const a = authorAnchorClient(d);
    if (a) showTip(tipAuthor, html, a.x, a.y, d.color);})
  .on("mousemove", function (_ev, d) {
-   const html = tipHTML(`Name: ${d.name || ""}`, `Dates: ${fmtRange(d.start, d.end)}`);
+   const html = tipHTML(`${d.name || ""}`, `${fmtRange(d.start, d.end)}`);
    const a = authorAnchorClient(d);
    if (a) showTip(tipAuthor, html, a.x, a.y, d.color);
  })
@@ -665,40 +771,96 @@ function textAnchorClient(el, d) {
     setTimeout(() => hideSegTipIfUnlocked(seg.id), 0);
   }
 })
+.on("click", function (ev, d) {
+  const a = authorAnchorClient(d);
+  const wrapRect = wrapRef.current.getBoundingClientRect();
+
+  const CARD_W = 420;
+  const CARD_H = 360;
+  const PAD = 12;
+
+  let left = a ? a.x - wrapRect.left + PAD : PAD;
+  let top  = a ? a.y - wrapRect.top  + PAD : PAD;
+
+  left = Math.max(4, Math.min(left, wrapRect.width  - CARD_W - 4));
+  top  = Math.max(4, Math.min(top,  wrapRect.height - CARD_H - 4));
+
+  // hide tooltips when opening
+  hideTipSel(tipAuthor);
+  hideTipSel(tipText);
+  hideTipSel(tipSeg);
+
+  setAuthorCardPos({ left, top });
+  setSelectedAuthor(d);
+  setShowMoreAuthor(false);
+
+  ev.stopPropagation();
+})
+
 
       .attr("stroke-width", authorEnterStroke)
       .attr("opacity", BASE_OPACITY);
 
     // Enlarge text dots on hover — proportional to zoom (no clamp) + tooltip (cursor-follow)
-    textSel
-      .on("mouseenter", function (ev, d) {
-        const seg = findSegForText(d);
-         if (seg) {
-   hoverOn(seg);          // increase lock
-   showSegAnchored(seg);  // keep the segment tooltip shown
-  }
-        const k = kRef.current;
-        d3.select(this).attr("r", TEXT_BASE_R * k * HOVER_SCALE_DOT).attr("opacity", 1);
+  // Enlarge text dots on hover — proportional to zoom (no clamp) + tooltip (cursor-follow)
+textSel
+  .on("mouseenter", function (ev, d) {
+    const seg = findSegForText(d);
+    if (seg) {
+      hoverOn(seg);
+      showSegAnchored(seg);           // keep the band tooltip visible (optional)
+    }
+    const k = kRef.current;
+    d3.select(this).attr("r", TEXT_BASE_R * k * HOVER_SCALE_DOT).attr("opacity", 1);
 
-         const html = tipHTML(`Name: ${d.title || ""}`, `Approx. Date: ${formatYear(d.when)}`);
-   const a = textAnchorClient(this, d);
-   if (a) showTip(tipText, html, a.x, a.y, d.color);
-      })
-       .on("mousemove", function (_ev, d) {
-   const html = tipHTML(`Name: ${d.title || ""}`, `Approx. Date: ${formatYear(d.when)}`);
-   const a = textAnchorClient(this, d);
-   if (a) showTip(tipText, html, a.x, a.y, d.color);
- })
-      .on("mouseleave", function (_ev, d) {
-  const seg = findSegForText(d);
-  if (seg) hoverOff(seg);
-  const k = kRef.current;
-  d3.select(this).attr("r", TEXT_BASE_R * k).attr("opacity", BASE_OPACITY);
+    // Title (top) + Approx. Date (bottom)
+    const html = tipHTML(d.title || "", d.displayDate || formatYear(d.when));
+    const a = textAnchorClient(this, d);
+    if (a) showTip(tipText, html, a.x, a.y, d.color);
+  })
+  .on("mousemove", function (_ev, d) {
+    const html = tipHTML(d.title || "", d.displayDate || formatYear(d.when));
+    const a = textAnchorClient(this, d);
+    if (a) showTip(tipText, html, a.x, a.y, d.color);
+  })
+  .on("mouseleave", function (_ev, d) {
+    const seg = findSegForText(d);
+    if (seg) hoverOff(seg);
+    const k = kRef.current;
+    d3.select(this).attr("r", TEXT_BASE_R * k).attr("opacity", BASE_OPACITY);
+    hideTipSel(tipText);
+    if (seg) setTimeout(() => hideSegTipIfUnlocked(seg.id), 0);
+  })
+  .on("click", function (ev, d) {
+  const a = textAnchorClient(this, d);
+  const wrapRect = wrapRef.current.getBoundingClientRect();
+
+  // rough dims to clamp the card in the wrapper; tweak as you style
+  const CARD_W = 360;
+  const CARD_H = 320;
+  const PAD = 12;
+
+  let left = a ? a.x - wrapRect.left + PAD : PAD;
+  let top  = a ? a.y - wrapRect.top  + PAD : PAD;
+
+  // clamp inside wrapper
+  left = Math.max(4, Math.min(left, wrapRect.width  - CARD_W - 4));
+  top  = Math.max(4, Math.min(top,  wrapRect.height - CARD_H - 4));
+
+  // hide hover tips when opening the card
   hideTipSel(tipText);
-  if (seg) setTimeout(() => hideSegTipIfUnlocked(seg.id), 0);
+  hideTipSel(tipAuthor);
+  hideTipSel(tipSeg);
+
+  setCardPos({ left, top });
+  setSelectedText(d);
+  setShowMore(false);
+
+  ev.stopPropagation();
 })
 
-      .attr("opacity", BASE_OPACITY);
+  .attr("opacity", BASE_OPACITY);
+
 
     function apply(zx, zy, k = 1) {
       // cache latest rescaled axes for anchored tooltips
@@ -859,40 +1021,41 @@ function textAnchorClient(el, d) {
     }
 
     // set up zoom
-    const zoom = d3
-      .zoom()
-      .scaleExtent([MIN_ZOOM, MAX_ZOOM])
-      .translateExtent([
-        [0, 0],
-        [innerWidth, innerHeight],
-      ])
-      .extent([
-        [0, 0],
-        [innerWidth, innerHeight],
-      ])
-      .on("zoom", (event) => {
-        const t = event.transform;
-        kRef.current = t.k;
-        const zx = t.rescaleX(x);
-        const zy = t.rescaleY(y0);
-        apply(zx, zy, t.k);
-      });
+const zoom = d3
+  .zoom()
+  .scaleExtent([MIN_ZOOM, MAX_ZOOM])
+  .translateExtent([[0, 0], [innerWidth, innerHeight]])
+  .extent([[0, 0], [innerWidth, innerHeight]])
+  .filter((event) => event.type !== 'dblclick')
+  .on("zoom", (event) => {
+    const t = event.transform;
+    lastTransformRef.current = t;
+    kRef.current = t.k;
+    const zx = t.rescaleX(x);
+    const zy = t.rescaleY(y0);
+    apply(zx, zy, t.k);
+  });
 
-    const svgSel = d3.select(svgRef.current).call(zoom);
+    const svgSel = d3.select(svgRef.current);
 
-    // Hide all tooltips if mouse leaves the whole svg area
- svgSel.on("mouseleave.tl-tip", () => {
-    hideTipSel(tipAuthor);
-   hideTipSel(tipText);
-   tipSeg.style("opacity", 0).style("display", "none");
-   activeSegIdRef.current = null;
- });
 
-    // FIRST DRAW at initial transform
-    apply(t0.rescaleX(x), t0.rescaleY(y0), t0.k);
+     // FIRST DRAW using the chosen transform (persisted if available)
+apply(tInit.rescaleX(x), tInit.rescaleY(y0), tInit.k);
 
-    // then set the zoom's internal state
-    svgSel.call(zoom.transform, t0);
+
+svgSel.call(zoom).call(zoom.transform, tInit);
+
+// Mark that we've initialized at least once
+didInitRef.current = true;
+
+// Hide all tooltips if mouse leaves the whole svg area
+svgSel.on("mouseleave.tl-tip", () => {
+  hideTipSel(tipAuthor);
+  hideTipSel(tipText);
+  tipSeg.style("opacity", 0).style("display", "none");
+  activeSegIdRef.current = null;
+});
+
 
     return () => {
       d3.select(svgRef.current).on(".zoom", null);
@@ -916,17 +1079,55 @@ function textAnchorClient(el, d) {
   ]);
 
   return (
-    <div ref={wrapRef} className="timelineWrap" style={{ width: "100%", height: "100%", position: "relative" }}>
-      <svg ref={svgRef} className="timelineSvg" width={width} height={height}>
-        <g className="chart" transform={`translate(${margin.left},${margin.top})`}>
-          <g ref={gridRef} className="grid" />
-          <g ref={outlinesRef} className="durations" />
-          <g ref={segmentsRef} className="segments" />
-          <g ref={authorsRef} className="authors" />
-          <g ref={textsRef} className="texts" />
-        </g>
-        <g ref={axisRef} className="axis" />
-      </svg>
-    </div>
-  );
+  <div
+    ref={wrapRef}
+    className="timelineWrap"
+    style={{ width: "100%", height: "100%", position: "relative" }}
+  >
+    <svg
+      ref={svgRef}
+      className={`timelineSvg ${modalOpen ? "isModalOpen" : ""}`}
+      width={width}
+      height={height}
+    >
+      <g className="chart" transform={`translate(${margin.left},${margin.top})`}>
+        <g ref={gridRef} className="grid" />
+        <g ref={outlinesRef} className="durations" />
+        <g ref={segmentsRef} className="segments" />
+        <g ref={authorsRef} className="authors" />
+        <g ref={textsRef} className="texts" />
+      </g>
+      <g ref={axisRef} className="axis" />
+    </svg>
+
+    {/* Backdrop for modal; closes on click */}
+    {modalOpen && <div className="modalBackdrop" onClick={closeAll} />}
+
+    {/* Author modal */}
+    {selectedAuthor && (
+      <AuthorCard
+        d={selectedAuthor}
+        left={authorCardPos.left}
+        top={authorCardPos.top}
+        showMore={showMoreAuthor}
+        setShowMore={setShowMoreAuthor}
+        onClose={closeAll}
+      />
+    )}
+
+    {/* Text modal */}
+    {selectedText && (
+      <TextCard
+        d={selectedText}
+        left={cardPos.left}
+        top={cardPos.top}
+        showMore={showMore}
+        setShowMore={setShowMore}
+        onClose={closeAll}
+      />
+    )}
+  </div>
+);
+
+
 }

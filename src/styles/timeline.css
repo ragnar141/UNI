@@ -96,65 +96,55 @@ body {
   transition: opacity 120ms ease;
   will-change: left, top;
   user-select: none;
+  margin-top: -10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Tooltip content */
 .tl-tip-title{
   font-weight:600;
   margin-bottom:4px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .tl-tip-sub{
   opacity:0.85;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Generic arrow: shown when tooltip is ABOVE the anchor */
-.tl-tooltip::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 10px;
-  height: 10px;
-  bottom: -5px; /* default: tooltip is above the anchor */
-  background: var(--bgc, rgba(20,20,24,0.95));
-  border-left: 1px solid var(--accent, rgba(255,255,255,0.12));
-  border-bottom: 1px solid var(--accent, rgba(255,255,255,0.12));
+/* Add a readable paragraph block for long notes */
+.tl-tip-note{
+  margin-top: 6px;
+  opacity: 0.95;
+  line-height: 1.35;
+  white-space: normal; /* allow wrapping for long text blocks */
+  text-wrap: pretty;
+  text-align: left;
 }
 
-/* Arrow when tooltip is BELOW the anchor (we add .below in JS) */
-.tl-tooltip.below::after {
-  bottom: auto;
-  top: -5px;
-  border-left: 0;
-  border-bottom: 0;
-  border-right: 1px solid var(--accent, rgba(255,255,255,0.12));
-  border-top: 1px solid var(--accent, rgba(255,255,255,0.12));
-}
-
-/* ===== TYPE: AUTHOR tooltip =====
-   Positioned ABOVE its anchor — CSS gap via margin-bottom */
+/* ===== TYPE: AUTHOR tooltip ===== */
 .tl-author {
   --bgc: rgba(17,24,39,0.95); /* slate-900-ish */
   background: var(--bgc);
   color: #fff;
   border: 1px solid var(--accent, rgba(255,255,255,0.22));
   box-shadow: 0 8px 22px rgba(0,0,0,0.25);
-  margin-bottom: 6px; /* 6px visual gap from author line */
 }
 
-/* ===== TYPE: TEXT tooltip =====
-   Positioned ABOVE its anchor — CSS gap via margin-bottom */
+/* ===== TYPE: TEXT tooltip ===== */
 .tl-text {
   --bgc: rgba(15,23,42,0.95); /* slightly different dark */
   background: var(--bgc);
   color: #f8fafc;
   border: 1px dashed var(--accent, rgba(255,255,255,0.18));
   box-shadow: 0 8px 22px rgba(0,0,0,0.22);
-  margin-bottom: 6px; /* 6px visual gap from text dot */
 }
 
-/* ===== TYPE: SEGMENT tooltip =====
-   Usually BELOW its anchor — CSS gap via margin-top */
+/* ===== TYPE: SEGMENT tooltip ===== */
 .tl-seg {
   --bgc: #ffffff;
   background: #ffffff;
@@ -163,7 +153,8 @@ body {
   box-shadow: 0 12px 28px rgba(0,0,0,0.18);
   white-space: normal;  /* allow wrapping for longer labels/notes */
   max-width: 320px;
-  margin-top: 6px; /* 6px visual gap from segment bar */
+  margin-top: 8px;      /* visual gap from segment bar */
+  text-align: center; 
 }
 .tl-seg::after {
   width: 12px;
@@ -176,7 +167,222 @@ body {
   border-top-width: 2px;
 }
 
+/* ===== TYPE: DURATION tooltip (durationBox) ===== */
+.tl-duration{
+  --bgc: #ffffff;
+  background: var(--bgc);
+  color: #0f172a;
+  border: 2px solid var(--accent, #b3b3b3);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+  white-space: normal;           /* wrap long “broad note” text */
+  max-width: 440px;              /* a bit wider for essays */
+  text-align: left;              /* paragraphs read better left-aligned */
+  padding: 10px 12px;            /* slightly roomier than base */
+}
+.tl-duration .tl-tip-title{
+  margin-bottom: 6px;
+}
+.tl-duration .tl-tip-sub{
+  margin-bottom: 6px;
+  opacity: 0.9;
+}
+
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .tl-tooltip { transition: none; }
+}
+
+/* ===========================================================
+   TextCard (click-to-open details panel for a text dot)
+   =========================================================== */
+/* ===========================================================
+   TextCard (centered, near-fullscreen modal)
+   =========================================================== */
+.textCard {
+  position: fixed !important;          /* ignore inline left/top */
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%);
+  width: min(960px, 92vw); 
+               
+  max-width: 96vw;
+  max-height: min(92dvh, 100dvh - 32px);
+  overflow: auto;
+
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.18),
+    0 2px 8px rgba(0,0,0,0.06);
+  padding: 18px 20px 16px 20px;
+  z-index: 1200;                        /* above tooltips */
+  pointer-events: auto;
+}
+
+.textCard-title {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 2px 36px 12px 0;              /* room for close button */
+  word-break: break-word;
+}
+
+.textCard-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.textCard-close:hover {
+  background: #f3f4f6;
+  border-color: #e5e7eb;
+}
+
+.textCard-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+}
+
+.textCard-label {
+  flex: 0 0 160px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.textCard-value {
+  flex: 1 1 auto;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* Tag pills */
+.textCard-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.textCard-tag {
+  display: inline-block;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+}
+
+/* Divider + toggle */
+.textCard-moreToggle {
+  margin-top: 12px;
+}
+
+.textCard-button {
+  appearance: none;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #111827;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.textCard-button:hover {
+  background: #f9fafb;
+}
+
+.textCard-more {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #e5e7eb;
+}
+
+/* --- Optional: AuthorCard styling (mirror of TextCard) --- */
+.authorCard {
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%);
+  width: min(960px, 92vw);
+  max-width: 96vw;
+  max-height: min(92dvh, 100dvh - 32px);
+  overflow: auto;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.18),
+    0 2px 8px rgba(0,0,0,0.06);
+  padding: 18px 20px 16px 20px;
+  z-index: 1200;
+  pointer-events: auto;
+}
+
+.timelineSvg.isModalOpen {
+  filter: blur(2px) saturate(1) brightness(1);
+  transition: filter 120ms ease;
+  pointer-events: none; /* block hover/click/zoom */
+}
+
+/* Backdrop that catches outside clicks */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(1.5px);
+  z-index: 1150; /* below cards (1200), above tooltips (1000) */
+}
+
+/* Mobile-friendly layout (true fullscreen-y) */
+@media (max-width: 640px) {
+  .textCard {
+    width: 96vw;
+    max-width: 96vw;
+    max-height: 94dvh;
+    padding: 16px 14px;
+    border-radius: 14px;
+    z-index: 1200;
+  }
+  .authorCard {
+    width: 96vw;
+    max-width: 96vw;
+    max-height: 94dvh;
+    padding: 16px 14px;
+    border-radius: 14px;
+    z-index: 1200;
+  }
+  .textCard-label {
+    flex-basis: 130px;
+  }
+  .textCard-title {
+    font-size: 18px;
+    margin-right: 32px;
+  }
+
+  .textCard-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.4);
+    backdrop-filter: blur(2px);
+    z-index: 1100;
+    display: none;
+  }
+
+  
 }
