@@ -81,7 +81,7 @@ const SymbolicTagRow = ({ label, value }) => {
         onClick={() => setShowMore((v) => !v)}
         aria-expanded={showMore ? "true" : "false"}
       >
-        {showMore ? "Hide" : "Show more"}
+        {showMore ? "Hide tags" : "Show tags"}
       </button>
     </div>
 

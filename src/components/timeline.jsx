@@ -254,7 +254,6 @@ export default function Timeline() {
           y,
           h,
           label: s.label,
-          tag: s.tag,
           note: s.note,
         });
       });
