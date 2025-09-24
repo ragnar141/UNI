@@ -54,16 +54,37 @@ const DUR_STROKE = {
 /* ===== Label visibility policy ===== */
 const LABEL_ALLOWLIST = new Set([
   "egyptian-composite", "mesopotamian-composite", "anatolian-composite", "west-semitic-composite", "1stpersian-composite", 
-  "greek-composite"
+  "greek-composite", "carthaginian-composite", "customgroup-hellenistic"
 ]);
 
 const LABEL_BLOCKLIST = new Set([
-  "customgroup-hellenistic"
+  
 ]);
+
+// Which member inside each custom group should provide the label text
+// and the vertical anchor for placing that label.
+const CUSTOM_GROUP_LABEL_MEMBER = {
+  // groupKey : memberDurationId
+  hellenistic: "custom-hellenistic-greek-composite",
+  // add more like:
+  // foogroup: "custom-foogroup-bar-composite",
+};
+
+// Which member a custom group's *duration box* should anchor to,
+// and (optionally) a max width for that box (px).
+const CUSTOM_GROUP_TIP_POLICY = {
+  hellenistic: {
+    
+  }
+
+  // add more groups here:
+  // mygroup: { anchorMemberId: "custom-mygroup-some-member-composite", maxWidth: 480 },
+};
 
 const MIN_BAND_HEIGHT_FOR_LABEL = 14;  // px
 const MIN_BAND_WIDTH_FOR_LABEL  = 48;  // px
 const ZOOM_TO_FORCE_LABEL       = 3.0; // non-allowlisted labels show only past this zoom
+const FORBIDDEN_TICKS_ASTRO = new Set([toAstronomical(-5500), toAstronomical(2500)]);
 
 
 /* ===== Tooltip helpers ===== */
@@ -198,8 +219,9 @@ function makeAdaptiveTicks(zx) {
   if (hMin < 0 && hMax > 0) ticksHuman.push(0.5); // BCE/CE marker
 
   const ticksAstro = ticksHuman.map((y) => (y === 0.5 ? 0.5 : toAstronomical(y)));
-  ticksAstro.sort((a, b) => a - b);
-  return ticksAstro;
+ ticksAstro.sort((a, b) => a - b);
+ // Drop 5500 BCE and 2500 CE ticks (=-5499 and =2500 in astronomical years)
+ return ticksAstro.filter(t => !FORBIDDEN_TICKS_ASTRO.has(t));
 }
 
 // Convert group intervals to a rectilinear (H/V only) envelope path in screen space.
@@ -241,6 +263,7 @@ function groupIntervalsToPath(intervals, zx, zy) {
 
 function shouldShowDurationLabel({ d, k, bandW, bandH, labelSel }) {
   // Always show custom group labels unless explicitly blocked
+  if (d._hiddenCustom) return false;
   if (d._isCustomGroup && !LABEL_BLOCKLIST.has(d.id)) return true;
 
   if (LABEL_BLOCKLIST.has(d.id)) return false;
@@ -258,6 +281,25 @@ function shouldShowDurationLabel({ d, k, bandW, bandH, labelSel }) {
   }
   return true; // fallback if measurement not available
 }
+
+function deriveGroupTitles(groupKey, members) {
+  const first = members[0] || {};
+  const anchorId = CUSTOM_GROUP_LABEL_MEMBER[groupKey];
+  const anchor   = members.find(m => m.id === anchorId) || first;
+
+  const shortLabel =
+    (anchor.name && anchor.name.trim()) ||
+    (first.name && first.name.trim()) ||
+    `Custom ${groupKey}`;
+
+  const longTitle =
+    (anchor["expanded name"] && anchor["expanded name"].trim()) ||
+    (anchor.expandedName && anchor.expandedName.trim()) ||
+    shortLabel;
+
+  return { shortLabel, longTitle, anchor };
+}
+
 
 
 
@@ -346,7 +388,7 @@ export default function Timeline() {
   const axisY = innerHeight;
 
   /* ---- Time domain & base scales ---- */
-  const domainHuman = useMemo(() => [-7000, 2025], []);
+  const domainHuman = useMemo(() => [-5500, 2500], []);
   const domainAstro = useMemo(() => domainHuman.map(toAstronomical), [domainHuman]);
 
   const x = useMemo(
@@ -418,32 +460,47 @@ export default function Timeline() {
       const h = bot - top;
       const first = members[0] || {};
 
-      groupOutlines.push({
-        id: `customgroup-${groupKey}`,
-        name: first.name || `Custom ${groupKey}`,
-        expandedName: `${groupKey[0]?.toUpperCase() || ""}${groupKey.slice(1)}`,
-        color: first.color || "#999",
-        start,
-        end,
-        y,
-        h,
-        broadLifespan: first.broadLifespan || "",
-        broadNote: first.broadNote || "",
-        _isCustomGroup: true,
-        _groupKey: groupKey,
-        _groupMembers: members.map((m) => ({
-          id: m.id, start: m.start, end: m.end, y: m.y, h: m.h, segments: m.segments
-        })),
-        _groupIntervals: buildGroupIntervals(
-          members.map((m) => ({
-            id: m.id, start: m.start, end: m.end, y: m.y, h: m.h, segments: m.segments
-          }))
-        ),
-      });
-    }
+      // NEW: choose which member anchors the label (via config; fallback to first)
+const { shortLabel, longTitle, anchor } = deriveGroupTitles(groupKey, members);
 
-    // 4) Keep non-custom members; drop custom members themselves
-    const baseOutlines = raw.filter((r) => !r._isCustomMember);
+// NEW: choose which member anchors the *duration box*
+const tipCfg        = CUSTOM_GROUP_TIP_POLICY[groupKey] || {};
+const tipAnchorId   = tipCfg.anchorMemberId || CUSTOM_GROUP_LABEL_MEMBER[groupKey];
+const tipAnchor     = members.find(m => m.id === tipAnchorId) || anchor || members[0] || {};
+const tipMaxWidthPx = Number.isFinite(tipCfg.maxWidth) ? tipCfg.maxWidth : null;
+
+groupOutlines.push({
+  id: `customgroup-${groupKey}`,
+  name: first.name || `Custom ${groupKey}`,
+  expandedName: longTitle,
+  color: first.color || "#999",
+  start, end, y, h,
+  broadLifespan: first.broadLifespan || "",
+  broadNote: first.broadNote || "",
+  _isCustomGroup: true,
+  _groupKey: groupKey,
+
+  // keep your existing fields...
+  _groupMembers: members.map(m => ({ id: m.id, start: m.start, end: m.end, y: m.y, h: m.h, segments: m.segments })),
+  _groupIntervals: buildGroupIntervals(members.map(m => ({ id: m.id, start: m.start, end: m.end, y: m.y, h: m.h, segments: m.segments }))),
+
+  // label (unchanged)
+  _labelText: shortLabel,
+  _labelAnchorY: anchor?.y ?? y,
+  _labelAnchorH: anchor?.h ?? h,
+
+  // NEW: duration box anchor + sizing
+  _tipAnchorY: tipAnchor?.y ?? y,
+  _tipAnchorH: tipAnchor?.h ?? h,
+  _tipMaxWidth: tipMaxWidthPx,
+});
+
+
+
+
+    }
+    // Keep everyone; mark custom members hidden so they act as layout bands
+    const baseOutlines = raw.map((r) => ({ ...r, _hiddenCustom: !!r._isCustomMember }));
 
     // 5) Append group outlines (so groups replace their members at zoomed-out levels)
     return [...baseOutlines, ...groupOutlines];
@@ -684,14 +741,14 @@ export default function Timeline() {
     }
 
     // --- INITIAL TRANSFORM (compute BEFORE joins) ---
-    const MIN_ZOOM = 0.9;
+    const MIN_ZOOM = 1;
     const MAX_ZOOM = 22;
     const s = MIN_ZOOM;
     {
       const tx = (innerWidth - innerWidth * s) / 2;
       const ty = (innerHeight - innerHeight * s) / 2;
       const t0 = d3.zoomIdentity.translate(tx, ty).scale(s);
-      const tInit = lastTransformRef.current ?? t0;
+      const tInit = t0;
       kRef.current = tInit.k;
     }
 
@@ -797,61 +854,81 @@ export default function Timeline() {
     }
 
     // ===== DURATION ANCHORING helpers =====
-    function getDurationAnchorPx(outline) {
-      const zx = zxRef.current;
-      const zy = zyRef.current;
-      if (!zx || !zy) return null;
+   function getDurationAnchorPx(outline) {
+  const zx = zxRef.current, zy = zyRef.current;
+  if (!zx || !zy) return null;
 
-      const x0 = zx(toAstronomical(outline.start));
-      const x1 = zx(toAstronomical(outline.end));
-      const yTop = zy(outline.y);
-      const hPix = zy(outline.y + outline.h) - zy(outline.y);
+  // Default to the whole outline
+  let yTopData = outline.y;
+  let hData    = outline.h;
 
-      const left = Math.min(x0, x1);
-      const right = Math.max(x0, x1);
-      const xMid = (left + right) / 2;
+  // For custom groups, use the per-group tip anchor band if provided
+  if (outline._isCustomGroup &&
+      Number.isFinite(outline._tipAnchorY) &&
+      Number.isFinite(outline._tipAnchorH)) {
+    yTopData = outline._tipAnchorY;
+    hData    = outline._tipAnchorH;
+  }
 
-      return { left, right, xMid, yTop, hPix };
-    }
+  const x0 = zx(toAstronomical(outline.start));
+  const x1 = zx(toAstronomical(outline.end));
+  const yTop = zy(yTopData);
+  const hPix = zy(yTopData + hData) - zy(yTopData);
+
+  const left  = Math.min(x0, x1);
+  const right = Math.max(x0, x1);
+  const xMid  = (left + right) / 2;
+
+  return { left, right, xMid, yTop, hPix };
+}
+
 
     function showDurationAnchored(outline) {
-      const anchor = getDurationAnchorPx(outline);
-      if (!anchor) return;
+  const anchor = getDurationAnchorPx(outline);
+  if (!anchor) return;
 
-      const wrapRect = wrapEl.getBoundingClientRect();
+  const wrapRect = wrapRef.current.getBoundingClientRect();
 
-      tipDur
-        .html(
-          tipHTML(
-            outline.expandedName || outline.name || "",
-            outline.broadLifespan || fmtRange(outline.start, outline.end),
-            outline.broadNote || ""
-          )
-        )
-        .style("display", "block")
-        .style("opacity", 1)
-        .style("--accent", outline.color || "");
+  tipDur
+    .html(
+      tipHTML(
+        outline.expandedName || outline.name || "",
+        outline.broadLifespan || fmtRange(outline.start, outline.end),
+        outline.broadNote || ""
+      )
+    )
+    .style("display", "block")
+    .style("opacity", 1)
+    .style("--accent", outline.color || "");
 
-      const node = tipDur.node();
-      const tw = node.offsetWidth;
-      const th = node.offsetHeight;
-      const pad = 8;
+// NEW: set max-width for custom groups if provided
+  if (outline._isCustomGroup && Number.isFinite(outline._tipMaxWidth)) {
+    tipDur.style("max-width", `${outline._tipMaxWidth}px`);
+  } else {
+    tipDur.style("max-width", null);
+  }
 
-      // Prefer below the band; flip above if needed
-      let x = anchor.xMid - tw / 2;
-      let y = anchor.yTop + anchor.hPix + pad;
-      let below = true;
+  const node = tipDur.node();
+  const tw = node.offsetWidth;
+  const th = node.offsetHeight;
+  const pad = 8;
 
-      if (y + th > wrapRect.height) {
-        y = anchor.yTop - th - pad;
-        below = false;
-      }
+  // Default positioning: centered below the *anchoring band*
+  let x = anchor.xMid - tw / 2;
+  let y = anchor.yTop + anchor.hPix + pad;
+  let below = true;
 
-      const maxX = wrapRect.width - tw - 4;
-      x = Math.max(4, Math.min(x, maxX));
+  if (y + th > wrapRect.height) {
+    y = anchor.yTop - th - pad;
+    below = false;
+  }
 
-      tipDur.style("left", `${x}px`).style("top", `${y}px`).classed("below", below);
-    }
+  const maxX = wrapRect.width - tw - 4;
+  x = Math.max(4, Math.min(x, maxX));
+
+  tipDur.style("left", `${x}px`).style("top", `${y}px`).classed("below", below);
+}
+
 
     // ===== Label + border visuals (3 states) =====
     function updateHoverVisuals() {
@@ -871,8 +948,8 @@ export default function Timeline() {
 d3.select(outlinesRef.current)
   .selectAll("rect.outlineRect")
   .attr("stroke-opacity", (d) => {
-    const isGroup = !!d._isCustomGroup;
-    if (isGroup) return 0; // <- keep group rect invisible, even on hover/active
+    const suppress = d._isCustomGroup || d._hiddenCustom;
+    if (suppress) return 0; // <- keep group rect invisible, even on hover/active
     const isActive = d.id === activeDurationId;
     const isHover  = !ignoreHoverBecauseActive && d.id === hoveredDurationId;
     if (isActive) return DUR_STROKE.activeOpacity;
@@ -880,8 +957,8 @@ d3.select(outlinesRef.current)
     return DUR_STROKE.baseOpacity;
   })
   .attr("stroke-width", (d) => {
-    const isGroup = !!d._isCustomGroup;
-    if (isGroup) return DUR_STROKE.baseWidth; // value irrelevant since opacity is 0
+    const suppress = d._isCustomGroup || d._hiddenCustom;
+    if (suppress) return DUR_STROKE.baseWidth; // value irrelevant since opacity is 0
     const isActive = d.id === activeDurationId;
     const isHover  = !ignoreHoverBecauseActive && d.id === hoveredDurationId;
     if (isActive) return DUR_STROKE.activeWidth;
@@ -1011,6 +1088,8 @@ d3.select(outlinesRef.current)
       }
     }
 
+    
+
     // OUTLINES (filled, faint stroke)
     const outlineSel = gOut
       .selectAll("g.durationOutline")
@@ -1028,7 +1107,7 @@ d3.select(outlinesRef.current)
           .attr("vector-effect", "non-scaling-stroke")
           .attr("shape-rendering", "geometricPrecision");
 
-        g.append("text")
+       g.append("text")
           .attr("class", "durationLabel")
           .attr("dy", "0.32em")
           .style("dominant-baseline", "middle")
@@ -1036,26 +1115,28 @@ d3.select(outlinesRef.current)
           .attr("opacity", DUR_LABEL_OPACITY.base)
           .style("font-weight", 600)
           .style("pointer-events", "none")
-          .text((d) => d.name);
+          .text((d) => (d._isCustomGroup && d._labelText) ? d._labelText : d.name);
 
         return g;
       });
 
     // Hide the rectangle if this is a custom GROUP (polygon handles visuals)
     outlineSel.select("rect.outlineRect")
-      .attr("fill-opacity", (d) => d._isCustomGroup ? 0 : 0.1)
-      .attr("stroke-opacity", (d) => d._isCustomGroup ? 0 : DUR_STROKE.baseOpacity)
-      .style("pointer-events", (d) => d._isCustomGroup ? "none" : "all");
+        .attr("fill-opacity", (d) => (d._isCustomGroup || d._hiddenCustom) ? 0 : 0.1)
+        .attr("stroke-opacity", (d) => (d._isCustomGroup || d._hiddenCustom) ? 0 : DUR_STROKE.baseOpacity)
+        .style("pointer-events", d => (d._isCustomGroup || d._hiddenCustom) ? "none" : "all");
 
     // Whole-duration hover/click (zoomed-out only)
     outlineSel.select("rect.outlineRect")
       .on("mouseenter", function (_ev, d) {
+        
         if (kRef.current >= ZOOM_THRESHOLD) return;
         if (activeDurationIdRef.current) return; // ignore hover while a duration is active
         hoveredDurationIdRef.current = d.id;
         updateHoverVisuals();
       })
       .on("mouseleave", function () {
+        
         if (kRef.current >= ZOOM_THRESHOLD) return;
         if (zoomDraggingRef.current) return;
         if (activeDurationIdRef.current) return; // keep active styles
@@ -1100,14 +1181,16 @@ d3.select(outlinesRef.current)
 
       // Hover/click on the polygon itself (zoomed-out only)
 gCustom.selectAll("path.customGroup")
-  .style("pointer-events", "all")
+  .style("pointer-events", "visibleFill")
   .on("mouseenter", function (_ev, d) {
+    
     if (kRef.current >= ZOOM_THRESHOLD) return;
     if (activeDurationIdRef.current) return;
     hoveredDurationIdRef.current = d.id;
     updateHoverVisuals();
   })
   .on("mouseleave", function () {
+    
     if (kRef.current >= ZOOM_THRESHOLD) return;
     if (zoomDraggingRef.current) return;
     if (activeDurationIdRef.current) return;
@@ -1115,6 +1198,7 @@ gCustom.selectAll("path.customGroup")
     updateHoverVisuals();
   })
   .on("click", function (ev, d) {
+    
     if (kRef.current >= ZOOM_THRESHOLD) return;
 
     if (awaitingCloseClickRef.current) {
@@ -1228,14 +1312,18 @@ gCustom.selectAll("path.customGroup")
 
     const within = (v, a, b) => v >= Math.min(a, b) && v <= Math.max(a, b);
 
-    const findSegForText = (d) =>
-      segments.find(
-        (s) =>
-          s.parentId === d.durationId &&
-          d.when >= s.start &&
-          d.when <= s.end &&
-          within(d.y, s.y, s.y + s.h)
-      );
+    const findSegForText = (d) => {
+   const ids = new Set([d.durationId]);
+   const parsed = parseCustomId(d.durationId);
+   if (parsed) ids.add(`customgroup-${parsed.groupKey}`);
+   return segments.find(
+     (s) =>
+       ids.has(s.parentId) &&
+       d.when >= s.start &&
+       d.when <= s.end &&
+       within(d.y, s.y, s.y + s.h)
+   );
+ };
 
     // Text dots hover/click (zoomed-in only via pointer-events toggle)
     textSel
@@ -1359,37 +1447,53 @@ gCustom.selectAll("path.customGroup")
 
       // labels (font scales with the band's rendered height)
 // labels (font scales with the band's rendered height)
+// labels (font scales with the band's rendered height)
 gOut.selectAll("g.durationOutline").each(function (d) {
   const g = d3.select(this);
+
   const x0 = zx(toAstronomical(d.start));
   const x1 = zx(toAstronomical(d.end));
-  const yTop = zy(d.y);
-  const hPix = zy(d.y + d.h) - zy(d.y);
 
-  const maxByBand = hPix * LABEL_FONT_MAX_REL;
+  // Default: place inside the group's full envelope
+  let labelYTop = zy(d.y);
+  let labelHPix = zy(d.y + d.h) - zy(d.y);
+
+  // NEW: if this is a custom GROUP and we have an anchor band, use that band for Y placement
+  if (d._isCustomGroup && Number.isFinite(d._labelAnchorY) && Number.isFinite(d._labelAnchorH)) {
+    labelYTop = zy(d._labelAnchorY);
+    labelHPix = zy(d._labelAnchorY + d._labelAnchorH) - zy(d._labelAnchorY);
+  }
+
+  const maxByBand = labelHPix * LABEL_FONT_MAX_REL;
   const fontPx = clamp(
-    hPix * LABEL_TO_BAND,
+    labelHPix * LABEL_TO_BAND,
     LABEL_FONT_MIN,
     Math.min(LABEL_FONT_MAX_ABS, maxByBand)
   );
 
   const labelSel = g.select("text.durationLabel")
     .attr("x", Math.min(x0, x1) + 4)
-    .attr("y", yTop + hPix / 3)
-    .style("font-size", `${fontPx}px`);
+    .attr("y", labelYTop + labelHPix / 3)
+    .style("font-size", `${fontPx}px`)
+    // NEW: swap text when it's a custom group (use the anchor label text)
+    .text(d => (d._isCustomGroup && d._labelText) ? d._labelText : d.name);
 
-  // NEW: decide visibility after sizing
+  // Decide visibility after sizing
   const bandW = Math.abs(x1 - x0);
   const show = shouldShowDurationLabel({
     d,
     k,
     bandW,
-    bandH: hPix,
+    bandH: labelHPix,        // important: use the anchor band height for fit checks
     labelSel
   });
 
   labelSel.style("display", show ? null : "none");
 });
+
+
+
+
 
 
       // segment hit rects
@@ -1412,9 +1516,12 @@ gCustom.selectAll("path.customGroup").each(function (o) {
     const yTop = zy(o.y);
     const hPix = zy(o.y + o.h) - zy(o.y);
     const d = `M ${Math.min(x0, x1)} ${yTop} H ${Math.max(x0, x1)} V ${yTop + hPix} H ${Math.min(x0, x1)} Z`;
+    
     d3.select(this).attr("d", d);
     return;
   }
+  const dPath = groupIntervalsToPath(intervals, zx, zy);
+ 
   d3.select(this).attr("d", groupIntervalsToPath(intervals, zx, zy));
 });
 
@@ -1460,10 +1567,11 @@ gCustom.selectAll("path.customGroup").each(function (o) {
     function updateInteractivity(k) {
       const zoomedIn = k >= ZOOM_THRESHOLD;
 
-      gOut.selectAll("rect.outlineRect").style("pointer-events", zoomedIn ? "none" : "all");
+      gOut.selectAll("rect.outlineRect")
+    .style("pointer-events", d => (d._isCustomGroup || d._hiddenCustom) ? "none" : (zoomedIn ? "none" : "all"));
       gSeg.selectAll("rect.segmentHit").style("pointer-events", zoomedIn ? "all" : "none");
       gTexts.selectAll("circle.textDot").style("pointer-events", zoomedIn ? "all" : "none");
-      gCustom.selectAll("path.customGroup").style("pointer-events", zoomedIn ? "none" : "all");
+      gCustom.selectAll("path.customGroup").style("pointer-events", zoomedIn ? "none" : "visibleFill");
 
 
       if (!zoomedIn) {
@@ -1587,9 +1695,9 @@ gCustom.selectAll("path.customGroup").each(function (o) {
     const svgSel = d3.select(svgRef.current);
 
     // FIRST DRAW using the chosen transform (persisted if available)
-    const initT = lastTransformRef.current ?? d3.zoomIdentity
-      .translate((innerWidth - innerWidth * (0.9)) / 2, (innerHeight - innerHeight * (0.9)) / 2)
-      .scale(0.9);
+     const initT = lastTransformRef.current ?? d3.zoomIdentity
+   .translate((innerWidth - innerWidth * MIN_ZOOM) / 2, (innerHeight - innerHeight * MIN_ZOOM) / 2)
+   .scale(MIN_ZOOM);
 
     apply(initT.rescaleX(x), initT.rescaleY(y0), initT.k);
     svgSel.call(zoom).call(zoom.transform, initT);
