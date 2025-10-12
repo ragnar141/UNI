@@ -4,6 +4,8 @@ import durations from "../data/durations.json";
 import "../styles/timeline.css";
 import TextCard from "./textCard";
 import FatherCard from "./fatherCard";
+import SearchBar from "./searchBar";
+
 
 /* ===== BCE/CE helpers (no year 0) ===== */
 const toAstronomical = (y) => (y <= 0 ? y + 1 : y);
@@ -86,6 +88,23 @@ const MIN_BAND_WIDTH_FOR_LABEL  = 48;  // px
 const ZOOM_TO_FORCE_LABEL       = 3.0; // non-allowlisted labels show only past this zoom
 const FORBIDDEN_TICKS_ASTRO = new Set([toAstronomical(-5500), toAstronomical(2500)]);
 
+// Session-stable randomness (changes on full reload)
+const sessionSaltRef = { current: Math.random().toString(36).slice(2) };
+
+function seededRandFactory(seedStr) {
+  // simple LCG seeded from a string hash
+  let h = 2166136261 >>> 0;
+  const s = String(seedStr || "");
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return function rand() {
+    // LCG (Numerical Recipes)
+    h = (Math.imul(h, 1664525) + 1013904223) >>> 0;
+    return (h >>> 0) / 2 ** 32;
+  };
+}
 
 /* ===== Tooltip helpers ===== */
 const fmtRange = (s, e) => `${formatYear(s)} – ${formatYear(e)}`;
@@ -730,7 +749,10 @@ const comteanFramework = (f["Comtean framework"] || "").trim();
 const category = (f["Category"] || "").trim();
 const socioPoliticalTags = (f["Socio-political Tags"] || "").trim();
 
-        const y = yForKey(name || "anon");
+        const keyForLane = String(
+          (f["Index"] ?? "").toString().trim() || name || "anon"
+        ).trim().toLowerCase();
+        const y = yForKey(keyForLane); // still compute as a fallback
         const symbolicSystem =
   (f["Symbolic System"] || f["Symbolic System Tags"] || "").trim();
 const color = pickSystemColor(symbolicSystem);
@@ -740,6 +762,7 @@ const color = pickSystemColor(symbolicSystem);
           durationId: ds.durationId,
           when,
           y,
+          laneKey: keyForLane,
           color,
           name,
           index,
@@ -759,6 +782,10 @@ const color = pickSystemColor(symbolicSystem);
       }
     }
 
+// ---- Search index (texts + fathers) ----
+
+
+
     // Clamp to band extent
     const bandExtent = new Map(
       outlines.map((o) => [o.id, { min: Math.min(o.start, o.end), max: Math.max(o.start, o.end) }])
@@ -768,6 +795,97 @@ const color = pickSystemColor(symbolicSystem);
       return e ? r.when >= e.min && r.when <= e.max : true;
     });
   }, [fatherRegistry, outlines]);
+
+  // ---- Search index (texts + fathers) ----
+const searchItems = useMemo(() => {
+  const texts = (textRows || []).map((t) => ({
+  id: t.id,
+  type: "text",
+  title: t.title || "",
+  textIndex: t.textIndex ?? null,   // keep original name if you like
+  index: t.textIndex ?? null,       // <-- add this for the search list
+  subtitle: t.authorName || "",
+  category: t.category || t.comteanFramework || "",
+  description: t.shortDescription || "",
+  color: t.color || (t.colors && t.colors[0]) || "#666",
+  colors: t.colors || null,              // NEW: enable pie markers
+  when: t.when,
+  durationId: t.durationId,
+}));
+
+const fathers = (fatherRows || []).map((f) => ({
+  id: f.id,
+  type: "father",
+  title: f.name || "",
+  index: f.index ?? null,
+  subtitle: f.symbolicSystem || "",
+  category: f.category || f.comteanFramework || f.historicMythicStatusTags || "",
+  description: f.description || "",
+  color: f.color || "#666",
+  founding: (String(f.foundingFigure || "").trim().toLowerCase() === "yes" ||
+             String(f.foundingFigure || "").trim().toLowerCase() === "y" ||
+             String(f.foundingFigure || "").trim().toLowerCase() === "true" ||
+             String(f.foundingFigure || "").trim() === "1"),     // NEW
+  historic: String(f.historicMythicStatusTags || "")
+              .toLowerCase()
+              .split(",")
+              .map(s => s.trim())
+              .includes("historic"),                              // NEW: midline flag
+  when: f.when,
+  durationId: f.durationId,
+}));
+
+
+  return [...texts, ...fathers];
+}, [textRows, fatherRows]);
+
+// ---- Selection handler for the SearchBar ----
+const handleSearchSelect = (item) => {
+  const wrapRect = wrapRef.current?.getBoundingClientRect();
+  const CARD_W = 360, CARD_H = 320;
+  const left = wrapRect ? Math.round((wrapRect.width - CARD_W) / 2) : 24;
+  const top  = wrapRect ? Math.max(8, Math.round(72)) : 24;
+
+  d3.select(wrapRef.current).selectAll(".tl-tooltip")
+    .style("opacity", 0).style("display", "none");
+
+  if (item.type === "text") {
+    const payload = textRows.find((t) => t.id === item.id);
+    if (payload) {
+      setCardPos({ left, top });
+      setSelectedText(payload);
+      setSelectedFather(null);
+      setShowMore(false);
+    }
+  } else {
+    const payload = fatherRows.find((f) => f.id === item.id);
+    if (payload) {
+      setFatherCardPos({ left, top });
+      setSelectedFather(payload);
+      setSelectedText(null);
+      setShowMore(false);
+    }
+  }
+};
+
+// Hide any open cards + any transient UI when user interacts with the search
+const handleSearchInteract = () => {
+  // close modals
+  closeAll();
+
+  // clear segment/duration states
+  clearActiveSegmentRef.current?.();
+  clearActiveDurationRef.current?.();
+  awaitingCloseClickRef.current = false;
+
+  // hide any floating tooltips
+  d3.select(wrapRef.current)
+    .selectAll(".tl-tooltip")
+    .style("opacity", 0)
+    .style("display", "none");
+};
+
+
 
   // Map: bandId -> Map(authorKey -> laneY_in_band_units_at_k1)
   const authorLaneMap = useMemo(() => {
@@ -823,6 +941,95 @@ const color = pickSystemColor(symbolicSystem);
     return map;
   }, [textRows, outlines, y0]);
 
+  // === FATHER LANES: single hash → single lane per band (all types share this) ===
+ // === FATHER LANES (deterministic, evenly spaced, no edge snapping) ===
+  // === FATHER Y POSITIONS (bin-aware random jitter with collision avoidance) ===
+  const fatherYMap = useMemo(() => {
+    const out = new Map(); // bandId -> Map(fatherId -> yU)
+    if (!fatherRows.length) return out;
+
+    const bandById = new Map(outlines.map(o => [o.id, o]));
+
+    // Group fathers by band
+    const byBand = new Map();
+    for (const f of fatherRows) {
+      const arr = byBand.get(f.durationId) || [];
+      arr.push(f);
+      byBand.set(f.durationId, arr);
+    }
+
+    // Bin width in YEARS — fathers close in time share a bin and must vertically separate
+    const BIN_YEARS = 8;       // tweak: smaller = stricter x-crowding awareness
+    const MIN_VSEP_U = 12;     // min vertical separation in "band units" (px at k=1)
+    const MAX_TRIES = 24;      // attempts per point to find a clear vertical slot
+
+    const sessionSalt = sessionSaltRef.current;
+
+    for (const [bandId, items] of byBand.entries()) {
+      const band = bandById.get(bandId);
+      if (!band) continue;
+
+      // Band vertical in "band units" (== px at k=1)
+      const bandTopU = y0(band.y);
+      const bandBotU = y0(band.y + band.h);
+      const bandH = Math.max(1, bandBotU - bandTopU);
+      const padU = Math.max(1, bandH * 0.08);
+      const yMin = bandTopU + padU;
+      const yMax = bandBotU - padU;
+      const usableU = Math.max(1, yMax - yMin);
+
+      // Group by x-bin (time bin)
+      const byBin = new Map(); // binKey -> fathers[]
+      for (const it of items) {
+        const binKey = Math.floor(it.when / BIN_YEARS);
+        const arr = byBin.get(binKey) || [];
+        arr.push(it);
+        byBin.set(binKey, arr);
+      }
+
+      const bandMap = new Map(); // fatherId -> yU
+
+      for (const [binKey, binItems] of byBin.entries()) {
+        // Deterministic shuffle order per bin for nicer distribution
+        const order = [...binItems].sort((a, b) => {
+          const ha = hashString(`${sessionSalt}|${bandId}|${binKey}|${a.id}`);
+          const hb = hashString(`${sessionSalt}|${bandId}|${binKey}|${b.id}`);
+          return ha - hb;
+        });
+
+        const placed = []; // array of yU already placed in this bin
+        const rand = seededRandFactory(`${sessionSalt}|${bandId}|${binKey}`);
+
+        for (const it of order) {
+          let yU = yMin + rand() * usableU; // propose anywhere in band
+
+          // Greedy collision avoidance in vertical axis
+          let ok = false;
+          for (let t = 0; t < MAX_TRIES; t++) {
+            ok = placed.every(py => Math.abs(py - yU) >= MIN_VSEP_U);
+            if (ok) break;
+            // Try another random sample
+            yU = yMin + rand() * usableU;
+          }
+          if (!ok) {
+            // Last-resort: spread along the band deterministically
+            // (prevents piling up if random fails)
+            yU = yMin + (placed.length % Math.max(1, Math.floor(usableU / MIN_VSEP_U))) * MIN_VSEP_U;
+          }
+          placed.push(yU);
+          bandMap.set(it.id, yU);
+        }
+      }
+
+      out.set(bandId, bandMap);
+      // DEBUG (optional):
+      // console.log("[father y map] band:", bandId, { count: bandMap.size, yMin, yMax });
+    }
+
+    return out;
+  }, [fatherRows, outlines, y0]);
+ 
+
   // Close segment or duration boxes with ESC
   useEffect(() => {
     const onKeyDown = (e) => {
@@ -859,7 +1066,7 @@ const color = pickSystemColor(symbolicSystem);
     // capture:true helps if something inside stops propagation
     window.addEventListener("keydown", onKeyDown, { capture: true });
     return () => window.removeEventListener("keydown", onKeyDown, { capture: true });
-  }, [selectedText]); // we only need this state to decide to close the TextCard
+  }, [selectedText, selectedFather]); // we only need this state to decide to close the TextCard
 
   // Hide any tooltips the moment a modal opens
   useEffect(() => {
@@ -1699,25 +1906,30 @@ function hasHistoricTag(tags) {
     hideTipSel(tipText);
   })
   .on("click", function (ev, d) {
-     // anchor near the triangle
-     const a = fatherAnchorClient(this, d);
-     const wrapRect = wrapRef.current.getBoundingClientRect();
-     const CARD_W = 360, CARD_H = 320, PAD = 12;
+  // 🔽 NEW: kill any open segment/duration boxes first
+  clearActiveSegment();
+  clearActiveDuration();
+  awaitingCloseClickRef.current = false;
 
-     let left = a ? a.x - wrapRect.left + PAD : PAD;
-     let top = a ? a.y - wrapRect.top + PAD : PAD;
-     left = Math.max(4, Math.min(left, wrapRect.width - CARD_W - 4));
-     top = Math.max(4, Math.min(top, wrapRect.height - CARD_H - 4));
+  // anchor near the triangle
+  const a = fatherAnchorClient(this, d);
+  const wrapRect = wrapRef.current.getBoundingClientRect();
+  const CARD_W = 360, CARD_H = 320, PAD = 12;
 
-     // hide any floating tips
-     d3.select(wrapRef.current).selectAll(".tl-tooltip")
-       .style("opacity", 0).style("display", "none");
+  let left = a ? a.x - wrapRect.left + PAD : PAD;
+  let top  = a ? a.y - wrapRect.top + PAD : PAD;
+  left = Math.max(4, Math.min(left, wrapRect.width - CARD_W - 4));
+  top  = Math.max(4, Math.min(top, wrapRect.height - CARD_H - 4));
 
-     setFatherCardPos({ left, top });
-     setSelectedFather(d);
-     setShowMore(false);
-     ev.stopPropagation();
-   });
+  // hide any floating tips
+  d3.select(wrapRef.current).selectAll(".tl-tooltip")
+    .style("opacity", 0).style("display", "none");
+
+  setFatherCardPos({ left, top });
+  setSelectedFather(d);
+  setShowMore(false);
+  ev.stopPropagation();
+});
 
 
     function fatherAnchorClient(el, d) {
@@ -1856,10 +2068,14 @@ function hasHistoricTag(tags) {
         drawSlicesAtRadius(g, TEXT_BASE_R * k);
       });
 
-      // FATHERS: position triangles with zoom scaling
       gFathers.selectAll("path.fatherMark").each(function (d) {
   const cx = zx(toAstronomical(d.when));
-  const cy = zy(y0(d.y));
+  // bin-aware random jitter lookup (fallback to original y if missing)
+  let cyU = y0(d.y);
+  const yBandMap = fatherYMap.get(d.durationId);
+  const assignedU = yBandMap?.get(d.id);
+  if (Number.isFinite(assignedU)) cyU = assignedU;
+  const cy = zy(cyU);
 
   // use per-entry base radius:
   const r = getFatherBaseR(d) * k * 2.2;
@@ -1872,8 +2088,13 @@ function hasHistoricTag(tags) {
 
 gFathers.selectAll("line.fatherMid").each(function (d) {
   const cx = zx(toAstronomical(d.when));
-  const cy = zy(y0(d.y));
-  const r  = getFatherBaseR(d) * k * 2.2;
+  let cyU = y0(d.y);
+  const yBandMap = fatherYMap.get(d.durationId);
+  const assignedU = yBandMap?.get(d.id);   // use fatherYMap keyed by father id
+  if (Number.isFinite(assignedU)) cyU = assignedU;
+  const cy = zy(cyU);
+
+  const r = getFatherBaseR(d) * k * 2.2;
 
   d3.select(this)
     .attr("x1", cx).attr("x2", cx)
@@ -2082,6 +2303,13 @@ gFathers.selectAll("line.fatherMid").each(function (d) {
       className="timelineWrap"
       style={{ width: "100%", height: "100%", position: "relative" }}
     >
+<SearchBar
+  items={searchItems}
+  onSelect={handleSearchSelect}
+  placeholder="Search"
+  onInteract={handleSearchInteract}
+/>
+
       <svg
         ref={svgRef}
         className={`timelineSvg ${modalOpen ? "isModalOpen" : ""}`}

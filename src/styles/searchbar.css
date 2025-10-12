@@ -1,0 +1,238 @@
+/* Root container: fixed at the very top center */
+.sb-wrap {
+  position: fixed;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(600px, 92vw);
+  z-index: 2000; /* above the SVG */
+  pointer-events: none; /* popover/input will re-enable */
+}
+
+/* Inherit the app's font everywhere in the search UI */
+.sb-wrap, .sb-box, .sb-input, .sb-popover, .sb-item, .sb-empty,
+.sb-title, .sb-sub, .sb-desc {
+  font-family: inherit;
+}
+
+.sb-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  border-radius: 9999px;          /* pill shape */
+  padding: 8px 8px 8px 12px;      /* tighter, right padding small—button provides final edge */
+  pointer-events: auto;
+}
+
+.sb-icon {
+  width: 16px;
+  height: 18px;
+  color: #6b7280;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-2px);    /* tweak -1px to -3px as needed */
+}
+
+.sb-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #111;
+  padding: 1px 2px;
+}
+
+.sb-go {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: #f3f4f6;
+  color: #374151;
+  cursor: pointer;
+}
+
+.sb-go svg { width: 18px; height: 18px; }
+.sb-go:hover  { background: #e5e7eb; }
+.sb-go:active { background: #d1d5db; }
+.sb-go:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+
+/* Focus ring on the whole pill when input is focused */
+.sb-box:focus-within { border-color: rgba(37,99,235,0.35); }
+
+/* Popover */
+.sb-popover {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 8px);      /* sits just under the pill */
+  pointer-events: auto;
+  z-index: 2100;
+
+  margin-top: 10px;
+  background: rgba(255,255,255,0.98);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 14px;
+
+  /* scrolling */
+  max-height: 60vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 2px;         /* gutter so text doesn't sit under the scrollbar */
+
+  display: grid;
+}
+
+.sb-empty {
+  padding: 14px 16px;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Item: variable height, content-driven */
+.sb-item {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  grid-gap: 10px;
+  align-items: flex-start;     /* let tall text define height; icon sticks to top */
+  text-align: left;
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+.sb-item + .sb-item { border-top: 1px solid rgba(0,0,0,0.06); }
+
+.sb-item.is-hover { background: #f5f7ff; }
+.sb-item:focus-visible { outline: 2px solid #2563eb; outline-offset: -2px; }
+
+/* Glyph container matches 16x16 inline SVGs and pins to top-left */
+.sb-dot {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-top: 2px;             /* optical alignment */
+}
+
+.sb-main { min-width: 0; }
+
+/* Title stays single-line; descriptions expand fully */
+.sb-title {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sb-type {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: #eef0f6;
+  color: #3b3f58;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.sb-title-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sb-index {
+  flex: 0 0 auto;
+  margin-left: 8px;
+  font-size: 12px;
+  opacity: 0.55;        /* reduced opacity */
+  white-space: nowrap;  /* keep it on one line */
+}
+
+/* Subtitle/category line can remain single-line */
+.sb-sub {
+  margin-top: 3px;
+  font-size: 12.5px;
+  color: #444;
+  display: flex;
+  gap: 6px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sb-subtitle { color: #333; }
+.sb-category { color: #5a5a5a; }
+.sb-dotsep  { color: #aaa; }
+
+/* FULL DESCRIPTION — no clamp, wraps naturally, variable height */
+.sb-desc {
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: #333;
+  line-height: 1.35;
+  white-space: normal;         /* allow wrapping */
+  overflow: visible;           /* no truncation */
+  display: block;              /* ensure proper flow */
+  -webkit-line-clamp: unset;   /* kill any previous clamping */
+  line-clamp: unset;
+  -webkit-box-orient: unset;
+}
+
+/* Optional: nicer WebKit scrollbars */
+.sb-popover::-webkit-scrollbar { width: 10px; }
+.sb-popover::-webkit-scrollbar-track { background: transparent; }
+.sb-popover::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.18);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.sb-popover::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.28); }
+
+/* Optional: Firefox scrollbar */
+@supports (scrollbar-width: thin) {
+  .sb-popover {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,0,0,0.28) transparent;
+  }
+}
+
+/* Highlighted match */
+.sb-mark {
+  background: #fff2a8;     /* subtle yellow */
+  color: inherit;
+  padding: 0 .12em;
+  border-radius: 3px;
+}
+
+/* Optional: better contrast when hovering the item */
+.sb-item.is-hover .sb-mark {
+  background: #ffe58f;
+}
+
