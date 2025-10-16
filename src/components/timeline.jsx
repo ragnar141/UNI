@@ -14,21 +14,40 @@ const formatYear = (y) => (y < 0 ? `${Math.abs(y)} BCE` : y > 0 ? `${y} CE` : "�
 
 /* ===== Colors for Symbolic Systems ===== */
 const SymbolicSystemColorPairs = {
-  Sumerian: "#000000ff",
-  Akkadian: "#10B981",
-  Egyptian: "#fd0d00ff",
-  "Ancient Egyptian": "#fd0d00ff",
-  Hittite: "#d000ffff",
-  Hurrian: "#000000",
-  Yahwistic: "#0000FF",
-  Canaanite: "#FFA500",
-  Aramaic: "#ff00eeff",
-  Elamite: "#06930bff",
-  Zoroastrian: "#0000FF",
-  Hellenic: "#1102e7ff",
-  Mycenaean: "#000000ff",
-  Orphic: "#BE185D"
+  Persian: "#00BFA6",       /* base */
+  "Indo-iranian": "#2CCB7C",  /* greener jade */
+  Zoroastrian: "#FFA319",   /* saffron/fire */
+  Elamite: "#2AA6A1",       /* verdigris */
+  Achaemenid: "#008E9B",    /* deep royal turquoise */
+  Sumerian:  "#000000ff",
+  Akkadian:  "#10B981",
+  Babylonian:"#1A49D6",
+  Assyrian:  "#C1121F",
+  Canaanite: "#6F2DBD",
+  Akkadian:  "#10B981",
+  Aramaic:   "#9E6CFF",
+  Yahwistic: "#1E88E5",
+  Egyptian: "#E53935",
+  Phrygian: "#D22F27",   // Cap Red — Phrygian cap/dyed wool, bold martial/ritual red
+  Luwian:   "#D99C4A",   // Limestone Ochre — rock-cut reliefs & hieroglyphs on pale stone
+  Hittite:  "#B14D1E",   // Burnt Sienna / Iron Oxide — Hattusa palettes, iron/ochre tones  
+  Hurrian:  "#1F9EDC",   // Mitanni Azure — horse/chariot prestige; Indo-Aryan theonyms → cool azure
+  Lydian:   "#D4AF37",   // Electrum Gold — famed early coinage (electrum), royal metals
+  Mycenaean: "#B36A1B",
+  Hellenic:  "#0057D9",
+  Hellenistic:"#1BB5AC",
+  Orphic:    "#CDA434",
+  Hermetic:  "#8EA1B2",
+  Gnostic:   "#6E3AA6",
+  Berber:     "#0066CC",
+  Phoenician: "#9A1B6A",
+  Etruscan:    "#C4742C",
+  "Oscan-Italic":"#6B8E23",
+  Umbrian:     "#1E7A3F",
+  Christian:   "#5E2D91",
+  Roman: "#C4002F"  
 };
+
 
 /* ===== Label sizing vs zoom ===== */
 
