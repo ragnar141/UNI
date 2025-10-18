@@ -581,6 +581,59 @@ function drawTextDot(circleSel, pieSel, k){
   if (!pieSel.empty()) drawSlicesAtRadius(pieSel, r);
 }
 
+// module-scope (above useEffect)
+function drawSlicesAtRadius(selection, r) {
+  const ANGLE_OFFSET = -Math.PI / 2;     // 12 o'clock
+  const arcGen = d3.arc().innerRadius(0).outerRadius(r);
+
+  selection.each(function (d) {
+    const g = d3.select(this);
+    const n = Math.max(1, (d.colors || []).length);
+
+    // 1) Color wedges
+    g.selectAll("path.slice")
+      .attr("d", (_s, i) => {
+        const a0 = ANGLE_OFFSET + (i / n) * 2 * Math.PI;
+        const a1 = ANGLE_OFFSET + ((i + 1) / n) * 2 * Math.PI;
+        return arcGen({ startAngle: a0, endAngle: a1 });
+      });
+
+    // 2) White separators (center → rim)
+    const boundaryAngles = n > 1
+      ? d3.range(n).map(i => ANGLE_OFFSET + (i / n) * 2 * Math.PI)
+      : [];
+
+    const sepG = g.selectAll("g.separators")
+      .data([0])
+      .join("g")
+      .attr("class", "separators")
+      .raise();
+
+    const show = n > 1;
+    const w = Math.max(0.35, Math.min(r * 0.18, 1.5));
+
+    sepG.selectAll("line.sep")
+      .data(boundaryAngles, a => a)
+      .join(
+        e => e.append("line")
+              .attr("class", "sep")
+              .attr("stroke", "#fff")
+              .attr("stroke-linecap", "round")
+              .attr("vector-effect", "non-scaling-stroke")
+              .attr("shape-rendering", "geometricPrecision")
+              .style("pointer-events", "none"),
+        u => u,
+        x => x.remove()
+      )
+      .attr("x1", 0).attr("y1", 0)
+      .attr("x2", a => d3.pointRadial(a, r)[0])
+      .attr("y2", a => d3.pointRadial(a, r)[1])
+      .attr("stroke-width", show ? w : 0)
+      .attr("opacity", show ? 0.9 : 0);
+  });
+}
+
+
 function shouldShowDurationLabel({ d, k, bandW, bandH, labelSel }) {
   // Always show custom group labels unless explicitly blocked
   if (d._hiddenCustom) return false;
@@ -1920,24 +1973,33 @@ window.addEventListener("click", onAnyClickClose, { capture: true });
 
     // TEXTS (dots)
     const textSel = gTexts
-      .selectAll("circle.textDot")
-      .data(textRows, (d) => d.id)
-      .join(
-        (enter) =>
-          enter
-            .append("circle")
-            .attr("class", "textDot")
-            .attr("fill", (d) => (d.colors && d.colors.length > 1 ? "none" : (d.color || "#444")))
-            .attr("opacity", BASE_OPACITY)
-            .attr("r", TEXT_BASE_R * kRef.current)
-            .style("transition", "r 120ms ease"),
-        (update) =>
-          update.attr(
-            "fill",
-            (d) => (d.colors && d.colors.length > 1 ? "none" : (d.color || "#444"))
-          ),
-        (exit) => exit.remove()
-      );
+  .selectAll("circle.textDot")
+  .data(textRows, (d) => d.id)
+  .join(
+    (enter) =>
+      enter
+        .append("circle")
+        .attr("class", "textDot")
+        // make multi-color dots "painted" for hit-testing
+        .attr("fill", (d) =>
+          (d.colors && d.colors.length > 1 ? "transparent" : (d.color || "#444"))
+        )
+        .attr("opacity", BASE_OPACITY)
+        .attr("r", TEXT_BASE_R * kRef.current)
+        .style("transition", "r 120ms ease")
+        // ensure the circle itself receives events (pies keep pointer-events: none)
+        .style("pointer-events", "all")
+        .style("cursor", "pointer"),
+    (update) =>
+      update
+        .attr("fill", (d) =>
+          (d.colors && d.colors.length > 1 ? "transparent" : (d.color || "#444"))
+        )
+        .style("pointer-events", "all")
+        .style("cursor", "pointer"),
+    (exit) => exit.remove()
+  );
+
 
     // Keep draw order stable to reduce flicker
     gTexts.selectAll("circle.textDot")
@@ -1992,62 +2054,6 @@ piesSel
     gTexts
       .selectAll("g.dotSlices")
       .sort((a, b) => (a.when - b.when) || a.durationId.localeCompare(b.durationId));
-
-    // helper to (re)compute wedge paths at a given radius
-function drawSlicesAtRadius(selection, r) {
-  const ANGLE_OFFSET = -Math.PI / 2;           // 12 o'clock start
-  const arcGen = d3.arc().innerRadius(0).outerRadius(r);
-
-  selection.each(function (d) {
-    const g = d3.select(this);
-    const n = Math.max(1, (d.colors || []).length);
-
-    // 1) Color wedges (unchanged)
-    g.selectAll("path.slice")
-      .attr("d", (_s, i) => {
-        const a0 = ANGLE_OFFSET + (i / n) * 2 * Math.PI;
-        const a1 = ANGLE_OFFSET + ((i + 1) / n) * 2 * Math.PI;
-        return arcGen({ startAngle: a0, endAngle: a1 });
-      });
-
-    // 2) White separators on the exact wedge boundaries
-    //    Draw from center -> rim (not a full diameter).
-    const boundaryAngles = n > 1
-      ? d3.range(n).map(i => ANGLE_OFFSET + (i / n) * 2 * Math.PI)
-      : [];
-
-    const sepG = g.selectAll("g.separators")
-      .data([0])
-      .join("g")
-      .attr("class", "separators")
-      .raise();
-
-    const show = n > 1;
-    const w = Math.max(0.35, Math.min(r * 0.18, 1.5));
-
-    sepG.selectAll("line.sep")
-      .data(boundaryAngles, a => a)   // stable key by angle
-      .join(
-        e => e.append("line")
-              .attr("class", "sep")
-              .attr("stroke", "#fff")
-              .attr("stroke-linecap", "round")
-              .attr("vector-effect", "non-scaling-stroke")
-              .attr("shape-rendering", "geometricPrecision")
-              .style("pointer-events", "none"),
-        u => u,
-        x => x.remove()
-      )
-      // center (0,0) → rim at angle a
-      .attr("x1", 0)
-      .attr("y1", 0)
-      .attr("x2", a => d3.pointRadial(a, r)[0])
-      .attr("y2", a => d3.pointRadial(a, r)[1])
-      .attr("stroke-width", show ? w : 0)
-      .attr("opacity", show ? 0.9 : 0);
-  });
-}
-
 
 
     const within = (v, a, b) => v >= Math.min(a, b) && v <= Math.max(a, b);
