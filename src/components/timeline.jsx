@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useId } from "react";
 import * as d3 from "d3";
 import durations from "../data/durations.json";
 import "../styles/timeline.css";
 import TextCard from "./textCard";
 import FatherCard from "./fatherCard";
 import SearchBar from "./searchBar";
+
+
 
 
 /* ===== BCE/CE helpers (no year 0) ===== */
@@ -656,9 +658,10 @@ function useDiscoveredFatherSets() {
 
 
 export default function Timeline() {
+  
   const wrapRef = useRef(null);
   const svgRef = useRef(null);
-
+  
   const axisRef = useRef(null);
   const gridRef = useRef(null);
   const customPolysRef = useRef(null); // NEW: group polygons layer
@@ -669,7 +672,7 @@ export default function Timeline() {
   const prevZoomedInRef = useRef(false);
   const hoveredDurationIdRef = useRef(null);
   const zoomDraggingRef = useRef(false);
-
+  const clipId = useId();
     function logRenderedCounts() {
     // Count *rendered* marks (current DOM), not dataset sizes
     const textsCount = d3.select(textsRef.current)
@@ -707,6 +710,7 @@ export default function Timeline() {
   // One-shot close for duration cards (the next click closes)
   const awaitingCloseClickRef = useRef(false);
   const lastVisibleLogTsRef = useRef(0);
+  const hoverRaf = useRef(0);
 
   const zoomRef = useRef(null);
   const svgSelRef = useRef(null);
@@ -1755,6 +1759,19 @@ useEffect(() => {
       }
     }
 
+    function syncHoverRaf(srcEvt){
+  if (!srcEvt || !('clientX' in srcEvt)) return;
+  if (hoverRaf.current) return;
+  hoverRaf.current = requestAnimationFrame(() => {
+    hoverRaf.current = 0;
+    if (kRef.current < ZOOM_THRESHOLD) {
+      syncDurationHoverFromPointer(srcEvt);
+    } else {
+      syncSegmentHoverFromPointer(srcEvt);
+    }
+  });
+}
+
     // OUTLINES (filled, faint stroke)
     const outlineSel = gOut
       .selectAll("g.durationOutline")
@@ -1956,7 +1973,7 @@ function drawSlicesAtRadius(selection, r) {
     const g = d3.select(this);
     const n = Math.max(1, (d.colors || []).length);
 
-    // --- 1) Color wedges (same angle convention for all n) ---
+    // 1) Color wedges (unchanged)
     g.selectAll("path.slice")
       .attr("d", (_s, i) => {
         const a0 = ANGLE_OFFSET + (i / n) * 2 * Math.PI;
@@ -1964,8 +1981,8 @@ function drawSlicesAtRadius(selection, r) {
         return arcGen({ startAngle: a0, endAngle: a1 });
       });
 
-    // --- 2) White separators on the EXACT wedge boundaries ---
-    // One separator per boundary: i = 0..n-1
+    // 2) White separators on the exact wedge boundaries
+    //    Draw from center -> rim (not a full diameter).
     const boundaryAngles = n > 1
       ? d3.range(n).map(i => ANGLE_OFFSET + (i / n) * 2 * Math.PI)
       : [];
@@ -1977,7 +1994,7 @@ function drawSlicesAtRadius(selection, r) {
       .raise();
 
     const show = n > 1;
-    const w = Math.max(0.35, Math.min(r * 0.18, 1.5));  // same visual scale used elsewhere
+    const w = Math.max(0.35, Math.min(r * 0.18, 1.5));
 
     sepG.selectAll("line.sep")
       .data(boundaryAngles, a => a)   // stable key by angle
@@ -1992,11 +2009,11 @@ function drawSlicesAtRadius(selection, r) {
         u => u,
         x => x.remove()
       )
-      // draw a diameter through the center at each boundary angle
-      .attr("x1", a => d3.pointRadial(a, -r)[0])
-      .attr("y1", a => d3.pointRadial(a, -r)[1])
-      .attr("x2", a => d3.pointRadial(a,  r)[0])
-      .attr("y2", a => d3.pointRadial(a,  r)[1])
+      // center (0,0) → rim at angle a
+      .attr("x1", 0)
+      .attr("y1", 0)
+      .attr("x2", a => d3.pointRadial(a, r)[0])
+      .attr("y2", a => d3.pointRadial(a, r)[1])
       .attr("stroke-width", show ? w : 0)
       .attr("opacity", show ? 0.9 : 0);
   });
@@ -2511,100 +2528,103 @@ const rangeY1 = innerHeight;
 
 const zoom = (zoomRef.current ?? d3.zoom())
   .scaleExtent([MIN_ZOOM, MAX_ZOOM])
-  .translateExtent([[rangeX0, rangeY0], [rangeX1, rangeY1]])  // hard clamp
+  .translateExtent([[rangeX0, rangeY0], [rangeX1, rangeY1]]) // hard clamp
   .extent([[0, 0], [innerWidth, innerHeight]])
   .filter((event) => event.type !== "dblclick")
 
-      .on("start", () => {
-        zoomDraggingRef.current = true;
-        // NEW: hard reset any stale segment preview at the start of a gesture
-        hoveredSegIdRef.current = null;
-        hoveredSegParentIdRef.current = null;
-        updateSegmentPreview();
-        updateHoverVisuals();
-      })
-      .on("zoom", (event) => {
-        
-        const t = event.transform;
-        lastTransformRef.current = t;
-        kRef.current = t.k;
+  .on("start", (event) => {
+    zoomDraggingRef.current = true;
 
-        const zx = t.rescaleX(x);
-        const zy = t.rescaleY(y0);
-        apply(zx, zy, t.k);
-        updateInteractivity(t.k);
+    // hard-reset any stale segment preview at gesture start
+    hoveredSegIdRef.current = null;
+    hoveredSegParentIdRef.current = null;
+    updateSegmentPreview();
+    updateHoverVisuals();
 
-        // Keep duration hover correct while zooming (only in zoomed-out mode)
-        syncDurationHoverFromPointer(event.sourceEvent);
-        // NEW: keep segment hover in sync when zoomed-in
-        syncSegmentHoverFromPointer(event.sourceEvent);
+    // throttle hover sync to RAF
+    syncHoverRaf(event.sourceEvent);
+  })
 
-        // If a segment is active, keep its card anchored as we zoom/pan
-        if (activeSegIdRef.current) {
-          const seg = segments.find((s) => s.id === activeSegIdRef.current);
-          if (seg) showSegAnchored(seg);
-        }
-        // If a duration is active, keep its card anchored as we zoom/pan
-        if (activeDurationIdRef.current) {
-          const out = outlines.find((o) => o.id === activeDurationIdRef.current);
-          if (out) showDurationAnchored(out);
-        }
+  .on("zoom", (event) => {
+    const t = event.transform;
+    lastTransformRef.current = t;
+    kRef.current = t.k;
 
-        // Threshold handoff logic
-        const zoomedIn = t.k >= ZOOM_THRESHOLD;
-        const wasZoomedIn = prevZoomedInRef.current;
+    const zx = t.rescaleX(x);
+    const zy = t.rescaleY(y0);
+    apply(zx, zy, t.k);
+    updateInteractivity(t.k);
 
-        if (zoomedIn && !wasZoomedIn) {
-          hoveredDurationIdRef.current = null;
-          awaitingCloseClickRef.current = false; // reset one-shot close
-          clearActiveDuration();                  // hide duration card when zooming in
-          updateHoverVisuals();
-        }
+    // throttle hover sync to RAF (duration vs segment based on zoom)
+    syncHoverRaf(event.sourceEvent);
 
-        if (!zoomedIn && wasZoomedIn) {
-          clearActiveSegment();
-          updateHoverVisuals();
-        }
+    // Keep active cards anchored while panning/zooming
+    if (activeSegIdRef.current) {
+      const seg = segments.find((s) => s.id === activeSegIdRef.current);
+      if (seg) showSegAnchored(seg);
+    }
+    if (activeDurationIdRef.current) {
+      const out = outlines.find((o) => o.id === activeDurationIdRef.current);
+      if (out) showDurationAnchored(out);
+    }
 
-        prevZoomedInRef.current = zoomedIn;
-      })
-      .on("end", (event) => {
-        zoomDraggingRef.current = false;
-        // Final re-sync after the zoom settles
-        syncDurationHoverFromPointer(event.sourceEvent);
-        syncSegmentHoverFromPointer(event.sourceEvent);
-        updateHoverVisuals();
-        logRenderedCounts();
-      });
+    // Threshold handoff logic
+    const zoomedIn = t.k >= ZOOM_THRESHOLD;
+    const wasZoomedIn = prevZoomedInRef.current;
 
-  const svgSel = svgSelRef.current ?? d3.select(svgRef.current);
-  zoomRef.current = zoom;
-  svgSelRef.current = svgSel;
-  // Public fly-to callback used by SearchBar selection
-  flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
-  if (!zoomRef.current || !svgSelRef.current) return;
-  if (!d) return;
+    if (zoomedIn && !wasZoomedIn) {
+      hoveredDurationIdRef.current = null;
+      awaitingCloseClickRef.current = false; // reset one-shot close
+      clearActiveDuration();                  // hide duration card when zooming in
+      updateHoverVisuals();
+    }
+
+    if (!zoomedIn && wasZoomedIn) {
+      clearActiveSegment();
+      updateHoverVisuals();
+    }
+
+    prevZoomedInRef.current = zoomedIn;
+  })
+
+  .on("end", (event) => {
+    zoomDraggingRef.current = false;
+
+    // final hover sync after gesture settles (throttled to RAF)
+    syncHoverRaf(event.sourceEvent);
+
+    updateHoverVisuals();
+    logRenderedCounts();
+  });
+
+  // Bind zoom to the <svg> and expose refs/utilities
+const svgSel = svgSelRef.current ?? d3.select(svgRef.current);
+zoomRef.current = zoom;
+svgSelRef.current = svgSel;
+
+// Public fly-to callback used by SearchBar & dev helper
+flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
+  if (!zoomRef.current || !svgSelRef.current || !d) return;
 
   const kTarget = SEARCH_FLY.k;
   const xAstro  = toAstronomical(d.when);
 
-  let yU;
-  if (type === "father") yU = laneYUForFather(d);
-  else                   yU = laneYUForText(d);
-
- 
+  // Use the same lane logic you already defined
+  const yU = (type === "father") ? laneYUForFather(d) : laneYUForText(d);
 
   const t = computeTransformForPoint(xAstro, yU, kTarget);
-
- 
 
   svgSelRef.current
     .transition()
     .duration(SEARCH_FLY.duration)
     .ease(SEARCH_FLY.ease)
     .call(zoomRef.current.transform, t)
-    .on("end", () => { lastTransformRef.current = t; });
+    .on("end", () => {
+      lastTransformRef.current = t;
+      kRef.current = t.k;
+    });
 };
+
 
  // Dev helper: try window.flyToTest(id) from DevTools
 window.flyToTest = (id) => {
@@ -2680,9 +2700,9 @@ return (
       width={width}
       height={height}
     >
-      {/* 1) Clip path for the charting viewport */}
+      {/* 1) Clip path for the charting viewport (instance-safe) */}
       <defs>
-        <clipPath id="tl-clip" clipPathUnits="userSpaceOnUse">
+        <clipPath id={`${clipId}-clip`} clipPathUnits="userSpaceOnUse">
           {/* coordinates are in the translated chart's local space */}
           <rect x="0" y="0" width={innerWidth} height={innerHeight} />
         </clipPath>
@@ -2692,7 +2712,7 @@ return (
       <g
         className="chart"
         transform={`translate(${margin.left},${margin.top})`}
-        clipPath="url(#tl-clip)"
+        clipPath={`url(#${clipId}-clip)`}
       >
         <g ref={gridRef} className="grid" />
         <g ref={customPolysRef} className="customPolys" />
@@ -2743,5 +2763,6 @@ return (
     )}
   </div>
 );
+
 
 }
