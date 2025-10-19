@@ -737,6 +737,7 @@ export default function Timeline() {
   const fathersRef = useRef(null);      // FATHERS: new layer ref
   const prevZoomedInRef = useRef(false);
   const hoveredDurationIdRef = useRef(null);
+  const awaitingCloseClickSegRef = useRef(false);
   
   const zoomDraggingRef = useRef(false);
   const clipId = useId();
@@ -1516,6 +1517,31 @@ useEffect(() => {
 
     const hideTipSel = (sel) => sel.style("opacity", 0).style("display", "none");
 
+    // put these right after showSegAnchored/showDurationAnchored/hideTipSel
+function clearActiveSegment() {
+  if (!activeSegIdRef.current) return;
+  activeSegIdRef.current = null;
+  hoveredSegIdRef.current = null;
+  hoveredSegParentIdRef.current = null;
+  awaitingCloseClickSegRef.current = false;
+  hideTipSel(tipSeg);
+  updateSegmentPreview();
+  updateHoverVisuals();
+}
+
+function clearActiveDuration() {
+  if (!activeDurationIdRef.current) return;
+  activeDurationIdRef.current = null;
+  awaitingCloseClickRef.current = false;
+  hideTipSel(tipDur);
+  updateHoverVisuals();
+}
+
+// keep these lines you already have:
+clearActiveSegmentRef.current = clearActiveSegment;
+clearActiveDurationRef.current = clearActiveDuration;
+
+
     function showTip(sel, html, clientX, clientY, accent) {
       const wrapRect = wrapEl.getBoundingClientRect();
       sel
@@ -1733,42 +1759,58 @@ useEffect(() => {
         });
     }
 
-    // NEW: centralized segment preview updater
-    function updateSegmentPreview() {
-      const activeId = activeSegIdRef.current;
-      const hoveredId = hoveredSegIdRef.current;
+function updateSegmentPreview() {
+  const activeId  = activeSegIdRef.current;
+  const hoveredId = hoveredSegIdRef.current;
 
-      d3.select(segmentsRef.current)
-        .selectAll("rect.segmentHit")
-        .attr("stroke-opacity", (d) => (d.id === activeId ? 1 : d.id === hoveredId ? 0.5 : 0.02))
-        .attr("stroke-width", (d) => (d.id === activeId ? 2 : d.id === hoveredId ? 2 : 1.5));
-    }
-
-    function clearActiveSegment() {
-      activeSegIdRef.current = null;
-      hoveredSegIdRef.current = null;          // clear preview too
-      hoveredSegParentIdRef.current = null;
-      updateSegmentPreview();
-      hideTipSel(tipSeg);
-      updateHoverVisuals();
-    }
-
-    function clearActiveDuration() {
-      activeDurationIdRef.current = null;
-      awaitingCloseClickRef.current = false;
-      hideTipSel(tipDur);
-      updateHoverVisuals();
-    }
-
-    // Close the duration box on ANY click anywhere (next click after opening)
-function onAnyClickClose(ev) {
-  if (!activeDurationIdRef.current) return;          // nothing open
-  if (!awaitingCloseClickRef.current) return;        // not armed (should be armed right after open)
-
-  // Close and stop the click from immediately re-triggering open on the same element beneath.
-  clearActiveDuration();
-  ev.stopPropagation();
+  d3.select(segmentsRef.current)
+    .selectAll("rect.segmentHit")
+    .attr("stroke-opacity", d =>
+      activeId
+        ? (d.id === activeId ? 1 : 0.02)                  // NEW: ignore all other hovers
+        : (d.id === hoveredId ? 0.5 : 0.02)
+    )
+    .attr("stroke-width", d =>
+      activeId
+        ? (d.id === activeId ? 2 : 1.5)
+        : (d.id === hoveredId ? 2 : 1.5)
+    );
 }
+
+
+function onAnyClickClose(ev) {
+  // Helper: did we click a text dot or father triangle?
+  const isInteractiveMarkClick = (() => {
+    const t = ev.target;
+    if (!t || !t.closest) return false;
+    // dot itself
+    if (t.closest('circle.textDot')) return true;
+    // any child of a father mark group
+    if (t.closest('g.fatherMark')) return true;
+    return false;
+  })();
+
+  // --- Segment box one-shot close ---
+  if (activeSegIdRef.current && awaitingCloseClickSegRef.current) {
+    // Always clear the segment box
+    clearActiveSegment();
+    awaitingCloseClickSegRef.current = false;
+
+    // If the click was NOT on an interactive mark, swallow it (old behavior)
+    // If it WAS on a dot/triangle, let it bubble so the card opens.
+    if (!isInteractiveMarkClick) {
+      ev.stopPropagation();
+    }
+    return;
+  }
+
+  // --- Duration box one-shot close (unchanged) ---
+  if (activeDurationIdRef.current && awaitingCloseClickRef.current) {
+    clearActiveDuration();
+    ev.stopPropagation();
+  }
+}
+
 
 window.addEventListener("click", onAnyClickClose, { capture: true });
 
@@ -1776,24 +1818,32 @@ window.addEventListener("click", onAnyClickClose, { capture: true });
     clearActiveSegmentRef.current = clearActiveSegment;
     clearActiveDurationRef.current = clearActiveDuration;
 
-    // Only set active + (optionally) show card on demand (segment)
-    function setActiveSegment(seg, { showCard = false } = {}) {
-      if (!seg) return clearActiveSegment();
-      activeSegIdRef.current = seg.id;
-      hoveredSegIdRef.current = null;          // active replaces preview
-      hoveredSegParentIdRef.current = seg.parentId;
-      updateSegmentPreview();
-      if (showCard) showSegAnchored(seg);
-      else hideTipSel(tipSeg);
-      updateHoverVisuals();
-    }
 
-    function setActiveDuration(outline, { showCard = false } = {}) {
-      if (!outline) return clearActiveDuration();
-      activeDurationIdRef.current = outline.id;
-      if (showCard) showDurationAnchored(outline);
-      updateHoverVisuals();
-    }
+  function setActiveSegment(seg, { showCard = false } = {}) {
+  if (!seg) return clearActiveSegment();
+  activeSegIdRef.current = seg.id;
+  hoveredSegIdRef.current = null;
+  hoveredSegParentIdRef.current = seg.parentId;
+  updateSegmentPreview();
+  if (showCard) {
+    showSegAnchored(seg);
+    awaitingCloseClickSegRef.current = true; // NEW: arm one-shot close
+  } else {
+    hideTipSel(tipSeg);
+  }
+  updateHoverVisuals();
+}
+
+function setActiveDuration(outline, { showCard = false } = {}) {
+  if (!outline) return clearActiveDuration();
+  activeDurationIdRef.current = outline.id;
+  if (showCard) {
+    showDurationAnchored(outline);
+    awaitingCloseClickRef.current = true;  // <— add this line
+  }
+  updateHoverVisuals();
+}
+
 
     // Sync hovered duration from pointer while zooming (zoomed-out mode)
     function syncDurationHoverFromPointer(se) {
@@ -1832,6 +1882,9 @@ window.addEventListener("click", onAnyClickClose, { capture: true });
         newId = d?.id ?? null;
         newParentId = d?.parentId ?? null;
       }
+
+        // NEW: if a different segment is active, ignore hover updates
+      if (activeSegIdRef.current && activeSegIdRef.current !== newId) return;
 
       if (hoveredSegIdRef.current !== newId) {
         hoveredSegIdRef.current = newId;
@@ -2476,30 +2529,35 @@ fathersSel
           .style("transition", "stroke-opacity 140ms ease, stroke-width 140ms ease")
           // HOVER: centralized preview + label brightening
           .on("mouseenter", function (_ev, seg) {
-            if (activeSegIdRef.current === seg.id) return;
-            hoveredSegIdRef.current = seg.id;
-            hoveredSegParentIdRef.current = seg.parentId;
-            updateSegmentPreview();
-            updateHoverVisuals();
-          })
-          .on("mouseleave", function (_ev, seg) {
-            if (activeSegIdRef.current === seg.id) return;
-            hoveredSegIdRef.current = null;
-            hoveredSegParentIdRef.current = null;
-            updateSegmentPreview();
-            updateHoverVisuals();
-          })
-          // CLICK: toggle the segment card
-          .on("click", function (_ev, seg) {
-            const isSame = activeSegIdRef.current === seg.id;
-            if (isSame) {
-              clearActiveSegment();
-              return;
-            }
-            clearActiveSegment();
-            clearActiveDuration(); // don't mix duration+segment cards
-            setActiveSegment(seg, { showCard: true });
-          })
+  // NEW: if *any* segment is active and it's not THIS one, ignore hover
+  if (activeSegIdRef.current && activeSegIdRef.current !== seg.id) return;
+
+  if (activeSegIdRef.current === seg.id) return; // unchanged
+  hoveredSegIdRef.current = seg.id;
+  hoveredSegParentIdRef.current = seg.parentId;
+  updateSegmentPreview();
+  updateHoverVisuals();
+})
+.on("mouseleave", function (_ev, seg) {
+  // NEW: if some *other* segment is active, keep ignoring
+  if (activeSegIdRef.current && activeSegIdRef.current !== seg.id) return;
+
+  if (activeSegIdRef.current === seg.id) return;
+  hoveredSegIdRef.current = null;
+  hoveredSegParentIdRef.current = null;
+  updateSegmentPreview();
+  updateHoverVisuals();
+})
+.on("click", function (_ev, seg) {
+  const isSame = activeSegIdRef.current === seg.id;
+  if (isSame) {
+    clearActiveSegment();
+    return;
+  }
+  clearActiveSegment();
+  clearActiveDuration(); // existing line
+  setActiveSegment(seg, { showCard: true });
+})
       );
 
       // Helper: compute author-lane Y (in "band units" = px at k=1) for a text
@@ -2631,6 +2689,14 @@ const svgSel = svgSelRef.current ?? d3.select(svgRef.current);
 zoomRef.current = zoom;
 svgSelRef.current = svgSel;
 
+function onPointerMove(e){
+  if (!e || !('clientX' in e)) return;
+  // If a drag gesture is active, zoom's handlers already drive hover sync.
+  if (zoomDraggingRef.current) return;
+  syncHoverRaf(e);
+}
+svgSel.on("pointermove.tl-hover", onPointerMove);
+
 // Public fly-to callback used by SearchBar & dev helper
 flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
   if (!zoomRef.current || !svgSelRef.current || !d) return;
@@ -2693,6 +2759,8 @@ window.flyToTest = (id) => {
     return () => {
         svgSel.on("mouseleave.tl-tip", null);
         svgSel.on("click.clearActive", null);
+        svgSel.on("pointermove.tl-hover", null);
+
         window.removeEventListener("click", onAnyClickClose, true);
     };
   }, [
