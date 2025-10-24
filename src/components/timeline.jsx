@@ -5,6 +5,7 @@ import "../styles/timeline.css";
 import TextCard from "./textCard";
 import FatherCard from "./fatherCard";
 import SearchBar from "./searchBar";
+import TagPanel from "./TagPanel";
 
 
 
@@ -205,9 +206,8 @@ function layoutMarksByPixels({ marks, outlines, authorLaneMap, x, y0, innerHeigh
     return Math.abs(a._cx - b._cx) <= (a._rPx + b._rPx);
   }
   function minSepRU(a, b) {
-    // baseline separation + their radii in RU
-    const BASE_SEP_RU = 6; // slightly tighter than before; now radii add most of the spacing
-    return BASE_SEP_RU + Math.max(a._rRU, b._rRU);
+    const BASE_SEP_RU = 2;            // small constant buffer
+    return BASE_SEP_RU + a._rRU + b._rRU;
   }
 
   // placement
@@ -239,9 +239,15 @@ function layoutMarksByPixels({ marks, outlines, authorLaneMap, x, y0, innerHeigh
       const free   = [];
       for (const m of items) {
         let yLock = null;
-        if (m.kind === "text" && m.authorKey) {
-          const lane = authorLaneMap.get(m.bandId)?.get(m.authorKey);
-          if (Number.isFinite(lane)) yLock = lane;
+        if (m.kind === "text") {
+          if (m.authorKey) {
+            // author-lane texts lock to lane
+            const lane = authorLaneMap.get(m.bandId)?.get(m.authorKey);
+            if (Number.isFinite(lane)) yLock = lane;
+          } else if (Number.isFinite(m.baseYU)) {
+            // no-author texts lock to their hashed base Y (stable)
+            yLock = m.baseYU;
+          }
         }
         if (Number.isFinite(yLock)) locked.push({ m, yLock });
         else free.push(m);
@@ -720,6 +726,131 @@ function useDiscoveredFatherSets() {
   return registry;
 }
 
+/* ===== Tag groups (config-first) ===== */
+const TAG_GROUPS = [
+  // TEXTS-ONLY
+  {
+    key: "metaphysical",
+    label: "Metaphysical",
+    appliesTo: "texts",
+    allTags: [ "Apophatic–Aporetic (Unknowable)", "Phenomenology (Experiential)", "Becoming (Process Ontology)", "Pluralism (Multiplicities)", "Grid (Systematic Structuralism)",
+      "Dialectics (Conflict)", "Clockwork (Causal Determinism)", "Monism (Single Principle)", "Subversion (Negation)"
+    ],
+  },
+  {
+    key: "artsSciences",
+    label: "Arts & Sciences",
+    appliesTo: "texts",
+    allTags: [ "Mathematics", "Logic/Formal Reasoning", "Physics", "Chemistry", "Biology", "Medicine", "Astronomy", "Warfare", "Education", "Public Relations", "Political Science/Law",
+     "Economics", "Agriculture", "Sociology", "Linguistics", "Psychology", "Theology", "Literature", "Art/Aesthetics", "History", "Philosophy", "Anthropology"],
+  },
+  {
+    key: "literaryForms",
+    label: "Literary Forms",
+    appliesTo: "texts",
+    allTags: ["Poetry", "Dialogue", "Drama (Play)", "Narrative", "Essay / Argument", "Fiction", "Personal Writings", "Myth", "Doctrine / Treatise", "Record / Chronicle",
+       "Commentary / Exegesis", "Parable / Fable", "Proclamation / Decree", "Fragment", "Manual / Instruction", "Glossary / Taxonomy", "Analysis", "Liturgy", "Epic",
+        "Rulebook / Code", "Riddle / Aphorism", "Petition / Appeal", "Oral Tradition"],
+
+  },
+  {
+    key: "literaryContent",
+    label: "Literary Themes",
+    appliesTo: "texts",
+    allTags: ["Ritual / Devotional", "Comic / Satirical", "Adventure / Heroic Journey", "Coming of Age", "Introspective", "Apocalyptic / Eschatological", 
+      "Utopian / Dystopian", "Historical Reflection", "Metaphysical", "Epistemological / Hermeneutics", "Political", "Romantic / Erotic", "Tragic / Lamentation",
+       "Didactic / Ethical", "Absurd", "Prophetic / Revelation", "Existential", "Feminine", "Cosmological"],
+  },
+
+  // SHARED (texts + fathers)
+  {
+    key: "jungian",
+    label: "Jungian Archetypes",
+    appliesTo: "both",
+    allTags: [
+      "Shadow","Anima","Animus","Persona","Self","Hero","Wise Old Man","Wise Old Woman","Trickster","Initiator",
+      "Father Archetype","Mother Archetype","Terrible Mother","Terrible Father"
+    ],
+  },
+  {
+    key: "neumann",
+    label: "Neumann Stages",
+    appliesTo: "both",
+    allTags: [
+      "Uroboric Stage","Separation from World Parents","Battle with the Dragon","Isolation","Divine Intervention",
+      "Initiation","Death","Rebirth","Magical Empowerment","Return to the Community","Descent into the Underworld",
+      "Mythic Ordering of Reality","Ego Collapse","Ego Transcendence","Coronation of the King"
+    ],
+  },
+  {
+    key: "comtean",
+    label: "Comtean framework",
+    appliesTo: "both",
+    allTags: [
+      "Theological/Mythological","Philosophical/Metaphysical","Positive/Empirical","Synthetic Literature"
+    ],
+  },
+  {
+    key: "socioPolitical",
+    label: "Socio-political",
+    appliesTo: "both",
+    allTags: ["Priestly / Theocratic", "Bureaucratic / Legal / Scribal", "Merchant / Cosmopolitan", "Warrior / Imperial", "Royal", "Scholarly", "Bohemian / Aesthetic", 
+      "Folk / Communal", "Subversive / Revolutionary", "Mystical / Initiatory", "National", "Recluse / Ascetic"],
+  },
+];
+
+/* Normalizers */
+const canonSetByKey = new Map(
+  TAG_GROUPS.map(g => [g.key, new Set(g.allTags.map(s => s.trim()))])
+);
+
+
+function normalizeTagStringToArray(raw, groupKey) {
+  const s = String(raw || "").trim();
+  if (s === "-") return null; // NA → ignore this group for this item
+
+  const canon = canonSetByKey.get(groupKey) || new Set();
+  const arr = s
+    .split(",")
+    .map(x => x.trim())
+    .filter(Boolean)
+    .filter(tag => canon.has(tag)); // keep only canonical tags
+  return arr; // [] means “no canonical tags present”, not NA
+}
+
+
+/* Build "all selected" default state: { [groupKey]: Set(allTags) } */
+function makeDefaultSelectedByGroup() {
+  const out = {};
+  for (const g of TAG_GROUPS) out[g.key] = new Set(g.allTags);
+  return out;
+}
+
+/* Helper: does an item pass the current filters? */
+function itemPassesFilters(row, type, selectedByGroup) {
+  for (const g of TAG_GROUPS) {
+    const applies =
+      g.appliesTo === "both" ||
+      (g.appliesTo === "texts" && type === "text") ||
+      (g.appliesTo === "fathers" && type === "father");
+    if (!applies) continue;
+
+    const selected = selectedByGroup[g.key];
+    const selSize = selected?.size ?? 0;
+
+    // If nothing is selected in a group, block items of that type.
+    if (selSize === 0) return false;
+
+    // If all tags are selected, the group imposes no constraint.
+    if (selSize === g.allTags.length) continue;
+
+    const itemTags = row.tags?.[g.key] || [];
+    // Must intersect: OR within group
+    const hasAny = itemTags.some(t => selected.has(t));
+    if (!hasAny) return false;
+  }
+  return true;
+}
 
 
 
@@ -811,6 +942,12 @@ export default function Timeline() {
   const modalOpen = !!selectedText || !!selectedFather;
   const lastTransformRef = useRef(null);  // remembers latest d3.zoom transform
   const didInitRef = useRef(false);       // tracks first-time init
+
+  // New: Tag filtering state (controlled by TagPanel)
+const [selectedByGroup, setSelectedByGroup] = useState(() => makeDefaultSelectedByGroup());
+
+
+
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -949,6 +1086,8 @@ export default function Timeline() {
   const segments = useMemo(() => {
     const rows = [];
 
+
+
     // Map custom member id -> group id (for parent remap)
     const customMemberIdToGroupId = new Map();
     outlines.forEach((o) => {
@@ -957,6 +1096,8 @@ export default function Timeline() {
         customMemberIdToGroupId.set(m.id, o.id);
       }
     });
+
+
 
     for (const d of durations) {
       if (!Array.isArray(d.segments)) continue;
@@ -996,6 +1137,9 @@ export default function Timeline() {
     const outlinesById = new Map(outlines.map((o) => [o.id, o]));
     const rowsT = [];
 
+
+
+
     for (const ds of datasetRegistry) {
       const band = outlinesById.get(ds.durationId);
       if (!band) continue;
@@ -1025,9 +1169,21 @@ export default function Timeline() {
         const category = (t["Category"] || "").trim();
         const socioPoliticalTags = (t["Socio-political Tags"] || "").trim();
         const literaryFormsTags = (t["Literary Forms Tags"] || "").trim();
-        const literaryContentTags = (t["Literary Content Tags"] || "").trim();
+        const literaryContentTags = (t["Literary Themes Tags"] || t["Literary Content Tags"] || "").trim();
         const symbolicSystemTags = (t["Symbolic System Tags"] || "").trim();
         const textIndex = ((getLooseField(t, "Index") ?? "") + "").trim();
+
+                // Normalized tag arrays for filtering (keeps canonical casing)
+const tags = {
+  metaphysical:    normalizeTagStringToArray(metaphysicalTags, "metaphysical"),
+  artsSciences:    normalizeTagStringToArray(artsAndSciencesTags, "artsSciences"),
+  literaryForms:   normalizeTagStringToArray(literaryFormsTags, "literaryForms"),
+  literaryContent: normalizeTagStringToArray(literaryContentTags, "literaryContent"),
+  jungian:         normalizeTagStringToArray(jungianArchetypesTags, "jungian"),
+  neumann:         normalizeTagStringToArray(neumannStagesTags, "neumann"),
+  comtean:         normalizeTagStringToArray(comteanFramework, "comtean"),
+  socioPolitical:  normalizeTagStringToArray(socioPoliticalTags, "socioPolitical"),
+};
 
 
         const when = getTextDate(t);
@@ -1065,7 +1221,8 @@ export default function Timeline() {
           literaryFormsTags,
           literaryContentTags,
           symbolicSystemTags,
-          textIndex,  
+          textIndex,
+          tags,  
         });
       }
     }
@@ -1086,6 +1243,8 @@ export default function Timeline() {
   const fatherRows = useMemo(() => {
     const outlinesById = new Map(outlines.map((o) => [o.id, o]));
     const rowsF = [];
+
+
 
     for (const ds of fatherRegistry) {
       const band = outlinesById.get(ds.durationId);
@@ -1117,6 +1276,13 @@ const comteanFramework = (f["Comtean framework"] || "").trim();
 const category = (f["Category"] || "").trim();
 const socioPoliticalTags = (f["Socio-political Tags"] || "").trim();
 
+    const tags = {
+  jungian:        normalizeTagStringToArray(jungianArchetypesTags, "jungian"),
+  neumann:        normalizeTagStringToArray(neumannStagesTags, "neumann"),
+  comtean:        normalizeTagStringToArray(comteanFramework, "comtean"),
+  socioPolitical: normalizeTagStringToArray(socioPoliticalTags, "socioPolitical"),
+};
+
         const keyForLane = String(
           (f["Index"] ?? "").toString().trim() || name || "anon"
         ).trim().toLowerCase();
@@ -1146,6 +1312,7 @@ const socioPoliticalTags = (f["Socio-political Tags"] || "").trim();
   category,
   socioPoliticalTags,
   symbolicSystem,
+  tags,
         });
       }
     }
@@ -1166,7 +1333,17 @@ const socioPoliticalTags = (f["Socio-political Tags"] || "").trim();
     });
   }, [fatherRegistry, outlines]);
 
-  const textMarks = useMemo(() => (textRows || []).map(t => ({
+  // New: filtered (visible) rows based on selected tags
+const visTextRows = useMemo(
+  () => (textRows || []).filter(r => itemPassesFilters(r, "text", selectedByGroup)),
+  [textRows, selectedByGroup]
+);
+const visFatherRows = useMemo(
+  () => (fatherRows || []).filter(r => itemPassesFilters(r, "father", selectedByGroup)),
+  [fatherRows, selectedByGroup]
+);
+
+  const textMarks = useMemo(() => (visTextRows || []).map(t => ({
   id: t.id,
   kind: "text",
   bandId: t.durationId,
@@ -1174,10 +1351,11 @@ const socioPoliticalTags = (f["Socio-political Tags"] || "").trim();
   // visual “size” in band-units (px at k=1) used for separation
   sizeU: textBaseRU(),
   authorKey: t.authorKey || null,
+  baseYU: y0(t.y),
   priority: 0,
-})), [textRows]);
+})), [visTextRows, y0]);
 
-const fatherMarks = useMemo(() => (fatherRows || []).map(f => ({
+const fatherMarks = useMemo(() => (visFatherRows || []).map(f => ({
   id: f.id,
   kind: "father",
   bandId: f.durationId,
@@ -1185,7 +1363,7 @@ const fatherMarks = useMemo(() => (fatherRows || []).map(f => ({
   sizeU: getFatherBaseR(f),
   authorKey: null,
   priority: (isYesish(f.foundingFigure) ? 2 : 0) + (hasHistoricTag(f.historicMythicStatusTags) ? 1 : 0),
-})), [fatherRows]);
+})), [visFatherRows]);
 
 const allMarks = useMemo(() => [...textMarks, ...fatherMarks], [textMarks, fatherMarks]);
 
@@ -1257,7 +1435,6 @@ const { textYMap, fatherYMap } = useMemo(() => {
     authorLaneMap,
     x,               // used for binning by current pixel X
     y0,               // your base Y scale (band units @ k=1)
-    k,                // current zoom
     innerHeight,      // for bounds/padding
   });
 }, [allMarks, outlines, authorLaneMap, x, y0, innerHeight]);
@@ -2027,7 +2204,7 @@ function setActiveDuration(outline, { showCard = false } = {}) {
     // TEXTS (dots)
     const textSel = gTexts
   .selectAll("circle.textDot")
-  .data(textRows, (d) => d.id)
+  .data(visTextRows, (d) => d.id)
   .join(
     (enter) =>
       enter
@@ -2066,7 +2243,7 @@ function setActiveDuration(outline, { showCard = false } = {}) {
 const piesSel = gTexts.selectAll("g.dotSlices");
 
 piesSel
-  .data(textRows.filter(d => (d.colors || []).length > 1), d => d.id)
+  .data(visTextRows.filter(d => (d.colors || []).length > 1), d => d.id)
   .join(
     enter => {
       const g = enter.append("g")
@@ -2115,12 +2292,16 @@ piesSel
       const ids = new Set([d.durationId]);
       const parsed = parseCustomId(d.durationId);
       if (parsed) ids.add(`customgroup-${parsed.groupKey}`);
+
+       // Use placed Y (lane/base) in band-units
+    let yU = textYMap.get(d.durationId)?.get(d.id);
+    if (!Number.isFinite(yU)) yU = y0(d.y);
       return segments.find(
         (s) =>
           ids.has(s.parentId) &&
           d.when >= s.start &&
           d.when <= s.end &&
-          within(d.y, s.y, s.y + s.h)
+          within(yU, s.y, s.y + s.h)
       );
     };
 
@@ -2220,6 +2401,23 @@ if (a) showTip(tipText, html, a.x, a.y, d.color);
       };
     }
 
+    function fatherAnchorClient(el, d) {
+  const zx = zxRef.current, zy = zyRef.current;
+  if (!zx || !zy || !el) return null;
+
+  const svgRect = svgRef.current.getBoundingClientRect();
+  const cx = zx(toAstronomical(d.when));               // x from data time
+  const cyAttr = parseFloat(d3.select(el).attr("data-cy")); // y from apply()
+
+  if (!Number.isFinite(cyAttr)) return null;
+
+  return {
+    x: svgRect.left + margin.left + cx,
+    y: svgRect.top  + margin.top  + cyAttr,
+  };
+}
+
+
 
 
    
@@ -2228,7 +2426,7 @@ if (a) showTip(tipText, html, a.x, a.y, d.color);
 // In fathersSel join (enter)
 const fathersSel = gFathers
   .selectAll("g.fatherMark")
-  .data(fatherRows, d => d.id)
+  .data(visFatherRows, d => d.id)
   .join(
     enter => {
       const g = enter.append("g")
@@ -2302,194 +2500,230 @@ fathersSel
 
 
 
-    function fatherAnchorClient(el, d) {
-      const zx = zxRef.current, zy = zyRef.current;
-      if (!zx || !zy) return null;
-      const svgRect = svgRef.current.getBoundingClientRect();
-      const cx = zx(toAstronomical(d.when));
-      const cyAttr = el ? parseFloat(d3.select(el).attr("data-cy")) : zy(y0(d.y));
-      return { x: svgRect.left + margin.left + cx, y: svgRect.top + margin.top + cyAttr };
-    }
-
     function apply(zx, zy, k = 1) {
-      // cache latest rescaled axes for anchored tooltips
-      zxRef.current = zx;
-      zyRef.current = zy;
+  // cache latest rescaled axes for anchored tooltips
+  zxRef.current = zx;
+  zyRef.current = zy;
 
-      // axis & grid with adaptive ticks
-      const ticks = makeAdaptiveTicks(zx);
-      gAxis.attr("transform", `translate(${margin.left},${margin.top + axisY})`).call(axisFor(zx, ticks));
-      gGrid.attr("transform", `translate(0,${axisY})`).call(gridFor(zx, ticks));
-      snapGrid(zx);
+  // axis & grid with adaptive ticks
+  const ticks = makeAdaptiveTicks(zx);
+  gAxis
+    .attr("transform", `translate(${margin.left},${margin.top + axisY})`)
+    .call(axisFor(zx, ticks));
+  gGrid
+    .attr("transform", `translate(0,${axisY})`)
+    .call(gridFor(zx, ticks));
+  snapGrid(zx);
 
-      // outlines rects
-      gOut.selectAll("rect.outlineRect").each(function (d) {
-        const r = bandRectPx(d, zx, zy);
-        d3.select(this)
-          .attr("x", r.x)
-          .attr("y", r.y)
-          .attr("width", r.w)
-          .attr("height", r.h);
-      });
+  // outlines rects
+  gOut.selectAll("rect.outlineRect").each(function (d) {
+    const r = bandRectPx(d, zx, zy);
+    d3.select(this)
+      .attr("x", r.x)
+      .attr("y", r.y)
+      .attr("width", r.w)
+      .attr("height", r.h);
+  });
 
-      // labels (font scales with the band's rendered height)
-      gOut.selectAll("g.durationOutline").each(function (d) {
-        const g = d3.select(this);
+  // labels (font scales with the band's rendered height)
+  gOut.selectAll("g.durationOutline").each(function (d) {
+    const g = d3.select(this);
 
-        const x0 = zx(toAstronomical(d.start));
-        const x1 = zx(toAstronomical(d.end));
+    const x0 = zx(toAstronomical(d.start));
+    const x1 = zx(toAstronomical(d.end));
 
-        // Default: place inside the group's full envelope
-        let labelYTop = zy(d.y);
-        let labelHPix = zy(d.y + d.h) - zy(d.y);
+    // Default: place inside the group's full envelope
+    let labelYTop = zy(d.y);
+    let labelHPix = zy(d.y + d.h) - zy(d.y);
 
-        // NEW: if this is a custom GROUP and we have an anchor band, use that band for Y placement
-        if (d._isCustomGroup && Number.isFinite(d._labelAnchorY) && Number.isFinite(d._labelAnchorH)) {
-          labelYTop = zy(d._labelAnchorY);
-          labelHPix = zy(d._labelAnchorY + d._labelAnchorH) - zy(d._labelAnchorY);
-        }
-
-        const maxByBand = labelHPix * LABEL_FONT_MAX_REL;
-        const fontPx = clamp(
-          labelHPix * LABEL_TO_BAND,
-          LABEL_FONT_MIN,
-          Math.min(LABEL_FONT_MAX_ABS, maxByBand)
-        );
-
-        const labelSel = g.select("text.durationLabel")
-          .attr("x", Math.min(x0, x1) + 4)
-          .attr("y", labelYTop + labelHPix / 3)
-          .style("font-size", `${fontPx}px`)
-          // NEW: swap text when it's a custom group (use the anchor label text)
-          .text(d => (d._isCustomGroup && d._labelText) ? d._labelText : (d.name ?? ""));
-
-        // Decide visibility after sizing
-        const bandW = Math.abs(x1 - x0);
-        const show = shouldShowDurationLabel({
-          d,
-          k,
-          bandW,
-          bandH: labelHPix,        // important: use the anchor band height for fit checks
-          labelSel
-        });
-
-        labelSel.style("display", show ? null : "none");
-      });
-
-      // segment hit rects
-      gSeg.selectAll("rect.segmentHit").each(function (d) {
-        const r = bandRectPx(d, zx, zy);
-        d3.select(this)
-          .attr("x", r.x)
-          .attr("y", r.y)
-          .attr("width", r.w)
-          .attr("height", r.h);
-      });
-
-      // Draw/update custom group polygons (rectilinear envelope, no diagonals)
-      gCustom.selectAll("path.customGroup").each(function (o) {
-        const intervals = o._groupIntervals || [];
-        if (!intervals.length) {
-          // Fallback: simple rectangle
-          const x0 = zx(toAstronomical(o.start));
-          const x1 = zx(toAstronomical(o.end));
-          const yTop = zy(o.y);
-          const hPix = zy(o.y + o.h) - zy(o.y);
-          const d = `M ${Math.min(x0, x1)} ${yTop} H ${Math.max(x0, x1)} V ${yTop + hPix} H ${Math.min(x0, x1)} Z`;
-          d3.select(this).attr("d", d);
-          return;
-        }
-        const dPath = groupIntervalsToPath(intervals, zx, zy);
-        d3.select(this).attr("d", dPath);
-      });
-
-      // === Author-lane layout (stable across zoom) ===
-      // Position circles using per-band author lanes
-      gTexts.selectAll("circle.textDot").each(function (d) {
-        const cx = zx(toAstronomical(d.when));
-
-        let cyU = textYMap.get(d.durationId)?.get(d.id);
-        if (!Number.isFinite(cyU)) {
-        // very rare: fallback if not in map yet
-        cyU = y0(d.y);
-        }
-
-
-        const cy = zy(cyU);
-        d3.select(this).attr("cx", cx).attr("cy", cy).attr("r", TEXT_BASE_R * k);
-      });
-
-      // Position pies to match circles (same cy rule)
-      gTexts.selectAll("g.dotSlices").each(function (d) {
-        const cx = zx(toAstronomical(d.when));
-
-        let cyU = textYMap.get(d.durationId)?.get(d.id);
-          if (!Number.isFinite(cyU)) cyU = y0(d.y);
-        const cy = zy(cyU);
-        const g = d3.select(this);
-        g.attr("transform", `translate(${cx},${cy})`);
-        drawSlicesAtRadius(g, TEXT_BASE_R * k);
-      });
-
-  gFathers.selectAll("g.fatherMark").each(function (d) {
-  const zx = zxRef.current, zy = zyRef.current;
-  const cx = zx(toAstronomical(d.when));
-
-  // lane Y (uses your fatherYMap)
-  let cyU = y0(d.y);
-  const yBandMap = fatherYMap.get(d.durationId);
-  const assignedU = yBandMap?.get(d.id);
-  if (Number.isFinite(assignedU)) cyU = assignedU;
-  const cy = zy(cyU);
-
-  d3.select(this).attr("data-cy", cy);
-
-  const cols = (d.colors && d.colors.length) ? d.colors : [d.color || "#666"];
-  const r = getFatherBaseR(d) * k * 2.2;
-
-  // 1) Colored triangle slices
-  const triSlices = leftSplitTriangleSlices(cx, cy, r, cols);
-  d3.select(this).select("g.slices")
-    .selectAll("path.slice")
-    .data(triSlices, (_, i) => i)
-    .join(
-      e => e.append("path")
-        .attr("class", "slice")
-        .attr("vector-effect", "non-scaling-stroke")
-        .attr("shape-rendering", "geometricPrecision"),
-      u => u,
-      x => x.remove()
-    )
-    .attr("d", s => s.d)
-    .attr("fill", s => s.fill);
-
-  // 2) Unified white overlays (splits + optional midline)
-  const showMid = hasHistoricTag(d.historicMythicStatusTags) && r >= 3;
-  const overlaySegs = buildOverlaySegments(cx, cy, r, cols, showMid);
-  const w = overlayStrokeWidth(r);
-  const showOverlays = r >= 3;
-
-  d3.select(this).select("g.overlays")
-    .selectAll("line.overlay")
-    .data(overlaySegs, (s, i) => `${s.type}:${i}`)
-    .join(
-      e => e.append("line")
-        .attr("class", "overlay")
-        .attr("stroke", "#fff")
-        .attr("stroke-linecap", "round")
-        .attr("shape-rendering", "geometricPrecision")
-        .style("pointer-events", "none"),   // no capture, ever
-      u => u,
-      x => x.remove()
-    )
-    .attr("x1", s => s.x1).attr("y1", s => s.y1)
-    .attr("x2", s => s.x2).attr("y2", s => s.y2)
-    .attr("stroke-width", showOverlays ? w : 0)
-    .attr("opacity", showOverlays ? 0.9 : 0);
-});
-
-
+    // For custom GROUPs, use the configured anchor band (if present)
+    if (
+      d._isCustomGroup &&
+      Number.isFinite(d._labelAnchorY) &&
+      Number.isFinite(d._labelAnchorH)
+    ) {
+      labelYTop = zy(d._labelAnchorY);
+      labelHPix = zy(d._labelAnchorY + d._labelAnchorH) - zy(d._labelAnchorY);
     }
+
+    const maxByBand = labelHPix * LABEL_FONT_MAX_REL;
+    const fontPx = clamp(
+      labelHPix * LABEL_TO_BAND,
+      LABEL_FONT_MIN,
+      Math.min(LABEL_FONT_MAX_ABS, maxByBand)
+    );
+
+    const labelSel = g
+      .select("text.durationLabel")
+      .attr("x", Math.min(x0, x1) + 4)
+      .attr("y", labelYTop + labelHPix / 3)
+      .style("font-size", `${fontPx}px`)
+      .text((d) =>
+        d._isCustomGroup && d._labelText ? d._labelText : d.name ?? ""
+      );
+
+    // Decide visibility after sizing
+    const bandW = Math.abs(x1 - x0);
+    const show = shouldShowDurationLabel({
+      d,
+      k,
+      bandW,
+      bandH: labelHPix, // important: use the anchor band height for fit checks
+      labelSel,
+    });
+    labelSel.style("display", show ? null : "none");
+  });
+
+  // segment hit rects
+  gSeg.selectAll("rect.segmentHit").each(function (d) {
+    const r = bandRectPx(d, zx, zy);
+    d3.select(this)
+      .attr("x", r.x)
+      .attr("y", r.y)
+      .attr("width", r.w)
+      .attr("height", r.h);
+  });
+
+  // Draw/update custom group polygons (rectilinear envelope, no diagonals)
+  gCustom.selectAll("path.customGroup").each(function (o) {
+    const intervals = o._groupIntervals || [];
+    if (!intervals.length) {
+      // Fallback: simple rectangle
+      const x0 = zx(toAstronomical(o.start));
+      const x1 = zx(toAstronomical(o.end));
+      const yTop = zy(o.y);
+      const hPix = zy(o.y + o.h) - zy(o.y);
+      const d = `M ${Math.min(x0, x1)} ${yTop} H ${Math.max(x0, x1)} V ${
+        yTop + hPix
+      } H ${Math.min(x0, x1)} Z`;
+      d3.select(this).attr("d", d);
+      return;
+    }
+    const dPath = groupIntervalsToPath(intervals, zx, zy);
+    d3.select(this).attr("d", dPath);
+  });
+
+  // === Author-lane layout (stable across zoom) ===
+  // Position circles using per-band author lanes
+  gTexts.selectAll("circle.textDot").each(function (d) {
+    const cx = zx(toAstronomical(d.when));
+
+    let cyU = textYMap.get(d.durationId)?.get(d.id);
+    if (!Number.isFinite(cyU)) {
+      // very rare: fallback if not in map yet
+      cyU = y0(d.y);
+    }
+
+    const cy = zy(cyU);
+    d3.select(this).attr("cx", cx).attr("cy", cy).attr("r", TEXT_BASE_R * k);
+  });
+
+  // Position pies to match circles (same cy rule)
+  gTexts.selectAll("g.dotSlices").each(function (d) {
+    const cx = zx(toAstronomical(d.when));
+
+    let cyU = textYMap.get(d.durationId)?.get(d.id);
+    if (!Number.isFinite(cyU)) cyU = y0(d.y);
+    const cy = zy(cyU);
+
+    const g = d3.select(this);
+    g.attr("transform", `translate(${cx},${cy})`);
+    drawSlicesAtRadius(g, TEXT_BASE_R * k);
+  });
+
+  // Fathers (triangles)
+  gFathers.selectAll("g.fatherMark").each(function (d) {
+    const cx = zx(toAstronomical(d.when));
+
+    // lane Y (uses fatherYMap)
+    let cyU = y0(d.y);
+    const yBandMap = fatherYMap.get(d.durationId);
+    const assignedU = yBandMap?.get(d.id);
+    if (Number.isFinite(assignedU)) cyU = assignedU;
+    const cy = zy(cyU);
+
+    d3.select(this).attr("data-cy", cy);
+
+    const cols = d.colors && d.colors.length ? d.colors : [d.color || "#666"];
+    const r = getFatherBaseR(d) * k * 2.2;
+
+    // 1) Colored triangle slices
+    const triSlices = leftSplitTriangleSlices(cx, cy, r, cols);
+    d3.select(this)
+      .select("g.slices")
+      .selectAll("path.slice")
+      .data(triSlices, (_, i) => i)
+      .join(
+        (e) =>
+          e
+            .append("path")
+            .attr("class", "slice")
+            .attr("vector-effect", "non-scaling-stroke")
+            .attr("shape-rendering", "geometricPrecision"),
+        (u) => u,
+        (x) => x.remove()
+      )
+      .attr("d", (s) => s.d)
+      .attr("fill", (s) => s.fill);
+
+    // 2) Unified white overlays (splits + optional midline)
+    const showMid = hasHistoricTag(d.historicMythicStatusTags) && r >= 3;
+    const overlaySegs = buildOverlaySegments(cx, cy, r, cols, showMid);
+    const w = overlayStrokeWidth(r);
+    const showOverlays = r >= 3;
+
+    d3.select(this)
+      .select("g.overlays")
+      .selectAll("line.overlay")
+      .data(overlaySegs, (s, i) => `${s.type}:${i}`)
+      .join(
+        (e) =>
+          e
+            .append("line")
+            .attr("class", "overlay")
+            .attr("stroke", "#fff")
+            .attr("stroke-linecap", "round")
+            .attr("shape-rendering", "geometricPrecision")
+            .style("pointer-events", "none"),
+        (u) => u,
+        (x) => x.remove()
+      )
+      .attr("x1", (s) => s.x1)
+      .attr("y1", (s) => s.y1)
+      .attr("x2", (s) => s.x2)
+      .attr("y2", (s) => s.y2)
+      .attr("stroke-width", showOverlays ? w : 0)
+      .attr("opacity", showOverlays ? 0.9 : 0);
+  });
+
+  // ----- Lightweight viewport culling (texts, pies, fathers) -----
+  const xMinAstro = zx.invert(0);
+  const xMaxAstro = zx.invert(innerWidth);
+  const xLo = Math.min(xMinAstro, xMaxAstro);
+  const xHi = Math.max(xMinAstro, xMaxAstro);
+
+  // Hide text dots outside visible X
+  gTexts.selectAll("circle.textDot").each(function (d) {
+    const a = toAstronomical(d.when);
+    const on = a >= xLo && a <= xHi;
+    d3.select(this).style("display", on ? null : "none");
+  });
+
+  // Keep pies in sync with dots
+  gTexts.selectAll("g.dotSlices").each(function (d) {
+    const a = toAstronomical(d.when);
+    const on = a >= xLo && a <= xHi;
+    d3.select(this).style("display", on ? null : "none");
+  });
+
+  // Hide father triangles outside visible X
+  gFathers.selectAll("g.fatherMark").each(function (d) {
+    const a = toAstronomical(d.when);
+    const on = a >= xLo && a <= xHi;
+    d3.select(this).style("display", on ? null : "none");
+  });
+}
+
 
     function updateInteractivity(k) {
       const zoomedIn = k >= ZOOM_THRESHOLD;
@@ -2785,11 +3019,19 @@ return (
     className="timelineWrap"
     style={{ width: "100%", height: "100%", position: "relative" }}
   >
+    {/* Search stays as-is */}
     <SearchBar
       items={searchItems}
       onSelect={handleSearchSelect}
       placeholder="Search"
       onInteract={handleSearchInteract}
+    />
+
+    {/* NEW: Tag filter panel (absolute, top-right; lives inside the wrapper so it overlays the SVG) */}
+    <TagPanel
+      groups={TAG_GROUPS}
+      selectedByGroup={selectedByGroup}
+      onChange={setSelectedByGroup}
     />
 
     <svg
@@ -2849,6 +3091,7 @@ return (
       />
     )}
 
+    {/* Father modal */}
     {selectedFather && (
       <FatherCard
         d={selectedFather}
@@ -2861,6 +3104,7 @@ return (
     )}
   </div>
 );
+
 
 
 }

@@ -1,0 +1,306 @@
+/* =========================
+   Tag Panel (slide-out)
+   ========================= */
+
+/* Full-height vertical strip on the right */
+.tagPanelWrap {
+  --tab-w: 30px;                 /* width of the FILTERS tab that sticks out */
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;                     /* stretch to bottom; covers the axis */
+  width: 200px;                  /* tweak width to taste */
+  z-index: 2000;                 /* above grid/axis */
+
+  display: flex;
+  flex-direction: column;
+
+  background: rgba(250, 250, 252, 0.95);
+  backdrop-filter: blur(4px);
+
+  /* Only the left border is visible */
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 0;
+  box-shadow: none;
+
+  /* slide animation */
+  transform: translateX(0);
+  transition: transform 260ms ease;
+
+  /* let attached tab extend outside; content scrolls inside .tagPanel__content */
+  overflow: visible;
+}
+
+/* TagPanel background (a bit darker) */
+.tagPanelWrap {
+  --panel-bg: rgba(238, 240, 244, 0.98);  /* ← adjust to taste */
+  background: var(--panel-bg);
+  /* (optional) slightly stronger border for contrast */
+  border-left: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+/* Drop-left menu background (a bit darker than panel if you like) */
+.tagPanel__dropdown {
+  --menu-bg: rgba(238, 240, 244, 0.98);   /* ← adjust to taste */
+  background: var(--menu-bg);
+  /* (optional) slightly stronger border for contrast */
+  border: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+
+/* closed: slide panel off-screen, keep only the tab visible */
+.tagPanelWrap--closed { transform: translateX(calc(114% - var(--tab-w))); }
+.tagPanelWrap--open   { transform: translateX(0); }
+
+/* =========================
+   Inner scrollable area
+   ========================= */
+.tagPanel__content {
+  height: 100%;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: auto;                /* scroll if content is tall */
+}
+
+/* =========================
+   Attached FILTERS tab
+   ========================= */
+.tagPanel__tab {
+  position: absolute;
+  left: calc(-1 * var(--tab-w)); /* attach to left edge and stick out */
+  top: 50%;
+  transform: translateY(-50%);   /* baseline; animations build on this */
+  width: var(--tab-w);
+  height: 140px;                 /* the “handle” height; adjust as desired */
+  z-index: 2060;
+
+  /* vertical label */
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+
+  background: #fdf5d8;
+  color: #111;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-right: none;            /* merges visually with panel left border */
+  border-radius: 10px 0 0 10px;
+ 
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+
+  will-change: transform, opacity;
+}
+.tagPanel__tab:hover { background:#F5E4BD; }
+
+/* Simple slide-under animation (no rotation) */
+.tagPanelWrap--open .tagPanel__tab {
+  pointer-events: none;                 /* not interactive while open */
+  animation: tab-slide-in 220ms ease forwards;
+}
+.tagPanelWrap--closed .tagPanel__tab {
+  opacity: 1;
+  pointer-events: auto;
+  animation: tab-slide-out 220ms ease both;
+}
+
+/* --- Keyframes (no spin, just slide right under the panel) --- */
+@keyframes tab-slide-in {
+  0%   { opacity: 1; transform: translateY(-50%) translateX(0); }
+  100% { opacity: 0; transform: translateY(-50%) translateX(48px); }
+}
+@keyframes tab-slide-out {
+  0%   { opacity: 0; transform: translateY(-50%) translateX(48px); }
+  100% { opacity: 1; transform: translateY(-50%) translateX(0); }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .tagPanelWrap { transition: none; }
+  .tagPanel__tab { animation: none !important; }
+}
+
+/* =========================
+   Group trigger buttons
+   ========================= */
+.tagPanel__btn {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+.tagPanel__btn:hover { background:#f6f7fb; }
+
+/* =========================
+   Dropdown (opens to the left, portaled)
+   ========================= */
+/* Portaled menu uses these styles, plus inline fixed positioning from JSX */
+.tagPanel__dropdown {
+  /* A small CSS variable you can tweak to nudge horizontally via CSS only */
+  --menu-offset-x: 11px;          /* increase to move the menu RIGHT; negative moves LEFT */
+
+  position: absolute;            /* overridden by inline `position: fixed` */
+  top: 0;
+  right: 100%;
+  margin-right: 8px;
+  width: 300px;
+
+  /* keep inside viewport */
+  max-height: calc(100vh - 32px);
+
+  /* SCROLL: vertical only, never horizontal */
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+
+  /* Tucked-under look:
+     - rounded only on the LEFT side
+     - remove right border/corner
+     - shadows on LEFT, TOP, and BOTTOM (no right-side shadow)
+  */
+  background: rgba(250, 250, 252, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-right: none;                          /* no right border */
+  border-radius: 12px 0 0 12px;                /* left corners only */
+  box-shadow:
+    -16px 0   24px rgba(0, 0, 0, 0.04),        /* left */
+     0   12px 24px rgba(0, 0, 0, 0),           /* bottom */
+     0  -12px 24px rgba(0, 0, 0, 0);           /* top */
+
+  padding: 8px;
+  z-index: 2070;                 /* above the panel */
+
+  /* Slide-out on appear USING individual transform properties.
+     This composes with the inline `transform: translateY(-50%)` from JSX. */
+  translate: calc(var(--menu-offset-x) + 10px) 0;  /* start slightly tucked */
+  opacity: 0;
+  animation: dropdown-slide-out 200ms ease-out both;
+  will-change: translate, opacity;
+}
+
+/* Entry animation only (exit would require a short JS unmount delay) */
+@keyframes dropdown-slide-out {
+  from { opacity: 0; translate: calc(var(--menu-offset-x) + 10px) 0; }
+  to   { opacity: 1; translate: var(--menu-offset-x) 0; }
+}
+
+/* header inside dropdown */
+.tagPanel__menuHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  margin-bottom: 6px;
+}
+
+.tagPanel__miniBtn {
+  padding: 4px 8px;
+  font-size: 11px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fff;
+  cursor: pointer;
+}
+
+.tagPanel__miniBtn:hover { background:#f6f7fb; }
+
+/* list of checkboxes */
+.tagPanel__menuList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  padding: 2px 6px 8px;
+}
+
+/* prevent long tag text from causing horizontal scroll */
+.tagPanel__row {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  min-width: 0;
+}
+.tagPanel__row span {
+  margin-left: 8px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  min-width: 0;
+}
+
+/* Make the checkbox box + checkmark black (modern browsers) */
+.tagPanel__row input[type="checkbox"] {
+  accent-color: #000; /* or #111827, etc. */
+}
+
+/* count badge in button */
+.tagPanel__badge {
+  margin-left: 6px;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* section labels ("Regular Tags", "Specialized Tags") — match dropdown title font */
+.tagPanel__sectionLabel {
+  padding: 6px 10px;
+  font-family: var(--font-ui, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
+  font-size: 14px;      /* a bit bigger */
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #000;          /* black */
+}
+
+/* TagPanel background (a bit darker) */
+.tagPanelWrap {
+  --panel-bg: #fdf5d8;  /* ← adjust to taste */
+  background: var(--panel-bg);
+  /* (optional) slightly stronger border for contrast */
+  border-left: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+/* Drop-left menu background (a bit darker than panel if you like) */
+.tagPanel__dropdown {
+  --menu-bg: #fdf5d8;  /* ← adjust to taste */
+  background: var(--menu-bg);
+  /* (optional) slightly stronger border for contrast */
+  border: 1px solid rgba(0, 0, 0, 0.18);
+}
+
+/* Shared close button — identical size/shape anywhere it’s used */
+.tagPanel__close {
+  --close-size: 26px;
+
+  width: var(--close-size);
+  height: var(--close-size);
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 auto;                 /* behaves consistently in flex containers */
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.18);
+  background: #fff;
+  color: #111;
+
+  font-size: 18px;                /* same glyph size */
+  line-height: 1;
+  cursor: pointer;
+}
+
+.tagPanel__close:hover { background: #f3f4f6; }
+
+/* Positioning helper ONLY for the panel’s close button */
+.tagPanel__panelClosePos {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2080;
+}

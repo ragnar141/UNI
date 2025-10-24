@@ -139,7 +139,7 @@ export default function TextCard({ d, left, top, onClose, showMore, setShowMore 
           </div>
 
           <div className="textCard-row is-tags">
-            <span className="textCard-label">Literary Content:</span>
+            <span className="textCard-label">Literary Themes:</span>
             <div className="textCard-tags">
               {splitTags(d.literaryContentTags).map((t, i) => (
                 <span key={`lc-${i}`} className="textCard-tag">{t}</span>
