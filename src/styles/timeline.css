@@ -27,6 +27,9 @@
   --btn-brown-border: #b08a4b;  /* softer than black */
   --btn-brown-text:   #000000;  /* readable on light brown */
   --btn-brown-ring:   #b08a4b55;
+
+  /* Dividers */
+  --tl-divider: #000000;
 }
 
 /* Fill the viewport */
@@ -331,7 +334,16 @@ body {
 .textCard-more {
   margin-top: 10px;
   padding-top: 10px;
-  border-top: 1px dashed #e5e7eb;
+  border-top: none;
+}
+
+/* === NEW: Dividers between tag groups in TextCard === */
+.textCard .textCard-more .textCard-row.is-tags {
+  padding-top: 8px;
+  margin-top: 8px;
+}
+.textCard .textCard-more .textCard-row.is-tags + .textCard-row.is-tags {
+  border-top: 1px solid var(--tl-divider);
 }
 
 /* Subtle left-aligned index for TextCard & FatherCard */
@@ -464,6 +476,15 @@ body {
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px dashed #e5e7eb;
+}
+
+/* === NEW: Dividers between tag groups in FatherCard === */
+.fatherCard .textCard-more .textCard-row.is-tags {
+  padding-top: 8px;
+  margin-top: 8px;
+}
+.fatherCard .textCard-more .textCard-row.is-tags + .textCard-row.is-tags {
+  border-top: 1px solid var(--tl-divider);
 }
 
 /* ============================

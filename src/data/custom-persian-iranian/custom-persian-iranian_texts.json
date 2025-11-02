@@ -1,9 +1,9 @@
 [
   {
-    "Index": "1",
+    "Index": 1,
     "Name": "Silver Beaker of Puzur-Sušinak (mostly undeciphered)",
     "Approx. Date": "c. 2100 BCE",
-    "Dataviz date": "-2100",
+    "Dataviz date": -2100,
     "Metaphysical Tags": "Becoming (Process Ontology), Clockwork (Causal Determinism), Grid (Systematic Structuralism), Dialectics (Conflict)",
     "Arts and Sciences Tags": "Political Science / Law, History",
     "Access Level": "Ceremonial",
@@ -24,10 +24,10 @@
     "Symbolic System Tags": "Elamite"
   },
   {
-    "Index": "2",
+    "Index": 2,
     "Name": "Kutik-Inshushinak Inscriptions",
     "Approx. Date": "c. 2100 BCE",
-    "Dataviz date": "-2100",
+    "Dataviz date": -2100,
     "Metaphysical Tags": "Grid (Systematic Structuralism), Dialectics (Conflict), Clockwork (Causal Determinism), Becoming (Process Ontology), Subversion (Negation)",
     "Arts and Sciences Tags": "Political Science / Law, History, Warfare, Education",
     "Access Level": "Ceremonial",
@@ -48,10 +48,10 @@
     "Symbolic System Tags": "Elamite, Akkadian"
   },
   {
-    "Index": "3",
+    "Index": 3,
     "Name": "Linear Elamite Tablets from Susa (mostly undeciphered)",
     "Approx. Date": "c. 2100–2000 BCE",
-    "Dataviz date": "-2050",
+    "Dataviz date": -2050,
     "Metaphysical Tags": "Becoming (Process Ontology), Pluralism (Multiplicities), Grid (Systematic Structuralism), Monism (Single Principle)",
     "Arts and Sciences Tags": "-",
     "Access Level": "Clerical",
@@ -72,10 +72,10 @@
     "Symbolic System Tags": "Elamite"
   },
   {
-    "Index": "4",
+    "Index": 4,
     "Name": "Royal inscriptions of Humban-Numena",
     "Approx. Date": "c. 1400 BCE",
-    "Dataviz date": "-1400",
+    "Dataviz date": -1400,
     "Metaphysical Tags": "Becoming (Process Ontology), Pluralism (Multiplicities), Grid (Systematic Structuralism), Monism (Single Principle)",
     "Arts and Sciences Tags": "-",
     "Access Level": "Clerical",
@@ -96,10 +96,10 @@
     "Symbolic System Tags": "Elamite, Akkadian"
   },
   {
-    "Index": "5",
+    "Index": 5,
     "Name": "Untash-Napirisha Inscriptions (Chogha Zanbil)",
     "Approx. Date": "c. 1250 BCE",
-    "Dataviz date": "-1250",
+    "Dataviz date": -1250,
     "Metaphysical Tags": "Becoming (Process Ontology), Grid (Systematic Structuralism), Clockwork (Causal Determinism), Monism (Single Principle)",
     "Arts and Sciences Tags": "-",
     "Access Level": "Ceremonial",
@@ -120,10 +120,10 @@
     "Symbolic System Tags": "Elamite, Akkadian"
   },
   {
-    "Index": "6",
+    "Index": 6,
     "Name": "Acropole Tablets (Susa)",
     "Approx. Date": "c. 1300–1100 BCE",
-    "Dataviz date": "-1200",
+    "Dataviz date": -1200,
     "Metaphysical Tags": "Becoming (Process Ontology), Pluralism (Multiplicities), Grid (Systematic Structuralism), Monism (Single Principle)",
     "Arts and Sciences Tags": "-",
     "Access Level": "Clerical",
@@ -144,10 +144,10 @@
     "Symbolic System Tags": "Elamite, Akkadian"
   },
   {
-    "Index": "7",
+    "Index": 7,
     "Name": "Shutruk-Nahhunte Victory Stela",
     "Approx. Date": "c. 1158 BCE",
-    "Dataviz date": "-1158",
+    "Dataviz date": -1158,
     "Metaphysical Tags": "Dialectics (Conflict), Subversion (Negation), Grid (Systematic Structuralism), Monism (Single Principle)",
     "Arts and Sciences Tags": "Political Science / Law, History",
     "Access Level": "Ceremonial",
@@ -168,10 +168,10 @@
     "Symbolic System Tags": "Elamite, Akkadian"
   },
   {
-    "Index": "8",
+    "Index": 8,
     "Name": "Early Avestan Liturgy (Yasna, Haptanghaiti, Visperad fragments)",
     "Approx. Date": "c. 1200–400 BCE",
-    "Dataviz date": "-800",
+    "Dataviz date": -800,
     "Metaphysical Tags": "Apophatic–Aporetic (Unknowable), Phenomenology (Experiential), Becoming (Process Ontology), Grid (Systematic Structuralism), Monism (Single Principle), Subversion (Negation)",
     "Arts and Sciences Tags": "-",
     "Access Level": "Ceremonial",
@@ -192,10 +192,10 @@
     "Symbolic System Tags": "Zoroastrian"
   },
   {
-    "Index": "9",
+    "Index": 9,
     "Name": "The Gathas",
     "Approx. Date": "c. 1000–600 BCE (oral), compiled by 500 BCE",
-    "Dataviz date": "-800",
+    "Dataviz date": -800,
     "Metaphysical Tags": "Apophatic–Aporetic (Unknowable), Phenomenology (Experiential), Becoming (Process Ontology), Monism (Single Principle), Subversion (Negation), Dialectics (Conflict), Grid (Systematic Structuralism)",
     "Arts and Sciences Tags": "-",
     "Access Level": "Ceremonial",
@@ -216,10 +216,10 @@
     "Symbolic System Tags": "Zoroastrian"
   },
   {
-    "Index": "10",
+    "Index": 10,
     "Name": "Malamir Inscriptions",
     "Approx. Date": "c. 750–650 BCE",
-    "Dataviz date": "-700",
+    "Dataviz date": -700,
     "Metaphysical Tags": "Dialectics (Conflict), Grid (Systematic Structuralism), Clockwork (Causal Determinism), Monism (Single Principle)",
     "Arts and Sciences Tags": "Political Science / Law, History",
     "Access Level": "Ceremonial",
@@ -240,10 +240,10 @@
     "Symbolic System Tags": "Elamite"
   },
   {
-    "Index": "11",
+    "Index": 11,
     "Name": "Select Yashts",
     "Approx. Date": "c. 700–400 BCE",
-    "Dataviz date": "-550",
+    "Dataviz date": -550,
     "Metaphysical Tags": "Becoming (Process Ontology), Clockwork (Causal Determinism), Monism (Single Principle), Phenomenology (Experiential), Dialectics (Conflict)",
     "Arts and Sciences Tags": "-",
     "Access Level": "Ceremonial",
@@ -264,10 +264,10 @@
     "Symbolic System Tags": "Zoroastrian"
   },
   {
-    "Index": "12",
+    "Index": 12,
     "Name": "Pasargadae Inscriptions (CMa, CMb)",
     "Approx. Date": "c. 559–530 BCE",
-    "Dataviz date": "-544",
+    "Dataviz date": -544,
     "Metaphysical Tags": "Monism (Single Principle), Grid (Systematic Structuralism), Becoming (Process Ontology)",
     "Arts and Sciences Tags": "Political Science / Law, History",
     "Access Level": "Ceremonial",
@@ -288,10 +288,10 @@
     "Symbolic System Tags": "Zoroastrian, Elamite , Akkadian"
   },
   {
-    "Index": "13",
+    "Index": 13,
     "Name": "Behistun Inscription",
     "Approx. Date": "c. 520–518 BCE",
-    "Dataviz date": "-519",
+    "Dataviz date": -519,
     "Metaphysical Tags": "Dialectics (Conflict), Grid (Systematic Structuralism), Clockwork (Causal Determinism)",
     "Arts and Sciences Tags": "Political Science / Law, History",
     "Access Level": "Ceremonial",
@@ -312,10 +312,10 @@
     "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian"
   },
   {
-    "Index": "14",
+    "Index": 14,
     "Name": "Susa Foundation Inscriptions (Darius I)",
     "Approx. Date": "c. 519 BCE",
-    "Dataviz date": "-519",
+    "Dataviz date": -519,
     "Metaphysical Tags": "Grid (Systematic Structuralism), Clockwork (Causal Determinism), Monism (Single Principle)",
     "Arts and Sciences Tags": "Political Science / Law, History",
     "Access Level": "Ceremonial",
@@ -336,34 +336,10 @@
     "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian"
   },
   {
-    "Index": "15",
-    "Name": "Statue Inscriptions of Darius I in Egypt",
-    "Approx. Date": "c. 522–486 BCE",
-    "Dataviz date": "-504",
-    "Metaphysical Tags": "Clockwork (Causal Determinism), Grid (Systematic Structuralism), Monism (Single Principle), Subversion (Negation)",
-    "Arts and Sciences Tags": "Political Science / Law, History",
-    "Access Level": "Ceremonial",
-    "Short Description": "The inscriptions, found on statues and temple walls in Egypt, were commissioned by Darius I to affirm his rightful rule over Egypt and integrate Persian kingship into the local religious and symbolic order. Written in multiple languages , they associate Darius with Egyptian deities, present him as a pious and just ruler, and legitimize his authority through divine sanction and continuity with native tradition.",
-    "Jungian Archetypes Tags": "Hero, Initiator, Father Archetype, Persona, Self",
-    "Neumann Stages Tags": "Mythic Ordering of Reality, Divine Intervention, Coronation of the King, Return to the Community",
-    "Original Geographical Location": "Egypt",
-    "Current Geographical Location": "Egypt",
-    "Original Language": "Egyptian (Hieroglyphic), Old Persian, Elamite, Akkadian",
-    "Name.1": "Statue Inscriptions of Darius I in Egypt",
-    "Civlizational code?": "NO",
-    "Author": "Darius I",
-    "Comtean framework": "Theological/Mythological",
-    "Category": "Mytho-Political Chronicle",
-    "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Warrior / Imperial",
-    "Literary Forms Tags": "Proclamation / Decree, Record / Chronicle, Myth, Liturgy, Fragment",
-    "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Metaphysical, Political, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Zoroastrian, Egyptian, Elamite, Akkadian"
-  },
-  {
-    "Index": "16",
+    "Index": 15,
     "Name": "Persepolis Fortification Tablets",
     "Approx. Date": "c. 509–494 BCE",
-    "Dataviz date": "-502",
+    "Dataviz date": -502,
     "Metaphysical Tags": "Becoming (Process Ontology), Pluralism (Multiplicities), Grid (Systematic Structuralism), Monism (Single Principle)",
     "Arts and Sciences Tags": "-",
     "Access Level": "Clerical",
@@ -384,10 +360,10 @@
     "Symbolic System Tags": "Elamite, Zoroastrian, Akkadian"
   },
   {
-    "Index": "17",
+    "Index": 16,
     "Name": "Naqsh-e Rustam Inscriptions (Darius & Xerxes)",
     "Approx. Date": "c. 486–465 BCE",
-    "Dataviz date": "-476",
+    "Dataviz date": -476,
     "Metaphysical Tags": "Grid (Systematic Structuralism), Clockwork (Causal Determinism), Monism (Single Principle)",
     "Arts and Sciences Tags": "Political Science / Law, History",
     "Access Level": "Ceremonial",
@@ -408,10 +384,10 @@
     "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian"
   },
   {
-    "Index": "18",
+    "Index": 17,
     "Name": "Persepolis Treasury Tablets",
     "Approx. Date": "c. 492–457 BCE",
-    "Dataviz date": "-474",
+    "Dataviz date": -474,
     "Metaphysical Tags": "Becoming (Process Ontology), Pluralism (Multiplicities), Grid (Systematic Structuralism), Monism (Single Principle)",
     "Arts and Sciences Tags": "-",
     "Access Level": "Clerical",
@@ -432,10 +408,10 @@
     "Symbolic System Tags": "Elamite, Zoroastrian, Akkadian"
   },
   {
-    "Index": "19",
+    "Index": 18,
     "Name": "Xerxes' Gate Inscription (Persepolis)",
     "Approx. Date": "c. 470 BCE",
-    "Dataviz date": "-470",
+    "Dataviz date": -470,
     "Metaphysical Tags": "Clockwork (Causal Determinism), Monism (Single Principle)",
     "Arts and Sciences Tags": "Political Science / Law, History",
     "Access Level": "Ceremonial",
@@ -456,10 +432,10 @@
     "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian"
   },
   {
-    "Index": "20",
+    "Index": 19,
     "Name": "The Daiva Inscription (Xerxes I)",
     "Approx. Date": "c. 470 BCE",
-    "Dataviz date": "-470",
+    "Dataviz date": -470,
     "Metaphysical Tags": "Dialectics (Conflict), Grid (Systematic Structuralism), Monism (Single Principle)",
     "Arts and Sciences Tags": "-",
     "Access Level": "Ceremonial",
@@ -480,34 +456,10 @@
     "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian"
   },
   {
-    "Index": "21",
-    "Name": "Egyptian Aramaic Contracts from Elephantine",
-    "Approx. Date": "c. 471–400 BCE",
-    "Dataviz date": "-436",
-    "Metaphysical Tags": "Becoming (Process Ontology), Pluralism (Multiplicities), Grid (Systematic Structuralism), Monism (Single Principle)",
-    "Arts and Sciences Tags": "Political Science / Law, Economics",
-    "Access Level": "Literate Class",
-    "Short Description": "A series of legal and administrative documents written in Imperial Aramaic by a multicultural community—including Judean mercenaries, Egyptian locals, and Persian officials—stationed on the island of Elephantine in southern Egypt. The contracts include marriage agreements, property sales, debt settlements, and labor arrangements, reflecting a cosmopolitan and legally hybrid society.",
-    "Jungian Archetypes Tags": "-",
-    "Neumann Stages Tags": "Mythic Ordering of Reality",
-    "Original Geographical Location": "Upper Egypt",
-    "Current Geographical Location": "Aswan, Egypt",
-    "Original Language": "Imperial Aramaic",
-    "Name.1": "Egyptian Aramaic Contracts from Elephantine",
-    "Civlizational code?": "NO",
-    "Author": "-",
-    "Comtean framework": "Positive/Empirical",
-    "Category": "Administrative Records",
-    "Socio-political Tags": "Bureaucratic / Legal / Scribal, Merchant / Cosmopolitan, Royal",
-    "Literary Forms Tags": "Personal Writings, Proclamation / Decree, Record / Chronicle, Petition / Appeal, Rulebook / Code",
-    "Literary Themes Tags": "Ritual / Devotional, Political, Didactic / Ethical, Feminine",
-    "Symbolic System Tags": "Yahwistic, Zoroastrian, Akkadian, Aramaic"
-  },
-  {
-    "Index": "22",
+    "Index": 20,
     "Name": "Royal Inscriptions of Artaxerxes I and II",
     "Approx. Date": "c. 465–360 BCE",
-    "Dataviz date": "-412",
+    "Dataviz date": -412,
     "Metaphysical Tags": "Grid (Systematic Structuralism), Clockwork (Causal Determinism)",
     "Arts and Sciences Tags": "Political Science / Law, History",
     "Access Level": "Ceremonial",
@@ -528,10 +480,10 @@
     "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian"
   },
   {
-    "Index": "23",
+    "Index": 21,
     "Name": "Vendidad (Early Chapters)",
     "Approx. Date": "c. 400–300 BCE",
-    "Dataviz date": "-350",
+    "Dataviz date": -350,
     "Metaphysical Tags": "Grid (Systematic Structuralism), Monism (Single Principle), Clockwork (Causal Determinism), Subversion (Negation)",
     "Arts and Sciences Tags": "-",
     "Access Level": "Clerical",

@@ -71,9 +71,15 @@ const FatherCard = forwardRef(function FatherCard(
 
   const splitTags = (s) =>
     String(s || "")
-      .split(",")
+      .split(/[;,]/) // accept commas/semicolons
       .map((t) => t.trim())
-      .filter(Boolean);
+      .filter(Boolean)
+      .filter((t) => t !== "-"); // treat "-" as NA
+
+  const isYesish = (v) => {
+    const s = String(v || "").trim().toLowerCase();
+    return s === "yes" || s === "y" || s === "true" || s === "1";
+  };
 
   const Row = ({ label, value, className }) =>
     value ? (
@@ -128,14 +134,21 @@ const FatherCard = forwardRef(function FatherCard(
         <span className="textCard-title">{title}</span>
         {d.category && <span className="textCard-sep"> - </span>}
         {d.category && <span className="textCard-category">{d.category}</span>}
+        {isYesish(d.foundingFigure) && (
+          <span className="textCard-chip" title="Founding Figure" style={{ marginLeft: 8 }}>
+            Founding Figure
+          </span>
+        )}
       </div>
 
       <Row value={d.description} className="is-centered" />
 
       {metaLine && <div className="textCard-meta">{metaLine}</div>}
 
+      {/* Symbolic systems */}
       <SymbolicTagRow label="Symbolic System(s):" value={d.symbolicSystem} />
-      <Row label="Comtean framework:" value={d.comteanFramework} />
+
+      {/* Removed: Comtean framework row */}
 
       <div className="textCard-moreToggle">
         <button
@@ -149,6 +162,7 @@ const FatherCard = forwardRef(function FatherCard(
 
       {showMore && (
         <div className="textCard-more">
+          {/* Jungian */}
           <div className="textCard-row is-tags">
             <span className="textCard-label">Jungian Archetypes:</span>
             <div className="textCard-tags">
@@ -160,6 +174,7 @@ const FatherCard = forwardRef(function FatherCard(
             </div>
           </div>
 
+          {/* Neumann */}
           <div className="textCard-row is-tags">
             <span className="textCard-label">Neumann Stages:</span>
             <div className="textCard-tags">
@@ -171,17 +186,9 @@ const FatherCard = forwardRef(function FatherCard(
             </div>
           </div>
 
-          <div className="textCard-row is-tags">
-            <span className="textCard-label">Socio-political:</span>
-            <div className="textCard-tags">
-              {splitTags(d.socioPoliticalTags).map((t, i) => (
-                <span key={`sp-${i}`} className="textCard-tag">
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
+          {/* Removed: Socio-political block */}
 
+          {/* Historic/Mythic */}
           <div className="textCard-row is-tags">
             <span className="textCard-label">Historic-Mythic Status:</span>
             <div className="textCard-tags">

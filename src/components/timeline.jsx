@@ -381,27 +381,51 @@ function pickSystemColorsCached(tagsStr) {
   return out;
 }
 
+// Normalize keys once (case-insensitive, spaces/dashes unified, accents stripped)
+const _norm = (s) =>
+  String(s || "")
+    .toLowerCase()
+    .normalize("NFKD")                    // split accents
+    .replace(/\p{Diacritic}/gu, "")       // drop accents
+    .replace(/[\s_–—-]+/g, "-");          // unify dash/space/underscore
+
+// Build a fast lookup map: normalized key -> color
+const SYMBOLIC_COLOR_LOOKUP = (() => {
+  const m = new Map();
+  for (const [k, v] of Object.entries(SymbolicSystemColorPairs)) {
+    m.set(_norm(k), v);
+  }
+  // Optional: hard aliases if you know them
+  if (SymbolicSystemColorPairs["Indo-iranian"]) {
+    m.set(_norm("Indo-Iranian"), SymbolicSystemColorPairs["Indo-iranian"]);
+    m.set(_norm("Indo Iranian"), SymbolicSystemColorPairs["Indo-iranian"]);
+  }
+  return m;
+})();
+
 function pickSystemColors(tagsStr) {
   const seen = new Set();
   const out = [];
   String(tagsStr)
-    .split(",")
+    .split(/[;,|]/)                 // accept comma/semicolon/pipe
     .map((s) => s.trim())
     .filter(Boolean)
     .forEach((tag) => {
-      const c = SymbolicSystemColorPairs[tag];
-      if (c && !seen.has(tag)) {
-        seen.add(tag);
+      const c = SYMBOLIC_COLOR_LOOKUP.get(_norm(tag));
+      if (c && !seen.has(c)) {      // dedupe by color
+        seen.add(c);
         out.push(c);
       }
     });
   return out;
 }
 
+// keep this helper consistent
 function pickSystemColor(tagsStr) {
   const arr = pickSystemColors(tagsStr);
   return arr[0] || "#444";
 }
+
 
 function getLooseField(obj, targetKey) {
   const want = String(targetKey).trim().toLowerCase();
@@ -475,35 +499,68 @@ function leftSplitTriangleSlices(cx, cy, r, colors) {
 
 // Build a vertical envelope along time using all member bars/segments
 function buildGroupIntervals(members) {
+  // 1) segment-aware time boundaries
   const stops = new Set();
   for (const m of members) {
     if (Array.isArray(m.segments) && m.segments.length) {
-      for (const s of m.segments) {
-        stops.add(s.start);
-        stops.add(s.end);
-      }
-    } else {
-      stops.add(m.start);
-      stops.add(m.end);
-    }
+      for (const s of m.segments) { stops.add(s.start); stops.add(s.end); }
+    } else { stops.add(m.start); stops.add(m.end); }
   }
-  const xs = Array.from(stops).sort((a, b) => a - b);
+  const xs = Array.from(stops).sort((a,b)=>a-b);
   if (xs.length < 2) return [];
+
   const intervals = [];
   for (let i = 0; i < xs.length - 1; i++) {
-    const a = xs[i], b = xs[i + 1];
+    const a = xs[i], b = xs[i+1];
     const mid = (a + b) / 2;
-    const active = members.filter((m) => {
-      const mStart = m.start, mEnd = m.end;
-      return mid >= Math.min(mStart, mEnd) && mid <= Math.max(mStart, mEnd);
+
+    // active-at-mid membership (stable slice body)
+    const active = members.filter(m => {
+      const m0 = Math.min(m.start, m.end), m1 = Math.max(m.start, m.end);
+      return mid >= m0 && mid <= m1;
     });
     if (!active.length) continue;
-    const top = Math.min(...active.map(m => m.y));
-    const bottom = Math.max(...active.map(m => m.y + m.h));
-    intervals.push({ start: a, end: b, top, bottom });
+
+    // LEFT LADDER: add starters at 'a' in TOP→BOTTOM order
+    const startingNow = active.filter(m => Math.min(m.start, m.end) === a);
+    if (startingNow.length) {
+      let pool = active.filter(m => Math.min(m.start, m.end) !== a);
+      const sortedStarting = startingNow.slice().sort((m1, m2) => m1.y - m2.y); // top→bottom
+      for (const starter of sortedStarting) {
+        pool.push(starter);
+        const t = Math.min(...pool.map(m => m.y));
+        const btm = Math.max(...pool.map(m => m.y + m.h));
+        intervals.push({ start: a, end: a, top: t, bottom: btm }); // vertical rung
+      }
+    }
+
+    // main slice
+    intervals.push({
+      start: a, end: b,
+      top: Math.min(...active.map(m => m.y)),
+      bottom: Math.max(...active.map(m => m.y + m.h)),
+    });
+
+    // RIGHT LADDER: remove enders at 'b' in TOP→BOTTOM order
+    const endingNow = active.filter(m => Math.max(m.start, m.end) === b);
+    if (endingNow.length) {
+      const sortedEnding = endingNow.slice().sort((m1, m2) => m1.y - m2.y); // top→bottom
+      let pool = active.slice();
+      for (const ender of sortedEnding) {
+        pool = pool.filter(m => m !== ender);
+        if (!pool.length) break;
+        intervals.push({
+          start: b, end: b,
+          top: Math.min(...pool.map(m => m.y)),
+          bottom: Math.max(...pool.map(m => m.y + m.h)),
+        });
+      }
+    }
   }
   return intervals;
 }
+
+
 
 /* ===== Adaptive tick helpers ===== */
 const formatTick = (a) => (Math.abs(a - 0.5) < 1e-6 ? "0" : formatYear(fromAstronomical(a)));
@@ -547,6 +604,9 @@ function makeAdaptiveTicks(zx) {
 function groupIntervalsToPath(intervals, zx, zy) {
   if (!intervals || intervals.length === 0) return "";
 
+  console.log("[GITP:in]", { intervals: intervals ? intervals.length : 0 });
+
+
   // Map to screen coords; ensure left<=right; keep chronological order
   const iv = intervals.map((iv) => {
     const xA = zx(toAstronomical(iv.start));
@@ -558,6 +618,13 @@ function groupIntervalsToPath(intervals, zx, zy) {
       yB: zy(iv.bottom),
     };
   });
+
+  console.log("[GITP:screen]", {
+  n: iv.length,
+  first: iv[0],
+  last: iv[iv.length - 1]
+});
+
 
   // Top chain: left -> right with vertical steps at boundaries
   let d = `M ${iv[0].xL} ${iv[0].yT} H ${iv[0].xR}`;
@@ -577,6 +644,12 @@ function groupIntervalsToPath(intervals, zx, zy) {
 
   // Close (back to top-left of first interval)
   d += " Z";
+
+  console.log("[GITP:path]", {
+  length: d.length,
+  preview: d.slice(0, 240) + (d.length > 240 ? " …" : "")
+});
+
   return d;
 }
 
@@ -832,7 +905,6 @@ function makeDefaultSelectedByGroup() {
   return out;
 }
 
-/* Helper: does an item pass the current filters? */
 function itemPassesFilters(row, type, selectedByGroup) {
   for (const g of TAG_GROUPS) {
     const applies =
@@ -841,22 +913,36 @@ function itemPassesFilters(row, type, selectedByGroup) {
       (g.appliesTo === "fathers" && type === "father");
     if (!applies) continue;
 
-    const selected = selectedByGroup[g.key];
-    const selSize = selected?.size ?? 0;
+    const selected = selectedByGroup[g.key] || new Set();
+    const selSize = selected.size;
 
-    // If nothing is selected in a group, block items of that type.
-    if (selSize === 0) return false;
+    // Item's tags for this group:
+    // null/undefined  -> NA (group not present on this item)  => skip constraint
+    // [] (length 0)   -> group present but no canonical tags  => enforce normally
+    const itemTags = row.tags?.[g.key];
+    const isNA = itemTags == null;
 
-    // If all tags are selected, the group imposes no constraint.
+    // If user deselected everything in this group:
+    // - If the item actually has this group (not NA), it must be filtered out.
+    // - If NA, ignore the group for this item (don't filter it out because of missing data).
+    if (selSize === 0) {
+      if (!isNA) return false;
+      continue;
+    }
+
+    // If "all selected", group imposes no constraint.
     if (selSize === g.allTags.length) continue;
 
-    const itemTags = row.tags?.[g.key] || [];
-    // Must intersect: OR within group
+    // If item doesn't have this group, skip constraint.
+    if (isNA) continue;
+
+    // Otherwise, require intersection.
     const hasAny = itemTags.some(t => selected.has(t));
     if (!hasAny) return false;
   }
   return true;
 }
+
 
 
 
@@ -1080,6 +1166,8 @@ const [selectedByGroup, setSelectedByGroup] = useState(() => makeDefaultSelected
         _groupMembers: members.map(m => ({ id: m.id, start: m.start, end: m.end, y: m.y, h: m.h, segments: m.segments })),
         _groupIntervals: buildGroupIntervals(members.map(m => ({ id: m.id, start: m.start, end: m.end, y: m.y, h: m.h, segments: m.segments }))),
 
+        
+
         // label (unchanged)
         _labelText: shortLabel,
         _labelAnchorY: anchor?.y ?? y,
@@ -1090,6 +1178,19 @@ const [selectedByGroup, setSelectedByGroup] = useState(() => makeDefaultSelected
         _tipAnchorH: tipAnchor?.h ?? h,
         _tipMaxWidth: tipMaxWidthPx,
       });
+
+      {
+  const _o = groupOutlines[groupOutlines.length - 1];
+  if (/persian|iranian/i.test(String(_o?._groupKey || _o?.id || ""))) {
+    console.log("[GROUP:constructed]", {
+      groupKey: _o?._groupKey,
+      id: _o?.id,
+      memberIds: (_o?._groupMembers || []).map(m => m.id),
+      y: _o?.y, h: _o?.h, start: _o?.start, end: _o?.end,
+      intervalsCount: _o?._groupIntervals?.length || 0
+    });
+  }
+}
     }
     // Keep everyone; mark custom members hidden so they act as layout bands
     const baseOutlines = raw.map((r) => ({ ...r, _hiddenCustom: !!r._isCustomMember }));
@@ -1288,15 +1389,11 @@ const historicMythicStatusTags = (f["Historic-Mythic Status Tags"] || "").trim()
 const foundingFigure = (f["Founding Figure?"] || "").trim();
 const jungianArchetypesTags = (f["Jungian Archetypes Tags"] || "").trim();
 const neumannStagesTags = (f["Neumann Stages Tags"] || "").trim();
-const comteanFramework = (f["Comtean framework"] || "").trim();
 const category = (f["Category"] || "").trim();
-const socioPoliticalTags = (f["Socio-political Tags"] || "").trim();
 
     const tags = {
   jungian:        normalizeTagStringToArray(jungianArchetypesTags, "jungian"),
   neumann:        normalizeTagStringToArray(neumannStagesTags, "neumann"),
-  comtean:        normalizeTagStringToArray(comteanFramework, "comtean"),
-  socioPolitical: normalizeTagStringToArray(socioPoliticalTags, "socioPolitical"),
 };
 
         const keyForLane = String(
@@ -1330,9 +1427,7 @@ const socioPoliticalTags = (f["Socio-political Tags"] || "").trim();
   foundingFigure,
   jungianArchetypesTags,
   neumannStagesTags,
-  comteanFramework,
   category,
-  socioPoliticalTags,
   symbolicSystem,
   tags,
         });
@@ -1538,7 +1633,7 @@ const searchItems = useMemo(() => {
     title: f.name || "",
     index: f.index ?? null,
     subtitle: f.symbolicSystem || "",
-    category: f.category || f.comteanFramework || f.historicMythicStatusTags || "",
+    category: f.category || f.historicMythicStatusTags || "",
     description: f.description || "",
     color: f.color || "#666",
     colors: f.colors || null,
@@ -2610,6 +2705,15 @@ fathersSel
   // Draw/update custom group polygons (rectilinear envelope, no diagonals)
   gCustom.selectAll("path.customGroup").each(function (o) {
     const intervals = o._groupIntervals || [];
+
+    if (/persian|iranian/i.test(String(o?._groupKey || o?.id || ""))) {
+  console.log("[DRAW:poly]", {
+    id: o?.id,
+    groupKey: o?._groupKey,
+    intervals: intervals.length
+  });
+}
+
     if (!intervals.length) {
       // Fallback: simple rectangle
       const x0 = zx(toAstronomical(o.start));

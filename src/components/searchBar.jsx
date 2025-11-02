@@ -3,13 +3,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import "../styles/searchBar.css";
 
-/* ===== verbose logging ===== */
-const SB_DEBUG = true;
-const dlog = (...args) => {
-  if (!SB_DEBUG) return;
-  console.log("[SearchBar]", ...args);
-};
-
 /* === Tiny SVGs that mirror timeline glyphs (inline) === */
 function MarkerIcon({ item }) {
   const type = item?.type;
@@ -124,7 +117,7 @@ function Highlight({ text, query }) {
  * - placeholder?: string
  * - maxResults?: number
  * - onInteract?: () => void
- * - visibleIds?: Set<string>    // <— NEW optional filter: only show items whose id is in this set
+ * - visibleIds?: Set<string>
  */
 export default function SearchBar({
   items = [],
@@ -132,7 +125,7 @@ export default function SearchBar({
   placeholder = "Search",
   maxResults = 12,
   onInteract = () => {},
-  visibleIds,            // NEW
+  visibleIds,
 }) {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
@@ -141,22 +134,14 @@ export default function SearchBar({
   const inputRef = useRef(null);
 
   useEffect(() => {
-    dlog("mounted", { itemsCount: items?.length ?? 0 });
-    return () => dlog("unmounted");
+    return () => {};
   }, []);
 
-  useEffect(() => {
-    dlog("props update", {
-      itemsCount: items?.length ?? 0,
-      maxResults,
-      visibleIdsCount: visibleIds instanceof Set ? visibleIds.size : "(none)",
-    });
-  }, [items, maxResults, visibleIds]);
+  useEffect(() => {}, [items, maxResults, visibleIds]);
 
   const listWasVisibleRef = useRef(false);
 
   const closeAndReset = () => {
-    dlog("closeAndReset()");
     setOpen(false);
     setQ("");
     inputRef.current?.blur();
@@ -164,13 +149,11 @@ export default function SearchBar({
 
   const results = useMemo(() => {
     const qq = q.trim().toLowerCase();
-    // NEW: filter to visible first (if provided)
     const base = (visibleIds instanceof Set)
       ? items.filter(it => visibleIds.has(it.id))
       : items;
 
     if (!qq) {
-      dlog("results(empty query)", { open, q, baseCount: base.length });
       return [];
     }
     const score = (it) => {
@@ -187,14 +170,12 @@ export default function SearchBar({
       s += inc(it.dob, 2);
       return s;
     };
-    const out = base
+    return base
       .map((it) => ({ it, s: score(it) }))
       .filter((x) => x.s > 0)
       .sort((a, b) => b.s - a.s || a.it.title.localeCompare(b.it.title))
       .slice(0, maxResults)
       .map((x) => x.it);
-    dlog("results(populated)", { q, count: out.length, sample: out.slice(0, 2) });
-    return out;
   }, [q, items, maxResults, open, visibleIds]);
 
   useEffect(() => { setHoverIdx(0); }, [q]);
@@ -204,7 +185,6 @@ export default function SearchBar({
       if (!(open && q.trim())) return;
       if (!wrapRef.current) return;
       if (!wrapRef.current.contains(e.target)) {
-        dlog("outside click → closeAndReset");
         closeAndReset();
       }
     };
@@ -215,40 +195,21 @@ export default function SearchBar({
   useEffect(() => {
     const listVisible = !!(open && q.trim() && results.length > 0);
     if (listVisible && !listWasVisibleRef.current) {
-      dlog("list became visible");
       onInteract();
-    }
-    if (!listVisible && listWasVisibleRef.current) {
-      dlog("list hidden");
     }
     listWasVisibleRef.current = listVisible;
   }, [open, q, results, onInteract]);
 
   const activate = (idx) => {
     const item = results[idx];
-    if (!item) {
-      dlog("activate: no item at idx", { idx });
-      return;
-    }
-    dlog("activate", {
-      idx,
-      id: item.id,
-      type: item.type,
-      title: item.title,
-      when: item.when,
-      durationId: item.durationId,
-      payload: item,
-    });
+    if (!item) return;
     onInteract();
     try {
-      dlog("onSelect → begin");
       onSelect(item);
-      dlog("onSelect → end");
-    } catch (err) {
-      console.log("[SearchBar] onSelect threw", err);
+    } catch {
+      /* swallow */
     }
     requestAnimationFrame(() => {
-      dlog("rAF → closeAndReset");
       closeAndReset();
     });
   };
@@ -257,26 +218,21 @@ export default function SearchBar({
     if (!open && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
       setOpen(true);
       onInteract();
-      dlog("key", e.key, "→ open");
       return;
     }
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setHoverIdx((i) => Math.min((results.length || 1) - 1, i + 1));
-      dlog("key ArrowDown → hoverIdx", Math.min((results.length || 1) - 1, hoverIdx + 1));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setHoverIdx((i) => Math.max(0, i - 1));
-      dlog("key ArrowUp → hoverIdx", Math.max(0, hoverIdx - 1));
     } else if (e.key === "Enter") {
       e.preventDefault();
       if (open) {
-        dlog("key Enter → activate", { hoverIdx });
         activate(hoverIdx);
       }
     } else if (e.key === "Escape" || e.key === "Esc") {
       e.preventDefault();
-      dlog("key Escape → closeAndReset");
       closeAndReset();
     }
   };
@@ -306,7 +262,6 @@ export default function SearchBar({
         className={`sb-item ${isHover ? "is-hover" : ""}`}
         onMouseEnter={() => setHoverIdx(idx)}
         onMouseDown={(e) => {
-          dlog("mouseDown(text item)", { idx, id: r.id, title: r.title });
           e.preventDefault();
           e.stopPropagation();
           activate(idx);
@@ -390,7 +345,6 @@ export default function SearchBar({
         className={`sb-item ${isHover ? "is-hover" : ""}`}
         onMouseEnter={() => setHoverIdx(idx)}
         onMouseDown={(e) => {
-          dlog("mouseDown(father item)", { idx, id: r.id, title: r.title });
           e.preventDefault();
           e.stopPropagation();
           activate(idx);
@@ -437,9 +391,9 @@ export default function SearchBar({
             <span style={{ marginLeft: "auto" }} />
 
             {durationLabel ? (
-              <span className="sb-category sb-right-meta">
-                <Highlight text={durationLabel} query={q} />
-              </span>
+                <span className="sb-category sb-right-meta">
+                  <Highlight text={durationLabel} query={q} />
+                </span>
             ) : null}
           </div>
         )}
@@ -457,14 +411,13 @@ export default function SearchBar({
 
   // keep body class in sync (used to dim the graph)
   useEffect(() => {
-    dlog("listVisible changed", { listVisible });
     document.body.classList.toggle("sb-open", listVisible);
     return () => document.body.classList.remove("sb-open");
   }, [listVisible]);
 
   return (
     <div ref={wrapRef} className="sb-wrap">
-      <div className="sb-box" onMouseDown={() => { dlog("sb-box mousedown"); onInteract(); }}>
+      <div className="sb-box" onMouseDown={() => { onInteract(); }}>
         <svg className="sb-icon" viewBox="0 0 24 24" aria-hidden="true">
           <path
             d="M21 21l-4.3-4.3m1.3-4.2a7 7 0 11-14 0 7 7 0 0114 0z"
@@ -482,8 +435,8 @@ export default function SearchBar({
           type="text"
           value={q}
           placeholder={placeholder}
-          onFocus={() => { dlog("input focus → open"); setOpen(true); onInteract(); }}
-          onChange={(e) => { setQ(e.target.value); dlog("input change", { q: e.target.value }); }}
+          onFocus={() => { setOpen(true); onInteract(); }}
+          onChange={(e) => { setQ(e.target.value); }}
           onKeyDown={onKeyDown}
           aria-label="Search"
         />
@@ -493,7 +446,7 @@ export default function SearchBar({
         createPortal(
           <div
             className="sb-backdrop"
-            onMouseDown={() => { dlog("backdrop mousedown → closeAndReset"); closeAndReset(); }}
+            onMouseDown={() => { closeAndReset(); }}
             aria-hidden="true"
           />,
           document.body
@@ -501,7 +454,7 @@ export default function SearchBar({
       }
 
       {open && q.trim() && results.length > 0 && (
-        <div className="sb-popover" role="listbox" onMouseDown={() => { dlog("popover mousedown"); onInteract(); }}>
+        <div className="sb-popover" role="listbox" onMouseDown={() => { onInteract(); }}>
           {results.map((r, idx) => {
             const isHover = idx === hoverIdx;
             return r.type === "father"
@@ -512,7 +465,7 @@ export default function SearchBar({
       )}
 
       {open && q.trim() && results.length === 0 && (
-        <div className="sb-popover sb-empty" onMouseDown={() => { dlog("popover(empty) mousedown"); onInteract(); }}>
+        <div className="sb-popover sb-empty" onMouseDown={() => { onInteract(); }}>
           No results
         </div>
       )}
