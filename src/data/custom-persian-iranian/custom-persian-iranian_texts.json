@@ -21,7 +21,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Royal, Mystical / Initiatory",
     "Literary Forms Tags": "Proclamation / Decree, Fragment, Liturgy, Record / Chronicle",
     "Literary Themes Tags": "Ritual / Devotional, Political, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Elamite"
+    "Symbolic System Tags": "Elamite",
+    "Y-pos": "-"
   },
   {
     "Index": 2,
@@ -45,7 +46,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Warrior / Imperial, Mystical / Initiatory",
     "Literary Forms Tags": "Proclamation / Decree, Record / Chronicle, Liturgy, Epic, Fragment",
     "Literary Themes Tags": "Ritual / Devotional, Political, Didactic / Ethical, Cosmological, Adventure / Heroic Journey",
-    "Symbolic System Tags": "Elamite, Akkadian"
+    "Symbolic System Tags": "Elamite, Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": 3,
@@ -69,7 +71,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Priestly / Theocratic, Mystical / Initiatory",
     "Literary Forms Tags": "Record / Chronicle, Manual / Instruction, Glossary / Taxonomy, Fragment, Proclamation / Decree",
     "Literary Themes Tags": "Ritual / Devotional, Political, Didactic / Ethical",
-    "Symbolic System Tags": "Elamite"
+    "Symbolic System Tags": "Elamite",
+    "Y-pos": "-"
   },
   {
     "Index": 4,
@@ -93,7 +96,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal",
     "Literary Forms Tags": "Proclamation / Decree, Record / Chronicle, Petition / Appeal, Liturgy",
     "Literary Themes Tags": "Ritual / Devotional, Political, Didactic / Ethical",
-    "Symbolic System Tags": "Elamite, Akkadian"
+    "Symbolic System Tags": "Elamite, Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": 5,
@@ -117,7 +121,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Royal, Mystical / Initiatory",
     "Literary Forms Tags": "Proclamation / Decree, Liturgy, Record / Chronicle, Fragment, Epic",
     "Literary Themes Tags": "Ritual / Devotional, Political, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Elamite, Akkadian"
+    "Symbolic System Tags": "Elamite, Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": 6,
@@ -141,7 +146,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Priestly / Theocratic, Royal",
     "Literary Forms Tags": "Record / Chronicle, Manual / Instruction, Rulebook / Code, Glossary / Taxonomy, Fragment",
     "Literary Themes Tags": "Ritual / Devotional, Political, Didactic / Ethical",
-    "Symbolic System Tags": "Elamite, Akkadian"
+    "Symbolic System Tags": "Elamite, Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": 7,
@@ -165,7 +171,8 @@
     "Socio-political Tags": "Royal, Warrior / Imperial, Priestly / Theocratic",
     "Literary Forms Tags": "Proclamation / Decree, Record / Chronicle, Fragment, Epic",
     "Literary Themes Tags": "Political, Ritual / Devotional, Historical Reflection, Adventure / Heroic Journey",
-    "Symbolic System Tags": "Elamite, Akkadian"
+    "Symbolic System Tags": "Elamite, Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": 8,
@@ -189,7 +196,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Mystical / Initiatory, Subversive / Revolutionary, Recluse / Ascetic, Didactic",
     "Literary Forms Tags": "Poetry, Dialogue, Liturgy, Riddle / Aphorism",
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Didactic / Ethical, Prophetic / Revelation, Cosmological, Existential",
-    "Symbolic System Tags": "Zoroastrian"
+    "Symbolic System Tags": "Zoroastrian",
+    "Y-pos": "-"
   },
   {
     "Index": 9,
@@ -213,7 +221,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Subversive / Revolutionary, Mystical / Initiatory",
     "Literary Forms Tags": "Poetry, Liturgy, Riddle / Aphorism, Fragment",
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Prophetic / Revelation, Didactic / Ethical, Apocalyptic / Eschatological, Existential, Introspective, Cosmological, Epistemological / Hermeneutics",
-    "Symbolic System Tags": "Zoroastrian"
+    "Symbolic System Tags": "Zoroastrian",
+    "Y-pos": "-"
   },
   {
     "Index": 10,
@@ -237,7 +246,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Royal, Mystical / Initiatory",
     "Literary Forms Tags": "Proclamation / Decree, Liturgy, Fragment, Record / Chronicle",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Political, Didactic / Ethical",
-    "Symbolic System Tags": "Elamite"
+    "Symbolic System Tags": "Elamite",
+    "Y-pos": "-"
   },
   {
     "Index": 11,
@@ -261,7 +271,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Royal, Mystical / Initiatory, Subversive / Revolutionary",
     "Literary Forms Tags": "Poetry, Myth, Liturgy, Epic",
     "Literary Themes Tags": "Ritual / Devotional, Prophetic / Revelation, Cosmological, Adventure / Heroic Journey, Didactic / Ethical",
-    "Symbolic System Tags": "Zoroastrian"
+    "Symbolic System Tags": "Zoroastrian",
+    "Y-pos": "-"
   },
   {
     "Index": 12,
@@ -285,7 +296,8 @@
     "Socio-political Tags": "Royal, Warrior / Imperial",
     "Literary Forms Tags": "Proclamation / Decree, Fragment, Record / Chronicle",
     "Literary Themes Tags": "Political, Historical Reflection, Didactic / Ethical",
-    "Symbolic System Tags": "Zoroastrian, Elamite , Akkadian"
+    "Symbolic System Tags": "Zoroastrian, Elamite , Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": 13,
@@ -309,7 +321,8 @@
     "Socio-political Tags": "Royal, Warrior / Imperial, Bureaucratic / Legal / Scribal",
     "Literary Forms Tags": "Proclamation / Decree, Record / Chronicle, Epic, Fragment",
     "Literary Themes Tags": "Historical Reflection, Political, Didactic / Ethical, Ritual / Devotional, Prophetic / Revelation",
-    "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian"
+    "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": 14,
@@ -333,7 +346,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Royal, Warrior / Imperial, Bureaucratic / Legal / Scribal",
     "Literary Forms Tags": "Proclamation / Decree, Record / Chronicle, Fragment",
     "Literary Themes Tags": "Historical Reflection, Political, Didactic / Ethical, Ritual / Devotional",
-    "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian"
+    "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": 15,
@@ -357,7 +371,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Royal, Warrior / Imperial, Priestly / Theocratic",
     "Literary Forms Tags": "Record / Chronicle, Manual / Instruction, Glossary / Taxonomy",
     "Literary Themes Tags": "Ritual / Devotional",
-    "Symbolic System Tags": "Elamite, Zoroastrian, Akkadian"
+    "Symbolic System Tags": "Elamite, Zoroastrian, Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": 16,
@@ -381,7 +396,8 @@
     "Socio-political Tags": "Royal, Warrior / Imperial, Priestly / Theocratic, Bureaucratic / Legal / Scribal",
     "Literary Forms Tags": "Proclamation / Decree, Personal Writings, Record / Chronicle, Rulebook / Code, Riddle / Aphorism",
     "Literary Themes Tags": "Political, Metaphysical, Didactic / Ethical, Adventure / Heroic Journey, Prophetic / Revelation, Historical Reflection, Ritual / Devotional, Cosmological",
-    "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian"
+    "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": 17,
@@ -405,7 +421,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Warrior / Imperial, Royal, Merchant / Cosmopolitan",
     "Literary Forms Tags": "Record / Chronicle, Proclamation / Decree, Manual / Instruction",
     "Literary Themes Tags": "Political, Historical Reflection, Didactic / Ethical",
-    "Symbolic System Tags": "Elamite, Zoroastrian, Akkadian"
+    "Symbolic System Tags": "Elamite, Zoroastrian, Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": 18,
@@ -429,7 +446,8 @@
     "Socio-political Tags": "Royal, Warrior / Imperial, Priestly / Theocratic, Bureaucratic / Legal / Scribal",
     "Literary Forms Tags": "Proclamation / Decree, Personal Writings, Record / Chronicle, Rulebook / Code",
     "Literary Themes Tags": "Political, Metaphysical, Didactic / Ethical, Ritual / Devotional, Cosmological, Historical Reflection",
-    "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian"
+    "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": 19,
@@ -453,7 +471,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Royal, Warrior / Imperial, Subversive / Revolutionary",
     "Literary Forms Tags": "Proclamation / Decree, Rulebook / Code, Personal Writings, Essay / Argument, Record / Chronicle, Commentary / Exegesis",
     "Literary Themes Tags": "Ritual / Devotional, Political, Metaphysical, Didactic / Ethical, Prophetic / Revelation, Historical Reflection, Cosmological",
-    "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian"
+    "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": 20,
@@ -477,7 +496,8 @@
     "Socio-political Tags": "Royal, Warrior / Imperial, Priestly / Theocratic, Bureaucratic / Legal / Scribal",
     "Literary Forms Tags": "Proclamation / Decree, Personal Writings, Record / Chronicle, Rulebook / Code",
     "Literary Themes Tags": "Ritual / Devotional, Political, Metaphysical, Didactic / Ethical, Historical Reflection, Cosmological",
-    "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian"
+    "Symbolic System Tags": "Zoroastrian, Elamite, Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": 21,
@@ -501,6 +521,7 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Mystical / Initiatory, Recluse / Ascetic",
     "Literary Forms Tags": "Dialogue, Rulebook / Code, Manual / Instruction, Glossary / Taxonomy, Myth, Proclamation / Decree",
     "Literary Themes Tags": "Ritual / Devotional, Cosmological, Metaphysical, Didactic / Ethical, Prophetic / Revelation",
-    "Symbolic System Tags": "Zoroastrian"
+    "Symbolic System Tags": "Zoroastrian",
+    "Y-pos": "-"
   }
 ]

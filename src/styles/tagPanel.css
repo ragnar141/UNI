@@ -238,14 +238,25 @@
   background: rgba(0, 0, 0, 0.06);
 }
 
-/* section labels ("Regular Tags", "Specialized Tags") — match dropdown title font */
+/* =========================
+   Section labels (match dropdown header + allow line breaks)
+   ========================= */
 .tagPanel__sectionLabel {
-  padding: 6px 10px;
+  /* Typography to match the menu header title */
   font-family: var(--font-ui, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
   font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  font-weight: 600;              /* header title span uses 600 in JSX */
   color: #000;
+
+  /* Respect explicit newlines for two-line titles */
+  white-space: pre-line;
+
+  /* Spacing + divider identical to .tagPanel__menuHeader */
+  padding: 4px 6px 8px;
+  border-bottom: none;
+  box-shadow: inset 0 -1px #000;
+  margin-bottom: 6px;
+  background: var(--panel-bg);
 }
 
 /* ============================
@@ -387,7 +398,7 @@
   gap: 8px;
   justify-content: flex-start;     /* horizontal, left-aligned */
   padding: 4px 6px 4px;            /* match .tagPanel__menuList left/right pad (6px) */
-  margin: 0 0 0px;                  /* space below toolbar before the list */
+  margin: 0 0 0px;                 /* space below toolbar before the list */
   background: var(--menu-bg);
 }
 

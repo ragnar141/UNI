@@ -14,7 +14,8 @@
     "Name.1": "Dagon",
     "Jungian Archetypes Tags": "Father Archetype, Wise Old Man",
     "Neumann Stages Tags": "Uroboric Stage, Mythic Ordering of Reality, Return to the Community, Death, Rebirth",
-    "Category": "Chthonic Fertility Deity"
+    "Category": "Chthonic Fertility Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "2",
@@ -31,7 +32,8 @@
     "Name.1": "El",
     "Jungian Archetypes Tags": "Father Archetype, Wise Old Man, Self, Terrible Father",
     "Neumann Stages Tags": "Uroboric Stage, Mythic Ordering of Reality, Coronation of the King, Ego Transcendence",
-    "Category": "Transcendent Proto-Monistic Deity"
+    "Category": "Transcendent Proto-Monistic Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "3",
@@ -48,7 +50,8 @@
     "Name.1": "Resheph",
     "Jungian Archetypes Tags": "Shadow, Terrible Father, Trickster",
     "Neumann Stages Tags": "Uroboric Stage, Death, Battle with the Dragon, Descent into the Underworld, Ego Collapse",
-    "Category": "Chthonic Storm Deity"
+    "Category": "Chthonic Storm Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "4",
@@ -65,7 +68,8 @@
     "Name.1": "Shapash",
     "Jungian Archetypes Tags": "Wise Old Woman, Mother Archetype, Self",
     "Neumann Stages Tags": "Uroboric Stage, Mythic Ordering of Reality, Death, Rebirth, Descent into the Underworld, Return to the Community, Ego Transcendence",
-    "Category": "Chthonic Solar Goddess"
+    "Category": "Chthonic Solar Goddess",
+    "Y-pos": "-"
   },
   {
     "Index": "5",
@@ -82,7 +86,8 @@
     "Name.1": "Asherah/Athirat",
     "Jungian Archetypes Tags": "Mother Archetype, Wise Old Woman, Terrible Mother, Anima",
     "Neumann Stages Tags": "Uroboric Stage, Mythic Ordering of Reality, Death, Rebirth, Return to the Community, Ego Transcendence",
-    "Category": "Chthonic Mother Goddess"
+    "Category": "Chthonic Mother Goddess",
+    "Y-pos": "-"
   },
   {
     "Index": "6",
@@ -99,7 +104,8 @@
     "Name.1": "Abraham",
     "Jungian Archetypes Tags": "Father Archetype, Initiator, Hero, Wise Old Man, Shadow, Trickster",
     "Neumann Stages Tags": "Separation from World Parents, Initiation, Divine Intervention, Isolation, Battle with the Dragon, Mythic Ordering of Reality, Death, Rebirth, Return to the Community, Ego Transcendence",
-    "Category": "Monotheistic Patriarch & Covenant-Bearer"
+    "Category": "Monotheistic Patriarch & Covenant-Bearer",
+    "Y-pos": "-"
   },
   {
     "Index": "7",
@@ -116,7 +122,8 @@
     "Name.1": "Sarah",
     "Jungian Archetypes Tags": "Mother Archetype, Wise Old Woman, Initiator, Shadow",
     "Neumann Stages Tags": "Separation from World Parents, Divine Intervention, Initiation, Rebirth, Mythic Ordering of Reality, Isolation, Ego Collapse, Return to the Community",
-    "Category": "Monotheistic Matriarch & Mother of the Covenant Line"
+    "Category": "Monotheistic Matriarch & Mother of the Covenant Line",
+    "Y-pos": "-"
   },
   {
     "Index": "8",
@@ -133,7 +140,8 @@
     "Name.1": "Hagar",
     "Jungian Archetypes Tags": "Mother Archetype, Hero, Initiator, Shadow",
     "Neumann Stages Tags": "Separation from World Parents, Isolation, Divine Intervention, Death, Rebirth, Initiation, Mythic Ordering of Reality, Return to the Community, Ego Transcendence",
-    "Category": "Monotheistic Matriarch of the Ishmaelite Line"
+    "Category": "Monotheistic Matriarch of the Ishmaelite Line",
+    "Y-pos": "-"
   },
   {
     "Index": "9",
@@ -150,7 +158,8 @@
     "Name.1": "Ishmael",
     "Jungian Archetypes Tags": "Father Archetype, Hero, Initiator, Shadow",
     "Neumann Stages Tags": "Separation from World Parents, Isolation, Divine Intervention, Death, Rebirth, Return to the Community, Mythic Ordering of Reality, Initiation, Ego Transcendence",
-    "Category": "Monotheistic Patriarch"
+    "Category": "Monotheistic Patriarch",
+    "Y-pos": "-"
   },
   {
     "Index": "10",
@@ -167,7 +176,8 @@
     "Name.1": "Astarte/Anat",
     "Jungian Archetypes Tags": "Terrible Mother, Initiator, Anima, Trickster, Mother Archetype",
     "Neumann Stages Tags": "Uroboric Stage, Battle with the Dragon, Death, Rebirth, Initiation, Magical Empowerment, Descent into the Underworld",
-    "Category": "Chthonic Storm-Fertility Goddess"
+    "Category": "Chthonic Storm-Fertility Goddess",
+    "Y-pos": "-"
   },
   {
     "Index": "11",
@@ -184,7 +194,8 @@
     "Name.1": "Yam",
     "Jungian Archetypes Tags": "Shadow, Terrible Father, Animus",
     "Neumann Stages Tags": "Uroboric Stage, Battle with the Dragon, Death, Mythic Ordering of Reality",
-    "Category": "Chthonic Storm Deity"
+    "Category": "Chthonic Storm Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "12",
@@ -201,7 +212,8 @@
     "Name.1": "Mot",
     "Jungian Archetypes Tags": "Shadow, Terrible Father",
     "Neumann Stages Tags": "Uroboric Stage, Battle with the Dragon, Death, Descent into the Underworld, Ego Collapse",
-    "Category": "chthonic Monster Deity"
+    "Category": "chthonic Monster Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "13",
@@ -218,7 +230,8 @@
     "Name.1": "Melchizedek",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Father Archetype, Self",
     "Neumann Stages Tags": "Divine Intervention, Initiation, Mythic Ordering of Reality, Coronation of the King, Magical Empowerment, Isolation, Ego Transcendence",
-    "Category": "Monotheistic Mystical Priest-King"
+    "Category": "Monotheistic Mystical Priest-King",
+    "Y-pos": "-"
   },
   {
     "Index": "14",
@@ -235,7 +248,8 @@
     "Name.1": "Isaac",
     "Jungian Archetypes Tags": "Father Archetype, Wise Old Man, Initiator, Hero, Shadow",
     "Neumann Stages Tags": "Divine Intervention, Initiation, Death, Rebirth, Mythic Ordering of Reality, Isolation, Return to the Community, Ego Collapse, Magical Empowerment",
-    "Category": "Monotheistic Patriarch & Covenant-Bearer"
+    "Category": "Monotheistic Patriarch & Covenant-Bearer",
+    "Y-pos": "-"
   },
   {
     "Index": "15",
@@ -252,7 +266,8 @@
     "Name.1": "Rebecca",
     "Jungian Archetypes Tags": "Mother Archetype, Initiator, Trickster, Wise Old Woman, Shadow",
     "Neumann Stages Tags": "Separation from World Parents, Divine Intervention, Initiation, Rebirth, Mythic Ordering of Reality, Isolation, Ego Collapse, Return to the Community",
-    "Category": "Monotheistic Matriarch"
+    "Category": "Monotheistic Matriarch",
+    "Y-pos": "-"
   },
   {
     "Index": "16",
@@ -269,7 +284,8 @@
     "Name.1": "Kothar-wa-Khasis",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Trickster",
     "Neumann Stages Tags": "Divine Intervention, Initiation, Magical Empowerment, Mythic Ordering of Reality",
-    "Category": "Civilizing Artisan Deity"
+    "Category": "Civilizing Artisan Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "17",
@@ -286,7 +302,8 @@
     "Name.1": "Jacob (Israel)",
     "Jungian Archetypes Tags": "Father Archetype, Trickster, Initiator, Hero, Wise Old Man, Shadow, Persona",
     "Neumann Stages Tags": "Separation from World Parents, Divine Intervention, Initiation, Battle with the Dragon, Death, Rebirth, Magical Empowerment, Isolation, Return to the Community, Mythic Ordering of Reality",
-    "Category": "Monotheistic Patriarch & Covenant-Bearer"
+    "Category": "Monotheistic Patriarch & Covenant-Bearer",
+    "Y-pos": "-"
   },
   {
     "Index": "18",
@@ -303,7 +320,8 @@
     "Name.1": "Esau",
     "Jungian Archetypes Tags": "Father Archetype, Shadow, Hero",
     "Neumann Stages Tags": "Separation from World Parents, Ego Collapse, Isolation, Initiation, Battle with the Dragon, Rebirth, Return to the Community, Mythic Ordering of Reality",
-    "Category": "Monotheistic Nation-Founder"
+    "Category": "Monotheistic Nation-Founder",
+    "Y-pos": "-"
   },
   {
     "Index": "19",
@@ -320,7 +338,8 @@
     "Name.1": "Leah",
     "Jungian Archetypes Tags": "Mother Archetype, Initiator, Wise Old Woman, Shadow",
     "Neumann Stages Tags": "Divine Intervention, Initiation, Isolation, Battle with the Dragon, Mythic Ordering of Reality, Ego Collapse, Rebirth, Return to the Community, Magical Empowerment",
-    "Category": "Monotheistic Matriarch"
+    "Category": "Monotheistic Matriarch",
+    "Y-pos": "-"
   },
   {
     "Index": "20",
@@ -337,7 +356,8 @@
     "Name.1": "Rachel",
     "Jungian Archetypes Tags": "Mother Archetype, Anima, Trickster, Initiator, Shadow",
     "Neumann Stages Tags": "Separation from World Parents, Isolation, Divine Intervention, Initiation, Rebirth, Mythic Ordering of Reality, Battle with the Dragon, Death, Return to the Community",
-    "Category": "Monotheistic Matriarch and Mother of Israel"
+    "Category": "Monotheistic Matriarch and Mother of Israel",
+    "Y-pos": "-"
   },
   {
     "Index": "21",
@@ -354,7 +374,8 @@
     "Name.1": "Baal",
     "Jungian Archetypes Tags": "Hero, Animus, Initiator",
     "Neumann Stages Tags": "Battle with the Dragon, Death, Descent into the Underworld, Rebirth, Coronation of the King, Magical Empowerment, Return to the Community, Ego Transcendence",
-    "Category": "Storm-Fertility Deity"
+    "Category": "Storm-Fertility Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "22",
@@ -371,7 +392,8 @@
     "Name.1": "Cadmus",
     "Jungian Archetypes Tags": "Hero, Initiator, Father Archetype",
     "Neumann Stages Tags": "Battle with the Dragon, Mythic Ordering of Reality, Initiation, Return to the Community, Divine Intervention, Coronation of the King",
-    "Category": "Civilizing Hero"
+    "Category": "Civilizing Hero",
+    "Y-pos": "-"
   },
   {
     "Index": "23",
@@ -388,7 +410,8 @@
     "Name.1": "Melqart",
     "Jungian Archetypes Tags": "Hero, Animus, Initiator, Father Archetype, Self",
     "Neumann Stages Tags": "Battle with the Dragon, Death, Rebirth, Magical Empowerment, Return to the Community, Coronation of the King, Descent into the Underworld, Initiation",
-    "Category": "Chthonic Storm-Fertility Boundary-Crosser Deity"
+    "Category": "Chthonic Storm-Fertility Boundary-Crosser Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "24",
@@ -405,7 +428,8 @@
     "Name.1": "Eshmun",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Self",
     "Neumann Stages Tags": "Death, Rebirth, Magical Empowerment, Initiation, Divine Intervention, Return to the Community",
-    "Category": "Chthonic Healing–Rebirth Deity"
+    "Category": "Chthonic Healing–Rebirth Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "25",
@@ -422,7 +446,8 @@
     "Name.1": "Samuel",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Father Archetype, Persona, Shadow",
     "Neumann Stages Tags": "Separation from World Parents, Initiation, Divine Intervention, Battle with the Dragon, Mythic Ordering of Reality, Return to the Community, Ego Collapse, Magical Empowerment, Death, Descent into the Underworld",
-    "Category": "Monotheistic Prophet-Judge"
+    "Category": "Monotheistic Prophet-Judge",
+    "Y-pos": "-"
   },
   {
     "Index": "26",
@@ -439,7 +464,8 @@
     "Name.1": "Samson",
     "Jungian Archetypes Tags": "Hero, Trickster, Persona, Shadow, Initiator",
     "Neumann Stages Tags": "Divine Intervention, Initiation, Battle with the Dragon, Magical Empowerment, Ego Collapse, Rebirth, Death, Return to the Community",
-    "Category": "Monotheistic Warrior-Judge"
+    "Category": "Monotheistic Warrior-Judge",
+    "Y-pos": "-"
   },
   {
     "Index": "27",
@@ -456,7 +482,8 @@
     "Name.1": "David",
     "Jungian Archetypes Tags": "Hero, Initiator, Persona, Father Archetype, Wise Old Man, Trickster, Shadow, Terrible Father",
     "Neumann Stages Tags": "Separation from World Parents, Divine Intervention, Battle with the Dragon, Initiation, Isolation, Mythic Ordering of Reality, Return to the Community, Ego Collapse, Rebirth, Magical Empowerment, Coronation of the King, Death",
-    "Category": "Monotheistic Warrior-King"
+    "Category": "Monotheistic Warrior-King",
+    "Y-pos": "-"
   },
   {
     "Index": "28",
@@ -473,7 +500,8 @@
     "Name.1": "Solomon",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Persona, Father Archetype, Shadow, Trickster",
     "Neumann Stages Tags": "Coronation of the King, Divine Intervention, Initiation, Mythic Ordering of Reality, Return to the Community, Ego Collapse, Death",
-    "Category": "Monotheistic Wisdom-King & Temple-Builder"
+    "Category": "Monotheistic Wisdom-King & Temple-Builder",
+    "Y-pos": "-"
   },
   {
     "Index": "29",
@@ -490,7 +518,8 @@
     "Name.1": "Hiram I",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Father Archetype",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Coronation of the King, Initiation, Return to the Community, Divine Intervention",
-    "Category": "King/Historic figure"
+    "Category": "King/Historic figure",
+    "Y-pos": "-"
   },
   {
     "Index": "30",
@@ -507,7 +536,8 @@
     "Name.1": "Queen of Sheba",
     "Jungian Archetypes Tags": "Wise Old Woman, Initiator, Persona, Hero, Mother Archetype, Anima",
     "Neumann Stages Tags": "Initiation, Isolation, Divine Intervention, Mythic Ordering of Reality, Return to the Community",
-    "Category": "Ethiopian Sage-Queen"
+    "Category": "Ethiopian Sage-Queen",
+    "Y-pos": "-"
   },
   {
     "Index": "31",
@@ -524,7 +554,8 @@
     "Name.1": "Elijah",
     "Jungian Archetypes Tags": "Hero, Wise Old Man, Initiator, Persona, Father Archetype, Trickster, Shadow",
     "Neumann Stages Tags": "Divine Intervention, Battle with the Dragon, Isolation, Ego Collapse, Rebirth, Mythic Ordering of Reality, Magical Empowerment, Return to the Community, Ego Transcendence",
-    "Category": "Monotheistic Prophet & Covenant Restorer"
+    "Category": "Monotheistic Prophet & Covenant Restorer",
+    "Y-pos": "-"
   },
   {
     "Index": "32",
@@ -541,7 +572,8 @@
     "Name.1": "Elisha",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Father Archetype, Persona, Hero, Trickster, Shadow",
     "Neumann Stages Tags": "Initiation, Divine Intervention, Magical Empowerment, Battle with the Dragon, Mythic Ordering of Reality, Return to the Community, Death, Ego Transcendence",
-    "Category": "Monotheistic Prophet, Healer & Nation-Advisor"
+    "Category": "Monotheistic Prophet, Healer & Nation-Advisor",
+    "Y-pos": "-"
   },
   {
     "Index": "33",
@@ -558,7 +590,8 @@
     "Name.1": "Job (Ayyub)",
     "Jungian Archetypes Tags": "Hero, Persona, Father Archetype, Wise Old Man, Shadow, Self",
     "Neumann Stages Tags": "Isolation, Descent into the Underworld, Initiation, Divine Intervention, Mythic Ordering of Reality, Ego Collapse, Ego Transcendence, Rebirth, Return to the Community",
-    "Category": "Monotheistic Sufferer-Sage"
+    "Category": "Monotheistic Sufferer-Sage",
+    "Y-pos": "-"
   },
   {
     "Index": "34",
@@ -575,7 +608,8 @@
     "Name.1": "Jonah",
     "Jungian Archetypes Tags": "Trickster, Shadow, Persona, Initiator",
     "Neumann Stages Tags": "Divine Intervention, Descent into the Underworld, Death, Rebirth, Return to the Community, Mythic Ordering of Reality, Isolation, Ego Collapse",
-    "Category": "Monotheistic Prophet & City-Renewer"
+    "Category": "Monotheistic Prophet & City-Renewer",
+    "Y-pos": "-"
   },
   {
     "Index": "35",
@@ -592,7 +626,8 @@
     "Name.1": "Isaiah",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Persona, Hero, Trickster, Shadow, Self",
     "Neumann Stages Tags": "Divine Intervention, Initiation, Isolation, Battle with the Dragon, Mythic Ordering of Reality, Return to the Community, Ego Collapse, Rebirth, Magical Empowerment",
-    "Category": "Monotheistic Prophet & Theological Architect"
+    "Category": "Monotheistic Prophet & Theological Architect",
+    "Y-pos": "-"
   },
   {
     "Index": "36",
@@ -609,7 +644,8 @@
     "Name.1": "Amos",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Persona, Trickster",
     "Neumann Stages Tags": "Initiation, Divine Intervention, Isolation, Battle with the Dragon, Mythic Ordering of Reality, Return to the Community, Magical Empowerment, Rebirth",
-    "Category": "Monotheistic Justice Prophet"
+    "Category": "Monotheistic Justice Prophet",
+    "Y-pos": "-"
   },
   {
     "Index": "37",
@@ -626,7 +662,8 @@
     "Name.1": "Hosea",
     "Jungian Archetypes Tags": "Initiator, Persona, Wise Old Man, Father Archetype, Shadow",
     "Neumann Stages Tags": "Initiation, Isolation, Battle with the Dragon, Divine Intervention, Mythic Ordering of Reality, Ego Collapse, Rebirth, Return to the Community, Magical Empowerment",
-    "Category": "Monotheistic Fidelity Prophet"
+    "Category": "Monotheistic Fidelity Prophet",
+    "Y-pos": "-"
   },
   {
     "Index": "38",
@@ -643,7 +680,8 @@
     "Name.1": "Micah",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Persona, Trickster, Shadow",
     "Neumann Stages Tags": "Initiation, Battle with the Dragon, Mythic Ordering of Reality, Divine Intervention, Return to the Community, Ego Collapse, Rebirth, Magical Empowerment, Isolation",
-    "Category": "Monotheistic Prophet & Zion Visionary"
+    "Category": "Monotheistic Prophet & Zion Visionary",
+    "Y-pos": "-"
   },
   {
     "Index": "39",
@@ -660,7 +698,8 @@
     "Name.1": "Jeremiah",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Persona, Hero, Shadow, Self",
     "Neumann Stages Tags": "Divine Intervention, Initiation, Isolation, Battle with the Dragon, Mythic Ordering of Reality, Descent into the Underworld, Ego Collapse, Rebirth, Return to the Community, Magical Empowerment",
-    "Category": "Monotheistic Exilic Prophet"
+    "Category": "Monotheistic Exilic Prophet",
+    "Y-pos": "-"
   },
   {
     "Index": "40",
@@ -677,7 +716,8 @@
     "Name.1": "Nahum",
     "Jungian Archetypes Tags": "Persona, Wise Old Man, Trickster, Initiator, Shadow",
     "Neumann Stages Tags": "Divine Intervention, Battle with the Dragon, Mythic Ordering of Reality, Return to the Community, Death, Magical Empowerment",
-    "Category": "Monotheistic Anti-Imperial Prophet"
+    "Category": "Monotheistic Anti-Imperial Prophet",
+    "Y-pos": "-"
   },
   {
     "Index": "41",
@@ -694,7 +734,8 @@
     "Name.1": "Zephaniah",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Persona, Trickster, Shadow",
     "Neumann Stages Tags": "Divine Intervention, Battle with the Dragon, Mythic Ordering of Reality, Ego Collapse, Rebirth, Return to the Community, Magical Empowerment",
-    "Category": "Monotheistic Day-of-the-LORD Prophet"
+    "Category": "Monotheistic Day-of-the-LORD Prophet",
+    "Y-pos": "-"
   },
   {
     "Index": "42",
@@ -711,7 +752,8 @@
     "Name.1": "Habakkuk",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Persona, Shadow, Hero",
     "Neumann Stages Tags": "Ego Collapse, Divine Intervention, Initiation, Mythic Ordering of Reality, Battle with the Dragon, Magical Empowerment, Rebirth, Return to the Community",
-    "Category": "Monotheistic Theodicy Prophet"
+    "Category": "Monotheistic Theodicy Prophet",
+    "Y-pos": "-"
   },
   {
     "Index": "43",
@@ -728,7 +770,8 @@
     "Name.1": "Obadiah",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Persona, Shadow, Hero",
     "Neumann Stages Tags": "Battle with the Dragon, Divine Intervention, Mythic Ordering of Reality, Return to the Community, Rebirth, Magical Empowerment",
-    "Category": "Monotheistic Anti-Edom Judgment Prophet"
+    "Category": "Monotheistic Anti-Edom Judgment Prophet",
+    "Y-pos": "-"
   },
   {
     "Index": "44",
@@ -745,7 +788,8 @@
     "Name.1": "Haggai",
     "Jungian Archetypes Tags": "Initiator, Wise Old Man, Persona, Father Archetype, Shadow",
     "Neumann Stages Tags": "Initiation, Divine Intervention, Return to the Community, Mythic Ordering of Reality, Magical Empowerment, Rebirth, Coronation of the King",
-    "Category": "Monotheistic Temple-Restoration Prophet"
+    "Category": "Monotheistic Temple-Restoration Prophet",
+    "Y-pos": "-"
   },
   {
     "Index": "45",
@@ -762,6 +806,7 @@
     "Name.1": "Zechariah",
     "Jungian Archetypes Tags": "Initiator, Wise Old Man, Persona, Shadow",
     "Neumann Stages Tags": "Divine Intervention, Initiation, Magical Empowerment, Mythic Ordering of Reality, Return to the Community, Coronation of the King, Rebirth, Battle with the Dragon",
-    "Category": "Monotheistic Restoration Vision-Prophet"
+    "Category": "Monotheistic Restoration Vision-Prophet",
+    "Y-pos": "-"
   }
 ]

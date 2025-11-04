@@ -14,7 +14,8 @@
     "Name.1": "Adam",
     "Jungian Archetypes Tags": "Father Archetype, Initiator, Hero, Self, Shadow",
     "Neumann Stages Tags": "Uroboric Stage, Initiation, Divine Intervention, Death, Mythic Ordering of Reality, Coronation of the King, Separation from World Parents, Isolation, Return to the Community",
-    "Category": "First Man of the Monotheistic Tradition"
+    "Category": "First Man of the Monotheistic Tradition",
+    "Y-pos": "-"
   },
   {
     "Index": "2",
@@ -31,7 +32,8 @@
     "Name.1": "Eve",
     "Jungian Archetypes Tags": "Mother Archetype, Initiator, Anima, Persona, Shadow",
     "Neumann Stages Tags": "Uroboric Stage, Initiation, Divine Intervention, Separation from World Parents, Death, Isolation, Return to the Community, Mythic Ordering of Reality, Battle with the Dragon",
-    "Category": "First Woman of the Monotheistic Tradition"
+    "Category": "First Woman of the Monotheistic Tradition",
+    "Y-pos": "-"
   },
   {
     "Index": "3",
@@ -48,7 +50,8 @@
     "Name.1": "Lilith",
     "Jungian Archetypes Tags": "Terrible Mother, Shadow, Anima, Trickster, Initiator",
     "Neumann Stages Tags": "Separation from World Parents, Initiation, Divine Intervention, Magical Empowerment, Isolation, Descent into the Underworld, Battle with the Dragon, Death, Mythic Ordering of Reality",
-    "Category": "Chthonic Trickster Night Spirit"
+    "Category": "Chthonic Trickster Night Spirit",
+    "Y-pos": "-"
   },
   {
     "Index": "4",
@@ -65,7 +68,8 @@
     "Name.1": "Cain",
     "Jungian Archetypes Tags": "Shadow, Trickster, Persona, Initiator",
     "Neumann Stages Tags": "Battle with the Dragon, Divine Intervention, Separation from World Parents, Isolation, Initiation, Magical Empowerment, Mythic Ordering of Reality, Ego Collapse",
-    "Category": "First Murderer in the Monotheistic Canon"
+    "Category": "First Murderer in the Monotheistic Canon",
+    "Y-pos": "-"
   },
   {
     "Index": "5",
@@ -82,7 +86,8 @@
     "Name.1": "Abel",
     "Jungian Archetypes Tags": "Hero, Initiator",
     "Neumann Stages Tags": "Isolation, Divine Intervention, Death, Return to the Community, Mythic Ordering of Reality",
-    "Category": "First Martyr of the Monotheistic Canon"
+    "Category": "First Martyr of the Monotheistic Canon",
+    "Y-pos": "-"
   },
   {
     "Index": "6",
@@ -99,7 +104,8 @@
     "Name.1": "Enoch (Idris)",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Hero, Father Archetype",
     "Neumann Stages Tags": "Divine Intervention, Initiation, Magical Empowerment, Ego Transcendence, Rebirth, Mythic Ordering of Reality, Isolation, Battle with the Dragon",
-    "Category": "Monotheistic Patriarch–Prophet and Visionary Scribe"
+    "Category": "Monotheistic Patriarch–Prophet and Visionary Scribe",
+    "Y-pos": "-"
   },
   {
     "Index": "7",
@@ -116,7 +122,8 @@
     "Name.1": "Inanna/Ishtar",
     "Jungian Archetypes Tags": "Anima, Mother Archetype, Terrible Mother, Trickster, Initiator, Hero",
     "Neumann Stages Tags": "Descent into the Underworld, Death, Divine Intervention, Rebirth, Return to the Community, Magical Empowerment, Mythic Ordering of Reality, Coronation of the King, Battle with the Dragon, Isolation",
-    "Category": "Chthonic Trickster Warrior Goddess"
+    "Category": "Chthonic Trickster Warrior Goddess",
+    "Y-pos": "-"
   },
   {
     "Index": "8",
@@ -133,7 +140,8 @@
     "Name.1": "Noah",
     "Jungian Archetypes Tags": "Father Archetype, Hero, Wise Old Man, Initiator, Shadow",
     "Neumann Stages Tags": "Divine Intervention, Initiation, Death, Rebirth, Mythic Ordering of Reality, Battle with the Dragon, Isolation, Return to the Community",
-    "Category": "Monotheistic Patriarch & Covenant-Bearer"
+    "Category": "Monotheistic Patriarch & Covenant-Bearer",
+    "Y-pos": "-"
   },
   {
     "Index": "9",
@@ -150,7 +158,8 @@
     "Name.1": "An/Anu",
     "Jungian Archetypes Tags": "Father Archetype, Wise Old Man, Self, Terrible Father",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Coronation of the King, Divine Intervention, Magical Empowerment, Separation from World Parents",
-    "Category": "Transcendent Sky God"
+    "Category": "Transcendent Sky God",
+    "Y-pos": "-"
   },
   {
     "Index": "10",
@@ -167,7 +176,8 @@
     "Name.1": "Ki",
     "Jungian Archetypes Tags": "Mother Archetype, Terrible Mother, Wise Old Woman, Initiator",
     "Neumann Stages Tags": "Uroboric Stage, Separation from World Parents, Mythic Ordering of Reality, Magical Empowerment, Death, Rebirth, Descent into the Underworld, Coronation of the King",
-    "Category": "Mother-Earth Goddess"
+    "Category": "Mother-Earth Goddess",
+    "Y-pos": "-"
   },
   {
     "Index": "11",
@@ -184,7 +194,8 @@
     "Name.1": "Gilgamesh",
     "Jungian Archetypes Tags": "Hero, Shadow, Persona, Initiator, Self",
     "Neumann Stages Tags": "Battle with the Dragon, Isolation, Divine Intervention, Descent into the Underworld, Initiation, Magical Empowerment, Ego Collapse, Rebirth, Return to the Community, Mythic Ordering of Reality",
-    "Category": "Hero-King of Uruk & Seeker of Immortality"
+    "Category": "Hero-King of Uruk & Seeker of Immortality",
+    "Y-pos": "-"
   },
   {
     "Index": "12",
@@ -201,7 +212,8 @@
     "Name.1": "Enlil",
     "Jungian Archetypes Tags": "Father Archetype, Wise Old Man, Terrible Father, Persona",
     "Neumann Stages Tags": "Separation from World Parents, Mythic Ordering of Reality, Coronation of the King, Divine Intervention, Magical Empowerment, Return to the Community",
-    "Category": "Transcendent Storm Deity"
+    "Category": "Transcendent Storm Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "13",
@@ -218,7 +230,8 @@
     "Name.1": "Enki (Ea)",
     "Jungian Archetypes Tags": "Wise Old Man, Trickster, Initiator, Father Archetype",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Divine Intervention, Magical Empowerment, Battle with the Dragon, Descent into the Underworld, Coronation of the King, Return to the Community",
-    "Category": "Chthonic Trickster Deity"
+    "Category": "Chthonic Trickster Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "14",
@@ -235,7 +248,8 @@
     "Name.1": "Ninhursag",
     "Jungian Archetypes Tags": "Mother Archetype, Wise Old Woman, Terrible Mother, Initiator",
     "Neumann Stages Tags": "Uroboric Stage, Mythic Ordering of Reality, Divine Intervention, Magical Empowerment, Death, Rebirth, Return to the Community, Coronation of the King",
-    "Category": "Mother-Earth Goddess"
+    "Category": "Mother-Earth Goddess",
+    "Y-pos": "-"
   },
   {
     "Index": "15",
@@ -252,7 +266,8 @@
     "Name.1": "Nisaba",
     "Jungian Archetypes Tags": "Wise Old Woman, Mother Archetype, Initiator",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Magical Empowerment, Return to the Community, Coronation of the King, Initiation",
-    "Category": "Civilizing Goddess of Writing"
+    "Category": "Civilizing Goddess of Writing",
+    "Y-pos": "-"
   },
   {
     "Index": "16",
@@ -269,7 +284,8 @@
     "Name.1": "Kubaba",
     "Jungian Archetypes Tags": "Mother Archetype, Wise Old Woman, Persona, Initiator",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Coronation of the King, Return to the Community, Rebirth, Magical Empowerment",
-    "Category": "Queen of Kish & Dynastic Foundress"
+    "Category": "Queen of Kish & Dynastic Foundress",
+    "Y-pos": "-"
   },
   {
     "Index": "17",
@@ -286,7 +302,8 @@
     "Name.1": "Ashur",
     "Jungian Archetypes Tags": "Father Archetype, Terrible Father, Wise Old Man, Hero, Persona, Self",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Coronation of the King, Battle with the Dragon, Divine Intervention, Magical Empowerment, Return to the Community",
-    "Category": "Transcendent Storm Deity"
+    "Category": "Transcendent Storm Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "18",
@@ -303,7 +320,8 @@
     "Name.1": "Sargon",
     "Jungian Archetypes Tags": "Hero, Initiator, Persona, Father Archetype, Trickster",
     "Neumann Stages Tags": "Separation from World Parents, Initiation, Divine Intervention, Battle with the Dragon, Coronation of the King, Magical Empowerment, Return to the Community, Mythic Ordering of Reality, Rebirth",
-    "Category": "Founder of the Akkadian Empire"
+    "Category": "Founder of the Akkadian Empire",
+    "Y-pos": "-"
   },
   {
     "Index": "19",
@@ -320,7 +338,8 @@
     "Name.1": "Enheduanna",
     "Jungian Archetypes Tags": "Wise Old Woman, Initiator, Persona, Hero, Anima, Mother Archetype",
     "Neumann Stages Tags": "Isolation, Divine Intervention, Rebirth, Return to the Community, Magical Empowerment, Mythic Ordering of Reality, Coronation of the King, Initiation",
-    "Category": "High Priestess of Ur"
+    "Category": "High Priestess of Ur",
+    "Y-pos": "-"
   },
   {
     "Index": "20",
@@ -337,7 +356,8 @@
     "Name.1": "Hammurabi",
     "Jungian Archetypes Tags": "Father Archetype, Wise Old Man, Persona, Initiator, Hero, Terrible Father",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Coronation of the King, Divine Intervention, Magical Empowerment, Return to the Community, Battle with the Dragon, Initiation, Rebirth",
-    "Category": "Lawgiver-King of Babylon"
+    "Category": "Lawgiver-King of Babylon",
+    "Y-pos": "-"
   },
   {
     "Index": "21",
@@ -354,7 +374,8 @@
     "Name.1": "Tiamat",
     "Jungian Archetypes Tags": "Terrible Mother, Mother Archetype, Shadow, Trickster",
     "Neumann Stages Tags": "Uroboric Stage, Separation from World Parents, Battle with the Dragon, Death, Mythic Ordering of Reality, Coronation of the King",
-    "Category": "Chthonic Storm Goddess"
+    "Category": "Chthonic Storm Goddess",
+    "Y-pos": "-"
   },
   {
     "Index": "22",
@@ -371,7 +392,8 @@
     "Name.1": "Apsu",
     "Jungian Archetypes Tags": "Father Archetype, Terrible Father, Wise Old Man, Shadow",
     "Neumann Stages Tags": "Uroboric Stage, Separation from World Parents, Battle with the Dragon, Death, Mythic Ordering of Reality, Descent into the Underworld, Magical Empowerment",
-    "Category": "Chthonic Father Deity"
+    "Category": "Chthonic Father Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "23",
@@ -388,7 +410,8 @@
     "Name.1": "Marduk",
     "Jungian Archetypes Tags": "Hero, Initiator, Father Archetype, Persona, Self",
     "Neumann Stages Tags": "Battle with the Dragon, Coronation of the King, Mythic Ordering of Reality, Magical Empowerment, Divine Intervention, Separation from World Parents, Return to the Community, Rebirth",
-    "Category": "Transcendent Warrior-Civilizing Deity"
+    "Category": "Transcendent Warrior-Civilizing Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "24",
@@ -405,7 +428,8 @@
     "Name.1": "Ezekiel",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Persona, Trickster, Shadow, Self",
     "Neumann Stages Tags": "Divine Intervention, Initiation, Isolation, Battle with the Dragon, Descent into the Underworld, Rebirth, Mythic Ordering of Reality, Return to the Community, Magical Empowerment",
-    "Category": "Monotheistic Priestly Prophet"
+    "Category": "Monotheistic Priestly Prophet",
+    "Y-pos": "-"
   },
   {
     "Index": "25",
@@ -422,6 +446,7 @@
     "Name.1": "Daniel",
     "Jungian Archetypes Tags": "Wise Old Man, Persona, Hero, Initiator, Trickster, Self",
     "Neumann Stages Tags": "Separation from World Parents, Initiation, Divine Intervention, Battle with the Dragon, Mythic Ordering of Reality, Isolation, Ego Collapse, Magical Empowerment, Return to the Community, Rebirth, Ego Transcendence",
-    "Category": "Monotheistic Exilic Court Sage"
+    "Category": "Monotheistic Exilic Court Sage",
+    "Y-pos": "-"
   }
 ]

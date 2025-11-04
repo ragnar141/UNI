@@ -14,7 +14,8 @@
     "Name.1": "Ammon",
     "Jungian Archetypes Tags": "Father Archetype, Terrible Father, Wise Old Man, Self",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Coronation of the King, Death, Rebirth, Magical Empowerment, Return to the Community",
-    "Category": "Transcendent Proto-Monistic Deity"
+    "Category": "Transcendent Proto-Monistic Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "2",
@@ -31,7 +32,8 @@
     "Name.1": "Gurzil",
     "Jungian Archetypes Tags": "Hero, Initiator, Shadow",
     "Neumann Stages Tags": "Magical Empowerment, Divine Intervention, Initiation, Death, Return to the Community",
-    "Category": "Storm Deity"
+    "Category": "Storm Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "3",
@@ -48,7 +50,8 @@
     "Name.1": "Antaeus",
     "Jungian Archetypes Tags": "Shadow, Initiator",
     "Neumann Stages Tags": "Magical Empowerment, Separation from World Parents, Battle with the Dragon, Death",
-    "Category": "Chthonic Warrior Deity"
+    "Category": "Chthonic Warrior Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "4",
@@ -65,7 +68,8 @@
     "Name.1": "Macaria/Maca",
     "Jungian Archetypes Tags": "Mother Archetype, Wise Old Woman, Initiator",
     "Neumann Stages Tags": "Uroboric Stage, Initiation, Rebirth, Magical Empowerment, Return to the Community, Mythic Ordering of Reality",
-    "Category": "Chthonic Mother Goddess"
+    "Category": "Chthonic Mother Goddess",
+    "Y-pos": "-"
   },
   {
     "Index": "5",
@@ -82,7 +86,8 @@
     "Name.1": "Dido (Elissa)",
     "Jungian Archetypes Tags": "Hero, Mother Archetype, Initiator, Trickster, Persona",
     "Neumann Stages Tags": "Separation from World Parents, Initiation, Mythic Ordering of Reality, Coronation of the King, Magical Empowerment, Return to the Community, Divine Intervention, Death, Rebirth",
-    "Category": "Culture Hero"
+    "Category": "Culture Hero",
+    "Y-pos": "-"
   },
   {
     "Index": "6",
@@ -99,7 +104,8 @@
     "Name.1": "Tanit",
     "Jungian Archetypes Tags": "Mother Archetype, Wise Old Woman, Self, Initiator, Terrible Mother",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Magical Empowerment, Initiation, Return to the Community, Divine Intervention, Death, Rebirth",
-    "Category": "Sovereign Chthonic-Astral Goddess"
+    "Category": "Sovereign Chthonic-Astral Goddess",
+    "Y-pos": "-"
   },
   {
     "Index": "7",
@@ -116,7 +122,8 @@
     "Name.1": "Mago the Farmer",
     "Jungian Archetypes Tags": "Wise Old Man, Father Archetype, Initiator, Hero",
     "Neumann Stages Tags": "Initiation, Return to the Community, Mythic Ordering of Reality, Rebirth",
-    "Category": "Father of Carthaginian Agriculture"
+    "Category": "Father of Carthaginian Agriculture",
+    "Y-pos": "-"
   },
   {
     "Index": "8",
@@ -133,7 +140,8 @@
     "Name.1": "Hannibal Barca",
     "Jungian Archetypes Tags": "Hero, Trickster, Wise Old Man",
     "Neumann Stages Tags": "Battle with the Dragon, Initiation, Return to the Community, Isolation, Death",
-    "Category": "Warrior-Strategist"
+    "Category": "Warrior-Strategist",
+    "Y-pos": "-"
   },
   {
     "Index": "9",
@@ -150,7 +158,8 @@
     "Name.1": "Masinissa",
     "Jungian Archetypes Tags": "Hero, Father Archetype, Wise Old Man, Initiator, Shadow, Terrible Father",
     "Neumann Stages Tags": "Coronation of the King, Battle with the Dragon, Initiation, Mythic Ordering of Reality, Return to the Community, Separation from World Parents, Death",
-    "Category": "Founder Warrior-King"
+    "Category": "Founder Warrior-King",
+    "Y-pos": "-"
   },
   {
     "Index": "10",
@@ -167,6 +176,7 @@
     "Name.1": "Jugurtha",
     "Jungian Archetypes Tags": "Hero, Trickster, Persona, Wise Old Man",
     "Neumann Stages Tags": "Battle with the Dragon, Initiation, Magical Empowerment, Isolation, Death",
-    "Category": "Tragic Warrior-King"
+    "Category": "Tragic Warrior-King",
+    "Y-pos": "-"
   }
 ]

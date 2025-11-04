@@ -21,7 +21,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Subversive / Revolutionary",
     "Literary Forms Tags": "Poetry, Narrative, Myth, Essay / Argument, Record / Chronicle",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Political, Tragic / Lamentation, Didactic / Ethical, Prophetic / Revelation, Subversive",
-    "Symbolic System Tags": "Akkadian"
+    "Symbolic System Tags": "Akkadian",
+    "Y-pos": "-"
   },
   {
     "index": 2,
@@ -45,7 +46,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal",
     "Literary Forms Tags": "Record / Chronicle, Myth, Commentary / Exegesis, Doctrine / Treatise",
     "Literary Themes Tags": "Historical Reflection, Ritual / Devotional, Political, Didactic / Ethical, Prophetic / Revelation",
-    "Symbolic System Tags": "Akkadian"
+    "Symbolic System Tags": "Akkadian",
+    "Y-pos": "-"
   },
   {
     "index": 3,
@@ -69,7 +71,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Scholarly, Mystical / Initiatory",
     "Literary Forms Tags": "Commentary / Exegesis, Glossary / Taxonomy, Manual / Instruction, Analysis, Record / Chronicle, Fragment",
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Epistemological / Hermeneutics, Political, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Akkadian"
+    "Symbolic System Tags": "Akkadian",
+    "Y-pos": "-"
   },
   {
     "index": 4,
@@ -93,7 +96,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Priestly / Theocratic, Royal, Warrior / Imperial, Merchant / Cosmopolitan",
     "Literary Forms Tags": "Proclamation / Decree, Record / Chronicle, Rulebook / Code, Fragment",
     "Literary Themes Tags": "Ritual / Devotional, Political",
-    "Symbolic System Tags": "Akkadian"
+    "Symbolic System Tags": "Akkadian",
+    "Y-pos": "-"
   },
   {
     "index": 5,
@@ -117,7 +121,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Merchant / Cosmopolitan, Warrior / Imperial",
     "Literary Forms Tags": "Record / Chronicle, Personal Writings, Proclamation / Decree, Rulebook / Code, Manual / Instruction",
     "Literary Themes Tags": "Political, Didactic / Ethical, Historical Reflection",
-    "Symbolic System Tags": "Akkadian"
+    "Symbolic System Tags": "Akkadian",
+    "Y-pos": "-"
   },
   {
     "index": 6,
@@ -141,7 +146,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Scholarly, Warrior / Imperial",
     "Literary Forms Tags": "Record / Chronicle, Analysis",
     "Literary Themes Tags": "Historical Reflection, Political, Cosmological, Didactic / Ethical",
-    "Symbolic System Tags": "Akkadian"
+    "Symbolic System Tags": "Akkadian",
+    "Y-pos": "-"
   },
   {
     "index": 7,
@@ -165,7 +171,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Scholarly, Royal, Warrior / Imperial",
     "Literary Forms Tags": "Manual / Instruction, Record / Chronicle, Analysis",
     "Literary Themes Tags": "Cosmological, Didactic / Ethical, Epistemological / Hermeneutics",
-    "Symbolic System Tags": "Akkadian"
+    "Symbolic System Tags": "Akkadian",
+    "Y-pos": "-"
   },
   {
     "index": 8,
@@ -189,6 +196,7 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Scholarly, Royal, Warrior / Imperial, Mystical / Initiatory",
     "Literary Forms Tags": "Manual / Instruction, Record / Chronicle, Rulebook / Code, Analysis",
     "Literary Themes Tags": "Ritual / Devotional, Political, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Akkadian"
+    "Symbolic System Tags": "Akkadian",
+    "Y-pos": "-"
   }
 ]

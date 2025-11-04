@@ -21,7 +21,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Royal, Warrior / Imperial, Priestly / Theocratic, Folk / Communal, Merchant / Cosmopolitan",
     "Literary Forms Tags": "Personal Writings, Record / Chronicle, Proclamation / Decree, Petition / Appeal, Rulebook / Code, Manual / Instruction, Fragment, Oral Tradition",
     "Literary Themes Tags": "Political, Ritual / Devotional, Didactic / Ethical, Historical Reflection",
-    "Symbolic System Tags": "Akkadian"
+    "Symbolic System Tags": "Akkadian",
+    "Y-pos": "-"
   },
   {
     "index": "2",
@@ -45,7 +46,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Warrior / Imperial, Royal, Merchant / Cosmopolitan",
     "Literary Forms Tags": "Personal Writings, Petition / Appeal, Record / Chronicle, Proclamation / Decree, Fragment",
     "Literary Themes Tags": "Political, Tragic / Lamentation, Didactic / Ethical, Historical Reflection",
-    "Symbolic System Tags": "Akkadian, Canaanite, Egyptian, Hittite, Hurrian"
+    "Symbolic System Tags": "Akkadian, Canaanite, Egyptian, Hittite, Hurrian",
+    "Y-pos": "-"
   },
   {
     "index": "3",
@@ -69,7 +71,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Subversive / Revolutionary, Mystical / Initiatory",
     "Literary Forms Tags": "Myth, Poetry, Narrative, Epic, Fragment, Oral Tradition",
     "Literary Themes Tags": "Ritual / Devotional, Tragic / Lamentation, Adventure / Heroic Journey, Didactic / Ethical, Feminine, Existential",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "4",
@@ -93,7 +96,8 @@
     "Socio-political Tags": "Royal, Priestly / Theocratic, Mystical / Initiatory, Bureaucratic / Legal / Scribal",
     "Literary Forms Tags": "Myth, Poetry, Narrative, Epic, Fragment, Oral Tradition",
     "Literary Themes Tags": "Ritual / Devotional, Tragic / Lamentation, Adventure / Heroic Journey, Didactic / Ethical, Political, Existential",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "5",
@@ -117,7 +121,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Warrior / Imperial, Royal, Mystical / Initiatory",
     "Literary Forms Tags": "Myth, Poetry, Narrative, Epic, Liturgy, Fragment, Oral Tradition",
     "Literary Themes Tags": "Ritual / Devotional, Cosmological, Adventure / Heroic Journey, Tragic / Lamentation, Political, Metaphysical",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "6",
@@ -141,7 +146,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Priestly / Theocratic, Royal, Merchant / Cosmopolitan",
     "Literary Forms Tags": "Record / Chronicle, Manual / Instruction, Glossary / Taxonomy, Proclamation / Decree, Fragment",
     "Literary Themes Tags": "Ritual / Devotional, Political, Didactic / Ethical",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "7",
@@ -165,7 +171,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Mystical / Initiatory",
     "Literary Forms Tags": "Myth, Liturgy, Rulebook / Code, Manual / Instruction, Fragment, Oral Tradition",
     "Literary Themes Tags": "Ritual / Devotional, Cosmological, Didactic / Ethical",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "8",
@@ -189,7 +196,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Mystical / Initiatory",
     "Literary Forms Tags": "Manual / Instruction, Liturgy, Rulebook / Code, Fragment",
     "Literary Themes Tags": "Ritual / Devotional, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Akkadian, Canaanite, Hurrian"
+    "Symbolic System Tags": "Akkadian, Canaanite, Hurrian",
+    "Y-pos": "-"
   },
   {
     "index": "9",
@@ -213,7 +221,8 @@
     "Socio-political Tags": "Royal, Priestly / Theocratic",
     "Literary Forms Tags": "Proclamation / Decree, Fragment, Liturgy, Record / Chronicle",
     "Literary Themes Tags": "Ritual / Devotional, Political, Historical Reflection, Feminine",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "10",
@@ -237,7 +246,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal",
     "Literary Forms Tags": "Fragment, Proclamation / Decree, Manual / Instruction, Petition / Appeal, Rulebook / Code, Oral Tradition",
     "Literary Themes Tags": "Ritual / Devotional, Political, Didactic / Ethical, Prophetic / Revelation",
-    "Symbolic System Tags": "Yahwistic"
+    "Symbolic System Tags": "Yahwistic",
+    "Y-pos": "-"
   },
   {
     "index": "11",
@@ -261,7 +271,8 @@
     "Socio-political Tags": "Royal, Priestly / Theocratic, Bureaucratic / Legal / Scribal",
     "Literary Forms Tags": "Proclamation / Decree, Petition / Appeal, Fragment, Record / Chronicle",
     "Literary Themes Tags": "Ritual / Devotional, Political, Prophetic / Revelation, Historical Reflection",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "12",
@@ -285,7 +296,8 @@
     "Socio-political Tags": "Royal, Priestly / Theocratic",
     "Literary Forms Tags": "Proclamation / Decree, Fragment, Liturgy, Record / Chronicle",
     "Literary Themes Tags": "Ritual / Devotional, Political, Historical Reflection",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "13",
@@ -309,7 +321,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Priestly / Theocratic",
     "Literary Forms Tags": "Manual / Instruction, Fragment, Record / Chronicle, Riddle / Aphorism, Oral Tradition",
     "Literary Themes Tags": "Didactic / Ethical",
-    "Symbolic System Tags": "Yahwistic"
+    "Symbolic System Tags": "Yahwistic",
+    "Y-pos": "-"
   },
   {
     "index": "14",
@@ -333,7 +346,8 @@
     "Socio-political Tags": "Royal, Priestly / Theocratic, Warrior / Imperial, Subversive / Revolutionary",
     "Literary Forms Tags": "Record / Chronicle, Proclamation / Decree, Personal Writings, Myth, Fragment",
     "Literary Themes Tags": "Ritual / Devotional, Political, Historical Reflection, Prophetic / Revelation",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "15",
@@ -357,7 +371,8 @@
     "Socio-political Tags": "Royal, Warrior / Imperial, Priestly / Theocratic",
     "Literary Forms Tags": "Record / Chronicle, Proclamation / Decree, Fragment, Myth, Essay / Argument",
     "Literary Themes Tags": "Political, Prophetic / Revelation, Didactic / Ethical, Ritual / Devotional, Historical Reflection, Adventure / Heroic Journey",
-    "Symbolic System Tags": "Aramaic"
+    "Symbolic System Tags": "Aramaic",
+    "Y-pos": "-"
   },
   {
     "index": "16",
@@ -381,7 +396,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Warrior / Imperial, Merchant / Cosmopolitan",
     "Literary Forms Tags": "Proclamation / Decree, Fragment, Petition / Appeal",
     "Literary Themes Tags": "Ritual / Devotional, Political",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "17",
@@ -405,7 +421,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Mystical / Initiatory, Subversive / Revolutionary, Bureaucratic / Legal / Scribal",
     "Literary Forms Tags": "Poetry, Myth, Fragment, Oral Tradition",
     "Literary Themes Tags": "Prophetic / Revelation, Apocalyptic / Eschatological, Ritual / Devotional, Cosmological, Introspective",
-    "Symbolic System Tags": "Canaanite, Aramaic"
+    "Symbolic System Tags": "Canaanite, Aramaic",
+    "Y-pos": "-"
   },
   {
     "index": "18",
@@ -429,7 +446,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Folk / Communal, Bureaucratic / Legal / Scribal, Subversive / Revolutionary, Mystical / Initiatory",
     "Literary Forms Tags": "Fragment, Liturgy, Riddle / Aphorism, Myth, Petition / Appeal",
     "Literary Themes Tags": "Ritual / Devotional, Cosmological, Metaphysical, Feminine, Prophetic / Revelation",
-    "Symbolic System Tags": "Yahwistic, Canaanite"
+    "Symbolic System Tags": "Yahwistic, Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "19",
@@ -453,7 +471,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Royal, Merchant / Cosmopolitan",
     "Literary Forms Tags": "Fragment, Record / Chronicle, Proclamation / Decree",
     "Literary Themes Tags": "Political",
-    "Symbolic System Tags": "Yahwistic"
+    "Symbolic System Tags": "Yahwistic",
+    "Y-pos": "-"
   },
   {
     "index": "20",
@@ -477,7 +496,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Warrior / Imperial, Royal, Folk / Communal, Mystical / Initiatory",
     "Literary Forms Tags": "Narrative, Myth, Doctrine / Treatise, Record / Chronicle, Parable / Fable, Proclamation / Decree, Manual / Instruction, Liturgy, Epic, Rulebook / Code, Riddle / Aphorism, Oral Tradition",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Metaphysical, Political, Tragic / Lamentation, Adventure / Heroic Journey, Didactic / Ethical, Prophetic / Revelation, Cosmological, Existential",
-    "Symbolic System Tags": "Yahwistic"
+    "Symbolic System Tags": "Yahwistic",
+    "Y-pos": "-"
   },
   {
     "index": "21",
@@ -501,7 +521,8 @@
     "Socio-political Tags": "Warrior / Imperial, Royal, Bureaucratic / Legal / Scribal, Priestly / Theocratic",
     "Literary Forms Tags": "Proclamation / Decree, Rulebook / Code, Record / Chronicle",
     "Literary Themes Tags": "Ritual / Devotional, Political, Didactic / Ethical",
-    "Symbolic System Tags": "Aramaic"
+    "Symbolic System Tags": "Aramaic",
+    "Y-pos": "-"
   },
   {
     "index": "22",
@@ -525,7 +546,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Royal, Bureaucratic / Legal / Scribal, Warrior / Imperial, Subversive / Revolutionary, Mystical / Initiatory",
     "Literary Forms Tags": "Poetry, Narrative, Record / Chronicle, Proclamation / Decree, Parable / Fable, Essay / Argument, Liturgy, Riddle / Aphorism, Petition / Appeal",
     "Literary Themes Tags": "Ritual / Devotional, Apocalyptic / Eschatological, Historical Reflection, Metaphysical, Political, Tragic / Lamentation, Adventure / Heroic Journey, Didactic / Ethical, Prophetic / Revelation, Existential, Cosmological",
-    "Symbolic System Tags": "Yahwistic"
+    "Symbolic System Tags": "Yahwistic",
+    "Y-pos": "-"
   },
   {
     "index": "23",
@@ -549,7 +571,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Merchant / Cosmopolitan, Warrior / Imperial, Royal",
     "Literary Forms Tags": "Proclamation / Decree, Rulebook / Code, Record / Chronicle, Petition / Appeal",
     "Literary Themes Tags": "Political, Didactic / Ethical, Ritual / Devotional, Historical Reflection",
-    "Symbolic System Tags": "Akkadian"
+    "Symbolic System Tags": "Akkadian",
+    "Y-pos": "-"
   },
   {
     "index": "24",
@@ -573,7 +596,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Mystical / Initiatory",
     "Literary Forms Tags": "Liturgy, Fragment",
     "Literary Themes Tags": "Ritual / Devotional, Didactic / Ethical, Metaphysical",
-    "Symbolic System Tags": "Yahwistic"
+    "Symbolic System Tags": "Yahwistic",
+    "Y-pos": "-"
   },
   {
     "index": "25",
@@ -597,7 +621,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Warrior / Imperial, Royal",
     "Literary Forms Tags": "Personal Writings, Record / Chronicle, Fragment, Petition / Appeal",
     "Literary Themes Tags": "Political, Tragic / Lamentation",
-    "Symbolic System Tags": "Yahwistic"
+    "Symbolic System Tags": "Yahwistic",
+    "Y-pos": "-"
   },
   {
     "index": "26",
@@ -621,6 +646,7 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Warrior / Imperial, Scholarly, Subversive / Revolutionary, Mystical / Initiatory",
     "Literary Forms Tags": "Poetry, Dialogue, Narrative, Essay / Argument, Record / Chronicle, Parable / Fable, Manual / Instruction, Analysis, Fiction, Liturgy, Riddle / Aphorism, Petition / Appeal",
     "Literary Themes Tags": "Ritual / Devotional, Adventure / Heroic Journey, Apocalyptic / Eschatological, Historical Reflection, Metaphysical, Epistemological / Hermeneutics, Political, Romantic / Erotic, Comic / Satirical, Tragic / Lamentation, Didactic / Ethical, Introspective, Absurd, Existential, Feminine, Cosmological",
-    "Symbolic System Tags": "Yahwistic"
+    "Symbolic System Tags": "Yahwistic",
+    "Y-pos": "-"
   }
 ]

@@ -21,7 +21,8 @@
     "Socio-political Tags": "Warrior / Imperial, Scholarly, Merchant / Cosmopolitan",
     "Literary Forms Tags": "Narrative, Record / Chronicle, Essay / Argument, Analysis",
     "Literary Themes Tags": "Historical Reflection, Political, Didactic / Ethical",
-    "Symbolic System Tags": "Roman, Hellenic"
+    "Symbolic System Tags": "Roman, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "2",
@@ -45,7 +46,8 @@
     "Socio-political Tags": "Warrior / Imperial, Scholarly, Mystical / Initiatory, Merchant / Cosmopolitan",
     "Literary Forms Tags": "Doctrine / Treatise, Essay / Argument, Manual / Instruction, Personal Writings, Analysis",
     "Literary Themes Tags": "Cosmological, Metaphysical, Didactic / Ethical, Ritual / Devotional, Epistemological / Hermeneutics, Political",
-    "Symbolic System Tags": "Hellenistic"
+    "Symbolic System Tags": "Hellenistic",
+    "Y-pos": "-"
   },
   {
     "Index": "3",
@@ -69,7 +71,8 @@
     "Socio-political Tags": "Royal, Warrior / Imperial, Scholarly, Mystical / Initiatory",
     "Literary Forms Tags": "Narrative, Essay / Argument, Doctrine / Treatise, Analysis",
     "Literary Themes Tags": "Historical Reflection, Metaphysical, Epistemological / Hermeneutics, Political, Didactic / Ethical, Introspective, Existential",
-    "Symbolic System Tags": "Roman, Hellenic"
+    "Symbolic System Tags": "Roman, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "4",
@@ -93,7 +96,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Scholarly, Subversive / Revolutionary, Mystical / Initiatory, Recluse / Ascetic",
     "Literary Forms Tags": "Essay / Argument, Doctrine / Treatise, Commentary / Exegesis, Parable / Fable, Analysis, Riddle / Aphorism, Manual / Instruction",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Metaphysical, Epistemological / Hermeneutics, Political, Comic / Satirical, Didactic / Ethical, Introspective, Feminine",
-    "Symbolic System Tags": "Roman, Hellenic, Egyptian"
+    "Symbolic System Tags": "Roman, Hellenic, Egyptian",
+    "Y-pos": "-"
   },
   {
     "Index": "5",
@@ -117,7 +121,8 @@
     "Socio-political Tags": "Royal, Warrior / Imperial, Scholarly, Bureaucratic / Legal / Scribal",
     "Literary Forms Tags": "Narrative, Essay / Argument, Personal Writings, Record / Chronicle, Commentary / Exegesis, Analysis, Parable / Fable",
     "Literary Themes Tags": "Historical Reflection, Political, Didactic / Ethical, Adventure / Heroic Journey, Tragic / Lamentation, Introspective",
-    "Symbolic System Tags": "Roman, Hellenic"
+    "Symbolic System Tags": "Roman, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "6",
@@ -141,7 +146,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Warrior / Imperial, Scholarly, Merchant / Cosmopolitan",
     "Literary Forms Tags": "Doctrine / Treatise, Manual / Instruction, Glossary / Taxonomy, Analysis, Record / Chronicle",
     "Literary Themes Tags": "Didactic / Ethical, Feminine",
-    "Symbolic System Tags": "Roman, Hellenic"
+    "Symbolic System Tags": "Roman, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "7",
@@ -165,7 +171,8 @@
     "Socio-political Tags": "Scholarly, Subversive / Revolutionary, Mystical / Initiatory, Recluse / Ascetic",
     "Literary Forms Tags": "Essay / Argument, Doctrine / Treatise, Manual / Instruction, Riddle / Aphorism, Commentary / Exegesis, Oral Tradition",
     "Literary Themes Tags": "Didactic / Ethical, Metaphysical, Existential, Epistemological / Hermeneutics",
-    "Symbolic System Tags": "Roman, Hellenic"
+    "Symbolic System Tags": "Roman, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "8",
@@ -189,7 +196,8 @@
     "Socio-political Tags": "Scholarly, Subversive / Revolutionary, Mystical / Initiatory, Recluse / Ascetic",
     "Literary Forms Tags": "Manual / Instruction, Doctrine / Treatise, Riddle / Aphorism, Fragment",
     "Literary Themes Tags": "Metaphysical, Epistemological / Hermeneutics, Didactic / Ethical, Introspective, Existential",
-    "Symbolic System Tags": "Roman, Hellenic"
+    "Symbolic System Tags": "Roman, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "9",
@@ -213,7 +221,8 @@
     "Socio-political Tags": "Royal, Warrior / Imperial, Scholarly, Mystical / Initiatory",
     "Literary Forms Tags": "Narrative, Record / Chronicle, Essay / Argument, Analysis, Epic",
     "Literary Themes Tags": "Historical Reflection, Adventure / Heroic Journey, Political, Didactic / Ethical, Ritual / Devotional",
-    "Symbolic System Tags": "Roman, Hellenic"
+    "Symbolic System Tags": "Roman, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "10",
@@ -237,7 +246,8 @@
     "Socio-political Tags": "Warrior / Imperial, Scholarly, Merchant / Cosmopolitan",
     "Literary Forms Tags": "Narrative, Record / Chronicle, Essay / Argument, Analysis, Oral Tradition",
     "Literary Themes Tags": "Adventure / Heroic Journey, Historical Reflection, Didactic / Ethical",
-    "Symbolic System Tags": "Roman, Hellenic"
+    "Symbolic System Tags": "Roman, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "11",
@@ -261,7 +271,8 @@
     "Socio-political Tags": "Warrior / Imperial, Scholarly",
     "Literary Forms Tags": "Essay / Argument, Commentary / Exegesis, Record / Chronicle, Riddle / Aphorism, Fragment",
     "Literary Themes Tags": "Didactic / Ethical, Comic / Satirical, Epistemological / Hermeneutics, Historical Reflection",
-    "Symbolic System Tags": "Roman, Hellenic"
+    "Symbolic System Tags": "Roman, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "12",
@@ -285,7 +296,8 @@
     "Socio-political Tags": "Subversive / Revolutionary, Bohemian / Aesthetic, Warrior / Imperial, Scholarly, Recluse / Ascetic",
     "Literary Forms Tags": "Narrative, Essay / Argument",
     "Literary Themes Tags": "Comic / Satirical, Ritual / Devotional, Political, Absurd",
-    "Symbolic System Tags": "Roman, Hellenic, Christian"
+    "Symbolic System Tags": "Roman, Hellenic, Christian",
+    "Y-pos": "-"
   },
   {
     "Index": "13",
@@ -309,7 +321,8 @@
     "Socio-political Tags": "Subversive / Revolutionary, Bohemian / Aesthetic, Merchant / Cosmopolitan, Warrior / Imperial, Bureaucratic / Legal / Scribal",
     "Literary Forms Tags": "Narrative, Parable / Fable, Myth, Essay / Argument, Personal Writings",
     "Literary Themes Tags": "Comic / Satirical, Adventure / Heroic Journey, Utopian / Dystopian, Absurd, Epistemological / Hermeneutics",
-    "Symbolic System Tags": "Hellenic"
+    "Symbolic System Tags": "Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "14",
@@ -333,7 +346,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Warrior / Imperial, Scholarly, Bohemian / Aesthetic, National",
     "Literary Forms Tags": "Narrative, Record / Chronicle, Commentary / Exegesis, Analysis, Essay / Argument",
     "Literary Themes Tags": "Historical Reflection, Political, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Roman, Hellenic"
+    "Symbolic System Tags": "Roman, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "15",
@@ -357,7 +371,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Merchant / Cosmopolitan, Subversive / Revolutionary, Mystical / Initiatory, Bureaucratic / Legal / Scribal, Warrior / Imperial",
     "Literary Forms Tags": "Essay / Argument, Personal Writings, Narrative",
     "Literary Themes Tags": "Comic / Satirical, Political, Didactic / Ethical, Prophetic / Revelation",
-    "Symbolic System Tags": "Roman, Hellenic"
+    "Symbolic System Tags": "Roman, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "16",
@@ -381,7 +396,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Scholarly, Bohemian / Aesthetic, Subversive / Revolutionary, Mystical / Initiatory",
     "Literary Forms Tags": "Poetry, Myth, Doctrine / Treatise, Fragment, Manual / Instruction, Riddle / Aphorism, Epic, Oral Tradition",
     "Literary Themes Tags": "Ritual / Devotional, Apocalyptic / Eschatological, Metaphysical, Epistemological / Hermeneutics, Adventure / Heroic Journey, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Hellenic, Sumerian, Akkadian"
+    "Symbolic System Tags": "Hellenic, Sumerian, Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": "17",
@@ -405,7 +421,8 @@
     "Socio-political Tags": "Scholarly, Subversive / Revolutionary",
     "Literary Forms Tags": "Essay / Argument, Doctrine / Treatise, Analysis",
     "Literary Themes Tags": "Comic / Satirical, Metaphysical, Epistemological / Hermeneutics, Political, Didactic / Ethical, Existential",
-    "Symbolic System Tags": "Hellenic"
+    "Symbolic System Tags": "Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "18",
@@ -429,7 +446,8 @@
     "Socio-political Tags": "Scholarly, Subversive / Revolutionary, Mystical / Initiatory",
     "Literary Forms Tags": "Essay / Argument, Doctrine / Treatise, Manual / Instruction, Analysis, Riddle / Aphorism",
     "Literary Themes Tags": "Metaphysical, Epistemological / Hermeneutics, Didactic / Ethical, Existential, Introspective, Absurd",
-    "Symbolic System Tags": "Hellenic"
+    "Symbolic System Tags": "Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "19",
@@ -453,7 +471,8 @@
     "Socio-political Tags": "Royal, Warrior / Imperial, Bohemian / Aesthetic, Folk / Communal, Mystical / Initiatory",
     "Literary Forms Tags": "Narrative, Fiction, Myth, Parable / Fable",
     "Literary Themes Tags": "Ritual / Devotional, Adventure / Heroic Journey, Coming of Age, Romantic / Erotic, Comic / Satirical, Didactic / Ethical, Introspective, Ritual / Devotional, Feminine",
-    "Symbolic System Tags": "Roman, Hellenic"
+    "Symbolic System Tags": "Roman, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "20",
@@ -477,7 +496,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Warrior / Imperial, Royal, Scholarly, Bohemian / Aesthetic, Merchant / Cosmopolitan, Mystical / Initiatory, Recluse / Ascetic",
     "Literary Forms Tags": "Narrative, Fiction, Essay / Argument, Commentary / Exegesis, Myth, Analysis",
     "Literary Themes Tags": "Ritual / Devotional, Adventure / Heroic Journey, Historical Reflection, Metaphysical, Epistemological / Hermeneutics, Political, Didactic / Ethical, Introspective, Prophetic / Revelation, Existential, Cosmological",
-    "Symbolic System Tags": "Roman, Hellenic"
+    "Symbolic System Tags": "Roman, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "21",
@@ -501,7 +521,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Scholarly, Bohemian / Aesthetic, Merchant / Cosmopolitan",
     "Literary Forms Tags": "Narrative, Record / Chronicle, Commentary / Exegesis, Essay / Argument, Manual / Instruction, Riddle / Aphorism, Oral Tradition",
     "Literary Themes Tags": "Historical Reflection, Metaphysical, Epistemological / Hermeneutics, Political, Comic / Satirical, Adventure / Heroic Journey, Didactic / Ethical",
-    "Symbolic System Tags": "Hellenic, Roman"
+    "Symbolic System Tags": "Hellenic, Roman",
+    "Y-pos": "-"
   },
   {
     "Index": "22",
@@ -525,7 +546,8 @@
     "Socio-political Tags": "Warrior / Imperial, Scholarly, Bohemian / Aesthetic, Merchant / Cosmopolitan",
     "Literary Forms Tags": "Narrative, Essay / Argument, Record / Chronicle, Commentary / Exegesis, Analysis",
     "Literary Themes Tags": "Historical Reflection, Political, Didactic / Ethical, Comic / Satirical",
-    "Symbolic System Tags": "Roman, Hellenic"
+    "Symbolic System Tags": "Roman, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "23",
@@ -549,7 +571,8 @@
     "Socio-political Tags": "Warrior / Imperial, Priestly / Theocratic, Scholarly, Bohemian / Aesthetic, Merchant / Cosmopolitan, Mystical / Initiatory",
     "Literary Forms Tags": "Dialogue, Narrative, Myth, Commentary / Exegesis, Essay / Argument",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Metaphysical, Epistemological / Hermeneutics, Adventure / Heroic Journey, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Roman, Hellenic"
+    "Symbolic System Tags": "Roman, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "24",
@@ -573,7 +596,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Scholarly, Mystical / Initiatory, Recluse / Ascetic",
     "Literary Forms Tags": "Narrative, Doctrine / Treatise, Record / Chronicle, Rulebook / Code",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Metaphysical, Epistemological / Hermeneutics, Political, Adventure / Heroic Journey, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Hellenic"
+    "Symbolic System Tags": "Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "25",
@@ -597,7 +621,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Scholarly, Mystical / Initiatory",
     "Literary Forms Tags": "Doctrine / Treatise, Commentary / Exegesis, Glossary / Taxonomy, Fragment",
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Epistemological / Hermeneutics, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Hellenic"
+    "Symbolic System Tags": "Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "26",
@@ -621,7 +646,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Warrior / Imperial, Scholarly, Merchant / Cosmopolitan, Subversive / Revolutionary, Mystical / Initiatory",
     "Literary Forms Tags": "Essay / Argument, Myth, Doctrine / Treatise, Proclamation / Decree, Analysis",
     "Literary Themes Tags": "Ritual / Devotional, Comic / Satirical, Historical Reflection, Metaphysical, Political, Didactic / Ethical, Prophetic / Revelation, Cosmological",
-    "Symbolic System Tags": "Hellenic, Roman"
+    "Symbolic System Tags": "Hellenic, Roman",
+    "Y-pos": "-"
   },
   {
     "Index": "27",
@@ -645,7 +671,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Warrior / Imperial, Scholarly, Subversive / Revolutionary, Mystical / Initiatory",
     "Literary Forms Tags": "Personal Writings, Proclamation / Decree, Essay / Argument, Manual / Instruction, Analysis, Petition / Appeal",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Metaphysical, Political, Didactic / Ethical, Prophetic / Revelation, Cosmological",
-    "Symbolic System Tags": "Hellenic, Roman"
+    "Symbolic System Tags": "Hellenic, Roman",
+    "Y-pos": "-"
   },
   {
     "Index": "28",
@@ -669,6 +696,7 @@
     "Socio-political Tags": "Priestly / Theocratic, Royal, Warrior / Imperial, Scholarly, Subversive / Revolutionary",
     "Literary Forms Tags": "Essay / Argument, Doctrine / Treatise, Fragment, Analysis",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Metaphysical, Epistemological / Hermeneutics, Political, Didactic / Ethical, Prophetic / Revelation, Cosmological",
-    "Symbolic System Tags": "Hellenic, Roman"
+    "Symbolic System Tags": "Hellenic, Roman",
+    "Y-pos": "-"
   }
 ]

@@ -119,20 +119,26 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openKey, isOpen]);
 
-  // ---- Forced order + two section labels ----
+  // ---- NEW: Forced order + section labels + display-name overrides ----
   const ORDER = [
-    "__regular__",
-    "symbolicSystems",
+    "__textual__",            // section: "Textual Tags"
     "artsSciences",
     "literaryForms",
-    "literaryContent",
-    "socioPolitical",
-    "__special__",
-    "comtean",
+    "literaryContent",        // shown as "Literary Themes"
     "metaphysical",
+    "socioPolitical",
+    "comtean",                // shown as "Comtean Framework"
+    "__myth__",               // section: "Mythical Parents & Textual Tags"
+    "symbolicSystems",
     "jungian",
     "neumann",
   ];
+
+  // Panel-only label overrides (does not mutate incoming group objects)
+  const LABEL_OVERRIDES = {
+    literaryContent: "Literary Themes",
+    comtean: "Comtean Framework",
+  };
 
   const groupsByKey = useMemo(() => new Map(groups.map((g) => [g.key, g])), [groups]);
 
@@ -140,12 +146,12 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
     const seen = new Set();
     const out = [];
     for (const key of ORDER) {
-      if (key === "__regular__") {
-        out.push({ __section: true, label: "Regular Tags", key });
+      if (key === "__textual__") {
+        out.push({ __section: true, label: "Text Tags", key });
         continue;
       }
-      if (key === "__special__") {
-        out.push({ __section: true, label: "Specialized Tags", key });
+    if (key === "__myth__") {
+        out.push({ __section: true, label: "Mythical Parents\n& Text Tags", key });
         continue;
       }
       const g = groupsByKey.get(key);
@@ -154,6 +160,7 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
         seen.add(key);
       }
     }
+    // Append any groups not explicitly ordered (keeps backward compatibility)
     for (const g of groups) {
       if (!seen.has(g.key)) out.push(g);
     }
@@ -201,164 +208,166 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
   }
 
   return (
-  <div
-    id="tagPanel"
-    ref={panelRef}
-    className={`tagPanelWrap ${isOpen ? "tagPanelWrap--open" : "tagPanelWrap--closed"}`}
-    aria-hidden={!isOpen}
-    onMouseDown={(e) => e.stopPropagation()}
-  >
-    {/* FILTERS tab */}
-    <button
-      type="button"
-      className="tagPanel__tab"
-      aria-expanded={isOpen}
-      aria-controls="tagPanel"
-      aria-hidden={isOpen}
-      tabIndex={isOpen ? -1 : 0}
-      onClick={() => {
-        setIsOpen(true);
-        setOpenKey(null);
-      }}
-      title="Toggle filters"
+    <div
+      id="tagPanel"
+      ref={panelRef}
+      className={`tagPanelWrap ${isOpen ? "tagPanelWrap--open" : "tagPanelWrap--closed"}`}
+      aria-hidden={!isOpen}
+      onMouseDown={(e) => e.stopPropagation()}
     >
-      FILTERS
-    </button>
-
-    {/* Panel X close */}
-    {isOpen && (
+      {/* FILTERS tab */}
       <button
         type="button"
-        className="tagPanel__close tagPanel__panelClosePos"
-        aria-label="Close filters"
-        title="Close"
+        className="tagPanel__tab"
+        aria-expanded={isOpen}
+        aria-controls="tagPanel"
+        aria-hidden={isOpen}
+        tabIndex={isOpen ? -1 : 0}
         onClick={() => {
-          setIsOpen(false);
+          setIsOpen(true);
           setOpenKey(null);
         }}
+        title="Toggle filters"
       >
-        ×
+        FILTERS
       </button>
-    )}
 
-    {/* Panel content */}
-    <div className="tagPanel__content">
-      {orderedGroups.map((g) => {
-        if (g.__section) {
+      {/* Panel X close */}
+      {isOpen && (
+        <button
+          type="button"
+          className="tagPanel__close tagPanel__panelClosePos"
+          aria-label="Close filters"
+          title="Close"
+          onClick={() => {
+            setIsOpen(false);
+            setOpenKey(null);
+          }}
+        >
+          ×
+        </button>
+      )}
+
+      {/* Panel content */}
+      <div className="tagPanel__content">
+        {orderedGroups.map((g) => {
+          if (g.__section) {
+            return (
+              <div key={g.key} className="tagPanel__sectionLabel">
+                {g.label}
+              </div>
+            );
+          }
+
+          const set = selectedMaps.get(g.key) || new Set();
+          const total = g.allTags.length;
+          const count = set.size;
+          const isDropdownOpen = openKey === g.key;
+
+          // two-column normalized checklist for Symbolic Systems
+          const items = [...g.allTags].sort((a, b) =>
+            a.localeCompare(b, "en", { sensitivity: "base" })
+          );
+          const listClass =
+            g.key === "symbolicSystems"
+              ? "tagPanel__menuList tagPanel__menuList--twoCols"
+              : "tagPanel__menuList";
+
+          // panel display label (respect overrides)
+          const displayLabel = LABEL_OVERRIDES[g.key] ?? g.label;
+
           return (
-            <div key={g.key} className="tagPanel__sectionLabel">
-              {g.label}
+            <div key={g.key} style={{ position: "relative" }}>
+              <button
+                type="button"
+                ref={(el) => {
+                  if (el) btnRefs.current.set(g.key, el);
+                  else btnRefs.current.delete(g.key);
+                }}
+                onClick={() => toggleMenu(g.key)}
+                className="tagPanel__btn"
+                aria-expanded={isDropdownOpen}
+                aria-controls={`menu-${g.key}`}
+                title={displayLabel}
+              >
+                {displayLabel} {renderCountBadge(count, total)}
+              </button>
+
+              {isDropdownOpen && (
+                <MenuPortal>
+                  <div
+                    ref={menuRef}
+                    id={`menu-${g.key}`}
+                    role="menu"
+                    className="tagPanel__dropdown"
+                    style={{
+                      position: "fixed",
+                      top: `${menuPos.top}px`,
+                      left: `${menuPos.left}px`,
+                      width: `${menuPos.width}px`,
+                      maxHeight: "calc(100vh - 32px)",
+                      overflow: "auto",
+                      zIndex: 9999,
+                      transform: "none",
+                    }}
+                    onMouseDown={(e) => e.stopPropagation()}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {/* Header (title + corner X) */}
+                    <div className="tagPanel__menuHeader">
+                      <span style={{ fontWeight: 600 }}>{displayLabel}</span>
+                      <button
+                        type="button"
+                        className="tagPanel__close tagPanel__close--menu"
+                        aria-label="Close menu"
+                        title="Close"
+                        onClick={() => setOpenKey(null)}
+                      >
+                        ×
+                      </button>
+                    </div>
+
+                    {/* Toolbar under divider, aligned with first tag */}
+                    <div className="tagPanel__toolbar">
+                      <button
+                        type="button"
+                        onClick={() => handleAll(g.key, g.allTags)}
+                        className="tagPanel__miniBtn"
+                      >
+                        All
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleNone(g.key)}
+                        className="tagPanel__miniBtn"
+                      >
+                        None
+                      </button>
+                    </div>
+
+                    {/* List */}
+                    <div className={listClass}>
+                      {items.map((tag) => {
+                        const checked = set.has(tag);
+                        return (
+                          <label key={tag} className="tagPanel__row">
+                            <input
+                              type="checkbox"
+                              checked={checked}
+                              onChange={() => handleToggleTag(g.key, tag)}
+                            />
+                            <span style={{ marginLeft: 8 }}>{tag}</span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </MenuPortal>
+              )}
             </div>
           );
-        }
-
-        const set = selectedMaps.get(g.key) || new Set();
-        const total = g.allTags.length;
-        const count = set.size;
-        const isDropdownOpen = openKey === g.key;
-
-        // two-column normalized checklist for Symbolic Systems
-        const items = [...g.allTags].sort((a, b) =>
-          a.localeCompare(b, "en", { sensitivity: "base" })
-        );
-        const listClass =
-          g.key === "symbolicSystems"
-            ? "tagPanel__menuList tagPanel__menuList--twoCols"
-            : "tagPanel__menuList";
-
-        return (
-          <div key={g.key} style={{ position: "relative" }}>
-            <button
-              type="button"
-              ref={(el) => {
-                if (el) btnRefs.current.set(g.key, el);
-                else btnRefs.current.delete(g.key);
-              }}
-              onClick={() => toggleMenu(g.key)}
-              className="tagPanel__btn"
-              aria-expanded={isDropdownOpen}
-              aria-controls={`menu-${g.key}`}
-              title={g.label}
-            >
-              {g.label} {renderCountBadge(count, total)}
-            </button>
-
-            {isDropdownOpen && (
-              <MenuPortal>
-                <div
-                  ref={menuRef}
-                  id={`menu-${g.key}`}
-                  role="menu"
-                  className="tagPanel__dropdown"
-                  style={{
-                    position: "fixed",
-                    top: `${menuPos.top}px`,
-                    left: `${menuPos.left}px`,
-                    width: `${menuPos.width}px`,
-                    maxHeight: "calc(100vh - 32px)",
-                    overflow: "auto",
-                    zIndex: 9999,
-                    transform: "none",
-                  }}
-                  onMouseDown={(e) => e.stopPropagation()}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {/* Header (title + corner X) */}
-                  <div className="tagPanel__menuHeader">
-                    <span style={{ fontWeight: 600 }}>{g.label}</span>
-                    <button
-                      type="button"
-                      className="tagPanel__close tagPanel__close--menu"
-                      aria-label="Close menu"
-                      title="Close"
-                      onClick={() => setOpenKey(null)}
-                    >
-                      ×
-                    </button>
-                  </div>
-
-                  {/* Toolbar under divider, aligned with first tag */}
-                  <div className="tagPanel__toolbar">
-                    <button
-                      type="button"
-                      onClick={() => handleAll(g.key, g.allTags)}
-                      className="tagPanel__miniBtn"
-                    >
-                      All
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleNone(g.key)}
-                      className="tagPanel__miniBtn"
-                    >
-                      None
-                    </button>
-                  </div>
-
-                  {/* List */}
-                  <div className={listClass}>
-                    {items.map((tag) => {
-                      const checked = set.has(tag);
-                      return (
-                        <label key={tag} className="tagPanel__row">
-                          <input
-                            type="checkbox"
-                            checked={checked}
-                            onChange={() => handleToggleTag(g.key, tag)}
-                          />
-                          <span style={{ marginLeft: 8 }}>{tag}</span>
-                        </label>
-                      );
-                    })}
-                  </div>
-                </div>
-              </MenuPortal>
-            )}
-          </div>
-        );
-      })}
+        })}
+      </div>
     </div>
-  </div>
-);
-
+  );
 }

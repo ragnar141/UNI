@@ -22,7 +22,8 @@
     "Literary Forms Tags": "Narrative, Record / Chronicle, Manual / Instruction, Fragment",
     "Literary Content Tags": "Adventure, Strategic, Empirical, Historical Reflection, Heroic Journey",
     "Literary Themes Tags": "Adventure / Heroic Journey, Historical Reflection",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "2",
@@ -47,7 +48,8 @@
     "Literary Forms Tags": "Proclamation / Decree, Fragment, Record / Chronicle, Liturgy",
     "Literary Content Tags": "Religious / Ritual, Devotional / Sacrificial, Political, Historical Reflection",
     "Literary Themes Tags": "Ritual / Devotional, Political, Historical Reflection",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "3",
@@ -72,7 +74,8 @@
     "Literary Forms Tags": "Proclamation / Decree, Liturgy, Petition / Appeal, Record / Chronicle",
     "Literary Content Tags": "Religious / Ritual, Devotional / Sacrificial, Ethical / Moral, Prophetic / Revelation, Cosmological",
     "Literary Themes Tags": "Ritual / Devotional, Didactic / Ethical, Prophetic / Revelation, Cosmological",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "4",
@@ -97,7 +100,8 @@
     "Literary Forms Tags": "Proclamation / Decree, Petition / Appeal, Liturgy, Fragment",
     "Literary Content Tags": "Religious / Ritual, Devotional / Sacrificial, Strategic, Ethical / Moral, Existential",
     "Literary Themes Tags": "Ritual / Devotional, Didactic / Ethical, Existential",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "5",
@@ -122,7 +126,8 @@
     "Literary Forms Tags": "Doctrine / Treatise, Manual / Instruction, Rulebook / Code, Record / Chronicle, Fragment, Oral Tradition",
     "Literary Content Tags": "Didactic, Empirical, Ethical / Moral, Historical Reflection, Metaphysical, Political",
     "Literary Themes Tags": "Didactic / Ethical, Historical Reflection, Metaphysical, Political",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "6",
@@ -147,7 +152,8 @@
     "Literary Forms Tags": "Proclamation / Decree, Manual / Instruction, Rulebook / Code, Record / Chronicle",
     "Literary Content Tags": "Religious / Ritual, Devotional / Sacrificial, Empirical, Political",
     "Literary Themes Tags": "Ritual / Devotional, Political",
-    "Symbolic System Tags": "Canaanite"
+    "Symbolic System Tags": "Canaanite",
+    "Y-pos": "-"
   },
   {
     "index": "7",
@@ -172,6 +178,7 @@
     "Literary Forms Tags": "Proclamation / Decree, Liturgy, Record / Chronicle, Petition / Appeal",
     "Literary Content Tags": "Religious / Ritual, Devotional / Sacrificial, Metaphysical, Ethical / Moral, Political",
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Didactic / Ethical, Political",
-    "Symbolic System Tags": "Canaanite, Hellenistic"
+    "Symbolic System Tags": "Canaanite, Hellenistic",
+    "Y-pos": "-"
   }
 ]

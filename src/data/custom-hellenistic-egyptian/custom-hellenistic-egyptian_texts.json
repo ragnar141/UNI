@@ -21,7 +21,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Scholarly, Mystical / Initiatory, Recluse / Ascetic",
     "Literary Forms Tags": "Dialogue, Manual / Instruction, Myth, Doctrine / Treatise, Glossary / Taxonomy",
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Epistemological / Hermeneutics, Didactic / Ethical, Prophetic / Revelation, Cosmological",
-    "Symbolic System Tags": "Egyptian, Hellenistic, Hermetic"
+    "Symbolic System Tags": "Egyptian, Hellenistic, Hermetic",
+    "Y-pos": "-"
   },
   {
     "Index": "2",
@@ -45,7 +46,8 @@
     "Socio-political Tags": "Scholarly, Warrior / Imperial, Bureaucratic / Legal / Scribal",
     "Literary Forms Tags": "Doctrine / Treatise, Manual / Instruction, Glossary / Taxonomy, Rulebook / Code, Analysis",
     "Literary Themes Tags": "Didactic / Ethical, Epistemological / Hermeneutics, Cosmological",
-    "Symbolic System Tags": "Hellenistic"
+    "Symbolic System Tags": "Hellenistic",
+    "Y-pos": "-"
   },
   {
     "Index": "3",
@@ -69,7 +71,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Scholarly, Mystical / Initiatory",
     "Literary Forms Tags": "Personal Writings, Narrative, Liturgy, Record / Chronicle",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Didactic / Ethical, Introspective",
-    "Symbolic System Tags": "Egyptian, Hellenistic"
+    "Symbolic System Tags": "Egyptian, Hellenistic",
+    "Y-pos": "-"
   },
   {
     "Index": "4",
@@ -93,7 +96,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Royal, Warrior / Imperial",
     "Literary Forms Tags": "Proclamation / Decree, Record / Chronicle, Liturgy",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Political, Didactic / Ethical, Feminine, Cosmological",
-    "Symbolic System Tags": "Egyptian, Hellenistic"
+    "Symbolic System Tags": "Egyptian, Hellenistic",
+    "Y-pos": "-"
   },
   {
     "Index": "5",
@@ -117,7 +121,8 @@
     "Socio-political Tags": "Warrior / Imperial, Royal, Scholarly, Bohemian / Aesthetic",
     "Literary Forms Tags": "Poetry, Narrative, Myth, Epic",
     "Literary Themes Tags": "Adventure / Heroic Journey, Romantic / Erotic, Tragic / Lamentation, Introspective, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Hellenistic"
+    "Symbolic System Tags": "Hellenistic",
+    "Y-pos": "-"
   },
   {
     "Index": "6",
@@ -141,7 +146,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Warrior / Imperial, Scholarly",
     "Literary Forms Tags": "Record / Chronicle, Doctrine / Treatise, Fragment, Glossary / Taxonomy, Commentary / Exegesis",
     "Literary Themes Tags": "Historical Reflection, Metaphysical, Epistemological / Hermeneutics, Political, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Egyptian, Hellenistic"
+    "Symbolic System Tags": "Egyptian, Hellenistic",
+    "Y-pos": "-"
   },
   {
     "Index": "7",
@@ -165,7 +171,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Royal, Warrior / Imperial, Scholarly, Bohemian / Aesthetic, Mystical / Initiatory",
     "Literary Forms Tags": "Poetry, Myth, Narrative, Liturgy, Epic, Commentary / Exegesis, Parable / Fable, Oral Tradition",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Metaphysical, Political, Adventure / Heroic Journey, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Hellenistic"
+    "Symbolic System Tags": "Hellenistic",
+    "Y-pos": "-"
   },
   {
     "Index": "8",
@@ -189,7 +196,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Merchant / Cosmopolitan, Warrior / Imperial, Royal",
     "Literary Forms Tags": "Personal Writings, Petition / Appeal, Proclamation / Decree, Manual / Instruction, Record / Chronicle, Fragment, Rulebook / Code",
     "Literary Themes Tags": "Political, Didactic / Ethical, Historical Reflection",
-    "Symbolic System Tags": "Hellenistic"
+    "Symbolic System Tags": "Hellenistic",
+    "Y-pos": "-"
   },
   {
     "Index": "9",
@@ -213,7 +221,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Royal, Warrior / Imperial, Merchant / Cosmopolitan, Scholarly",
     "Literary Forms Tags": "Proclamation / Decree, Petition / Appeal, Personal Writings, Record / Chronicle, Fragment, Drama (Play), Narrative",
     "Literary Themes Tags": "Political, Didactic / Ethical, Historical Reflection",
-    "Symbolic System Tags": "Egyptian, Hellenistic"
+    "Symbolic System Tags": "Egyptian, Hellenistic",
+    "Y-pos": "-"
   },
   {
     "Index": "10",
@@ -237,7 +246,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Warrior / Imperial",
     "Literary Forms Tags": "Proclamation / Decree, Record / Chronicle, Liturgy",
     "Literary Themes Tags": "Ritual / Devotional, Political, Historical Reflection, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Egyptian"
+    "Symbolic System Tags": "Egyptian",
+    "Y-pos": "-"
   },
   {
     "Index": "11",
@@ -261,7 +271,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Warrior / Imperial, Scholarly",
     "Literary Forms Tags": "Essay / Argument, Fragment, Glossary / Taxonomy, Analysis, Record / Chronicle",
     "Literary Themes Tags": "Historical Reflection, Metaphysical, Epistemological / Hermeneutics, Political, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Hellenistic"
+    "Symbolic System Tags": "Hellenistic",
+    "Y-pos": "-"
   },
   {
     "Index": "12",
@@ -285,7 +296,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Warrior / Imperial, Royal",
     "Literary Forms Tags": "Proclamation / Decree, Record / Chronicle, Liturgy",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Political, Didactic / Ethical",
-    "Symbolic System Tags": "Egyptian, Hellenistic"
+    "Symbolic System Tags": "Egyptian, Hellenistic",
+    "Y-pos": "-"
   },
   {
     "Index": "13",
@@ -309,7 +321,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Mystical / Initiatory",
     "Literary Forms Tags": "Liturgy, Myth, Manual / Instruction",
     "Literary Themes Tags": "Ritual / Devotional, Apocalyptic / Eschatological, Metaphysical, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Egyptian"
+    "Symbolic System Tags": "Egyptian",
+    "Y-pos": "-"
   },
   {
     "Index": "14",
@@ -333,7 +346,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Mystical / Initiatory",
     "Literary Forms Tags": "Myth, Manual / Instruction, Record / Chronicle",
     "Literary Themes Tags": "Ritual / Devotional, Cosmological, Adventure / Heroic Journey, Didactic / Ethical",
-    "Symbolic System Tags": "Egyptian"
+    "Symbolic System Tags": "Egyptian",
+    "Y-pos": "-"
   },
   {
     "Index": "15",
@@ -357,7 +371,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Mystical / Initiatory",
     "Literary Forms Tags": "Liturgy, Myth, Narrative, Manual / Instruction, Doctrine / Treatise",
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Cosmological, Didactic / Ethical, Adventure / Heroic Journey, Political",
-    "Symbolic System Tags": "Egyptian"
+    "Symbolic System Tags": "Egyptian",
+    "Y-pos": "-"
   },
   {
     "Index": "16",
@@ -381,7 +396,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Warrior / Imperial",
     "Literary Forms Tags": "Proclamation / Decree, Record / Chronicle, Liturgy",
     "Literary Themes Tags": "Ritual / Devotional, Political, Didactic / Ethical, Historical Reflection",
-    "Symbolic System Tags": "Egyptian"
+    "Symbolic System Tags": "Egyptian",
+    "Y-pos": "-"
   },
   {
     "Index": "17",
@@ -405,7 +421,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Warrior / Imperial",
     "Literary Forms Tags": "Proclamation / Decree, Record / Chronicle, Liturgy",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Political, Didactic / Ethical",
-    "Symbolic System Tags": "Egyptian, Hellenistic"
+    "Symbolic System Tags": "Egyptian, Hellenistic",
+    "Y-pos": "-"
   },
   {
     "Index": "18",
@@ -429,7 +446,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Warrior / Imperial, Scholarly, Mystical / Initiatory",
     "Literary Forms Tags": "Narrative, Myth, Doctrine / Treatise, Commentary / Exegesis, Parable / Fable, Proclamation / Decree, Record / Chronicle, Liturgy, Rulebook / Code, Riddle / Aphorism, Petition / Appeal, Oral Tradition",
     "Literary Themes Tags": "Ritual / Devotional, Apocalyptic / Eschatological, Historical Reflection, Metaphysical, Epistemological / Hermeneutics, Political, Tragic / Lamentation, Adventure / Heroic Journey, Didactic / Ethical, Introspective, Prophetic / Revelation, Existential, Cosmological",
-    "Symbolic System Tags": "Yahwistic"
+    "Symbolic System Tags": "Yahwistic",
+    "Y-pos": "-"
   },
   {
     "Index": "19",
@@ -453,7 +471,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Warrior / Imperial, Scholarly, Mystical / Initiatory",
     "Literary Forms Tags": "Doctrine / Treatise, Manual / Instruction, Rulebook / Code, Liturgy, Commentary / Exegesis, Record / Chronicle",
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Epistemological / Hermeneutics, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Egyptian"
+    "Symbolic System Tags": "Egyptian",
+    "Y-pos": "-"
   },
   {
     "Index": "20",
@@ -477,7 +496,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Subversive / Revolutionary, Mystical / Initiatory, Royal",
     "Literary Forms Tags": "Dialogue, Myth, Parable / Fable, Essay / Argument, Petition / Appeal, Fragment",
     "Literary Themes Tags": "Political, Prophetic / Revelation, Apocalyptic / Eschatological, Utopian / Dystopian, Ritual / Devotional, Historical Reflection, Didactic / Ethical, Metaphysical",
-    "Symbolic System Tags": "Egyptian, Hellenistic, Hermetic"
+    "Symbolic System Tags": "Egyptian, Hellenistic, Hermetic",
+    "Y-pos": "-"
   },
   {
     "Index": "21",
@@ -501,7 +521,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Warrior / Imperial, Bureaucratic / Legal / Scribal, Mystical / Initiatory",
     "Literary Forms Tags": "Proclamation / Decree, Liturgy, Petition / Appeal, Record / Chronicle",
     "Literary Themes Tags": "Ritual / Devotional, Political, Didactic / Ethical, Existential, Feminine, Cosmological",
-    "Symbolic System Tags": "Egyptian, Hellenistic"
+    "Symbolic System Tags": "Egyptian, Hellenistic",
+    "Y-pos": "-"
   },
   {
     "Index": "22",
@@ -525,7 +546,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Warrior / Imperial, Royal, Mystical / Initiatory",
     "Literary Forms Tags": "Liturgy, Myth, Narrative, Proclamation / Decree, Manual / Instruction",
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Cosmological, Political, Didactic / Ethical, Adventure / Heroic Journey",
-    "Symbolic System Tags": "Egyptian"
+    "Symbolic System Tags": "Egyptian",
+    "Y-pos": "-"
   },
   {
     "Index": "23",
@@ -549,7 +571,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Warrior / Imperial, Scholarly, Merchant / Cosmopolitan",
     "Literary Forms Tags": "Personal Writings, Narrative, Commentary / Exegesis, Proclamation / Decree, Doctrine / Treatise, Petition / Appeal, Record / Chronicle",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Political, Didactic / Ethical, Prophetic / Revelation, Epistemological / Hermeneutics",
-    "Symbolic System Tags": "Yahwistic, Hellenistic"
+    "Symbolic System Tags": "Yahwistic, Hellenistic",
+    "Y-pos": "-"
   },
   {
     "Index": "24",
@@ -573,7 +596,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Merchant / Cosmopolitan, Royal, Warrior / Imperial, Scholarly",
     "Literary Forms Tags": "Narrative, Doctrine / Treatise, Personal Writings, Record / Chronicle, Commentary / Exegesis, Fragment, Manual / Instruction, Glossary / Taxonomy, Petition / Appeal, Oral Tradition",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Metaphysical, Political, Didactic / Ethical",
-    "Symbolic System Tags": "Egyptian, Hellenistic"
+    "Symbolic System Tags": "Egyptian, Hellenistic",
+    "Y-pos": "-"
   },
   {
     "Index": "25",
@@ -597,7 +621,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal, Mystical / Initiatory, Scholarly, Subversive / Revolutionary, Warrior / Imperial",
     "Literary Forms Tags": "Narrative, Myth, Parable / Fable, Epic, Personal Writings, Fragment",
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Adventure / Heroic Journey, Tragic / Lamentation, Didactic / Ethical, Introspective",
-    "Symbolic System Tags": "Egyptian, Hermetic"
+    "Symbolic System Tags": "Egyptian, Hermetic",
+    "Y-pos": "-"
   },
   {
     "Index": "26",
@@ -621,7 +646,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Scholarly, Subversive / Revolutionary",
     "Literary Forms Tags": "Essay / Argument, Liturgy, Myth",
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Epistemological / Hermeneutics, Political, Didactic / Ethical, Historical Reflection, Prophetic / Revelation",
-    "Symbolic System Tags": "Yahwistic, Hellenic"
+    "Symbolic System Tags": "Yahwistic, Hellenic",
+    "Y-pos": "-"
   },
   {
     "Index": "27",
@@ -645,7 +671,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Mystical / Initiatory, Subversive / Revolutionary, Warrior / Imperial",
     "Literary Forms Tags": "Manual / Instruction, Liturgy, Doctrine / Treatise, Myth, Glossary / Taxonomy, Riddle / Aphorism, Fragment",
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Romantic / Erotic, Cosmological, Prophetic / Revelation, Feminine",
-    "Symbolic System Tags": "Egyptian, Hellenistic, Roman"
+    "Symbolic System Tags": "Egyptian, Hellenistic, Roman",
+    "Y-pos": "-"
   },
   {
     "Index": "28",
@@ -669,6 +696,7 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Mystical / Initiatory",
     "Literary Forms Tags": "Personal Writings, Petition / Appeal, Liturgy, Myth",
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Tragic / Lamentation, Existential, Feminine, Introspective",
-    "Symbolic System Tags": "Egyptian, Hellenistic"
+    "Symbolic System Tags": "Egyptian, Hellenistic",
+    "Y-pos": "-"
   }
 ]

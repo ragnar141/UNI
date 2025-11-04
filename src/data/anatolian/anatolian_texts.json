@@ -21,7 +21,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Royal, Warrior / Imperial, Bureaucratic / Legal / Scribal",
     "Literary Forms Tags": "Record / Chronicle, Proclamation / Decree, Personal Writings, Oral Tradition",
     "Literary Themes Tags": "Political, Prophetic / Revelation, Ritual / Devotional, Historical Reflection",
-    "Symbolic System Tags": "Hittite"
+    "Symbolic System Tags": "Hittite",
+    "Y-pos": "-"
   },
   {
     "Index": "2",
@@ -45,7 +46,8 @@
     "Socio-political Tags": "Royal, Bureaucratic / Legal / Scribal, Subversive / Revolutionary",
     "Literary Forms Tags": "Proclamation / Decree, Record / Chronicle, Rulebook / Code",
     "Literary Themes Tags": "Historical Reflection, Political, Didactic / Ethical, Prophetic / Revelation",
-    "Symbolic System Tags": "Hittite"
+    "Symbolic System Tags": "Hittite",
+    "Y-pos": "-"
   },
   {
     "Index": "3",
@@ -69,7 +71,8 @@
     "Socio-political Tags": "Bureaucratic / Legal / Scribal, Royal, Priestly / Theocratic, Warrior / Imperial",
     "Literary Forms Tags": "Rulebook / Code, Manual / Instruction, Record / Chronicle, Proclamation / Decree",
     "Literary Themes Tags": "Ritual / Devotional, Political, Didactic / Ethical",
-    "Symbolic System Tags": "Hittite"
+    "Symbolic System Tags": "Hittite",
+    "Y-pos": "-"
   },
   {
     "Index": "4",
@@ -93,7 +96,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Royal, Warrior / Imperial, Bureaucratic / Legal / Scribal, Mystical / Initiatory",
     "Literary Forms Tags": "Myth, Liturgy, Manual / Instruction, Narrative, Fragment, Oral Tradition",
     "Literary Themes Tags": "Ritual / Devotional, Cosmological, Didactic / Ethical, Existential, Feminine",
-    "Symbolic System Tags": "Hittite"
+    "Symbolic System Tags": "Hittite",
+    "Y-pos": "-"
   },
   {
     "Index": "5",
@@ -117,7 +121,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Royal, Warrior / Imperial, Subversive / Revolutionary, Mystical / Initiatory",
     "Literary Forms Tags": "Myth, Narrative, Epic, Fragment, Oral Tradition",
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Political, Adventure / Heroic Journey, Tragic / Lamentation, Cosmological",
-    "Symbolic System Tags": "Hurrian, Hittite"
+    "Symbolic System Tags": "Hurrian, Hittite",
+    "Y-pos": "-"
   },
   {
     "Index": "6",
@@ -141,7 +146,8 @@
     "Socio-political Tags": "Royal, Warrior / Imperial, Bureaucratic / Legal / Scribal",
     "Literary Forms Tags": "Proclamation / Decree, Doctrine / Treatise, Rulebook / Code, Manual / Instruction, Personal Writings, Record / Chronicle, Fragment",
     "Literary Themes Tags": "Political, Didactic / Ethical, Historical Reflection",
-    "Symbolic System Tags": "Hittite, Egyptian, Akkadian"
+    "Symbolic System Tags": "Hittite, Egyptian, Akkadian",
+    "Y-pos": "-"
   },
   {
     "Index": "7",
@@ -165,7 +171,8 @@
     "Socio-political Tags": "Royal, Warrior / Imperial",
     "Literary Forms Tags": "Personal Writings, Essay / Argument, Record / Chronicle",
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Political, Didactic / Ethical, Introspective",
-    "Symbolic System Tags": "Hurrian, Hittite"
+    "Symbolic System Tags": "Hurrian, Hittite",
+    "Y-pos": "-"
   },
   {
     "Index": "8",
@@ -189,7 +196,8 @@
     "Socio-political Tags": "Royal, Warrior / Imperial, Mystical / Initiatory, Subversive / Revolutionary",
     "Literary Forms Tags": "Myth, Narrative, Parable / Fable, Epic, Fragment, Oral Tradition",
     "Literary Themes Tags": "Ritual / Devotional, Adventure / Heroic Journey, Didactic / Ethical, Cosmological",
-    "Symbolic System Tags": "Hittite"
+    "Symbolic System Tags": "Hittite",
+    "Y-pos": "-"
   },
   {
     "Index": "9",
@@ -213,7 +221,8 @@
     "Socio-political Tags": "Priestly / Theocratic, Bureaucratic / Legal / Scribal, Royal",
     "Literary Forms Tags": "Manual / Instruction, Proclamation / Decree, Rulebook / Code, Record / Chronicle",
     "Literary Themes Tags": "Ritual / Devotional, Didactic / Ethical, Political",
-    "Symbolic System Tags": "Hittite"
+    "Symbolic System Tags": "Hittite",
+    "Y-pos": "-"
   },
   {
     "Index": "10",
@@ -237,6 +246,7 @@
     "Socio-political Tags": "Priestly / Theocratic, Royal, Warrior / Imperial",
     "Literary Forms Tags": "Myth, Narrative, Epic, Fragment",
     "Literary Themes Tags": "Ritual / Devotional, Apocalyptic / Eschatological, Political, Adventure / Heroic Journey, Prophetic / Revelation, Cosmological",
-    "Symbolic System Tags": "Hurrian, Hittite"
+    "Symbolic System Tags": "Hurrian, Hittite",
+    "Y-pos": "-"
   }
 ]

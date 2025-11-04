@@ -14,7 +14,8 @@
     "Name.1": "Mithra",
     "Jungian Archetypes Tags": "Self, Initiator, Wise Old Man, Hero, Terrible Father",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Initiation, Divine Intervention, Coronation of the King, Battle with the Dragon, Return to the Community",
-    "Category": "Warrior proto-Solar Deity"
+    "Category": "Warrior proto-Solar Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "2",
@@ -31,7 +32,8 @@
     "Name.1": "Atar",
     "Jungian Archetypes Tags": "Self, Initiator, Wise Old Man, Hero, Terrible Father",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Initiation, Magical Empowerment, Battle with the Dragon, Return to the Community, Coronation of the King, Death, Rebirth",
-    "Category": "Personification of Fire"
+    "Category": "Personification of Fire",
+    "Y-pos": "-"
   },
   {
     "Index": "3",
@@ -48,7 +50,8 @@
     "Name.1": "Jamshid (Yima in Avestan)",
     "Jungian Archetypes Tags": "Hero, Father Archetype, Initiator, Persona, Shadow",
     "Neumann Stages Tags": "Coronation of the King, Mythic Ordering of Reality, Divine Intervention, Magical Empowerment, Isolation, Ego Collapse, Death",
-    "Category": "First Avestan King"
+    "Category": "First Avestan King",
+    "Y-pos": "-"
   },
   {
     "Index": "4",
@@ -65,7 +68,8 @@
     "Name.1": "Zahhak (Aži Dahāka)",
     "Jungian Archetypes Tags": "Shadow, Terrible Father",
     "Neumann Stages Tags": "Coronation of the King, Magical Empowerment, Divine Intervention, Battle with the Dragon, Descent into the Underworld/Isolation",
-    "Category": "Underworld Tyrant-Serpent"
+    "Category": "Underworld Tyrant-Serpent",
+    "Y-pos": "-"
   },
   {
     "Index": "5",
@@ -82,7 +86,8 @@
     "Name.1": "Ferīdūn (Thraetaona)",
     "Jungian Archetypes Tags": "Hero, Initiator, Father Archetype",
     "Neumann Stages Tags": "Battle with the Dragon, Coronation of the King, Return to the Community, Magical Empowerment, Mythic Ordering of Reality",
-    "Category": "Civilizing Warrior King"
+    "Category": "Civilizing Warrior King",
+    "Y-pos": "-"
   },
   {
     "Index": "6",
@@ -99,7 +104,8 @@
     "Name.1": "Kāveh the Blacksmith",
     "Jungian Archetypes Tags": "Hero, Initiator, Father Archetype",
     "Neumann Stages Tags": "Initiation, Battle with the Dragon, Return to the Community, Mythic Ordering of Reality",
-    "Category": "Culture Hero"
+    "Category": "Culture Hero",
+    "Y-pos": "-"
   },
   {
     "Index": "7",
@@ -116,7 +122,8 @@
     "Name.1": "Anahita",
     "Jungian Archetypes Tags": "Mother Archetype, Anima, Initiator",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Divine Intervention, Magical Empowerment, Return to the Community, Initiation",
-    "Category": "River Goddess"
+    "Category": "River Goddess",
+    "Y-pos": "-"
   },
   {
     "Index": "8",
@@ -133,7 +140,8 @@
     "Name.1": "Verethragna (Bahram)",
     "Jungian Archetypes Tags": "Hero, Initiator, Trickster",
     "Neumann Stages Tags": "Battle with the Dragon, Magical Empowerment, Divine Intervention, Return to the Community, Coronation of the King",
-    "Category": "Warrior-Trickster Deity"
+    "Category": "Warrior-Trickster Deity",
+    "Y-pos": "-"
   },
   {
     "Index": "9",
@@ -150,7 +158,8 @@
     "Name.1": "Manuchehr",
     "Jungian Archetypes Tags": "Hero, Initiator, Father Archetype",
     "Neumann Stages Tags": "Battle with the Dragon, Coronation of the King, Return to the Community, Mythic Ordering of Reality, Magical Empowerment, Death",
-    "Category": "Civilizing Warrior King"
+    "Category": "Civilizing Warrior King",
+    "Y-pos": "-"
   },
   {
     "Index": "10",
@@ -167,7 +176,8 @@
     "Name.1": "Siyavash",
     "Jungian Archetypes Tags": "Hero, Initiator, Father Archetype",
     "Neumann Stages Tags": "Initiation, Separation from World Parents, Isolation, Mythic Ordering of Reality, Death, Rebirth",
-    "Category": "Martyred Prince"
+    "Category": "Martyred Prince",
+    "Y-pos": "-"
   },
   {
     "Index": "11",
@@ -184,7 +194,8 @@
     "Name.1": "Kai Khosrow (Haosravah)",
     "Jungian Archetypes Tags": "Hero, Initiator, Father Archetype, Self, Wise Old Man",
     "Neumann Stages Tags": "Separation from World Parents, Initiation, Battle with the Dragon, Coronation of the King, Divine Intervention, Magical Empowerment, Return to the Community, Mythic Ordering of Reality, Ego Transcendence, Isolation",
-    "Category": "Wise Warrior-King"
+    "Category": "Wise Warrior-King",
+    "Y-pos": "-"
   },
   {
     "Index": "12",
@@ -201,7 +212,8 @@
     "Name.1": "Rostam",
     "Jungian Archetypes Tags": "Hero, Initiator, Father Archetype, Terrible Father",
     "Neumann Stages Tags": "Initiation, Battle with the Dragon, Divine Intervention, Magical Empowerment, Return to the Community, Death",
-    "Category": "Warrior-Champion"
+    "Category": "Warrior-Champion",
+    "Y-pos": "-"
   },
   {
     "Index": "13",
@@ -218,7 +230,8 @@
     "Name.1": "Sohrab",
     "Jungian Archetypes Tags": "Hero, Initiator",
     "Neumann Stages Tags": "Separation from World Parents, Initiation, Battle with the Dragon, Death",
-    "Category": "Tragic Youthful Warrior"
+    "Category": "Tragic Youthful Warrior",
+    "Y-pos": "-"
   },
   {
     "Index": "14",
@@ -235,7 +248,8 @@
     "Name.1": "Goshtāsp (Vishtāspa)",
     "Jungian Archetypes Tags": "Initiator, Father Archetype, Terrible Father",
     "Neumann Stages Tags": "Coronation of the King, Initiation, Divine Intervention, Magical Empowerment, Mythic Ordering of Reality, Battle with the Dragon, Death",
-    "Category": "Zoroastrian Patron-King"
+    "Category": "Zoroastrian Patron-King",
+    "Y-pos": "-"
   },
   {
     "Index": "15",
@@ -252,7 +266,8 @@
     "Name.1": "Zarathustra",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Hero, Father Archetype, Self",
     "Neumann Stages Tags": "Separation from World Parents, Isolation, Divine Intervention, Initiation, Battle with the Dragon, Return to the Community, Mythic Ordering of Reality, Magical Empowerment, Death",
-    "Category": "Founding Prophet of Zoroastrianism"
+    "Category": "Founding Prophet of Zoroastrianism",
+    "Y-pos": "-"
   },
   {
     "Index": "16",
@@ -269,7 +284,8 @@
     "Name.1": "Esfandiyar",
     "Jungian Archetypes Tags": "Hero, Initiator",
     "Neumann Stages Tags": "Initiation, Battle with the Dragon, Return to the Community, Magical Empowerment, Divine Intervention, Death",
-    "Category": "Tragic Warrior-Champion"
+    "Category": "Tragic Warrior-Champion",
+    "Y-pos": "-"
   },
   {
     "Index": "17",
@@ -286,7 +302,8 @@
     "Name.1": "Cyrus the Great",
     "Jungian Archetypes Tags": "Hero, Initiator, Father Archetype, Persona",
     "Neumann Stages Tags": "Separation from World Parents, Battle with the Dragon, Coronation of the King, Mythic Ordering of Reality, Return to the Community, Divine Intervention, Death",
-    "Category": "Founder of the Achaemenid Empire"
+    "Category": "Founder of the Achaemenid Empire",
+    "Y-pos": "-"
   },
   {
     "Index": "18",
@@ -303,7 +320,8 @@
     "Name.1": "Darius I",
     "Jungian Archetypes Tags": "Initiator, Father Archetype, Persona, Hero",
     "Neumann Stages Tags": "Coronation of the King, Battle with the Dragon, Divine Intervention, Mythic Ordering of Reality, Return to the Community, Death",
-    "Category": "3rd Achaemenid Emperor"
+    "Category": "3rd Achaemenid Emperor",
+    "Y-pos": "-"
   },
   {
     "Index": "19",
@@ -320,7 +338,8 @@
     "Name.1": "Xerxes I",
     "Jungian Archetypes Tags": "Persona, Father Archetype, Hero, Shadow",
     "Neumann Stages Tags": "Coronation of the King, Battle with the Dragon, Divine Intervention, Mythic Ordering of Reality, Return to the Community, Death",
-    "Category": "4th Achaemenid Emperor"
+    "Category": "4th Achaemenid Emperor",
+    "Y-pos": "-"
   },
   {
     "Index": "20",
@@ -337,7 +356,8 @@
     "Name.1": "Esther",
     "Jungian Archetypes Tags": "Hero, Persona, Initiator, Mother Archetype, Trickster",
     "Neumann Stages Tags": "Isolation, Divine Intervention, Battle with the Dragon, Death, Initiation, Rebirth, Return to the Community, Mythic Ordering of Reality",
-    "Category": "Jewish Diaspora Court Queen"
+    "Category": "Jewish Diaspora Court Queen",
+    "Y-pos": "-"
   },
   {
     "Index": "21",
@@ -354,6 +374,7 @@
     "Name.1": "Artaxerxes II",
     "Jungian Archetypes Tags": "Persona, Father Archetype, Initiator, Hero",
     "Neumann Stages Tags": "Coronation of the King, Battle with the Dragon, Divine Intervention, Mythic Ordering of Reality, Return to the Community, Death",
-    "Category": "7th Achaemenid Emperor"
+    "Category": "7th Achaemenid Emperor",
+    "Y-pos": "-"
   }
 ]

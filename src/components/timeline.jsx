@@ -153,6 +153,27 @@ function fatherJitterU(id, bandId) {
   return (h - 0.5) * 2 * FATHER_JITTER_PX; // [-J, +J]
 }
 
+// Returns { y, locked } where locked=true means "use this y over author lanes/jitter"
+function computeYFromYPos(raw, bandY, bandH, fallbackY) {
+  const s = String(raw ?? "").trim();
+  if (s === "" || s === "-") return { y: fallbackY, locked: false };
+
+  const v = Number(s);
+  if (!Number.isFinite(v)) return { y: fallbackY, locked: false };
+
+  // interpret as percentage of half-height from center (−100..100)
+  const vNorm = Math.max(-100, Math.min(100, v)) / 100; // −1..1
+
+  // keep same padding policy you already use
+  const pad = Math.min(6, Math.max(2, bandH * 0.15));
+  const usable = Math.max(1, bandH - 2 * pad);
+
+  const center = bandY + bandH / 2;
+  // positive v → above center; negative v → below center
+  const yTarget = center - vNorm * (usable / 2);
+
+  return { y: yTarget, locked: true };
+}
 
 
 
@@ -1324,9 +1345,21 @@ const tags = {
 
         const color = pickSystemColor(symbolicSystemTags);
         const colors = pickSystemColorsCached(symbolicSystemTags);
+
+
         const textKey = `${authorName || "anon"}::${title || ""}::${when}`;
-        const y = yForKey(textKey);
+        const autoY = yForKey(textKey);
+
+        // NEW: support manual Y-pos; if set, lock Y and ignore author lanes
+        const { y, locked: yLocked } = computeYFromYPos(t["Y-pos"], bandY, bandH, autoY);
+
         const displayDate = approxDateStr || formatYear(when);
+
+        // If Y-pos is set, do not lock to author lanes (authorKey=null)
+        const computedAuthorKey = yLocked
+        ? null
+        : (isPlaceholderAuthor(authorName) ? null : normalizeAuthor(authorName));
+
        
 
         rowsT.push({
@@ -1338,7 +1371,7 @@ const tags = {
           colors,
           title,
           authorName,
-          authorKey: isPlaceholderAuthor(authorName) ? null : normalizeAuthor(authorName),
+          authorKey: computedAuthorKey,
           displayDate,
           metaphysicalTags,
           artsAndSciencesTags,
@@ -1414,11 +1447,17 @@ const tags = {
       const keyForLane = String(
         (f["Index"] ?? "").toString().trim() || name || "anon"
       ).trim().toLowerCase();
-      const yBaseU = yForKey(keyForLane);
-      const y = yBaseU + fatherJitterU(
-        `${ds.durationId}__father__${name || hashString(JSON.stringify(f))}__${when}`,
-        ds.durationId
-      );
+      const yBase = yForKey(keyForLane);
+
+      // If manual Y-pos given, use it and drop jitter; else keep your old behavior
+      const { y: manualY, locked: yLocked } = computeYFromYPos(f["Y-pos"], bandY, bandH, yBase);
+      const y = yLocked
+        ? manualY
+        : (yBase + fatherJitterU(
+       `${ds.durationId}__father__${name || hashString(JSON.stringify(f))}__${when}`,
+      ds.durationId
+    ));
+
 
       // Build tag arrays AFTER symbolicSystem is available
       const tags = {
