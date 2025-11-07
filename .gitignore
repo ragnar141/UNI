@@ -1,9 +1,12 @@
 # dependencies
 node_modules/
+**/node_modules/
 
 # builds
 dist/
 build/
+**/dist/
+**/build/
 
 # logs
 npm-debug.log*
@@ -11,7 +14,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# editor
+# editor cruft
 .DS_Store
 Thumbs.db
 .vscode/

@@ -30,6 +30,7 @@ const SymbolicSystemColorPairs = {
   Aramaic:   "#9E6CFF",
   Yahwistic: "#1E88E5",
   Egyptian: "#E53935",
+  "Ancient Egyptian": "#E53935",
   Phrygian: "#D22F27",   // Cap Red — Phrygian cap/dyed wool, bold martial/ritual red
   Luwian:   "#D99C4A",   // Limestone Ochre — rock-cut reliefs & hieroglyphs on pale stone
   Hittite:  "#B14D1E",   // Burnt Sienna / Iron Oxide — Hattusa palettes, iron/ochre tones  
@@ -47,7 +48,9 @@ const SymbolicSystemColorPairs = {
   "Oscan-Italic":"#6B8E23",
   Umbrian:     "#1E7A3F",
   Christian:   "#5E2D91",
-  Roman: "#C4002F"  
+  Roman: "#C4002F",
+  Islamic: "#006A52",
+  Iranian: "#1C39BB"
 };
 
 
@@ -947,33 +950,25 @@ function itemPassesFilters(row, type, selectedByGroup) {
 
     const selected = selectedByGroup[g.key] || new Set();
     const selSize = selected.size;
+    const canonSize = g.allTags.length;
 
-    // Item's tags for this group:
-    // null/undefined  -> NA (group not present on this item)  => skip constraint
-    // [] (length 0)   -> group present but no canonical tags  => enforce normally
     const itemTags = row.tags?.[g.key];
     const isNA = itemTags == null;
 
-    // If user deselected everything in this group:
-    // - If the item actually has this group (not NA), it must be filtered out.
-    // - If NA, ignore the group for this item (don't filter it out because of missing data).
-    if (selSize === 0) {
-      if (!isNA) return false;
-      continue;
-    }
+    // If user hasn't really narrowed anything (selected >= canon), don't filter
+    if (selSize >= canonSize) continue;
 
-    // If "all selected", group imposes no constraint.
-    if (selSize === g.allTags.length) continue;
+    // If user deselected everything and item actually has this group → hide it
+    if (selSize === 0) { if (!isNA) return false; continue; }
 
-    // If item doesn't have this group, skip constraint.
-    if (isNA) continue;
+    if (isNA) continue; // item lacks this group → no constraint
 
-    // Otherwise, require intersection.
-    const hasAny = itemTags.some(t => selected.has(t));
-    if (!hasAny) return false;
+    // Require intersection with the currently selected tags
+    if (!itemTags.some(t => selected.has(t))) return false;
   }
   return true;
 }
+
 
 
 
@@ -1080,7 +1075,20 @@ const closeAllAnimated = () => {
   // New: Tag filtering state (controlled by TagPanel)
 const [selectedByGroup, setSelectedByGroup] = useState(() => makeDefaultSelectedByGroup());
 
-
+useEffect(() => {
+  // When SymbolicSystemColorPairs (and thus TAG_GROUPS) changes, make sure
+  // selectedByGroup includes any newly added canonical tags.
+  setSelectedByGroup(prev => {
+    const next = { ...prev };
+    for (const g of TAG_GROUPS) {
+      const prevSet = new Set(prev[g.key] || []);
+      for (const tag of g.allTags) prevSet.add(tag);
+      next[g.key] = prevSet;
+    }
+    return next;
+  });
+  // Depend on the actual keys so this runs when you add a new system
+}, [JSON.stringify(Object.keys(SymbolicSystemColorPairs))]);
 
 
   useEffect(() => {
