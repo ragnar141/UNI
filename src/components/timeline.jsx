@@ -5,7 +5,7 @@ import "../styles/timeline.css";
 import TextCard from "./textCard";
 import FatherCard from "./fatherCard";
 import SearchBar from "./searchBar";
-import TagPanel from "./TagPanel";
+import TagPanel from "./tagPanel";
 
 
 
