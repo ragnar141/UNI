@@ -18,7 +18,7 @@ const formatYear = (y) => (y < 0 ? `${Math.abs(y)} BCE` : y > 0 ? `${y} CE` : "�
 /* ===== Colors for Symbolic Systems ===== */
 const SymbolicSystemColorPairs = {
   Persian: "#00BFA6",       /* base */
-  "Indo-iranian": "#2CCB7C",  /* greener jade */
+  "Indo-Iranian": "#2CCB7C",  /* greener jade */
   Zoroastrian: "#FFA319",   /* saffron/fire */
   Elamite: "#2AA6A1",       /* verdigris */
   Achaemenid: "#008E9B",    /* deep royal turquoise */
@@ -30,7 +30,6 @@ const SymbolicSystemColorPairs = {
   Aramaic:   "#9E6CFF",
   Yahwistic: "#1E88E5",
   Egyptian: "#E53935",
-  "Ancient Egyptian": "#E53935",
   Phrygian: "#D22F27",   // Cap Red — Phrygian cap/dyed wool, bold martial/ritual red
   Luwian:   "#D99C4A",   // Limestone Ochre — rock-cut reliefs & hieroglyphs on pale stone
   Hittite:  "#B14D1E",   // Burnt Sienna / Iron Oxide — Hattusa palettes, iron/ochre tones  

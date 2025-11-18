@@ -140,6 +140,44 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
     comtean: "Comtean Framework",
   };
 
+  // Custom tag orders for specific groups (others stay alphabetical)
+  const CUSTOM_ORDERS = {
+    comtean: [
+      "Theological/Mythological",
+      "Philosophical/Metaphysical",
+      "Positive/Empirical",
+      "Synthetic Literature",
+    ],
+    metaphysical: [
+      "Apophatic–Aporetic (Unknowable)",
+      "Phenomenology (Experiential)",
+      "Pluralism (Multiplicities)",
+      "Grid (Systematic Structuralism)",
+      "Clockwork (Causal Determinism)",
+      "Monism (Single Principle)",
+      "Dialectics (Conflict)",
+      "Becoming (Process Ontology)",
+      "Subversion (Negation)",
+    ],
+    neumann: [
+      "Uroboric Stage",
+      "Separation from World Parents",
+      "Isolation",
+      "Initiation",
+      "Magical Empowerment",
+      "Divine Intervention",
+      "Battle with the Dragon",
+      "Ego Collapse",
+      "Descent into the Underworld",
+      "Death",
+      "Rebirth",
+      "Ego Transcendence",
+      "Return to the Community",
+      "Coronation of the King",
+      "Mythic Ordering of Reality",
+    ],
+  };
+
   const groupsByKey = useMemo(() => new Map(groups.map((g) => [g.key, g])), [groups]);
 
   const orderedGroups = useMemo(() => {
@@ -150,7 +188,7 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
         out.push({ __section: true, label: "Text Tags", key });
         continue;
       }
-    if (key === "__myth__") {
+      if (key === "__myth__") {
         out.push({ __section: true, label: "Mythical Parents\n& Text Tags", key });
         continue;
       }
@@ -264,10 +302,30 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
           const count = set.size;
           const isDropdownOpen = openKey === g.key;
 
-          // two-column normalized checklist for Symbolic Systems
-          const items = [...g.allTags].sort((a, b) =>
-            a.localeCompare(b, "en", { sensitivity: "base" })
-          );
+          // checklist items for this group
+          let items = [...g.allTags];
+
+          const customOrder = CUSTOM_ORDERS[g.key];
+
+          if (customOrder) {
+            // map tag -> index in custom order
+            const indexMap = new Map(customOrder.map((name, idx) => [name, idx]));
+
+            items.sort((a, b) => {
+              const ia = indexMap.has(a) ? indexMap.get(a) : Number.POSITIVE_INFINITY;
+              const ib = indexMap.has(b) ? indexMap.get(b) : Number.POSITIVE_INFINITY;
+
+              if (ia !== ib) return ia - ib;
+              // if both unknown (or same slot), fall back to alpha
+              return a.localeCompare(b, "en", { sensitivity: "base" });
+            });
+          } else {
+            // default: pure alphabetical
+            items.sort((a, b) =>
+              a.localeCompare(b, "en", { sensitivity: "base" })
+            );
+          }
+
           const listClass =
             g.key === "symbolicSystems"
               ? "tagPanel__menuList tagPanel__menuList--twoCols"
@@ -306,7 +364,6 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
                       left: `${menuPos.left}px`,
                       width: `${menuPos.width}px`,
                       maxHeight: "calc(100vh - 32px)",
-                      overflow: "auto",
                       zIndex: 9999,
                       transform: "none",
                     }}
@@ -327,39 +384,42 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
                       </button>
                     </div>
 
-                    {/* Toolbar under divider, aligned with first tag */}
-                    <div className="tagPanel__toolbar">
-                      <button
-                        type="button"
-                        onClick={() => handleAll(g.key, g.allTags)}
-                        className="tagPanel__miniBtn"
-                      >
-                        All
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleNone(g.key)}
-                        className="tagPanel__miniBtn"
-                      >
-                        None
-                      </button>
-                    </div>
+                    {/* Scroll body: toolbar + list, clipped under header divider */}
+                    <div className="tagPanel__scrollBody">
+                      {/* Toolbar under divider, aligned with first tag */}
+                      <div className="tagPanel__toolbar">
+                        <button
+                          type="button"
+                          onClick={() => handleAll(g.key, g.allTags)}
+                          className="tagPanel__miniBtn"
+                        >
+                          All
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleNone(g.key)}
+                          className="tagPanel__miniBtn"
+                        >
+                          None
+                        </button>
+                      </div>
 
-                    {/* List */}
-                    <div className={listClass}>
-                      {items.map((tag) => {
-                        const checked = set.has(tag);
-                        return (
-                          <label key={tag} className="tagPanel__row">
-                            <input
-                              type="checkbox"
-                              checked={checked}
-                              onChange={() => handleToggleTag(g.key, tag)}
-                            />
-                            <span style={{ marginLeft: 8 }}>{tag}</span>
-                          </label>
-                        );
-                      })}
+                      {/* List */}
+                      <div className={listClass}>
+                        {items.map((tag) => {
+                          const checked = set.has(tag);
+                          return (
+                            <label key={tag} className="tagPanel__row">
+                              <input
+                                type="checkbox"
+                                checked={checked}
+                                onChange={() => handleToggleTag(g.key, tag)}
+                              />
+                              <span style={{ marginLeft: 8 }}>{tag}</span>
+                            </label>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 </MenuPortal>
