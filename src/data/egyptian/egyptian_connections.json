@@ -1,0 +1,1739 @@
+[
+  {
+    "Index": 1,
+    "Primary": "1, father",
+    "Primary Name": "Atum",
+    "Secondary": "2, father",
+    "Secondary Name": "Shu",
+    "Connection Category": "familial: father/son",
+    "Note": "-"
+  },
+  {
+    "Index": 2,
+    "Primary": "1, father",
+    "Primary Name": "Atum",
+    "Secondary": "3, father",
+    "Secondary Name": "Tefnut",
+    "Connection Category": "familial: father/daughter",
+    "Note": "-"
+  },
+  {
+    "Index": 3,
+    "Primary": "1, father",
+    "Primary Name": "Atum",
+    "Secondary": "11, father",
+    "Secondary Name": "Ra",
+    "Connection Category": "syncretic",
+    "Note": "The Heliopolitan priesthood syncretized Atum and Ra, producing Atum-Ra, the first great solar-unity theology of Egypt and all later Egyptian syncretic tendencies (Ptah-Atum-Ra, Amun-Ra, even Aten) descend directly from that Heliopolitan synthesis."
+  },
+  {
+    "Index": 4,
+    "Primary": "1, father",
+    "Primary Name": "Atum",
+    "Secondary": "4, father",
+    "Secondary Name": "Ptah",
+    "Connection Category": "familial: creation/proganitor",
+    "Note": "In later Memphite tradition, Ptah is viewed as a proganitor of Atum, creating Atum through the power of speach."
+  },
+  {
+    "Index": 5,
+    "Primary": "1, father",
+    "Primary Name": "Atum",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "Here Atum is defined as self-created creator god, emerging from Nun and fathering his children—the earliest Egyptian cosmogony. Establishes Heliopolitan theology."
+  },
+  {
+    "Index": 6,
+    "Primary": "1, father",
+    "Primary Name": "Atum",
+    "Secondary": "28, text",
+    "Secondary Name": "Book of Amduat",
+    "Connection Category": "explicit reference",
+    "Note": "The text depicts him as solar god at sunset, the form into which Ra returns."
+  },
+  {
+    "Index": 7,
+    "Primary": "1, father",
+    "Primary Name": "Atum",
+    "Secondary": "29, text",
+    "Secondary Name": "Litany of Re",
+    "Connection Category": "explicit reference",
+    "Note": "The text explains the Ra–Atum cycle—Atum as Ra’s evening manifestation."
+  },
+  {
+    "Index": 8,
+    "Primary": "1, father",
+    "Primary Name": "Atum",
+    "Secondary": "51, text",
+    "Secondary Name": "Shabaka Stone",
+    "Connection Category": "explicit reference",
+    "Note": "The text marks the subsumption of Atum, identifying him as a though-created emanation of Ptah."
+  },
+  {
+    "Index": 9,
+    "Primary": "2, father",
+    "Primary Name": "Shu",
+    "Secondary": "5, father",
+    "Secondary Name": "Geb",
+    "Connection Category": "familial: father/son",
+    "Note": "-"
+  },
+  {
+    "Index": 10,
+    "Primary": "2, father",
+    "Primary Name": "Shu",
+    "Secondary": "6, father",
+    "Secondary Name": "Nut",
+    "Connection Category": "familial: father/daughter",
+    "Note": "-"
+  },
+  {
+    "Index": 11,
+    "Primary": "2, father",
+    "Primary Name": "Shu",
+    "Secondary": "3, father",
+    "Secondary Name": "Tefnut",
+    "Connection Category": "familial: brother/sister, consorts",
+    "Note": "-"
+  },
+  {
+    "Index": 12,
+    "Primary": "2, father",
+    "Primary Name": "Shu",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "Here Shu appears as the primordial god who upholds the sky, separates heaven from earth, and stabilizes cosmic order so the king can ascend among the gods."
+  },
+  {
+    "Index": 13,
+    "Primary": "2, father",
+    "Primary Name": "Shu",
+    "Secondary": "31, text",
+    "Secondary Name": "Book of the Heavenly Cow",
+    "Connection Category": "explicit reference",
+    "Note": "He is the cosmic pillar who lifts the sky-cow (Nut) high above the world, physically supporting creation after Ra withdraws from humanity."
+  },
+  {
+    "Index": 14,
+    "Primary": "3, father",
+    "Primary Name": "Tefnut",
+    "Secondary": "5, father",
+    "Secondary Name": "Geb",
+    "Connection Category": "familial: mother/son",
+    "Note": "-"
+  },
+  {
+    "Index": 15,
+    "Primary": "3, father",
+    "Primary Name": "Tefnut",
+    "Secondary": "6, father",
+    "Secondary Name": "Nut",
+    "Connection Category": "familial: mother/daughter",
+    "Note": "-"
+  },
+  {
+    "Index": 16,
+    "Primary": "3, father",
+    "Primary Name": "Tefnut",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "She is presented as a primordial goddess of moisture and order who legitimizes the king through her life-giving, purifying power and stands alongside Shu as part of the cosmic pair that stabilizes creation."
+  },
+  {
+    "Index": 17,
+    "Primary": "4, father",
+    "Primary Name": "Ptah",
+    "Secondary": "9, father",
+    "Secondary Name": "Sekhmet",
+    "Connection Category": "familial: consorts",
+    "Note": "-"
+  },
+  {
+    "Index": 18,
+    "Primary": "4, father",
+    "Primary Name": "Ptah",
+    "Secondary": "21, father",
+    "Secondary Name": "Nefertum",
+    "Connection Category": "familial: father/son",
+    "Note": "-"
+  },
+  {
+    "Index": 19,
+    "Primary": "4, father",
+    "Primary Name": "Ptah",
+    "Secondary": "12, father",
+    "Secondary Name": "Osiris",
+    "Connection Category": "syncretic",
+    "Note": "The later Memphite tradition syncretized Osiris and Ptah. This reinterpretation politically unified northern and southern theologies under the Memphis cult center."
+  },
+  {
+    "Index": 20,
+    "Primary": "4, father",
+    "Primary Name": "Ptah",
+    "Secondary": "19, father",
+    "Secondary Name": "Imhotep",
+    "Connection Category": "familial: father/son",
+    "Note": "Later tradition venerates Imhotep as \"son of Ptah\" deifying the famous vizier and more broadly ligitimizing priestly/scholarly authority."
+  },
+  {
+    "Index": 21,
+    "Primary": "4, father",
+    "Primary Name": "Ptah",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "The text presents Ptah as a primordial craftsman-creator god who fashions the king’s body, establishes his identity, and empowers him through his role as divine artisan and patron of creation."
+  },
+  {
+    "Index": 22,
+    "Primary": "4, father",
+    "Primary Name": "Ptah",
+    "Secondary": "51, text",
+    "Secondary Name": "Shabaka Stone",
+    "Connection Category": "explicit reference",
+    "Note": "Here Ptah is portrayed as the cosmic intellect — the heart and tongue of creation, the origin of Atum, the father of gods, and the ultimate ground of being."
+  },
+  {
+    "Index": 23,
+    "Primary": "6, father",
+    "Primary Name": "Nut",
+    "Secondary": "5, father",
+    "Secondary Name": "Geb",
+    "Connection Category": "familial: sister/brother, consorts",
+    "Note": "-"
+  },
+  {
+    "Index": 24,
+    "Primary": "6, father",
+    "Primary Name": "Nut",
+    "Secondary": "12, father",
+    "Secondary Name": "Osiris",
+    "Connection Category": "familial: mother/son",
+    "Note": "-"
+  },
+  {
+    "Index": 25,
+    "Primary": "6, father",
+    "Primary Name": "Nut",
+    "Secondary": "13, father",
+    "Secondary Name": "Isis",
+    "Connection Category": "familial: mother/daughter",
+    "Note": "-"
+  },
+  {
+    "Index": 26,
+    "Primary": "6, father",
+    "Primary Name": "Nut",
+    "Secondary": "14, father",
+    "Secondary Name": "Seth (Set)",
+    "Connection Category": "familial: mother/son",
+    "Note": "-"
+  },
+  {
+    "Index": 27,
+    "Primary": "6, father",
+    "Primary Name": "Nut",
+    "Secondary": "16, father",
+    "Secondary Name": "Nephthys",
+    "Connection Category": "familial: mother/daughter",
+    "Note": "-"
+  },
+  {
+    "Index": 28,
+    "Primary": "6, father",
+    "Primary Name": "Nut",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "The text contains the earliest direct speeches by Nut and numerous passages where she physically embraces, births, or lifts the king to the heavens. She is presented as both mother and sky — the archetype of cosmic maternity."
+  },
+  {
+    "Index": 29,
+    "Primary": "6, father",
+    "Primary Name": "Nut",
+    "Secondary": "31, text",
+    "Secondary Name": "Book of the Heavenly Cow",
+    "Connection Category": "explicit reference",
+    "Note": "Here Nut is central to mythic cosmology — the “Heavenly Cow” who separates earth and sky after humanity’s rebellion against Ra."
+  },
+  {
+    "Index": 30,
+    "Primary": "5, father",
+    "Primary Name": "Geb",
+    "Secondary": "12, father",
+    "Secondary Name": "Osiris",
+    "Connection Category": "familial: father/son",
+    "Note": "-"
+  },
+  {
+    "Index": 31,
+    "Primary": "5, father",
+    "Primary Name": "Geb",
+    "Secondary": "13, father",
+    "Secondary Name": "Isis",
+    "Connection Category": "familial: father/daughter",
+    "Note": "-"
+  },
+  {
+    "Index": 32,
+    "Primary": "5, father",
+    "Primary Name": "Geb",
+    "Secondary": "14, father",
+    "Secondary Name": "Seth (Set)",
+    "Connection Category": "familial: father/son",
+    "Note": "-"
+  },
+  {
+    "Index": 33,
+    "Primary": "5, father",
+    "Primary Name": "Geb",
+    "Secondary": "16, father",
+    "Secondary Name": "Nephthys",
+    "Connection Category": "familial: father/daughter",
+    "Note": "-"
+  },
+  {
+    "Index": 34,
+    "Primary": "5, father",
+    "Primary Name": "Geb",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "Here Geb is established as earth-god, son of Shu and Tefnut, father of Osiris and Isis, holder of kingship and fertility of the soil."
+  },
+  {
+    "Index": 35,
+    "Primary": "5, father",
+    "Primary Name": "Geb",
+    "Secondary": "31, text",
+    "Secondary Name": "Book of the Heavenly Cow",
+    "Connection Category": "explicit reference",
+    "Note": "The text shows Geb’s cosmic and dynastic role — heir to Ra’s kingship, anchoring divine authority on earth."
+  },
+  {
+    "Index": 36,
+    "Primary": "5, father",
+    "Primary Name": "Geb",
+    "Secondary": "39, text",
+    "Secondary Name": "Contendings of Horus and Seth",
+    "Connection Category": "explicit reference",
+    "Note": "Geb is portrayed as judge and patriarch, conferring legal right of rule to Horus — the archetype for Pharaoh’s earthly kingship."
+  },
+  {
+    "Index": 37,
+    "Primary": "7, father",
+    "Primary Name": "Thoth (Djehuty)",
+    "Secondary": "10, father",
+    "Secondary Name": "Maat",
+    "Connection Category": "custom connection",
+    "Note": "Thoth and Maat are inseparable in Egyptian thought. Thoth is a scribe of Maat, and he lives in Maat, upholding cosmic order and making sure the Gods and mortals are intellibale between themselves and each other."
+  },
+  {
+    "Index": 38,
+    "Primary": "7, father",
+    "Primary Name": "Thoth (Djehuty)",
+    "Secondary": "19, father",
+    "Secondary Name": "Imhotep",
+    "Connection Category": "custom connection",
+    "Note": "Imhotep, as the deified architect, physician, and sage, is often identified as a human embodiment or follower of Thoth."
+  },
+  {
+    "Index": 39,
+    "Primary": "7, father",
+    "Primary Name": "Thoth (Djehuty)",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "Earliest full portrayal of Thoth as scribe of the gods, judge, and lord of truth (Maat). He mediates in divine judgment and records cosmic law."
+  },
+  {
+    "Index": 40,
+    "Primary": "7, father",
+    "Primary Name": "Thoth (Djehuty)",
+    "Secondary": "28, text",
+    "Secondary Name": "Book of Amduat",
+    "Connection Category": "explicit reference",
+    "Note": "Thoth is presented as divine navigator and magician, ensuring the ordered passage of the sun through night."
+  },
+  {
+    "Index": 41,
+    "Primary": "7, father",
+    "Primary Name": "Thoth (Djehuty)",
+    "Secondary": "31, text",
+    "Secondary Name": "Book of the Heavenly Cow",
+    "Connection Category": "explicit reference",
+    "Note": "Thoth is highlighted as advisor and strategist of Ra—a counselor of divine will."
+  },
+  {
+    "Index": 42,
+    "Primary": "7, father",
+    "Primary Name": "Thoth (Djehuty)",
+    "Secondary": "51, text",
+    "Secondary Name": "Shabaka Stone",
+    "Connection Category": "explicit reference",
+    "Note": "The text associates him with the creative Logos in the Memphite intellectual system; ties to Ptah’s “heart and tongue.”"
+  },
+  {
+    "Index": 43,
+    "Primary": "7, father",
+    "Primary Name": "Thoth (Djehuty)",
+    "Secondary": "8, text",
+    "Secondary Name": "Book of Two Ways",
+    "Connection Category": "explicit reference",
+    "Note": "He is depicted as guide of the paths of the dead, ensuring correct ritual knowledge."
+  },
+  {
+    "Index": 44,
+    "Primary": "7, father",
+    "Primary Name": "Thoth (Djehuty)",
+    "Secondary": "29, text",
+    "Secondary Name": "Litany of Re",
+    "Connection Category": "explicit reference",
+    "Note": "The text shows his ritual role in solar worship—he maintains order through speech and writing."
+  },
+  {
+    "Index": 45,
+    "Primary": "7, father",
+    "Primary Name": "Thoth (Djehuty)",
+    "Secondary": "47, text",
+    "Secondary Name": "Hymn to Thoth",
+    "Connection Category": "explicit reference",
+    "Note": "Here Thoth's direct theological exposition is presented: god of wisdom, writing, reckoning, and time. Essentially his own “doctrinal” hymn."
+  },
+  {
+    "Index": 46,
+    "Primary": "8, father",
+    "Primary Name": "Hathor",
+    "Secondary": "11, father",
+    "Secondary Name": "Ra",
+    "Connection Category": "familial: daughter/father, consorts",
+    "Note": "-"
+  },
+  {
+    "Index": 47,
+    "Primary": "8, father",
+    "Primary Name": "Hathor",
+    "Secondary": "18, father",
+    "Secondary Name": "Horus",
+    "Connection Category": "familial: mother/daughter",
+    "Note": "-"
+  },
+  {
+    "Index": 48,
+    "Primary": "8, father",
+    "Primary Name": "Hathor",
+    "Secondary": "21, father",
+    "Secondary Name": "Nefertum",
+    "Connection Category": "familial: mother/son",
+    "Note": "In Memphite theology, Nefertum (lotus-born youth) is sometimes child of Ptah and Sekhmet or Hathor. Thus she can appear as his mother in certain variants."
+  },
+  {
+    "Index": 49,
+    "Primary": "8, father",
+    "Primary Name": "Hathor",
+    "Secondary": "26, father",
+    "Secondary Name": "Mut",
+    "Connection Category": "syncretic",
+    "Note": "-"
+  },
+  {
+    "Index": 50,
+    "Primary": "8, father",
+    "Primary Name": "Hathor",
+    "Secondary": "13, father",
+    "Secondary Name": "Isis",
+    "Connection Category": "syncretic",
+    "Note": "-"
+  },
+  {
+    "Index": 51,
+    "Primary": "8, father",
+    "Primary Name": "Hathor",
+    "Secondary": "31, text",
+    "Secondary Name": "Book of the Heavenly Cow",
+    "Connection Category": "explicit reference",
+    "Note": "Here Hathor is named as agent of divine punishment in a creation/fall-myth context."
+  },
+  {
+    "Index": 52,
+    "Primary": "8, father",
+    "Primary Name": "Hathor",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "She is named “Mistress of the West” as she welcomes and nurses the king in the underworld."
+  },
+  {
+    "Index": 53,
+    "Primary": "9, father",
+    "Primary Name": "Sekhmet",
+    "Secondary": "11, father",
+    "Secondary Name": "Ra",
+    "Connection Category": "familial: daughter/father",
+    "Note": "-"
+  },
+  {
+    "Index": 54,
+    "Primary": "9, father",
+    "Primary Name": "Sekhmet",
+    "Secondary": "13, father",
+    "Secondary Name": "Isis",
+    "Connection Category": "syncretic",
+    "Note": "-"
+  },
+  {
+    "Index": 55,
+    "Primary": "9, father",
+    "Primary Name": "Sekhmet",
+    "Secondary": "21, father",
+    "Secondary Name": "Nefertum",
+    "Connection Category": "familial: mother/son",
+    "Note": "In Memphite theology, Nefertum (lotus-born youth) is sometimes child of Ptah and Sekhmet or Hathor. Thus she can appear as his mother in certain variants."
+  },
+  {
+    "Index": 56,
+    "Primary": "9, father",
+    "Primary Name": "Sekhmet",
+    "Secondary": "26, father",
+    "Secondary Name": "Mut",
+    "Connection Category": "syncretic",
+    "Note": "-"
+  },
+  {
+    "Index": 57,
+    "Primary": "9, father",
+    "Primary Name": "Sekhmet",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "Here Sekhmet embodies power and fiery protection. Her connection to Horus and the Eye motif is made clear."
+  },
+  {
+    "Index": 58,
+    "Primary": "9, father",
+    "Primary Name": "Sekhmet",
+    "Secondary": "26, text",
+    "Secondary Name": "Ebers Papyrus",
+    "Connection Category": "explicit reference",
+    "Note": "The text defines Sekhmet's duality as bringer of plague and healer — key to later medical-magical theology."
+  },
+  {
+    "Index": 59,
+    "Primary": "9, father",
+    "Primary Name": "Sekhmet",
+    "Secondary": "28, text",
+    "Secondary Name": "Book of Amduat",
+    "Connection Category": "explicit reference",
+    "Note": "She is presented as guardian of the sun’s passage, defender of the night journey."
+  },
+  {
+    "Index": 60,
+    "Primary": "9, father",
+    "Primary Name": "Sekhmet",
+    "Secondary": "29, text",
+    "Secondary Name": "Litany of Re",
+    "Connection Category": "explicit reference",
+    "Note": "Here Sekhmet is integrated into the solar theology — Ra’s flame and executioner of divine will."
+  },
+  {
+    "Index": 61,
+    "Primary": "9, father",
+    "Primary Name": "Sekhmet",
+    "Secondary": "31, text",
+    "Secondary Name": "Book of the Heavenly Cow",
+    "Connection Category": "explicit reference",
+    "Note": "The foundational myth describes Sekhmet’s origin as the wrathful Eye of Ra. Her essence is formulated as divine vengeance, solar power, transformation into Hathor."
+  },
+  {
+    "Index": 62,
+    "Primary": "9, father",
+    "Primary Name": "Sekhmet",
+    "Secondary": "46, text",
+    "Secondary Name": "Calendars of Lucky and Unlucky Days",
+    "Connection Category": "explicit reference",
+    "Note": "The text shows Sekhmet's living presence in daily time, as a dangerous and unpredictable force influencing human fortune."
+  },
+  {
+    "Index": 63,
+    "Primary": "10, father ",
+    "Primary Name": "Maat",
+    "Secondary": "11, father",
+    "Secondary Name": "Ra",
+    "Connection Category": "familial: daughter/father, consorts",
+    "Note": "Ra “established Maat in place of Isfet (chaos)” at creation. Maat is sometimes said to be “daughter of Ra,” or his “consort seated in his boat,” symbolizing that the sun travels within truth. Ra “lives on Maat” — she is the principle that sustains him."
+  },
+  {
+    "Index": 64,
+    "Primary": "10, father ",
+    "Primary Name": "Maat",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "Here Maat is clearly named as the goddess who preserves justice, and the king is placing himself in relation to her throne."
+  },
+  {
+    "Index": 65,
+    "Primary": "10, father ",
+    "Primary Name": "Maat",
+    "Secondary": "28, text",
+    "Secondary Name": "Book of Amduat",
+    "Connection Category": "explicit reference",
+    "Note": "The text links Maat to the underworld journey and shows her being used as a standard (“paths of Maat”) — indicating her cosmic-ordering function."
+  },
+  {
+    "Index": 66,
+    "Primary": "11, father",
+    "Primary Name": "Ra",
+    "Secondary": "22, father",
+    "Secondary Name": "Amun",
+    "Connection Category": "syncretic",
+    "Note": "The Theban doctrine merges Amun and Ra into “the Hidden Sun.” Amun represents invisible divinity, Ra its visible light. By New Kingdom times, they are effectively one god - Amun-Ra."
+  },
+  {
+    "Index": 67,
+    "Primary": "11, father",
+    "Primary Name": "Ra",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "Here Ra is presented as the supreme solar god, creator of the Ennead, source of life, and model of resurrection."
+  },
+  {
+    "Index": 68,
+    "Primary": "11, father",
+    "Primary Name": "Ra",
+    "Secondary": "28, text",
+    "Secondary Name": "Book of Amduat",
+    "Connection Category": "explicit reference",
+    "Note": "The text depicts Ra’s nightly voyage through the underworld."
+  },
+  {
+    "Index": 69,
+    "Primary": "11, father",
+    "Primary Name": "Ra",
+    "Secondary": "29, text",
+    "Secondary Name": "Litany of Re",
+    "Connection Category": "explicit reference",
+    "Note": "The entire text is a theological catalogue of Ra’s 75 aspects."
+  },
+  {
+    "Index": 70,
+    "Primary": "11, father",
+    "Primary Name": "Ra",
+    "Secondary": "31, text",
+    "Secondary Name": "Book of the Heavenly Cow",
+    "Connection Category": "explicit reference",
+    "Note": "The texts centers on Ra’s withdrawal from earth and the creation of heaven."
+  },
+  {
+    "Index": 71,
+    "Primary": "11, father",
+    "Primary Name": "Ra",
+    "Secondary": "43, text",
+    "Secondary Name": "Instruction of Amenemope",
+    "Connection Category": "explicit reference",
+    "Note": "Ra is presented as moral authority and cosmic judge."
+  },
+  {
+    "Index": 72,
+    "Primary": "12, father",
+    "Primary Name": "Osiris",
+    "Secondary": "13, father",
+    "Secondary Name": "Isis",
+    "Connection Category": "familial: brother/sister, consorts",
+    "Note": "-"
+  },
+  {
+    "Index": 73,
+    "Primary": "12, father",
+    "Primary Name": "Osiris",
+    "Secondary": "14, father",
+    "Secondary Name": "Seth (Set)",
+    "Connection Category": "familial: brother/brother",
+    "Note": "-"
+  },
+  {
+    "Index": 74,
+    "Primary": "12, father",
+    "Primary Name": "Osiris",
+    "Secondary": "15, father",
+    "Secondary Name": "Anubis",
+    "Connection Category": "familial: father/son",
+    "Note": "-"
+  },
+  {
+    "Index": 75,
+    "Primary": "12, father",
+    "Primary Name": "Osiris",
+    "Secondary": "16, father",
+    "Secondary Name": "Nephthys",
+    "Connection Category": "familial: father/sister",
+    "Note": "-"
+  },
+  {
+    "Index": 76,
+    "Primary": "12, father",
+    "Primary Name": "Osiris",
+    "Secondary": "18, father",
+    "Secondary Name": "Horus",
+    "Connection Category": "familial: father/son",
+    "Note": "-"
+  },
+  {
+    "Index": 77,
+    "Primary": "12, father",
+    "Primary Name": "Osiris",
+    "Secondary": "21, father",
+    "Secondary Name": "Nefertum",
+    "Connection Category": "familial: father/son",
+    "Note": "In Memphite theology, Nefertum arises from Osirian fertility."
+  },
+  {
+    "Index": 78,
+    "Primary": "12, father",
+    "Primary Name": "Osiris",
+    "Secondary": "22, father",
+    "Secondary Name": "Amun",
+    "Connection Category": "syncretic",
+    "Note": "In Theban religion, Osiris’s renewal parallels Amun’s hidden creative power."
+  },
+  {
+    "Index": 79,
+    "Primary": "12, father",
+    "Primary Name": "Osiris",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "The texts marks the first appearance of Osiris as the resurrected king and ruler of the dead. It Establishes his mythic identity: slain god who grants eternal life."
+  },
+  {
+    "Index": 80,
+    "Primary": "12, father",
+    "Primary Name": "Osiris",
+    "Secondary": "8, text",
+    "Secondary Name": "Book of Two Ways",
+    "Connection Category": "explicit reference",
+    "Note": "Here death is first presented as reaching Osiris’s domain."
+  },
+  {
+    "Index": 81,
+    "Primary": "12, father",
+    "Primary Name": "Osiris",
+    "Secondary": "29, text",
+    "Secondary Name": "Litany of Re",
+    "Connection Category": "explicit reference",
+    "Note": "The text explicitly fuses Ra and Osiris as two aspects of the same cycle — the dying and the resurrected sun."
+  },
+  {
+    "Index": 82,
+    "Primary": "12, father",
+    "Primary Name": "Osiris",
+    "Secondary": "22, text",
+    "Secondary Name": "Hymn to Osiris",
+    "Connection Category": "explicit reference",
+    "Note": "Here pure Osirian theology is presented: his murder by Seth, restoration by Isis, judgment role, and dominion over the afterlife."
+  },
+  {
+    "Index": 83,
+    "Primary": "12, father",
+    "Primary Name": "Osiris",
+    "Secondary": "39, text",
+    "Secondary Name": "Contendings of Horus and Seth",
+    "Connection Category": "explicit reference",
+    "Note": "Here Osiris speaks from the underworld as Horus’s divine father; his resurrection legitimizes Horus’s kingship."
+  },
+  {
+    "Index": 84,
+    "Primary": "12, father",
+    "Primary Name": "Osiris",
+    "Secondary": "30, text",
+    "Secondary Name": "Hymn to Amun-Ra (or Great Hymn to Amun)",
+    "Connection Category": "explicit reference",
+    "Note": "The text recognizes Osiris’s resurrection as an act of Amun-Ra’s hidden power."
+  },
+  {
+    "Index": 85,
+    "Primary": "12, father",
+    "Primary Name": "Osiris",
+    "Secondary": "51, text",
+    "Secondary Name": "Shabaka Stone",
+    "Connection Category": "explicit reference",
+    "Note": "The text embeds Osiris’s myth inside a Memphite philosophical system: speech and creation."
+  },
+  {
+    "Index": 86,
+    "Primary": "13, father",
+    "Primary Name": "Isis",
+    "Secondary": "14, father",
+    "Secondary Name": "Seth (Set)",
+    "Connection Category": "familial: sister/brother",
+    "Note": "-"
+  },
+  {
+    "Index": 87,
+    "Primary": "13, father",
+    "Primary Name": "Isis",
+    "Secondary": "15, father",
+    "Secondary Name": "Anubis",
+    "Connection Category": "familial: mother/son",
+    "Note": "-"
+  },
+  {
+    "Index": 88,
+    "Primary": "13, father",
+    "Primary Name": "Isis",
+    "Secondary": "16, father",
+    "Secondary Name": "Nephthys",
+    "Connection Category": "familial: sister/sister",
+    "Note": "-"
+  },
+  {
+    "Index": 89,
+    "Primary": "13, father",
+    "Primary Name": "Isis",
+    "Secondary": "18, father",
+    "Secondary Name": "Horus",
+    "Connection Category": "familial: mother/son",
+    "Note": "-"
+  },
+  {
+    "Index": 90,
+    "Primary": "13, father",
+    "Primary Name": "Isis",
+    "Secondary": "26, father",
+    "Secondary Name": "Mut",
+    "Connection Category": "syncretic",
+    "Note": "In Thebes, Isis often assimilated to Mut (“Mother of the God”). Both are maternal aspects of Amun-Ra’s power. Isis absorbs Mut’s queenly symbolism in later hymns."
+  },
+  {
+    "Index": 91,
+    "Primary": "13, father",
+    "Primary Name": "Isis",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "Earliest source naming Isis as wife of Osiris and mourning goddess who reassembles the dead king. The text establishes her as divine consort and motherly restorer."
+  },
+  {
+    "Index": 92,
+    "Primary": "13, father",
+    "Primary Name": "Isis",
+    "Secondary": "8, text",
+    "Secondary Name": "Book of Two Ways",
+    "Connection Category": "explicit reference",
+    "Note": "Early Middle Kingdom attestation of her protective power for the dead."
+  },
+  {
+    "Index": 93,
+    "Primary": "13, father",
+    "Primary Name": "Isis",
+    "Secondary": "22, text",
+    "Secondary Name": "Hymn to Osiris",
+    "Connection Category": "explicit reference",
+    "Note": "The text gives a detailed description of her powers, virtues, and cosmic role beside Osiris."
+  },
+  {
+    "Index": 94,
+    "Primary": "13, father",
+    "Primary Name": "Isis",
+    "Secondary": "39, text",
+    "Secondary Name": "Contendings of Horus and Seth",
+    "Connection Category": "explicit reference",
+    "Note": "Here the personality of Isis is defined — intelligent, cunning, maternal."
+  },
+  {
+    "Index": 95,
+    "Primary": "13, father",
+    "Primary Name": "Isis",
+    "Secondary": "30, text",
+    "Secondary Name": "Hymn to Amun-Ra (or Great Hymn to Amun)",
+    "Connection Category": "explicit reference",
+    "Note": "The text blends Theban and Osirian elements; identifies Isis as universal mother."
+  },
+  {
+    "Index": 96,
+    "Primary": "14, father",
+    "Primary Name": "Seth (Set)",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "Earliest and most formative appearances. Here Seth kills Osiris, but also helps the king ascend the sky in some utterances. Ambivalent — both murderer and protector."
+  },
+  {
+    "Index": 97,
+    "Primary": "14, father",
+    "Primary Name": "Seth (Set)",
+    "Secondary": "28, text",
+    "Secondary Name": "Book of Amduat",
+    "Connection Category": "explicit reference",
+    "Note": "Here Seth is depicted as force of defense, wielding spears of light."
+  },
+  {
+    "Index": 98,
+    "Primary": "14, father",
+    "Primary Name": "Seth (Set)",
+    "Secondary": "31, text",
+    "Secondary Name": "Book of the Heavenly Cow",
+    "Connection Category": "explicit reference",
+    "Note": "He becomes divine enforcer of destruction — instrument of divine wrath during humanity’s rebellion."
+  },
+  {
+    "Index": 99,
+    "Primary": "14, father",
+    "Primary Name": "Seth (Set)",
+    "Secondary": "39, text",
+    "Secondary Name": "Contendings of Horus and Seth",
+    "Connection Category": "explicit reference",
+    "Note": "The text portrays Seth as violent, cunning, yet oddly lawful under divine tribunal."
+  },
+  {
+    "Index": 100,
+    "Primary": "14, father",
+    "Primary Name": "Seth (Set)",
+    "Secondary": "29, text",
+    "Secondary Name": "Litany of Re",
+    "Connection Category": "explicit reference",
+    "Note": "Here he is assimilated to solar vigor; Ra’s violent manifestation."
+  },
+  {
+    "Index": 101,
+    "Primary": "14, father",
+    "Primary Name": "Seth (Set)",
+    "Secondary": "22, text",
+    "Secondary Name": "Hymn to Osiris",
+    "Connection Category": "explicit reference",
+    "Note": "The text casts Seth as Osiris’s murderer — source of disorder overcome by Osiris’s resurrection."
+  },
+  {
+    "Index": 102,
+    "Primary": "14, father",
+    "Primary Name": "Seth (Set)",
+    "Secondary": "51, text",
+    "Secondary Name": "Shabaka Stone",
+    "Connection Category": "explicit reference",
+    "Note": "Here Seth’s violence is framed as an essential tension — his reconciliation is necessary for kingship."
+  },
+  {
+    "Index": 103,
+    "Primary": "14, father",
+    "Primary Name": "Seth (Set)",
+    "Secondary": "46, text",
+    "Secondary Name": "Calendars of Lucky and Unlucky Days",
+    "Connection Category": "explicit reference",
+    "Note": "The text reflects ambivalent superstition — Seth’s day considered dangerous."
+  },
+  {
+    "Index": 104,
+    "Primary": "15, father",
+    "Primary Name": "Anubis",
+    "Secondary": "16, father",
+    "Secondary Name": "Nephthys",
+    "Connection Category": "familial: son/mother",
+    "Note": "-"
+  },
+  {
+    "Index": 105,
+    "Primary": "15, father",
+    "Primary Name": "Anubis",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "The text marks Old Kingdom origin of his identity — embalmer of the king, guardian of the necropolis, guide of the dead. Establishes his role in mummification and resurrection."
+  },
+  {
+    "Index": 106,
+    "Primary": "15, father",
+    "Primary Name": "Anubis",
+    "Secondary": "8, text",
+    "Secondary Name": "Book of Two Ways",
+    "Connection Category": "explicit reference",
+    "Note": "Anubis is presented as psychopomp (guide of souls)."
+  },
+  {
+    "Index": 107,
+    "Primary": "15, father",
+    "Primary Name": "Anubis",
+    "Secondary": "22, text",
+    "Secondary Name": "Hymn to Osiris",
+    "Connection Category": "explicit reference",
+    "Note": "The text emphasizes his filial loyalty: embalmer of Osiris, prototype for all later mummification."
+  },
+  {
+    "Index": 108,
+    "Primary": "16, father",
+    "Primary Name": "Nephthys",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "Nephthys is introduced as sister of Isis and Osiris, one of the “Two Weepers,” a divine mourner and protector of the dead king."
+  },
+  {
+    "Index": 109,
+    "Primary": "16, father",
+    "Primary Name": "Nephthys",
+    "Secondary": "8, text",
+    "Secondary Name": "Book of Two Ways",
+    "Connection Category": "explicit reference",
+    "Note": "Here Nephthys is paired with Isis, defining her funerary protective role."
+  },
+  {
+    "Index": 110,
+    "Primary": "16, father",
+    "Primary Name": "Nephthys",
+    "Secondary": "22, text",
+    "Secondary Name": "Hymn to Osiris",
+    "Connection Category": "explicit reference",
+    "Note": "The text reinforces her function as protector of Osiris’s body, embodying lament and restoration."
+  },
+  {
+    "Index": 111,
+    "Primary": "16, father",
+    "Primary Name": "Nephthys",
+    "Secondary": "28, text",
+    "Secondary Name": "Book of Amduat",
+    "Connection Category": "explicit reference",
+    "Note": "The text expolores her cosmic dimension—helper in solar renewal."
+  },
+  {
+    "Index": 112,
+    "Primary": "16, father",
+    "Primary Name": "Nephthys",
+    "Secondary": "39, text",
+    "Secondary Name": "Contendings of Horus and Seth",
+    "Connection Category": "explicit reference",
+    "Note": "The text clarifies her family relationships and moral allegiance."
+  },
+  {
+    "Index": 113,
+    "Primary": "17, father",
+    "Primary Name": "Menes (Narmer)",
+    "Secondary": "36, text",
+    "Secondary Name": "Turin King List",
+    "Connection Category": "explicit reference",
+    "Note": "Earliest known chronological record naming Menes as Egypt’s first human ruler. Establishes him as the founder of unified kingship."
+  },
+  {
+    "Index": 114,
+    "Primary": "18, father",
+    "Primary Name": "Horus",
+    "Secondary": "22, father",
+    "Secondary Name": "Amun",
+    "Connection Category": "syncretic",
+    "Note": "By the New Kingdom, Horus merges with Amun and Ra as Amun-Ra-Horakhty — “the Hidden One, the Sun, and the Horizon.” This trinity unites creation, power, and kingship."
+  },
+  {
+    "Index": 115,
+    "Primary": "18, father",
+    "Primary Name": "Horus",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "Earliest source defining Horus as son and avenger of Osiris, heir to the throne, and embodiment of kingship. The king is Horus on earth."
+  },
+  {
+    "Index": 116,
+    "Primary": "18, father",
+    "Primary Name": "Horus",
+    "Secondary": "8, text",
+    "Secondary Name": "Book of Two Ways",
+    "Connection Category": "explicit reference",
+    "Note": "The text feautures a reflection of Horus’s post-Osirian authority in afterlife navigation."
+  },
+  {
+    "Index": 117,
+    "Primary": "18, father",
+    "Primary Name": "Horus",
+    "Secondary": "22, text",
+    "Secondary Name": "Hymn to Osiris",
+    "Connection Category": "explicit reference",
+    "Note": "The text centralizes Horus as the justifier of Osiris—the executor of divine justice and kingship."
+  },
+  {
+    "Index": 118,
+    "Primary": "18, father",
+    "Primary Name": "Horus",
+    "Secondary": "28, text",
+    "Secondary Name": "Book of Amduat",
+    "Connection Category": "explicit reference",
+    "Note": "The text presents Horus as solar protector and restorer, ensuring cosmic renewal."
+  },
+  {
+    "Index": 119,
+    "Primary": "18, father",
+    "Primary Name": "Horus",
+    "Secondary": "29, text",
+    "Secondary Name": "Litany of Re",
+    "Connection Category": "explicit reference",
+    "Note": "Here the solar-syncretic Horus (Ra-Horakhty) is estabilished."
+  },
+  {
+    "Index": 120,
+    "Primary": "18, father",
+    "Primary Name": "Horus",
+    "Secondary": "31, text",
+    "Secondary Name": "Book of the Heavenly Cow",
+    "Connection Category": "explicit reference",
+    "Note": "The text displays Horus as intercessor and restorer of cosmic order after divine wrath."
+  },
+  {
+    "Index": 121,
+    "Primary": "19, father",
+    "Primary Name": "Imhotep",
+    "Secondary": "21, father",
+    "Secondary Name": "Nefertum",
+    "Connection Category": "familial: brother/brother",
+    "Note": "-"
+  },
+  {
+    "Index": 122,
+    "Primary": "19, father",
+    "Primary Name": "Imhotep",
+    "Secondary": "20, father",
+    "Secondary Name": "Djoser",
+    "Connection Category": "custom connection",
+    "Note": "Imhotep was Djoser’s chief architect, vizier, and high priest of Ra at Heliopolis. He designed Djoser’s Step Pyramid and possibly authored ritual and medical texts. Most explicit and verifiable relationship."
+  },
+  {
+    "Index": 123,
+    "Primary": "19, father",
+    "Primary Name": "Imhotep",
+    "Secondary": "52, text",
+    "Secondary Name": "Psamtik I Karnak foundation text",
+    "Connection Category": "explicit reference",
+    "Note": "Here Imhotep is presented as a divine-healer and patron sage whose presence legitimizes the king’s renewal of ancient cults."
+  },
+  {
+    "Index": 124,
+    "Primary": "19, father",
+    "Primary Name": "Imhotep",
+    "Secondary": "53, text",
+    "Secondary Name": "Necho II’s Decree at Kusae",
+    "Connection Category": "explicit reference",
+    "Note": "The text portrays Imhotep as a formal state-recognized deity of healing and wisdom, whose cult the king officially endorses in temple and legal terms."
+  },
+  {
+    "Index": 125,
+    "Primary": "20, father",
+    "Primary Name": "Djoser",
+    "Secondary": "36, text",
+    "Secondary Name": "Turin King List",
+    "Connection Category": "explicit reference",
+    "Note": "The text identifies Djoser as a historical ruler—first major monarch of Dynasty III—thus verifying his place at the dawn of Egypt’s Old Kingdom."
+  },
+  {
+    "Index": 126,
+    "Primary": "21, father",
+    "Primary Name": "Nefertum",
+    "Secondary": "26, father",
+    "Secondary Name": "Mut",
+    "Connection Category": "familial: son/mother",
+    "Note": "-"
+  },
+  {
+    "Index": 127,
+    "Primary": "21, father",
+    "Primary Name": "Nefertum",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "The text portrays Nefertum as the lotus-born child of the sun, symbol of rebirth and divine fragrance. Establishes his solar and Memphite identity."
+  },
+  {
+    "Index": 128,
+    "Primary": "22, father",
+    "Primary Name": "Amun",
+    "Secondary": "26, father",
+    "Secondary Name": "Mut",
+    "Connection Category": "familial: consorts",
+    "Note": "-"
+  },
+  {
+    "Index": 129,
+    "Primary": "22, father",
+    "Primary Name": "Amun",
+    "Secondary": "27, father",
+    "Secondary Name": "Khonsu",
+    "Connection Category": "familial: father/son",
+    "Note": "-"
+  },
+  {
+    "Index": 130,
+    "Primary": "22, father",
+    "Primary Name": "Amun",
+    "Secondary": "30, text",
+    "Secondary Name": "Hymn to Amun-Ra (or Great Hymn to Amun)",
+    "Connection Category": "explicit reference",
+    "Note": "The text gives a full theological portrait of Amun as hidden yet omnipresent creator, merciful to petitioners, the solarized “Amun-Ra.” This is the most informative text about his divine character."
+  },
+  {
+    "Index": 131,
+    "Primary": "22, father",
+    "Primary Name": "Amun",
+    "Secondary": "50, text",
+    "Secondary Name": "Book of the Dead",
+    "Connection Category": "explicit reference",
+    "Note": "The text explains Amun’s hidden essence and his fusion with Ra—defines him as both transcendent and immanent, giving theological meaning to “hiddenness.”"
+  },
+  {
+    "Index": 132,
+    "Primary": "22, father",
+    "Primary Name": "Amun",
+    "Secondary": "28, text",
+    "Secondary Name": "Book of Amduat",
+    "Connection Category": "explicit reference",
+    "Note": "Here Amun is placed within solar cosmology—a guardian and hidden aspect of Ra’s nightly journey."
+  },
+  {
+    "Index": 133,
+    "Primary": "22, father",
+    "Primary Name": "Amun",
+    "Secondary": "9, text",
+    "Secondary Name": "Prophecy of Neferti",
+    "Connection Category": "explicit reference",
+    "Note": "The text politically marks Amun’s rise as the divine patron of the next royal house."
+  },
+  {
+    "Index": 134,
+    "Primary": "22, father",
+    "Primary Name": "Amun",
+    "Secondary": "43, text",
+    "Secondary Name": "Instruction of Amenemope",
+    "Connection Category": "explicit reference",
+    "Note": "Here Amun is portrayed as moral protector of the humble, embedding theology in wisdom literature."
+  },
+  {
+    "Index": 135,
+    "Primary": "23, father",
+    "Primary Name": "Senusret I",
+    "Secondary": "10, text",
+    "Secondary Name": "Teaching of King Amenemhat I",
+    "Connection Category": "explicit reference",
+    "Note": "The text provides direct insight into his succession and the ethos of 12th-Dynasty kingship: filial duty, vigilance, and divine appointment."
+  },
+  {
+    "Index": 136,
+    "Primary": "23, father",
+    "Primary Name": "Senusret I",
+    "Secondary": "9, text",
+    "Secondary Name": "Prophecy of Neferti",
+    "Connection Category": "explicit reference",
+    "Note": "The text establishes Senusret’s reign as fulfillment of prophecy and restoration of order under Amun’s favor."
+  },
+  {
+    "Index": 137,
+    "Primary": "23, father",
+    "Primary Name": "Senusret I",
+    "Secondary": "14, text",
+    "Secondary Name": "Tale of Sinuhe",
+    "Connection Category": "explicit reference",
+    "Note": "Here the fullest literary portrait of Senusret I as a living ruler is presented—merciful, wise, divinely protected—showing his administration and personality through narrative."
+  },
+  {
+    "Index": 138,
+    "Primary": "23, father",
+    "Primary Name": "Senusret I",
+    "Secondary": "36, text",
+    "Secondary Name": "Turin King List",
+    "Connection Category": "explicit reference",
+    "Note": "The text gives his chronological position in Egyptian royal tradition."
+  },
+  {
+    "Index": 139,
+    "Primary": "24, father",
+    "Primary Name": "Senusret III",
+    "Secondary": "36, text",
+    "Secondary Name": "Turin King List",
+    "Connection Category": "explicit reference",
+    "Note": "The text provides genealogical/historical recognition — confirming his position in the dynastic sequence."
+  },
+  {
+    "Index": 140,
+    "Primary": "26, father",
+    "Primary Name": "Mut",
+    "Secondary": "27, father",
+    "Secondary Name": "Khonsu",
+    "Connection Category": "familial: mother/son",
+    "Note": "-"
+  },
+  {
+    "Index": 141,
+    "Primary": "26, father",
+    "Primary Name": "Mut",
+    "Secondary": "50, text",
+    "Secondary Name": "Book of the Dead",
+    "Connection Category": "explicit reference",
+    "Note": "The text establishes her cosmic motherhood and her identity as queen of heaven, paired with Amun-Ra and invoked in resurrection liturgy."
+  },
+  {
+    "Index": 142,
+    "Primary": "27, father",
+    "Primary Name": "Khonsu",
+    "Secondary": "15, text",
+    "Secondary Name": "Coffin Texts",
+    "Connection Category": "explicit reference",
+    "Note": "The text estabilised Khonsu is clearly identifiable and given recognizable traits—healing, protection, determining lifespan, lunar cycles."
+  },
+  {
+    "Index": 143,
+    "Primary": "27, father",
+    "Primary Name": "Khonsu",
+    "Secondary": "28, text",
+    "Secondary Name": "Book of Amduat",
+    "Connection Category": "explicit reference",
+    "Note": "Here Khonsu is included among gods of the crew of Re, assisting in the transition of the sun through the Duat."
+  },
+  {
+    "Index": 144,
+    "Primary": "27, father",
+    "Primary Name": "Khonsu",
+    "Secondary": "29, text",
+    "Secondary Name": "Litany of Re",
+    "Connection Category": "explicit reference",
+    "Note": "Here Khonsu appears in lists of gods who accompany or embody forms of Re."
+  },
+  {
+    "Index": 145,
+    "Primary": "27, father",
+    "Primary Name": "Khonsu",
+    "Secondary": "30, text",
+    "Secondary Name": "Hymn to Amun-Ra (or Great Hymn to Amun)",
+    "Connection Category": "explicit reference",
+    "Note": "The text portrays Khonsu as part of the Theban triad."
+  },
+  {
+    "Index": 146,
+    "Primary": "28, father",
+    "Primary Name": "Miriam",
+    "Secondary": "29, father",
+    "Secondary Name": "Aaron",
+    "Connection Category": "familial: sister/brother",
+    "Note": "-"
+  },
+  {
+    "Index": 147,
+    "Primary": "28, father",
+    "Primary Name": "Miriam",
+    "Secondary": "30, father",
+    "Secondary Name": "Moses",
+    "Connection Category": "familial: sister/brother",
+    "Note": "-"
+  },
+  {
+    "Index": 148,
+    "Primary": "29, father",
+    "Primary Name": "Aaron",
+    "Secondary": "30, father",
+    "Secondary Name": "Moses",
+    "Connection Category": "familial: brother/brother",
+    "Note": "-"
+  },
+  {
+    "Index": 149,
+    "Primary": "31, father",
+    "Primary Name": "Akhenaten",
+    "Secondary": "32, father",
+    "Secondary Name": "Nefertiti",
+    "Connection Category": "familial: consorts",
+    "Note": "-"
+  },
+  {
+    "Index": 150,
+    "Primary": "31, father",
+    "Primary Name": "Akhenaten",
+    "Secondary": "34, father",
+    "Secondary Name": "Tutankhamun",
+    "Connection Category": "familial: father/son",
+    "Note": "-"
+  },
+  {
+    "Index": 151,
+    "Primary": "31, father",
+    "Primary Name": "Akhenaten",
+    "Secondary": "32, text",
+    "Secondary Name": "The Great Hymn to the Aten",
+    "Connection Category": "custom connection",
+    "Note": "This theological text was almost certainly authored or supervised by Akhenaten"
+  },
+  {
+    "Index": 152,
+    "Primary": "31, father",
+    "Primary Name": "Akhenaten",
+    "Secondary": "34, text",
+    "Secondary Name": "Decree of Horemheb",
+    "Connection Category": "custom connection",
+    "Note": "The text comes after Tutankhamun and Ay and performs a purge of the Amarna legacy. The decree refers to the “time of the heretic king” and the corruption during Akhenaten’s reign."
+  },
+  {
+    "Index": 153,
+    "Primary": "34, father",
+    "Primary Name": "Tutankhamun",
+    "Secondary": "34, text",
+    "Secondary Name": "Decree of Horemheb",
+    "Connection Category": "explicit reference",
+    "Note": "Tutankhamun appears by throne name Nebkheperure"
+  },
+  {
+    "Index": 154,
+    "Primary": "35, father",
+    "Primary Name": "Ramesses II",
+    "Secondary": "35, text",
+    "Secondary Name": "Poem of Pentaur (Battle of Kadesh)",
+    "Connection Category": "explicit reference",
+    "Note": "The text is the major literary monument praising Ramesses II. It mentions him repeatedly by throne name and birth name, and the entire text centers on his exploits."
+  },
+  {
+    "Index": 155,
+    "Primary": "35, father",
+    "Primary Name": "Ramesses II",
+    "Secondary": "36, text",
+    "Secondary Name": "Turin King List",
+    "Connection Category": "explicit reference",
+    "Note": "Here Ramesses II is listed as a legitimate king."
+  },
+  {
+    "Index": 156,
+    "Primary": "36, father",
+    "Primary Name": "Nun",
+    "Secondary": "1, father",
+    "Secondary Name": "Atum",
+    "Connection Category": "custom connection",
+    "Note": "Atum rises from the waters of Nun at the moment of creation"
+  },
+  {
+    "Index": 157,
+    "Primary": "36, father",
+    "Primary Name": "Nun",
+    "Secondary": "11, father",
+    "Secondary Name": "Ra",
+    "Connection Category": "custom connection",
+    "Note": "In Hermopolitan tradition Ra emerges directly from Nun as a child of the primordial waters."
+  },
+  {
+    "Index": 158,
+    "Primary": "36, father",
+    "Primary Name": "Nun",
+    "Secondary": "10, father",
+    "Secondary Name": "Maat",
+    "Connection Category": "custom connection",
+    "Note": "There are two interpreatations: 1) Maat arises after the first differentiation from Nun. 2) Nun is the pre-ordered state; Maat is the ordering principle."
+  },
+  {
+    "Index": 159,
+    "Primary": "36, father",
+    "Primary Name": "Nun",
+    "Secondary": "3, text",
+    "Secondary Name": "Pyramid Texts",
+    "Connection Category": "explicit reference",
+    "Note": "The text depicts Nun as the primordial waters from which the creator emerges."
+  },
+  {
+    "Index": 160,
+    "Primary": "36, father",
+    "Primary Name": "Nun",
+    "Secondary": "28, text",
+    "Secondary Name": "Book of Amduat",
+    "Connection Category": "explicit reference",
+    "Note": "Here Nun appears as the primeval waters from which Ra emerges in the First Hour."
+  },
+  {
+    "Index": 161,
+    "Primary": "36, father",
+    "Primary Name": "Nun",
+    "Secondary": "31, text",
+    "Secondary Name": "Book of the Heavenly Cow",
+    "Connection Category": "explicit reference",
+    "Note": "The text contains indirect but explicit references to Nun as the primordial state before the separation of sky and earth."
+  },
+  {
+    "Index": 162,
+    "Primary": "37, father",
+    "Primary Name": "Aten",
+    "Secondary": "11, father",
+    "Secondary Name": "Ra",
+    "Connection Category": "syncretic",
+    "Note": "Aten begins as an aspect of Ra, and only later (under Akhenaten) becomes elevated into a “supreme” god."
+  },
+  {
+    "Index": 163,
+    "Primary": "37, father",
+    "Primary Name": "Aten",
+    "Secondary": "32, text",
+    "Secondary Name": "The Great Hymn to the Aten",
+    "Connection Category": "explicit reference",
+    "Note": "The text is the major exposition of theological doctrine of Aten."
+  },
+  {
+    "Index": 164,
+    "Primary": "1, text",
+    "Primary Name": "Instruction of Hardjedef",
+    "Secondary": "2, text",
+    "Secondary Name": "Instruction of Kagemni",
+    "Connection Category": "indirect connection",
+    "Note": "The texts share structure, tone, audience, social ethics, and the entire didactic worldview."
+  },
+  {
+    "Index": 165,
+    "Primary": "1, text",
+    "Primary Name": "Instruction of Hardjedef",
+    "Secondary": "24, text",
+    "Secondary Name": "Tales of Wonder (Westcar Papyrus)",
+    "Connection Category": "explicit reference",
+    "Note": "Westcar explicitly presents Djedefhor (Hardjedef) as a sage in Khufu’s court. This is the only historical-literary attestation of the author outside his Instruction."
+  },
+  {
+    "Index": 166,
+    "Primary": "2, text ",
+    "Primary Name": "Instruction of Kagemni",
+    "Secondary": "4, text",
+    "Secondary Name": "Instruction of Ptahhotep",
+    "Connection Category": "indirect connection",
+    "Note": "The two are a Part of the same Old Kingdom sebayt cluster. They often appear together in manuscripts (“Kagemni + Ptahhotep”)."
+  },
+  {
+    "Index": 167,
+    "Primary": "3, text",
+    "Primary Name": "Pyramid Texts",
+    "Secondary": "15, text",
+    "Secondary Name": "Coffin Texts",
+    "Connection Category": "explicit reference",
+    "Note": "The Coffin Texts are the direct literary descendants of the Pyramid Texts. Large numbers of Pyramid Text spells were rewritten, expanded, or adapted into Coffin Text spells."
+  },
+  {
+    "Index": 168,
+    "Primary": "4, text",
+    "Primary Name": "Instruction of Ptahhotep",
+    "Secondary": "6, text",
+    "Secondary Name": "The Instruction of Merikare",
+    "Connection Category": "indirect connection",
+    "Note": "Instruction of Merikare continues the ethical-political maxim tradition shaped by the Old Kingdom sages (Ptahhotep, Kagemni, Hardjedef)."
+  },
+  {
+    "Index": 169,
+    "Primary": "5, text",
+    "Primary Name": "Surgical Papyrus (Edwin Smith collection)",
+    "Secondary": "21, text",
+    "Secondary Name": "Kahun Papyrus",
+    "Connection Category": "indirect connection",
+    "Note": "The texts belong to the same scribal medical tradition."
+  },
+  {
+    "Index": 170,
+    "Primary": "6, text",
+    "Primary Name": "The Instruction of Merikare",
+    "Secondary": "10, text",
+    "Secondary Name": "Teaching of King Amenemhat I",
+    "Connection Category": "indirect connection",
+    "Note": "Both are Middle Kingdom royal-sebayt, political-ethical instructions aimed at rulers and successors."
+  },
+  {
+    "Index": 171,
+    "Primary": "7, text",
+    "Primary Name": "Liturgy of Funerary Offerings (Abydos Ritual)",
+    "Secondary": "15, text",
+    "Secondary Name": "Coffin Texts",
+    "Connection Category": "indirect connection",
+    "Note": "The Coffin Texts preserve, expand, and adapt earlier offering liturgies and mortuary recitations."
+  },
+  {
+    "Index": 172,
+    "Primary": "7, text",
+    "Primary Name": "Liturgy of Funerary Offerings (Abydos Ritual)",
+    "Secondary": "22, text",
+    "Secondary Name": "Hymn to Osiris",
+    "Connection Category": "indirect connection",
+    "Note": "The Abydos ritual is specifically tied to Osiris’ cult. The Hymn to Osiris reflects the same core religious focus."
+  },
+  {
+    "Index": 173,
+    "Primary": "8, text",
+    "Primary Name": "Book of Two Ways",
+    "Secondary": "15, text",
+    "Secondary Name": "Coffin Texts",
+    "Connection Category": "explicit reference",
+    "Note": "The Book of Two Ways is part of the Coffin Texts."
+  },
+  {
+    "Index": 174,
+    "Primary": "9, text",
+    "Primary Name": "Prophecy of Neferti",
+    "Secondary": "10, text",
+    "Secondary Name": "Teaching of King Amenemhat I",
+    "Connection Category": "explicit reference",
+    "Note": "The Prophecy of Neferti explicitly names Amenemhat I as the divinely destined restorer who will arise after an age of chaos, framing his emergence as the priestly foreknowledge of a savior-king. The Teaching of Amenemhat I completes this ideological arc by presenting the king’s own voice as the source of renewed wisdom."
+  },
+  {
+    "Index": 175,
+    "Primary": "9, text",
+    "Primary Name": "Prophecy of Neferti",
+    "Secondary": "13, text",
+    "Secondary Name": "The Admonitions of Ipuwer",
+    "Connection Category": "comparative connection",
+    "Note": "Both texts construct a vision of societal collapse—famine, inversion of social order, breakdown of Maat."
+  },
+  {
+    "Index": 176,
+    "Primary": "10, text",
+    "Primary Name": "Teaching of King Amenemhat I",
+    "Secondary": "17, text",
+    "Secondary Name": "Loyalist Instruction",
+    "Connection Category": "indirect connection",
+    "Note": "Same sebayt tradition, deeply concerned with loyalty to the king, social order, and proper conduct toward authority."
+  },
+  {
+    "Index": 177,
+    "Primary": "11, text",
+    "Primary Name": "Hymn to the Nile",
+    "Secondary": "22, text",
+    "Secondary Name": "Hymn to Osiris",
+    "Connection Category": "indirect connection",
+    "Note": "Osiris is intimately linked to the Nile’s agricultural cycle (the inundation symbolizes his resurrection). Both hymns express cosmic renewal, fertility, and restoration of life — a shared religious cosmology."
+  },
+  {
+    "Index": 178,
+    "Primary": "15, text",
+    "Primary Name": "Coffin Texts",
+    "Secondary": "50, text",
+    "Secondary Name": "Book of the Dead",
+    "Connection Category": "explicit reference",
+    "Note": "The Book of the Dead directly inherits large portions of Coffin Text material."
+  },
+  {
+    "Index": 179,
+    "Primary": "17, text",
+    "Primary Name": "Loyalist Instruction",
+    "Secondary": "43, text",
+    "Secondary Name": "Instruction of Amenemope",
+    "Connection Category": "indirect connection",
+    "Note": "Both texts belong to the core sebayt tradition, sharing a didactic worldview centered on ethical conduct, humility, and the maintenance of Maat."
+  },
+  {
+    "Index": 180,
+    "Primary": "20, text",
+    "Primary Name": "Moscow Mathematical Papyrus",
+    "Secondary": "23, text",
+    "Secondary Name": "Berlin Papyrus 6619",
+    "Connection Category": "indirect connection",
+    "Note": "Both texts share the same Middle Kingdom mathematical tradition, problem structures, and scribal computational methods."
+  },
+  {
+    "Index": 181,
+    "Primary": "21, text",
+    "Primary Name": "Kahun Papyrus",
+    "Secondary": "26, text",
+    "Secondary Name": "Ebers Papyrus",
+    "Connection Category": "indirect connection",
+    "Note": "Both are major Egyptian medical sources sharing diagnostic modes, pharmaceutical recipes, and the same medical-magical scribal tradition."
+  },
+  {
+    "Index": 182,
+    "Primary": "22, text",
+    "Primary Name": "Hymn to Osiris",
+    "Secondary": "50, text",
+    "Secondary Name": "Book of the Dead",
+    "Connection Category": "explicit reference",
+    "Note": "The Book of the Dead is fundamentally structured around Osirian resurrection theology — judgment, justification, renewal, protection by Osiris, and identification with him. The hymn expresses the same theological core."
+  },
+  {
+    "Index": 183,
+    "Primary": "23, text",
+    "Primary Name": "Berlin Papyrus 6619",
+    "Secondary": "25, text",
+    "Secondary Name": "Rhind Mathematical Papyrus",
+    "Connection Category": "indirect connection",
+    "Note": "Both texts share the same Middle Kingdom mathematical tradition, problem structures, and scribal computational methods."
+  },
+  {
+    "Index": 184,
+    "Primary": "28, text",
+    "Primary Name": "Book of Amduat",
+    "Secondary": "33, text",
+    "Secondary Name": "Book of Gates",
+    "Connection Category": "explicit reference",
+    "Note": "Both texts are New Kingdom underworld books that map Re’s nightly passage through the Duat using parallel hour-by-hour structures, shared cosmography, and the same solar–Osirian resurrection theology."
+  },
+  {
+    "Index": 185,
+    "Primary": "30, text",
+    "Primary Name": "Hymn to Amun-Ra (or Great Hymn to Amun)",
+    "Secondary": "32, text",
+    "Secondary Name": "The Great Hymn to the Aten",
+    "Connection Category": "comparative connection",
+    "Note": "Both are monumental cosmic hymns praising a supreme solar creator-god."
+  },
+  {
+    "Index": 186,
+    "Primary": "31, text",
+    "Primary Name": "Book of the Heavenly Cow",
+    "Secondary": "37, text",
+    "Secondary Name": "Book of the Earth",
+    "Connection Category": "indirect connection",
+    "Note": "The texts share a cosmic-structural focus on the arrangement of the universe, divine separation, and the cosmic geography between sky, earth, and netherworld."
+  },
+  {
+    "Index": 187,
+    "Primary": "32, text",
+    "Primary Name": "The Great Hymn to the Aten",
+    "Secondary": "47, text",
+    "Secondary Name": "Hymn to Thoth",
+    "Connection Category": "comparative connection",
+    "Note": "Both texts belong to the formal hymn genre: poetic theological praise, divine epithets, cosmic ordering, creation motifs, and liturgical function."
+  },
+  {
+    "Index": 188,
+    "Primary": "33, text",
+    "Primary Name": "Book of Gates",
+    "Secondary": "37, text",
+    "Secondary Name": "Book of the Earth",
+    "Connection Category": "explicit reference",
+    "Note": "Both texts are New Kingdom underworld books that depict Re’s nightly passage through the Duat through complementary cosmographies and share the same solar–Osirian resurrection theology, even though the Book of the Earth is not organized into hour-by-hour divisions like the Book of Gates."
+  },
+  {
+    "Index": 189,
+    "Primary": "34, text",
+    "Primary Name": "Decree of Horemheb",
+    "Secondary": "53, text",
+    "Secondary Name": "Necho II’s Decree at Kusae",
+    "Connection Category": "explicit reference",
+    "Note": "Both are royal legal-administrative command texts regulating officials and asserting the king’s legal authority."
+  },
+  {
+    "Index": 190,
+    "Primary": "35, text",
+    "Primary Name": "Poem of Pentaur (Battle of Kadesh)",
+    "Secondary": "38, text",
+    "Secondary Name": "Victory Stela of Merneptah (Israel Stela)",
+    "Connection Category": "comparative connection",
+    "Note": "Both are monumental royal victory inscriptions, narrating military success, asserting kingship, and projecting state power."
+  },
+  {
+    "Index": 191,
+    "Primary": "37, text",
+    "Primary Name": "Book of the Earth",
+    "Secondary": "42, text",
+    "Secondary Name": "Book of Caverns",
+    "Connection Category": "explicit reference",
+    "Note": "The Book of the Earth and the Book of Caverns are closely related late New Kingdom underworld books that present complementary cosmographies focused on Osiris’ hidden body, the deep regions of the Duat, and the solar–Osirian cycle of death and regeneration."
+  },
+  {
+    "Index": 192,
+    "Primary": "39, text",
+    "Primary Name": "Contendings of Horus and Seth",
+    "Secondary": "41, text",
+    "Secondary Name": "Tale of the Two Brothers",
+    "Connection Category": "comparative connection",
+    "Note": "Both are narrative compositions built around familial betrayal, divine justice, and mythic prototypes of kingship. The story of Bata and Anpu explicitly echoes the Osiris–Horus–Seth mythic pattern (murder, exile, vindication, restoration)."
+  },
+  {
+    "Index": 193,
+    "Primary": "43, text",
+    "Primary Name": "Instruction of Amenemope",
+    "Secondary": "49, text",
+    "Secondary Name": "Maxims of Ani",
+    "Connection Category": "indirect connection",
+    "Note": "Both texts belong to the core sebayt tradition, sharing a didactic worldview centered on ethical conduct, humility, and the maintenance of Maat."
+  }
+]
