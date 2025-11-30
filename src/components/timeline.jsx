@@ -337,8 +337,7 @@ function layoutMarksByPixels({ marks, outlines, authorLaneMap, x, y0, innerHeigh
   return { textYMap, fatherYMap };
 }
 
-
-
+  
 // Visual “radius” in band-units for spacing (k=1)
 function textBaseRU(){ return 8; } // dots are tiny; tweak to taste
 
@@ -450,6 +449,7 @@ function pickSystemColor(tagsStr) {
 }
 
 
+
 function getLooseField(obj, targetKey) {
   const want = String(targetKey).trim().toLowerCase();
   for (const k of Object.keys(obj || {})) {
@@ -457,6 +457,63 @@ function getLooseField(obj, targetKey) {
   }
   return undefined;
 }
+
+
+// ---- Connection line colors: mix all symbolic-system colors of both ends ----
+
+// Average an array of hex colors like "#RRGGBB"
+function averageHexColors(hexes) {
+  const arr = (hexes || []).filter(Boolean);
+  if (arr.length === 0) return "#888888";
+  if (arr.length === 1) return arr[0];
+
+  let r = 0, g = 0, b = 0, n = 0;
+  for (const h of arr) {
+    const s = String(h || "").trim();
+    if (!/^#?[0-9a-fA-F]{6}$/.test(s)) continue;
+    const base = s.startsWith("#") ? s.slice(1) : s;
+
+    const rv = parseInt(base.slice(0, 2), 16);
+    const gv = parseInt(base.slice(2, 4), 16);
+    const bv = parseInt(base.slice(4, 6), 16);
+
+    if (Number.isFinite(rv) && Number.isFinite(gv) && Number.isFinite(bv)) {
+      r += rv; g += gv; b += bv; n++;
+    }
+  }
+  if (n === 0) return "#888888";
+
+  const toHex = (v) => v.toString(16).padStart(2, "0");
+  return "#" + toHex(Math.round(r / n)) +
+               toHex(Math.round(g / n)) +
+               toHex(Math.round(b / n));
+}
+
+// fields that might contain symbolic-system tags
+const CONNECTION_TAG_FIELDS = [
+  "Symbolic System Tags",
+  "Symbolic Systems Tags",
+  "Symbolic System tags",
+  "Symbolic Systems tags",
+  "symbolicSystems",
+];
+
+
+
+
+
+function connectionColorFromRows(rowA, rowB) {
+  // We already computed colors for fathers/texts when building rowsF/rowsT
+  const colorsA = Array.isArray(rowA?.colors) ? rowA.colors : [];
+  const colorsB = Array.isArray(rowB?.colors) ? rowB.colors : [];
+
+  const all = [...colorsA, ...colorsB].filter(Boolean);
+  if (!all.length) return "#999999";
+
+  const uniq = [...new Set(all)];
+  return averageHexColors(uniq);
+}
+
 
 const normalizeAuthor = (name) =>
   String(name || "anon").trim().toLowerCase();
@@ -623,6 +680,8 @@ function makeAdaptiveTicks(zx) {
   return ticksAstro.filter(t => !FORBIDDEN_TICKS_ASTRO.has(t));
 }
 
+  
+
 // Convert group intervals to a rectilinear (H/V only) envelope path in screen space.
 function groupIntervalsToPath(intervals, zx, zy) {
   if (!intervals || intervals.length === 0) return "";
@@ -763,9 +822,6 @@ function shouldShowDurationLabel({ d, k, bandW, bandH, labelSel }) {
   return true; // fallback if measurement not available
 }
 
-
-
-
 function deriveGroupTitles(groupKey, members) {
   const first = members[0] || {};
   const anchorId = CUSTOM_GROUP_LABEL_MEMBER[groupKey];
@@ -827,6 +883,48 @@ function useDiscoveredFatherSets() {
   });
   return registry;
 }
+
+/* ===== CONNECTIONS: discovery for *_connections.json ===== */
+function useDiscoveredConnectionSets() {
+  const modules =
+    import.meta.glob("../data/**/*_connections.json", {
+      eager: true,
+      import: "default",
+    }) || {};
+
+  const folderOf = (p) => {
+    const m = p.match(/\/data\/([^/]+)\//);
+    return m ? m[1] : null;
+  };
+
+  // folder → array of *row objects*
+  const registryMap = new Map();
+
+  for (const [path, data] of Object.entries(modules)) {
+    const folder = folderOf(path);
+    if (!folder) continue;
+
+    const arr = Array.isArray(data) ? data : [];
+    if (!registryMap.has(folder)) registryMap.set(folder, []);
+
+    // IMPORTANT: flatten all rows from this file into the bucket
+    registryMap.get(folder).push(...arr);
+  }
+
+  const registry = [];
+  for (const [folder, rows] of registryMap.entries()) {
+    registry.push({
+      folder,
+      durationId: `${folder}-composite`,
+      connections: rows,
+    });
+  }
+
+  console.log("[CONN registry]", registry);
+  return registry;
+}
+
+
 
 const SYMBOLIC_SYSTEM_KEYS = Object.keys(SymbolicSystemColorPairs);
 
@@ -983,7 +1081,12 @@ export default function Timeline() {
   const outlinesRef = useRef(null);
   const segmentsRef = useRef(null);
   const textsRef = useRef(null);
-  const fathersRef = useRef(null);      // FATHERS: new layer ref
+  const fathersRef = useRef(null); // FATHERS: new layer ref
+
+  const connectionsRef = useRef(null);
+  const allConnectionRowsRef = useRef([]);
+  
+  
   const prevZoomedInRef = useRef(false);
   const hoveredDurationIdRef = useRef(null);
   const awaitingCloseClickSegRef = useRef(false);
@@ -1287,6 +1390,8 @@ useEffect(() => {
 
   /* ---- FATHERS: registry ---- */
   const fatherRegistry = useDiscoveredFatherSets();
+
+  const connectionRegistry = useDiscoveredConnectionSets();
 
   /* ---- Texts rows ---- */
   const textRows = useMemo(() => {
@@ -1807,6 +1912,196 @@ useEffect(() => {
     if (!wrapEl) return;
     d3.select(wrapEl).selectAll(".tl-tooltip").style("opacity", 0).style("display", "none");
   }, [modalOpen]);
+
+    function styleForConnection(category, typeA, typeB, rowA, rowB) {
+  const cat = String(category || "").trim().toLowerCase();
+  const aIsFather = typeA === "father";
+  const bIsFather = typeB === "father";
+
+  // base style (will override color below)
+  const out = {
+    color: "#999999",
+    width: 1.2,
+    dash: null,
+  };
+
+  const bothFathers = aIsFather && bIsFather;
+  const bothTexts   = !aIsFather && !bIsFather;
+
+  if (bothFathers) {
+    if (cat.includes("familial")) {
+      out.width = 2.4;
+    } else if (cat.includes("syncretic")) {
+      out.width = 1.0;
+    } else {
+      out.width = 1.4;
+      out.dash  = "4 4";
+    }
+  } else if (bothTexts) {
+    if (cat.includes("explicit")) {
+      out.width = 2.0;
+    } else if (cat.includes("indirect")) {
+      out.width = 1.0;
+    } else if (cat.includes("comparative")) {
+      out.width = 1.4;
+      out.dash  = "4 4";
+    } else if (cat.includes("speculative")) {
+      out.width = 1.4;
+      out.dash  = "4 2 1 2";
+    }
+  } else {
+    // father ↔ text
+    if (cat.includes("explicit")) {
+      out.width = 1.0;
+    } else {
+      out.width = 1.0;
+      out.dash  = "2 3";
+    }
+  }
+
+  // set color from both rows' symbolic-system tags
+  out.color = connectionColorFromRows(rowA, rowB) || out.color;
+  return out;
+}
+
+
+  function renderConnections(zx, zy, k) {
+    if (!connectionsRef.current) return;
+
+    const data = allConnectionRowsRef.current || [];
+    const g = d3.select(connectionsRef.current);
+
+    const sel = g
+      .selectAll("line.connection")
+      .data(data, d => d._key);
+
+    sel.exit().remove();
+
+    const enter = sel.enter()
+      .append("line")
+      .attr("class", "connection")
+      .attr("stroke", "#999")
+      .attr("stroke-opacity", 0.6)
+      .attr("fill", "none");
+
+    const merged = enter.merge(sel);
+
+merged
+  .attr("x1", d => zx(d.ax))
+  .attr("y1", d => zy(d.ay))
+  .attr("x2", d => zx(d.bx))
+  .attr("y2", d => zy(d.by))
+  .attr("stroke-width", d => d.style.strokeWidth)
+  .attr("stroke-dasharray", d => d.style.strokeDasharray || null)
+  .attr("stroke-linecap", d => d.style.strokeLinecap || "round")
+  .attr("stroke", d => d.color || "#999999")
+  .attr("stroke-opacity", 0.9);
+  }
+
+  useEffect(() => {
+  if (!connectionRegistry.length) {
+    allConnectionRowsRef.current = [];
+    return;
+  }
+
+  const out = [];
+
+  // Helper to parse "index,type" like "12, father"
+  const parseEndFactory = (mapByIndexFather, mapByIndexText) => (raw, name) => {
+    if (!raw) return null;
+    const m = String(raw).match(/(\d+)\s*,\s*(\w+)/);
+    if (!m) return null;
+    const index = Number(m[1]);
+    const type = m[2].toLowerCase();
+
+    let row = null;
+    if (type === "father") row = mapByIndexFather.get(index);
+    else row = mapByIndexText.get(index);
+
+    if (!row) return null;
+    return { type, row };
+  };
+
+  for (const ds of connectionRegistry) {
+    const bandId = ds.durationId;          // e.g. "egyptian-composite"
+    if (!bandId) continue;
+
+    // For this band only, build index→row maps
+    const mapByIndexFather = new Map();
+    const mapByIndexText   = new Map();
+
+    for (const f of fatherRows) {
+      if (f.durationId !== bandId) continue;
+      if (f.index == null) continue;
+      mapByIndexFather.set(Number(f.index), f);
+    }
+    for (const t of textRows) {
+      if (t.durationId !== bandId) continue;
+      if (t.textIndex == null) continue;
+      mapByIndexText.set(Number(t.textIndex), t);
+    }
+
+    const parseEnd = parseEndFactory(mapByIndexFather, mapByIndexText);
+
+    for (const row of ds.connections) {
+      const A = parseEnd(row.Primary, row["Primary Name"]);
+      const B = parseEnd(row.Secondary, row["Secondary Name"]);
+      if (!A || !B) continue;
+
+      const ax = Number(A.row.when ?? NaN);
+      const bx = Number(B.row.when ?? NaN);
+      if (!Number.isFinite(ax) || !Number.isFinite(bx)) continue;
+
+      const aYmap = A.type === "father" ? fatherYMap : textYMap;
+      const bYmap = B.type === "father" ? fatherYMap : textYMap;
+
+      // NOTE: we use bandId (the composite band) for both ends
+      const ay = aYmap.get(bandId)?.get(A.row.id);
+      const by = bYmap.get(bandId)?.get(B.row.id);
+      if (!Number.isFinite(ay) || !Number.isFinite(by)) continue;
+
+      const style = styleForConnection(
+  row["Connection Category"],
+  A.type,
+  B.type,
+  A.row,
+  B.row
+);
+
+      const color = connectionColorFromRows(A.row, B.row) ?? "#999999";
+
+      out.push({
+  _key: `${row.Index ?? row.id ?? "conn"}::${A.row.id}::${B.row.id}`,
+  ax,
+  ay,
+  bx,
+  by,
+  style,
+  color,
+  note: row.Note || "",
+  category: row["Connection Category"] ?? "",
+      });
+        }
+      }
+
+  console.log("[CONN rows built]", out.length, out.slice(0, 5));
+
+  allConnectionRowsRef.current = out;
+
+  const t = lastTransformRef.current ?? d3.zoomIdentity;
+  renderConnections(t.rescaleX(x), t.rescaleY(y0), t.k);
+}, [
+  connectionRegistry,
+  fatherRows,
+  textRows,
+  fatherYMap,
+  textYMap,
+  x,
+  y0,
+  renderConnections,
+]);
+
+
 
   /* ========= Draw/Update ========= */
   useEffect(() => {
@@ -2939,6 +3234,8 @@ fathersSel
       });
     }
   }
+
+  renderConnections(zx, zy, k);
 }
 
 
@@ -3091,6 +3388,7 @@ const zoom = (zoomRef.current ?? d3.zoom())
     const zx = t.rescaleX(x);
     const zy = t.rescaleY(y0);
     apply(zx, zy, t.k);
+    renderConnections(zx, zy, t.k);
     updateInteractivity(t.k);
 
     // throttle hover sync to RAF (duration vs segment based on zoom)
@@ -3266,18 +3564,24 @@ return (
       </defs>
 
       {/* 2) Apply clipPath to the chart group */}
-      <g
-        className="chart"
-        transform={`translate(${margin.left},${margin.top})`}
-        clipPath={`url(#${clipId}-clip)`}
-      >
-        <g ref={gridRef} className="grid" />
-        <g ref={customPolysRef} className="customPolys" />
-        <g ref={outlinesRef} className="durations" />
-        <g ref={segmentsRef} className="segments" />
-        <g ref={fathersRef} className="fathers" />
-        <g ref={textsRef} className="texts" />
-      </g>
+<g
+  className="chart"
+  transform={`translate(${margin.left},${margin.top})`}
+  clipPath={`url(#${clipId}-clip)`}
+>
+  <g ref={gridRef} className="grid" />
+  <g ref={customPolysRef} className="customPolys" />
+  <g ref={outlinesRef} className="durations" />
+  <g ref={segmentsRef} className="segments" />
+
+  {/* lines BELOW nodes */}
+  <g ref={connectionsRef} className="connections" />
+
+  {/* nodes on top */}
+  <g ref={fathersRef} className="fathers" />
+  <g ref={textsRef} className="texts" />
+</g>
+
 
       {/* 3) Underfill band beneath the bottom timeline axis (outside clip so it stays visible) */}
       <rect
