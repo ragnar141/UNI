@@ -1085,6 +1085,9 @@ export default function Timeline() {
 
   const connectionsRef = useRef(null);
   const allConnectionRowsRef = useRef([]);
+
+  const hoveredTextIdRef = useRef(null);
+  const hoveredFatherIdRef = useRef(null);
   
   
   const prevZoomedInRef = useRef(false);
@@ -1913,56 +1916,94 @@ useEffect(() => {
     d3.select(wrapEl).selectAll(".tl-tooltip").style("opacity", 0).style("display", "none");
   }, [modalOpen]);
 
-    function styleForConnection(category, typeA, typeB, rowA, rowB) {
+function styleForConnection(category, typeA, typeB, rowA, rowB) {
   const cat = String(category || "").trim().toLowerCase();
   const aIsFather = typeA === "father";
   const bIsFather = typeB === "father";
 
-  // base style (will override color below)
-  const out = {
-    color: "#999999",
-    width: 1.2,
-    dash: null,
-  };
-
   const bothFathers = aIsFather && bIsFather;
   const bothTexts   = !aIsFather && !bIsFather;
+  const mixed       = !bothFathers && !bothTexts; // father–text
+
+  let strokeWidth    = 1.4;
+  let strokeDasharray = null;
+  const strokeLinecap = "round";
+
+  const isFamilial    = cat.includes("familial") || cat.includes("genealogical");
+  const isSyncretic   = cat.includes("syncretic");
+  const isExplicit    = cat.includes("explicit");
+  const isIndirect    = cat.includes("indirect");
+  const isComparative = cat.includes("comparative");
+  const isSpeculative = cat.includes("speculative");
 
   if (bothFathers) {
-    if (cat.includes("familial")) {
-      out.width = 2.4;
-    } else if (cat.includes("syncretic")) {
-      out.width = 1.0;
+    // father–father
+    if (isFamilial) {
+      // VERY thick, solid
+      strokeWidth    = 3.0;
+      strokeDasharray = null;
+    } else if (isSyncretic) {
+      // thin, solid
+      strokeWidth    = 1.0;
+      strokeDasharray = null;
     } else {
-      out.width = 1.4;
-      out.dash  = "4 4";
+      // custom / other father–father → clearly dashed
+      strokeWidth    = 2.0;
+      strokeDasharray = "6 4";
+    }
+  } else if (mixed) {
+    // father–text or text–father
+    if (isExplicit) {
+      // thin, solid
+      strokeWidth    = 1.2;
+      strokeDasharray = null;
+    } else {
+      // non-explicit father↔text → dotted
+      strokeWidth    = 1.2;
+      strokeDasharray = "2 4";
     }
   } else if (bothTexts) {
-    if (cat.includes("explicit")) {
-      out.width = 2.0;
-    } else if (cat.includes("indirect")) {
-      out.width = 1.0;
-    } else if (cat.includes("comparative")) {
-      out.width = 1.4;
-      out.dash  = "4 4";
-    } else if (cat.includes("speculative")) {
-      out.width = 1.4;
-      out.dash  = "4 2 1 2";
-    }
-  } else {
-    // father ↔ text
-    if (cat.includes("explicit")) {
-      out.width = 1.0;
-    } else {
-      out.width = 1.0;
-      out.dash  = "2 3";
+    // text–text
+    if (isExplicit) {
+      // thick, solid
+      strokeWidth    = 2.4;
+      strokeDasharray = null;
+    } else if (isIndirect) {
+      // thin, solid
+      strokeWidth    = 1.0;
+      strokeDasharray = null;
+    } else if (isComparative) {
+      // medium, dashed
+      strokeWidth    = 1.6;
+      strokeDasharray = "6 4";
+    } else if (isSpeculative) {
+      // medium, dash-dot
+      strokeWidth    = 1.6;
+      strokeDasharray = "6 3 1.5 3";
     }
   }
 
-  // set color from both rows' symbolic-system tags
-  out.color = connectionColorFromRows(rowA, rowB) || out.color;
-  return out;
+  // Debug logging
+  console.log("[styleForConnection]", {
+    category: cat,
+    typeA,
+    typeB,
+    bothFathers,
+    bothTexts,
+    mixed,
+    strokeWidth,
+    strokeDasharray,
+  });
+
+  return {
+    strokeWidth,
+    strokeDasharray,
+    strokeLinecap,
+  };
 }
+
+const CONNECTION_BASE_OPACITY = 0.05;   // faint default
+const CONNECTION_HIGHLIGHT_OPACITY = 0.9; // bright when linked
 
 
   function renderConnections(zx, zy, k) {
@@ -1977,26 +2018,57 @@ useEffect(() => {
 
     sel.exit().remove();
 
-    const enter = sel.enter()
-      .append("line")
-      .attr("class", "connection")
-      .attr("stroke", "#999")
-      .attr("stroke-opacity", 0.6)
-      .attr("fill", "none");
+  const enter = sel.enter()
+    .append("line")
+    .attr("class", "connection")
+    .attr("stroke", "#999")
+    .attr("stroke-opacity", CONNECTION_BASE_OPACITY) // base
+    .attr("fill", "none");
 
-    const merged = enter.merge(sel);
+  const merged = enter.merge(sel);
 
-merged
-  .attr("x1", d => zx(d.ax))
-  .attr("y1", d => zy(d.ay))
-  .attr("x2", d => zx(d.bx))
-  .attr("y2", d => zy(d.by))
-  .attr("stroke-width", d => d.style.strokeWidth)
-  .attr("stroke-dasharray", d => d.style.strokeDasharray || null)
-  .attr("stroke-linecap", d => d.style.strokeLinecap || "round")
-  .attr("stroke", d => d.color || "#999999")
-  .attr("stroke-opacity", 0.9);
-  }
+  // Snapshot current selection / hover state
+  const selText = selectedText;
+  const selFather = selectedFather;
+  const hoveredTextId = hoveredTextIdRef.current;
+  const hoveredFatherId = hoveredFatherIdRef.current;
+
+  merged
+    .attr("x1", d => zx(d.ax))
+    .attr("y1", d => zy(d.ay))
+    .attr("x2", d => zx(d.bx))
+    .attr("y2", d => zy(d.by))
+    .attr("stroke-width", d => d.style.strokeWidth)
+    .attr("stroke-dasharray", d => d.style.strokeDasharray || null)
+    .attr("stroke-linecap", d => d.style.strokeLinecap || "round")
+    .attr("stroke", d => d.color || "#999999")
+    .attr("stroke-opacity", d => {
+      const touchesSelected =
+        (selText && (
+          (d.aType === "text"   && d.aId === selText.id) ||
+          (d.bType === "text"   && d.bId === selText.id)
+        )) ||
+        (selFather && (
+          (d.aType === "father" && d.aId === selFather.id) ||
+          (d.bType === "father" && d.bId === selFather.id)
+        ));
+
+      const touchesHovered =
+        (hoveredTextId && (
+          (d.aType === "text"   && d.aId === hoveredTextId) ||
+          (d.bType === "text"   && d.bId === hoveredTextId)
+        )) ||
+        (hoveredFatherId && (
+          (d.aType === "father" && d.aId === hoveredFatherId) ||
+          (d.bType === "father" && d.bId === hoveredFatherId)
+        ));
+
+      return (touchesSelected || touchesHovered)
+        ? CONNECTION_HIGHLIGHT_OPACITY
+        : CONNECTION_BASE_OPACITY;
+    });
+}
+
 
   useEffect(() => {
   if (!connectionRegistry.length) {
@@ -2071,16 +2143,24 @@ merged
       const color = connectionColorFromRows(A.row, B.row) ?? "#999999";
 
       out.push({
-  _key: `${row.Index ?? row.id ?? "conn"}::${A.row.id}::${B.row.id}`,
-  ax,
-  ay,
-  bx,
-  by,
-  style,
-  color,
-  note: row.Note || "",
-  category: row["Connection Category"] ?? "",
+        _key: `${row.Index ?? row.id ?? "conn"}::${A.row.id}::${B.row.id}`,
+        ax,
+        ay,
+        bx,
+        by,
+
+        // NEW: endpoint ids and types
+        aId: A.row.id,
+        aType: A.type,
+        bId: B.row.id,
+        bType: B.type,
+
+        style,
+        color,
+        note: row.Note || "",
+        category: row["Connection Category"] ?? "",
       });
+
         }
       }
 
@@ -2100,6 +2180,13 @@ merged
   y0,
   renderConnections,
 ]);
+
+  // Re-apply connection styling when selected text/father changes
+  useEffect(() => {
+    if (!connectionsRef.current) return;
+    const t = lastTransformRef.current ?? d3.zoomIdentity;
+    renderConnections(t.rescaleX(x), t.rescaleY(y0), t.k);
+  }, [selectedText, selectedFather, x, y0, renderConnections]);
 
 
 
@@ -2779,11 +2866,20 @@ piesSel
 
     // Text dots hover/click (zoomed-in only via pointer-events toggle)
     textSel
-      .on("mouseenter", function (_ev, d) {
-        const k = kRef.current;
-        const gPie = piesSel.filter((p) => p.id === d.id).style("opacity", 1);
-      drawTextDot(d3.select(this), gPie, k * HOVER_SCALE_DOT);
+  .on("mouseenter", function (_ev, d) {
+    // mark hovered text for connection highlighting
+    hoveredTextIdRef.current = d.id;
+    const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
+    if (zx && zy) renderConnections(zx, zy, kNow);
 
+const k = kRef.current;
+const gPie = piesSel.filter((p) => p.id === d.id).style("opacity", 1);
+drawTextDot(d3.select(this), gPie, k * HOVER_SCALE_DOT);
+
+// add white border when hovered/selected
+d3.select(this)
+  .attr("stroke", "#ffffff")
+  .attr("stroke-width", 1.4);
         // NEW: derive segment preview from state (no ad-hoc styling)
         const seg = findSegForText(d);
         if (seg) {
@@ -2808,20 +2904,43 @@ const a = textAnchorClient(this, d);
 if (a) showTip(tipText, html, a.x, a.y, d.color);
 
       })
-      .on("mouseleave", function (_ev, d) {
-        const k = kRef.current;
-        const rDraw = TEXT_BASE_R * k;
+.on("mouseleave", function (_ev, d) {
+  // clear hovered text highlight
+  hoveredTextIdRef.current = null;
+  const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
+  if (zx && zy) renderConnections(zx, zy, kNow);
 
-        d3.select(this).attr("r", rDraw).attr("opacity", BASE_OPACITY);
-        hideTipSel(tipText);
+  const k = kRef.current;
+  const isSelected = selectedText && selectedText.id === d.id;
+  const gPie = piesSel.filter((p) => p.id === d.id);
 
-        // Shrink/restore pie radius + opacity to match circle
-        const gPie = piesSel.filter((p) => p.id === d.id);
-        if (!gPie.empty()) {
-          gPie.style("opacity", BASE_OPACITY);
-          drawSlicesAtRadius(gPie, rDraw);
-        }
+  if (isSelected) {
+    // keep it in "hover" size + border when selected
+    drawTextDot(d3.select(this), gPie, k * HOVER_SCALE_DOT);
+    d3.select(this)
+      .attr("stroke", "#ffffff")
+      .attr("stroke-width", 1.4)
+      .attr("opacity", BASE_OPACITY);
 
+    if (!gPie.empty()) {
+      gPie.style("opacity", 1);
+      drawSlicesAtRadius(gPie, TEXT_BASE_R * k * HOVER_SCALE_DOT);
+    }
+  } else {
+    const rDraw = TEXT_BASE_R * k;
+    d3.select(this)
+      .attr("r", rDraw)
+      .attr("stroke", "none")
+      .attr("stroke-width", 0)
+      .attr("opacity", BASE_OPACITY);
+
+    if (!gPie.empty()) {
+      gPie.style("opacity", BASE_OPACITY);
+      drawSlicesAtRadius(gPie, rDraw);
+    }
+  }
+
+  hideTipSel(tipText);
         // clear preview if it came from this text
         const seg = findSegForText(d);
         if (seg && hoveredSegIdRef.current === seg.id) {
@@ -2919,6 +3038,11 @@ fathersSel
   .on("mouseover", function (_ev, d) {
     if (kRef.current < ZOOM_THRESHOLD) return;
 
+    // mark hovered father for connection highlighting
+    hoveredFatherIdRef.current = d.id;
+    const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
+    if (zx && zy) renderConnections(zx, zy, kNow);
+
     const baseR = getFatherBaseR(d) * kRef.current * 2.2;
     redrawFatherAtRadius(d3.select(this), d, baseR * HOVER_SCALE_FATHER);
 
@@ -2938,11 +3062,20 @@ fathersSel
     showTip(tipText, tipHTML(title, subtitle, null), a.x, a.y, d.color);
   })
   .on("mouseout", function (_ev, d) {
-    hideTipSel(tipText);
-    // restore to base radius
-    const baseR = getFatherBaseR(d) * kRef.current * 2.2;
-    redrawFatherAtRadius(d3.select(this), d, baseR);
+    // clear hovered father highlight
+    hoveredFatherIdRef.current = null;
+    const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
+    if (zx && zy) renderConnections(zx, zy, kNow);
+
+  hideTipSel(tipText);
+
+  const isSelected = selectedFather && selectedFather.id === d.id;
+  const baseR = getFatherBaseR(d) * kRef.current * 2.2;
+  const r = isSelected ? baseR * HOVER_SCALE_FATHER : baseR;
+
+  redrawFatherAtRadius(d3.select(this), d, r);
   })
+
   .on("click", function (ev, d) {
   // Keep any open segment box visible
   // Do NOT clear active segment or duration; do NOT close all
@@ -3086,96 +3219,117 @@ fathersSel
 
   // === Author-lane layout (stable across zoom) ===
   // Position circles using per-band author lanes
-  gTexts.selectAll("circle.textDot").each(function (d) {
-    const cx = zx(toAstronomical(d.when));
+gTexts.selectAll("circle.textDot").each(function (d) {
+  const cx = zx(toAstronomical(d.when));
 
-    let cyU = textYMap.get(d.durationId)?.get(d.id);
-    if (!Number.isFinite(cyU)) {
-      // very rare: fallback if not in map yet
-      cyU = y0(d.y);
-    }
+  let cyU = textYMap.get(d.durationId)?.get(d.id);
+  if (!Number.isFinite(cyU)) {
+    cyU = y0(d.y);
+  }
 
-    const cy = zy(cyU);
-    d3.select(this).attr("cx", cx).attr("cy", cy).attr("r", TEXT_BASE_R * k);
-  });
+  const cy = zy(cyU);
+
+  const isSelected = selectedText && selectedText.id === d.id;
+  const rBase = TEXT_BASE_R * k;
+  const rDraw = isSelected ? rBase * HOVER_SCALE_DOT : rBase;
+
+  d3.select(this)
+    .attr("cx", cx)
+    .attr("cy", cy)
+    .attr("r", rDraw)
+    .attr("stroke", isSelected ? "#ffffff" : "none")
+    .attr("stroke-width", isSelected ? 1.4 : 0);
+});
+
 
   // Position pies to match circles (same cy rule)
-  gTexts.selectAll("g.dotSlices").each(function (d) {
-    const cx = zx(toAstronomical(d.when));
+gTexts.selectAll("g.dotSlices").each(function (d) {
+  const cx = zx(toAstronomical(d.when));
 
-    let cyU = textYMap.get(d.durationId)?.get(d.id);
-    if (!Number.isFinite(cyU)) cyU = y0(d.y);
-    const cy = zy(cyU);
+  let cyU = textYMap.get(d.durationId)?.get(d.id);
+  if (!Number.isFinite(cyU)) cyU = y0(d.y);
+  const cy = zy(cyU);
 
-    const g = d3.select(this);
-    g.attr("transform", `translate(${cx},${cy})`);
-    drawSlicesAtRadius(g, TEXT_BASE_R * k);
-  });
+  const isSelected = selectedText && selectedText.id === d.id;
+  const rBase = TEXT_BASE_R * k;
+  const rDraw = isSelected ? rBase * HOVER_SCALE_DOT : rBase;
+
+  const g = d3.select(this);
+  g.attr("transform", `translate(${cx},${cy})`)
+    .style("opacity", isSelected ? 1 : BASE_OPACITY);
+
+  drawSlicesAtRadius(g, rDraw);
+});
+
 
   // Fathers (triangles)
-  gFathers.selectAll("g.fatherMark").each(function (d) {
-    const cx = zx(toAstronomical(d.when));
+ gFathers.selectAll("g.fatherMark").each(function (d) {
+  const cx = zx(toAstronomical(d.when));
 
-    // lane Y (uses fatherYMap)
-    let cyU = y0(d.y);
-    const yBandMap = fatherYMap.get(d.durationId);
-    const assignedU = yBandMap?.get(d.id);
-    if (Number.isFinite(assignedU)) cyU = assignedU;
-    const cy = zy(cyU);
+  let cyU = y0(d.y);
+  const yBandMap = fatherYMap.get(d.durationId);
+  const assignedU = yBandMap?.get(d.id);
+  if (Number.isFinite(assignedU)) cyU = assignedU;
+  const cy = zy(cyU);
 
-    d3.select(this).attr("data-cy", cy);
+  d3.select(this).attr("data-cy", cy);
 
-    const cols = d.colors && d.colors.length ? d.colors : [d.color || "#666"];
-    const r = getFatherBaseR(d) * k * 2.2;
+  const cols = d.colors && d.colors.length ? d.colors : [d.color || "#666"];
 
-    // 1) Colored triangle slices
-    const triSlices = leftSplitTriangleSlices(cx, cy, r, cols);
-    d3.select(this)
-      .select("g.slices")
-      .selectAll("path.slice")
-      .data(triSlices, (_, i) => i)
-      .join(
-        (e) =>
-          e
-            .append("path")
-            .attr("class", "slice")
-            .attr("vector-effect", "non-scaling-stroke")
-            .attr("shape-rendering", "geometricPrecision"),
-        (u) => u,
-        (x) => x.remove()
-      )
-      .attr("d", (s) => s.d)
-      .attr("fill", (s) => s.fill);
+  const isSelected = selectedFather && selectedFather.id === d.id;
+  const rBase = getFatherBaseR(d) * k * 2.2;
+  const r = isSelected ? rBase * HOVER_SCALE_FATHER : rBase;
 
-    // 2) Unified white overlays (splits + optional midline)
-    const showMid = hasHistoricTag(d.historicMythicStatusTags) && r >= 3;
-    const overlaySegs = buildOverlaySegments(cx, cy, r, cols, showMid);
-    const w = overlayStrokeWidth(r);
-    const showOverlays = r >= 3;
+  // 1) Colored triangle slices
+  const triSlices = leftSplitTriangleSlices(cx, cy, r, cols);
+  d3.select(this)
+    .select("g.slices")
+    .selectAll("path.slice")
+    .data(triSlices, (_, i) => i)
+    .join(
+      (e) =>
+        e
+          .append("path")
+          .attr("class", "slice")
+          .attr("vector-effect", "non-scaling-stroke")
+          .attr("shape-rendering", "geometricPrecision"),
+      (u) => u,
+      (x) => x.remove()
+    )
+    .attr("d", (s) => s.d)
+    .attr("fill", (s) => s.fill);
 
-    d3.select(this)
-      .select("g.overlays")
-      .selectAll("line.overlay")
-      .data(overlaySegs, (s, i) => `${s.type}:${i}`)
-      .join(
-        (e) =>
-          e
-            .append("line")
-            .attr("class", "overlay")
-            .attr("stroke", "#fff")
-            .attr("stroke-linecap", "round")
-            .attr("shape-rendering", "geometricPrecision")
-            .style("pointer-events", "none"),
-        (u) => u,
-        (x) => x.remove()
-      )
-      .attr("x1", (s) => s.x1)
-      .attr("y1", (s) => s.y1)
-      .attr("x2", (s) => s.x2)
-      .attr("y2", (s) => s.y2)
-      .attr("stroke-width", showOverlays ? w : 0)
-      .attr("opacity", showOverlays ? 0.9 : 0);
-  });
+  // 2) Unified white overlays (splits + optional midline)
+  const showMid = hasHistoricTag(d.historicMythicStatusTags) && r >= 3;
+  const overlaySegs = buildOverlaySegments(cx, cy, r, cols, showMid);
+  const baseW = overlayStrokeWidth(r);
+  const w = isSelected ? baseW * 1.4 : baseW;   // a bit thicker when selected
+  const showOverlays = r >= 3;
+
+  d3.select(this)
+    .select("g.overlays")
+    .selectAll("line.overlay")
+    .data(overlaySegs, (s, i) => `${s.type}:${i}`)
+    .join(
+      (e) =>
+        e
+          .append("line")
+          .attr("class", "overlay")
+          .attr("stroke", "#fff")
+          .attr("stroke-linecap", "round")
+          .attr("shape-rendering", "geometricPrecision")
+          .style("pointer-events", "none"),
+      (u) => u,
+      (x) => x.remove()
+    )
+    .attr("x1", (s) => s.x1)
+    .attr("y1", (s) => s.y1)
+    .attr("x2", (s) => s.x2)
+    .attr("y2", (s) => s.y2)
+    .attr("stroke-width", w)
+    .style("opacity", showOverlays ? 1 : 0);
+});
+
 
   // ----- Lightweight viewport culling (texts, pies, fathers) -----
   const xMinAstro = zx.invert(0);
