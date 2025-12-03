@@ -366,10 +366,47 @@ function getFatherBaseR(fatherRow) {
   return isYesish(fatherRow?.foundingFigure) ? FATHER_R_FOUNDING : FATHER_R_NONFOUND;
 }
 
-function overlayStrokeWidth(r){
-  // consistent stroke scaling; clamps avoid overdraw/vanish
-  return Math.max(0.5, Math.min(r * 0.16, 2.0));
+
+// For father triangles (reduced so it doesn't look so thick)
+function fatherBorderStrokeWidth(r) {
+  return Math.max(1, r * 0.08); // THINNER, tweak multiplier as needed
 }
+
+function computePinHeadGeometry(cx, cy, rHead) {
+  const MIN_R = 10;
+  const MAX_R = 22;
+
+  const scaled = (rHead || MIN_R) * 3;
+  const R = Math.max(MIN_R, Math.min(MAX_R, scaled));
+
+  const OFFSET_Y = R * 1.8;
+
+  // tweak this:
+  const OFFSET_X = -R * 0.17; // negative = left, positive = right
+  const cxHead = cx + OFFSET_X;
+
+  const cyHead = cy - OFFSET_Y;
+
+  return { cxHead, cyHead, R };
+}
+
+function pinPathD(cx, cy, rHead) {
+  const { cxHead, cyHead, R } = computePinHeadGeometry(cx, cy, rHead);
+
+  const topY   = cyHead - R;        // top of head
+  const tipY   = cyHead + R * 1.8;  // bottom tip of the drop
+  const leftX  = cxHead - R * 0.9;
+  const rightX = cxHead + R * 0.9;
+
+  // Simple teardrop-ish shape; the circle/triangle sits in the "head"
+  return [
+    "M", cxHead, topY,
+    "C", rightX, topY, rightX, cyHead, cxHead, tipY,
+    "C", leftX,  cyHead, leftX,  topY, cxHead, topY,
+    "Z"
+  ].join(" ");
+}
+
 
 function buildOverlaySegments(cx, cy, r, colors, showMid) {
   const segs = [];
@@ -1082,6 +1119,7 @@ export default function Timeline() {
   const segmentsRef = useRef(null);
   const textsRef = useRef(null);
   const fathersRef = useRef(null); // FATHERS: new layer ref
+  const pinsRef = useRef(null); // NEW: top layer for selected pins
 
   const connectionsRef = useRef(null);
   const allConnectionRowsRef = useRef([]);
@@ -1728,52 +1766,88 @@ function redrawFatherAtRadius(gFather, d, r) {
   const zx = zxRef.current, zy = zyRef.current;
   if (!zx || !zy) return;
 
+  // Screen-space center of this father
   const cx = zx(toAstronomical(d.when));
   let cyU = y0(d.y);
+
   const yBandMap = fatherYMap.get(d.durationId);
   const assignedU = yBandMap?.get(d.id);
   if (Number.isFinite(assignedU)) cyU = assignedU;
+
   const cy = zy(cyU);
 
+  // Colored triangle slices
   const cols = (d.colors && d.colors.length) ? d.colors : [d.color || "#666"];
   const triSlices = leftSplitTriangleSlices(cx, cy, r, cols);
 
-  // recolor/d paths
-  gFather.select("g.slices").selectAll("path.slice")
+  gFather
+    .select("g.slices")
+    .selectAll("path.slice")
     .data(triSlices, (_, i) => i)
     .join(
-      e => e.append("path")
-        .attr("class", "slice")
-        .attr("vector-effect", "non-scaling-stroke")
-        .attr("shape-rendering", "geometricPrecision"),
-      u => u,
-      x => x.remove()
+      (e) =>
+        e
+          .append("path")
+          .attr("class", "slice")
+          .attr("vector-effect", "non-scaling-stroke")
+          .attr("shape-rendering", "geometricPrecision"),
+      (u) => u,
+      (x) => x.remove()
     )
-    .attr("fill", s => s.fill)
-    .attr("d", s => s.d);
+    .attr("fill", (s) => s.fill)
+    .attr("d", (s) => s.d);
 
-  // overlays (splits + optional midline)
+  // --- White internal overlays (splits + optional vertical "historic" midline)
   const showMid = hasHistoricTag(d.historicMythicStatusTags) && r >= 3;
-  const overlaySegs = buildOverlaySegments(cx, cy, r, cols, showMid);
-  const w = overlayStrokeWidth(r);
-  const showOverlays = r >= 3;
+  const segs = buildOverlaySegments(cx, cy, r, cols, showMid);
+  const gOver = gFather.select("g.overlays");
+  const w = fatherBorderStrokeWidth(r);
 
-  gFather.select("g.overlays").selectAll("line.overlay")
-    .data(overlaySegs, (s, i) => `${s.type}:${i}`)
+  gOver
+    .selectAll("line.overlay")
+    .data(segs, (s, i) => `${s.type}-${i}-${s.x1}-${s.y1}-${s.x2}-${s.y2}`)
     .join(
-      e => e.append("line")
-        .attr("class", "overlay")
-        .attr("stroke", "#fff")
-        .attr("stroke-linecap", "round")
-        .attr("shape-rendering", "geometricPrecision")
-        .style("pointer-events", "none"),
-      u => u,
-      x => x.remove()
+      (e) =>
+        e
+          .append("line")
+          .attr("class", "overlay")
+          .attr("stroke", "#ffffff")
+          .attr("stroke-linecap", "round")
+          .attr("vector-effect", "non-scaling-stroke")
+          .attr("shape-rendering", "geometricPrecision")
+          .style("pointer-events", "none"),
+      (u) => u,
+      (x) => x.remove()
     )
-    .attr("x1", s => s.x1).attr("y1", s => s.y1)
-    .attr("x2", s => s.x2).attr("y2", s => s.y2)
-    .attr("stroke-width", showOverlays ? w : 0)
-    .attr("opacity", showOverlays ? 0.9 : 0);
+    .attr("x1", (s) => s.x1)
+    .attr("y1", (s) => s.y1)
+    .attr("x2", (s) => s.x2)
+    .attr("y2", (s) => s.y2)
+    .attr("stroke-width", w);
+
+  // --- Outer triangle border (white halo) – stroke toggled by hover/selection
+  const borderPath = `M ${cx - r} ${cy - r} L ${cx - r} ${cy + r} L ${cx + r} ${cy} Z`;
+
+  gOver
+    .selectAll("path.father-border")
+    .data([0])
+    .join(
+      (e) =>
+        e
+          .append("path")
+          .attr("class", "father-border")
+          .attr("fill", "none")
+          .attr("stroke", "none") // default: borderless; events will turn it on
+          .attr("vector-effect", "non-scaling-stroke")
+          .attr("shape-rendering", "geometricPrecision")
+          .style("pointer-events", "none"),
+      (u) => u,
+      (x) => x.remove()
+    )
+    .attr("d", borderPath);
+
+  // Cache screen-space cy for tooltip anchor logic
+  gFather.attr("data-cy", cy);
 }
 
   
@@ -2201,6 +2275,7 @@ const CONNECTION_HIGHLIGHT_OPACITY = 0.9; // bright when linked
     const gSeg = d3.select(segmentsRef.current);
     const gTexts = d3.select(textsRef.current);
     const gFathers = d3.select(fathersRef.current);   // FATHERS: layer
+    const gPins = d3.select(pinsRef.current); 
 
     
 
@@ -3044,7 +3119,16 @@ fathersSel
     if (zx && zy) renderConnections(zx, zy, kNow);
 
     const baseR = getFatherBaseR(d) * kRef.current * 2.2;
-    redrawFatherAtRadius(d3.select(this), d, baseR * HOVER_SCALE_FATHER);
+    const rHover = baseR * HOVER_SCALE_FATHER;
+
+    // redraw at hover size
+    redrawFatherAtRadius(d3.select(this), d, rHover);
+
+    // white border on hover (same idea as text dots)
+    d3.select(this)
+      .select("path.father-border")
+      .attr("stroke", "#ffffff")
+      .attr("stroke-width", fatherBorderStrokeWidth(rHover));
 
     // keep your tooltip code (unchanged)...
     const a = fatherAnchorClient(this, d);
@@ -3067,15 +3151,29 @@ fathersSel
     const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
     if (zx && zy) renderConnections(zx, zy, kNow);
 
-  hideTipSel(tipText);
+    hideTipSel(tipText);
 
-  const isSelected = selectedFather && selectedFather.id === d.id;
-  const baseR = getFatherBaseR(d) * kRef.current * 2.2;
-  const r = isSelected ? baseR * HOVER_SCALE_FATHER : baseR;
+    const isSelected = selectedFather && selectedFather.id === d.id;
+    const baseR = getFatherBaseR(d) * kRef.current * 2.2;
+    const r = isSelected ? baseR * HOVER_SCALE_FATHER : baseR;
 
-  redrawFatherAtRadius(d3.select(this), d, r);
+    // redraw at base or "selected" size
+    redrawFatherAtRadius(d3.select(this), d, r);
+
+    // border logic mirrors the dots:
+    const border = d3.select(this).select("path.father-border");
+    if (isSelected) {
+      // keep border when selected
+      border
+        .attr("stroke", "#ffffff")
+        .attr("stroke-width", fatherBorderStrokeWidth(r));
+    } else {
+      // plain triangle when not hovered and not selected
+      border
+        .attr("stroke", "none")
+        .attr("stroke-width", 0);
+    }
   })
-
   .on("click", function (ev, d) {
   // Keep any open segment box visible
   // Do NOT clear active segment or duration; do NOT close all
@@ -3219,6 +3317,8 @@ fathersSel
 
   // === Author-lane layout (stable across zoom) ===
   // Position circles using per-band author lanes
+// === Author-lane layout (stable across zoom) ===
+// Position circles using per-band author lanes
 gTexts.selectAll("circle.textDot").each(function (d) {
   const cx = zx(toAstronomical(d.when));
 
@@ -3233,13 +3333,136 @@ gTexts.selectAll("circle.textDot").each(function (d) {
   const rBase = TEXT_BASE_R * k;
   const rDraw = isSelected ? rBase * HOVER_SCALE_DOT : rBase;
 
-  d3.select(this)
+  const circle = d3.select(this)
     .attr("cx", cx)
     .attr("cy", cy)
     .attr("r", rDraw)
     .attr("stroke", isSelected ? "#ffffff" : "none")
     .attr("stroke-width", isSelected ? 1.4 : 0);
+
+  // When zoomed in enough to show a pin, hide the original icon
+  const shouldHide = !!selectedText &&
+    selectedText.id === d.id &&
+    k >= ZOOM_THRESHOLD;
+
+  circle.classed("hidden-icon", shouldHide);
 });
+
+// Also hide/show the multi-color pie for the selected text when pinned
+gTexts
+  .selectAll("g.dotSlices")
+  .classed(
+    "hidden-icon",
+    d => !!selectedText && selectedText.id === d.id && k >= ZOOM_THRESHOLD
+  );
+
+// --- Selected TEXT pin (circle-in-pin) ---
+const textPinData =
+  selectedText && k >= ZOOM_THRESHOLD ? [selectedText] : [];
+
+const textPinSel = gPins
+  .selectAll("g.textPin")
+  .data(textPinData, d => d.id);
+
+textPinSel
+  .join(
+    enter => {
+      const g = enter
+        .append("g")
+        .attr("class", "textPin tl-pin")
+        .style("pointer-events", "none");
+
+      // Teardrop body (styled via CSS: .tl-pin path { ... })
+      g.append("path")
+        .attr("class", "tl-pin-body")
+        .attr("vector-effect", "non-scaling-stroke")
+        .attr("shape-rendering", "geometricPrecision");
+
+      // Circle icon in the pin head
+      g.append("g")
+        .attr("class", "tl-pin-icon")
+        .style("pointer-events", "none");
+
+      return g;
+    },
+    update => update,
+    exit => exit.remove()
+  )
+  .each(function (d) {
+    const cx = zx(toAstronomical(d.when));
+
+    let cyU = textYMap.get(d.durationId)?.get(d.id);
+    if (!Number.isFinite(cyU)) {
+      cyU = y0(d.y);
+    }
+    const cy = zy(cyU);
+
+    const rBase = TEXT_BASE_R * k;
+    const rHead = rBase * HOVER_SCALE_DOT; // match enlarged selected dot
+
+    // Robustly derive the same palette the base dot uses
+    let cols = Array.isArray(d.colors) && d.colors.length ? d.colors : null;
+
+    if (!cols || !cols.length) {
+      // Try symbolic-system info if available on this row
+      const symFromRow =
+        (d.symbolicSystemTags && String(d.symbolicSystemTags).trim()) ||
+        (d.tags &&
+          Array.isArray(d.tags.symbolicSystems) &&
+          d.tags.symbolicSystems.join(", "));
+
+      if (symFromRow) {
+        const guessed = pickSystemColorsCached(symFromRow);
+        if (guessed && guessed.length) cols = guessed;
+      }
+    }
+
+    if (!cols || !cols.length) {
+      cols = [d.color || "#666"];
+    }
+
+    const pinColor = cols[0];
+
+
+    const { cxHead, cyHead, R } = computePinHeadGeometry(cx, cy, rHead);
+    const rIcon = R * 0.45;
+
+    const g = d3.select(this);
+
+    // Drive CSS pin border color
+    g.style("--pin-color", pinColor);
+
+    // Teardrop body path (white fill + colored border via CSS)
+    g.select("path.tl-pin-body")
+      .attr("d", pinPathD(cx, cy, rHead));
+
+    // Circle icon in the pin head (solid system color)
+    // Icon: mini multi-color pie, reusing the same logic as the base dots
+    const iconG = g.select("g.tl-pin-icon")
+      .attr(
+  "transform",
+  `translate(${cxHead}, ${cyHead - rIcon * 0.5})`
+);
+
+    // Bind a tiny datum with just colors for drawSlicesAtRadius
+    iconG.datum({ colors: cols });
+
+    // Ensure we have the slices bound to the palette
+iconG.selectAll("path.slice")
+  .data((cols || []).map((color, i) => ({ color, i, n: cols.length })))
+  .join(
+    e => e.append("path")
+          .attr("class", "slice"),
+    u => u,
+    x => x.remove()
+  )
+  .attr("fill", s => s.color)     // keep attribute for consistency
+  .style("fill", s => s.color);   // inline style wins over CSS
+
+    // Now let the shared helper compute the arc geometry for this radius
+    drawSlicesAtRadius(iconG, rIcon);
+  });
+
 
 
   // Position pies to match circles (same cy rule)
@@ -3302,8 +3525,9 @@ gTexts.selectAll("g.dotSlices").each(function (d) {
   // 2) Unified white overlays (splits + optional midline)
   const showMid = hasHistoricTag(d.historicMythicStatusTags) && r >= 3;
   const overlaySegs = buildOverlaySegments(cx, cy, r, cols, showMid);
-  const baseW = overlayStrokeWidth(r);
-  const w = isSelected ? baseW * 1.4 : baseW;   // a bit thicker when selected
+
+  // Use a single consistent stroke width based only on radius
+  const w = fatherBorderStrokeWidth(r);
   const showOverlays = r >= 3;
 
   d3.select(this)
@@ -3328,7 +3552,170 @@ gTexts.selectAll("g.dotSlices").each(function (d) {
     .attr("y2", (s) => s.y2)
     .attr("stroke-width", w)
     .style("opacity", showOverlays ? 1 : 0);
+
+        // 3) Outer white triangle border (kept in sync with zoom/selection)
+    const borderPath = `M ${cx - r} ${cy - r} L ${cx - r} ${cy + r} L ${cx + r} ${cy} Z`;
+
+    const border = d3.select(this)
+      .select("g.overlays")
+      .selectAll("path.father-border")
+      .data([0])
+      .join("path")
+      .attr("class", "father-border")
+      .attr("fill", "none")
+      .attr("vector-effect", "non-scaling-stroke")
+      .attr("shape-rendering", "geometricPrecision")
+      .style("pointer-events", "none");
+
+    border
+      .attr("d", borderPath)
+      .attr("stroke", isSelected ? "#ffffff" : "none")
+      .attr("stroke-width", isSelected ? fatherBorderStrokeWidth(r) : 0);
 });
+
+  // --- Selected FATHER pin (triangle-in-pin) ---
+  // Hide the original father icon when its pin is active (zoomed-in)
+gFathers
+  .selectAll("g.fatherMark")
+  .classed(
+    "hidden-icon",
+    d => !!selectedFather && selectedFather.id === d.id && k >= ZOOM_THRESHOLD
+  );
+
+// --- Selected FATHER pin (triangle-in-pin) ---
+const fatherPinData =
+  selectedFather && k >= ZOOM_THRESHOLD ? [selectedFather] : [];
+
+const fatherPinSel = gPins
+  .selectAll("g.fatherPin")
+  .data(fatherPinData, d => d.id);
+
+fatherPinSel
+  .join(
+    enter => {
+      const g = enter
+        .append("g")
+        .attr("class", "fatherPin tl-pin")
+        .style("pointer-events", "none");
+
+      // Teardrop body (styled via CSS)
+      g.append("path")
+        .attr("class", "tl-pin-body")
+        .attr("vector-effect", "non-scaling-stroke")
+        .attr("shape-rendering", "geometricPrecision");
+
+      // Triangle icon in the pin head
+      g.append("g")
+        .attr("class", "tl-pin-icon")
+        .style("pointer-events", "none");
+
+      return g;
+    },
+    update => update,
+    exit => exit.remove()
+  )
+  .each(function (d) {
+    const cx = zx(toAstronomical(d.when));
+
+    let cyU = y0(d.y);
+    const yBandMap = fatherYMap.get(d.durationId);
+    const assignedU = yBandMap?.get(d.id);
+    if (Number.isFinite(assignedU)) cyU = assignedU;
+    const cy = zy(cyU);
+
+    const baseR = getFatherBaseR(d) * k * 2.2;
+    const rHead = baseR * HOVER_SCALE_FATHER;
+
+    // Derive the same palette as the base father icon / markerIcon
+    let cols = Array.isArray(d.colors) && d.colors.length ? d.colors : null;
+
+    if (!cols || !cols.length) {
+      // Fathers actually carry symbolicSystem + tags in rowsF
+      const symFromRow =
+        (d.symbolicSystem && String(d.symbolicSystem).trim()) ||
+        (d.symbolicSystemTags && String(d.symbolicSystemTags).trim()) ||
+        (d.tags &&
+          Array.isArray(d.tags.symbolicSystems) &&
+          d.tags.symbolicSystems.join(", "));
+
+      if (symFromRow) {
+        const guessed = pickSystemColorsCached(symFromRow);
+        if (guessed && guessed.length) cols = guessed;
+      }
+    }
+
+    if (!cols || !cols.length) {
+      cols = [d.color || "#666"];
+    }
+
+    const pinColor = cols[0];
+
+
+    const { cxHead, cyHead, R } = computePinHeadGeometry(cx, cy, rHead);
+    const rIcon = R * 0.45;
+
+    // Offset the icon a bit if needed:
+    const iconCx = cxHead + rIcon * 0.1;              // left/right tweak here
+    const iconCy = cyHead - rIcon * 0.5; // move slightly up
+
+    const g = d3.select(this);
+
+    // Border color from symbolic system (CSS uses --pin-color)
+    g.style("--pin-color", pinColor);
+
+    // Teardrop body outline
+    g.select("path.tl-pin-body")
+      .attr("d", pinPathD(cx, cy, rHead));
+
+    // Simple right-pointing triangle in the head
+    const iconG = g.select("g.tl-pin-icon");
+
+    // 1) Colored triangle slices, same helper as main fathers but scaled
+    const triSlices = leftSplitTriangleSlices(iconCx, iconCy, rIcon, cols);
+
+    iconG.selectAll("path.slice")
+      .data(triSlices, (_, i) => i)
+      .join(
+        e => e.append("path")
+              .attr("class", "slice")
+              .attr("vector-effect", "non-scaling-stroke")
+              .attr("shape-rendering", "geometricPrecision"),
+        u => u,
+        x => x.remove()
+      )
+      .attr("d", (s) => s.d)
+      .attr("fill", (s) => s.fill)
+      .style("fill", (s) => s.fill); 
+
+    // 2) White overlays: split lines + optional historic midline
+    const showMid = hasHistoricTag(d.historicMythicStatusTags) && rIcon >= 3;
+    const overlaySegs = buildOverlaySegments(iconCx, iconCy, rIcon, cols, showMid);
+
+
+    const w = fatherBorderStrokeWidth(rIcon);
+    const showOverlays = rIcon >= 3;
+
+    iconG.selectAll("line.overlay")
+      .data(overlaySegs, (s, i) => `${s.type}:${i}`)
+      .join(
+        e => e
+          .append("line")
+          .attr("class", "overlay")
+          .attr("stroke", "#fff")
+          .attr("stroke-linecap", "round")
+          .attr("shape-rendering", "geometricPrecision")
+          .style("pointer-events", "none"),
+        u => u,
+        x => x.remove()
+      )
+      .attr("x1", (s) => s.x1)
+      .attr("y1", (s) => s.y1)
+      .attr("x2", (s) => s.x2)
+      .attr("y2", (s) => s.y2)
+      .attr("stroke-width", showOverlays ? w : 0)
+      .attr("opacity", showOverlays ? 0.9 : 0);
+  });
+
 
 
   // ----- Lightweight viewport culling (texts, pies, fathers) -----
@@ -3723,17 +4110,20 @@ return (
   transform={`translate(${margin.left},${margin.top})`}
   clipPath={`url(#${clipId}-clip)`}
 >
-  <g ref={gridRef} className="grid" />
-  <g ref={customPolysRef} className="customPolys" />
-  <g ref={outlinesRef} className="durations" />
-  <g ref={segmentsRef} className="segments" />
+<g ref={gridRef} className="grid" />
+<g ref={customPolysRef} className="customPolys" />
+<g ref={outlinesRef} className="durations" />
+<g ref={segmentsRef} className="segments" />
 
-  {/* lines BELOW nodes */}
-  <g ref={connectionsRef} className="connections" />
+{/* lines BELOW nodes */}
+<g ref={connectionsRef} className="connections" />
 
-  {/* nodes on top */}
-  <g ref={fathersRef} className="fathers" />
-  <g ref={textsRef} className="texts" />
+{/* nodes on top */}
+<g ref={fathersRef} className="fathers" />
+<g ref={textsRef} className="texts" />
+
+{/* pins ABOVE all nodes */}
+<g ref={pinsRef} className="pins" />
 </g>
 
 

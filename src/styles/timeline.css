@@ -644,3 +644,36 @@ body {
 
   .textCard-title { font-size: 18px; margin-right: 32px; }
 }
+
+/* ============================
+   Selected pins on the timeline
+   ============================ */
+
+
+/* Whole pin group overlay — we let underlying marker handle events */
+.tl-pin {
+  pointer-events: none;
+}
+
+/* The teardrop path: white fill, colored border */
+.tl-pin path.tl-pin-body {
+  fill: #ffffff;
+  stroke: var(--pin-color, #000000); /* set via style="--pin-color: ..." */
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+}
+
+/* The icon (circle/triangle) inside the pin head */
+.tl-pin-icon {
+  pointer-events: none;
+}
+
+/* NO border for inner icon geometry */
+.tl-pin-icon path {
+  stroke: none;
+}
+
+/* Used to hide the original marker icon while selected */
+.hidden-icon {
+  opacity: 0 !important;
+}
