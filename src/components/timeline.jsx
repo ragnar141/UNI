@@ -381,14 +381,17 @@ function computePinHeadGeometry(cx, cy, rHead) {
 
   const OFFSET_Y = R * 1.8;
 
-  // tweak this:
-  const OFFSET_X = -R * 0.17; // negative = left, positive = right
-  const cxHead = cx + OFFSET_X;
+  // ✅ CONSTANT PIXEL NUDGE: tweak this value
+  const OFFSET_X = 0; // negative = left, positive = right
 
+  const cxHead = cx + OFFSET_X;
   const cyHead = cy - OFFSET_Y;
 
   return { cxHead, cyHead, R };
 }
+
+
+
 
 function pinPathD(cx, cy, rHead) {
   const { cxHead, cyHead, R } = computePinHeadGeometry(cx, cy, rHead);
@@ -2108,15 +2111,15 @@ const CONNECTION_HIGHLIGHT_OPACITY = 0.9; // bright when linked
   const hoveredFatherId = hoveredFatherIdRef.current;
 
   merged
-    .attr("x1", d => zx(d.ax))
-    .attr("y1", d => zy(d.ay))
-    .attr("x2", d => zx(d.bx))
-    .attr("y2", d => zy(d.by))
-    .attr("stroke-width", d => d.style.strokeWidth)
-    .attr("stroke-dasharray", d => d.style.strokeDasharray || null)
-    .attr("stroke-linecap", d => d.style.strokeLinecap || "round")
-    .attr("stroke", d => d.color || "#999999")
-    .attr("stroke-opacity", d => {
+  .attr("x1", d => zx(toAstronomical(d.ax)))
+  .attr("y1", d => zy(d.ay))
+  .attr("x2", d => zx(toAstronomical(d.bx)))
+  .attr("y2", d => zy(d.by))
+  .attr("stroke-width", d => d.style.strokeWidth)
+  .attr("stroke-dasharray", d => d.style.strokeDasharray || null)
+  .attr("stroke-linecap", d => d.style.strokeLinecap || "round")
+  .attr("stroke", d => d.color || "#999999")
+  .attr("stroke-opacity", d => {
       const touchesSelected =
         (selText && (
           (d.aType === "text"   && d.aId === selText.id) ||
