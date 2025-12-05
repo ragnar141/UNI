@@ -68,8 +68,11 @@ const BASE_OPACITY = 1;
 const TEXT_BASE_R = 0.4;       // at k=1
 const HOVER_SCALE_DOT = 1.6;   // how much bigger a dot gets on hover
 const HOVER_SCALE_FATHER = 1.6; 
-const ZOOM_THRESHOLD = 1.7;
+const ZOOM_THRESHOLD = 4.0;
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+// New: boundary between “outest” (duration-only) and “middle” (segment) zoom
+const ZOOM_SEGMENT_THRESHOLD = 2.0;
 
 /* --- Opacity/width levels for duration label + border --- */
 const DUR_LABEL_OPACITY = { base: 0.5, hover: 0.7, active: 0.7 };
@@ -2089,11 +2092,11 @@ const CONNECTION_HIGHLIGHT_OPACITY = 0.9; // bright when linked
     const data = allConnectionRowsRef.current || [];
     const g = d3.select(connectionsRef.current);
 
-    const sel = g
-      .selectAll("line.connection")
-      .data(data, d => d._key);
+  const sel = g
+    .selectAll("line.connection")
+    .data(data, d => d._key);
 
-    sel.exit().remove();
+  sel.exit().remove();
 
   const enter = sel.enter()
     .append("line")
@@ -2102,7 +2105,9 @@ const CONNECTION_HIGHLIGHT_OPACITY = 0.9; // bright when linked
     .attr("stroke-opacity", CONNECTION_BASE_OPACITY) // base
     .attr("fill", "none");
 
-  const merged = enter.merge(sel);
+  const merged = enter.merge(sel)
+    // 🔑 Make connection lines ignore the mouse entirely
+    .style("pointer-events", "none");
 
   // Snapshot current selection / hover state
   const selText = selectedText;
@@ -2111,15 +2116,15 @@ const CONNECTION_HIGHLIGHT_OPACITY = 0.9; // bright when linked
   const hoveredFatherId = hoveredFatherIdRef.current;
 
   merged
-  .attr("x1", d => zx(toAstronomical(d.ax)))
-  .attr("y1", d => zy(d.ay))
-  .attr("x2", d => zx(toAstronomical(d.bx)))
-  .attr("y2", d => zy(d.by))
-  .attr("stroke-width", d => d.style.strokeWidth)
-  .attr("stroke-dasharray", d => d.style.strokeDasharray || null)
-  .attr("stroke-linecap", d => d.style.strokeLinecap || "round")
-  .attr("stroke", d => d.color || "#999999")
-  .attr("stroke-opacity", d => {
+    .attr("x1", d => zx(toAstronomical(d.ax)))
+    .attr("y1", d => zy(d.ay))
+    .attr("x2", d => zx(toAstronomical(d.bx)))
+    .attr("y2", d => zy(d.by))
+    .attr("stroke-width", d => d.style.strokeWidth)
+    .attr("stroke-dasharray", d => d.style.strokeDasharray || null)
+    .attr("stroke-linecap", d => d.style.strokeLinecap || "round")
+    .attr("stroke", d => d.color || "#999999")
+    .attr("stroke-opacity", d => {
       const touchesSelected =
         (selText && (
           (d.aType === "text"   && d.aId === selText.id) ||
@@ -2145,6 +2150,7 @@ const CONNECTION_HIGHLIGHT_OPACITY = 0.9; // bright when linked
         : CONNECTION_BASE_OPACITY;
     });
 }
+
 
 
   useEffect(() => {
@@ -2513,83 +2519,128 @@ clearActiveDurationRef.current = clearActiveDuration;
 
     // ===== Label + border visuals (3 states) =====
     function updateHoverVisuals() {
-      const activeDurationId = activeDurationIdRef.current;
-      const hoveredDurationId = hoveredDurationIdRef.current;
+  const activeDurationId = activeDurationIdRef.current;
+  const hoveredDurationId = hoveredDurationIdRef.current;
 
-      const activeSegId = activeSegIdRef.current;
-      const seg = activeSegId ? segments.find((s) => s.id === activeSegId) : null;
-      const activeParentFromSeg = seg ? seg.parentId : null;
+  const hoveredSegParentId = hoveredSegParentIdRef.current;
 
-      const hoveredSegParentId = hoveredSegParentIdRef.current;
+  const ignoreHoverBecauseActive = !!activeDurationId;
 
-      const ignoreHoverBecauseActive = !!activeDurationId;
+  const k = kRef.current ?? 1;
+  const hasSelection = !!(selectedText || selectedFather);
 
-      // Borders (outlineRect) — never draw stroke for custom groups
-      d3.select(outlinesRef.current)
-        .selectAll("rect.outlineRect")
-        .attr("stroke-opacity", (d) => {
-          const suppress = d._isCustomGroup || d._hiddenCustom;
-          if (suppress) return 0; // keep group rect invisible
-          const isActive = d.id === activeDurationId;
-          const isHover  = !ignoreHoverBecauseActive && d.id === hoveredDurationId;
-          if (isActive) return DUR_STROKE.activeOpacity;
-          if (isHover)  return DUR_STROKE.hoverOpacity;
-          return DUR_STROKE.baseOpacity;
-        })
-        .attr("stroke-width", (d) => {
-          const suppress = d._isCustomGroup || d._hiddenCustom;
-          if (suppress) return DUR_STROKE.baseWidth; // value irrelevant since opacity is 0
-          const isActive = d.id === activeDurationId;
-          const isHover  = !ignoreHoverBecauseActive && d.id === hoveredDurationId;
-          if (isActive) return DUR_STROKE.activeWidth;
-          if (isHover)  return DUR_STROKE.hoverWidth;
-          return DUR_STROKE.baseWidth;
-        });
+  // 3-level zoom mode, consistent with updateInteractivity
+  let zoomMode;
+  if (hasSelection) {
+    zoomMode = "deepest";
+  } else if (k < ZOOM_SEGMENT_THRESHOLD) {
+    zoomMode = "outest";   // durations only
+  } else if (k < ZOOM_THRESHOLD) {
+    zoomMode = "middle";   // segments only
+  } else {
+    zoomMode = "deepest";  // fathers/texts only
+  }
 
-      // Labels (durationLabel)
-      d3.select(outlinesRef.current)
-        .selectAll("text.durationLabel")
-        .attr("opacity", (d) => {
-          const isActive = d.id === activeDurationId || d.id === activeParentFromSeg;
-          const isHoverDuration = !ignoreHoverBecauseActive && d.id === hoveredDurationId;
+  // Fill strengths for duration bands per zoom tier
+  let baseFill, hoverFill, activeFill;
+  if (zoomMode === "outest") {
+    baseFill = 0.20;
+    hoverFill = 0.35;
+    activeFill = 0.50;
+  } else if (zoomMode === "middle") {
+    baseFill = 0.10;
+    hoverFill = 0.22;
+    activeFill = 0.32;
+  } else {
+    // deepest: no duration chrome at all
+    baseFill = 0.0;
+    hoverFill = 0.0;
+    activeFill = 0.0;
+  }
 
-          if (isActive) return DUR_LABEL_OPACITY.active;   // clicked/locked
-          if (isHoverDuration) return DUR_LABEL_OPACITY.hover; // fade to 0.1 on duration hover
-          return DUR_LABEL_OPACITY.base;                   // base
-        });
+  // Duration fill opacity based ONLY on duration hover/active
+  function durFillOpacity(d) {
+    if (zoomMode === "deepest") return 0;
 
-      // Also style custom group polygons (borders) the same way
-      d3.select(customPolysRef.current)
-        .selectAll("path.customGroup")
-        .attr("stroke-opacity", (d) => {
-          if (d.id === activeDurationId) return DUR_STROKE.activeOpacity;
-          if (!ignoreHoverBecauseActive && d.id === hoveredDurationId) return DUR_STROKE.hoverOpacity;
-          return 0.08; // base opacity for polygons
-        })
-        .attr("stroke-width", (d) => {
-          if (d.id === activeDurationId) return DUR_STROKE.activeWidth;
-          if (!ignoreHoverBecauseActive && d.id === hoveredDurationId) return DUR_STROKE.hoverWidth;
-          return 1.5; // base width for polygons
-        });
-    }
+    const id = d.id;
+    const isActive = id === activeDurationId;
+    const isHoverDuration =
+      !ignoreHoverBecauseActive && id === hoveredDurationId;
+
+    if (isActive) return activeFill;
+    if (isHoverDuration) return hoverFill;
+    return baseFill;
+  }
+
+  // Rect-based durations
+  d3.select(outlinesRef.current)
+    .selectAll("rect.outlineRect")
+    .style("fill-opacity", (d) => durFillOpacity(d));
+
+  // Custom polygons
+  d3.select(customPolysRef.current)
+    .selectAll("path.customGroup")
+    .style("fill-opacity", (d) =>
+      d._hiddenCustom ? 0 : durFillOpacity(d)
+    );
+
+  // Labels: can still brighten when a segment in this duration is hovered
+  d3.select(outlinesRef.current)
+    .selectAll("text.durationLabel")
+    .attr("opacity", (d) => {
+      const id = d.id;
+      const isActiveFromDuration = id === activeDurationId;
+      const isFromHoveredSeg = id === hoveredSegParentId;
+      const isHoverDuration =
+        !ignoreHoverBecauseActive && id === hoveredDurationId;
+
+      if (isActiveFromDuration || isFromHoveredSeg) {
+        return DUR_LABEL_OPACITY.active;
+      }
+      if (isHoverDuration) {
+        return DUR_LABEL_OPACITY.hover;
+      }
+      return DUR_LABEL_OPACITY.base;
+    });
+}
+
 
 function updateSegmentPreview() {
   const activeId  = activeSegIdRef.current;
   const hoveredId = hoveredSegIdRef.current;
 
+  const k = kRef.current ?? 1;
+  const hasSelection = !!(selectedText || selectedFather);
+
+  const inMiddleZoom =
+    !hasSelection &&
+    k >= ZOOM_SEGMENT_THRESHOLD &&
+    k < ZOOM_THRESHOLD;
+
+  // Segment fill strengths (middle zoom only)
+  const baseFill   = inMiddleZoom ? 0.10 : 0.0;
+  const hoverFill  = inMiddleZoom ? 0.22 : 0.0;
+  const activeFill = inMiddleZoom ? 0.32 : 0.0;
+
   d3.select(segmentsRef.current)
     .selectAll("rect.segmentHit")
-    .attr("stroke-opacity", d =>
-      activeId
-        ? (d.id === activeId ? 1 : 0.02)                  // NEW: ignore all other hovers
-        : (d.id === hoveredId ? 0.5 : 0.02)
-    )
-    .attr("stroke-width", d =>
-      activeId
-        ? (d.id === activeId ? 2 : 1.5)
-        : (d.id === hoveredId ? 2 : 1.5)
-    );
+    .style("fill-opacity", (d) => {
+      if (!inMiddleZoom) return 0;
+
+      // If a segment is "open" (card out), treat it as active
+      if (activeId) {
+        return d.id === activeId ? activeFill : baseFill;
+      }
+
+      // Otherwise, simple hover sensitivity
+      if (hoveredId) {
+        return d.id === hoveredId ? hoverFill : baseFill;
+      }
+
+      return baseFill;
+    });
 }
+
 
 
 function onAnyClickClose(ev) {
@@ -2661,8 +2712,11 @@ function setActiveDuration(outline, { showCard = false } = {}) {
 
     // Sync hovered duration from pointer while zooming (zoomed-out mode)
     function syncDurationHoverFromPointer(se) {
-      // Only track duration hover while zoomed OUT
-      if (!se || !("clientX" in se) || kRef.current >= ZOOM_THRESHOLD) return;
+      const k = kRef.current ?? 1;
+      const hasSelection = !!(selectedText || selectedFather);
+
+      // Only track duration hover on OUTEST level and when nothing is selected
+      if (!se || !("clientX" in se) || hasSelection || k >= ZOOM_SEGMENT_THRESHOLD) return;
 
       const el = document.elementFromPoint(se.clientX, se.clientY);
       let newId = null;
@@ -2687,7 +2741,19 @@ function setActiveDuration(outline, { showCard = false } = {}) {
 
     // NEW: Sync hovered segment from pointer while zooming (zoomed-in mode)
     function syncSegmentHoverFromPointer(se) {
-      if (!se || !("clientX" in se) || kRef.current < ZOOM_THRESHOLD) return;
+        const k = kRef.current ?? 1;
+        const hasSelection = !!(selectedText || selectedFather);
+
+        // Only track segment hover on MIDDLE level and when nothing is selected
+        if (
+          !se ||
+          !("clientX" in se) ||
+          hasSelection ||
+          k < ZOOM_SEGMENT_THRESHOLD ||
+          k >= ZOOM_THRESHOLD
+          ) {
+           return;
+          }
       const el = document.elementFromPoint(se.clientX, se.clientY);
       let newId = null, newParentId = null;
 
@@ -2722,33 +2788,42 @@ function setActiveDuration(outline, { showCard = false } = {}) {
 }
 
     // OUTLINES (filled, faint stroke)
-    const outlineSel = gOut
-      .selectAll("g.durationOutline")
-      .data(outlines, (d) => d.id)
-      .join((enter) => {
-        const g = enter.append("g").attr("class", "durationOutline").attr("data-id", (d) => d.id);
+const outlineSel = gOut
+  .selectAll("g.durationOutline")
+  .data(outlines, (d) => d.id)
+  .join((enter) => {
+    const g = enter
+      .append("g")
+      .attr("class", "durationOutline")
+      .attr("data-id", (d) => d.id)
+      // flag custom-group durations so CSS can treat their rects differently
+      .classed("isCustomGroup", (d) => !!d._isCustomGroup)
+      // expose duration color to CSS (used by zoom-outest / zoom-middle rules)
+      .style("--dur-color", (d) => d.color || "#999");
 
-        g.append("rect")
-          .attr("class", "outlineRect")
-          .attr("fill", "transparent")
-          .attr("stroke", (d) => d.color)
-          .attr("stroke-opacity", DUR_STROKE.baseOpacity)
-          .attr("stroke-width", DUR_STROKE.baseWidth)
-          .attr("vector-effect", "non-scaling-stroke")
-          .attr("shape-rendering", "geometricPrecision");
+    g.append("rect")
+      .attr("class", "outlineRect")
+      // color comes from CSS (currentColor based on --dur-color)
+      .attr("fill", "transparent")
+      // no border stroke at all; everything is driven by fill opacity
+      .attr("stroke", "none")
+      .attr("vector-effect", "non-scaling-stroke")
+      .attr("shape-rendering", "geometricPrecision");
 
-        g.append("text")
-          .attr("class", "durationLabel")
-          .attr("dy", "0.32em")
-          .style("dominant-baseline", "middle")
-          .attr("fill", (d) => d.color)
-          .attr("opacity", DUR_LABEL_OPACITY.base)
-          .style("font-weight", 600)
-          .style("pointer-events", "none")
-          .text((d) => (d._isCustomGroup && d._labelText) ? d._labelText : d.name);
 
-        return g;
-      });
+    g.append("text")
+      .attr("class", "durationLabel")
+      .attr("dy", "0.32em")
+      .style("dominant-baseline", "middle")
+      .attr("fill", (d) => d.color)
+      .attr("opacity", DUR_LABEL_OPACITY.base)
+      .style("font-weight", 600)
+      .style("pointer-events", "none")
+      .text((d) => (d._isCustomGroup && d._labelText) ? d._labelText : d.name);
+
+    return g;
+  });
+
 
     // Hide the rectangle if this is a custom GROUP (polygon handles visuals)
     outlineSel.select("rect.outlineRect")
@@ -2787,24 +2862,24 @@ function setActiveDuration(outline, { showCard = false } = {}) {
         ev.stopPropagation();
       });
 
-    // CUSTOM GROUP POLYGONS (drawn under labels)
-    gCustom
-      .selectAll("path.customGroup")
-      .data(outlines.filter((o) => o._isCustomGroup), (d) => d.id)
-      .join(
-        (enter) =>
-          enter
-            .append("path")
-            .attr("class", "customGroup")
-            .attr("fill", "transparent")
-            .attr("stroke", (d) => d.color)
-            .attr("stroke-opacity", 0.08)
-            .attr("stroke-width", 1.5)
-            .attr("vector-effect", "non-scaling-stroke")
-            .attr("shape-rendering", "geometricPrecision"),
-        (update) => update,
-        (exit) => exit.remove()
-      );
+// CUSTOM GROUP POLYGONS (drawn under labels)
+gCustom
+  .selectAll("path.customGroup")
+  .data(outlines.filter((o) => o._isCustomGroup), (d) => d.id)
+  .join(
+    (enter) =>
+      enter
+        .append("path")
+        .attr("class", "customGroup")
+        // fill uses the same duration color from durations.json
+        .attr("fill", (d) => d.color || "#999")
+        // no border stroke – hover feedback will be via fill opacity
+        .attr("stroke", "none")
+        .attr("vector-effect", "non-scaling-stroke")
+        .attr("shape-rendering", "geometricPrecision"),
+    (update) => update,
+    (exit) => exit.remove()
+  );
 
     // Hover/click on the polygon itself (zoomed-out only)
     gCustom.selectAll("path.customGroup")
@@ -3784,73 +3859,159 @@ fatherPinSel
 
 
     function updateInteractivity(k) {
-      const zoomedIn = k >= ZOOM_THRESHOLD;
+  const hasSelection = !!(selectedText || selectedFather);
 
-      d3.select(svgRef.current).classed("zoomed-in", zoomedIn);
+  // 3-level zoom mode, with selection forcing "deepest" semantics
+  let zoomMode;
+  if (hasSelection) {
+    zoomMode = "deepest";
+  } else if (k < ZOOM_SEGMENT_THRESHOLD) {
+    zoomMode = "outest";   // durations only
+  } else if (k < ZOOM_THRESHOLD) {
+    zoomMode = "middle";   // segments only
+  } else {
+    zoomMode = "deepest";  // fathers/texts only
+  }
 
-      gOut.selectAll("rect.outlineRect")
-        .style("pointer-events", d => (d._isCustomGroup || d._hiddenCustom) ? "none" : (zoomedIn ? "none" : "all"));
-      gSeg.selectAll("rect.segmentHit").style("pointer-events", zoomedIn ? "all" : "none");
-      gTexts.selectAll("circle.textDot").style("pointer-events", zoomedIn ? "all" : "none");
-      gCustom.selectAll("path.customGroup").style("pointer-events", zoomedIn ? "none" : "visibleFill");
-      gFathers.selectAll("g.fatherMark").style("pointer-events", zoomedIn ? "all" : "none");
+  const svgSel = d3.select(svgRef.current);
+  svgSel
+    .classed("zoomed-in", zoomMode !== "outest")
+    .classed("has-selection", hasSelection);
 
-      if (!zoomedIn) {
-        clearActiveSegment();
-      } else {
-        clearActiveDuration();
-      }
-      updateHoverVisuals();
-    }
+  // === Selection override: once a text/father is selected,
+  //     durations/segments become inert; texts/fathers stay clickable
+  if (hasSelection) {
+    gOut.selectAll("rect.outlineRect")
+      .style("pointer-events", "none");
+    gSeg.selectAll("rect.segmentHit")
+      .style("pointer-events", "none");
+    gCustom.selectAll("path.customGroup")
+      .style("pointer-events", "none");
 
-    // Build segmentHit rects (with CLICK-to-open behavior)
-    gSeg
-      .selectAll("rect.segmentHit")
-      .data(segments, (d) => d.id)
-      .join((enter) =>
-        enter
-          .append("rect")
-          .attr("class", "segmentHit")
-          .attr("fill", "transparent")
-          .attr("pointer-events", "all")
-          .attr("stroke", (d) => d.parentColor)
-          .attr("stroke-opacity", 0.02)
-          .attr("stroke-width", 1.5)
-          .attr("vector-effect", "non-scaling-stroke")
-          .attr("shape-rendering", "geometricPrecision")
-          .style("transition", "stroke-opacity 140ms ease, stroke-width 140ms ease")
-          // HOVER: centralized preview + label brightening
-          .on("mouseenter", function (_ev, seg) {
-  // NEW: if *any* segment is active and it's not THIS one, ignore hover
-  if (activeSegIdRef.current && activeSegIdRef.current !== seg.id) return;
+    gTexts.selectAll("circle.textDot")
+      .style("pointer-events", "all");
+    gFathers.selectAll("g.fatherMark")
+      .style("pointer-events", "all");
 
-  if (activeSegIdRef.current === seg.id) return; // unchanged
-  hoveredSegIdRef.current = seg.id;
-  hoveredSegParentIdRef.current = seg.parentId;
-  updateSegmentPreview();
-  updateHoverVisuals();
-})
-.on("mouseleave", function (_ev, seg) {
-  // NEW: if some *other* segment is active, keep ignoring
-  if (activeSegIdRef.current && activeSegIdRef.current !== seg.id) return;
-
-  if (activeSegIdRef.current === seg.id) return;
-  hoveredSegIdRef.current = null;
-  hoveredSegParentIdRef.current = null;
-  updateSegmentPreview();
-  updateHoverVisuals();
-})
-.on("click", function (_ev, seg) {
-  const isSame = activeSegIdRef.current === seg.id;
-  if (isSame) {
+    // No active duration/segment boxes while something is selected
     clearActiveSegment();
+    clearActiveDuration();
+    updateHoverVisuals();
     return;
   }
-  clearActiveSegment();
-  clearActiveDuration(); // existing line
-  setActiveSegment(seg, { showCard: true });
-})
+
+  // === No selection: pure 3-level model ===
+  if (zoomMode === "outest") {
+    // OUTEST: durations hot, everything else inert
+    gOut.selectAll("rect.outlineRect")
+      .style("pointer-events", d =>
+        (d._isCustomGroup || d._hiddenCustom) ? "none" : "all"
       );
+    gSeg.selectAll("rect.segmentHit")
+      .style("pointer-events", "none");
+    gTexts.selectAll("circle.textDot")
+      .style("pointer-events", "none");
+    gFathers.selectAll("g.fatherMark")
+      .style("pointer-events", "none");
+    gCustom.selectAll("path.customGroup")
+      .style("pointer-events", d =>
+        d._hiddenCustom ? "none" : "visibleFill"
+      );
+
+    // Durations are allowed to stay active; segments cannot be
+    clearActiveSegment();
+
+  } else if (zoomMode === "middle") {
+    // MIDDLE: segments hot, durations/nodes inert
+    gOut.selectAll("rect.outlineRect")
+      .style("pointer-events", "none");
+    gSeg.selectAll("rect.segmentHit")
+      .style("pointer-events", "all");
+    gTexts.selectAll("circle.textDot")
+      .style("pointer-events", "none");
+    gFathers.selectAll("g.fatherMark")
+      .style("pointer-events", "none");
+    gCustom.selectAll("path.customGroup")
+      .style("pointer-events", "none");
+
+    // Only segments should be active at this level
+    clearActiveDuration();
+
+  } else {
+    // DEEPEST: fathers/texts hot, durations/segments inert
+    gOut.selectAll("rect.outlineRect")
+      .style("pointer-events", "none");
+    gSeg.selectAll("rect.segmentHit")
+      .style("pointer-events", "none");
+    gTexts.selectAll("circle.textDot")
+      .style("pointer-events", "all");
+    gFathers.selectAll("g.fatherMark")
+      .style("pointer-events", "all");
+    gCustom.selectAll("path.customGroup")
+      .style("pointer-events", "none");
+
+    // No lingering duration/segment selections at deepest level
+    clearActiveDuration();
+    clearActiveSegment();
+  }
+
+  updateHoverVisuals();
+}
+
+
+    // Build segmentHit rects (with CLICK-to-open behavior)
+gSeg
+  .selectAll("rect.segmentHit")
+  .data(segments, (d) => d.id)
+  .join((enter) =>
+    enter
+      .append("rect")
+      .attr("class", "segmentHit")
+      // actual fill is controlled in CSS via --seg-color and zoom-* classes
+      .attr("fill", "transparent")
+      .attr("pointer-events", "all")
+      // border is always white; “block color” is the fill
+      .attr("stroke", "#ffffff")
+      .attr("stroke-opacity", 0.02)
+      .attr("stroke-width", 1.5)
+      .attr("vector-effect", "non-scaling-stroke")
+      .attr("shape-rendering", "geometricPrecision")
+      // expose segment color for CSS (middle zoom level)
+      .style("--seg-color", (d) => d.parentColor || "#999")
+      .style("transition", "stroke-opacity 140ms ease, stroke-width 140ms ease")
+      // HOVER: centralized preview + label brightening
+      .on("mouseenter", function (_ev, seg) {
+        // NEW: if *any* segment is active and it's not THIS one, ignore hover
+        if (activeSegIdRef.current && activeSegIdRef.current !== seg.id) return;
+
+        if (activeSegIdRef.current === seg.id) return;
+        hoveredSegIdRef.current = seg.id;
+        hoveredSegParentIdRef.current = seg.parentId;
+        updateSegmentPreview();
+        updateHoverVisuals();
+      })
+      .on("mouseleave", function (_ev, seg) {
+        // NEW: if some *other* segment is active, keep ignoring
+        if (activeSegIdRef.current && activeSegIdRef.current !== seg.id) return;
+
+        if (activeSegIdRef.current === seg.id) return;
+        hoveredSegIdRef.current = null;
+        hoveredSegParentIdRef.current = null;
+        updateSegmentPreview();
+        updateHoverVisuals();
+      })
+      .on("click", function (_ev, seg) {
+        const isSame = activeSegIdRef.current === seg.id;
+        if (isSame) {
+          clearActiveSegment();
+          return;
+        }
+        clearActiveSegment();
+        clearActiveDuration();
+        setActiveSegment(seg, { showCard: true });
+      })
+  );
+
 
       // Helper: compute author-lane Y (in "band units" = px at k=1) for a text
 function laneYUForText(d) {
@@ -3934,6 +4095,30 @@ const zoom = (zoomRef.current ?? d3.zoom())
     apply(zx, zy, t.k);
     renderConnections(zx, zy, t.k);
     updateInteractivity(t.k);
+
+        // === Zoom-level “mode” classes for CSS (outest / middle / deepest) ===
+    const hasSelection = !!(selectedText || selectedFather);
+
+    let zoomMode;
+    if (hasSelection) {
+      // Selection overrides: treat as deepest for styling
+      zoomMode = "deepest";
+    } else if (t.k < ZOOM_SEGMENT_THRESHOLD) {
+      zoomMode = "outest";   // durations focus
+    } else if (t.k < ZOOM_THRESHOLD) {
+      zoomMode = "middle";   // segments focus
+    } else {
+      zoomMode = "deepest";  // fathers/texts focus
+    }
+
+    const svgNode = svgRef.current;
+    if (svgNode) {
+      const svgSel = d3.select(svgNode);
+      svgSel
+        .classed("zoom-outest",  zoomMode === "outest")
+        .classed("zoom-middle",  zoomMode === "middle")
+        .classed("zoom-deepest", zoomMode === "deepest");
+    }
 
     // throttle hover sync to RAF (duration vs segment based on zoom)
     syncHoverRaf(event.sourceEvent);

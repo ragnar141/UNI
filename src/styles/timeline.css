@@ -102,6 +102,100 @@ body {
   pointer-events: none;
 }
 
+/* Correct axis underfill selector + base look */
+.timelineSvg .axisUnderfill {
+  fill: #fff7d6;           /* warm light yellow */
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* =========================
+   Zoom-level visual modes
+   ========================= */
+
+/* 1) Underlay strength per zoom tier */
+.timelineSvg.zoom-outest .axisUnderfill {
+  opacity: 0.9;
+}
+
+.timelineSvg.zoom-middle .axisUnderfill {
+  opacity: 0.65;
+}
+
+.timelineSvg.zoom-deepest .axisUnderfill {
+  opacity: 0;  /* dissolve into pure white background */
+}
+
+/* At deepest zoom, hide custom-group polygons as well */
+.timelineSvg.zoom-deepest path.customGroup {
+  opacity: 0;
+}
+
+/* 2) Durations vs segments vs nodes */
+
+/* OUTEST: durations strong, inner stuff muted */
+.timelineSvg.zoom-outest g.durationOutline .outlineRect {
+  opacity: 1;
+}
+
+.timelineSvg.zoom-outest .durationLabel {
+  opacity: 1;
+}
+
+/* hide segment grid at outer level (just a soft bar) */
+.timelineSvg.zoom-outest rect.segmentHit {
+  opacity: 0;
+}
+
+/* mute fathers/texts a bit in the distance */
+.timelineSvg.zoom-outest circle.textDot,
+.timelineSvg.zoom-outest g.fatherMark {
+  opacity: 0.3;
+}
+
+/* MIDDLE: segment grid visible, nodes still slightly softer */
+.timelineSvg.zoom-middle g.durationOutline .outlineRect {
+  opacity: 1;
+}
+
+.timelineSvg.zoom-middle .durationLabel {
+  opacity: 1;
+}
+
+/* let segment borders “divide” the fill */
+.timelineSvg.zoom-middle rect.segmentHit {
+  opacity: 0.2;
+}
+
+/* nodes come forward but not full blast yet */
+.timelineSvg.zoom-middle circle.textDot,
+.timelineSvg.zoom-middle g.fatherMark {
+  opacity: 0.7;
+}
+
+/* DEEPEST: kill band chrome, leave pure canvas + nodes/connections */
+.timelineSvg.zoom-deepest g.durationOutline .outlineRect,
+.timelineSvg.zoom-deepest rect.segmentHit,
+.timelineSvg.zoom-deepest .durationLabel {
+  opacity: 0;
+}
+
+/* at deepest level fathers/texts are fully present */
+.timelineSvg.zoom-deepest circle.textDot,
+.timelineSvg.zoom-deepest g.fatherMark {
+  opacity: 1;
+}
+
+/* 3) When something is selected: 
+   no duration/segment borders, regardless of zoom tier */
+.timelineSvg.has-selection g.durationOutline .outlineRect,
+.timelineSvg.has-selection rect.segmentHit,
+.timelineSvg.has-selection .durationLabel,
+.timelineSvg.has-selection path.customGroup {
+  opacity: 0 !important;
+}
+
+
 /* Duration labels */
 .durationLabel {
   user-select: none;
@@ -677,3 +771,88 @@ body {
 .hidden-icon {
   opacity: 0 !important;
 }
+
+/* ============================
+   Duration / segment chrome per zoom level
+   ============================ */
+
+/* Base: deepest level OR when something is selected → no boxes */
+.timelineSvg .outlineRect,
+.timelineSvg .segmentHit {
+  fill: transparent;
+  stroke: none;
+}
+
+/* Map per-duration color (from JS) into currentColor */
+.timelineSvg g.durationOutline {
+  color: var(--dur-color, #999999);
+}
+
+/* Map per-segment color (from JS) into currentColor for segment rects */
+.timelineSvg rect.segmentHit {
+  color: var(--seg-color, #999999);
+}
+
+/* When a text/father is selected, always hide duration/segment borders */
+.timelineSvg.has-selection .outlineRect,
+.timelineSvg.has-selection .segmentHit {
+  fill: transparent;
+  stroke: none;
+}
+
+
+
+/* OUTEST: durations emphasized as colored bands, no borders */
+.timelineSvg.zoom-outest:not(.has-selection) .outlineRect {
+  fill: currentColor;
+  fill-opacity: 0.20;           /* base fill strength at outer level */
+}
+
+/* hide segment grid at outer level (just a soft bar) */
+.timelineSvg.zoom-outest:not(.has-selection) .segmentHit {
+  fill: transparent;
+  stroke: transparent;
+}
+
+/* segments are visible as white dividers across the duration */
+.timelineSvg.zoom-middle:not(.has-selection) .segmentHit {
+  fill: currentColor;      /* comes from --seg-color via rect.segmentHit rule */
+  /* base fill-opacity is set from JS; this is just a fallback */
+  stroke: #ffffff;
+  stroke-opacity: 0.9;
+  stroke-width: 1.2px;
+  vector-effect: non-scaling-stroke;
+}
+
+.timelineSvg.zoom-outest:not(.has-selection) .segmentHit {
+  fill: transparent;
+  stroke: transparent;
+}
+
+/* MIDDLE: lighter fill, segments divide the band with white borders */
+.timelineSvg.zoom-middle:not(.has-selection) .outlineRect {
+  fill: currentColor;
+  fill-opacity: 0.10;           /* softer than outest */
+}
+
+
+
+/* Custom-group durations: fill only the polygon, not the band-wide rect */
+.timelineSvg.zoom-outest:not(.has-selection) g.durationOutline.isCustomGroup .outlineRect,
+.timelineSvg.zoom-middle:not(.has-selection) g.durationOutline.isCustomGroup .outlineRect {
+  /* keep the wrapper rect visually invisible so only the polygon shows */
+  fill: transparent;
+  stroke: none;
+}
+
+/* Polygon fills track zoom strength like band fills */
+.timelineSvg.zoom-outest:not(.has-selection) path.customGroup {
+  fill-opacity: 0.20;
+}
+
+.timelineSvg.zoom-middle:not(.has-selection) path.customGroup {
+  fill-opacity: 0.10;
+}
+
+/* deepest zoom can rely on defaults (or you can explicitly fade them out): */
+/* .timelineSvg.zoom-deepest path.customGroup { fill-opacity: 0; } */
