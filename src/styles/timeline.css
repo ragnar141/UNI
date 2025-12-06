@@ -144,7 +144,7 @@ body {
 }
 
 .timelineSvg.zoom-middle .durationLabel {
-  opacity: 1;
+  opacity: 0.4;
 }
 
 
@@ -154,11 +154,14 @@ body {
   opacity: 0.3;
 }
 
-/* DEEPEST: kill band chrome, leave pure canvas + nodes/connections */
 .timelineSvg.zoom-deepest g.durationOutline .outlineRect,
-.timelineSvg.zoom-deepest rect.segmentHit,
-.timelineSvg.zoom-deepest .durationLabel {
+.timelineSvg.zoom-deepest rect.segmentHit {
   opacity: 0;
+}
+
+/* DEEPEST: labels very faint instead of gone */
+.timelineSvg.zoom-deepest .durationLabel {
+  opacity: 0.2;
 }
 
 /* at deepest level fathers/texts are fully present */
@@ -185,6 +188,20 @@ body {
   stroke: rgba(255,255,255,0.7);
   stroke-width: 2px;
 }
+
+/* OUTEST: labels without stroke */
+.timelineSvg.zoom-outest .durationLabel {
+  stroke: none;
+  stroke-width: 0;
+}
+
+/* OUTEST — duration label turns crisp white on hover */
+.timelineSvg.zoom-outest g.durationOutline.hover .durationLabel {
+  fill: white;       /* full white text */
+  opacity: 1;        /* punch through the background */
+  stroke: none;      /* since outest has stroke removed */
+}
+
 
 /* Wrapper */
 .timelineWrap { position: relative; }

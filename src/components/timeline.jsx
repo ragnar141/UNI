@@ -729,7 +729,7 @@ function makeAdaptiveTicks(zx) {
 function groupIntervalsToPath(intervals, zx, zy) {
   if (!intervals || intervals.length === 0) return "";
 
-  console.log("[GITP:in]", { intervals: intervals ? intervals.length : 0 });
+
 
 
   // Map to screen coords; ensure left<=right; keep chronological order
@@ -744,12 +744,7 @@ function groupIntervalsToPath(intervals, zx, zy) {
     };
   });
 
-  console.log("[GITP:screen]", {
-  n: iv.length,
-  first: iv[0],
-  last: iv[iv.length - 1]
-});
-
+  
 
   // Top chain: left -> right with vertical steps at boundaries
   let d = `M ${iv[0].xL} ${iv[0].yT} H ${iv[0].xR}`;
@@ -770,10 +765,7 @@ function groupIntervalsToPath(intervals, zx, zy) {
   // Close (back to top-left of first interval)
   d += " Z";
 
-  console.log("[GITP:path]", {
-  length: d.length,
-  preview: d.slice(0, 240) + (d.length > 240 ? " …" : "")
-});
+ 
 
   return d;
 }
@@ -963,7 +955,7 @@ function useDiscoveredConnectionSets() {
     });
   }
 
-  console.log("[CONN registry]", registry);
+  
   return registry;
 }
 
@@ -1370,16 +1362,8 @@ useEffect(() => {
 
       {
   const _o = groupOutlines[groupOutlines.length - 1];
-  if (/persian|iranian/i.test(String(_o?._groupKey || _o?.id || ""))) {
-    console.log("[GROUP:constructed]", {
-      groupKey: _o?._groupKey,
-      id: _o?.id,
-      memberIds: (_o?._groupMembers || []).map(m => m.id),
-      y: _o?.y, h: _o?.h, start: _o?.start, end: _o?.end,
-      intervalsCount: _o?._groupIntervals?.length || 0
-    });
   }
-}
+
     }
     // Keep everyone; mark custom members hidden so they act as layout bands
     const baseOutlines = raw.map((r) => ({ ...r, _hiddenCustom: !!r._isCustomMember }));
@@ -2063,17 +2047,7 @@ function styleForConnection(category, typeA, typeB, rowA, rowB) {
     }
   }
 
-  // Debug logging
-  console.log("[styleForConnection]", {
-    category: cat,
-    typeA,
-    typeB,
-    bothFathers,
-    bothTexts,
-    mixed,
-    strokeWidth,
-    strokeDasharray,
-  });
+
 
   return {
     strokeWidth,
@@ -2089,21 +2063,31 @@ const CONNECTION_HIGHLIGHT_OPACITY = 0.9; // bright when linked
 function renderConnections(zx, zy, k) {
   if (!connectionsRef.current) return;
 
+  // Current selection / hover state
+  const selText       = selectedText;
+  const selFather     = selectedFather;
+  const hoveredTextId = hoveredTextIdRef.current;
+  const hoveredFatherId = hoveredFatherIdRef.current;
+
+  const hasSelection = !!(selText || selFather);
+
   // zoom-dependent factors
   const kVal = k ?? 1;
-  const isOutest = kVal < ZOOM_SEGMENT_THRESHOLD;
-  const isMiddle = kVal >= ZOOM_SEGMENT_THRESHOLD && kVal < ZOOM_THRESHOLD;
+  const isOutest = !hasSelection && kVal < ZOOM_SEGMENT_THRESHOLD;
+  const isMiddle = !hasSelection && kVal >= ZOOM_SEGMENT_THRESHOLD && kVal < ZOOM_THRESHOLD;
 
-  // base/highlight per tier
+  // base/highlight per tier, but selection forces "deepest" values
   const baseOpacity =
-    isOutest ? 0.01 :         // very faint on outest
-    isMiddle ? 0.05 :         // a bit stronger on middle
-              0.09;           // strongest on deepest
+    hasSelection ? 0.09 :
+    isOutest     ? 0.01 :
+    isMiddle     ? 0.05 :
+                   0.09;
 
   const highlightOpacity =
-    isOutest ? 0.40 :
-    isMiddle ? 0.70 :
-               0.90;
+    hasSelection ? 0.90 :
+    isOutest     ? 0.40 :
+    isMiddle     ? 0.70 :
+                   0.90;
 
   const data = allConnectionRowsRef.current || [];
   const g = d3.select(connectionsRef.current);
@@ -2123,11 +2107,6 @@ function renderConnections(zx, zy, k) {
 
   const merged = enter.merge(sel)
     .style("pointer-events", "none");
-
-  const selText       = selectedText;
-  const selFather     = selectedFather;
-  const hoveredTextId = hoveredTextIdRef.current;
-  const hoveredFatherId = hoveredFatherIdRef.current;
 
   merged
     .attr("x1", d => zx(toAstronomical(d.ax)))
@@ -2164,6 +2143,7 @@ function renderConnections(zx, zy, k) {
         : baseOpacity;
     });
 }
+
 
 
 
@@ -2262,7 +2242,7 @@ function renderConnections(zx, zy, k) {
         }
       }
 
-  console.log("[CONN rows built]", out.length, out.slice(0, 5));
+  
 
   allConnectionRowsRef.current = out;
 
@@ -2556,6 +2536,8 @@ clearActiveDurationRef.current = clearActiveDuration;
     zoomMode = "deepest";  // fathers/texts only
   }
 
+    
+
   // Fill strengths for duration bands per zoom tier
   let baseFill, hoverFill, activeFill;
   if (zoomMode === "outest") {
@@ -2609,7 +2591,9 @@ clearActiveDurationRef.current = clearActiveDuration;
     });
 
   // Labels: can still brighten when a segment in this duration is hovered
-  d3.select(outlinesRef.current)
+  const outlineRoot = d3.select(outlinesRef.current);
+
+  outlineRoot
     .selectAll("text.durationLabel")
     .attr("opacity", (d) => {
       const id = d.id;
@@ -2625,6 +2609,23 @@ clearActiveDurationRef.current = clearActiveDuration;
         return DUR_LABEL_OPACITY.hover;
       }
       return DUR_LABEL_OPACITY.base;
+    });
+
+  // NEW: toggle .hover class on durationOutline so CSS can make label crisp white on OUTEST
+  outlineRoot
+    .selectAll("g.durationOutline")
+    .classed("hover", (d) => {
+      const id = d.id;
+      const isActiveFromDuration = id === activeDurationId;
+      const isFromHoveredSeg = id === hoveredSegParentId;
+      const isHoverDuration =
+        !ignoreHoverBecauseActive && id === hoveredDurationId;
+
+      // Only care about this visual on OUTEST zoom
+      if (zoomMode !== "outest") return false;
+
+      // Treat active / hovered-segment / hovered-duration all as "hover" for label styling
+      return isActiveFromDuration || isFromHoveredSeg || isHoverDuration;
     });
 }
 
@@ -3392,13 +3393,7 @@ fathersSel
   gCustom.selectAll("path.customGroup").each(function (o) {
     const intervals = o._groupIntervals || [];
 
-    if (/persian|iranian/i.test(String(o?._groupKey || o?.id || ""))) {
-  console.log("[DRAW:poly]", {
-    id: o?.id,
-    groupKey: o?._groupKey,
-    intervals: intervals.length
-  });
-}
+   
 
     if (!intervals.length) {
       // Fallback: simple rectangle
@@ -3441,12 +3436,11 @@ gTexts.selectAll("circle.textDot").each(function (d) {
     .attr("stroke", isSelected ? "#ffffff" : "none")
     .attr("stroke-width", isSelected ? 1.4 : 0);
 
-  // When zoomed in enough to show a pin, hide the original icon
-  const shouldHide = !!selectedText &&
-    selectedText.id === d.id &&
-    k >= ZOOM_THRESHOLD;
+// When there is a selected text, hide its original icon
+const shouldHide = !!selectedText &&
+  selectedText.id === d.id;
 
-  circle.classed("hidden-icon", shouldHide);
+circle.classed("hidden-icon", shouldHide);
 });
 
 // Also hide/show the multi-color pie for the selected text when pinned
@@ -3454,12 +3448,13 @@ gTexts
   .selectAll("g.dotSlices")
   .classed(
     "hidden-icon",
-    d => !!selectedText && selectedText.id === d.id && k >= ZOOM_THRESHOLD
+    d => !!selectedText && selectedText.id === d.id
   );
 
 // --- Selected TEXT pin (circle-in-pin) ---
 const textPinData =
-  selectedText && k >= ZOOM_THRESHOLD ? [selectedText] : [];
+  selectedText ? [selectedText] : [];
+
 
 const textPinSel = gPins
   .selectAll("g.textPin")
@@ -3674,18 +3669,19 @@ gTexts.selectAll("g.dotSlices").each(function (d) {
       .attr("stroke-width", isSelected ? fatherBorderStrokeWidth(r) : 0);
 });
 
-  // --- Selected FATHER pin (triangle-in-pin) ---
-  // Hide the original father icon when its pin is active (zoomed-in)
+// --- Selected FATHER pin (triangle-in-pin) ---
+// Hide the original father icon whenever it is selected
 gFathers
   .selectAll("g.fatherMark")
   .classed(
     "hidden-icon",
-    d => !!selectedFather && selectedFather.id === d.id && k >= ZOOM_THRESHOLD
+    d => !!selectedFather && selectedFather.id === d.id
   );
 
 // --- Selected FATHER pin (triangle-in-pin) ---
 const fatherPinData =
-  selectedFather && k >= ZOOM_THRESHOLD ? [selectedFather] : [];
+  selectedFather ? [selectedFather] : [];
+
 
 const fatherPinSel = gPins
   .selectAll("g.fatherPin")
@@ -3880,8 +3876,7 @@ fatherPinSel
   renderConnections(zx, zy, k);
 }
 
-
-    function updateInteractivity(k) {
+function updateInteractivity(k) {
   const hasSelection = !!(selectedText || selectedFather);
 
   // 3-level zoom mode, with selection forcing "deepest" semantics
@@ -3898,8 +3893,20 @@ fatherPinSel
 
   const svgSel = d3.select(svgRef.current);
   svgSel
-    .classed("zoomed-in", zoomMode !== "outest")
+    // zoom tier classes for CSS
+    .classed("zoom-outest",  zoomMode === "outest")
+    .classed("zoom-middle",  zoomMode === "middle")
+    .classed("zoom-deepest", zoomMode === "deepest")
+    // generic flags
+    .classed("zoomed-in",    zoomMode !== "outest")
     .classed("has-selection", hasSelection);
+
+      console.log("[UI] updateInteractivity", {
+    k,
+    hasSelection,
+    zoomMode,
+    svgClass: svgSel.attr("class"),
+  });
 
   // === Selection override: once a text/father is selected,
   //     durations/segments become inert; texts/fathers stay clickable
@@ -3928,7 +3935,9 @@ fatherPinSel
     // OUTEST: durations hot, everything else inert
     gOut.selectAll("rect.outlineRect")
       .style("pointer-events", d =>
-        (d._isCustomGroup || d._hiddenCustom) ? "none" : "all"
+        (d._isCustomGroup || d._hiddenCustom) ?
+          "none" :
+          "all"
       );
     gSeg.selectAll("rect.segmentHit")
       .style("pointer-events", "none");
@@ -3938,7 +3947,7 @@ fatherPinSel
       .style("pointer-events", "none");
     gCustom.selectAll("path.customGroup")
       .style("pointer-events", d =>
-        d._hiddenCustom ? "none" : "visibleFill"
+        d._hiddenCustom ? "none" : "all"
       );
 
     // Durations are allowed to stay active; segments cannot be
@@ -4121,6 +4130,11 @@ const zoom = (zoomRef.current ?? d3.zoom())
     renderConnections(zx, zy, t.k);
     updateInteractivity(t.k);
 
+        console.log("[ZOOM] zoom handler", {
+      k: t.k,
+      hasSelection: !!(selectedText || selectedFather),
+    });
+
         // === Zoom-level “mode” classes for CSS (outest / middle / deepest) ===
     const hasSelection = !!(selectedText || selectedFather);
 
@@ -4243,15 +4257,21 @@ window.flyToTest = (id) => {
    updateInteractivity(initT.k);
    lastTransformRef.current = initT;   // remember
    didInitRef.current = true;
- } else {
-   // Subsequent runs: DO NOT reset transform.
-   // Re-apply the last transform to current scales for a seamless update.
-   const t = lastTransformRef.current ?? d3.zoomIdentity;
-   apply(t.rescaleX(x), t.rescaleY(y0), t.k);
-   updateInteractivity(t.k);
-   logRenderedCounts();
-   kRef.current = t.k;
- }
+} else {
+  // Subsequent runs: DO NOT reset transform.
+  // Re-apply the last transform to current scales for a seamless update.
+  const t = lastTransformRef.current ?? d3.zoomIdentity;
+  kRef.current = t.k;  // make sure hover logic sees the current zoom
+  apply(t.rescaleX(x), t.rescaleY(y0), t.k);
+  updateInteractivity(t.k);
+
+  console.log("[UI] reapply transform after state change", {
+    tK: t.k,
+    hasSelection: !!(selectedText || selectedFather),
+  });
+
+  logRenderedCounts();
+}
 
     // Hide tooltips if mouse leaves the whole svg area
     svgSel.on("mouseleave.tl-tip", () => {
@@ -4266,21 +4286,24 @@ window.flyToTest = (id) => {
 
         window.removeEventListener("click", onAnyClickClose, true);
     };
-  }, [
-    outlines,
-    segments,
-    textRows,
-    fatherRows,        // FATHERS: ensure updates
-    width,
-    height,
-    innerWidth,
-    innerHeight,
-    axisY,
-    margin.left,
-    margin.top,
-    x,
-    y0,
-  ]);
+}, [
+  outlines,
+  segments,
+  textRows,
+  fatherRows,        // FATHERS: ensure updates
+  selectedText,
+  selectedFather,
+  width,
+  height,
+  innerWidth,
+  innerHeight,
+  axisY,
+  margin.left,
+  margin.top,
+  x,
+  y0,
+]);
+
 
 return (
   <div
