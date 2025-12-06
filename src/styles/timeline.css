@@ -58,6 +58,14 @@ body {
   background: #ffffff;
 }
 
+/* Show grab-hand cursor only while D3 zoom drag is active */
+.timelineSvg.is-panning {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+}
+
+
+
 .viewport {
   position: relative;
   width: 100vw;

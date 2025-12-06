@@ -1193,8 +1193,9 @@ export default function Timeline() {
   ease: d3.easeCubicOut
 };
 
-  /* ---- Responsive sizing ---- */
-  const [size, setSize] = useState({ width: 800, height: 400 });
+/* ---- Responsive sizing ---- */
+// Start at 0 so we don't render the SVG with a fake size before ResizeObserver fires.
+const [size, setSize] = useState({ width: 0, height: 0 });
   const [selectedText, setSelectedText] = useState(null);
   const [showMore, setShowMore] = useState(false);
   const [cardPos, setCardPos] = useState({ left: 16, top: 16 });
@@ -4104,10 +4105,40 @@ const zoom = (zoomRef.current ?? d3.zoom())
   .scaleExtent([MIN_ZOOM, MAX_ZOOM])
   .translateExtent([[rangeX0, rangeY0], [rangeX1, rangeY1]]) // hard clamp
   .extent([[0, 0], [innerWidth, innerHeight]])
-  .filter((event) => event.type !== "dblclick")
+    .filter((event) => {
+    // Never zoom on double-click
+    if (event.type === "dblclick") return false;
+
+    const t = event.target;
+    if (!t || !t.closest) return true;
+
+    // If the event started on an interactive mark (text dot or father),
+    // we want clicks, but NOT drag-panning.
+    const onText = t.closest("circle.textDot");
+    const onFather = t.closest("g.fatherMark");
+    const onMark = onText || onFather;
+
+    if (onMark) {
+      // Allow wheel zoom over marks, but block drag/pan starting on them
+      return event.type === "wheel";
+    }
+
+    // Everything else (background, durations, segments, etc.) behaves normally
+    return true;
+  })
+
 
   .on("start", (event) => {
-    zoomDraggingRef.current = true;
+    const srcType = event.sourceEvent?.type;
+    const isWheel = srcType === "wheel";
+
+    // Treat only non-wheel gestures as "dragging"
+    zoomDraggingRef.current = !isWheel;
+
+    // Add grabbing cursor only for drag / touch, not wheel zoom
+    if (!isWheel && svgRef.current) {
+      d3.select(svgRef.current).classed("is-panning", true);
+    }
 
     // hard-reset any stale segment preview at gesture start
     hoveredSegIdRef.current = null;
@@ -4192,7 +4223,13 @@ const zoom = (zoomRef.current ?? d3.zoom())
   })
 
   .on("end", (event) => {
+    // Always clear dragging state
     zoomDraggingRef.current = false;
+
+    // Remove grabbing cursor if it was set
+    if (svgRef.current) {
+      d3.select(svgRef.current).classed("is-panning", false);
+    }
 
     // final hover sync after gesture settles (throttled to RAF)
     syncHoverRaf(event.sourceEvent);
