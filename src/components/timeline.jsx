@@ -2086,11 +2086,27 @@ const CONNECTION_BASE_OPACITY = 0.05;   // faint default
 const CONNECTION_HIGHLIGHT_OPACITY = 0.9; // bright when linked
 
 
-  function renderConnections(zx, zy, k) {
-    if (!connectionsRef.current) return;
+function renderConnections(zx, zy, k) {
+  if (!connectionsRef.current) return;
 
-    const data = allConnectionRowsRef.current || [];
-    const g = d3.select(connectionsRef.current);
+  // zoom-dependent factors
+  const kVal = k ?? 1;
+  const isOutest = kVal < ZOOM_SEGMENT_THRESHOLD;
+  const isMiddle = kVal >= ZOOM_SEGMENT_THRESHOLD && kVal < ZOOM_THRESHOLD;
+
+  // base/highlight per tier
+  const baseOpacity =
+    isOutest ? 0.01 :         // very faint on outest
+    isMiddle ? 0.05 :         // a bit stronger on middle
+              0.09;           // strongest on deepest
+
+  const highlightOpacity =
+    isOutest ? 0.40 :
+    isMiddle ? 0.70 :
+               0.90;
+
+  const data = allConnectionRowsRef.current || [];
+  const g = d3.select(connectionsRef.current);
 
   const sel = g
     .selectAll("line.connection")
@@ -2102,16 +2118,14 @@ const CONNECTION_HIGHLIGHT_OPACITY = 0.9; // bright when linked
     .append("line")
     .attr("class", "connection")
     .attr("stroke", "#999")
-    .attr("stroke-opacity", CONNECTION_BASE_OPACITY) // base
+    .attr("stroke-opacity", baseOpacity)
     .attr("fill", "none");
 
   const merged = enter.merge(sel)
-    // 🔑 Make connection lines ignore the mouse entirely
     .style("pointer-events", "none");
 
-  // Snapshot current selection / hover state
-  const selText = selectedText;
-  const selFather = selectedFather;
+  const selText       = selectedText;
+  const selFather     = selectedFather;
   const hoveredTextId = hoveredTextIdRef.current;
   const hoveredFatherId = hoveredFatherIdRef.current;
 
@@ -2146,10 +2160,11 @@ const CONNECTION_HIGHLIGHT_OPACITY = 0.9; // bright when linked
         ));
 
       return (touchesSelected || touchesHovered)
-        ? CONNECTION_HIGHLIGHT_OPACITY
-        : CONNECTION_BASE_OPACITY;
+        ? highlightOpacity
+        : baseOpacity;
     });
 }
+
 
 
 
@@ -2545,12 +2560,12 @@ clearActiveDurationRef.current = clearActiveDuration;
   let baseFill, hoverFill, activeFill;
   if (zoomMode === "outest") {
     baseFill = 0.20;
-    hoverFill = 0.35;
-    activeFill = 0.50;
+    hoverFill = 0.65;
+    activeFill = 0.80;
   } else if (zoomMode === "middle") {
-    baseFill = 0.10;
-    hoverFill = 0.22;
-    activeFill = 0.32;
+    baseFill = 0.05;
+    hoverFill = 0.40;
+    activeFill = 0.70;
   } else {
     // deepest: no duration chrome at all
     baseFill = 0.0;
@@ -2580,9 +2595,18 @@ clearActiveDurationRef.current = clearActiveDuration;
   // Custom polygons
   d3.select(customPolysRef.current)
     .selectAll("path.customGroup")
-    .style("fill-opacity", (d) =>
-      d._hiddenCustom ? 0 : durFillOpacity(d)
-    );
+    .style("fill-opacity", (d) => {
+      if (d._hiddenCustom) return 0;
+
+      // On middle level, keep custom durations at the base band opacity
+      // so they don't pulse when segments are hovered.
+      if (zoomMode === "middle") {
+        return baseFill;
+      }
+
+      // Outest level still uses full hover/active behavior
+      return durFillOpacity(d);
+    });
 
   // Labels: can still brighten when a segment in this duration is hovered
   d3.select(outlinesRef.current)
@@ -2801,14 +2825,13 @@ const outlineSel = gOut
       // expose duration color to CSS (used by zoom-outest / zoom-middle rules)
       .style("--dur-color", (d) => d.color || "#999");
 
-    g.append("rect")
-      .attr("class", "outlineRect")
-      // color comes from CSS (currentColor based on --dur-color)
-      .attr("fill", "transparent")
-      // no border stroke at all; everything is driven by fill opacity
-      .attr("stroke", "none")
-      .attr("vector-effect", "non-scaling-stroke")
-      .attr("shape-rendering", "geometricPrecision");
+  g.append("rect")
+    .attr("class", "outlineRect")
+     // let CSS decide the actual fill (via currentColor + zoom-level rules)
+    .attr("stroke", "none")
+    .attr("vector-effect", "non-scaling-stroke")
+    .attr("shape-rendering", "geometricPrecision");
+    // NOTE: no .attr("fill", ...) here on purpose
 
 
     g.append("text")
@@ -3955,6 +3978,8 @@ fatherPinSel
     clearActiveSegment();
   }
 
+  // Ensure segment fills match current zoom tier + hover/active state
+  updateSegmentPreview();
   updateHoverVisuals();
 }
 

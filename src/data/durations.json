@@ -311,15 +311,15 @@
       },
       {
         "start": -1600,
-        "end": -539,
-        "label": "Later Elamite Period",
-        "note": "From the Middle Elamite apex (Kidinuid/Shutrukid dynasties) through the Neo-Elamite finale, Elam consolidates power, renovates temples/palaces, and adopts Akkadian cuneiform for royal authority. Warrior-kings like Shutruk-Nakhunte seize Mesopotamian monuments (e.g., Hammurabi’s stele) to refract foreign prestige into Elamite legitimacy. After 1100 BCE, Assyrian pressure and regional crises fragment the order; temple/ancestral cults persist until Cyrus the Great’s conquest of Susa (539 BCE) ends independent Elamite rule."
+        "end": -1100,
+        "label": "Middle Elamite Period",
+        "note": "During the Middle Elamite centuries, Elam consolidates its political and ritual identity under the Kidinuid, Igihalkid, and Shutrukid dynasties. Monumental projects such as Untash-Napirisha’s sanctuary at Chogha Zanbil express a fusion of highland and Susian traditions, even as the court absorbs artistic and administrative cues from Kassite Babylonia. Meanwhile, beyond Elam’s eastern and northeastern horizons, Indo-Iranian groups begin filtering into the plateau—still decentralized, still tribal, but carrying fire-ritual, warrior codes, and a cosmology structured around oath and order. Their presence remains peripheral to Elamite statecraft at this stage, yet contact leaves faint traces in material culture and frontier dynamics. The Shutrukid apex, marked by bold Mesopotamian campaigns and cultural trophy-taking, represents Elam’s last fully dominant moment before regional stresses and the slow Indo-Iranian drift toward Anshan begin to reshape the political landscape that the Late Elamite age will inherit."
       },
       {
-        "start": -1400,
-        "end": -550,
-        "label": "Indo-Iranian Transformation",
-        "note": "From 1400 BCE, Indo-Iranian tribes enter the plateau with fire-centered ritual, warrior traditions, and an oral cosmology of truth and oath. Zarathustra reframes belief into a moral dualism (asha/druj), planting seeds for later Zoroastrian practice. By the 7th–6th centuries, the Median Confederation translates tribal power into territorial kingship, preparing the ground for imperial synthesis under Cyrus."
+        "start": -1100,
+        "end": -539,
+        "label": "Late Elamite Period",
+        "note": "After the Shutrukid collapse, Elam enters a long era of fractured dynasts, shifting alliances, and reactive politics. Susa maintains its ancestral cults and administrative habits, but authority flickers between competing houses while the rising Neo-Assyrian Empire presses from the west. At the same time, Indo-Iranian groups—Medes in the Zagros, Persians rooted in the Anshan region—crystallize from tribal networks into proto-states. Their fire-rites, martial ethos, and evolving moral cosmologies begin to permeate the highland sphere that once belonged firmly to Elam. By the 7th century, Median power matures into territorial kingship, while Persian clans organize under Achaemenid leaders. Elam persists culturally but loses geopolitical weight; Ashurbanipal’s sack of Susa (646 BCE) shatters its autonomy. When Cyrus rises from Anshan, he inherits an Elamite landscape already transformed by Indo-Iranian settlement. The final absorption of Elam after 539 BCE marks not an annihilation, but a transition: Elam’s institutions, scribal practices, and sacred geography become foundational components of the early Achaemenid world."
       },
       {
         "start": -550,
@@ -822,9 +822,9 @@
     },
     {
       "start": -800,
-      "end": -509,
+      "end": -600,
       "label": "Etruscan Ascendancy",
-      "note": "The Etruscan Ascendancy saw Villanovan villages evolve into proto-urban centers, with monumental tombs, advanced metallurgy, and distinctive art styles. Etruscan elites consolidated power through clan-based aristocracies, commanding fortified hilltop settlements like Tarquinia, Veii, and Cerveteri. Trade with Phoenicians and Greeks flourished, bringing wine, luxury goods, and artistic motifs that Etruscan artisans adapted into their own symbolic repertoire. Ritual and religion became central, with elaborate funerary practices reflecting belief in an afterlife, and divination practices like haruspicy shaping political authority. The Etruscans influenced early Rome, transmitting urban planning, religious concepts, and symbols of kingship."
+      "note": "The Etruscan Ascendancy marks the transformation of Villanovan cremation communities into structured, proto-urban societies. Between 800 and 600 BCE, fortified hilltop settlements such as Tarquinia, Veii, and Cerveteri develop aristocratic lineages, monumental tumuli, and sophisticated metallurgy. Their far-reaching trade with Phoenicians and Greeks brings wine, luxury goods, and artistic motifs that Etruscan craftsmen reinterpret into a distinctive visual language. Ritual life deepens with elaborate funerary iconography and divinatory practices that bind religious authority to political rule. During these centuries, Latial settlements—including early Rome—absorb Etruscan aesthetics and symbols indirectly, before later political entanglements reshape central Italy."
     },
     {
       "start": -753,
