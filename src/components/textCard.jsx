@@ -8,7 +8,7 @@ import React, {
 import "../styles/timeline.css";
 
 const TextCard = forwardRef(function TextCard(
-  { d, left, top, onClose, showMore, setShowMore },
+  { d, left, top, onClose, showMore, setShowMore, connections = [], onNavigate },
   ref
 ) {
   if (!d) return null;
@@ -134,6 +134,51 @@ const TextCard = forwardRef(function TextCard(
       <SymbolicTagRow label="Symbolic System(s):" value={d.symbolicSystemTags} />
       <Row label="Comtean framework:" value={d.comteanFramework} />
       <Row label="Access Level:" value={d.accessLevel} />
+
+      {Array.isArray(connections) && connections.length > 0 && (
+        <div className="textCard-connections">
+          <div className="textCard-connections-title">Connections</div>
+          <ul className="textCard-connections-list">
+            {connections.map((conn, idx) => (
+              <li key={idx} className="textCard-connectionItem">
+                <span>{conn.textBefore}</span>
+                {conn.targets.map((t, i) => {
+                  const isLast = i === conn.targets.length - 1;
+                  const isFirst = i === 0;
+                  const needsComma =
+                    !isFirst && conn.targets.length > 2 && !isLast;
+                  const needsAnd =
+                    !isFirst && isLast;
+
+                  return (
+                    <React.Fragment key={`${t.type}-${t.id}-${i}`}>
+                      {needsComma && ", "}
+                      {needsAnd && !needsComma && " and "}
+                      {needsAnd && needsComma && " and "}
+                      {!needsComma && !needsAnd && !isFirst && ", "}
+                      <button
+                        type="button"
+                        className="textCard-connectionLink"
+                        onClick={() =>
+                          onNavigate && onNavigate(t.type, t.id)
+                        }
+                      >
+                        {t.name}
+                      </button>
+                    </React.Fragment>
+                  );
+                })}
+                {conn.note && (
+                  <>
+                    {": "}
+                    <span>{conn.note}</span>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="textCard-moreToggle">
         <button

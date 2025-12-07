@@ -356,6 +356,46 @@ body {
   /* ===== Slide-in on mount ===== */
   animation: tlSidebarIn 260ms cubic-bezier(.22,.61,.36,1) both;
 }
+
+.textCard-connections {
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.textCard-connections-title {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+  opacity: 0.8;
+}
+
+.textCard-connections-list {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin: 0;
+}
+
+.textCard-connectionItem + .textCard-connectionItem {
+  margin-top: 0.15rem;
+}
+
+.textCard-connectionLink {
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  font: inherit;
+}
+.textCard-connectionLink:hover {
+  text-decoration-style: solid;
+}
+
 .textCard-title {
   font-size: 20px;
   font-weight: 800;

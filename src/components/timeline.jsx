@@ -959,6 +959,233 @@ function useDiscoveredConnectionSets() {
   return registry;
 }
 
+// === Connection → sentence helpers for cards ===
+
+function joinNames(names) {
+  const uniq = Array.from(new Set((names || []).filter(Boolean)));
+  if (!uniq.length) return "";
+  if (uniq.length === 1) return uniq[0];
+  if (uniq.length === 2) return `${uniq[0]} and ${uniq[1]}`;
+  return `${uniq.slice(0, -1).join(", ")}, and ${uniq[uniq.length - 1]}`;
+}
+
+function buildFatherConnectionSummaries(subject, allConnections) {
+  if (!subject || !allConnections || !allConnections.length) return [];
+  const subjectId = subject.id;
+  const subjectName = subject.name || "";
+
+  const relevant = allConnections.filter((c) => {
+    const isSubjectA = c.aId === subjectId && c.aType === "father";
+    const isSubjectB = c.bId === subjectId && c.bType === "father";
+    // Drop text-primary / father-secondary rows
+    if (c.aType === "text" && c.bType === "father") return false;
+    return isSubjectA || isSubjectB;
+  });
+
+  if (!relevant.length) return [];
+
+  const parentGroups = {}; // father/mother
+  const childGroups = {};  // son/daughter
+  const looseSentences = [];
+
+  const ensureGroup = (obj, key) => {
+    if (!obj[key]) obj[key] = [];
+    return obj[key];
+  };
+
+  for (const c of relevant) {
+    const rawCat = c.category || "";
+    const category = String(rawCat).toLowerCase().trim();
+    const rawNote = (c.note || "").trim();
+    const hasNote = !!rawNote && rawNote !== "-";
+
+    const isSubjectA = c.aId === subjectId;
+    const subjectSide = isSubjectA ? "a" : "b";
+    const otherSide = isSubjectA ? "b" : "a";
+    const otherName = c[`${otherSide}Name`] || "";
+    const subjName = subjectName || c[`${subjectSide}Name`] || subjectName;
+
+    // --- Familial ---
+    if (category.startsWith("familial:")) {
+      const m = category.match(/^familial:\s*([^,]+)/);
+      const core = m ? m[1].trim() : "";
+
+      // sibling + consort: "brother/sister, consorts" or "sister/brother, consorts"
+      if (
+        (core.includes("brother/sister") || core.includes("sister/brother")) &&
+        category.includes("consorts")
+      ) {
+        const [roleA, roleB] = core.split("/").map((s) => s.trim());
+        const subjectRole = isSubjectA ? roleA : roleB;
+        looseSentences.push(
+          `${subjName} is the ${subjectRole} and consort of ${otherName}${
+            hasNote ? `: ${rawNote}` : ""
+          }`
+        );
+        continue;
+      }
+
+      // plain consorts
+      if (core === "consorts" || (!core && category.includes("consorts"))) {
+        looseSentences.push(
+          `${subjName} is the consort of ${otherName}${
+            hasNote ? `: ${rawNote}` : ""
+          }`
+        );
+        continue;
+      }
+
+      // parent / child ("father/son", "mother/daughter", etc.)
+      if (core.includes("/")) {
+        const [roleA, roleB] = core.split("/").map((s) => s.trim());
+        const subjectRole = isSubjectA ? roleA : roleB;
+        const parentRoles = ["father", "mother"];
+        const childRoles = ["son", "daughter"];
+
+        if (parentRoles.includes(subjectRole)) {
+          const parentKey = subjectRole;
+          const group = ensureGroup(parentGroups, parentKey);
+          group.push({ otherName, note: hasNote ? rawNote : "" });
+          continue;
+        }
+
+        if (childRoles.includes(subjectRole)) {
+          const childKey = subjectRole;
+          const group = ensureGroup(childGroups, childKey);
+          group.push({ otherName, note: hasNote ? rawNote : "" });
+          continue;
+        }
+      }
+    }
+
+    // --- Syncretic ---
+    if (category.startsWith("syncretic")) {
+      looseSentences.push(
+        `${subjName} was syncretized with ${otherName}${
+          hasNote ? `: ${rawNote}` : ""
+        }`
+      );
+      continue;
+    }
+
+    // --- Custom connection ---
+    if (category.startsWith("custom connection")) {
+      looseSentences.push(
+        `${subjName} relates to ${otherName}${
+          hasNote ? `: ${rawNote}` : ""
+        }`
+      );
+      continue;
+    }
+
+    // --- Father ↔ text explicit reference ---
+    if (
+      category === "explicit reference" &&
+      ((c.aType === "father" && c.bType === "text") ||
+        (c.bType === "father" && c.aType === "text"))
+    ) {
+      looseSentences.push(
+        `${subjName} is mentioned in ${otherName}${
+          hasNote ? `: ${rawNote}` : ""
+        }`
+      );
+      continue;
+    }
+
+    // --- Fallback generic ---
+    looseSentences.push(
+      `${subjName} is related to ${otherName}${
+        hasNote ? `: ${rawNote}` : ""
+      }`
+    );
+  }
+
+  const sentences = [];
+
+  // Parent groups: "X is the father/mother of A, B, C"
+  for (const role of Object.keys(parentGroups)) {
+    const entries = parentGroups[role];
+    const noNote = entries.filter((e) => !e.note);
+    const withNote = entries.filter((e) => !!e.note);
+
+    if (noNote.length) {
+      const names = noNote.map((e) => e.otherName);
+      sentences.push(
+        `${subjectName} is the ${role} of ${joinNames(names)}`
+      );
+    }
+    for (const e of withNote) {
+      sentences.push(
+        `${subjectName} is the ${role} of ${e.otherName}: ${e.note}`
+      );
+    }
+  }
+
+  // Child groups: "X is the son/daughter of A, B"
+  for (const role of Object.keys(childGroups)) {
+    const entries = childGroups[role];
+    const noNote = entries.filter((e) => !e.note);
+    const withNote = entries.filter((e) => !!e.note);
+
+    if (noNote.length) {
+      const names = noNote.map((e) => e.otherName);
+      sentences.push(
+        `${subjectName} is the ${role} of ${joinNames(names)}`
+      );
+    }
+    for (const e of withNote) {
+      sentences.push(
+        `${subjectName} is the ${role} of ${e.otherName}: ${e.note}`
+      );
+    }
+  }
+
+  return sentences.concat(looseSentences);
+}
+
+function buildTextConnectionSummaries(subject, allConnections) {
+  if (!subject || !allConnections || !allConnections.length) return [];
+  const subjectId = subject.id;
+  const subjectName = subject.title || "";
+
+  const sentences = [];
+
+  for (const c of allConnections) {
+    const isTextA = c.aType === "text";
+    const isTextB = c.bType === "text";
+    if (!isTextA || !isTextB) continue;
+
+    const isSubjectA = c.aId === subjectId;
+    const isSubjectB = c.bId === subjectId;
+    if (!isSubjectA && !isSubjectB) continue;
+
+    const rawCat = c.category || "";
+    const category = String(rawCat).toLowerCase().trim();
+    const rawNote = (c.note || "").trim();
+    const hasNote = !!rawNote && rawNote !== "-";
+
+    let rel;
+    if (category === "indirect connection") {
+      rel = "implicitly related to";
+    } else if (category === "explicit reference") {
+      rel = "explicitly related to";
+    } else if (category === "comparative connection") {
+      rel = "comparatively related to";
+    } else {
+      continue;
+    }
+
+    const subjectSide = isSubjectA ? "a" : "b";
+    const otherSide = isSubjectA ? "b" : "a";
+    const otherName = c[`${otherSide}Name`] || "";
+
+    let sentence = `${subjectName} is ${rel} ${otherName}`;
+    if (hasNote) sentence += `: ${rawNote}`;
+    sentences.push(sentence);
+  }
+
+  return sentences;
+}
 
 
 const SYMBOLIC_SYSTEM_KEYS = Object.keys(SymbolicSystemColorPairs);
@@ -1063,6 +1290,274 @@ function normalizeTagStringToArray(raw, groupKey) {
     .filter(tag => canon.has(tag)); // keep only canonical tags
   return arr; // [] means “no canonical tags present”, not NA
 }
+
+// === Connections → structured items for cards ===
+
+function joinNamesList(names) {
+  const uniq = Array.from(new Set((names || []).filter(Boolean)));
+  if (!uniq.length) return [];
+  return uniq;
+}
+
+// A "connection item" for cards:
+// {
+//   textBefore: string,
+//   targets: [ { type: "father"|"text", id, name }, ... ],
+//   note?: string
+// }
+function buildFatherConnectionItems(subject, allConnections) {
+  if (!subject || !allConnections || !allConnections.length) return [];
+  const subjectId = subject.id;
+  const subjectName = subject.name || "";
+
+  const relevant = allConnections.filter((c) => {
+    const isSubjectA = c.aId === subjectId && c.aType === "father";
+    const isSubjectB = c.bId === subjectId && c.bType === "father";
+    // Drop text-primary / father-secondary rows by design
+    if (c.aType === "text" && c.bType === "father") return false;
+    return isSubjectA || isSubjectB;
+  });
+
+  if (!relevant.length) return [];
+
+  const parentGroups = {}; // role -> [{ otherId, otherType, otherName, note }]
+  const childGroups = {};
+  const looseItems = [];
+
+  const ensureGroup = (obj, key) => {
+    if (!obj[key]) obj[key] = [];
+    return obj[key];
+  };
+
+  for (const c of relevant) {
+    const rawCat = c.category || "";
+    const category = String(rawCat).toLowerCase().trim();
+    const rawNote = (c.note || "").trim();
+    const hasNote = !!rawNote && rawNote !== "-";
+
+    const isSubjectA = c.aId === subjectId;
+    const subjectSide = isSubjectA ? "a" : "b";
+    const otherSide = isSubjectA ? "b" : "a";
+
+    const subjName = subjectName || c[`${subjectSide}Name`] || subjectName;
+    const otherName = c[`${otherSide}Name`] || "";
+    const otherId = c[`${otherSide}Id`];
+    const otherType = c[`${otherSide}Type`];
+
+    // --- Familial logic ---
+    if (category.startsWith("familial:")) {
+      const m = category.match(/^familial:\s*([^,]+)/);
+      const core = m ? m[1].trim() : "";
+
+      // sibling + consort: "brother/sister, consorts", "sister/brother, consorts"
+      if (
+        (core.includes("brother/sister") || core.includes("sister/brother")) &&
+        category.includes("consorts")
+      ) {
+        const [roleA, roleB] = core.split("/").map((s) => s.trim());
+        const subjectRole = isSubjectA ? roleA : roleB;
+        looseItems.push({
+          textBefore: `${subjName} is the ${subjectRole} and consort of `,
+          targets: [{ type: otherType, id: otherId, name: otherName }],
+          note: hasNote ? rawNote : "",
+        });
+        continue;
+      }
+
+      // plain consorts: "familial: consorts"
+      if (core === "consorts" || (!core && category.includes("consorts"))) {
+        looseItems.push({
+          textBefore: `${subjName} is the consort of `,
+          targets: [{ type: otherType, id: otherId, name: otherName }],
+          note: hasNote ? rawNote : "",
+        });
+        continue;
+      }
+
+      // parent / child ("father/son", "mother/daughter", etc.)
+      if (core.includes("/")) {
+        const [roleA, roleB] = core.split("/").map((s) => s.trim());
+        const subjectRole = isSubjectA ? roleA : roleB;
+        const parentRoles = ["father", "mother"];
+        const childRoles = ["son", "daughter"];
+
+        const entry = {
+          otherId,
+          otherType,
+          otherName,
+          note: hasNote ? rawNote : "",
+        };
+
+        if (parentRoles.includes(subjectRole)) {
+          const g = ensureGroup(parentGroups, subjectRole);
+          g.push(entry);
+          continue;
+        }
+
+        if (childRoles.includes(subjectRole)) {
+          const g = ensureGroup(childGroups, subjectRole);
+          g.push(entry);
+          continue;
+        }
+      }
+    }
+
+    // --- Syncretic ---
+    if (category.startsWith("syncretic")) {
+      looseItems.push({
+        textBefore: `${subjName} was syncretized with `,
+        targets: [{ type: otherType, id: otherId, name: otherName }],
+        note: hasNote ? rawNote : "",
+      });
+      continue;
+    }
+
+    // --- Custom connection ---
+    if (category.startsWith("custom connection")) {
+      looseItems.push({
+        textBefore: `${subjName} relates to `,
+        targets: [{ type: otherType, id: otherId, name: otherName }],
+        note: hasNote ? rawNote : "",
+      });
+      continue;
+    }
+
+    // --- Father ↔ text explicit reference ---
+    if (
+      category === "explicit reference" &&
+      ((c.aType === "father" && c.bType === "text") ||
+        (c.bType === "father" && c.aType === "text"))
+    ) {
+      looseItems.push({
+        textBefore: `${subjName} is mentioned in `,
+        targets: [{ type: otherType, id: otherId, name: otherName }],
+        note: hasNote ? rawNote : "",
+      });
+      continue;
+    }
+
+    // --- Fallback generic ---
+    looseItems.push({
+      textBefore: `${subjName} is related to `,
+      targets: [{ type: otherType, id: otherId, name: otherName }],
+      note: hasNote ? rawNote : "",
+    });
+  }
+
+  const items = [];
+
+  // Parent groups: "X is the father/mother of A, B, C"
+  for (const role of Object.keys(parentGroups)) {
+    const entries = parentGroups[role];
+    const noNote = entries.filter((e) => !e.note);
+    const withNote = entries.filter((e) => !!e.note);
+
+    if (noNote.length) {
+      const uniq = joinNamesList(noNote.map((e) => e.otherName));
+      const targets = uniq.map((name) => {
+        const src = noNote.find((e) => e.otherName === name) || noNote[0];
+        return { type: src.otherType, id: src.otherId, name };
+      });
+      items.push({
+        textBefore: `${subjectName} is the ${role} of `,
+        targets,
+        note: "",
+      });
+    }
+
+    for (const e of withNote) {
+      items.push({
+        textBefore: `${subjectName} is the ${role} of `,
+        targets: [
+          { type: e.otherType, id: e.otherId, name: e.otherName },
+        ],
+        note: e.note,
+      });
+    }
+  }
+
+  // Child groups: "X is the son/daughter of A, B"
+  for (const role of Object.keys(childGroups)) {
+    const entries = childGroups[role];
+    const noNote = entries.filter((e) => !e.note);
+    const withNote = entries.filter((e) => !!e.note);
+
+    if (noNote.length) {
+      const uniq = joinNamesList(noNote.map((e) => e.otherName));
+      const targets = uniq.map((name) => {
+        const src = noNote.find((e) => e.otherName === name) || noNote[0];
+        return { type: src.otherType, id: src.otherId, name };
+      });
+      items.push({
+        textBefore: `${subjectName} is the ${role} of `,
+        targets,
+        note: "",
+      });
+    }
+
+    for (const e of withNote) {
+      items.push({
+        textBefore: `${subjectName} is the ${role} of `,
+        targets: [
+          { type: e.otherType, id: e.otherId, name: e.otherName },
+        ],
+        note: e.note,
+      });
+    }
+  }
+
+  return items.concat(looseItems);
+}
+
+function buildTextConnectionItems(subject, allConnections) {
+  if (!subject || !allConnections || !allConnections.length) return [];
+  const subjectId = subject.id;
+  const subjectName = subject.title || "";
+
+  const items = [];
+
+  for (const c of allConnections) {
+    const isTextA = c.aType === "text";
+    const isTextB = c.bType === "text";
+    if (!isTextA || !isTextB) continue;
+
+    const isSubjectA = c.aId === subjectId;
+    const isSubjectB = c.bId === subjectId;
+    if (!isSubjectA && !isSubjectB) continue;
+
+    const rawCat = c.category || "";
+    const category = String(rawCat).toLowerCase().trim();
+    const rawNote = (c.note || "").trim();
+    const hasNote = !!rawNote && rawNote !== "-";
+
+    let rel;
+    if (category === "indirect connection") {
+      rel = "implicitly related to";
+    } else if (category === "explicit reference") {
+      rel = "explicitly related to";
+    } else if (category === "comparative connection") {
+      rel = "comparatively related to";
+    } else {
+      continue;
+    }
+
+    const subjectSide = isSubjectA ? "a" : "b";
+    const otherSide = isSubjectA ? "b" : "a";
+
+    const otherName = c[`${otherSide}Name`] || "";
+    const otherId = c[`${otherSide}Id`];
+    const otherType = c[`${otherSide}Type`];
+
+    items.push({
+      textBefore: `${subjectName} is ${rel} `,
+      targets: [{ type: otherType, id: otherId, name: otherName }],
+      note: hasNote ? rawNote : "",
+    });
+  }
+
+  return items;
+}
+
 
 
 /* Build "all selected" default state: { [groupKey]: Set(allTags) } */
@@ -1216,6 +1711,8 @@ const closeAllAnimated = () => {
 
   // New: Tag filtering state (controlled by TagPanel)
 const [selectedByGroup, setSelectedByGroup] = useState(() => makeDefaultSelectedByGroup());
+
+
 
 useEffect(() => {
   // When SymbolicSystemColorPairs (and thus TAG_GROUPS) changes, make sure
@@ -1916,6 +2413,39 @@ const handleSearchSelect = (item) => {
   }
 };
 
+const handleConnectionNavigate = (targetType, targetId) => {
+  const wrapRect = wrapRef.current?.getBoundingClientRect();
+  const CARD_W = 360, CARD_H = 320;
+  const left = wrapRect ? Math.round((wrapRect.width - CARD_W) / 2) : 24;
+  const top  = wrapRect ? Math.max(8, Math.round(72)) : 24;
+
+  d3.select(wrapRef.current)
+    .selectAll(".tl-tooltip")
+    .style("opacity", 0)
+    .style("display", "none");
+
+  if (targetType === "text") {
+    const payload = textRows.find((t) => t.id === targetId);
+    if (payload) {
+      setCardPos({ left, top });
+      setSelectedText(payload);
+      setSelectedFather(null);
+      setShowMore(false);
+      flyToRef.current?.(payload, "text");
+    }
+  } else if (targetType === "father") {
+    const payload = fatherRows.find((f) => f.id === targetId);
+    if (payload) {
+      setFatherCardPos({ left, top });
+      setSelectedFather(payload);
+      setSelectedText(null);
+      setShowMore(false);
+      flyToRef.current?.(payload, "father");
+    }
+  }
+};
+
+
 const handleSearchInteract = () => {
   // Do NOT close cards when interacting with the search bar.
   // Just clear transient overlays and hide tiny hover tips.
@@ -2212,14 +2742,23 @@ function renderConnections(zx, zy, k) {
       if (!Number.isFinite(ay) || !Number.isFinite(by)) continue;
 
       const style = styleForConnection(
-  row["Connection Category"],
-  A.type,
-  B.type,
-  A.row,
-  B.row
-);
+        row["Connection Category"],
+        A.type,
+        B.type,
+        A.row,
+        B.row
+      );
 
       const color = connectionColorFromRows(A.row, B.row) ?? "#999999";
+
+      const aName =
+        A.type === "father"
+          ? (A.row.name || "")
+          : (A.row.title || "");
+      const bName =
+        B.type === "father"
+          ? (B.row.name || "")
+          : (B.row.title || "");
 
       out.push({
         _key: `${row.Index ?? row.id ?? "conn"}::${A.row.id}::${B.row.id}`,
@@ -2228,17 +2767,20 @@ function renderConnections(zx, zy, k) {
         bx,
         by,
 
-        // NEW: endpoint ids and types
         aId: A.row.id,
         aType: A.type,
+        aName,
         bId: B.row.id,
         bType: B.type,
+        bName,
 
         style,
         color,
         note: row.Note || "",
         category: row["Connection Category"] ?? "",
       });
+
+
 
         }
       }
@@ -4316,6 +4858,8 @@ window.flyToTest = (id) => {
       // do not clear active segment/duration on leave; cards stay until click-away/zoom-in
     });
 
+    
+
     return () => {
         svgSel.on("mouseleave.tl-tip", null);
         svgSel.on("click.clearActive", null);
@@ -4340,6 +4884,21 @@ window.flyToTest = (id) => {
   x,
   y0,
 ]);
+
+
+  const textConnectionsForCard = selectedText
+    ? buildTextConnectionItems(
+        selectedText,
+        allConnectionRowsRef.current || []
+      )
+    : [];
+
+  const fatherConnectionsForCard = selectedFather
+    ? buildFatherConnectionItems(
+        selectedFather,
+        allConnectionRowsRef.current || []
+      )
+    : [];
 
 
 return (
@@ -4425,14 +4984,15 @@ return (
         top={cardPos.top}
         showMore={showMore}
         setShowMore={setShowMore}
+        connections={textConnectionsForCard}
+        onNavigate={handleConnectionNavigate}
         onClose={() => {
-        setSelectedText(null);    // unmount after its slide-out finishes
-        setShowMore(false);
-      }}
+          setSelectedText(null);
+          setShowMore(false);
+        }}
       />
     )}
 
-    {/* Father modal */}
     {selectedFather && (
       <FatherCard
         d={selectedFather}
@@ -4440,12 +5000,15 @@ return (
         top={fatherCardPos.top}
         showMore={showMore}
         setShowMore={setShowMore}
+        connections={fatherConnectionsForCard}
+        onNavigate={handleConnectionNavigate}
         onClose={() => {
-        setSelectedFather(null);  // unmount after its slide-out finishes
-        setShowMore(false);
+          setSelectedFather(null);
+          setShowMore(false);
         }}
       />
     )}
+
   </div>
 );
 

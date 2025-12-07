@@ -8,9 +8,19 @@ import React, {
 import "../styles/timeline.css";
 
 const FatherCard = forwardRef(function FatherCard(
-  { d, left = 16, top = 16, showMore = false, setShowMore = () => {}, onClose = () => {} },
+  {
+    d,
+    left = 16,
+    top = 16,
+    showMore = false,
+    setShowMore = () => {},
+    onClose = () => {},
+    connections = [],
+    onNavigate,
+  },
   ref
 ) {
+
   if (!d) return null;
 
   const elRef = useRef(null);
@@ -138,6 +148,51 @@ const FatherCard = forwardRef(function FatherCard(
 
       {/* Symbolic systems */}
       <SymbolicTagRow label="Symbolic System(s):" value={d.symbolicSystem} />
+
+      {Array.isArray(connections) && connections.length > 0 && (
+        <div className="textCard-connections">
+          <div className="textCard-connections-title">Connections</div>
+          <ul className="textCard-connections-list">
+            {connections.map((conn, idx) => (
+              <li key={idx} className="textCard-connectionItem">
+                <span>{conn.textBefore}</span>
+                {conn.targets.map((t, i) => {
+                  const isLast = i === conn.targets.length - 1;
+                  const isFirst = i === 0;
+                  const needsComma =
+                    !isFirst && conn.targets.length > 2 && !isLast;
+                  const needsAnd =
+                    !isFirst && isLast;
+
+                  return (
+                    <React.Fragment key={`${t.type}-${t.id}-${i}`}>
+                      {needsComma && ", "}
+                      {needsAnd && !needsComma && " and "}
+                      {needsAnd && needsComma && " and "}
+                      {!needsComma && !needsAnd && !isFirst && ", "}
+                      <button
+                        type="button"
+                        className="textCard-connectionLink"
+                        onClick={() =>
+                          onNavigate && onNavigate(t.type, t.id)
+                        }
+                      >
+                        {t.name}
+                      </button>
+                    </React.Fragment>
+                  );
+                })}
+                {conn.note && (
+                  <>
+                    {": "}
+                    <span>{conn.note}</span>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="textCard-moreToggle">
         <button
