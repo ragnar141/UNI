@@ -20,18 +20,30 @@ const FatherCard = forwardRef(function FatherCard(
   },
   ref
 ) {
-
   if (!d) return null;
 
   const elRef = useRef(null);
   const [isClosing, setIsClosing] = useState(false);
   const closedOnceRef = useRef(false);
+  const [openNotes, setOpenNotes] = useState({});
 
   useImperativeHandle(ref, () => ({
     startClose: () => {
       if (!isClosing) setIsClosing(true);
     },
   }));
+
+// Always scroll the card to the top when the subject changes
+useEffect(() => {
+  if (elRef.current) {
+    elRef.current.scrollTop = 0;
+    // a bit more robust:
+    if (typeof elRef.current.scrollTo === "function") {
+      elRef.current.scrollTo({ top: 0 });
+    }
+  }
+}, [d?.id]);
+
 
   // Animate out then call onClose
   useEffect(() => {
@@ -61,7 +73,8 @@ const FatherCard = forwardRef(function FatherCard(
       setIsClosing(true);
     };
     window.addEventListener("keydown", onKeyDown, { capture: true });
-    return () => window.removeEventListener("keydown", onKeyDown, { capture: true });
+    return () =>
+      window.removeEventListener("keydown", onKeyDown, { capture: true });
   }, []);
 
   // Title & small utils
@@ -98,7 +111,8 @@ const FatherCard = forwardRef(function FatherCard(
     const tags = splitTags(value);
     if (!tags.length) return null;
     const colors = Array.isArray(d.colors) && d.colors.length ? d.colors : [];
-    const colorFor = (i) => colors[i] || colors[colors.length - 1] || d.color || "#444";
+    const colorFor = (i) =>
+      colors[i] || colors[colors.length - 1] || d.color || "#444";
     return (
       <div className="textCard-row is-tags">
         <span className="textCard-label">{label}</span>
@@ -116,6 +130,75 @@ const FatherCard = forwardRef(function FatherCard(
       </div>
     );
   };
+
+  // ---- Connections grouping ----
+  const figureConnections = [];
+  const textConnections = [];
+
+  if (Array.isArray(connections)) {
+    connections.forEach((conn, idx) => {
+      const targets = Array.isArray(conn.targets) ? conn.targets : [];
+      const hasFigure = targets.some((t) => t.type === "father");
+      const hasText = targets.some((t) => t.type === "text");
+
+      if (hasFigure) figureConnections.push({ conn, idx });
+      if (hasText) textConnections.push({ conn, idx });
+    });
+  }
+
+  const renderConnectionList = (entries) =>
+    entries.map(({ conn, idx }) => (
+      <li key={idx} className="textCard-connectionItem">
+        <span>{conn.textBefore}</span>
+        {conn.targets.map((t, i) => {
+          const isLast = i === conn.targets.length - 1;
+          const isFirst = i === 0;
+          const needsComma = !isFirst && conn.targets.length > 2 && !isLast;
+          const needsAnd = !isFirst && isLast;
+
+          return (
+            <React.Fragment key={`${t.type}-${t.id}-${i}`}>
+              {needsComma && ", "}
+              {needsAnd && !needsComma && " and "}
+              {needsAnd && needsComma && " and "}
+              {!needsComma && !needsAnd && !isFirst && ", "}
+              <button
+                type="button"
+                className="textCard-connectionLink"
+                onClick={() => onNavigate && onNavigate(t.type, t.id)}
+              >
+                {t.name}
+              </button>
+            </React.Fragment>
+          );
+        })}
+
+        {conn.note && conn.note !== "-" && (
+          <>
+            {" "}
+            <button
+              type="button"
+              className="textCard-connNoteToggle"
+              onClick={() =>
+                setOpenNotes((prev) => ({
+                  ...prev,
+                  [idx]: !prev[idx],
+                }))
+              }
+              aria-label="Show connection note"
+            >
+              i
+            </button>
+            {openNotes[idx] && (
+              <>
+                {": "}
+                <span className="textCard-connectionNote">{conn.note}</span>
+              </>
+            )}
+          </>
+        )}
+      </li>
+    ));
 
   return (
     <div
@@ -138,7 +221,9 @@ const FatherCard = forwardRef(function FatherCard(
       <div className="textCard-titleCombo">
         <span className="textCard-title">{title}</span>
         {d.category && <span className="textCard-sep"> - </span>}
-        {d.category && <span className="textCard-category">{d.category}</span>}
+        {d.category && (
+          <span className="textCard-category">{d.category}</span>
+        )}
         {/* Founding Figure chip removed */}
       </div>
 
@@ -151,46 +236,27 @@ const FatherCard = forwardRef(function FatherCard(
 
       {Array.isArray(connections) && connections.length > 0 && (
         <div className="textCard-connections">
-          <div className="textCard-connections-title">Connections</div>
-          <ul className="textCard-connections-list">
-            {connections.map((conn, idx) => (
-              <li key={idx} className="textCard-connectionItem">
-                <span>{conn.textBefore}</span>
-                {conn.targets.map((t, i) => {
-                  const isLast = i === conn.targets.length - 1;
-                  const isFirst = i === 0;
-                  const needsComma =
-                    !isFirst && conn.targets.length > 2 && !isLast;
-                  const needsAnd =
-                    !isFirst && isLast;
+          {figureConnections.length > 0 && (
+            <>
+              <div className="textCard-connections-subtitle">
+                Connections with Mythic/Historic Figures
+              </div>
+              <ul className="textCard-connections-list">
+                {renderConnectionList(figureConnections)}
+              </ul>
+            </>
+          )}
 
-                  return (
-                    <React.Fragment key={`${t.type}-${t.id}-${i}`}>
-                      {needsComma && ", "}
-                      {needsAnd && !needsComma && " and "}
-                      {needsAnd && needsComma && " and "}
-                      {!needsComma && !needsAnd && !isFirst && ", "}
-                      <button
-                        type="button"
-                        className="textCard-connectionLink"
-                        onClick={() =>
-                          onNavigate && onNavigate(t.type, t.id)
-                        }
-                      >
-                        {t.name}
-                      </button>
-                    </React.Fragment>
-                  );
-                })}
-                {conn.note && (
-                  <>
-                    {": "}
-                    <span>{conn.note}</span>
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
+          {textConnections.length > 0 && (
+            <>
+              <div className="textCard-connections-subtitle">
+                Textual References
+              </div>
+              <ul className="textCard-connections-list">
+                {renderConnectionList(textConnections)}
+              </ul>
+            </>
+          )}
         </div>
       )}
 

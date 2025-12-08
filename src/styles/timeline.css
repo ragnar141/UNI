@@ -330,7 +330,7 @@ body {
   translate: 0;                   /* we animate this property for slide-in/out */
 
   /* sidebar sizing */
-  width: min(330px, 92vw);
+  width: min(400px, 92vw);
   max-width: 92vw;
   height: auto;
   max-height: none;
@@ -383,18 +383,78 @@ body {
   margin-top: 0.15rem;
 }
 
+.textCard-connNoteToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 16px;
+  height: 16px;
+
+  border-radius: 50%;
+  background: #ffffff;        /* white fill */
+  border: 1.5px solid #000000; /* black border */
+
+  color: #000000;             /* black "i" */
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0;
+
+  cursor: pointer;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.textCard-connNoteToggle:hover {
+  background: #f0f0f0;        /* subtle hover — optional */
+}
+
+.textCard-connections-subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 6px;
+  margin-bottom: 2px;
+  margin-left: 6px; /* ← pushes the label right a bit */
+}
+
+
+.textCard-connectionNote {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+
 .textCard-connectionLink {
   border: none;
   padding: 0;
   background: none;
   cursor: pointer;
   text-decoration: underline;
-  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
   font: inherit;
+  color: inherit;                  /* stays same as surrounding text */
+  cursor: pointer;
+
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
+/* --- HOVER STYLE: BLUE TEXT --- */
 .textCard-connectionLink:hover {
-  text-decoration-style: solid;
+  color: #1e6bff;                  /* clean medium blue */
+  text-decoration-color: #1e6bff;  /* underline matches the hover color */
 }
+
+.textCard-connectionItem {
+  font-size: 13px;      /* smaller than the body text */
+  line-height: 1.4;
+}
+
+/* Make sure the link doesn’t jump back to a bigger size */
+.textCard-connectionLink {
+  font-size: inherit;
+}
+
 
 .textCard-title {
   font-size: 20px;
@@ -536,7 +596,7 @@ body {
   transform: none !important;     /* keep base transform neutral */
   translate: 0;                   /* animate this for slide-in/out */
 
-  width: min(330px, 92vw);
+  width: min(400px, 92vw);
   max-width: 92vw;
   height: auto;
   max-height: none;
@@ -625,6 +685,26 @@ body {
 }
 .fatherCard .textCard-more .textCard-row.is-tags + .textCard-row.is-tags {
   border-top: 1px solid var(--tl-divider);
+}
+
+/* General row spacing inside FatherCard */
+.fatherCard .textCard-row {
+  margin-bottom: 4px; /* keep this small */
+}
+
+/* Specifically tighten the gap under the Symbolic System(s) row */
+.fatherCard .textCard-row.is-tags {
+  margin-bottom: 4px;
+}
+
+/* And don't let the Connections block start too far down */
+.fatherCard .textCard-connections {
+  margin-top: 4px; /* was probably larger before */
+}
+
+/* Extra gap between the two subsections inside Connections */
+.textCard-connections-list + .textCard-connections-subtitle {
+  margin-top: 12px; /* increase or decrease to taste */
 }
 
 /* ============================

@@ -772,10 +772,30 @@ function groupIntervalsToPath(intervals, zx, zy) {
 
 // === Geometry helpers (screen-space rectangles & anchors)
 function bandRectPx({ start, end, y, h }, zx, zy) {
-  const x0 = zx(toAstronomical(start)), x1 = zx(toAstronomical(end));
-  const yTop = zy(y), hPix = zy(y + h) - zy(y);
-  return { x: Math.min(x0, x1), y: yTop, w: Math.abs(x1 - x0), h: hPix };
+  const x0 = zx(toAstronomical(start));
+  const x1 = zx(toAstronomical(end));
+
+  const y0 = zy(y);
+  const y1 = zy(y + h);
+
+  const xPix = Math.min(x0, x1);
+  const wPix = Math.max(0, Math.abs(x1 - x0));
+
+  const yPix = Math.min(y0, y1);
+  const hPix = Math.max(0, Math.abs(y1 - y0)); // <<< never negative
+
+  return {
+    x: xPix,
+    y: yPix,
+    w: wPix,
+    h: hPix,
+  };
 }
+
+
+
+
+
 
 function drawTextDot(circleSel, pieSel, k){
   const r = TEXT_BASE_R * k;
@@ -969,224 +989,6 @@ function joinNames(names) {
   return `${uniq.slice(0, -1).join(", ")}, and ${uniq[uniq.length - 1]}`;
 }
 
-function buildFatherConnectionSummaries(subject, allConnections) {
-  if (!subject || !allConnections || !allConnections.length) return [];
-  const subjectId = subject.id;
-  const subjectName = subject.name || "";
-
-  const relevant = allConnections.filter((c) => {
-    const isSubjectA = c.aId === subjectId && c.aType === "father";
-    const isSubjectB = c.bId === subjectId && c.bType === "father";
-    // Drop text-primary / father-secondary rows
-    if (c.aType === "text" && c.bType === "father") return false;
-    return isSubjectA || isSubjectB;
-  });
-
-  if (!relevant.length) return [];
-
-  const parentGroups = {}; // father/mother
-  const childGroups = {};  // son/daughter
-  const looseSentences = [];
-
-  const ensureGroup = (obj, key) => {
-    if (!obj[key]) obj[key] = [];
-    return obj[key];
-  };
-
-  for (const c of relevant) {
-    const rawCat = c.category || "";
-    const category = String(rawCat).toLowerCase().trim();
-    const rawNote = (c.note || "").trim();
-    const hasNote = !!rawNote && rawNote !== "-";
-
-    const isSubjectA = c.aId === subjectId;
-    const subjectSide = isSubjectA ? "a" : "b";
-    const otherSide = isSubjectA ? "b" : "a";
-    const otherName = c[`${otherSide}Name`] || "";
-    const subjName = subjectName || c[`${subjectSide}Name`] || subjectName;
-
-    // --- Familial ---
-    if (category.startsWith("familial:")) {
-      const m = category.match(/^familial:\s*([^,]+)/);
-      const core = m ? m[1].trim() : "";
-
-      // sibling + consort: "brother/sister, consorts" or "sister/brother, consorts"
-      if (
-        (core.includes("brother/sister") || core.includes("sister/brother")) &&
-        category.includes("consorts")
-      ) {
-        const [roleA, roleB] = core.split("/").map((s) => s.trim());
-        const subjectRole = isSubjectA ? roleA : roleB;
-        looseSentences.push(
-          `${subjName} is the ${subjectRole} and consort of ${otherName}${
-            hasNote ? `: ${rawNote}` : ""
-          }`
-        );
-        continue;
-      }
-
-      // plain consorts
-      if (core === "consorts" || (!core && category.includes("consorts"))) {
-        looseSentences.push(
-          `${subjName} is the consort of ${otherName}${
-            hasNote ? `: ${rawNote}` : ""
-          }`
-        );
-        continue;
-      }
-
-      // parent / child ("father/son", "mother/daughter", etc.)
-      if (core.includes("/")) {
-        const [roleA, roleB] = core.split("/").map((s) => s.trim());
-        const subjectRole = isSubjectA ? roleA : roleB;
-        const parentRoles = ["father", "mother"];
-        const childRoles = ["son", "daughter"];
-
-        if (parentRoles.includes(subjectRole)) {
-          const parentKey = subjectRole;
-          const group = ensureGroup(parentGroups, parentKey);
-          group.push({ otherName, note: hasNote ? rawNote : "" });
-          continue;
-        }
-
-        if (childRoles.includes(subjectRole)) {
-          const childKey = subjectRole;
-          const group = ensureGroup(childGroups, childKey);
-          group.push({ otherName, note: hasNote ? rawNote : "" });
-          continue;
-        }
-      }
-    }
-
-    // --- Syncretic ---
-    if (category.startsWith("syncretic")) {
-      looseSentences.push(
-        `${subjName} was syncretized with ${otherName}${
-          hasNote ? `: ${rawNote}` : ""
-        }`
-      );
-      continue;
-    }
-
-    // --- Custom connection ---
-    if (category.startsWith("custom connection")) {
-      looseSentences.push(
-        `${subjName} relates to ${otherName}${
-          hasNote ? `: ${rawNote}` : ""
-        }`
-      );
-      continue;
-    }
-
-    // --- Father ↔ text explicit reference ---
-    if (
-      category === "explicit reference" &&
-      ((c.aType === "father" && c.bType === "text") ||
-        (c.bType === "father" && c.aType === "text"))
-    ) {
-      looseSentences.push(
-        `${subjName} is mentioned in ${otherName}${
-          hasNote ? `: ${rawNote}` : ""
-        }`
-      );
-      continue;
-    }
-
-    // --- Fallback generic ---
-    looseSentences.push(
-      `${subjName} is related to ${otherName}${
-        hasNote ? `: ${rawNote}` : ""
-      }`
-    );
-  }
-
-  const sentences = [];
-
-  // Parent groups: "X is the father/mother of A, B, C"
-  for (const role of Object.keys(parentGroups)) {
-    const entries = parentGroups[role];
-    const noNote = entries.filter((e) => !e.note);
-    const withNote = entries.filter((e) => !!e.note);
-
-    if (noNote.length) {
-      const names = noNote.map((e) => e.otherName);
-      sentences.push(
-        `${subjectName} is the ${role} of ${joinNames(names)}`
-      );
-    }
-    for (const e of withNote) {
-      sentences.push(
-        `${subjectName} is the ${role} of ${e.otherName}: ${e.note}`
-      );
-    }
-  }
-
-  // Child groups: "X is the son/daughter of A, B"
-  for (const role of Object.keys(childGroups)) {
-    const entries = childGroups[role];
-    const noNote = entries.filter((e) => !e.note);
-    const withNote = entries.filter((e) => !!e.note);
-
-    if (noNote.length) {
-      const names = noNote.map((e) => e.otherName);
-      sentences.push(
-        `${subjectName} is the ${role} of ${joinNames(names)}`
-      );
-    }
-    for (const e of withNote) {
-      sentences.push(
-        `${subjectName} is the ${role} of ${e.otherName}: ${e.note}`
-      );
-    }
-  }
-
-  return sentences.concat(looseSentences);
-}
-
-function buildTextConnectionSummaries(subject, allConnections) {
-  if (!subject || !allConnections || !allConnections.length) return [];
-  const subjectId = subject.id;
-  const subjectName = subject.title || "";
-
-  const sentences = [];
-
-  for (const c of allConnections) {
-    const isTextA = c.aType === "text";
-    const isTextB = c.bType === "text";
-    if (!isTextA || !isTextB) continue;
-
-    const isSubjectA = c.aId === subjectId;
-    const isSubjectB = c.bId === subjectId;
-    if (!isSubjectA && !isSubjectB) continue;
-
-    const rawCat = c.category || "";
-    const category = String(rawCat).toLowerCase().trim();
-    const rawNote = (c.note || "").trim();
-    const hasNote = !!rawNote && rawNote !== "-";
-
-    let rel;
-    if (category === "indirect connection") {
-      rel = "implicitly related to";
-    } else if (category === "explicit reference") {
-      rel = "explicitly related to";
-    } else if (category === "comparative connection") {
-      rel = "comparatively related to";
-    } else {
-      continue;
-    }
-
-    const subjectSide = isSubjectA ? "a" : "b";
-    const otherSide = isSubjectA ? "b" : "a";
-    const otherName = c[`${otherSide}Name`] || "";
-
-    let sentence = `${subjectName} is ${rel} ${otherName}`;
-    if (hasNote) sentence += `: ${rawNote}`;
-    sentences.push(sentence);
-  }
-
-  return sentences;
-}
-
 
 const SYMBOLIC_SYSTEM_KEYS = Object.keys(SymbolicSystemColorPairs);
 
@@ -1307,21 +1109,25 @@ function joinNamesList(names) {
 // }
 function buildFatherConnectionItems(subject, allConnections) {
   if (!subject || !allConnections || !allConnections.length) return [];
+
   const subjectId = subject.id;
   const subjectName = subject.name || "";
 
+  // Only connections where this father is one of the sides.
   const relevant = allConnections.filter((c) => {
     const isSubjectA = c.aId === subjectId && c.aType === "father";
     const isSubjectB = c.bId === subjectId && c.bType === "father";
-    // Drop text-primary / father-secondary rows by design
+
+    // Drop text-primary / father-secondary rows to avoid duplicates
     if (c.aType === "text" && c.bType === "father") return false;
+
     return isSubjectA || isSubjectB;
   });
 
   if (!relevant.length) return [];
 
-  const parentGroups = {}; // role -> [{ otherId, otherType, otherName, note }]
-  const childGroups = {};
+  const parentGroups = {}; // father/mother → [{ otherId, otherType, otherName, note }]
+  const childGroups = {};  // son/daughter → same
   const looseItems = [];
 
   const ensureGroup = (obj, key) => {
@@ -1339,6 +1145,7 @@ function buildFatherConnectionItems(subject, allConnections) {
     const subjectSide = isSubjectA ? "a" : "b";
     const otherSide = isSubjectA ? "b" : "a";
 
+    // Names and ids are already normalized in allConnectionRowsRef
     const subjName = subjectName || c[`${subjectSide}Name`] || subjectName;
     const otherName = c[`${otherSide}Name`] || "";
     const otherId = c[`${otherSide}Id`];
@@ -1348,16 +1155,40 @@ function buildFatherConnectionItems(subject, allConnections) {
     if (category.startsWith("familial:")) {
       const m = category.match(/^familial:\s*([^,]+)/);
       const core = m ? m[1].trim() : "";
+      const hasConsorts = category.includes("consorts");
 
-      // sibling + consort: "brother/sister, consorts", "sister/brother, consorts"
+      const isSiblingPair =
+        core.includes("brother") || core.includes("sister");
+
+      // Pure siblings (no parents, no consorts)
       if (
-        (core.includes("brother/sister") || core.includes("sister/brother")) &&
-        category.includes("consorts")
+        isSiblingPair &&
+        !core.includes("father") &&
+        !core.includes("mother") &&
+        !hasConsorts
       ) {
+        // e.g. "sister/brother", "sister/sister", "brother/brother"
+        const [roleA, roleB] = core.includes("/")
+          ? core.split("/").map((s) => s.trim())
+          : [core, core];
+
+        const subjectRole = isSubjectA ? roleA : roleB;
+
+        looseItems.push({
+          textBefore: `${subjectRole} of `,
+          targets: [{ type: otherType, id: otherId, name: otherName }],
+          note: hasNote ? rawNote : "",
+        });
+        continue;
+      }
+
+      // sibling + consort: "brother/sister, consorts", etc.
+      if (isSiblingPair && hasConsorts) {
         const [roleA, roleB] = core.split("/").map((s) => s.trim());
         const subjectRole = isSubjectA ? roleA : roleB;
+
         looseItems.push({
-          textBefore: `${subjName} is the ${subjectRole} and consort of `,
+          textBefore: `${subjectRole} and consort of `,
           targets: [{ type: otherType, id: otherId, name: otherName }],
           note: hasNote ? rawNote : "",
         });
@@ -1365,9 +1196,9 @@ function buildFatherConnectionItems(subject, allConnections) {
       }
 
       // plain consorts: "familial: consorts"
-      if (core === "consorts" || (!core && category.includes("consorts"))) {
+      if (!isSiblingPair && hasConsorts) {
         looseItems.push({
-          textBefore: `${subjName} is the consort of `,
+          textBefore: `consort of `,
           targets: [{ type: otherType, id: otherId, name: otherName }],
           note: hasNote ? rawNote : "",
         });
@@ -1405,7 +1236,7 @@ function buildFatherConnectionItems(subject, allConnections) {
     // --- Syncretic ---
     if (category.startsWith("syncretic")) {
       looseItems.push({
-        textBefore: `${subjName} was syncretized with `,
+        textBefore: `was syncretized with `,
         targets: [{ type: otherType, id: otherId, name: otherName }],
         note: hasNote ? rawNote : "",
       });
@@ -1415,7 +1246,7 @@ function buildFatherConnectionItems(subject, allConnections) {
     // --- Custom connection ---
     if (category.startsWith("custom connection")) {
       looseItems.push({
-        textBefore: `${subjName} relates to `,
+        textBefore: `relates to `,
         targets: [{ type: otherType, id: otherId, name: otherName }],
         note: hasNote ? rawNote : "",
       });
@@ -1429,7 +1260,7 @@ function buildFatherConnectionItems(subject, allConnections) {
         (c.bType === "father" && c.aType === "text"))
     ) {
       looseItems.push({
-        textBefore: `${subjName} is mentioned in `,
+        textBefore: `is mentioned in `,
         targets: [{ type: otherType, id: otherId, name: otherName }],
         note: hasNote ? rawNote : "",
       });
@@ -1438,7 +1269,7 @@ function buildFatherConnectionItems(subject, allConnections) {
 
     // --- Fallback generic ---
     looseItems.push({
-      textBefore: `${subjName} is related to `,
+      textBefore: `is related to `,
       targets: [{ type: otherType, id: otherId, name: otherName }],
       note: hasNote ? rawNote : "",
     });
@@ -1446,68 +1277,53 @@ function buildFatherConnectionItems(subject, allConnections) {
 
   const items = [];
 
-  // Parent groups: "X is the father/mother of A, B, C"
-  for (const role of Object.keys(parentGroups)) {
-    const entries = parentGroups[role];
+  const makeGroupItem = (role, entries) => {
+    if (!entries || !entries.length) return;
+
     const noNote = entries.filter((e) => !e.note);
     const withNote = entries.filter((e) => !!e.note);
 
     if (noNote.length) {
-      const uniq = joinNamesList(noNote.map((e) => e.otherName));
-      const targets = uniq.map((name) => {
-        const src = noNote.find((e) => e.otherName === name) || noNote[0];
-        return { type: src.otherType, id: src.otherId, name };
-      });
       items.push({
-        textBefore: `${subjectName} is the ${role} of `,
-        targets,
+        textBefore: `${role} of `,
+        targets: noNote.map((e) => ({
+          type: e.otherType,
+          id: e.otherId,
+          name: e.otherName,
+        })),
         note: "",
       });
     }
 
     for (const e of withNote) {
       items.push({
-        textBefore: `${subjectName} is the ${role} of `,
+        textBefore: `${role} of `,
         targets: [
-          { type: e.otherType, id: e.otherId, name: e.otherName },
+          {
+            type: e.otherType,
+            id: e.otherId,
+            name: e.otherName,
+          },
         ],
         note: e.note,
       });
     }
+  };
+
+  // Parent groups: "father/mother of A, B, C"
+  for (const role of Object.keys(parentGroups)) {
+    makeGroupItem(role, parentGroups[role]);
   }
 
-  // Child groups: "X is the son/daughter of A, B"
+  // Child groups: "son/daughter of A, B"
   for (const role of Object.keys(childGroups)) {
-    const entries = childGroups[role];
-    const noNote = entries.filter((e) => !e.note);
-    const withNote = entries.filter((e) => !!e.note);
-
-    if (noNote.length) {
-      const uniq = joinNamesList(noNote.map((e) => e.otherName));
-      const targets = uniq.map((name) => {
-        const src = noNote.find((e) => e.otherName === name) || noNote[0];
-        return { type: src.otherType, id: src.otherId, name };
-      });
-      items.push({
-        textBefore: `${subjectName} is the ${role} of `,
-        targets,
-        note: "",
-      });
-    }
-
-    for (const e of withNote) {
-      items.push({
-        textBefore: `${subjectName} is the ${role} of `,
-        targets: [
-          { type: e.otherType, id: e.otherId, name: e.otherName },
-        ],
-        note: e.note,
-      });
-    }
+    makeGroupItem(role, childGroups[role]);
   }
 
   return items.concat(looseItems);
 }
+
+
 
 function buildTextConnectionItems(subject, allConnections) {
   if (!subject || !allConnections || !allConnections.length) return [];
@@ -1743,11 +1559,13 @@ useEffect(() => {
   const { width, height } = size;
 
   /* ---- Layout ---- */
-  const margin = { top: 8, right: 0, bottom: 28, left: 0 };
-  const innerWidth = width - margin.left - margin.right;
-  const innerHeight = height - margin.top - margin.bottom;
-  const axisY = innerHeight;
+const margin = { top: 8, right: 0, bottom: 28, left: 0 };
 
+// Prevent negative inner dimensions during the first render
+const innerWidth = Math.max(0, width - margin.left - margin.right);
+const innerHeight = Math.max(0, height - margin.top - margin.bottom);
+
+const axisY = innerHeight;
   /* ---- Time domain & base scales ---- */
   const domainHuman = useMemo(() => [-5500, 2500], []);
   const domainAstro = useMemo(() => domainHuman.map(toAstronomical), [domainHuman]);
@@ -2999,8 +2817,10 @@ clearActiveDurationRef.current = clearActiveDuration;
 
       const x0 = zx(toAstronomical(outline.start));
       const x1 = zx(toAstronomical(outline.end));
-      const yTop = zy(yTopData);
-      const hPix = zy(yTopData + hData) - zy(yTopData);
+      const y0 = zy(yTopData);
+      const y1 = zy(yTopData + hData);
+      const yTop = Math.min(y0, y1);
+      const hPix = Math.abs(y1 - y0);
 
       const left  = Math.min(x0, x1);
       const right = Math.max(x0, x1);

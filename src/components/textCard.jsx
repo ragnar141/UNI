@@ -17,6 +17,18 @@ const TextCard = forwardRef(function TextCard(
   const [isClosing, setIsClosing] = useState(false);
   const closedOnceRef = useRef(false);
 
+  // Always scroll the card to the top when it opens
+useEffect(() => {
+  if (elRef.current) {
+    elRef.current.scrollTop = 0;
+    if (typeof elRef.current.scrollTo === "function") {
+      elRef.current.scrollTo({ top: 0 });
+    }
+  }
+}, [d?.id]);
+
+
+
   useImperativeHandle(ref, () => ({
     startClose: () => {
       if (!isClosing) setIsClosing(true);
