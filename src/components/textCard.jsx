@@ -16,18 +16,17 @@ const TextCard = forwardRef(function TextCard(
   const elRef = useRef(null);
   const [isClosing, setIsClosing] = useState(false);
   const closedOnceRef = useRef(false);
+  const [openNotes, setOpenNotes] = useState({});
 
   // Always scroll the card to the top when it opens
-useEffect(() => {
-  if (elRef.current) {
-    elRef.current.scrollTop = 0;
-    if (typeof elRef.current.scrollTo === "function") {
-      elRef.current.scrollTo({ top: 0 });
+  useEffect(() => {
+    if (elRef.current) {
+      elRef.current.scrollTop = 0;
+      if (typeof elRef.current.scrollTo === "function") {
+        elRef.current.scrollTo({ top: 0 });
+      }
     }
-  }
-}, [d?.id]);
-
-
+  }, [d?.id]);
 
   useImperativeHandle(ref, () => ({
     startClose: () => {
@@ -104,9 +103,111 @@ useEffect(() => {
     );
   };
 
+  // Shared renderer for connection lists (textual + mythic),
+  // with per-target "i" buttons similar to FatherCard.
+  const renderConnectionList = (entries, groupKey) =>
+    entries.map((conn, idx) => {
+      const targets = Array.isArray(conn.targets) ? conn.targets : [];
+
+      const hasTargetNotes = targets.some(
+        (t) => t && t.note && t.note !== "-"
+      );
+
+      return (
+        <li
+          key={`${groupKey}-${idx}`}
+          className="textCard-connectionItem"
+        >
+          <span>{conn.textBefore}</span>
+          {targets.map((t, i) => {
+            const isLast = i === targets.length - 1;
+            const isFirst = i === 0;
+            const needsComma = !isFirst && targets.length > 2 && !isLast;
+            const needsAnd = !isFirst && isLast;
+
+            const noteKey = `${groupKey}-${idx}-${i}`;
+            const hasNote = t && t.note && t.note !== "-";
+
+            return (
+              <React.Fragment key={`${t.type}-${t.id}-${i}`}>
+                {needsComma && ", "}
+                {needsAnd && !needsComma && " and "}
+                {needsAnd && needsComma && " and "}
+                {!needsComma && !needsAnd && !isFirst && ", "}
+
+                {/* Group name + i button so they stay on the same line */}
+                <span className="textCard-connectionTargetGroup">
+                  <button
+                    type="button"
+                    className="textCard-connectionLink"
+                    onClick={() =>
+                      onNavigate && onNavigate(t.type, t.id)
+                    }
+                  >
+                    {t.name}
+                  </button>
+
+                  {hasNote && (
+                    <button
+                      type="button"
+                      className="textCard-connNoteToggle"
+                      onClick={() =>
+                        setOpenNotes((prev) => ({
+                          ...prev,
+                          [noteKey]: !prev[noteKey],
+                        }))
+                      }
+                      aria-label="Show connection note"
+                    >
+                      i
+                    </button>
+                  )}
+                </span>
+
+                {hasNote && openNotes[noteKey] && (
+                  <>
+                    {": "}
+                    <span className="textCard-connectionNote">
+                      {t.note}
+                    </span>
+                  </>
+                )}
+              </React.Fragment>
+            );
+          })}
+
+          {/* Fallback for legacy row-level notes if no per-target notes exist */}
+          {!hasTargetNotes &&
+            conn.note &&
+            conn.note !== "-" && (
+              <>
+                {": "}
+                <span className="textCard-connectionNote">
+                  {conn.note}
+                </span>
+              </>
+            )}
+        </li>
+      );
+    });
+
   const metaLocation = d.originalGeographicalLocation || d.originalGeo;
   const indexStr = (d.textIndex ?? "").toString().trim();
   const titleOnly = d.title || "";
+
+  // Split connections into textual vs mythic/mythic-historic figures
+  const textualConnections = Array.isArray(connections)
+    ? connections.filter(
+        (c) => !c.section || c.section === "textual"
+      )
+    : [];
+
+  const mythicConnections = Array.isArray(connections)
+    ? connections.filter((c) => c.section === "mythic")
+    : [];
+
+  const hasTextual = textualConnections.length > 0;
+  const hasMythic = mythicConnections.length > 0;
 
   return (
     <div
@@ -139,7 +240,9 @@ useEffect(() => {
           {`composed in ${d.displayDate || "—"} in ${metaLocation || "—"}, in ${
             d.originalLanguage || "—"
           } language`}
-          {d.authorName && d.authorName !== "-" && ` and attributed to ${d.authorName}`}
+          {d.authorName &&
+            d.authorName !== "-" &&
+            ` and attributed to ${d.authorName}`}
         </div>
       )}
 
@@ -147,48 +250,29 @@ useEffect(() => {
       <Row label="Comtean framework:" value={d.comteanFramework} />
       <Row label="Access Level:" value={d.accessLevel} />
 
-      {Array.isArray(connections) && connections.length > 0 && (
+      {(hasTextual || hasMythic) && (
         <div className="textCard-connections">
-          <div className="textCard-connections-title">Connections</div>
-          <ul className="textCard-connections-list">
-            {connections.map((conn, idx) => (
-              <li key={idx} className="textCard-connectionItem">
-                <span>{conn.textBefore}</span>
-                {conn.targets.map((t, i) => {
-                  const isLast = i === conn.targets.length - 1;
-                  const isFirst = i === 0;
-                  const needsComma =
-                    !isFirst && conn.targets.length > 2 && !isLast;
-                  const needsAnd =
-                    !isFirst && isLast;
+          {hasMythic && (
+            <>
+              <div className="textCard-connections-subtitle">
+                Connections with Mythic/Historic Figures
+              </div>
+              <ul className="textCard-connections-list">
+                {renderConnectionList(mythicConnections, "mythic")}
+              </ul>
+            </>
+          )}
 
-                  return (
-                    <React.Fragment key={`${t.type}-${t.id}-${i}`}>
-                      {needsComma && ", "}
-                      {needsAnd && !needsComma && " and "}
-                      {needsAnd && needsComma && " and "}
-                      {!needsComma && !needsAnd && !isFirst && ", "}
-                      <button
-                        type="button"
-                        className="textCard-connectionLink"
-                        onClick={() =>
-                          onNavigate && onNavigate(t.type, t.id)
-                        }
-                      >
-                        {t.name}
-                      </button>
-                    </React.Fragment>
-                  );
-                })}
-                {conn.note && (
-                  <>
-                    {": "}
-                    <span>{conn.note}</span>
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
+          {hasTextual && (
+            <>
+              <div className="textCard-connections-subtitle">
+                Textual References
+              </div>
+              <ul className="textCard-connections-list">
+                {renderConnectionList(textualConnections, "textual")}
+              </ul>
+            </>
+          )}
         </div>
       )}
 

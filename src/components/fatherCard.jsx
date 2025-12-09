@@ -33,17 +33,15 @@ const FatherCard = forwardRef(function FatherCard(
     },
   }));
 
-// Always scroll the card to the top when the subject changes
-useEffect(() => {
-  if (elRef.current) {
-    elRef.current.scrollTop = 0;
-    // a bit more robust:
-    if (typeof elRef.current.scrollTo === "function") {
-      elRef.current.scrollTo({ top: 0 });
+  // Always scroll the card to the top when the subject changes
+  useEffect(() => {
+    if (elRef.current) {
+      elRef.current.scrollTop = 0;
+      if (typeof elRef.current.scrollTo === "function") {
+        elRef.current.scrollTo({ top: 0 });
+      }
     }
-  }
-}, [d?.id]);
-
+  }, [d?.id]);
 
   // Animate out then call onClose
   useEffect(() => {
@@ -147,58 +145,105 @@ useEffect(() => {
   }
 
   const renderConnectionList = (entries) =>
-    entries.map(({ conn, idx }) => (
-      <li key={idx} className="textCard-connectionItem">
-        <span>{conn.textBefore}</span>
-        {conn.targets.map((t, i) => {
-          const isLast = i === conn.targets.length - 1;
-          const isFirst = i === 0;
-          const needsComma = !isFirst && conn.targets.length > 2 && !isLast;
-          const needsAnd = !isFirst && isLast;
+    entries.map(({ conn, idx }) => {
+      const targets = Array.isArray(conn.targets) ? conn.targets : [];
 
-          return (
-            <React.Fragment key={`${t.type}-${t.id}-${i}`}>
-              {needsComma && ", "}
-              {needsAnd && !needsComma && " and "}
-              {needsAnd && needsComma && " and "}
-              {!needsComma && !needsAnd && !isFirst && ", "}
+      // Check if any target has its own note
+      const hasTargetNotes = targets.some(
+        (t) => t && t.note && t.note !== "-"
+      );
+
+      return (
+        <li key={idx} className="textCard-connectionItem">
+          <span>{conn.textBefore}</span>
+          {targets.map((t, i) => {
+            const isLast = i === targets.length - 1;
+            const isFirst = i === 0;
+            const needsComma = !isFirst && targets.length > 2 && !isLast;
+            const needsAnd = !isFirst && isLast;
+
+            const noteKey = `${idx}-${i}`;
+            const hasNote = t && t.note && t.note !== "-";
+
+            return (
+              <React.Fragment key={`${t.type}-${t.id}-${i}`}>
+                {needsComma && ", "}
+                {needsAnd && !needsComma && " and "}
+                {needsAnd && needsComma && " and "}
+                {!needsComma && !needsAnd && !isFirst && ", "}
+
+                {/* Group target name + i-button so they stay on the same line */}
+                <span className="textCard-connectionTargetGroup">
+                  <button
+                    type="button"
+                    className="textCard-connTarget"
+                    onClick={() =>
+                      onNavigate && onNavigate(t.type, t.id)
+                    }
+                  >
+                    {t.name}
+                  </button>
+
+                  {hasNote && (
+                    <button
+                      type="button"
+                      className="textCard-connNoteToggle"
+                      onClick={() =>
+                        setOpenNotes((prev) => ({
+                          ...prev,
+                          [noteKey]: !prev[noteKey],
+                        }))
+                      }
+                      aria-label="Show connection note"
+                    >
+                      i
+                    </button>
+                  )}
+                </span>
+
+                {hasNote && openNotes[noteKey] && (
+                  <>
+                    {": "}
+                    <span className="textCard-connectionNote">
+                      {t.note}
+                    </span>
+                  </>
+                )}
+              </React.Fragment>
+            );
+          })}
+
+          {/* Fallback: if some legacy connections still use row-level conn.note
+              and no per-target notes exist, keep old behavior. */}
+          {!hasTargetNotes && conn.note && conn.note !== "-" && (
+            <>
+              {" "}
               <button
                 type="button"
-                className="textCard-connectionLink"
-                onClick={() => onNavigate && onNavigate(t.type, t.id)}
+                className="textCard-connNoteToggle"
+                onClick={() =>
+                  setOpenNotes((prev) => ({
+                    ...prev,
+                    [idx]: !prev[idx],
+                  }))
+                }
+                aria-label="Show connection note"
               >
-                {t.name}
+                i
               </button>
-            </React.Fragment>
-          );
-        })}
-
-        {conn.note && conn.note !== "-" && (
-          <>
-            {" "}
-            <button
-              type="button"
-              className="textCard-connNoteToggle"
-              onClick={() =>
-                setOpenNotes((prev) => ({
-                  ...prev,
-                  [idx]: !prev[idx],
-                }))
-              }
-              aria-label="Show connection note"
-            >
-              i
-            </button>
-            {openNotes[idx] && (
-              <>
-                {": "}
-                <span className="textCard-connectionNote">{conn.note}</span>
-              </>
-            )}
-          </>
-        )}
-      </li>
-    ));
+              {openNotes[idx] && (
+                <>
+                  {": "}
+                  <span className="textCard-connectionNote">
+                    {conn.note}
+                  </span>
+                </>
+              )}
+            </>
+          )}
+        </li>
+      );
+    });
 
   return (
     <div
@@ -224,7 +269,6 @@ useEffect(() => {
         {d.category && (
           <span className="textCard-category">{d.category}</span>
         )}
-        {/* Founding Figure chip removed */}
       </div>
 
       <Row value={d.description} className="is-centered" />

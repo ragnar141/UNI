@@ -425,7 +425,9 @@ body {
 }
 
 
-.textCard-connectionLink {
+/* Shared link-style buttons for connections in TextCard & FatherCard */
+.textCard-connectionLink,
+.textCard-connTarget {
   border: none;
   padding: 0;
   background: none;
@@ -435,12 +437,20 @@ body {
   text-underline-offset: 2px;
   font: inherit;
   color: inherit;                  /* stays same as surrounding text */
-  cursor: pointer;
 
   transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
+
+/* Keep the target name and its "i" button on the same line */
+.textCard-connectionTargetGroup {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;  /* allow wrapping before the whole group, never inside */
+}
+
 /* --- HOVER STYLE: BLUE TEXT --- */
-.textCard-connectionLink:hover {
+.textCard-connectionLink:hover,
+.textCard-connTarget:hover {
   color: #1e6bff;                  /* clean medium blue */
   text-decoration-color: #1e6bff;  /* underline matches the hover color */
 }
@@ -451,7 +461,8 @@ body {
 }
 
 /* Make sure the link doesn’t jump back to a bigger size */
-.textCard-connectionLink {
+.textCard-connectionLink,
+.textCard-connTarget {
   font-size: inherit;
 }
 

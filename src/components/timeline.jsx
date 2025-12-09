@@ -1126,8 +1126,14 @@ function buildFatherConnectionItems(subject, allConnections) {
 
   if (!relevant.length) return [];
 
-  const parentGroups = {}; // father/mother → [{ otherId, otherType, otherName, note }]
-  const childGroups = {};  // son/daughter → same
+  const parentGroups = {};           // father/mother → [{ otherId, otherType, otherName, note }]
+  const childGroups = {};            // son/daughter → same
+  const siblingGroups = {};          // pure siblings: "sister of X and Y"
+  const siblingConsortGroups = {};   // "sister and consort of X and Y"
+  const consortGroups = {};          // plain consorts: "consort of X and Y"
+  const syncreticEntries = [];       // "was syncretized with A, B, C"
+  const customConnectionGroups = {}; // "relates to A, B, C"
+  const explicitTextRefs = [];       // "is mentioned in Text1, Text2, Text3"
   const looseItems = [];
 
   const ensureGroup = (obj, key) => {
@@ -1151,6 +1157,13 @@ function buildFatherConnectionItems(subject, allConnections) {
     const otherId = c[`${otherSide}Id`];
     const otherType = c[`${otherSide}Type`];
 
+    const entry = {
+      otherId,
+      otherType,
+      otherName,
+      note: hasNote ? rawNote : "",
+    };
+
     // --- Familial logic ---
     if (category.startsWith("familial:")) {
       const m = category.match(/^familial:\s*([^,]+)/);
@@ -1173,12 +1186,8 @@ function buildFatherConnectionItems(subject, allConnections) {
           : [core, core];
 
         const subjectRole = isSubjectA ? roleA : roleB;
-
-        looseItems.push({
-          textBefore: `${subjectRole} of `,
-          targets: [{ type: otherType, id: otherId, name: otherName }],
-          note: hasNote ? rawNote : "",
-        });
+        const g = ensureGroup(siblingGroups, subjectRole);
+        g.push(entry);
         continue;
       }
 
@@ -1186,22 +1195,15 @@ function buildFatherConnectionItems(subject, allConnections) {
       if (isSiblingPair && hasConsorts) {
         const [roleA, roleB] = core.split("/").map((s) => s.trim());
         const subjectRole = isSubjectA ? roleA : roleB;
-
-        looseItems.push({
-          textBefore: `${subjectRole} and consort of `,
-          targets: [{ type: otherType, id: otherId, name: otherName }],
-          note: hasNote ? rawNote : "",
-        });
+        const g = ensureGroup(siblingConsortGroups, subjectRole);
+        g.push(entry);
         continue;
       }
 
       // plain consorts: "familial: consorts"
       if (!isSiblingPair && hasConsorts) {
-        looseItems.push({
-          textBefore: `consort of `,
-          targets: [{ type: otherType, id: otherId, name: otherName }],
-          note: hasNote ? rawNote : "",
-        });
+        const g = ensureGroup(consortGroups, "consort");
+        g.push(entry);
         continue;
       }
 
@@ -1211,13 +1213,6 @@ function buildFatherConnectionItems(subject, allConnections) {
         const subjectRole = isSubjectA ? roleA : roleB;
         const parentRoles = ["father", "mother"];
         const childRoles = ["son", "daughter"];
-
-        const entry = {
-          otherId,
-          otherType,
-          otherName,
-          note: hasNote ? rawNote : "",
-        };
 
         if (parentRoles.includes(subjectRole)) {
           const g = ensureGroup(parentGroups, subjectRole);
@@ -1235,144 +1230,361 @@ function buildFatherConnectionItems(subject, allConnections) {
 
     // --- Syncretic ---
     if (category.startsWith("syncretic")) {
-      looseItems.push({
-        textBefore: `was syncretized with `,
-        targets: [{ type: otherType, id: otherId, name: otherName }],
-        note: hasNote ? rawNote : "",
-      });
+      syncreticEntries.push(entry);
       continue;
     }
 
-    // --- Custom connection ---
+    // --- Custom connection (grouped like syncretic) ---
     if (category.startsWith("custom connection")) {
-      looseItems.push({
-        textBefore: `relates to `,
-        targets: [{ type: otherType, id: otherId, name: otherName }],
-        note: hasNote ? rawNote : "",
-      });
+      const g = ensureGroup(customConnectionGroups, "custom");
+      g.push(entry);
       continue;
     }
 
-    // --- Father ↔ text explicit reference ---
+    // --- Father ↔ text explicit reference (grouped) ---
     if (
       category === "explicit reference" &&
       ((c.aType === "father" && c.bType === "text") ||
         (c.bType === "father" && c.aType === "text"))
     ) {
-      looseItems.push({
-        textBefore: `is mentioned in `,
-        targets: [{ type: otherType, id: otherId, name: otherName }],
-        note: hasNote ? rawNote : "",
-      });
+      // We only care about the text side as the "other"
+      explicitTextRefs.push(entry);
       continue;
     }
 
     // --- Fallback generic ---
     looseItems.push({
       textBefore: `is related to `,
-      targets: [{ type: otherType, id: otherId, name: otherName }],
-      note: hasNote ? rawNote : "",
+      targets: [
+        {
+          type: otherType,
+          id: otherId,
+          name: otherName,
+          note: hasNote ? rawNote : "",
+        },
+      ],
+      note: "",
     });
   }
 
   const items = [];
 
-  const makeGroupItem = (role, entries) => {
+  // Helper: make a single grouped item, with per-target notes; NO row-level note
+  const makeGroupedItem = (textBefore, entries) => {
     if (!entries || !entries.length) return;
 
-    const noNote = entries.filter((e) => !e.note);
-    const withNote = entries.filter((e) => !!e.note);
+    const targets = entries.map((e) => ({
+      type: e.otherType,
+      id: e.otherId,
+      name: e.otherName,
+      note: e.note || "",
+    }));
 
-    if (noNote.length) {
-      items.push({
-        textBefore: `${role} of `,
-        targets: noNote.map((e) => ({
-          type: e.otherType,
-          id: e.otherId,
-          name: e.otherName,
-        })),
-        note: "",
-      });
-    }
-
-    for (const e of withNote) {
-      items.push({
-        textBefore: `${role} of `,
-        targets: [
-          {
-            type: e.otherType,
-            id: e.otherId,
-            name: e.otherName,
-          },
-        ],
-        note: e.note,
-      });
-    }
+    items.push({
+      textBefore,
+      targets,
+      note: "", // important: keep empty so we don't get one big "i" at the end
+    });
   };
 
   // Parent groups: "father/mother of A, B, C"
   for (const role of Object.keys(parentGroups)) {
-    makeGroupItem(role, parentGroups[role]);
+    makeGroupedItem(`${role} of `, parentGroups[role]);
   }
 
   // Child groups: "son/daughter of A, B"
   for (const role of Object.keys(childGroups)) {
-    makeGroupItem(role, childGroups[role]);
+    makeGroupedItem(`${role} of `, childGroups[role]);
   }
 
+  // Sibling groups: "sister/brother of A, B"
+  for (const role of Object.keys(siblingGroups)) {
+    makeGroupedItem(`${role} of `, siblingGroups[role]);
+  }
+
+  // Sibling + consort groups: "sister and consort of A, B"
+  for (const role of Object.keys(siblingConsortGroups)) {
+    makeGroupedItem(
+      `${role} and consort of `,
+      siblingConsortGroups[role]
+    );
+  }
+
+  // Plain consorts: "consort of A, B"
+  if (consortGroups.consort && consortGroups.consort.length) {
+    makeGroupedItem(`consort of `, consortGroups.consort);
+  }
+
+  // Syncretic: "was syncretized with A, B, C"
+  if (syncreticEntries.length) {
+    makeGroupedItem(`was syncretized with `, syncreticEntries);
+  }
+
+  // Custom connections: "relates to A, B, C"
+  if (customConnectionGroups.custom && customConnectionGroups.custom.length) {
+    makeGroupedItem(`relates to `, customConnectionGroups.custom);
+  }
+
+  // Explicit text references: "is mentioned in Text1, Text2, Text3"
+  if (explicitTextRefs.length) {
+    makeGroupedItem(`is mentioned in `, explicitTextRefs);
+  }
+
+  // Everything else (generic)
   return items.concat(looseItems);
 }
 
 
 
+
 function buildTextConnectionItems(subject, allConnections) {
   if (!subject || !allConnections || !allConnections.length) return [];
+
   const subjectId = subject.id;
   const subjectName = subject.title || "";
 
   const items = [];
 
+  // Aggregated textual connections
+  const implicitInformedTargets = [];    // "implicitly informed by X, Y"
+  const implicitInformsTargets = [];     // "implicitly informs X, Y"
+  const explicitInformedByTargets = [];  // "explicitly informed by X, Y"
+  const explicitInformsTargets = [];     // "explicitly informs X, Y"
+  const comparativeTargets = [];         // "provides an earlier comparative framework for X, Y"
+  const textualOther = [];               // fallback explicit/comparative etc. that we don't aggregate
+
+  // father→text explicit references ("Connections with Mythic/Historic Figures")
+  const fatherRefs = [];
+
   for (const c of allConnections) {
-    const isTextA = c.aType === "text";
-    const isTextB = c.bType === "text";
-    if (!isTextA || !isTextB) continue;
-
-    const isSubjectA = c.aId === subjectId;
-    const isSubjectB = c.bId === subjectId;
-    if (!isSubjectA && !isSubjectB) continue;
-
     const rawCat = c.category || "";
     const category = String(rawCat).toLowerCase().trim();
     const rawNote = (c.note || "").trim();
     const hasNote = !!rawNote && rawNote !== "-";
 
-    let rel;
-    if (category === "indirect connection") {
-      rel = "implicitly related to";
-    } else if (category === "explicit reference") {
-      rel = "explicitly related to";
-    } else if (category === "comparative connection") {
-      rel = "comparatively related to";
-    } else {
+    const aIsText = c.aType === "text";
+    const bIsText = c.bType === "text";
+    const aIsFather = c.aType === "father";
+    const bIsFather = c.bType === "father";
+
+    // ===== 1) TEXT ↔ TEXT CONNECTIONS =====
+    if (aIsText && bIsText) {
+      const isSubjectA = c.aId === subjectId;
+      const isSubjectB = c.bId === subjectId;
+      if (isSubjectA || isSubjectB) {
+        const otherSide = isSubjectA ? "b" : "a";
+
+        const otherName = c[`${otherSide}Name`] || "";
+        const otherId   = c[`${otherSide}Id`];
+        const otherType = c[`${otherSide}Type`];
+
+        // --- Directional semantics for "indirect connection" ---
+        if (category === "indirect connection") {
+          if (isSubjectB && !isSubjectA) {
+            // Subject is on secondary side -> implicitly informed by primary
+            implicitInformedTargets.push({
+              type: otherType,
+              id: otherId,
+              name: otherName,
+              note: hasNote ? rawNote : "",
+            });
+          } else if (isSubjectA && !isSubjectB) {
+            // Subject is on primary side -> implicitly informs secondary
+            implicitInformsTargets.push({
+              type: otherType,
+              id: otherId,
+              name: otherName,
+              note: hasNote ? rawNote : "",
+            });
+          } else {
+            // Fallback (shouldn't normally happen): symmetric wording
+            textualOther.push({
+              section: "textual",
+              textBefore: `${subjectName} is implicitly related to `,
+              targets: [
+                {
+                  type: otherType,
+                  id: otherId,
+                  name: otherName,
+                  note: hasNote ? rawNote : "",
+                },
+              ],
+              note: hasNote ? rawNote : "",
+            });
+          }
+
+          continue;
+        }
+
+        // --- Explicit reference between texts (directional) ---
+        if (category === "explicit reference") {
+          if (isSubjectB && !isSubjectA) {
+            // Subject is on secondary side -> explicitly informed by primary
+            explicitInformedByTargets.push({
+              type: otherType,
+              id: otherId,
+              name: otherName,
+              note: hasNote ? rawNote : "",
+            });
+          } else if (isSubjectA && !isSubjectB) {
+            // Subject is on primary side -> explicitly informs secondary
+            explicitInformsTargets.push({
+              type: otherType,
+              id: otherId,
+              name: otherName,
+              note: hasNote ? rawNote : "",
+            });
+          } else {
+            // Fallback (shouldn't normally happen): symmetric wording
+            textualOther.push({
+              section: "textual",
+              textBefore: `${subjectName} is explicitly related to `,
+              targets: [
+                {
+                  type: otherType,
+                  id: otherId,
+                  name: otherName,
+                  note: hasNote ? rawNote : "",
+                },
+              ],
+              note: hasNote ? rawNote : "",
+            });
+          }
+
+          continue;
+        }
+
+        // --- Comparative connections (aggregated into one row) ---
+        if (category === "comparative connection") {
+          comparativeTargets.push({
+            type: otherType,
+            id: otherId,
+            name: otherName,
+            note: hasNote ? rawNote : "",
+          });
+          continue;
+        }
+
+        // Anything else that slips through (unlikely)
+        // could be handled here if needed.
+      }
+
+      // text↔text handled; skip father logic for this row
       continue;
     }
 
-    const subjectSide = isSubjectA ? "a" : "b";
-    const otherSide = isSubjectA ? "b" : "a";
+    // ===== 2) FATHER ↔ TEXT EXPLICIT REFERENCES =====
+    // We only care about explicit references where THIS text is the text side.
+    if (category === "explicit reference") {
+      // Case: father on A, text on B
+      if (aIsFather && bIsText && c.bId === subjectId) {
+        const otherName = c.aName || c["aName"] || "";
+        const otherId = c.aId;
+        const otherType = c.aType;
 
-    const otherName = c[`${otherSide}Name`] || "";
-    const otherId = c[`${otherSide}Id`];
-    const otherType = c[`${otherSide}Type`];
+        fatherRefs.push({
+          otherId,
+          otherType,
+          otherName,
+          note: hasNote ? rawNote : "",
+        });
+        continue;
+      }
+
+      // Case: text on A, father on B
+      if (bIsFather && aIsText && c.aId === subjectId) {
+        const otherName = c.bName || c["bName"] || "";
+        const otherId = c.bId;
+        const otherType = c.bType;
+
+        fatherRefs.push({
+          otherId,
+          otherType,
+          otherName,
+          note: hasNote ? rawNote : "",
+        });
+        continue;
+      }
+    }
+
+    // Any other categories / shapes are ignored here for now.
+  }
+
+  // ===== Assemble textual items in desired order =====
+
+  // 1) implicitly informed by X, Y
+  if (implicitInformedTargets.length) {
+    items.push({
+      section: "textual",
+      textBefore: "implicitly informed by ",
+      targets: implicitInformedTargets,
+      note: "", // per-target notes only
+    });
+  }
+
+  // 2) explicitly informed by X, Y
+  if (explicitInformedByTargets.length) {
+    items.push({
+      section: "textual",
+      textBefore: "explicitly informed by ",
+      targets: explicitInformedByTargets,
+      note: "",
+    });
+  }
+
+  // 3) implicitly informs X, Y
+  if (implicitInformsTargets.length) {
+    items.push({
+      section: "textual",
+      textBefore: "implicitly informs ",
+      targets: implicitInformsTargets,
+      note: "",
+    });
+  }
+
+  // 4) explicitly informs X, Y
+  if (explicitInformsTargets.length) {
+    items.push({
+      section: "textual",
+      textBefore: "explicitly informs ",
+      targets: explicitInformsTargets,
+      note: "",
+    });
+  }
+
+  // 5) comparative framework for X, Y, Z...
+  if (comparativeTargets.length) {
+    items.push({
+      section: "textual",
+      textBefore: "provides an earlier comparative framework for ",
+      targets: comparativeTargets,
+      note: "",
+    });
+  }
+
+  // 6) everything else (fallback implicit/explicit, etc.)
+  items.push(...textualOther);
+
+  // ===== Mythic/Historic: father ↔ text =====
+  if (fatherRefs.length) {
+    const targets = fatherRefs.map((e) => ({
+      type: e.otherType,
+      id: e.otherId,
+      name: e.otherName,
+      note: e.note || "",
+    }));
 
     items.push({
-      textBefore: `${subjectName} is ${rel} `,
-      targets: [{ type: otherType, id: otherId, name: otherName }],
-      note: hasNote ? rawNote : "",
+      section: "mythic", // for "Connections with Mythic/Historic Figures"
+      textBefore: "mentions ",
+      targets,
+      note: "", // notes live on targets for per-name i buttons
     });
   }
 
   return items;
 }
+
 
 
 
@@ -2338,6 +2550,7 @@ function styleForConnection(category, typeA, typeB, rowA, rowB) {
   const bothTexts   = !aIsFather && !bIsFather;
   const mixed       = !bothFathers && !bothTexts; // father–text
 
+  // "Normal" baseline
   let strokeWidth    = 1.4;
   let strokeDasharray = null;
   const strokeLinecap = "round";
@@ -2352,12 +2565,12 @@ function styleForConnection(category, typeA, typeB, rowA, rowB) {
   if (bothFathers) {
     // father–father
     if (isFamilial) {
-      // VERY thick, solid
-      strokeWidth    = 3.0;
+      // normal, solid
+      strokeWidth    = 1.4;
       strokeDasharray = null;
     } else if (isSyncretic) {
-      // thin, solid
-      strokeWidth    = 1.0;
+      // normal, solid
+      strokeWidth    = 1.4;
       strokeDasharray = null;
     } else {
       // custom / other father–father → clearly dashed
@@ -2367,36 +2580,34 @@ function styleForConnection(category, typeA, typeB, rowA, rowB) {
   } else if (mixed) {
     // father–text or text–father
     if (isExplicit) {
-      // thin, solid
+      // explicit reference → thin/normal solid
       strokeWidth    = 1.2;
       strokeDasharray = null;
     } else {
-      // non-explicit father↔text → dotted
+      // non-explicit father↔text (your custom connections) → dashed/dotted
       strokeWidth    = 1.2;
       strokeDasharray = "2 4";
     }
   } else if (bothTexts) {
     // text–text
     if (isExplicit) {
-      // thick, solid
-      strokeWidth    = 2.4;
+      // explicit reference → normal solid
+      strokeWidth    = 1.4;
       strokeDasharray = null;
     } else if (isIndirect) {
-      // thin, solid
-      strokeWidth    = 1.0;
-      strokeDasharray = null;
-    } else if (isComparative) {
-      // medium, dashed
-      strokeWidth    = 1.6;
+      // indirect connection → dashed
+      strokeWidth    = 1.4;
       strokeDasharray = "6 4";
+    } else if (isComparative) {
+      // comparative connection → dotted
+      strokeWidth    = 1.4;
+      strokeDasharray = "1 6";
     } else if (isSpeculative) {
-      // medium, dash-dot
+      // medium, dash-dot (unchanged)
       strokeWidth    = 1.6;
       strokeDasharray = "6 3 1.5 3";
     }
   }
-
-
 
   return {
     strokeWidth,
@@ -2404,6 +2615,7 @@ function styleForConnection(category, typeA, typeB, rowA, rowB) {
     strokeLinecap,
   };
 }
+
 
 const CONNECTION_BASE_OPACITY = 0.05;   // faint default
 const CONNECTION_HIGHLIGHT_OPACITY = 0.9; // bright when linked
@@ -4462,6 +4674,12 @@ const rangeX1 = x(XMAX);      // innerWidth
 const rangeY0 = 0;
 const rangeY1 = innerHeight;
 
+// Track where a potential drag gesture started (screen coords)
+let dragStartX = null;
+let dragStartY = null;
+// Squared pixel threshold before we treat it as a drag (≈2px)
+const DRAG_THRESHOLD_SQ = 4;
+
 
 const zoom = (zoomRef.current ?? d3.zoom())
   .scaleExtent([MIN_ZOOM, MAX_ZOOM])
@@ -4490,16 +4708,21 @@ const zoom = (zoomRef.current ?? d3.zoom())
   })
 
 
-  .on("start", (event) => {
+    .on("start", (event) => {
     const srcType = event.sourceEvent?.type;
     const isWheel = srcType === "wheel";
 
-    // Treat only non-wheel gestures as "dragging"
-    zoomDraggingRef.current = !isWheel;
+    // On gesture start, we do NOT yet assume this is a drag.
+    // We only flip to "dragging" after we see enough pointer movement in the zoom handler.
+    zoomDraggingRef.current = false;
 
-    // Add grabbing cursor only for drag / touch, not wheel zoom
-    if (!isWheel && svgRef.current) {
-      d3.select(svgRef.current).classed("is-panning", true);
+    // Remember where the pointer was when this gesture began (for non-wheel only)
+    if (!isWheel && event.sourceEvent && "clientX" in event.sourceEvent) {
+      dragStartX = event.sourceEvent.clientX;
+      dragStartY = event.sourceEvent.clientY;
+    } else {
+      dragStartX = null;
+      dragStartY = null;
     }
 
     // hard-reset any stale segment preview at gesture start
@@ -4517,19 +4740,41 @@ const zoom = (zoomRef.current ?? d3.zoom())
     lastTransformRef.current = t;
     kRef.current = t.k;
 
+    // Decide whether this zoom event corresponds to a real drag-pan
+    const srcType = event.sourceEvent?.type;
+    const isWheel = srcType === "wheel";
+
+    if (!isWheel && event.sourceEvent && "clientX" in event.sourceEvent) {
+      // If we haven't yet decided it's a drag, check how far we've moved
+      if (!zoomDraggingRef.current && dragStartX != null && dragStartY != null) {
+        const dx = event.sourceEvent.clientX - dragStartX;
+        const dy = event.sourceEvent.clientY - dragStartY;
+        const distSq = dx * dx + dy * dy;
+
+        if (distSq > DRAG_THRESHOLD_SQ) {
+          zoomDraggingRef.current = true;
+
+          if (svgRef.current) {
+            d3.select(svgRef.current).classed("is-panning", true);
+          }
+        }
+      }
+    }
+
     const zx = t.rescaleX(x);
     const zy = t.rescaleY(y0);
     apply(zx, zy, t.k);
     renderConnections(zx, zy, t.k);
     updateInteractivity(t.k);
 
-        console.log("[ZOOM] zoom handler", {
+    console.log("[ZOOM] zoom handler", {
       k: t.k,
       hasSelection: !!(selectedText || selectedFather),
     });
 
-        // === Zoom-level “mode” classes for CSS (outest / middle / deepest) ===
+    // === Zoom-level “mode” classes for CSS (outest / middle / deepest) ===
     const hasSelection = !!(selectedText || selectedFather);
+
 
     let zoomMode;
     if (hasSelection) {

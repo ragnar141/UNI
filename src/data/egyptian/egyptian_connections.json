@@ -32,8 +32,8 @@
     "Primary Name": "Atum",
     "Secondary": "4, father",
     "Secondary Name": "Ptah",
-    "Connection Category": "familial: creation/proganitor",
-    "Note": "In later Memphite tradition, Ptah is viewed as a proganitor of Atum, creating Atum through the power of speach."
+    "Connection Category": "custom connection",
+    "Note": "In later Memphite tradition, Ptah is viewed as a proganitor of Atum, creating Atum through the power of speech."
   },
   {
     "Index": 5,
@@ -168,7 +168,7 @@
     "Secondary": "12, father",
     "Secondary Name": "Osiris",
     "Connection Category": "syncretic",
-    "Note": "The later Memphite tradition syncretized Osiris and Ptah. This reinterpretation politically unified northern and southern theologies under the Memphis cult center."
+    "Note": "The later Memphite tradition morphed Osiris and Ptah. This reinterpretation politically unified northern and southern theologies under the Memphis cult center."
   },
   {
     "Index": 20,
@@ -177,7 +177,7 @@
     "Secondary": "19, father",
     "Secondary Name": "Imhotep",
     "Connection Category": "familial: father/son",
-    "Note": "Later tradition venerates Imhotep as \"son of Ptah\" deifying the famous vizier and more broadly ligitimizing priestly/scholarly authority."
+    "Note": "Later tradition venerates Imhotep as \"son of Ptah\" deifying the famous vizier and more broadly legitimizing priestly/scholarly authority."
   },
   {
     "Index": 21,
@@ -330,7 +330,7 @@
     "Secondary": "10, father",
     "Secondary Name": "Maat",
     "Connection Category": "custom connection",
-    "Note": "Thoth and Maat are inseparable in Egyptian thought. Thoth is a scribe of Maat, and he lives in Maat, upholding cosmic order and making sure the Gods and mortals are intellibale between themselves and each other."
+    "Note": "Thoth and Maat are inseparable in Egyptian thought. Thoth is a scribe of Maat, and he lives in Maat, upholding cosmic order and making sure the Gods and mortals are intelligible between themselves and each other."
   },
   {
     "Index": 38,
@@ -1401,7 +1401,7 @@
     "Secondary": "1, father",
     "Secondary Name": "Atum",
     "Connection Category": "custom connection",
-    "Note": "Atum rises from the waters of Nun at the moment of creation"
+    "Note": "Atum rises from the waters of Nun at the moment of creation."
   },
   {
     "Index": 157,
@@ -1482,7 +1482,7 @@
     "Secondary": "24, text",
     "Secondary Name": "Tales of Wonder (Westcar Papyrus)",
     "Connection Category": "explicit reference",
-    "Note": "Westcar explicitly presents Djedefhor (Hardjedef) as a sage in Khufu’s court. This is the only historical-literary attestation of the author outside his Instruction."
+    "Note": "Westcar presents Djedefhor (Hardjedef) as a sage in Khufu’s court. This is the only historical-literary attestation of the author outside his Instruction."
   },
   {
     "Index": 166,
