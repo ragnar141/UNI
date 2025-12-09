@@ -8,6 +8,31 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- ===========================================================
+         Hidden Contribution Form Blueprint for Netlify
+         -----------------------------------------------------------
+         Netlify scans this static HTML during deployment.
+         This enables POST submissions from React without redirects.
+         =========================================================== -->
+    <form
+      name="contribution"
+      netlify
+      netlify-honeypot="bot-field"
+      hidden
+    >
+      <input type="text" name="subject_type" />
+      <input type="text" name="subject_id" />
+      <input type="text" name="subject_title" />
+
+      <input type="text" name="link_type" />
+      <input type="url" name="link_url" />
+      <textarea name="note"></textarea>
+
+      <!-- Honeypot field (spam protection) -->
+      <input type="text" name="bot-field" />
+    </form>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

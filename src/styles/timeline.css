@@ -882,8 +882,35 @@ body {
 
 
 /* Whole pin group overlay — we let underlying marker handle events */
+/* Whole pin group overlay — we let underlying marker handle events */
 .tl-pin {
   pointer-events: none;
+
+  /* Make transforms relative to the pin's own box */
+  transform-box: fill-box;
+  transform-origin: 50% 100%;  /* bottom-center of the teardrop */
+
+  /* Pop/grow in when the pin appears */
+  animation: tlPinGrowUp 220ms cubic-bezier(.22,.61,.36,1) both;
+}
+
+/* "Grow up from the bottom" animation */
+@keyframes tlPinGrowUp {
+  from {
+    opacity: 0;
+    transform: scaleY(0.0) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1) translateY(0);
+  }
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .tl-pin {
+    animation: none;
+  }
 }
 
 /* The teardrop path: white fill, colored border */

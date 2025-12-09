@@ -1346,12 +1346,17 @@ function buildTextConnectionItems(subject, allConnections) {
   const items = [];
 
   // Aggregated textual connections
-  const implicitInformedTargets = [];    // "implicitly informed by X, Y"
-  const implicitInformsTargets = [];     // "implicitly informs X, Y"
-  const explicitInformedByTargets = [];  // "explicitly informed by X, Y"
-  const explicitInformsTargets = [];     // "explicitly informs X, Y"
-  const comparativeTargets = [];         // "provides an earlier comparative framework for X, Y"
-  const textualOther = [];               // fallback explicit/comparative etc. that we don't aggregate
+  const implicitInformedTargets = [];    // subject is secondary: "implicitly informed by X, Y"
+  const explicitInformedByTargets = [];  // subject is secondary: "explicitly informed by X, Y"
+
+  const implicitInformsTargets = [];     // subject is primary: "implicitly informs X, Y"
+  const explicitInformsTargets = [];     // subject is primary: "explicitly informs X, Y"
+
+  // Comparative split by direction
+  const comparativeSecondaryTargets = []; // subject is secondary (B): "shares a comparative framework with an earlier text X, Y"
+  const comparativePrimaryTargets = [];   // subject is primary (A): "provides an earlier comparative framework for X, Y"
+
+  const textualOther = [];               // rare fallback explicit/comparative etc. that we don't aggregate
 
   // father→text explicit references ("Connections with Mythic/Historic Figures")
   const fatherRefs = [];
@@ -1371,6 +1376,7 @@ function buildTextConnectionItems(subject, allConnections) {
     if (aIsText && bIsText) {
       const isSubjectA = c.aId === subjectId;
       const isSubjectB = c.bId === subjectId;
+
       if (isSubjectA || isSubjectB) {
         const otherSide = isSubjectA ? "b" : "a";
 
@@ -1454,19 +1460,45 @@ function buildTextConnectionItems(subject, allConnections) {
           continue;
         }
 
-        // --- Comparative connections (aggregated into one row) ---
+        // --- Comparative connections (directional aggregation) ---
         if (category === "comparative connection") {
-          comparativeTargets.push({
-            type: otherType,
-            id: otherId,
-            name: otherName,
-            note: hasNote ? rawNote : "",
-          });
+          if (isSubjectB && !isSubjectA) {
+            // Subject is the secondary text: later text, pointing back to earlier primary
+            comparativeSecondaryTargets.push({
+              type: otherType,
+              id: otherId,
+              name: otherName,
+              note: hasNote ? rawNote : "",
+            });
+          } else if (isSubjectA && !isSubjectB) {
+            // Subject is the primary text: earlier text, providing a framework for later ones
+            comparativePrimaryTargets.push({
+              type: otherType,
+              id: otherId,
+              name: otherName,
+              note: hasNote ? rawNote : "",
+            });
+          } else {
+            // Fallback symmetric case
+            textualOther.push({
+              section: "textual",
+              textBefore: `${subjectName} is comparatively related to `,
+              targets: [
+                {
+                  type: otherType,
+                  id: otherId,
+                  name: otherName,
+                  note: hasNote ? rawNote : "",
+                },
+              ],
+              note: hasNote ? rawNote : "",
+            });
+          }
+
           continue;
         }
 
-        // Anything else that slips through (unlikely)
-        // could be handled here if needed.
+        // Anything else that slips through (unlikely) could be handled here if needed.
       }
 
       // text↔text handled; skip father logic for this row
@@ -1511,8 +1543,12 @@ function buildTextConnectionItems(subject, allConnections) {
   }
 
   // ===== Assemble textual items in desired order =====
+  //
+  // Global ordering rule:
+  //   1) all connections where subject is SECONDARY (B)
+  //   2) then all where subject is PRIMARY (A)
 
-  // 1) implicitly informed by X, Y
+  // --- Subject as secondary (B) ---
   if (implicitInformedTargets.length) {
     items.push({
       section: "textual",
@@ -1522,7 +1558,6 @@ function buildTextConnectionItems(subject, allConnections) {
     });
   }
 
-  // 2) explicitly informed by X, Y
   if (explicitInformedByTargets.length) {
     items.push({
       section: "textual",
@@ -1532,7 +1567,16 @@ function buildTextConnectionItems(subject, allConnections) {
     });
   }
 
-  // 3) implicitly informs X, Y
+  if (comparativeSecondaryTargets.length) {
+    items.push({
+      section: "textual",
+      textBefore: "shares a comparative framework with an earlier text ",
+      targets: comparativeSecondaryTargets,
+      note: "",
+    });
+  }
+
+  // --- Subject as primary (A) ---
   if (implicitInformsTargets.length) {
     items.push({
       section: "textual",
@@ -1542,7 +1586,6 @@ function buildTextConnectionItems(subject, allConnections) {
     });
   }
 
-  // 4) explicitly informs X, Y
   if (explicitInformsTargets.length) {
     items.push({
       section: "textual",
@@ -1552,17 +1595,16 @@ function buildTextConnectionItems(subject, allConnections) {
     });
   }
 
-  // 5) comparative framework for X, Y, Z...
-  if (comparativeTargets.length) {
+  if (comparativePrimaryTargets.length) {
     items.push({
       section: "textual",
       textBefore: "provides an earlier comparative framework for ",
-      targets: comparativeTargets,
+      targets: comparativePrimaryTargets,
       note: "",
     });
   }
 
-  // 6) everything else (fallback implicit/explicit, etc.)
+  // 6) everything else (fallback implicit/explicit/comparative, rare)
   items.push(...textualOther);
 
   // ===== Mythic/Historic: father ↔ text =====
@@ -1584,7 +1626,6 @@ function buildTextConnectionItems(subject, allConnections) {
 
   return items;
 }
-
 
 
 
