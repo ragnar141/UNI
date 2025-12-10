@@ -357,6 +357,97 @@ body {
   animation: tlSidebarIn 260ms cubic-bezier(.22,.61,.36,1) both;
 }
 
+/* === Contribution section in TextCard / FatherCard === */
+
+.textCard-contrib {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 13px;
+}
+
+.textCard-contrib-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.textCard-contrib-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.textCard-contrib-button {
+  font-size: 11px;
+  padding: 4px 8px;
+}
+
+.textCard-contrib-button.is-active {
+  outline: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+.textCard-contrib-form .textCard-row {
+  padding: 4px 0;
+}
+
+.textCard-input,
+.textCard-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+}
+
+.textCard-input:focus,
+.textCard-textarea:focus {
+  outline: none;
+  border-color: #9ca3af;
+}
+
+.textCard-textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.textCard-contrib-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.textCard-contrib-cancel {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.textCard-contrib-cancel:hover {
+  text-decoration: underline;
+}
+
+.textCard-contrib-status {
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+.textCard-contrib-status.is-success {
+  color: #15803d;
+}
+
+.textCard-contrib-status.is-error {
+  color: #b91c1c;
+}
+
+
 .textCard-connections {
   margin-top: 0.75rem;
   padding-top: 0.5rem;

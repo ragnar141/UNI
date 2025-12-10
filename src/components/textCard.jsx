@@ -7,6 +7,9 @@ import React, {
 } from "react";
 import "../styles/timeline.css";
 
+// Helper to encode data for Netlify form POST
+const encode = (data) => new URLSearchParams(data).toString();
+
 const TextCard = forwardRef(function TextCard(
   { d, left, top, onClose, showMore, setShowMore, connections = [], onNavigate },
   ref
@@ -18,6 +21,35 @@ const TextCard = forwardRef(function TextCard(
   const closedOnceRef = useRef(false);
   const [openNotes, setOpenNotes] = useState({});
 
+  // Contribution UI state
+  const [contribType, setContribType] = useState(null); // "youtube" | "pdf" | "substack" | ...
+  const [contribUrl, setContribUrl] = useState("");
+  const [contribNote, setContribNote] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // "success" | "error" | null
+
+  const contributionLabels = {
+    youtube: "YouTube",
+    pdf: "PDF / scan",
+    substack: "Substack",
+    reddit: "Reddit",
+    museum: "Museum page",
+    article: "Article / blog",
+    other: "Random page",
+  };
+
+  const contributionOrder = [
+    "pdf",
+    "youtube",
+    "substack",
+    "reddit",
+    "museum",
+    "article",
+    "other",
+  ];
+
+  const activeTypeLabel = contribType ? contributionLabels[contribType] : "";
+
   // Always scroll the card to the top when it opens
   useEffect(() => {
     if (elRef.current) {
@@ -26,6 +58,12 @@ const TextCard = forwardRef(function TextCard(
         elRef.current.scrollTo({ top: 0 });
       }
     }
+
+    // reset contribution state when card changes
+    setContribType(null);
+    setContribUrl("");
+    setContribNote("");
+    setSubmitStatus(null);
   }, [d?.id]);
 
   useImperativeHandle(ref, () => ({
@@ -209,6 +247,61 @@ const TextCard = forwardRef(function TextCard(
   const hasTextual = textualConnections.length > 0;
   const hasMythic = mythicConnections.length > 0;
 
+  // === Netlify submission handler ===
+  const handleContributionSubmit = async (e) => {
+    e.preventDefault();
+    if (!contribType || !contribUrl.trim()) return;
+
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    try {
+      const payload = {
+        "form-name": "contribution",
+        subject_type: "text",
+        subject_id: d.id,
+        subject_title: d.title || "",
+        link_type: contribType,
+        link_url: contribUrl.trim(),
+        note: contribNote.trim(),
+      };
+
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode(payload),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Bad response: ${res.status}`);
+      }
+
+      setSubmitStatus("success");
+      setContribUrl("");
+      setContribNote("");
+      setContribType(null);
+    } catch (err) {
+      console.error("Contribution submit failed", err);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSelectType = (type) => {
+    setContribType(type);
+    setSubmitStatus(null);
+    // don't wipe URL if user is switching type; keep whatever they typed
+  };
+
+  const handleCancelContribution = () => {
+    setContribType(null);
+    setContribUrl("");
+    setContribNote("");
+    setSubmitStatus(null);
+  };
+
+  const isSubmitDisabled = !contribUrl.trim() || isSubmitting;
+
   return (
     <div
       ref={elRef}
@@ -366,6 +459,85 @@ const TextCard = forwardRef(function TextCard(
           </div>
         </div>
       )}
+
+      {/* === Offer a contribution === */}
+      <div className="textCard-contrib">
+        <div className="textCard-contrib-title">Offer a contribution.</div>
+        <div className="textCard-contrib-buttons">
+          {contributionOrder.map((type) => (
+            <button
+              key={type}
+              type="button"
+              className={`textCard-button textCard-contrib-button${
+                contribType === type ? " is-active" : ""
+              }`}
+              onClick={() => handleSelectType(type)}
+            >
+              {contributionLabels[type]}
+            </button>
+          ))}
+        </div>
+
+        {contribType && (
+          <form
+            className="textCard-contrib-form"
+            onSubmit={handleContributionSubmit}
+          >
+            <div className="textCard-row">
+              <span className="textCard-label">
+                {activeTypeLabel ? `${activeTypeLabel} link:` : "Link:"}
+              </span>
+              <input
+                className="textCard-input"
+                type="url"
+                required
+                placeholder="https://…"
+                value={contribUrl}
+                onChange={(e) => setContribUrl(e.target.value)}
+              />
+            </div>
+
+            <div className="textCard-row">
+              <span className="textCard-label">Note (optional):</span>
+              <textarea
+                className="textCard-textarea"
+                rows={3}
+                placeholder="Why this link is useful, what it covers, language, etc."
+                value={contribNote}
+                onChange={(e) => setContribNote(e.target.value)}
+              />
+            </div>
+
+            <div className="textCard-contrib-actions">
+              <button
+                type="submit"
+                className="textCard-button"
+                disabled={isSubmitDisabled}
+              >
+                {isSubmitting ? "Sending…" : "Send contribution"}
+              </button>
+              <button
+                type="button"
+                className="textCard-contrib-cancel"
+                onClick={handleCancelContribution}
+              >
+                Cancel
+              </button>
+            </div>
+
+            {submitStatus === "success" && (
+              <div className="textCard-contrib-status is-success">
+                Thank you — contribution received.
+              </div>
+            )}
+            {submitStatus === "error" && (
+              <div className="textCard-contrib-status is-error">
+                Something went wrong. Please try again later.
+              </div>
+            )}
+          </form>
+        )}
+      </div>
     </div>
   );
 });
