@@ -1126,7 +1126,7 @@ function buildFatherConnectionItems(subject, allConnections) {
 
   if (!relevant.length) return [];
 
-  const parentGroups = {};           // father/mother → [{ otherId, otherType, otherName, note }]
+  const parentGroups = {};           // father/mother → [{ otherId, otherType, otherName, note, x }]
   const childGroups = {};            // son/daughter → same
   const siblingGroups = {};          // pure siblings: "sister of X and Y"
   const siblingConsortGroups = {};   // "sister and consort of X and Y"
@@ -1157,11 +1157,17 @@ function buildFatherConnectionItems(subject, allConnections) {
     const otherId = c[`${otherSide}Id`];
     const otherType = c[`${otherSide}Type`];
 
+    // Chronological position of the "other" side on the timeline
+    const otherX = isSubjectA ? c.bx : c.ax;
+    const otherPos = Number(otherX ?? NaN);
+
     const entry = {
       otherId,
       otherType,
       otherName,
       note: hasNote ? rawNote : "",
+      // numeric x for chronological sorting (null if unavailable)
+      x: Number.isFinite(otherPos) ? otherPos : null,
     };
 
     // --- Familial logic ---
@@ -1252,7 +1258,7 @@ function buildFatherConnectionItems(subject, allConnections) {
       continue;
     }
 
-    // --- Fallback generic ---
+    // --- Fallback generic (kept, but sorted chronologically as rows) ---
     looseItems.push({
       textBefore: `is related to `,
       targets: [
@@ -1264,26 +1270,54 @@ function buildFatherConnectionItems(subject, allConnections) {
         },
       ],
       note: "",
+      _sortX: entry.x ?? null, // row-level sort key for generic connections
     });
   }
 
   const items = [];
 
-  // Helper: make a single grouped item, with per-target notes; NO row-level note
-  const makeGroupedItem = (textBefore, entries) => {
+  // Helper: chronological comparator on entry.x
+  const compareByX = (a, b) => {
+    const ax = Number(a.x ?? NaN);
+    const bx = Number(b.x ?? NaN);
+    const aOk = Number.isFinite(ax);
+    const bOk = Number.isFinite(bx);
+    if (aOk && bOk) return ax - bx;
+    if (aOk) return -1;
+    if (bOk) return 1;
+    return 0;
+  };
+
+  // Helper: make a single grouped item, with per-target notes; NO row-level note,
+  // and targets listed in chronological order. Also attach a row-level _sortX
+  // so the entire line can be ordered chronologically among others.
+  const makeGroupedItem = (textBefore, entries, options = {}) => {
     if (!entries || !entries.length) return;
 
-    const targets = entries.map((e) => ({
+    const sortedEntries = [...entries].sort(compareByX);
+
+    const targets = sortedEntries.map((e) => ({
       type: e.otherType,
       id: e.otherId,
       name: e.otherName,
       note: e.note || "",
     }));
 
+    // Row-level sort key = earliest finite x among its targets
+    let rowSortX = null;
+    for (const e of sortedEntries) {
+      if (Number.isFinite(e.x)) {
+        rowSortX = e.x;
+        break;
+      }
+    }
+
     items.push({
       textBefore,
       targets,
       note: "", // important: keep empty so we don't get one big "i" at the end
+      _sortX: rowSortX,
+      _groupType: options.groupType || null,
     });
   };
 
@@ -1315,11 +1349,6 @@ function buildFatherConnectionItems(subject, allConnections) {
     makeGroupedItem(`consort of `, consortGroups.consort);
   }
 
-  // Syncretic: "was syncretized with A, B, C"
-  if (syncreticEntries.length) {
-    makeGroupedItem(`was syncretized with `, syncreticEntries);
-  }
-
   // Custom connections: "relates to A, B, C"
   if (customConnectionGroups.custom && customConnectionGroups.custom.length) {
     makeGroupedItem(`relates to `, customConnectionGroups.custom);
@@ -1330,9 +1359,42 @@ function buildFatherConnectionItems(subject, allConnections) {
     makeGroupedItem(`is mentioned in `, explicitTextRefs);
   }
 
-  // Everything else (generic)
-  return items.concat(looseItems);
+  // Syncretic: "was syncretized with A, B, C"
+  // Marked as a special groupType so we can force it to the very end.
+  if (syncreticEntries.length) {
+    makeGroupedItem(`was syncretized with `, syncreticEntries, {
+      groupType: "syncretic",
+    });
+  }
+
+  // Row-level comparator for both grouped items and loose generic rows.
+  // Syncretic rows are always pushed to the end.
+  const compareRowsBySortX = (a, b) => {
+    const aSyn = a._groupType === "syncretic";
+    const bSyn = b._groupType === "syncretic";
+    if (aSyn && !bSyn) return 1;   // syncretic after non-syncretic
+    if (!aSyn && bSyn) return -1;  // non-syncretic before syncretic
+
+    const ax = Number(a._sortX ?? NaN);
+    const bx = Number(b._sortX ?? NaN);
+    const aOk = Number.isFinite(ax);
+    const bOk = Number.isFinite(bx);
+    if (aOk && bOk) return ax - bx;
+    if (aOk) return -1;
+    if (bOk) return 1;
+    return 0;
+  };
+
+  // Build final list of rows and sort them chronologically,
+  // with syncretic group(s) forced to the very end.
+  const combined = [...items, ...looseItems];
+  combined.sort(compareRowsBySortX);
+
+  // Strip the internal _sortX / _groupType before returning.
+  return combined.map(({ _sortX, _groupType, ...rest }) => rest);
 }
+
+
 
 
 
@@ -1343,9 +1405,7 @@ function buildTextConnectionItems(subject, allConnections) {
   const subjectId = subject.id;
   const subjectName = subject.title || "";
 
-  const items = [];
-
-  // Aggregated textual connections
+  // Aggregated textual connections (store x for chronology)
   const implicitInformedTargets = [];    // subject is secondary: "implicitly informed by X, Y"
   const explicitInformedByTargets = [];  // subject is secondary: "explicitly informed by X, Y"
 
@@ -1356,11 +1416,30 @@ function buildTextConnectionItems(subject, allConnections) {
   const comparativeSecondaryTargets = []; // subject is secondary (B): "shares a comparative framework with an earlier text X, Y"
   const comparativePrimaryTargets = [];   // subject is primary (A): "provides an earlier comparative framework for X, Y"
 
-  const textualOther = [];               // rare fallback explicit/comparative etc. that we don't aggregate
+  const textualOther = [];               // fallback explicit/comparative etc. that we don't aggregate
 
   // father→text explicit references ("Connections with Mythic/Historic Figures")
   const fatherRefs = [];
 
+  // Helper to turn raw x into a finite number or null
+  const normX = (raw) => {
+    const v = Number(raw ?? NaN);
+    return Number.isFinite(v) ? v : null;
+  };
+
+  // Helper for target-level chronological sort
+  const compareByX = (a, b) => {
+    const ax = normX(a.x);
+    const bx = normX(b.x);
+    const aOk = ax !== null;
+    const bOk = bx !== null;
+    if (aOk && bOk) return ax - bx;
+    if (aOk) return -1;
+    if (bOk) return 1;
+    return 0;
+  };
+
+  // ===== Scan all connections =====
   for (const c of allConnections) {
     const rawCat = c.category || "";
     const category = String(rawCat).toLowerCase().trim();
@@ -1384,6 +1463,19 @@ function buildTextConnectionItems(subject, allConnections) {
         const otherId   = c[`${otherSide}Id`];
         const otherType = c[`${otherSide}Type`];
 
+        // Chronological position of the OTHER text on the timeline
+        let otherX = null;
+        if (isSubjectA && !isSubjectB) {
+          // subject is A, other is B
+          otherX = normX(c.bx);
+        } else if (isSubjectB && !isSubjectA) {
+          // subject is B, other is A
+          otherX = normX(c.ax);
+        } else {
+          // weird symmetric case, treat as unknown
+          otherX = null;
+        }
+
         // --- Directional semantics for "indirect connection" ---
         if (category === "indirect connection") {
           if (isSubjectB && !isSubjectA) {
@@ -1393,6 +1485,7 @@ function buildTextConnectionItems(subject, allConnections) {
               id: otherId,
               name: otherName,
               note: hasNote ? rawNote : "",
+              x: otherX,
             });
           } else if (isSubjectA && !isSubjectB) {
             // Subject is on primary side -> implicitly informs secondary
@@ -1401,6 +1494,7 @@ function buildTextConnectionItems(subject, allConnections) {
               id: otherId,
               name: otherName,
               note: hasNote ? rawNote : "",
+              x: otherX,
             });
           } else {
             // Fallback (shouldn't normally happen): symmetric wording
@@ -1416,6 +1510,7 @@ function buildTextConnectionItems(subject, allConnections) {
                 },
               ],
               note: hasNote ? rawNote : "",
+              _sortX: otherX,
             });
           }
 
@@ -1431,6 +1526,7 @@ function buildTextConnectionItems(subject, allConnections) {
               id: otherId,
               name: otherName,
               note: hasNote ? rawNote : "",
+              x: otherX,
             });
           } else if (isSubjectA && !isSubjectB) {
             // Subject is on primary side -> explicitly informs secondary
@@ -1439,6 +1535,7 @@ function buildTextConnectionItems(subject, allConnections) {
               id: otherId,
               name: otherName,
               note: hasNote ? rawNote : "",
+              x: otherX,
             });
           } else {
             // Fallback (shouldn't normally happen): symmetric wording
@@ -1454,6 +1551,7 @@ function buildTextConnectionItems(subject, allConnections) {
                 },
               ],
               note: hasNote ? rawNote : "",
+              _sortX: otherX,
             });
           }
 
@@ -1469,6 +1567,7 @@ function buildTextConnectionItems(subject, allConnections) {
               id: otherId,
               name: otherName,
               note: hasNote ? rawNote : "",
+              x: otherX,
             });
           } else if (isSubjectA && !isSubjectB) {
             // Subject is the primary text: earlier text, providing a framework for later ones
@@ -1477,6 +1576,7 @@ function buildTextConnectionItems(subject, allConnections) {
               id: otherId,
               name: otherName,
               note: hasNote ? rawNote : "",
+              x: otherX,
             });
           } else {
             // Fallback symmetric case
@@ -1492,6 +1592,7 @@ function buildTextConnectionItems(subject, allConnections) {
                 },
               ],
               note: hasNote ? rawNote : "",
+              _sortX: otherX,
             });
           }
 
@@ -1508,32 +1609,38 @@ function buildTextConnectionItems(subject, allConnections) {
     // ===== 2) FATHER ↔ TEXT EXPLICIT REFERENCES =====
     // We only care about explicit references where THIS text is the text side.
     if (category === "explicit reference") {
-      // Case: father on A, text on B
+      // Case: father on A, text on B (subject)
       if (aIsFather && bIsText && c.bId === subjectId) {
         const otherName = c.aName || c["aName"] || "";
         const otherId = c.aId;
         const otherType = c.aType;
 
+        const otherX = normX(c.ax);
+
         fatherRefs.push({
           otherId,
           otherType,
           otherName,
           note: hasNote ? rawNote : "",
+          x: otherX,
         });
         continue;
       }
 
-      // Case: text on A, father on B
+      // Case: text on A (subject), father on B
       if (bIsFather && aIsText && c.aId === subjectId) {
         const otherName = c.bName || c["bName"] || "";
         const otherId = c.bId;
         const otherType = c.bType;
 
+        const otherX = normX(c.bx);
+
         fatherRefs.push({
           otherId,
           otherType,
           otherName,
           note: hasNote ? rawNote : "",
+          x: otherX,
         });
         continue;
       }
@@ -1542,81 +1649,109 @@ function buildTextConnectionItems(subject, allConnections) {
     // Any other categories / shapes are ignored here for now.
   }
 
-  // ===== Assemble textual items in desired order =====
-  //
-  // Global ordering rule:
-  //   1) all connections where subject is SECONDARY (B)
-  //   2) then all where subject is PRIMARY (A)
+  // ===== Assemble textual items, chronologically =====
 
-  // --- Subject as secondary (B) ---
-  if (implicitInformedTargets.length) {
-    items.push({
+  const textualItems = [];
+
+  // Helper: build a textual row from an aggregated target list
+  const makeTextualRow = (textBefore, targetsWithX) => {
+    if (!targetsWithX || !targetsWithX.length) return;
+
+    const sortedTargets = [...targetsWithX].sort(compareByX);
+
+    const targets = sortedTargets.map((t) => ({
+      type: t.type,
+      id: t.id,
+      name: t.name,
+      note: t.note || "",
+    }));
+
+    let rowSortX = null;
+    for (const t of sortedTargets) {
+      const v = normX(t.x);
+      if (v !== null) {
+        rowSortX = v;
+        break;
+      }
+    }
+
+    textualItems.push({
       section: "textual",
-      textBefore: "implicitly informed by ",
-      targets: implicitInformedTargets,
+      textBefore,
+      targets,
       note: "", // per-target notes only
+      _sortX: rowSortX,
     });
+  };
+
+  // Subject as secondary (B)
+  if (implicitInformedTargets.length) {
+    makeTextualRow("implicitly informed by ", implicitInformedTargets);
   }
 
   if (explicitInformedByTargets.length) {
-    items.push({
-      section: "textual",
-      textBefore: "explicitly informed by ",
-      targets: explicitInformedByTargets,
-      note: "",
-    });
+    makeTextualRow("explicitly informed by ", explicitInformedByTargets);
   }
 
   if (comparativeSecondaryTargets.length) {
-    items.push({
-      section: "textual",
-      textBefore: "shares a comparative framework with an earlier text ",
-      targets: comparativeSecondaryTargets,
-      note: "",
-    });
+    makeTextualRow(
+      "shares a comparative framework with an earlier text ",
+      comparativeSecondaryTargets
+    );
   }
 
-  // --- Subject as primary (A) ---
+  // Subject as primary (A)
   if (implicitInformsTargets.length) {
-    items.push({
-      section: "textual",
-      textBefore: "implicitly informs ",
-      targets: implicitInformsTargets,
-      note: "",
-    });
+    makeTextualRow("implicitly informs ", implicitInformsTargets);
   }
 
   if (explicitInformsTargets.length) {
-    items.push({
-      section: "textual",
-      textBefore: "explicitly informs ",
-      targets: explicitInformsTargets,
-      note: "",
-    });
+    makeTextualRow("explicitly informs ", explicitInformsTargets);
   }
 
   if (comparativePrimaryTargets.length) {
-    items.push({
-      section: "textual",
-      textBefore: "provides an earlier comparative framework for ",
-      targets: comparativePrimaryTargets,
-      note: "",
-    });
+    makeTextualRow(
+      "provides an earlier comparative framework for ",
+      comparativePrimaryTargets
+    );
   }
 
-  // 6) everything else (fallback implicit/explicit/comparative, rare)
-  items.push(...textualOther);
+  // Fallback textualOther (already have _sortX)
+  for (const row of textualOther) {
+    textualItems.push(row);
+  }
 
-  // ===== Mythic/Historic: father ↔ text =====
+  // Row-level sort for textual items
+  const compareRowsBySortX = (a, b) => {
+    const ax = normX(a._sortX);
+    const bx = normX(b._sortX);
+    const aOk = ax !== null;
+    const bOk = bx !== null;
+    if (aOk && bOk) return ax - bx;
+    if (aOk) return -1;
+    if (bOk) return 1;
+    return 0;
+  };
+
+  textualItems.sort(compareRowsBySortX);
+
+  // Strip internal _sortX from textual items
+  const finalTextualItems = textualItems.map(({ _sortX, ...rest }) => rest);
+
+  // ===== Mythic/Historic: father ↔ text (kept as its own block, but sorted inside) =====
+  const finalItems = [...finalTextualItems];
+
   if (fatherRefs.length) {
-    const targets = fatherRefs.map((e) => ({
+    const sortedFathers = [...fatherRefs].sort(compareByX);
+
+    const targets = sortedFathers.map((e) => ({
       type: e.otherType,
       id: e.otherId,
       name: e.otherName,
       note: e.note || "",
     }));
 
-    items.push({
+    finalItems.push({
       section: "mythic", // for "Connections with Mythic/Historic Figures"
       textBefore: "mentions ",
       targets,
@@ -1624,9 +1759,8 @@ function buildTextConnectionItems(subject, allConnections) {
     });
   }
 
-  return items;
+  return finalItems;
 }
-
 
 
 /* Build "all selected" default state: { [groupKey]: Set(allTags) } */

@@ -64,8 +64,6 @@ body {
   cursor: -webkit-grabbing;
 }
 
-
-
 .viewport {
   position: relative;
   width: 100vw;
@@ -139,7 +137,6 @@ body {
   opacity: 0;
 }
 
-
 /* mute fathers/texts a bit in the distance */
 .timelineSvg.zoom-outest circle.textDot,
 .timelineSvg.zoom-outest g.fatherMark {
@@ -154,7 +151,6 @@ body {
 .timelineSvg.zoom-middle .durationLabel {
   opacity: 0.4;
 }
-
 
 /* nodes come forward but not full blast yet */
 .timelineSvg.zoom-middle circle.textDot,
@@ -187,7 +183,6 @@ body {
   opacity: 0 !important;
 }
 
-
 /* Duration labels */
 .durationLabel {
   user-select: none;
@@ -209,7 +204,6 @@ body {
   opacity: 1;        /* punch through the background */
   stroke: none;      /* since outest has stroke removed */
 }
-
 
 /* Wrapper */
 .timelineWrap { position: relative; }
@@ -334,7 +328,7 @@ body {
   max-width: 92vw;
   height: auto;
   max-height: none;
-  overflow: auto;
+  overflow: visible;
   scrollbar-gutter: stable;
 
   background: var(--card-bg) !important;
@@ -357,96 +351,26 @@ body {
   animation: tlSidebarIn 260ms cubic-bezier(.22,.61,.36,1) both;
 }
 
-/* === Contribution section in TextCard / FatherCard === */
+/* === Contribution call-to-action inside TextCard / FatherCard === */
 
 .textCard-contrib {
   margin-top: 14px;
   padding-top: 10px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border-top: 1px solid var(--tl-divider, rgba(0, 0, 0, 0.14));
   font-size: 13px;
+  text-align: center;
 }
 
+.textCard-contrib-open {
+  min-width: 0;
+}
+
+/* keep this class for future extension, even if empty for now */
 .textCard-contrib-title {
-  font-weight: 600;
-  margin-bottom: 6px;
 }
 
-.textCard-contrib-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-
-.textCard-contrib-button {
-  font-size: 11px;
-  padding: 4px 8px;
-}
-
-.textCard-contrib-button.is-active {
-  outline: 1px solid rgba(0, 0, 0, 0.35);
-}
-
-.textCard-contrib-form .textCard-row {
-  padding: 4px 0;
-}
-
-.textCard-input,
-.textCard-textarea {
-  width: 100%;
-  box-sizing: border-box;
-  font-family: var(--font-ui);
-  font-size: 13px;
-  padding: 6px 8px;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
-  background: #ffffff;
-}
-
-.textCard-input:focus,
-.textCard-textarea:focus {
-  outline: none;
-  border-color: #9ca3af;
-}
-
-.textCard-textarea {
-  resize: vertical;
-  min-height: 60px;
-}
-
-.textCard-contrib-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.textCard-contrib-cancel {
-  background: transparent;
-  border: none;
-  padding: 0;
-  font-size: 12px;
-  color: var(--muted);
-  cursor: pointer;
-}
-
-.textCard-contrib-cancel:hover {
-  text-decoration: underline;
-}
-
-.textCard-contrib-status {
-  margin-top: 6px;
-  font-size: 12px;
-}
-
-.textCard-contrib-status.is-success {
-  color: #15803d;
-}
-
-.textCard-contrib-status.is-error {
-  color: #b91c1c;
-}
-
+/* Legacy form-related classes (.textCard-input, .textCard-textarea, etc.)
+   have been removed because the contribution UI now lives in ContributionModal. */
 
 .textCard-connections {
   margin-top: 0.75rem;
@@ -474,31 +398,45 @@ body {
   margin-top: 0.15rem;
 }
 
+/* Material-style info chip for connection notes */
 .textCard-connNoteToggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
 
-  border-radius: 50%;
-  background: #ffffff;        /* white fill */
-  border: 1.5px solid #000000; /* black border */
+  border-radius: 999px;
+  background: #f9fafb;
+  border: 1px solid #9ca3af;
 
-  color: #000000;             /* black "i" */
+  color: #111827;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1;
   padding: 0;
 
   cursor: pointer;
   margin-left: 6px;
   vertical-align: middle;
+  flex-shrink: 0;
+
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .textCard-connNoteToggle:hover {
-  background: #f0f0f0;        /* subtle hover — optional */
+  background: #e5e7eb;
+  border-color: #6b7280;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.05);
+}
+
+/* Inner "i" glyph so we can later swap to an SVG if desired */
+.connNoteIcon {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .textCard-connections-subtitle {
@@ -509,12 +447,10 @@ body {
   margin-left: 6px; /* ← pushes the label right a bit */
 }
 
-
 .textCard-connectionNote {
   font-size: 12px;
   opacity: 0.9;
 }
-
 
 /* Shared link-style buttons for connections in TextCard & FatherCard */
 .textCard-connectionLink,
@@ -532,18 +468,76 @@ body {
   transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
 
-/* Keep the target name and its "i" button on the same line */
+/* Keep the target name and its "i" button on the same line, and anchor tooltips here */
 .textCard-connectionTargetGroup {
   display: inline-flex;
   align-items: center;
   white-space: nowrap;  /* allow wrapping before the whole group, never inside */
+  position: relative;   /* anchor for connNoteTooltip */
+  gap: 2px;
 }
 
-/* --- HOVER STYLE: BLUE TEXT --- */
+/* Make father/text names turn blue on hover */
 .textCard-connectionLink:hover,
 .textCard-connTarget:hover {
-  color: #1e6bff;                  /* clean medium blue */
-  text-decoration-color: #1e6bff;  /* underline matches the hover color */
+  color: #2563eb;         /* nice crisp blue */
+  text-decoration: underline;   /* optional but makes interaction clearer */
+  cursor: pointer;
+}
+
+/* When a row-level note (not per-target) uses the tooltip, nudge it a bit right from the intro text */
+.textCard-connectionRowNoteGroup {
+  margin-left: 4px;
+}
+
+/* Speech-bubble tooltip for connection notes in TextCard & FatherCard */
+.connNoteTooltip {
+  position: absolute;
+  top: 100%;          /* directly below the group */
+  right: -390px;           /* anchored under the i side */
+  left: auto;
+  margin-top: 15px;
+
+  width: 400px;       /* same wide width for all tooltips */
+  max-width: 400px;
+
+  background: #111827;
+  color: #f9fafb;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.35;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+  z-index: 40;
+  white-space: normal;   /* allow multi-line text */
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+
+/* Little triangle, sharp angle pointing UP toward the i button,
+   attached to the RIGHT side of the rectangle */
+.connNoteTooltip::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;    /* sit above the bubble */
+  left: 14px;      /* attach near the LEFT side of the rectangle */
+
+  /* sharp angle points UP toward the i button */
+  border-width: 0 7px 7px 7px;
+  border-style: solid;
+  border-color: transparent transparent #111827 transparent;
+}
+
+
+/* Show tooltip only when hovering/focusing the i button */
+.textCard-connNoteToggle:hover + .connNoteTooltip,
+.textCard-connNoteToggle:focus-visible + .connNoteTooltip {
+  opacity: 1;
+  visibility: visible;
 }
 
 .textCard-connectionItem {
@@ -556,7 +550,6 @@ body {
 .textCard-connTarget {
   font-size: inherit;
 }
-
 
 .textCard-title {
   font-size: 20px;
@@ -686,6 +679,153 @@ body {
 }
 
 /* ============================
+   Contribution modal (shared by TextCard & FatherCard)
+   ============================ */
+
+.contribModal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1600; /* above cards */
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+}
+
+.contribModal {
+  position: relative;
+  max-width: 460px;
+  width: calc(100vw - 32px);
+  background: var(--card-bg, #050814);
+  color: var(--text, #111827);
+  border-radius: 16px;
+  padding: 18px 20px 18px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  font-family: var(--font-ui);
+}
+
+.contribModal-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  color: var(--muted, #4b5563);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.contribModal-close:hover {
+  background: rgba(148, 163, 184, 0.15);
+  border-color: rgba(148, 163, 184, 0.6);
+}
+
+.contribModal-title {
+  margin: 4px 0 4px;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  font-family: var(--font-heading);
+}
+
+.contribModal-subtitle {
+  margin: 0 0 12px;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--muted, #4b5563);
+}
+
+.contribModal-subject {
+  font-weight: 600;
+  color: #111827;
+}
+
+.contribModal-field {
+  margin-bottom: 10px;
+}
+
+.contribModal-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--muted, #4b5563);
+}
+
+.contribModal-input,
+.contribModal-textarea {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.65);
+  background: #ffffff;
+  color: #111827;
+  font-size: 13px;
+  padding: 7px 8px;
+  font-family: var(--font-ui);
+  box-sizing: border-box;
+}
+
+.contribModal-input::placeholder,
+.contribModal-textarea::placeholder {
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.contribModal-input:focus,
+.contribModal-textarea:focus {
+  outline: none;
+  border-color: #111827;
+  box-shadow: 0 0 0 1px rgba(17, 24, 39, 0.6);
+}
+
+.contribModal-textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.contribModal-status {
+  margin: 6px 0 4px;
+  font-size: 12px;
+}
+
+.contribModal-status.is-ok {
+  color: #15803d;
+}
+
+.contribModal-status.is-error {
+  color: #b91c1c;
+}
+
+.contribModal-actions {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.contribModal-button {
+  min-width: 0;
+}
+
+.contribModal-button.is-secondary {
+  background: transparent;
+  border-color: rgba(148, 163, 184, 0.7);
+  color: var(--muted, #4b5563);
+}
+
+.contribModal-button.is-secondary:hover {
+  background: rgba(148, 163, 184, 0.15);
+}
+
+/* ============================
    FatherCard — LEFT-SIDEBAR MODE
    ============================ */
 .fatherCard {
@@ -702,7 +842,7 @@ body {
   max-width: 92vw;
   height: auto;
   max-height: none;
-  overflow: auto;
+  overflow: visible;
   scrollbar-gutter: stable;
 
   background: var(--card-bg);
@@ -971,8 +1111,6 @@ body {
    Selected pins on the timeline
    ============================ */
 
-
-/* Whole pin group overlay — we let underlying marker handle events */
 /* Whole pin group overlay — we let underlying marker handle events */
 .tl-pin {
   pointer-events: none;
@@ -1055,8 +1193,6 @@ body {
   stroke: none;
 }
 
-
-
 /* OUTEST: durations emphasized as colored bands, no borders */
 .timelineSvg.zoom-outest:not(.has-selection) .outlineRect {
   fill: currentColor;
@@ -1084,10 +1220,6 @@ body {
   stroke: transparent;
 }
 
-
-
-
-
 /* Custom-group durations: fill only the polygon, not the band-wide rect */
 .timelineSvg.zoom-outest:not(.has-selection) g.durationOutline.isCustomGroup .outlineRect,
 .timelineSvg.zoom-middle:not(.has-selection) g.durationOutline.isCustomGroup .outlineRect {
@@ -1095,6 +1227,3 @@ body {
   fill: transparent;
   stroke: none;
 }
-
-
-
