@@ -53,20 +53,25 @@ useEffect(() => {
     return () => el.removeEventListener("animationend", handleDone);
   }, [isClosing, onClose]);
 
-  // Close on Esc (capture; ignore when search list is open)
+  // Close on Esc (capture; ignore when search list OR contrib modal is open)
   useEffect(() => {
     const onKeyDown = (e) => {
       const key = e.key || e.code;
       if (key !== "Escape" && key !== "Esc") return;
       if (document.body.classList.contains("sb-open")) return;
+      if (isContribOpen) {
+        // ContributionModal will handle Escape itself.
+        return;
+      }
       e.preventDefault();
       e.stopPropagation();
       setIsClosing(true);
     };
+
     window.addEventListener("keydown", onKeyDown, { capture: true });
     return () =>
       window.removeEventListener("keydown", onKeyDown, { capture: true });
-  }, []);
+  }, [isContribOpen]);
 
   const splitTags = (s) =>
     String(s || "")
@@ -383,7 +388,7 @@ useEffect(() => {
             className="textCard-button textCard-contrib-open"
             onClick={() => setIsContribOpen(true)}
           >
-            Offer a contribution
+            Share relevent media
           </button>
         </div>
       </div>

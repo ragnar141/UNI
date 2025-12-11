@@ -21,7 +21,7 @@
   --card-pad-right: 16px; /* tighter right edge */
 
   /* Buttons (Show/Hide Tags) */
-  --btn-brown:        #e4b570;
+  --btn-brown:        #f4e0b3;
   --btn-brown-hover:  #d9a85e;  /* slightly darker */
   --btn-brown-active: #cfa161;  /* pressed */
   --btn-brown-border: #b08a4b;  /* softer than black */
@@ -102,14 +102,8 @@ body {
 }
 
 /* soft fill under the axis */
+.timelineSvg .axisUnderfill,
 .axisUnderfill {
-  fill: #fff7d6;           /* warm light yellow */
-  opacity: 0.9;
-  pointer-events: none;
-}
-
-/* Correct axis underfill selector + base look */
-.timelineSvg .axisUnderfill {
   fill: #fff7d6;           /* warm light yellow */
   opacity: 0.9;
   pointer-events: none;
@@ -358,7 +352,7 @@ body {
   padding-top: 10px;
   border-top: 1px solid var(--tl-divider, rgba(0, 0, 0, 0.14));
   font-size: 13px;
-  text-align: center;
+  text-align: right;
 }
 
 .textCard-contrib-open {
@@ -685,7 +679,7 @@ body {
 .contribModal-overlay {
   position: fixed;
   inset: 0;
-  z-index: 1600; /* above cards */
+  z-index: 9999; /* above cards */
   background: rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
@@ -704,6 +698,7 @@ body {
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
   border: 1px solid rgba(148, 163, 184, 0.35);
   font-family: var(--font-ui);
+  pointer-events: auto; /* card itself stays interactive */
 }
 
 .contribModal-close {
@@ -715,25 +710,42 @@ body {
   display: grid;
   place-items: center;
   background: transparent;
-  border-radius: 999px;
   border: 1px solid transparent;
-  color: var(--muted, #4b5563);
+  border-radius: 8px; /* same shape as card close */
+  color: var(--muted);
   cursor: pointer;
   font-size: 18px;
   line-height: 1;
 }
 
 .contribModal-close:hover {
-  background: rgba(148, 163, 184, 0.15);
-  border-color: rgba(148, 163, 184, 0.6);
+  background: #f3f4f6;
+  border-color: #e5e7eb;
 }
 
+
 .contribModal-title {
-  margin: 4px 0 4px;
+  margin: 4px 0 8px;
   font-size: 16px;
   font-weight: 700;
   text-align: center;
   font-family: var(--font-heading);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.contribModal-titlePrefix {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.contribModal-subjectHeading {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 800;
 }
 
 .contribModal-subtitle {
@@ -774,6 +786,11 @@ body {
   box-sizing: border-box;
 }
 
+.contribModal-field select.contribModal-input {
+  /* a bit more room on the right so text doesn't hit the arrow */
+  padding-right: 26px;
+}
+
 .contribModal-input::placeholder,
 .contribModal-textarea::placeholder {
   color: rgba(148, 163, 184, 0.9);
@@ -811,10 +828,15 @@ body {
   gap: 8px;
 }
 
+/* Make both buttons use the same UI font/weight as the card button */
 .contribModal-button {
   min-width: 0;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 14px;
 }
 
+/* Secondary = Cancel */
 .contribModal-button.is-secondary {
   background: transparent;
   border-color: rgba(148, 163, 184, 0.7);
@@ -823,6 +845,24 @@ body {
 
 .contribModal-button.is-secondary:hover {
   background: rgba(148, 163, 184, 0.15);
+}
+
+/* Primary = Send contribution — match the blue "Share relevant media" pill */
+.contribModal-actions .contribModal-button:not(.is-secondary) {
+  background: #2F6AA1;
+  color: #ffffff;
+  border-color: #2F6AA1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.contribModal-actions .contribModal-button:not(.is-secondary):hover {
+  background: #285887;
+  border-color: #285887;
+}
+
+.contribModal-actions .contribModal-button:not(.is-secondary):active {
+  background: #22496f;
+  border-color: #22496f;
 }
 
 /* ============================
@@ -960,10 +1000,11 @@ body {
   border-radius: 10px;
   padding: 8px 12px;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 600;
   cursor: pointer;
   box-shadow: 0 1px 0 rgba(0,0,0,0.03);
 }
+
 .textCard-button:hover,
 .tl-card-btn:hover {
   background: var(--btn-brown-hover);
@@ -977,6 +1018,32 @@ body {
 .tl-card-btn:focus-visible {
   outline: 2px solid transparent;
   box-shadow: 0 0 0 3px var(--btn-brown-ring);
+}
+
+/* Make "Offer a contribution" distinct: blue pill, white text */
+.textCard-contrib .textCard-button.textCard-contrib-open {
+  background: #2F6AA1;
+  color: #ffffff;
+  border-color: #2F6AA1;
+  font-weight: 600;              /* can keep this a bit stronger */
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  font-family: var(--font-ui);
+}
+
+.textCard-contrib .textCard-button.textCard-contrib-open:hover {
+  background: #285887;
+  border-color: #285887;
+}
+
+.textCard-contrib .textCard-button.textCard-contrib-open:active {
+  background: #22496f;
+  border-color: #22496f;
+}
+
+/* Override button font size specifically for ContributionModal */
+.contribModal-actions .contribModal-button {
+  font-size: 14px;
 }
 
 /* ============================
@@ -1213,11 +1280,6 @@ body {
   stroke-opacity: 0.9;
   stroke-width: 1.2px;
   vector-effect: non-scaling-stroke;
-}
-
-.timelineSvg.zoom-outest:not(.has-selection) .segmentHit {
-  fill: transparent;
-  stroke: transparent;
 }
 
 /* Custom-group durations: fill only the polygon, not the band-wide rect */

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import "../styles/timeline.css";
 
 const MEDIA_OPTIONS = [
@@ -23,7 +24,7 @@ function encode(data) {
 function ContributionModal({
   isOpen,
   onClose,
-  subjectType,   // "text" | "father"
+  subjectType, // "text" | "father"
   subjectId,
   subjectTitle,
 }) {
@@ -45,6 +46,23 @@ function ContributionModal({
       setLinkType("video");
     }
   }, [isOpen]);
+
+    // Close ONLY the modal on Escape
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const onKeyDown = (e) => {
+      const key = e.key || e.code;
+      if (key !== "Escape" && key !== "Esc") return;
+
+      e.preventDefault();
+      e.stopPropagation(); // don't let it bubble to card handlers
+      onClose?.();
+    };
+
+    window.addEventListener("keydown", onKeyDown, { capture: true });
+    return () => window.removeEventListener("keydown", onKeyDown, { capture: true });
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -99,13 +117,11 @@ function ContributionModal({
     }
   };
 
-  const shortTitle = subjectTitle || (subjectType === "father" ? "this figure" : "this text");
+  const shortTitle =
+    subjectTitle || (subjectType === "father" ? "this figure" : "this text");
 
-  return (
-    <div
-      className="contribModal-overlay"
-      onClick={handleBackdropClick}
-    >
+  const modalTree = (
+    <div className="contribModal-overlay" onClick={handleBackdropClick}>
       <div
         className="contribModal"
         role="dialog"
@@ -121,32 +137,29 @@ function ContributionModal({
           ×
         </button>
 
-        <h2 className="contribModal-title">Offer a contribution</h2>
-
-        <p className="contribModal-subtitle">
-          You’re contributing a resource for:
-          <br />
-          <span className="contribModal-subject">
-            {shortTitle}
-            {subjectId != null && ` (ID ${subjectId})`}
+        {/* Heading split into two lines:
+            "Share relevant media for"
+            "Pyramid Texts" / "Imhotep" */}
+        <h2 className="contribModal-title">
+          <span className="contribModal-titlePrefix">
+            Share relevant media for
           </span>
-        </p>
+          <span className="contribModal-subjectHeading">{shortTitle}</span>
+        </h2>
 
-        <form
-          name="contribution"
-          data-netlify="true"
-          onSubmit={handleSubmit}
-        >
+        <form name="contribution" data-netlify="true" onSubmit={handleSubmit}>
           {/* Netlify still likes to see this even when we POST via fetch */}
           <input type="hidden" name="form-name" value="contribution" />
           <input type="hidden" name="subject_type" value={subjectType} />
           <input type="hidden" name="subject_id" value={subjectId ?? ""} />
-          <input type="hidden" name="subject_title" value={subjectTitle || ""} />
+          <input
+            type="hidden"
+            name="subject_title"
+            value={subjectTitle || ""}
+          />
 
           <div className="contribModal-field">
-            <label className="contribModal-label">
-              Media type
-            </label>
+            <label className="contribModal-label">Media type</label>
             <select
               name="link_type"
               className="contribModal-input"
@@ -232,13 +245,17 @@ function ContributionModal({
               className="textCard-button contribModal-button"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Sending…" : "Send contribution"}
+              {isSubmitting ? "Submitting…" : "Submit media"}
             </button>
           </div>
         </form>
       </div>
     </div>
   );
+
+  // Portal into body so the overlay sits above search bar / filters and
+  // the whole blurred layer catches clicks.
+  return createPortal(modalTree, document.body);
 }
 
 export default ContributionModal;
