@@ -3877,29 +3877,90 @@ if (a) showTip(tipText, html, a.x, a.y, d.color);
           updateHoverVisuals();
         }
       })
-      .on("click", function (ev, d) {
-  // Keep any open segment box visible
+                .on("click", function (ev, d) {
+        // Keep any open segment box visible
 
-  const a = textAnchorClient(this, d);
-  const wrapRect = wrapRef.current.getBoundingClientRect();
-  const CARD_W = 360, CARD_H = 320, PAD = 12;
+        const wrapRect = wrapRef.current?.getBoundingClientRect();
+        if (!wrapRect) {
+          // Fallback: old behavior if something is weird
+          const aFallback = textAnchorClient(this, d);
+          const CARD_W = 360, CARD_H = 320, PAD = 12;
+          let left = aFallback ? aFallback.x - wrapRect.left + PAD : PAD;
+          let top  = aFallback ? aFallback.y - wrapRect.top  + PAD : PAD;
+          left = Math.max(4, Math.min(left, wrapRect.width  - CARD_W - 4));
+          top  = Math.max(4, Math.min(top,  wrapRect.height - CARD_H - 4));
 
-  let left = a ? a.x - wrapRect.left + PAD : PAD;
-  let top  = a ? a.y - wrapRect.top + PAD : PAD;
-  left = Math.max(4, Math.min(left, wrapRect.width - CARD_W - 4));
-  top  = Math.max(4, Math.min(top, wrapRect.height - CARD_H - 4));
+          hideTipSel(tipText);
+          setCardPos({ left, top });
+          setSelectedText(d);
+          setSelectedFather(null);
+          setShowMore(false);
+          ev.stopPropagation();
+          return;
+        }
 
-  hideTipSel(tipText);    // OK to hide the tiny hover tip
-  // leave tipSeg visible so the segment box stays up
-  // hideTipSel(tipDur);   // optional, keep duration card if desired
+        const CARD_W = 360, CARD_H = 320, PAD = 12;
 
-  setCardPos({ left, top });
-  setSelectedText(d);
-  setSelectedFather(null);
-  setShowMore(false);
+        // Where is this dot on screen relative to the wrapper?
+        const a = textAnchorClient(this, d);
+        const relX = a ? a.x - wrapRect.left : wrapRect.width / 2;
+        const relY = a ? a.y - wrapRect.top  : wrapRect.height / 2;
 
-  ev.stopPropagation();
-})
+        // Danger zones: left is generous (card width), others modest
+        const LEFT_THRESHOLD  = CARD_W + 24;   // ≈ card width + padding
+        const EDGE_PAD        = 48;            // top/right/bottom margin
+
+        const tooLeft   = relX < LEFT_THRESHOLD + EDGE_PAD;
+        const tooRight  = relX > wrapRect.width  - EDGE_PAD;
+        const tooTop    = relY < EDGE_PAD;
+        const tooBottom = relY > wrapRect.height - EDGE_PAD;
+
+        const shouldRecenter = (tooLeft || tooRight || tooTop || tooBottom);
+
+        hideTipSel(tipText); // hide small hover tip, keep segment box if any
+
+        if (shouldRecenter && zoomRef.current && svgSelRef.current) {
+          // Behave like SearchBar in terms of placement, but DO NOT change zoom
+          const centerLeft = Math.round((wrapRect.width - CARD_W) / 2);
+          const centerTop  = Math.max(8, Math.round(72));
+
+          setCardPos({ left: centerLeft, top: centerTop });
+          setSelectedText(d);
+          setSelectedFather(null);
+          setShowMore(false);
+
+          const kTarget = kRef.current ?? 1;
+          const xAstro  = toAstronomical(d.when);
+          const yU      = laneYUForText(d);
+
+          const t = computeTransformForPoint(xAstro, yU, kTarget);
+
+          svgSelRef.current
+            .transition()
+            .duration(SEARCH_FLY.duration)
+            .ease(SEARCH_FLY.ease)
+            .call(zoomRef.current.transform, t)
+            .on("end", () => {
+              lastTransformRef.current = t;
+              kRef.current = t.k;
+            });
+        } else {
+          // Old behavior: card anchored near the dot, no camera move
+          let left = a ? a.x - wrapRect.left + PAD : PAD;
+          let top  = a ? a.y - wrapRect.top  + PAD : PAD;
+          left = Math.max(4, Math.min(left, wrapRect.width  - CARD_W - 4));
+          top  = Math.max(4, Math.min(top,  wrapRect.height - CARD_H - 4));
+
+          setCardPos({ left, top });
+          setSelectedText(d);
+          setSelectedFather(null);
+          setShowMore(false);
+        }
+
+        ev.stopPropagation();
+      })
+
+
 
       .attr("opacity", BASE_OPACITY);
 
@@ -4026,32 +4087,93 @@ fathersSel
         .attr("stroke-width", 0);
     }
   })
-  .on("click", function (ev, d) {
-  // Keep any open segment box visible
-  // Do NOT clear active segment or duration; do NOT close all
+     .on("click", function (ev, d) {
+    // Keep any open segment box visible
+    // Do NOT clear active segment or duration; do NOT close all
 
-  // anchor near the triangle
-  const a = fatherAnchorClient(this, d);
-  const wrapRect = wrapRef.current.getBoundingClientRect();
-  const CARD_W = 360, CARD_H = 320, PAD = 12;
+    const wrapRect = wrapRef.current?.getBoundingClientRect();
+    if (!wrapRect) {
+      // Fallback: old behavior if something is weird
+      const aFallback = fatherAnchorClient(this, d);
+      const CARD_W = 360, CARD_H = 320, PAD = 12;
+      let left = aFallback ? aFallback.x - wrapRect.left + PAD : PAD;
+      let top  = aFallback ? aFallback.y - wrapRect.top  + PAD : PAD;
+      left = Math.max(4, Math.min(left, wrapRect.width  - CARD_W - 4));
+      top  = Math.max(4, Math.min(top,  wrapRect.height - CARD_H - 4));
 
-  let left = a ? a.x - wrapRect.left + PAD : PAD;
-  let top  = a ? a.y - wrapRect.top + PAD : PAD;
-  left = Math.max(4, Math.min(left, wrapRect.width - CARD_W - 4));
-  top  = Math.max(4, Math.min(top, wrapRect.height - CARD_H - 4));
+      hideTipSel(tipText);
+      setFatherCardPos({ left, top });
+      setSelectedFather(d);
+      setSelectedText(null);
+      setShowMore(false);
+      ev.stopPropagation();
+      return;
+    }
 
-  // Only hide the tiny hover tip; leave the segment box (tipSeg) up
-  hideTipSel(tipText);
-  // hideTipSel(tipSeg);   // <-- do NOT call this
-  // hideTipSel(tipDur);   // optional: keep duration card if it’s open
+    const CARD_W = 360, CARD_H = 320, PAD = 12;
 
-  setFatherCardPos({ left, top });
-  setSelectedFather(d);   // open FatherCard
-  setSelectedText(null);  // ensure TextCard is closed
-  setShowMore(false);
+    // anchor near the triangle
+    const a = fatherAnchorClient(this, d);
+    const relX = a ? a.x - wrapRect.left : wrapRect.width / 2;
+    const relY = a ? a.y - wrapRect.top  : wrapRect.height / 2;
 
-  ev.stopPropagation();
-})
+    // Danger zones (same as for texts)
+    const LEFT_THRESHOLD  = CARD_W + 24;
+    const EDGE_PAD        = 48;
+
+    const tooLeft   = relX < LEFT_THRESHOLD;
+    const tooRight  = relX > wrapRect.width  - EDGE_PAD;
+    const tooTop    = relY < EDGE_PAD;
+    const tooBottom = relY > wrapRect.height - EDGE_PAD;
+
+    const shouldRecenter = (tooLeft || tooRight || tooTop || tooBottom);
+
+    // Only hide the tiny hover tip; leave the segment box (tipSeg) up
+    hideTipSel(tipText);
+    // hideTipSel(tipSeg);   // <-- do NOT call this
+    // hideTipSel(tipDur);   // optional: keep duration card if it’s open
+
+    if (shouldRecenter && zoomRef.current && svgSelRef.current) {
+      // Behave like SearchBar for card placement, but keep current zoom
+      const centerLeft = Math.round((wrapRect.width - CARD_W) / 2);
+      const centerTop  = Math.max(8, Math.round(72));
+
+      setFatherCardPos({ left: centerLeft, top: centerTop });
+      setSelectedFather(d);
+      setSelectedText(null);
+      setShowMore(false);
+
+      const kTarget = kRef.current ?? 1;
+      const xAstro  = toAstronomical(d.when);
+      const yU      = laneYUForFather(d);
+
+      const t = computeTransformForPoint(xAstro, yU, kTarget);
+
+      svgSelRef.current
+        .transition()
+        .duration(SEARCH_FLY.duration)
+        .ease(SEARCH_FLY.ease)
+        .call(zoomRef.current.transform, t)
+        .on("end", () => {
+          lastTransformRef.current = t;
+          kRef.current = t.k;
+        });
+    } else {
+      // Old behavior: card anchored near the triangle, no camera move
+      let left = a ? a.x - wrapRect.left + PAD : PAD;
+      let top  = a ? a.y - wrapRect.top  + PAD : PAD;
+      left = Math.max(4, Math.min(left, wrapRect.width  - CARD_W - 4));
+      top  = Math.max(4, Math.min(top,  wrapRect.height - CARD_H - 4));
+
+      setFatherCardPos({ left, top });
+      setSelectedFather(d);   // open FatherCard
+      setSelectedText(null);  // ensure TextCard is closed
+      setShowMore(false);
+    }
+
+    ev.stopPropagation();
+  })
+
 
 
 

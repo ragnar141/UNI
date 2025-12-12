@@ -159,11 +159,41 @@ export default function SearchBar({
     if (!qq) {
       return [];
     }
+
     const score = (it) => {
       let s = 0;
       const T = (v) => String(v || "").toLowerCase();
+      const title = T(it.title);
       const inc = (v, w) => (T(v).includes(qq) ? w : 0);
-      s += inc(it.title, 8);
+
+      // Title: strong, position-aware scoring so that:
+      // - exact title match (e.g. "ra") wins hard
+      // - titles starting with the query (e.g. "socrates of athens") outrank
+      //   those where the query appears later ("on the god of socrates")
+      if (title && qq) {
+        const idx = title.indexOf(qq);
+        if (idx !== -1) {
+          // base title hit
+          s += 8;
+
+          if (title === qq) {
+            // exact title match: e.g. father "Ra"
+            s += 20;
+          } else {
+            if (idx === 0) {
+              // title starts with query: e.g. "socrates of athens"
+              s += 6;
+            }
+            const prevChar = idx > 0 ? title[idx - 1] : " ";
+            if (prevChar === " " || prevChar === "—" || prevChar === "-" || prevChar === "(" || prevChar === "[") {
+              // word-boundary hit inside the title: e.g. "... socrates"
+              s += 3;
+            }
+          }
+        }
+      }
+
+      // Other fields: keep existing weights
       s += inc(it.subtitle, 5);
       s += inc(it.category, 3);
       s += inc(it.description, 2);
@@ -173,6 +203,7 @@ export default function SearchBar({
       s += inc(it.dob, 2);
       return s;
     };
+
     return base
       .map((it) => ({ it, s: score(it) }))
       .filter((x) => x.s > 0)

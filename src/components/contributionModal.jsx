@@ -3,71 +3,118 @@ import { createPortal } from "react-dom";
 import "../styles/timeline.css";
 
 const MEDIA_OPTIONS = [
-  { value: "video", label: "Video (YouTube, Vimeo, etc.)" },
-  { value: "article", label: "Article / blog / Substack" },
-  { value: "pdf", label: "PDF / scan / paper" },
-  { value: "reddit", label: "Reddit thread / discussion" },
-  { value: "museum", label: "Museum / library page" },
+  { value: "original_pdf", label: "Original text (PDF / doc)" },
+  { value: "print_media", label: "Article / post" },
+  { value: "imagery", label: "Image / museum record" },
+  { value: "video", label: "Video" },
   { value: "other", label: "Other" },
 ];
 
-// Same encode helper pattern Netlify likes
 function encode(data) {
   return Object.keys(data)
-    .map(
-      (key) =>
-        encodeURIComponent(key) + "=" + encodeURIComponent(data[key] ?? "")
-    )
+    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key] ?? ""))
     .join("&");
+}
+
+function isLikelyValidHttpsUrl(raw) {
+  if (!raw) return false;
+  const trimmed = raw.trim();
+
+  if (!trimmed.startsWith("https://")) return false;
+  if (/\s/.test(trimmed)) return false;
+  if (trimmed.length < 12) return false;
+
+  try {
+    const u = new URL(trimmed);
+    if (!u.hostname || !u.hostname.includes(".")) return false;
+  } catch {
+    return false;
+  }
+
+  return true;
 }
 
 function ContributionModal({
   isOpen,
   onClose,
-  subjectType, // "text" | "father"
+  subjectType,
   subjectId,
   subjectTitle,
 }) {
-  const [linkType, setLinkType] = useState("video");
+  const isFather = subjectType === "father";
+
+  // Options available for this subject type
+  const availableOptions = React.useMemo(
+    () =>
+      isFather
+        ? MEDIA_OPTIONS.filter((opt) => opt.value !== "original_pdf")
+        : MEDIA_OPTIONS,
+    [isFather]
+  );
+
+  const [linkType, setLinkType] = useState("original_pdf");
   const [url, setUrl] = useState("");
   const [label, setLabel] = useState("");
   const [note, setNote] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [status, setStatus] = useState(null); // { ok: boolean, message: string }
+  const [status, setStatus] = useState(null);
 
-  // Reset state whenever we open a fresh modal
-  useEffect(() => {
-    if (isOpen) {
-      setStatus(null);
-      setIsSubmitting(false);
-      setUrl("");
-      setLabel("");
-      setNote("");
-      setLinkType("video");
+  // Dynamic label for the Link field depending on linkType
+  const linkLabelText = (() => {
+    switch (linkType) {
+      case "original_pdf":
+        return "Link to a public-domain text hosted on your personal drive (Google Drive, Dropbox, etc.)";
+      case "print_media":
+        return "Link to a commentary or analysis (Substack, Reddit, Medium, etc.)";
+      case "imagery":
+        return "Link to an official museum or library record (Met, Louvre, Prado, etc.)";
+      case "video":
+        return "Link to a lecture or video essay (YouTube, Vimeo, etc.)";
+      case "other":
+      default:
+        return "Link to a relevant resource";
     }
-  }, [isOpen]);
+  })();
 
-    // Close ONLY the modal on Escape
+  // Reset state whenever modal opens
   useEffect(() => {
     if (!isOpen) return;
 
-    const onKeyDown = (e) => {
-      const key = e.key || e.code;
-      if (key !== "Escape" && key !== "Esc") return;
+    setStatus(null);
+    setIsSubmitting(false);
+    setUrl("");
+    setLabel("");
+    setNote("");
 
-      e.preventDefault();
-      e.stopPropagation(); // don't let it bubble to card handlers
-      onClose?.();
+    const allowedValues = availableOptions.map((o) => o.value);
+    const defaultValue = allowedValues[0];
+
+    setLinkType((prev) =>
+      allowedValues.includes(prev) ? prev : defaultValue
+    );
+  }, [isOpen, availableOptions]);
+
+  // Escape key closes only this modal
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handler = (e) => {
+      const key = e.key || e.code;
+      if (key === "Escape" || key === "Esc") {
+        e.preventDefault();
+        e.stopPropagation();
+        onClose?.();
+      }
     };
 
-    window.addEventListener("keydown", onKeyDown, { capture: true });
-    return () => window.removeEventListener("keydown", onKeyDown, { capture: true });
+    window.addEventListener("keydown", handler, { capture: true });
+    return () =>
+      window.removeEventListener("keydown", handler, { capture: true });
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
   const handleBackdropClick = (e) => {
-    // Only close if they clicked the dark backdrop, not the modal content
     if (e.target.classList.contains("contribModal-overlay")) {
       onClose?.();
     }
@@ -75,8 +122,49 @@ function ContributionModal({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!url.trim()) {
+
+    // ---- NEW VALIDATION FOR SHORT DESCRIPTION ----
+    const wordCount = label.trim().split(/\s+/).filter(Boolean).length;
+    if (wordCount < 1 || wordCount > 5) {
+      setStatus({
+        ok: false,
+        message: "Short description must be between 1 and 5 words.",
+      });
+      return;
+    }
+    // ------------------------------------------------
+
+    const trimmedUrl = url.trim();
+    if (!trimmedUrl) {
       setStatus({ ok: false, message: "Please paste a link." });
+      return;
+    }
+
+    // Honeypot
+    if (e.target.elements["website"]?.value) return;
+
+    // Simple rate limit
+    try {
+      const now = Date.now();
+      const lastRaw = window.localStorage.getItem("lastContributionTs");
+      const last = lastRaw ? Number(lastRaw) : 0;
+
+      if (last && now - last < 15000) {
+        setStatus({
+          ok: false,
+          message: "Please wait a moment before submitting again.",
+        });
+        return;
+      }
+
+      window.localStorage.setItem("lastContributionTs", String(now));
+    } catch {}
+
+    if (!isLikelyValidHttpsUrl(trimmedUrl)) {
+      setStatus({
+        ok: false,
+        message: "Enter a valid https:// link.",
+      });
       return;
     }
 
@@ -90,7 +178,7 @@ function ContributionModal({
         subject_id: String(subjectId ?? ""),
         subject_title: subjectTitle || "",
         link_type: linkType,
-        link_url: url.trim(),
+        link_url: trimmedUrl,
         resource_label: label.trim(),
         note: note.trim(),
       };
@@ -101,72 +189,46 @@ function ContributionModal({
         body: encode(payload),
       });
 
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
-      }
+      if (!res.ok) throw new Error();
 
-      setStatus({ ok: true, message: "Thank you — contribution sent." });
+      setStatus({ ok: true, message: "Submission received." });
     } catch (err) {
-      console.error("Contribution submit error:", err);
-      setStatus({
-        ok: false,
-        message: "Something went wrong. Please try again in a moment.",
-      });
+      setStatus({ ok: false, message: "Error. Please try again." });
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const shortTitle =
+  const titleShort =
     subjectTitle || (subjectType === "father" ? "this figure" : "this text");
 
-  const modalTree = (
+  return createPortal(
     <div className="contribModal-overlay" onClick={handleBackdropClick}>
-      <div
-        className="contribModal"
-        role="dialog"
-        aria-modal="true"
-        aria-label={`Offer a contribution for ${shortTitle}`}
-      >
-        <button
-          type="button"
-          className="contribModal-close"
-          onClick={onClose}
-          aria-label="Close contribution form"
-        >
-          ×
-        </button>
+      <div className="contribModal" role="dialog" aria-modal="true">
+        <button className="contribModal-close" onClick={onClose}>×</button>
 
-        {/* Heading split into two lines:
-            "Share relevant media for"
-            "Pyramid Texts" / "Imhotep" */}
         <h2 className="contribModal-title">
-          <span className="contribModal-titlePrefix">
-            Share relevant media for
-          </span>
-          <span className="contribModal-subjectHeading">{shortTitle}</span>
+          <span className="contribModal-titlePrefix">Share media for</span>
+          <span className="contribModal-subjectHeading">{titleShort}</span>
         </h2>
 
         <form name="contribution" data-netlify="true" onSubmit={handleSubmit}>
-          {/* Netlify still likes to see this even when we POST via fetch */}
           <input type="hidden" name="form-name" value="contribution" />
+
           <input type="hidden" name="subject_type" value={subjectType} />
           <input type="hidden" name="subject_id" value={subjectId ?? ""} />
-          <input
-            type="hidden"
-            name="subject_title"
-            value={subjectTitle || ""}
-          />
+          <input type="hidden" name="subject_title" value={subjectTitle || ""} />
 
+          {/* Type */}
           <div className="contribModal-field">
-            <label className="contribModal-label">Media type</label>
+            <label className="contribModal-label">Type</label>
             <select
               name="link_type"
               className="contribModal-input"
               value={linkType}
               onChange={(e) => setLinkType(e.target.value)}
             >
-              {MEDIA_OPTIONS.map((opt) => (
+              {availableOptions.map((opt) => (
                 <option key={opt.value} value={opt.value}>
                   {opt.label}
                 </option>
@@ -174,46 +236,41 @@ function ContributionModal({
             </select>
           </div>
 
+          {/* URL */}
           <div className="contribModal-field">
-            <label htmlFor="contrib-url" className="contribModal-label">
-              Link (URL)
-            </label>
+            <label className="contribModal-label">{linkLabelText}</label>
             <input
-              id="contrib-url"
               name="link_url"
               type="url"
               required
-              placeholder="https://example.com/…"
+              placeholder="https://…"
               className="contribModal-input"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
             />
           </div>
 
+          {/* Short description */}
           <div className="contribModal-field">
-            <label htmlFor="contrib-label" className="contribModal-label">
-              Optional title / label
+            <label className="contribModal-label">
+              Short description (1–5 words)
             </label>
             <input
-              id="contrib-label"
               name="resource_label"
               type="text"
-              placeholder="e.g. Brilliant commentary, lecture, edition…"
               className="contribModal-input"
               value={label}
               onChange={(e) => setLabel(e.target.value)}
+              required
             />
           </div>
 
+          {/* Note */}
           <div className="contribModal-field">
-            <label htmlFor="contrib-note" className="contribModal-label">
-              Note (optional)
-            </label>
+            <label className="contribModal-label">Broader note (optional)</label>
             <textarea
-              id="contrib-note"
               name="note"
-              rows={3}
-              placeholder="Why is this useful? Any context for future readers?"
+              rows={2}
               className="contribModal-textarea"
               value={note}
               onChange={(e) => setNote(e.target.value)}
@@ -223,39 +280,42 @@ function ContributionModal({
           {status && (
             <div
               className={
-                "contribModal-status " +
-                (status.ok ? "is-ok" : "is-error")
+                "contribModal-status " + (status.ok ? "is-ok" : "is-error")
               }
             >
               {status.message}
             </div>
           )}
 
-          <div className="contribModal-actions">
-            <button
-              type="button"
-              className="textCard-button contribModal-button is-secondary"
-              onClick={onClose}
-              disabled={isSubmitting}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="textCard-button contribModal-button"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Submitting…" : "Submit media"}
-            </button>
+          {/* Footer */}
+          <div className="contribModal-footerRow">
+            <div className="contribModal-footnote">
+              * Please only share public-domain or original work that is fully free to access, with no sign-ins, subscriptions, or paywalls
+            </div>
+
+            <div className="contribModal-actions">
+              <button
+                type="button"
+                className="textCard-button contribModal-button is-secondary"
+                onClick={onClose}
+                disabled={isSubmitting}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="textCard-button contribModal-button"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Sending…" : "Submit"}
+              </button>
+            </div>
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
-
-  // Portal into body so the overlay sits above search bar / filters and
-  // the whole blurred layer catches clicks.
-  return createPortal(modalTree, document.body);
 }
 
 export default ContributionModal;

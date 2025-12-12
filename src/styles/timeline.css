@@ -39,6 +39,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-ui);
+  overflow-x: hidden;   /* prevent horizontal scroll at viewport level */
 }
 
 /* App shell / canvas */
@@ -320,11 +321,13 @@ body {
   /* sidebar sizing */
   width: min(400px, 92vw);
   max-width: 92vw;
-  height: auto;
-  max-height: none;
-  overflow: visible;
+  height: 100%;
+  max-height: 95%;
+  overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-gutter: stable;
 
+ 
   background: var(--card-bg) !important;
   color: var(--text);
 
@@ -353,6 +356,7 @@ body {
   border-top: 1px solid var(--tl-divider, rgba(0, 0, 0, 0.14));
   font-size: 13px;
   text-align: right;
+  
 }
 
 .textCard-contrib-open {
@@ -488,9 +492,9 @@ body {
 .connNoteTooltip {
   position: absolute;
   top: 100%;          /* directly below the group */
-  right: -390px;           /* anchored under the i side */
-  left: auto;
-  margin-top: 15px;
+  right: -300px;           /* anchored under the i side */
+  
+  margin-top: 32px;
 
   width: 400px;       /* same wide width for all tooltips */
   max-width: 400px;
@@ -502,7 +506,7 @@ body {
   font-size: 12px;
   line-height: 1.35;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
-  z-index: 40;
+  z-index: 9999;
   white-space: normal;   /* allow multi-line text */
 
   opacity: 0;
@@ -524,6 +528,7 @@ body {
   border-width: 0 7px 7px 7px;
   border-style: solid;
   border-color: transparent transparent #111827 transparent;
+  z-index: 9999;
 }
 
 
@@ -532,6 +537,13 @@ body {
 .textCard-connNoteToggle:focus-visible + .connNoteTooltip {
   opacity: 1;
   visibility: visible;
+}
+
+/* Fixed overlay variant used by TextCard/FatherCard tooltips */
+.connNoteTooltip-fixed {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .textCard-connectionItem {
@@ -689,7 +701,7 @@ body {
 
 .contribModal {
   position: relative;
-  max-width: 460px;
+  max-width: 500px;
   width: calc(100vw - 32px);
   background: var(--card-bg, #050814);
   color: var(--text, #111827);
@@ -770,6 +782,7 @@ body {
   font-size: 12px;
   font-weight: 600;
   margin-bottom: 4px;
+  margin-left: 6px;
   color: var(--muted, #4b5563);
 }
 
@@ -800,9 +813,8 @@ body {
 .contribModal-textarea:focus {
   outline: none;
   border-color: #111827;
-  box-shadow: 0 0 0 1px rgba(17, 24, 39, 0.6);
+  box-shadow: inset 0 0 0 1px #111827;   /* ← visually a 2px border, zero layout shift */
 }
-
 .contribModal-textarea {
   resize: vertical;
   min-height: 60px;
@@ -865,6 +877,32 @@ body {
   border-color: #22496f;
 }
 
+
+/* Footnote styling in the footer row */
+.contribModal-footnote {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  max-width: 60%;
+  line-height: 1.3;
+  margin-left: 3px;
+}
+
+/* Row containing footnote (left) and buttons (right) */
+.contribModal-footerRow {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+/* Make sure the buttons sit together nicely on the right */
+.contribModal-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+
 /* ============================
    FatherCard — LEFT-SIDEBAR MODE
    ============================ */
@@ -880,9 +918,10 @@ body {
 
   width: min(400px, 92vw);
   max-width: 92vw;
-  height: auto;
-  max-height: none;
-  overflow: visible;
+  height: 100%;
+  max-height: 95%;
+  overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-gutter: stable;
 
   background: var(--card-bg);
@@ -1149,8 +1188,10 @@ body {
     bottom: 0 !important;
 
     width: auto;
-    height: auto;
-    max-height: none;
+    height: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     border: none !important;
     border-right: 1px solid var(--card-border) !important;

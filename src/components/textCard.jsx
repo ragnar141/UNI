@@ -14,20 +14,34 @@ const TextCard = forwardRef(function TextCard(
 ) {
   if (!d) return null;
 
-  const elRef = useRef(null);
+  const cardRef = useRef(null);
+  const scrollRef = useRef(null);
   const [isClosing, setIsClosing] = useState(false);
   const closedOnceRef = useRef(false);
   const [isContribOpen, setIsContribOpen] = useState(false);
 
-  // Always scroll the card to the top when it opens / subject changes
-useEffect(() => {
-  if (elRef.current) {
-    elRef.current.scrollTop = 0;
-    if (typeof elRef.current.scrollTo === "function") {
-      elRef.current.scrollTo({ top: 0 });
+  // Single tooltip state, rendered as a fixed overlay (outside scroll area)
+  const [hoverNote, setHoverNote] = useState(null);
+  const showHoverNote = (event, text) => {
+    if (!text) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    setHoverNote({
+      text,
+      x: rect.right + 8,
+      y: rect.top,
+    });
+  };
+  const hideHoverNote = () => setHoverNote(null);
+
+  // Always scroll the inner content area to the top when subject changes
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = 0;
+      if (typeof scrollRef.current.scrollTo === "function") {
+        scrollRef.current.scrollTo({ top: 0 });
+      }
     }
-  }
-}, [d?.id]);
+  }, [d?.id]);
 
   useImperativeHandle(ref, () => ({
     startClose: () => {
@@ -37,8 +51,8 @@ useEffect(() => {
 
   // Animate out then call onClose
   useEffect(() => {
-    if (!isClosing || !elRef.current) return;
-    const el = elRef.current;
+    if (!isClosing || !cardRef.current) return;
+    const el = cardRef.current;
 
     el.classList.remove("tl-slideIn");
     el.classList.add("tl-slideOut");
@@ -112,75 +126,75 @@ useEffect(() => {
   };
 
   // Shared renderer for connection lists (textual + mythic),
-  // with per-target "i" buttons that open speech-bubble tooltips.
+  // with per-target "i" buttons that open a fixed-position tooltip.
   const renderConnectionList = (entries, groupKey) =>
-  entries.map((conn, idx) => {
-    const targets = Array.isArray(conn.targets) ? conn.targets : [];
+    entries.map((conn, idx) => {
+      const targets = Array.isArray(conn.targets) ? conn.targets : [];
 
-    const hasTargetNotes = targets.some(
-      (t) => t && t.note && t.note !== "-"
-    );
-    const hasRowNote =
-      !hasTargetNotes && conn.note && conn.note !== "-";
+      const hasTargetNotes = targets.some(
+        (t) => t && t.note && t.note !== "-"
+      );
+      const hasRowNote = !hasTargetNotes && conn.note && conn.note !== "-";
 
-    return (
-      <li
-        key={`${groupKey}-${idx}`}
-        className="textCard-connectionItem"
-      >
-        <span className="textCard-connectionIntro">
-          {conn.textBefore}
-        </span>
-
-        {/* Row-level note: i + tooltip, opens on hover */}
-        {hasRowNote && (
-          <span className="textCard-connectionTargetGroup textCard-connectionRowNoteGroup">
-            <button
-              type="button"
-              className="textCard-connNoteToggle"
-              aria-label="Show connection note"
-            >
-              <span className="connNoteIcon" aria-hidden="true">
-                i
-              </span>
-            </button>
-
-            <div className="connNoteTooltip">{conn.note}</div>
+      return (
+        <li
+          key={`${groupKey}-${idx}`}
+          className="textCard-connectionItem"
+        >
+          <span className="textCard-connectionIntro">
+            {conn.textBefore}
           </span>
-        )}
 
-        {targets.map((t, i) => {
-          const isLast = i === targets.length - 1;
-          const isFirst = i === 0;
-          const needsComma = !isFirst && targets.length > 2 && !isLast;
-          const needsAnd = !isFirst && isLast;
+          {/* Row-level note: i + tooltip, opens on hover */}
+          {hasRowNote && (
+            <span className="textCard-connectionTargetGroup textCard-connectionRowNoteGroup">
+              <button
+                type="button"
+                className="textCard-connNoteToggle"
+                aria-label="Show connection note"
+                onMouseEnter={(e) => showHoverNote(e, conn.note)}
+                onMouseLeave={hideHoverNote}
+              >
+                <span className="connNoteIcon" aria-hidden="true">
+                  i
+                </span>
+              </button>
+            </span>
+          )}
 
-          const hasNote = t && t.note && t.note !== "-";
+          {targets.map((t, i) => {
+            const isLast = i === targets.length - 1;
+            const isFirst = i === 0;
+            const needsComma = !isFirst && targets.length > 2 && !isLast;
+            const needsAnd = !isFirst && isLast;
 
-          return (
-            <React.Fragment key={`${t.type}-${t.id}-${i}`}>
-              {needsComma && ", "}
-              {needsAnd && !needsComma && " and "}
-              {needsAnd && needsComma && " and "}
-              {!needsComma && !needsAnd && !isFirst && ", "}
+            const hasNote = t && t.note && t.note !== "-";
 
-              <span className="textCard-connectionTargetGroup">
-                <button
-                  type="button"
-                  className="textCard-connectionLink"
-                  onClick={() =>
-                    onNavigate && onNavigate(t.type, t.id)
-                  }
-                >
-                  {t.name}
-                </button>
+            return (
+              <React.Fragment key={`${t.type}-${t.id}-${i}`}>
+                {needsComma && ", "}
+                {needsAnd && !needsComma && " and "}
+                {needsAnd && needsComma && " and "}
+                {!needsComma && !needsAnd && !isFirst && ", "}
 
-                {hasNote && (
-                  <>
+                <span className="textCard-connectionTargetGroup">
+                  <button
+                    type="button"
+                    className="textCard-connectionLink"
+                    onClick={() =>
+                      onNavigate && onNavigate(t.type, t.id)
+                    }
+                  >
+                    {t.name}
+                  </button>
+
+                  {hasNote && (
                     <button
                       type="button"
                       className="textCard-connNoteToggle"
                       aria-label="Show connection note"
+                      onMouseEnter={(e) => showHoverNote(e, t.note)}
+                      onMouseLeave={hideHoverNote}
                     >
                       <span
                         className="connNoteIcon"
@@ -189,17 +203,14 @@ useEffect(() => {
                         i
                       </span>
                     </button>
-
-                    <div className="connNoteTooltip">{t.note}</div>
-                  </>
-                )}
-              </span>
-            </React.Fragment>
-          );
-        })}
-      </li>
-    );
-  });
+                  )}
+                </span>
+              </React.Fragment>
+            );
+          })}
+        </li>
+      );
+    });
 
   const metaLocation = d.originalGeographicalLocation || d.originalGeo;
   const indexStr = (d.textIndex ?? "").toString().trim();
@@ -220,7 +231,7 @@ useEffect(() => {
   return (
     <>
       <div
-        ref={elRef}
+        ref={cardRef}
         className="textCard tl-slideIn"
         style={{ position: "absolute", left, top }}
         role="dialog"
@@ -236,160 +247,163 @@ useEffect(() => {
           ×
         </button>
 
-        <div className="textCard-titleCombo">
-          <span className="textCard-title">{titleOnly}</span>
-          {d.category && <span className="textCard-sep"> - </span>}
-          {d.category && (
-            <span className="textCard-category">{d.category}</span>
+        {/* Internal scroll area: tooltips render outside this via hoverNote */}
+        <div className="textCard-scroll" ref={scrollRef}>
+          <div className="textCard-titleCombo">
+            <span className="textCard-title">{titleOnly}</span>
+            {d.category && <span className="textCard-sep"> - </span>}
+            {d.category && (
+              <span className="textCard-category">{d.category}</span>
+            )}
+          </div>
+
+          <Row value={d.shortDescription} className="is-centered" />
+
+          {(d.displayDate || metaLocation || d.originalLanguage) && (
+            <div className="textCard-meta">
+              {`composed in ${d.displayDate || "—"} in ${
+                metaLocation || "—"
+              }, in ${d.originalLanguage || "—"} language`}
+              {d.authorName &&
+                d.authorName !== "-" &&
+                ` and attributed to ${d.authorName}`}
+            </div>
           )}
-        </div>
 
-        <Row value={d.shortDescription} className="is-centered" />
+          <SymbolicTagRow
+            label="Symbolic System(s):"
+            value={d.symbolicSystemTags}
+          />
+          <Row label="Comtean framework:" value={d.comteanFramework} />
+          <Row label="Access Level:" value={d.accessLevel} />
 
-        {(d.displayDate || metaLocation || d.originalLanguage) && (
-          <div className="textCard-meta">
-            {`composed in ${d.displayDate || "—"} in ${
-              metaLocation || "—"
-            }, in ${d.originalLanguage || "—"} language`}
-            {d.authorName &&
-              d.authorName !== "-" &&
-              ` and attributed to ${d.authorName}`}
+          {(hasTextual || hasMythic) && (
+            <div className="textCard-connections">
+              {hasMythic && (
+                <>
+                  <div className="textCard-connections-subtitle">
+                    Connections with Mythic/Historic Figures
+                  </div>
+                  <ul className="textCard-connections-list">
+                    {renderConnectionList(mythicConnections, "mythic")}
+                  </ul>
+                </>
+              )}
+
+              {hasTextual && (
+                <>
+                  <div className="textCard-connections-subtitle">
+                    Textual References
+                  </div>
+                  <ul className="textCard-connections-list">
+                    {renderConnectionList(textualConnections, "textual")}
+                  </ul>
+                </>
+              )}
+            </div>
+          )}
+
+          <div className="textCard-moreToggle">
+            <button
+              className="textCard-button"
+              onClick={() => setShowMore((v) => !v)}
+              aria-expanded={showMore ? "true" : "false"}
+            >
+              {showMore ? "Hide tags" : "Show tags"}
+            </button>
           </div>
-        )}
 
-        <SymbolicTagRow
-          label="Symbolic System(s):"
-          value={d.symbolicSystemTags}
-        />
-        <Row label="Comtean framework:" value={d.comteanFramework} />
-        <Row label="Access Level:" value={d.accessLevel} />
-
-        {(hasTextual || hasMythic) && (
-          <div className="textCard-connections">
-            {hasMythic && (
-              <>
-                <div className="textCard-connections-subtitle">
-                  Connections with Mythic/Historic Figures
+          {showMore && (
+            <div className="textCard-more">
+              <div className="textCard-row is-tags">
+                <span className="textCard-label">Arts & Sciences:</span>
+                <div className="textCard-tags">
+                  {splitTags(d.artsAndSciencesTags).map((t, i) => (
+                    <span key={`as-${i}`} className="textCard-tag">
+                      {t}
+                    </span>
+                  ))}
                 </div>
-                <ul className="textCard-connections-list">
-                  {renderConnectionList(mythicConnections, "mythic")}
-                </ul>
-              </>
-            )}
+              </div>
 
-            {hasTextual && (
-              <>
-                <div className="textCard-connections-subtitle">
-                  Textual References
+              <div className="textCard-row is-tags">
+                <span className="textCard-label">Metaphysical:</span>
+                <div className="textCard-tags">
+                  {splitTags(d.metaphysicalTags).map((t, i) => (
+                    <span key={`m-${i}`} className="textCard-tag">
+                      {t}
+                    </span>
+                  ))}
                 </div>
-                <ul className="textCard-connections-list">
-                  {renderConnectionList(textualConnections, "textual")}
-                </ul>
-              </>
-            )}
+              </div>
+
+              <div className="textCard-row is-tags">
+                <span className="textCard-label">Jungian Archetypes:</span>
+                <div className="textCard-tags">
+                  {splitTags(d.jungianArchetypesTags).map((t, i) => (
+                    <span key={`ja-${i}`} className="textCard-tag">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="textCard-row is-tags">
+                <span className="textCard-label">Neumann Stages:</span>
+                <div className="textCard-tags">
+                  {splitTags(d.neumannStagesTags).map((t, i) => (
+                    <span key={`ns-${i}`} className="textCard-tag">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="textCard-row is-tags">
+                <span className="textCard-label">Socio-political:</span>
+                <div className="textCard-tags">
+                  {splitTags(d.socioPoliticalTags).map((t, i) => (
+                    <span key={`sp-${i}`} className="textCard-tag">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="textCard-row is-tags">
+                <span className="textCard-label">Literary Forms:</span>
+                <div className="textCard-tags">
+                  {splitTags(d.literaryFormsTags).map((t, i) => (
+                    <span key={`lf-${i}`} className="textCard-tag">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="textCard-row is-tags">
+                <span className="textCard-label">Literary Themes:</span>
+                <div className="textCard-tags">
+                  {splitTags(d.literaryContentTags).map((t, i) => (
+                    <span key={`lc-${i}`} className="textCard-tag">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Offer a contribution — opens shared modal */}
+          <div className="textCard-contrib">
+            <button
+              type="button"
+              className="textCard-button textCard-contrib-open"
+              onClick={() => setIsContribOpen(true)}
+            >
+              Share relevent media
+            </button>
           </div>
-        )}
-
-        <div className="textCard-moreToggle">
-          <button
-            className="textCard-button"
-            onClick={() => setShowMore((v) => !v)}
-            aria-expanded={showMore ? "true" : "false"}
-          >
-            {showMore ? "Hide tags" : "Show tags"}
-          </button>
-        </div>
-
-        {showMore && (
-          <div className="textCard-more">
-            <div className="textCard-row is-tags">
-              <span className="textCard-label">Arts & Sciences:</span>
-              <div className="textCard-tags">
-                {splitTags(d.artsAndSciencesTags).map((t, i) => (
-                  <span key={`as-${i}`} className="textCard-tag">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="textCard-row is-tags">
-              <span className="textCard-label">Metaphysical:</span>
-              <div className="textCard-tags">
-                {splitTags(d.metaphysicalTags).map((t, i) => (
-                  <span key={`m-${i}`} className="textCard-tag">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="textCard-row is-tags">
-              <span className="textCard-label">Jungian Archetypes:</span>
-              <div className="textCard-tags">
-                {splitTags(d.jungianArchetypesTags).map((t, i) => (
-                  <span key={`ja-${i}`} className="textCard-tag">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="textCard-row is-tags">
-              <span className="textCard-label">Neumann Stages:</span>
-              <div className="textCard-tags">
-                {splitTags(d.neumannStagesTags).map((t, i) => (
-                  <span key={`ns-${i}`} className="textCard-tag">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="textCard-row is-tags">
-              <span className="textCard-label">Socio-political:</span>
-              <div className="textCard-tags">
-                {splitTags(d.socioPoliticalTags).map((t, i) => (
-                  <span key={`sp-${i}`} className="textCard-tag">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="textCard-row is-tags">
-              <span className="textCard-label">Literary Forms:</span>
-              <div className="textCard-tags">
-                {splitTags(d.literaryFormsTags).map((t, i) => (
-                  <span key={`lf-${i}`} className="textCard-tag">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="textCard-row is-tags">
-              <span className="textCard-label">Literary Themes:</span>
-              <div className="textCard-tags">
-                {splitTags(d.literaryContentTags).map((t, i) => (
-                  <span key={`lc-${i}`} className="textCard-tag">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Offer a contribution — opens shared modal */}
-        <div className="textCard-contrib">
-          <button
-            type="button"
-            className="textCard-button textCard-contrib-open"
-            onClick={() => setIsContribOpen(true)}
-          >
-            Share relevent media
-          </button>
         </div>
       </div>
 
@@ -400,6 +414,22 @@ useEffect(() => {
         subjectId={d.id}
         subjectTitle={d.title || ""}
       />
+
+      {hoverNote && (
+        <div
+          className="connNoteTooltip connNoteTooltip-fixed"
+          style={{
+            position: "fixed",
+            top: hoverNote.y,
+            left: hoverNote.x - 37,
+            right: "auto",
+            maxWidth: "320px",
+            zIndex: 1300,
+          }}
+        >
+          {hoverNote.text}
+        </div>
+      )}
     </>
   );
 });
