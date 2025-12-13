@@ -2167,6 +2167,13 @@ const axisY = innerHeight;
         const literaryContentTags = (t["Literary Themes Tags"] || t["Literary Content Tags"] || "").trim();
         const symbolicSystemTags = (t["Symbolic System Tags"] || "").trim();
         const textIndex = ((getLooseField(t, "Index") ?? "") + "").trim();
+        // NEW: media/resource columns (texts)
+        const originalTextLink = (t["Original text"] || t["Original Text"] || "").trim();
+        const articlePostLink  = (t["Article/post"]  || t["Article/Post"]  || "").trim();
+        const imageMuseumLink  = (t["Image/museum"]  || t["Image/Museum"]  || "").trim();
+        const videoLink        = (t["Video"]         || "").trim();
+        const otherLink        = (t["Other"]         || "").trim();
+
 
                 // Normalized tag arrays for filtering (keeps canonical casing)
 const tags = {
@@ -2234,7 +2241,12 @@ const tags = {
           literaryContentTags,
           symbolicSystemTags,
           textIndex,
-          tags,  
+          tags,
+          originalText: originalTextLink,
+          articlePost:  articlePostLink,
+          imageMuseum:  imageMuseumLink,
+          video:        videoLink,
+          other:        otherLink,
         });
       }
     }
@@ -2283,6 +2295,11 @@ const tags = {
       const jungianArchetypesTags = (f["Jungian Archetypes Tags"] || "").trim();
       const neumannStagesTags = (f["Neumann Stages Tags"] || "").trim();
       const category = (f["Category"] || "").trim();
+      // NEW: media/resource columns (fathers)
+      const articlePostLink = (f["Article/post"] || f["Article/Post"] || "").trim();
+      const imageMuseumLink = (f["Image/museum"] || f["Image/Museum"] || "").trim();
+      const videoLink       = (f["Video"]        || "").trim();
+      const otherLink       = (f["Other"]        || "").trim();
 
       // Define symbolic system first, then colors + color
       const symbolicSystem = (f["Symbolic System"] || f["Symbolic System Tags"] || "").trim();
@@ -2333,6 +2350,11 @@ const tags = {
         category,
         symbolicSystem,
         tags,
+        // NEW: media/resource columns (fathers)
+        articlePost: articlePostLink,
+        imageMuseum: imageMuseumLink,
+        video:       videoLink,
+        other:       otherLink,
       });
     }
   }

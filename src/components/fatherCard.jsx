@@ -117,6 +117,78 @@ const FatherCard = forwardRef(function FatherCard(
       .filter(Boolean)
       .filter((t) => t !== "-"); // treat "-" as NA
 
+    // ---- Links helpers (new) ----
+  const getLoose = (obj, key) => {
+    const want = String(key || "").trim().toLowerCase();
+    for (const k of Object.keys(obj || {})) {
+      if (String(k).trim().toLowerCase() === want) return obj[k];
+    }
+    return undefined;
+  };
+
+  const parseTriples = (raw) => {
+    const s = String(raw ?? "").trim();
+    if (!s || s === "-" || s === "—") return [];
+
+    const out = [];
+    const re = /\(([^)]+)\)/g;
+    const matches = [...s.matchAll(re)];
+    const chunks = matches.length ? matches.map((m) => m[1]) : [s];
+
+    for (const chunk of chunks) {
+      const parts = String(chunk)
+        .split(",")
+        .map((p) => p.trim())
+        .filter(Boolean);
+
+      if (parts.length < 2) continue;
+
+      const url = parts[0];
+      const anchor = parts[1] || url;
+      const desc = parts.slice(2).join(", ").trim();
+
+      if (!url || url === "-") continue;
+      out.push({ url, anchor, desc });
+    }
+
+    return out;
+  };
+
+  const buildLinkRows = () => {
+    const fields = [
+      { key: "articlePost", rawKeys: ["Article/post", "Article/Post"], iconKey: "article" },
+      { key: "imageMuseum", rawKeys: ["Image/museum", "Image/Museum"], iconKey: "image" },
+      { key: "video", rawKeys: ["Video"], iconKey: "video" },
+      { key: "other", rawKeys: ["Other"], iconKey: "other" },
+    ];
+
+    const rows = [];
+    for (const f of fields) {
+      const v =
+        d?.[f.key] ??
+        getLoose(d, f.key) ??
+        f.rawKeys.map((k) => getLoose(d, k)).find((x) => x != null);
+
+      const items = parseTriples(v);
+      for (const it of items) {
+        rows.push({ ...it, iconKey: f.iconKey });
+      }
+    }
+    return rows;
+  };
+
+  const linkRows = buildLinkRows();
+  const hasLinks = linkRows.length > 0;
+  const linksEmpty = linkRows.length === 0;
+
+  const iconFor = (iconKey) => {
+    if (iconKey === "article") return "📰";
+    if (iconKey === "image") return "🖼️";
+    if (iconKey === "video") return "🎥";
+    return "🔗";
+  };
+
+
   const Row = ({ label, value, className }) =>
     value ? (
       <div className={`textCard-row ${className || ""}`}>
@@ -284,6 +356,40 @@ const FatherCard = forwardRef(function FatherCard(
             label="Symbolic System(s):"
             value={d.symbolicSystem}
           />
+
+<div className="textCard-links">
+  <div className="textCard-connections-subtitle">Links</div>
+
+  {linksEmpty ? (
+    <div className="textCard-linksEmpty">-</div>
+  ) : (
+    <ul className="textCard-connections-list">
+      {linkRows.map((it, i) => (
+        <li key={`${it.url}-${i}`} className="textCard-connectionItem">
+          <span className="textCard-connectionIntro">
+            <span className="textCard-linkIcon" aria-hidden="true">
+              {iconFor(it.iconKey)}
+            </span>{" "}
+            <a
+              className="textCard-link"
+              href={it.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {it.anchor}
+            </a>
+            {it.desc ? (
+              <span className="textCard-linkDesc"> — {it.desc}</span>
+            ) : null}
+          </span>
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
+
+
 
           {Array.isArray(connections) && connections.length > 0 && (
             <div className="textCard-connections">
