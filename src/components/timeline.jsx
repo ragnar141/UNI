@@ -118,6 +118,7 @@ const FORBIDDEN_TICKS_ASTRO = new Set([toAstronomical(-5500), toAstronomical(250
 
 
 
+
 /* ===== Tooltip helpers ===== */
 const fmtRange = (s, e) => `${formatYear(s)} – ${formatYear(e)}`;
 // Now supports an optional third line for "note"
@@ -1175,6 +1176,7 @@ function buildFatherConnectionItems(subject, allConnections) {
       const m = category.match(/^familial:\s*([^,]+)/);
       const core = m ? m[1].trim() : "";
       const hasConsorts = category.includes("consorts");
+      entry._hasConsorts = hasConsorts;
 
       const isSiblingPair =
         core.includes("brother") || core.includes("sister");
@@ -1207,10 +1209,10 @@ function buildFatherConnectionItems(subject, allConnections) {
       }
 
       // plain consorts: "familial: consorts"
-      if (!isSiblingPair && hasConsorts) {
-        const g = ensureGroup(consortGroups, "consort");
-        g.push(entry);
-        continue;
+      if (!isSiblingPair && hasConsorts && !core.includes("/")) {
+      const g = ensureGroup(consortGroups, "consort");
+      g.push(entry);
+      continue;
       }
 
       // parent / child ("father/son", "mother/daughter", etc.)
@@ -1321,15 +1323,26 @@ function buildFatherConnectionItems(subject, allConnections) {
     });
   };
 
-  // Parent groups: "father/mother of A, B, C"
-  for (const role of Object.keys(parentGroups)) {
-    makeGroupedItem(`${role} of `, parentGroups[role]);
-  }
+// Parent groups: "father/mother of A, B, C" (+ optional consort)
+for (const role of Object.keys(parentGroups)) {
+  const arr = parentGroups[role];
+  const withConsort = arr.filter((e) => e._hasConsorts);
+  const withoutConsort = arr.filter((e) => !e._hasConsorts);
 
-  // Child groups: "son/daughter of A, B"
-  for (const role of Object.keys(childGroups)) {
-    makeGroupedItem(`${role} of `, childGroups[role]);
-  }
+  if (withoutConsort.length) makeGroupedItem(`${role} of `, withoutConsort);
+  if (withConsort.length) makeGroupedItem(`${role} and consort of `, withConsort);
+}
+
+// Child groups: "son/daughter of A, B" (+ optional consort)
+for (const role of Object.keys(childGroups)) {
+  const arr = childGroups[role];
+  const withConsort = arr.filter((e) => e._hasConsorts);
+  const withoutConsort = arr.filter((e) => !e._hasConsorts);
+
+  if (withoutConsort.length) makeGroupedItem(`${role} of `, withoutConsort);
+  if (withConsort.length) makeGroupedItem(`${role} and consort of `, withConsort);
+}
+
 
   // Sibling groups: "sister/brother of A, B"
   for (const role of Object.keys(siblingGroups)) {
@@ -1885,7 +1898,7 @@ export default function Timeline() {
 
   const SEARCH_FLY = {
   k: 4.5,         // target zoom (>= ZOOM_THRESHOLD so dots/triangles are interactive)
-  xFrac: 2/3,     // horizontal position (2/3 = boundary between 2nd and 3rd thirds)
+  xFrac: 0.645,     // horizontal position (2/3 = boundary between 2nd and 3rd thirds)
   yFrac: 0.5,     // vertical center
   duration: 700,  // ms
   ease: d3.easeCubicOut
@@ -2607,7 +2620,7 @@ const searchItems = useMemo(() => {
 const handleSearchSelect = (item) => {
 
   const wrapRect = wrapRef.current?.getBoundingClientRect();
-  const CARD_W = 360, CARD_H = 320;
+  const CARD_W = 430, CARD_H = 320;
   const left = wrapRect ? Math.round((wrapRect.width - CARD_W) / 2) : 24;
   const top  = wrapRect ? Math.max(8, Math.round(72)) : 24;
 
@@ -2642,7 +2655,7 @@ const handleSearchSelect = (item) => {
 
 const handleConnectionNavigate = (targetType, targetId) => {
   const wrapRect = wrapRef.current?.getBoundingClientRect();
-  const CARD_W = 360, CARD_H = 320;
+  const CARD_W = 430, CARD_H = 320;
   const left = wrapRect ? Math.round((wrapRect.width - CARD_W) / 2) : 24;
   const top  = wrapRect ? Math.max(8, Math.round(72)) : 24;
 
@@ -3906,7 +3919,7 @@ if (a) showTip(tipText, html, a.x, a.y, d.color);
         if (!wrapRect) {
           // Fallback: old behavior if something is weird
           const aFallback = textAnchorClient(this, d);
-          const CARD_W = 360, CARD_H = 320, PAD = 12;
+          const CARD_W = 430, CARD_H = 320, PAD = 12;
           let left = aFallback ? aFallback.x - wrapRect.left + PAD : PAD;
           let top  = aFallback ? aFallback.y - wrapRect.top  + PAD : PAD;
           left = Math.max(4, Math.min(left, wrapRect.width  - CARD_W - 4));
@@ -3921,7 +3934,7 @@ if (a) showTip(tipText, html, a.x, a.y, d.color);
           return;
         }
 
-        const CARD_W = 360, CARD_H = 320, PAD = 12;
+        const CARD_W = 430, CARD_H = 320, PAD = 12;
 
         // Where is this dot on screen relative to the wrapper?
         const a = textAnchorClient(this, d);
@@ -3932,7 +3945,7 @@ if (a) showTip(tipText, html, a.x, a.y, d.color);
         const LEFT_THRESHOLD  = CARD_W + 24;   // ≈ card width + padding
         const EDGE_PAD        = 48;            // top/right/bottom margin
 
-        const tooLeft   = relX < LEFT_THRESHOLD + EDGE_PAD;
+        const tooLeft   = relX < LEFT_THRESHOLD;
         const tooRight  = relX > wrapRect.width  - EDGE_PAD;
         const tooTop    = relY < EDGE_PAD;
         const tooBottom = relY > wrapRect.height - EDGE_PAD;
@@ -4042,12 +4055,17 @@ const fathersSel = gFathers
     exit => exit.remove()
   );
 
+  const allowFatherHover = () => {
+  const k = kRef.current;
+  const hasSel = !!(selectedText || selectedFather);
+  return (k >= ZOOM_THRESHOLD) || (hasSel && k >= ZOOM_SEGMENT_THRESHOLD);
+};
+
 
     // Lightweight hover tooltip for fathers (zoomed-in like texts)
 fathersSel
   .on("mouseover", function (_ev, d) {
-    if (kRef.current < ZOOM_THRESHOLD) return;
-
+    if (!allowFatherHover()) return;
     // mark hovered father for connection highlighting
     hoveredFatherIdRef.current = d.id;
     const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
@@ -4073,7 +4091,7 @@ fathersSel
     showTip(tipText, tipHTML(title, subtitle, null), a.x, a.y, d.color);
   })
   .on("mousemove", function (_ev, d) {
-    if (kRef.current < ZOOM_THRESHOLD) return;
+    if (!allowFatherHover()) return;
     const a = fatherAnchorClient(this, d);
     if (!a) return;
     const title = d.name || "";
@@ -4117,7 +4135,7 @@ fathersSel
     if (!wrapRect) {
       // Fallback: old behavior if something is weird
       const aFallback = fatherAnchorClient(this, d);
-      const CARD_W = 360, CARD_H = 320, PAD = 12;
+      const CARD_W = 430, CARD_H = 320, PAD = 12;
       let left = aFallback ? aFallback.x - wrapRect.left + PAD : PAD;
       let top  = aFallback ? aFallback.y - wrapRect.top  + PAD : PAD;
       left = Math.max(4, Math.min(left, wrapRect.width  - CARD_W - 4));
@@ -4132,7 +4150,7 @@ fathersSel
       return;
     }
 
-    const CARD_W = 360, CARD_H = 320, PAD = 12;
+    const CARD_W = 430, CARD_H = 320, PAD = 12;
 
     // anchor near the triangle
     const a = fatherAnchorClient(this, d);
@@ -4773,17 +4791,17 @@ fatherPinSel
 function updateInteractivity(k) {
   const hasSelection = !!(selectedText || selectedFather);
 
-  // 3-level zoom mode, with selection forcing "deepest" semantics
-  let zoomMode;
-  if (hasSelection) {
-    zoomMode = "deepest";
-  } else if (k < ZOOM_SEGMENT_THRESHOLD) {
-    zoomMode = "outest";   // durations only
-  } else if (k < ZOOM_THRESHOLD) {
-    zoomMode = "middle";   // segments only
-  } else {
-    zoomMode = "deepest";  // fathers/texts only
-  }
+// 3-level zoom mode, but when selected: OUTEST stays OUTEST, MIDDLE behaves like DEEPEST for crisp marks
+let zoomMode;
+if (hasSelection) {
+  zoomMode = (k < ZOOM_SEGMENT_THRESHOLD) ? "outest" : "deepest";
+} else if (k < ZOOM_SEGMENT_THRESHOLD) {
+  zoomMode = "outest";
+} else if (k < ZOOM_THRESHOLD) {
+  zoomMode = "middle";
+} else {
+  zoomMode = "deepest";
+}
 
   const svgSel = d3.select(svgRef.current);
   svgSel
@@ -4804,25 +4822,26 @@ function updateInteractivity(k) {
 
   // === Selection override: once a text/father is selected,
   //     durations/segments become inert; texts/fathers stay clickable
-  if (hasSelection) {
-    gOut.selectAll("rect.outlineRect")
-      .style("pointer-events", "none");
-    gSeg.selectAll("rect.segmentHit")
-      .style("pointer-events", "none");
-    gCustom.selectAll("path.customGroup")
-      .style("pointer-events", "none");
+if (hasSelection) {
+  const nodesHot = (zoomMode !== "outest"); // <-- key rule
 
-    gTexts.selectAll("circle.textDot")
-      .style("pointer-events", "all");
-    gFathers.selectAll("g.fatherMark")
-      .style("pointer-events", "all");
+  gOut.selectAll("rect.outlineRect")
+    .style("pointer-events", "none");
+  gSeg.selectAll("rect.segmentHit")
+    .style("pointer-events", "none");
+  gCustom.selectAll("path.customGroup")
+    .style("pointer-events", "none");
 
-    // No active duration/segment boxes while something is selected
-    clearActiveSegment();
-    clearActiveDuration();
-    updateHoverVisuals();
-    return;
-  }
+  gTexts.selectAll("circle.textDot")
+    .style("pointer-events", nodesHot ? "all" : "none");
+  gFathers.selectAll("g.fatherMark")
+    .style("pointer-events", nodesHot ? "all" : "none");
+
+  clearActiveSegment();
+  clearActiveDuration();
+  updateHoverVisuals();
+  return;
+}
 
   // === No selection: pure 3-level model ===
   if (zoomMode === "outest") {
@@ -5095,18 +5114,17 @@ const zoom = (zoomRef.current ?? d3.zoom())
     const hasSelection = !!(selectedText || selectedFather);
 
 
-    let zoomMode;
-    if (hasSelection) {
-      // Selection overrides: treat as deepest for styling
-      zoomMode = "deepest";
-    } else if (t.k < ZOOM_SEGMENT_THRESHOLD) {
-      zoomMode = "outest";   // durations focus
-    } else if (t.k < ZOOM_THRESHOLD) {
-      zoomMode = "middle";   // segments focus
-    } else {
-      zoomMode = "deepest";  // fathers/texts focus
-    }
-
+let zoomMode;
+if (hasSelection) {
+  // When selected: blur only on OUTEST, keep MIDDLE crisp by avoiding zoom-middle
+  zoomMode = (t.k < ZOOM_SEGMENT_THRESHOLD) ? "outest" : "deepest";
+} else if (t.k < ZOOM_SEGMENT_THRESHOLD) {
+  zoomMode = "outest";   // durations focus
+} else if (t.k < ZOOM_THRESHOLD) {
+  zoomMode = "middle";   // segments focus (existing blur behavior stays)
+} else {
+  zoomMode = "deepest";  // fathers/texts focus
+}
     const svgNode = svgRef.current;
     if (svgNode) {
       const svgSel = d3.select(svgNode);

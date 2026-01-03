@@ -65,6 +65,11 @@ body {
   cursor: -webkit-grabbing;
 }
 
+.timelineSvg g.fatherMark,
+.timelineSvg g.fatherMark * {
+  cursor: pointer;
+}
+
 .viewport {
   position: relative;
   width: 100vw;
