@@ -3,7 +3,7 @@
   position: fixed;
   top: 8px;
   left: 50%;
-  transform: translateX(calc(-50% + 30px));
+  transform: translateX(calc(-50% + 10px));
   width: min(600px, 92vw);
   z-index: 3000;                 /* above backdrop; below nothing else important */
   pointer-events: none;          /* only inner controls receive events */
