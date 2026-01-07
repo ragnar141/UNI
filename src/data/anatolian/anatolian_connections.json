@@ -1,0 +1,227 @@
+[
+  {
+    "Index": 1,
+    "Primary": "1, father",
+    "Primary Name": "Cybele",
+    "Secondary": "13, father",
+    "Secondary Name": "Attis",
+    "Connection Category": "familial: mother/son, consorts",
+    "Note": "Attis is Cybele’s consecrated male—variously conceived as her son or generated from her primal substance, bound to her as a non-reproductive consort, and ritually annihilated through castration and death as a sacrificial embodiment of fertility returned to the earth."
+  },
+  {
+    "Index": 2,
+    "Primary": "1, father",
+    "Primary Name": "Cybele",
+    "Secondary": "4, text",
+    "Secondary Name": "Purulli Ritual Instructions",
+    "Connection Category": "explicit reference",
+    "Note": "Although Cybele is not named in the Purulli Ritual Instructions, the rites preserve an early Anatolian Mother-goddess complex—centered on maternal authority, seasonal renewal, and earth-bound sovereignty—that later crystallizes in Cybele’s cult."
+  },
+  {
+    "Index": 3,
+    "Primary": "2, father",
+    "Primary Name": "Hannahannah",
+    "Secondary": "5, text",
+    "Secondary Name": "The Song of Kumarbi",
+    "Connection Category": "explicit reference",
+    "Note": "In the Song of Kumarbi, Hannahanna functions as a primordial maternal authority who stabilizes the cosmic order amid violent male succession struggles, anticipating later Anatolian mother-goddess forms such as Cybele."
+  },
+  {
+    "Index": 4,
+    "Primary": "2, father",
+    "Primary Name": "Hannahannah",
+    "Secondary": "10, text",
+    "Secondary Name": "The Song of Ullikummi",
+    "Connection Category": "explicit reference",
+    "Note": "Here Hannahanna appears as the primordial maternal authority consulted when divine succession and violence fail, preserving ancient cosmological knowledge that enables the restoration of order."
+  },
+  {
+    "Index": 5,
+    "Primary": "3, father",
+    "Primary Name": "Kumarbi",
+    "Secondary": "4, father",
+    "Secondary Name": "Tarḫunna/Teshub",
+    "Connection Category": "familial: father/son",
+    "Note": "-"
+  },
+  {
+    "Index": 6,
+    "Primary": "3, father",
+    "Primary Name": "Kumarbi",
+    "Secondary": "5, text",
+    "Secondary Name": "The Song of Kumarbi",
+    "Connection Category": "explicit reference",
+    "Note": "In the Song of Kumarbi, Kumarbi functions as a transitional deity who violently overthrows the sky-god Anu but fails to establish stable kingship, instead becoming the generative conduit through which the Storm God Teshub is born."
+  },
+  {
+    "Index": 7,
+    "Primary": "3, father",
+    "Primary Name": "Kumarbi",
+    "Secondary": "10, text",
+    "Secondary Name": "The Song of Ullikummi",
+    "Connection Category": "explicit reference",
+    "Note": "Here Kumarbi functions as a strategic saboteur who weaponizes primordial inertia against divine sovereignty rather than seeking rule himself."
+  },
+  {
+    "Index": 9,
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "1, text",
+    "Secondary Name": "Anitta Text",
+    "Connection Category": "explicit reference",
+    "Note": "In the Anitta Text, the Storm God of Hatti appears as the divine guarantor of royal authority, invoked to legitimize conquest and enforce curses."
+  },
+  {
+    "Index": 10,
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "2, text",
+    "Secondary Name": "Edicts of Telepinu",
+    "Connection Category": "explicit reference",
+    "Note": "In the Edict of Telipinu, Tarḫunna/Teshub appears as the divine guarantor of lawful kingship, invoked to end cycles of dynastic violence and to legitimize a stable, rule-bound succession."
+  },
+  {
+    "Index": 11,
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "3, text",
+    "Secondary Name": "Hittite Laws",
+    "Connection Category": "explicit reference",
+    "Note": "The Hittite Laws reflect Tarḫunna/Teshub as a silent guarantor of justice, whose mythic sovereignty has been fully absorbed into legal practice."
+  },
+  {
+    "Index": 12,
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "4, text",
+    "Secondary Name": "Purulli Ritual Instructions",
+    "Connection Category": "explicit reference",
+    "Note": "Here Tarḫunna/Teshub appears as the victorious Storm God whose triumph over chaos is ritually reenacted each spring to restore fertility and reaffirm cosmic order."
+  },
+  {
+    "Index": 13,
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "5, text",
+    "Secondary Name": "The Song of Kumarbi",
+    "Connection Category": "explicit reference",
+    "Note": "The text presents Tarḫunna/Teshub as an emergent sovereign, born through rupture rather than lineage and positioned as the inevitable replacement of Kumarbi’s failed rule."
+  },
+  {
+    "Index": 14,
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "6, text",
+    "Secondary Name": "Treaty of Kadesh",
+    "Connection Category": "explicit reference",
+    "Note": "The Treaty of Kadesh presents Tarḫunna/Teshub as an \"international\" legal authority, invoked to enforce interstate peace through divine sanction"
+  },
+  {
+    "Index": 15,
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "7, text",
+    "Secondary Name": "Apology of Hattusili III",
+    "Connection Category": "explicit reference",
+    "Note": "Here Tarḫunna/Teshub is presented as a god of personal election, whose favor justifies kingship beyond formal succession rules."
+  },
+  {
+    "Index": 16,
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "8, text",
+    "Secondary Name": "The Myth of Illuyanka",
+    "Connection Category": "explicit reference",
+    "Note": "The Myth presents Tarḫunna/Teshub as a vulnerable but recoverable sovereign, whose rule depends on continual containment of chaos rather than permanent victory."
+  },
+  {
+    "Index": 17,
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "9, text",
+    "Secondary Name": "Instructions to Priests and Temple Officials",
+    "Connection Category": "explicit reference",
+    "Note": "Here Tarḫunna/Teshub is portrayed as an institutionalized sovereign whose presence is maintained through correct cultic administration."
+  },
+  {
+    "Index": 18,
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "10, text",
+    "Secondary Name": "The Song of Ullikummi",
+    "Connection Category": "explicit reference",
+    "Note": "In the Song of Ullikummi, Tarḫunna/Teshub appears as an established king of the gods whose storm power proves insufficient against primordial inertia, forcing him to rely on ancestral cosmological knowledge to preserve divine order."
+  },
+  {
+    "Index": 19,
+    "Primary": "5, father",
+    "Primary Name": "Illuyanka",
+    "Secondary": "4, text",
+    "Secondary Name": "Purulli Ritual Instructions",
+    "Connection Category": "explicit reference",
+    "Note": "The Purulli Ritual Instructions transform Illuyanka from a mythic adversary into a ritualized chaos-force that must be periodically restrained rather than destroyed."
+  },
+  {
+    "Index": 20,
+    "Primary": "5, father",
+    "Primary Name": "Illuyanka",
+    "Secondary": "8, text",
+    "Secondary Name": "The Myth of Illuyanka",
+    "Connection Category": "explicit reference",
+    "Note": "The Myth presents Illuyanka as undefeated chaos in principle, temporarily restrained but never eliminated."
+  },
+  {
+    "Index": 21,
+    "Primary": "6, father",
+    "Primary Name": "Aphrodite",
+    "Secondary": "10, father",
+    "Secondary Name": "Aeneas",
+    "Connection Category": "familial: mother/son",
+    "Note": "-"
+  },
+  {
+    "Index": 22,
+    "Primary": "8, father",
+    "Primary Name": "Priam",
+    "Secondary": "9, father",
+    "Secondary Name": "Hector",
+    "Connection Category": "familial: father/son",
+    "Note": "-"
+  },
+  {
+    "Index": 23,
+    "Primary": "14, father",
+    "Primary Name": "Gordias",
+    "Secondary": "15, father",
+    "Secondary Name": "Midas",
+    "Connection Category": "familial, father/son",
+    "Note": "-"
+  },
+  {
+    "Index": 24,
+    "Primary": "16, father ",
+    "Primary Name": "Alyattes",
+    "Secondary": "17, father",
+    "Secondary Name": "Croesus",
+    "Connection Category": "familial, father/son",
+    "Note": "-"
+  },
+  {
+    "Index": 25,
+    "Primary": "5, text",
+    "Primary Name": "The Song of Kumarbi",
+    "Secondary": "10, text",
+    "Secondary Name": "The Song of Ullikummi",
+    "Connection Category": "indirect connection",
+    "Note": "The Song of Ullikummi functions as a sequel to The Song of Kumarbi, shifting mythic focus from succession to the containment of chaos through the stabilization of cosmic order."
+  },
+  {
+    "Index": 26,
+    "Primary": "8, text",
+    "Primary Name": "The Myth of Illuyanka",
+    "Secondary": "4, text",
+    "Secondary Name": "Purulli Ritual Instructions",
+    "Connection Category": "indirect connection",
+    "Note": "The Myth of Illuyanka provides the narrative foundation for the Purulli festival, whose ritual instructions formalize the recurring restoration of cosmic order."
+  }
+]

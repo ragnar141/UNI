@@ -9,6 +9,18 @@ function escapeRegExp(s) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+/* NEW: diacritic / apostrophe / punctuation–insensitive folding for search */
+function foldForSearch(s) {
+  return String(s || "")
+    .normalize("NFD")                 // split base chars + diacritics
+    .replace(/[\u0300-\u036f]/g, "")  // strip diacritics
+    .replace(/[’‘ʻʼ`´]/g, "'")        // normalize apostrophes
+    .replace(/['"]/g, "")             // drop apostrophes/quotes
+    .replace(/[^a-zA-Z0-9]+/g, " ")   // punctuation → spaces
+    .trim()
+    .toLowerCase();
+}
+
 function durationLabelFromId(id) {
   if (!id) return null;
   if (id.startsWith("custom-")) {
@@ -42,7 +54,13 @@ function Highlight({ text, query }) {
   return (
     <>
       {parts.map((part, i) =>
-        rx.test(part) ? <mark key={i} className="sb-mark">{part}</mark> : <span key={i}>{part}</span>
+        rx.test(part) ? (
+          <mark key={i} className="sb-mark">
+            {part}
+          </mark>
+        ) : (
+          <span key={i}>{part}</span>
+        )
       )}
     </>
   );
@@ -70,12 +88,13 @@ function deriveSymbolColorsFromItem(r) {
     ? raw
     : String(raw || "")
         .split(/[;,/|]/)
-        .map(s => s.trim())
+        .map((s) => s.trim())
         .filter(Boolean);
 
   // Global lookup injected by timeline (fallback to empty)
   const LOOKUP =
-    (typeof window !== "undefined" && (window.SYMBOLIC_COLOR_LOOKUP || window.SYMBOLIC_COLOR_MAP)) ||
+    (typeof window !== "undefined" &&
+      (window.SYMBOLIC_COLOR_LOOKUP || window.SYMBOLIC_COLOR_MAP)) ||
     {};
 
   const seen = new Set();
@@ -121,7 +140,7 @@ export default function SearchBar({
   // Refs for auto-scrolling + keyboard/mouse nav mode
   const popoverRef = useRef(null);
   const itemRefs = useRef([]);
-  const navModeRef = useRef("mouse");          // "mouse" | "keyboard"
+  const navModeRef = useRef("mouse"); // "mouse" | "keyboard"
   const navResetTimerRef = useRef(null);
 
   const setKeyboardNav = () => {
@@ -151,10 +170,13 @@ export default function SearchBar({
   };
 
   const results = useMemo(() => {
-    const qq = q.trim().toLowerCase();
-    const base = (visibleIds instanceof Set)
-      ? items.filter(it => visibleIds.has(it.id))
-      : items;
+    // CHANGED: fold query for diacritics/punctuation-insensitive match
+    const qq = foldForSearch(q);
+
+    const base =
+      visibleIds instanceof Set
+        ? items.filter((it) => visibleIds.has(it.id))
+        : items;
 
     if (!qq) {
       return [];
@@ -162,7 +184,8 @@ export default function SearchBar({
 
     const score = (it) => {
       let s = 0;
-      const T = (v) => String(v || "").toLowerCase();
+      // CHANGED: fold field text too
+      const T = (v) => foldForSearch(v);
       const title = T(it.title);
       const inc = (v, w) => (T(v).includes(qq) ? w : 0);
 
@@ -185,7 +208,13 @@ export default function SearchBar({
               s += 6;
             }
             const prevChar = idx > 0 ? title[idx - 1] : " ";
-            if (prevChar === " " || prevChar === "—" || prevChar === "-" || prevChar === "(" || prevChar === "[") {
+            if (
+              prevChar === " " ||
+              prevChar === "—" ||
+              prevChar === "-" ||
+              prevChar === "(" ||
+              prevChar === "["
+            ) {
               // word-boundary hit inside the title: e.g. "... socrates"
               s += 3;
             }
@@ -213,7 +242,9 @@ export default function SearchBar({
   }, [q, items, maxResults, open, visibleIds]);
 
   // Reset hover to first when query changes
-  useEffect(() => { setHoverIdx(0); }, [q]);
+  useEffect(() => {
+    setHoverIdx(0);
+  }, [q]);
 
   // Reset item refs when results change
   useEffect(() => {
@@ -378,7 +409,10 @@ export default function SearchBar({
         </div>
 
         {author && (
-          <div className="sb-line sb-line2 sb-author-line" style={{ display: "flex", alignItems: "baseline", gap: 0 }}>
+          <div
+            className="sb-line sb-line2 sb-author-line"
+            style={{ display: "flex", alignItems: "baseline", gap: 0 }}
+          >
             <div>
               {author ? (
                 <>
@@ -466,7 +500,10 @@ export default function SearchBar({
         </div>
 
         {(r.category || durationLabel) && (
-          <div className="sb-line sb-line2" style={{ display: "flex", alignItems: "baseline", gap: 0 }}>
+          <div
+            className="sb-line sb-line2"
+            style={{ display: "flex", alignItems: "baseline", gap: 0 }}
+          >
             <div>
               {r.category ? (
                 <span className="sb-category">
@@ -478,9 +515,9 @@ export default function SearchBar({
             <span style={{ marginLeft: "auto" }} />
 
             {durationLabel ? (
-                <span className="sb-category sb-right-meta">
-                  <Highlight text={durationLabel} query={q} />
-                </span>
+              <span className="sb-category sb-right-meta">
+                <Highlight text={durationLabel} query={q} />
+              </span>
             ) : null}
           </div>
         )}
@@ -504,7 +541,12 @@ export default function SearchBar({
 
   return (
     <div ref={wrapRef} className="sb-wrap">
-      <div className="sb-box" onMouseDown={() => { onInteract(); }}>
+      <div
+        className="sb-box"
+        onMouseDown={() => {
+          onInteract();
+        }}
+      >
         <svg className="sb-icon" viewBox="0 0 24 24" aria-hidden="true">
           <path
             d="M21 21l-4.3-4.3m1.3-4.2a7 7 0 11-14 0 7 7 0 0114 0z"
@@ -522,8 +564,13 @@ export default function SearchBar({
           type="text"
           value={q}
           placeholder={placeholder}
-          onFocus={() => { setOpen(true); onInteract(); }}
-          onChange={(e) => { setQ(e.target.value); }}
+          onFocus={() => {
+            setOpen(true);
+            onInteract();
+          }}
+          onChange={(e) => {
+            setQ(e.target.value);
+          }}
           onKeyDown={onKeyDown}
           aria-label="Search"
         />
@@ -533,19 +580,22 @@ export default function SearchBar({
         createPortal(
           <div
             className="sb-backdrop"
-            onMouseDown={() => { closeAndReset(); }}
+            onMouseDown={() => {
+              closeAndReset();
+            }}
             aria-hidden="true"
           />,
           document.body
-        )
-      }
+        )}
 
       {open && q.trim() && results.length > 0 && (
         <div
           ref={popoverRef}
           className="sb-popover"
           role="listbox"
-          onMouseDown={() => { onInteract(); }}
+          onMouseDown={() => {
+            onInteract();
+          }}
           onMouseMove={onPopoverMouseMove}
         >
           {results.map((r, idx) => {
@@ -558,7 +608,12 @@ export default function SearchBar({
       )}
 
       {open && q.trim() && results.length === 0 && (
-        <div className="sb-popover sb-empty" onMouseDown={() => { onInteract(); }}>
+        <div
+          className="sb-popover sb-empty"
+          onMouseDown={() => {
+            onInteract();
+          }}
+        >
           No results
         </div>
       )}

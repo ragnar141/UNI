@@ -1,0 +1,929 @@
+[
+  {
+    "Index":1,
+    "Primary":"1, father",
+    "Primary Name":"Adam",
+    "Secondary":"2, father",
+    "Secondary Name":"Eve",
+    "Connection Category":"familial: consorts",
+    "Note":"-"
+  },
+  {
+    "Index":2,
+    "Primary":"1, father",
+    "Primary Name":"Adam",
+    "Secondary":"4, father",
+    "Secondary Name":"Cain",
+    "Connection Category":"familial: father\/son",
+    "Note":"-"
+  },
+  {
+    "Index":3,
+    "Primary":"1, father",
+    "Primary Name":"Adam",
+    "Secondary":"5, father",
+    "Secondary Name":"Abel",
+    "Connection Category":"familial: father\/son",
+    "Note":"-"
+  },
+  {
+    "Index":4,
+    "Primary":"1, father",
+    "Primary Name":"Adam",
+    "Secondary":"6, father",
+    "Secondary Name":"Enoch (Idris)",
+    "Connection Category":"custom connection",
+    "Note":"Descendant of Adam through Seth’s line (Adam → Seth → Enosh → Kenan → Mahalalel → Jared → Enoch)."
+  },
+  {
+    "Index":5,
+    "Primary":"1, father",
+    "Primary Name":"Adam",
+    "Secondary":"8, father",
+    "Secondary Name":"Noah",
+    "Connection Category":"custom connection",
+    "Note":"Direct descendant of Adam through Seth’s lineage (10 generations)."
+  },
+  {
+    "Index":6,
+    "Primary":"2, father ",
+    "Primary Name":"Eve",
+    "Secondary":"4, father",
+    "Secondary Name":"Cain",
+    "Connection Category":"familial: mother\/son",
+    "Note":"-"
+  },
+  {
+    "Index":7,
+    "Primary":"2, father",
+    "Primary Name":"Eve",
+    "Secondary":"5, father",
+    "Secondary Name":"Abel",
+    "Connection Category":"familial: mother\/son",
+    "Note":"-"
+  },
+  {
+    "Index":8,
+    "Primary":"7, father",
+    "Primary Name":"Inanna\/Ishtar",
+    "Secondary":"8, text",
+    "Secondary Name":"Temple Hymns of Enheduanna",
+    "Connection Category":"explicit reference",
+    "Note":"Here Inanna is presented as a sovereign, uroboric divine principle — a totalizing maternal force encompassing both nurture and annihilating violence."
+  },
+  {
+    "Index":9,
+    "Primary":"7, father",
+    "Primary Name":"Inanna\/Ishtar",
+    "Secondary":"9, text",
+    "Secondary Name":"The Exaltation of Inanna",
+    "Connection Category":"explicit reference",
+    "Note":"In the text, Inanna functions more as intimate patron, acting on Enheduanna’s behalf to restore voice, position, and legitimacy."
+  },
+  {
+    "Index":10,
+    "Primary":"7, father",
+    "Primary Name":"Inanna\/Ishtar",
+    "Secondary":"16, text",
+    "Secondary Name":"Gilgamesh and Agga",
+    "Connection Category":"explicit reference",
+    "Note":"Here, Inanna functions as the implicit divine patron of Uruk, whose established authority legitimizes Gilgamesh’s resistance to Agga."
+  },
+  {
+    "Index":11,
+    "Primary":"7, father",
+    "Primary Name":"Inanna\/Ishtar",
+    "Secondary":"19, text",
+    "Secondary Name":"Enmerkar and the Lord of Aratta",
+    "Connection Category":"explicit reference",
+    "Note":"Here Inanna’s allegiance resolves the conflict: sovereignty follows the goddess, and the goddess chooses Uruk."
+  },
+  {
+    "Index":12,
+    "Primary":"7, father",
+    "Primary Name":"Inanna\/Ishtar",
+    "Secondary":"20, text",
+    "Secondary Name":"Enmerkar and En-suhgir-ana",
+    "Connection Category":"explicit reference",
+    "Note":"In the text, Inanna functions as the ultimate arbiter of legitimacy, whose judgment decisively resolves inter-city rivalry by granting Uruk exclusive divine favor."
+  },
+  {
+    "Index":13,
+    "Primary":"7, father",
+    "Primary Name":"Inanna\/Ishtar",
+    "Secondary":"21, text",
+    "Secondary Name":"Lugalbanda and the Anzu Bird",
+    "Connection Category":"explicit reference",
+    "Note":"Here, Inanna functions as the omnipresent horizon of kingship: the divine authority whose favor transforms heroic survival into legitimate rule."
+  },
+  {
+    "Index":14,
+    "Primary":"7, father",
+    "Primary Name":"Inanna\/Ishtar",
+    "Secondary":"23, text",
+    "Secondary Name":"The Descent of Inanna",
+    "Connection Category":"explicit reference",
+    "Note":"In this myth, Inanna’s descent into the Underworld causes the world to fall barren; her return is achieved through death, negotiation, and the sacrifice of another."
+  },
+  {
+    "Index":15,
+    "Primary":"7, father",
+    "Primary Name":"Inanna\/Ishtar",
+    "Secondary":"25, text",
+    "Secondary Name":"Dumuzi’s Dream",
+    "Connection Category":"explicit reference",
+    "Note":"Here Inanna functions as the authority who demands and authorizes the sacrificial substitution required for her return."
+  },
+  {
+    "Index":16,
+    "Primary":"7, father",
+    "Primary Name":"Inanna\/Ishtar",
+    "Secondary":"31, text",
+    "Secondary Name":"Epic of Gilgamesh",
+    "Connection Category":"explicit reference",
+    "Note":"Here Ishtar’s power is recast as dangerous excess rather than legitimate sovereignty, and her humiliation becomes a catalyst for heroic tragedy."
+  },
+  {
+    "Index":17,
+    "Primary":"7, father",
+    "Primary Name":"Inanna\/Ishtar",
+    "Secondary":"10, text",
+    "Secondary Name":"Eridu Genesis",
+    "Connection Category":"explicit reference",
+    "Note":"In this text, Inanna functions as a mourning and restorative deity, aligned with the preservation of fertility and the reconstitution of human order after the flood."
+  },
+  {
+    "Index":18,
+    "Primary":"7, father",
+    "Primary Name":"Inanna\/Ishtar",
+    "Secondary":"30, text",
+    "Secondary Name":"Atrahasis Epic",
+    "Connection Category":"explicit reference",
+    "Note":"In the Atrahasis Epic, Ishtar appears as a lamenting goddess who regrets the flood and voices the cost of near-total annihilation, aligning her with fertility, continuity, and the need for restraint."
+  },
+  {
+    "Index":19,
+    "Primary":"8, father",
+    "Primary Name":"Noah",
+    "Secondary":"31, text",
+    "Secondary Name":"Epic of Gilgamesh",
+    "Connection Category":"explicit reference",
+    "Note":"Noah is a monotheistic reimagining of Utnapishtim, the flood hero of the Sumero-Akkadian epic."
+  },
+  {
+    "Index":20,
+    "Primary":"9, father",
+    "Primary Name":"An\/Anu",
+    "Secondary":"7, father",
+    "Secondary Name":"Inanna\/Ishtar",
+    "Connection Category":"familial: father\/daughter",
+    "Note":"-"
+  },
+  {
+    "Index":21,
+    "Primary":"9, father",
+    "Primary Name":"An\/Anu",
+    "Secondary":"12, father",
+    "Secondary Name":"Enlil",
+    "Connection Category":"familial: father\/son",
+    "Note":"-"
+  },
+  {
+    "Index":22,
+    "Primary":"9, father",
+    "Primary Name":"An\/Anu",
+    "Secondary":"13, father",
+    "Secondary Name":"Enki (Ea)",
+    "Connection Category":"familial: father\/son",
+    "Note":"-"
+  },
+  {
+    "Index":23,
+    "Primary":"9, father",
+    "Primary Name":"An\/Anu",
+    "Secondary":"10, father",
+    "Secondary Name":"Ki",
+    "Connection Category":"familial: consorts",
+    "Note":"-"
+  },
+  {
+    "Index":24,
+    "Primary":"9, father",
+    "Primary Name":"An\/Anu",
+    "Secondary":"7, text",
+    "Secondary Name":"Royal Inscriptions of Sargon of Akkad",
+    "Connection Category":"explicit reference",
+    "Note":"Here, An\/Anu appears as the supreme cosmic authority who legitimizes imperial kingship, providing a universal theological foundation beyond local city cults."
+  },
+  {
+    "Index":24,
+    "Primary":"9, father",
+    "Primary Name":"An\/Anu",
+    "Secondary":"8, text",
+    "Secondary Name":"Temple Hymns of Enheduanna",
+    "Connection Category":"explicit reference",
+    "Note":"In the text, An\/Anu is invoked as the supreme cosmic authority whose ordering power legitimizes the temples and the divine hierarchy they embody, anchoring individual cults within a unified, empire-wide theological framework."
+  },
+  {
+    "Index":25,
+    "Primary":"9, father",
+    "Primary Name":"An\/Anu",
+    "Secondary":"9, text",
+    "Secondary Name":"The Exaltation of Inanna",
+    "Connection Category":"explicit reference",
+    "Note":"In this text, An\/Anu appears as a distant, formal authority, while effective sovereignty shifts to Inanna, whose action bypasses traditional hierarchical mediation."
+  },
+  {
+    "Index":26,
+    "Primary":"9, father",
+    "Primary Name":"An\/Anu",
+    "Secondary":"19, text",
+    "Secondary Name":"Enmerkar and the Lord of Aratta",
+    "Connection Category":"explicit reference",
+    "Note":"Here An\/Anu appears as the acknowledged supreme authority of the pantheon, providing cosmic rank, while effective sovereignty is exercised through Inanna."
+  },
+  {
+    "Index":27,
+    "Primary":"9, father",
+    "Primary Name":"An\/Anu",
+    "Secondary":"20, text",
+    "Secondary Name":"Enmerkar and En-suhgir-ana",
+    "Connection Category":"explicit reference",
+    "Note":"In the text, An\/Anu again appears the acknowledged supreme authority while Inanna exercises effective sovereignty."
+  },
+  {
+    "Index":28,
+    "Primary":"9, father",
+    "Primary Name":"An\/Anu",
+    "Secondary":"23, text",
+    "Secondary Name":"The Descent of Inanna",
+    "Connection Category":"explicit reference",
+    "Note":"Here An\/Anu is acknowledged as a supreme authority, but his power does not extend into the underworld, rendering him non-operative in the crisis."
+  },
+  {
+    "Index":29,
+    "Primary":"9, father",
+    "Primary Name":"An\/Anu",
+    "Secondary":"26, text",
+    "Secondary Name":"Sumerian King List",
+    "Connection Category":"explicit reference",
+    "Note":"In the text, An\/Anu is not named as an actor but is implicitly present as the heavenly source from which kingship descends."
+  },
+  {
+    "Index":30,
+    "Primary":"9, father",
+    "Primary Name":"An\/Anu",
+    "Secondary":"31, text",
+    "Secondary Name":"Epic of Gilgamesh",
+    "Connection Category":"explicit reference",
+    "Note":"Here An\/Anu appears as a distant authority who authorizes events without directing them."
+  },
+  {
+    "Index":31,
+    "Primary":"9, father",
+    "Primary Name":"An\/Anu",
+    "Secondary":"37, text",
+    "Secondary Name":"Enuma Elish (Babylonian Creation Epic)",
+    "Connection Category":"explicit reference",
+    "Note":"In the Enuma Elish, An\/Anu appears as a senior but ultimately surpassed authority whose inability to confront Tiamat leads to the transfer of effective sovereignty to Marduk."
+  },
+  {
+    "Index":32,
+    "Primary":"9, father",
+    "Primary Name":"An\/Anu",
+    "Secondary":"44, text",
+    "Secondary Name":"Enūma Anu Enlil",
+    "Connection Category":"explicit reference",
+    "Note":"Here Anu is fully abstracted into cosmic signification: the sky itself becomes the medium of divine authority."
+  },
+  {
+    "Index":33,
+    "Primary":"9, father",
+    "Primary Name":"An\/Anu",
+    "Secondary":"46, text",
+    "Secondary Name":"Assyrian Royal Inscriptions",
+    "Connection Category":"explicit reference",
+    "Note":"In Assyrian Royal Inscriptions, An\/Anu appears as an inherited cosmic authority, while effective sovereignty and command are exercised exclusively through Ashur."
+  },
+  {
+    "Index":34,
+    "Primary":"10, father",
+    "Primary Name":"Ki",
+    "Secondary":"12, father",
+    "Secondary Name":"Enlil",
+    "Connection Category":"familial: mother\/son",
+    "Note":"-"
+  },
+  {
+    "Index":35,
+    "Primary":"10, father",
+    "Primary Name":"Ki",
+    "Secondary":"13, father",
+    "Secondary Name":"Enki (Ea)",
+    "Connection Category":"familial: mother\/son",
+    "Note":"-"
+  },
+  {
+    "Index":36,
+    "Primary":"10, father",
+    "Primary Name":"Ki",
+    "Secondary":"7, father",
+    "Secondary Name":"Inanna\/Ishtar",
+    "Connection Category":"familial: mother\/daughter",
+    "Note":"-"
+  },
+  {
+    "Index":37,
+    "Primary":"11, father ",
+    "Primary Name":"Gilgamesh",
+    "Secondary":"16, text",
+    "Secondary Name":"Gilgamesh and Agga",
+    "Connection Category":"explicit reference",
+    "Note":"Here, Gilgamesh is presented primarily as a political actor, as a young ruler testing his authority."
+  },
+  {
+    "Index":38,
+    "Primary":"11, father ",
+    "Primary Name":"Gilgamesh",
+    "Secondary":"21, text",
+    "Secondary Name":"Lugalbanda and the Anzu Bird",
+    "Connection Category":"explicit reference",
+    "Note":"Here Gilgamesh appears only as a framing sovereign—the established king whose campaign sets the scene, while the narrative and divine focus remain squarely on Lugalbanda. In Later Sumerian tradition, Gilgamesh is framed as Lugalbanda's dynastic successor. "
+  },
+  {
+    "Index":39,
+    "Primary":"11, father ",
+    "Primary Name":"Gilgamesh",
+    "Secondary":"27, text",
+    "Secondary Name":"The Death of Gilgamesh",
+    "Connection Category":"explicit reference",
+    "Note":"The text frames Gilgamesh as a humble mortal king who accepts the limits of human life and attains lasting significance only through his posthumous role of the judge of the realm of the dead."
+  },
+  {
+    "Index":40,
+    "Primary":"11, father ",
+    "Primary Name":"Gilgamesh",
+    "Secondary":"31, text",
+    "Secondary Name":"Epic of Gilgamesh",
+    "Connection Category":"explicit reference",
+    "Note":"Here Gilgamesh is depicted as a semi-divine hero-king whose quest for immortality ends in the acceptance of human limits and a mature understanding of legacy, friendship, and kingship."
+  },
+  {
+    "Index":41,
+    "Primary":"12, father",
+    "Primary Name":"Enlil",
+    "Secondary":"10, text",
+    "Secondary Name":"Eridu Genesis",
+    "Connection Category":"explicit reference",
+    "Note":"Here, Enlil is portrayed as the supreme enforcer of cosmic order whose decision to unleash the flood reflects an impersonal commitment to divine stability over human survival, with mercy entering the narrative through Enki’s circumvention of his decree."
+  },
+  {
+    "Index":42,
+    "Primary":"12, father",
+    "Primary Name":"Enlil",
+    "Secondary":"11, text",
+    "Secondary Name":"Curse of Agade",
+    "Connection Category":"explicit reference",
+    "Note":"In the Curse of Agade, Enlil functions as the ultimate arbiter of kingship whose silent withdrawal of divine favor, provoked by imperial hubris, collapses Akkad and reasserts the primacy of cosmic order."
+  },
+  {
+    "Index":43,
+    "Primary":"12, father",
+    "Primary Name":"Enlil",
+    "Secondary":"17, text",
+    "Secondary Name":"Lament for Ur",
+    "Connection Category":"explicit reference",
+    "Note":"Here Enlil functions as the supreme cosmic authority whose irrevocable decree dooms the city, embodying an impersonal commitment to divine order that permits mourning and protest but does not suspend judgment."
+  },
+  {
+    "Index":44,
+    "Primary":"12, father",
+    "Primary Name":"Enlil",
+    "Secondary":"18, text",
+    "Secondary Name":"Lament for Sumer and Ur",
+    "Connection Category":"explicit reference",
+    "Note":"In this text, Enlil functions as the final cosmic authority whose unalterable decree destroys the land, asserting divine order at the cost of human and divine suffering, without offering reversal or justification."
+  },
+  {
+    "Index":45,
+    "Primary":"12, father",
+    "Primary Name":"Enlil",
+    "Secondary":"24, text",
+    "Secondary Name":"Ninurta's Return to Nippur",
+    "Connection Category":"explicit reference",
+    "Note":"Here, Enlil functions as the supreme paternal authority who confers legitimacy upon Ninurta’s martial triumphs, transforming heroic violence into sanctioned cosmic order."
+  },
+  {
+    "Index":46,
+    "Primary":"12, father",
+    "Primary Name":"Enlil",
+    "Secondary":"30, text",
+    "Secondary Name":"Atrahasis Epic",
+    "Connection Category":"explicit reference",
+    "Note":"In the text, Enlil functions as an impersonal cosmic administrator who seeks to regulate humanity through successive catastrophes, culminating in the flood, prioritizing divine order over human survival."
+  },
+  {
+    "Index":47,
+    "Primary":"12, father",
+    "Primary Name":"Enlil",
+    "Secondary":"31, text",
+    "Secondary Name":"Epic of Gilgamesh",
+    "Connection Category":"explicit reference",
+    "Note":"In the Epic, Enlil functions as a distant but decisive cosmic authority whose protection of sacred order and enforcement of its violation establish the ultimate limits of heroic ambition and precipitate the tragedy that drives Gilgamesh’s confrontation with mortality."
+  },
+  {
+    "Index":48,
+    "Primary":"12, father",
+    "Primary Name":"Enlil",
+    "Secondary":"35, text",
+    "Secondary Name":"The Tukulti-Ninurta Epic",
+    "Connection Category":"explicit reference",
+    "Note":"Here Enlil functions as the ultimate legitimating authority whose sanction converts Assyrian imperial conquest into an expression of divinely ordered rule."
+  },
+  {
+    "Index":49,
+    "Primary":"12, father",
+    "Primary Name":"Enlil",
+    "Secondary":"37, text",
+    "Secondary Name":"Enuma Elish (Babylonian Creation Epic)",
+    "Connection Category":"explicit reference",
+    "Note":"In the Enuma Elish, Enlil appears as a senior but eclipsed divine authority whose former cosmic primacy is absorbed into Marduk’s kingship."
+  },
+  {
+    "Index":50,
+    "Primary":"13, father",
+    "Primary Name":"Enki (Ea)",
+    "Secondary":"23, father",
+    "Secondary Name":"Marduk",
+    "Connection Category":"familial: father\/son",
+    "Note":"Marduk is son of Enki in Babylonian theology."
+  },
+  {
+    "Index":51,
+    "Primary":"13, father",
+    "Primary Name":"Enki (Ea)",
+    "Secondary":"10, text",
+    "Secondary Name":"Eridu Genesis",
+    "Connection Category":"explicit reference",
+    "Note":"In the Eridu Genesis, Enki functions as the divine mediator and guardian of humanity who preserves life by cleverly circumventing Enlil’s catastrophic decree, asserting wisdom and compassion as necessary correctives to absolute cosmic authority."
+  },
+  {
+    "Index":52,
+    "Primary":"13, father",
+    "Primary Name":"Enki (Ea)",
+    "Secondary":"23, text",
+    "Secondary Name":"The Descent of Inanna",
+    "Connection Category":"explicit reference",
+    "Note":"Here Enki functions as the divine problem-solver who restores life and equilibrium through ingenuity and compassion, resolving a cosmic crisis that authority alone cannot undo."
+  },
+  {
+    "Index":53,
+    "Primary":"13, father",
+    "Primary Name":"Enki (Ea)",
+    "Secondary":"30, text",
+    "Secondary Name":"Atrahasis Epic",
+    "Connection Category":"explicit reference",
+    "Note":"Here, Enki functions as the cunning divine advocate for humanity who preserves life by covertly circumventing Enlil’s destructive decrees and reshaping the human condition to stabilize the cosmic order."
+  },
+  {
+    "Index":54,
+    "Primary":"13, father",
+    "Primary Name":"Enki (Ea)",
+    "Secondary":"31, text",
+    "Secondary Name":"Epic of Gilgamesh",
+    "Connection Category":"explicit reference",
+    "Note":"In the Epic, Enki functions as the wise preserver of humanity whose earlier intervention makes survival possible but whose refusal to grant immortality ultimately enforces the boundary between divine permanence and human mortality."
+  },
+  {
+    "Index":55,
+    "Primary":"13, father",
+    "Primary Name":"Enki (Ea)",
+    "Secondary":"32, text",
+    "Secondary Name":"Namtaru Incantations",
+    "Connection Category":"explicit reference",
+    "Note":"Here Enki is invoked as god of healing and a transmitter of healing knowledge that counteracts illness and fatal destiny."
+  },
+  {
+    "Index":56,
+    "Primary":"13, father",
+    "Primary Name":"Enki (Ea)",
+    "Secondary":"37, text",
+    "Secondary Name":"Enuma Elish (Babylonian Creation Epic)",
+    "Connection Category":"explicit reference",
+    "Note":"In this text, Enki (Ea) functions as the initial stabilizer whose clever suppression of primordial disorder delays catastrophe but ultimately gives way to Marduk’s ascendance, marking the limits of wisdom alone."
+  },
+  {
+    "Index":57,
+    "Primary":"13, father",
+    "Primary Name":"Enki (Ea)",
+    "Secondary":"48, text",
+    "Secondary Name":"Bārûtu Series",
+    "Connection Category":"explicit reference",
+    "Note":"In the Bārûtu series, Enki (Ea) functions as the divine architect of divination itself, the source of the ordered sign-system that allows human specialists to read fate and disaster without altering the underlying cosmic decree."
+  },
+  {
+    "Index":58,
+    "Primary":"13, father",
+    "Primary Name":"Enki (Ea)",
+    "Secondary":"49, text",
+    "Secondary Name":"Šurpu Series",
+    "Connection Category":"explicit reference",
+    "Note":"In the Šurpu series, Enki (Ea) functions as the divine purifier whose wisdom enables the ritual identification and removal of hidden guilt and impurity, restoring equilibrium through confession and release."
+  },
+  {
+    "Index":59,
+    "Primary":"14, father",
+    "Primary Name":"Ninhursag",
+    "Secondary":"10, text",
+    "Secondary Name":"Eridu Genesis",
+    "Connection Category":"explicit reference",
+    "Note":"In the Eridu Genesis, Ninhursag functions as the maternal conscience of the divine assembly, lamenting the destruction of humanity and embodying the principle of life that stands in tension with Enlil’s annihilating enforcement of cosmic order."
+  },
+  {
+    "Index":60,
+    "Primary":"14, father",
+    "Primary Name":"Ninhursag",
+    "Secondary":"14, text",
+    "Secondary Name":"Bau Temple Archives",
+    "Connection Category":"explicit reference",
+    "Note":"Here Ninhursag functions as an institutionalized mother goddess whose life-giving authority is expressed through temple administration, offerings, and economic order."
+  },
+  {
+    "Index":61,
+    "Primary":"14, father",
+    "Primary Name":"Ninhursag",
+    "Secondary":"30, text",
+    "Secondary Name":"Atrahasis Epic",
+    "Connection Category":"explicit reference",
+    "Note":"In the Atrahasis Epic, Ninhursag functions as humanity’s creatrix and fertility regulator, enabling human life while later imposing biological limits that stabilize the cosmos after Enlil’s destructive interventions."
+  },
+  {
+    "Index":62,
+    "Primary":"15, father",
+    "Primary Name":"Nisaba",
+    "Secondary":"1, text",
+    "Secondary Name":"Instructions of Shuruppak",
+    "Connection Category":"explicit reference",
+    "Note":"In this text, Nisaba functions as the implicit divine authority of literacy and learned wisdom, grounding moral and practical instruction in the ordered transmission of knowledge."
+  },
+  {
+    "Index":63,
+    "Primary":"15, father",
+    "Primary Name":"Nisaba",
+    "Secondary":"5, text",
+    "Secondary Name":"Administrative Tablets from Ebla",
+    "Connection Category":"explicit reference",
+    "Note":"Here Nisaba functions as the divine patron of writing and bureaucracy, implicitly authorizing record-keeping, accounting, and scribal authority as sacred foundations of political and economic order."
+  },
+  {
+    "Index":64,
+    "Primary":"15, father",
+    "Primary Name":"Nisaba",
+    "Secondary":"6, text",
+    "Secondary Name":"Tello Tablets",
+    "Connection Category":"explicit reference",
+    "Note":"In the Tello tablets, Nisaba functions as the implicit divine patron of scribes and administration, sanctifying writing and accounting as authoritative instruments of civic order."
+  },
+  {
+    "Index":65,
+    "Primary":"15, father",
+    "Primary Name":"Nisaba",
+    "Secondary":"8, text",
+    "Secondary Name":"Temple Hymns of Enheduanna",
+    "Connection Category":"explicit reference",
+    "Note":"Here Nisaba functions as the institutional goddess of writing and ordered knowledge, her temple anchoring literacy, measurement, and cultivated order as sacred foundations of civilization."
+  },
+  {
+    "Index":66,
+    "Primary":"15, father",
+    "Primary Name":"Nisaba",
+    "Secondary":"26, text",
+    "Secondary Name":"Sumerian King List",
+    "Connection Category":"explicit reference",
+    "Note":"In the text, Nisaba functions implicitly as the divine patron of the scribal order that renders kingship recordable, continuous, and authoritative."
+  },
+  {
+    "Index":67,
+    "Primary":"15, father",
+    "Primary Name":"Nisaba",
+    "Secondary":"42, text",
+    "Secondary Name":"Mul.Apin (The Plough Star)",
+    "Connection Category":"explicit reference",
+    "Note":"In Mul.Apin, Nisaba functions implicitly as the divine patron of astronomical knowledge, grounding the classification of stars and calendars in the same scribal order that renders agriculture, time, and the cosmos intelligible."
+  },
+  {
+    "Index":68,
+    "Primary":"16, father",
+    "Primary Name":"Kubaba",
+    "Secondary":"26, text",
+    "Secondary Name":"Sumerian King List",
+    "Connection Category":"explicit reference",
+    "Note":"In the Sumerian King List, Kubaba is listed as the queen of Kish. She appears as the sole female ruler recorded as a legitimate sovereign, her reign presented matter-of-factly as an instance of divinely sanctioned kingship."
+  },
+  {
+    "Index":69,
+    "Primary":"17, father",
+    "Primary Name":"Ashur",
+    "Secondary":"34, text",
+    "Secondary Name":"Middle Assyrian Laws",
+    "Connection Category":"explicit reference",
+    "Note":"In the Middle Assyrian Laws, Ashur functions as the supreme divine guarantor of legal and political order, sanctifying law as an instrument of state authority and discipline."
+  },
+  {
+    "Index":70,
+    "Primary":"17, father",
+    "Primary Name":"Ashur",
+    "Secondary":"35, text",
+    "Secondary Name":"The Tukulti-Ninurta Epic",
+    "Connection Category":"explicit reference",
+    "Note":"Here Ashur functions as the supreme and exclusive divine sovereign whose will authorizes Assyrian imperial domination, fusing god, king, and empire into a single, uncompromising structure of power."
+  },
+  {
+    "Index":71,
+    "Primary":"17, father",
+    "Primary Name":"Ashur",
+    "Secondary":"46, text",
+    "Secondary Name":"Assyrian Royal Inscriptions",
+    "Connection Category":"explicit reference",
+    "Note":"Ashur is invoked as the national god, grantor of kingship and conquest."
+  },
+  {
+    "Index":72,
+    "Primary":"17, father",
+    "Primary Name":"Ashur",
+    "Secondary":"50, text",
+    "Secondary Name":"Neo-Assyrian Letters",
+    "Connection Category":"explicit reference",
+    "Note":"Here Ashur functions as an omnipresent sovereign whose will governs everyday imperial decision-making, rendering political, military, and administrative actions extensions of divine command."
+  },
+  {
+    "Index":73,
+    "Primary":"18, father",
+    "Primary Name":"Sargon",
+    "Secondary":"19, father",
+    "Secondary Name":"Enheduanna",
+    "Connection Category":"familial: father\/daughter",
+    "Note":"-"
+  },
+  {
+    "Index":74,
+    "Primary":"18, father",
+    "Primary Name":"Sargon",
+    "Secondary":"7, text",
+    "Secondary Name":"Royal Inscriptions of Sargon of Akkad",
+    "Connection Category":"explicit reference",
+    "Note":"Here Sargon of Akkad presents himself as a divinely favored self-made ruler whose personal military prowess and unprecedented conquests establish a new, supra-city model of kingship."
+  },
+  {
+    "Index":75,
+    "Primary":"18, father",
+    "Primary Name":"Sargon",
+    "Secondary":"11, text",
+    "Secondary Name":"Curse of Agade",
+    "Connection Category":"explicit reference",
+    "Note":"In the Curse of Agade, Sargon of Akkad appears only implicitly as the exemplary founder whose divinely balanced kingship highlights Naram-Sin’s transgression and frames Akkad’s collapse as a failure to uphold the original imperial order."
+  },
+  {
+    "Index":76,
+    "Primary":"18, father",
+    "Primary Name":"Sargon",
+    "Secondary":"47, text",
+    "Secondary Name":"Sargon Legend (Sargon Birth Legend)",
+    "Connection Category":"explicit reference",
+    "Note":"In the Sargon Birth Legend, Sargon of Akkad is framed as a divinely elected foundling whose abandonment and improbable rise legitimize imperial kingship as a matter of destiny and divine favor."
+  },
+  {
+    "Index":77,
+    "Primary":"19, father",
+    "Primary Name":"Enheduanna",
+    "Secondary":"7, text",
+    "Secondary Name":"Royal Inscriptions of Sargon of Akkad",
+    "Connection Category":"explicit reference",
+    "Note":"Here Enheduanna appears as a dynastic and cultic appointee whose installation as high priestess of Ur serves to sacralize Akkadian imperial rule."
+  },
+  {
+    "Index":78,
+    "Primary":"19, father",
+    "Primary Name":"Enheduanna",
+    "Secondary":"8, text",
+    "Secondary Name":"Temple Hymns of Enheduanna",
+    "Connection Category":"explicit reference",
+    "Note":"In the Temple Hymns, Enheduanna emerges as a self-aware author and priestly authority who uses structured hymnody to unify Sumer’s sacred geography, establishing literary voice as an instrument of theological and imperial legitimacy."
+  },
+  {
+    "Index":79,
+    "Primary":"19, father",
+    "Primary Name":"Enheduanna",
+    "Secondary":"9, text",
+    "Secondary Name":"The Exaltation of Inanna",
+    "Connection Category":"explicit reference",
+    "Note":"In the text, Enheduanna casts herself as a divinely tested priestess whose personal suffering and vindication become the vehicle for proclaiming Inanna’s absolute power."
+  },
+  {
+    "Index":80,
+    "Primary":"20, father",
+    "Primary Name":"Hammurabi",
+    "Secondary":"28, text",
+    "Secondary Name":"Code of Hammurabi",
+    "Connection Category":"explicit reference",
+    "Note":"The code portrays Hammurabi as a divinely sanctioned ruler who codifies and enforces cosmic justice on earth, legitimizing royal authority through written law."
+  },
+  {
+    "Index":81,
+    "Primary":"21, father",
+    "Primary Name":"Tiamat",
+    "Secondary":"22, father",
+    "Secondary Name":"Apsu",
+    "Connection Category":"familial: consorts",
+    "Note":"Tiamat is Apsu’s consort; together they generate the first gods."
+  },
+  {
+    "Index":82,
+    "Primary":"21, father",
+    "Primary Name":"Tiamat",
+    "Secondary":"37, text",
+    "Secondary Name":"Enuma Elish (Babylonian Creation Epic)",
+    "Connection Category":"explicit reference",
+    "Note":"In the Enuma Elish, Tiamat functions as the primordial maternal chaos whose defeat and dismemberment authorize Marduk’s supremacy and redefine creation as an act of violent conquest."
+  },
+  {
+    "Index":83,
+    "Primary":"22, father",
+    "Primary Name":"Apsu",
+    "Secondary":"37, text",
+    "Secondary Name":"Enuma Elish (Babylonian Creation Epic)",
+    "Connection Category":"explicit reference",
+    "Note":"In the Enuma Elish, Apsu functions as the primordial embodiment of inert cosmic order whose elimination by Ea initiates the generational overthrow that makes creation and eventual kingship possible."
+  },
+  {
+    "Index":84,
+    "Primary":"23, father",
+    "Primary Name":"Marduk",
+    "Secondary":"28, text",
+    "Secondary Name":"Code of Hammurabi",
+    "Connection Category":"explicit reference",
+    "Note":"Here Marduk is presented as the supreme divine sovereign who grants Hammurabi kingship and commissions him to impose justice on earth as an extension of Babylon’s cosmic order."
+  },
+  {
+    "Index":85,
+    "Primary":"23, father",
+    "Primary Name":"Marduk",
+    "Secondary":"37, text",
+    "Secondary Name":"Enuma Elish (Babylonian Creation Epic)",
+    "Connection Category":"explicit reference",
+    "Note":"In the Enuma Elish, Marduk functions as the conquering king whose victory over primordial chaos authorizes his absolute rule and redefines creation as the establishment of centralized sovereignty and law."
+  },
+  {
+    "Index":86,
+    "Primary":"23, father",
+    "Primary Name":"Marduk",
+    "Secondary":"53, text",
+    "Secondary Name":"Cylinder of Nabonidus",
+    "Connection Category":"explicit reference",
+    "Note":"Here Marduk remains the traditional guarantor of Babylonian kingship, yet his authority is rhetorically acknowledged rather than effectively centered."
+  },
+  {
+    "Index":87,
+    "Primary":"10, text",
+    "Primary Name":"Eridu Genesis",
+    "Secondary":"30, text",
+    "Secondary Name":"Atrahasis Epic",
+    "Connection Category":"indirect connection",
+    "Note":"The Atrahasis Epic explicitly develops and expands the flood narrative already present in the Eridu Genesis, systematizing it into a fuller, more detailed account of cosmic crisis and human survival."
+  },
+  {
+    "Index":88,
+    "Primary":"30, text",
+    "Primary Name":"Atrahasis Epic",
+    "Secondary":"31, text",
+    "Secondary Name":"Epic of Gilgamesh",
+    "Connection Category":"indirect connection",
+    "Note":"The Epic of Gilgamesh incorporates the flood narrative of the Atrahasis Epic through Utnapishtim’s testimony, repurposing a cosmological catastrophe into a didactic episode about mortality and human limits."
+  },
+  {
+    "Index":89,
+    "Primary":"15, text",
+    "Primary Name":"Code of Ur-Nammu",
+    "Secondary":"22, text",
+    "Secondary Name":"Code of Lipit-Ishtar",
+    "Connection Category":"indirect connection",
+    "Note":"The Code of Lipit-Ishtar follows the legal structure, casuistic format, and divine-legitimation model established under Ur-Nammu, reflecting continuity of a priestly–scribal legal tradition despite the political collapse of the Ur III state."
+  },
+  {
+    "Index":90,
+    "Primary":"22, text",
+    "Primary Name":"Code of Lipit-Ishtar",
+    "Secondary":"28, text",
+    "Secondary Name":"Code of Hammurabi",
+    "Connection Category":"indirect connection",
+    "Note":"The Code of Hammurabi expands the Lipit-Ishtar legal framework into an imperial register, preserving priestly jurisprudence while subordinating it to a newly dominant warrior kingship."
+  },
+  {
+    "Index":91,
+    "Primary":"28, text",
+    "Primary Name":"Code of Hammurabi",
+    "Secondary":"34, text",
+    "Secondary Name":"Middle Assyrian Laws",
+    "Connection Category":"indirect connection",
+    "Note":"The Middle Assyrian Laws retain the inherited casuistic structure of earlier Babylonian law while reshaping it to serve a more coercive, militarized Assyrian state, revealing tension between priestly legal continuity and warrior discipline."
+  },
+  {
+    "Index":92,
+    "Primary":"34, text",
+    "Primary Name":"Middle Assyrian Laws",
+    "Secondary":"52, text",
+    "Secondary Name":"Neo-Babylonian Laws",
+    "Connection Category":"indirect connection",
+    "Note":"Neo-Babylonian legal texts reabsorb Assyrian-era legal traditions into a revived Babylonian priestly bureaucracy, demonstrating the long-term survival of the legal-scribal class across successive warrior regimes."
+  },
+  {
+    "Index":93,
+    "Primary":"2, text",
+    "Primary Name":"Kesh Temple Hymn",
+    "Secondary":"8, text",
+    "Secondary Name":"Temple Hymns of Enheduanna",
+    "Connection Category":"indirect connection",
+    "Note":"The Temple Hymns of Enheduanna expand the cultic template established by the Kesh Temple Hymn, transforming localized temple praise into a centralized, politically charged liturgy shaped by an emerging female priestly voice."
+  },
+  {
+    "Index":94,
+    "Primary":"8, text",
+    "Primary Name":"Temple Hymns of Enheduanna",
+    "Secondary":"9, text",
+    "Secondary Name":"The Exaltation of Inanna",
+    "Connection Category":"indirect connection",
+    "Note":"The Exaltation of Inanna intensifies Enheduanna’s temple theology by foregrounding Inanna as an autonomous source of divine authority, aligning feminine ritual power with imperial legitimacy amid Akkadian political upheaval."
+  },
+  {
+    "Index":95,
+    "Primary":"9, text",
+    "Primary Name":"The Exaltation of Inanna",
+    "Secondary":"23, text",
+    "Secondary Name":"The Descent of Inanna",
+    "Connection Category":"indirect connection",
+    "Note":"The Descent of Inanna radicalizes earlier hymnic exaltation by dramatizing feminine divine authority through death, inversion, and return, shifting ritual emphasis from kingship support to cosmic disruption."
+  },
+  {
+    "Index":96,
+    "Primary":"23, text",
+    "Primary Name":"The Descent of Inanna",
+    "Secondary":"25, text",
+    "Secondary Name":"Dumuzi’s Dream",
+    "Connection Category":"indirect connection",
+    "Note":"In The Descent of Inanna, a substitute must be sacrificed to secure Inanna’s return from the underworld; in Dumuzi’s Dream, that sacrificial burden is transferred onto the male consort, marking the ritual erosion of masculine priestly authority within the Inanna cult."
+  },
+  {
+    "Index":97,
+    "Primary":"11, text",
+    "Primary Name":"Curse of Agade",
+    "Secondary":"17, text",
+    "Secondary Name":"Lament for Ur",
+    "Connection Category":"indirect connection",
+    "Note":"The Lament for Ur refines the theological response introduced in the Curse of Agade, shifting from polemical critique of failed kingship toward a ritualized explanation of city destruction as divinely ordained withdrawal."
+  },
+  {
+    "Index":98,
+    "Primary":"17, text",
+    "Primary Name":"Lament for Ur",
+    "Secondary":"18, text",
+    "Secondary Name":"Lament for Sumer and Ur",
+    "Connection Category":"indirect connection",
+    "Note":"The Lament for Sumer and Ur expands the lament tradition beyond a single fallen city, transforming historical catastrophe into a generalized liturgy of civilizational loss."
+  },
+  {
+    "Index":99,
+    "Primary":"12, text",
+    "Primary Name":"Lugalbanda in the Mountain Cave",
+    "Secondary":"21, text",
+    "Secondary Name":"Lugalbanda and the Anzu Bird",
+    "Connection Category":"indirect connection",
+    "Note":"Lugalbanda and the Anzu Bird continues the narrative initiated in Lugalbanda in the Mountain Cave, transforming the hero’s isolation and ritual endurance into divine empowerment and heroic initiation."
+  },
+  {
+    "Index":100,
+    "Primary":"42, text",
+    "Primary Name":"Mul.Apin (The Plough Star)",
+    "Secondary":"44, text",
+    "Secondary Name":"Enūma Anu Enlil",
+    "Connection Category":"indirect connection",
+    "Note":"Mul.Apin provides the standardized observational framework upon which Enūma Anu Enlil builds its interpretive system, supplying the priestly diviners with reliable celestial data necessary for state-level omen analysis."
+  },
+  {
+    "Index":101,
+    "Primary":"44, text",
+    "Primary Name":"Enūma Anu Enlil",
+    "Secondary":"45, text",
+    "Secondary Name":"Šumma ālu (If a City is Situated on a Height)",
+    "Connection Category":"indirect connection",
+    "Note":"Šumma ālu extends the omen logic formalized in Enūma Anu Enlil from the heavens to the urban and social environment, applying the same conditional divinatory reasoning to the lived space of the city."
+  },
+    {
+    "Index":102,
+    "Primary":"4, father",
+    "Primary Name":"Cain",
+    "Secondary":"5, father",
+    "Secondary Name":"Abel",
+    "Connection Category":"familial: brother\/brother",
+    "Note":"-"
+  }
+]

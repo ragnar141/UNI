@@ -496,12 +496,14 @@ body {
 /* Speech-bubble tooltip for connection notes in TextCard & FatherCard */
 .connNoteTooltip {
   position: absolute;
-  top: 100%;          /* directly below the group */
-  right: -300px;           /* anchored under the i side */
-  
-  margin-top: 32px;
 
-  width: 400px;       /* same wide width for all tooltips */
+  top: 100%;
+  margin-top: 0;
+  transform: translateY(calc(-100% - 12px)); /* NEW: move above by its own height + gap */
+
+  right: -300px;
+
+  width: 400px;
   max-width: 400px;
 
   background: #111827;
@@ -512,7 +514,7 @@ body {
   line-height: 1.35;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
   z-index: 9999;
-  white-space: normal;   /* allow multi-line text */
+  white-space: normal;
 
   opacity: 0;
   visibility: hidden;
@@ -520,19 +522,19 @@ body {
   transition: opacity 0.15s ease;
 }
 
-
-/* Little triangle, sharp angle pointing UP toward the i button,
-   attached to the RIGHT side of the rectangle */
+/* Little triangle, sharp angle pointing DOWN,
+   attached to the BOTTOM of the rectangle */
 .connNoteTooltip::before {
   content: "";
   position: absolute;
-  bottom: 100%;    /* sit above the bubble */
-  left: 14px;      /* attach near the LEFT side of the rectangle */
 
-  /* sharp angle points UP toward the i button */
-  border-width: 0 7px 7px 7px;
+  top: 100%;        /* attach to BOTTOM of the bubble */
+  left: 14px;       /* same horizontal alignment */
+
+  /* sharp angle points DOWN */
+  border-width: 7px 7px 0 7px;
   border-style: solid;
-  border-color: transparent transparent #111827 transparent;
+  border-color: #111827 transparent transparent transparent;
   z-index: 9999;
 }
 
