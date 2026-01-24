@@ -49,7 +49,17 @@ const SymbolicSystemColorPairs = {
   Christian:   "#5E2D91",
   Roman: "#C4002F",
   Islamic: "#006A52",
-  Iranian: "#1C39BB"
+  Iranian: "#1C39BB",
+  Indian:        "#2F2A6D", // Deep Indigo — cosmic depth, cyclic time (base canon)
+  Vedic:         "#8C1D18", // Sacrificial Maroon — fire, soma, blood, ritual gravity
+  Brahmanical:   "#5A3E1B", // Codex Umber — law, dharma, social ordering
+  Upaniṣadic:    "#4B3F72", // Smoked Amethyst — interiority, negation, metaphysics
+  Śramaṇa:       "#7A7A7A", // Ash Grey — renunciation, wandering, anti-ritual
+  Buddhist:      "#D8A23A", // Muted Gold — middle path, illumination without royalty
+  Tamil:         "#1E4F3A", // Deep Teal-Green — Sangam earth, landscape poetics
+  Purāṇic:       "#9C1F3B", // Mythic Crimson — narrative, devotion, cosmology
+  Yogic:         "#2E6F95", // Breath Blue — discipline, inward ascent, control
+  Sāṃkhya:       "#3D3A2A"  // Dualist Olive-Brown — prakṛti / puruṣa tension
 };
 
 
@@ -71,6 +81,22 @@ const HOVER_SCALE_FATHER = 1.6;
 const ZOOM_THRESHOLD = 4.0;
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
+const CIV_TEXT_SCALE = 1.6; // tweak to taste
+
+function hasCivilizationalCodeYes(d) {
+  // supports either the raw CSV-ish key or a normalized field if you later add one
+  return isYesish(
+    getLooseField(d, "Civlizational code?") ||
+    getLooseField(d, "Civilizational code?") ||
+    d.civilizationalCode
+  );
+}
+
+function textBaseR(d) {
+  return TEXT_BASE_R * (hasCivilizationalCodeYes(d) ? CIV_TEXT_SCALE : 1);
+}
+
+
 // New: boundary between “outest” (duration-only) and “middle” (segment) zoom
 const ZOOM_SEGMENT_THRESHOLD = 2.0;
 
@@ -84,7 +110,7 @@ const DUR_STROKE = {
 /* ===== Label visibility policy ===== */
 const LABEL_ALLOWLIST = new Set([
   "egyptian-composite", "mesopotamian-composite", "anatolian-composite", "levantine-composite", "persian-composite", 
-  "greek-composite", "carthaginian-composite", "customgroup-hellenistic"
+  "greek-composite", "carthaginian-composite", "customgroup-hellenistic", "indian-composite"
 ]);
 
 const LABEL_BLOCKLIST = new Set([
@@ -206,7 +232,7 @@ function layoutMarksByPixels({ marks, outlines, authorLaneMap, x, y0, innerHeigh
 
    // use base (k=1) draw sizes for spacing; no zoom here
    const rPx = m.kind === "text"
-     ? TEXT_BASE_R                     // your base dot radius in px at k=1
+     ? (TEXT_BASE_R * (hasCivilizationalCodeYes(m) ? CIV_TEXT_SCALE : 1)) // your base dot radius in px at k=1
      : getFatherBaseR({ foundingFigure: m.foundingFigure }) * 2.2; // match your draw base
    const rRU = rPx; // 1 band-unit == 1px at k=1
 
@@ -362,6 +388,14 @@ function hasHistoricTag(tags) {
     .split(",")
     .map(s => s.trim())
     .includes("historic");
+}
+
+function hasConceptTag(tags) {
+  return String(tags || "")
+    .toLowerCase()
+    .split(",")
+    .map(s => s.trim())
+    .includes("concept");
 }
 
 
@@ -620,6 +654,56 @@ function leftSplitTriangleSlices(cx, cy, r, colors) {
   return slices;
 }
 
+function splitSquareSlices(cx, cy, r, colors) {
+  const palette = (colors || []).filter(Boolean);
+  const n = Math.max(1, palette.length);
+
+  const xL = cx - r, xR = cx + r;
+  const yT = cy - r, yB = cy + r;
+
+  // Single color → one full square
+  if (n === 1) {
+    return [{
+      d: `M ${xL} ${yT} H ${xR} V ${yB} H ${xL} Z`,
+      fill: palette[0] || "#666"
+    }];
+  }
+
+// N colors → N horizontal blocks (top→bottom)
+const h = (yB - yT) / n;
+const out = [];
+for (let i = 0; i < n; i++) {
+  const ya = yT + i * h;
+  const yb = yT + (i + 1) * h;
+  out.push({
+    d: `M ${xL} ${ya} H ${xR} V ${yb} H ${xL} Z`,
+    fill: palette[i] || "#666"
+  });
+}
+return out;
+}
+
+function buildSquareOverlaySegments(cx, cy, r, colors) {
+  const palette = (colors || []).filter(Boolean);
+  const n = Math.max(1, palette.length);
+  const segs = [];
+
+  if (n <= 1) return segs;
+
+  const xL = cx - r, xR = cx + r;
+  const yT = cy - r, yB = cy + r;
+
+const h = (yB - yT) / n;
+
+// Internal horizontal split lines between blocks
+for (let i = 1; i < n; i++) {
+  const y = yT + i * h;
+  segs.push({ type: "split", x1: xL, y1: y, x2: xR, y2: y });
+}
+  return segs;
+}
+
+
 
 // Build a vertical envelope along time using all member bars/segments
 function buildGroupIntervals(members) {
@@ -798,8 +882,8 @@ function bandRectPx({ start, end, y, h }, zx, zy) {
 
 
 
-function drawTextDot(circleSel, pieSel, k){
-  const r = TEXT_BASE_R * k;
+function drawTextDot(circleSel, pieSel, k, d){
+  const r = textBaseR(d) * k;
   circleSel.attr("r", r).attr("opacity", BASE_OPACITY);
   if (!pieSel.empty()) drawSlicesAtRadius(pieSel, r);
 }
@@ -2226,6 +2310,11 @@ const tags = {
         ? null
         : (isPlaceholderAuthor(authorName) ? null : normalizeAuthor(authorName));
 
+        const civCodeRaw =
+          (getLooseField(t, "Civlizational code?") ??
+          getLooseField(t, "Civilizational code?") ??  // optional fallback
+          "").toString().trim();
+
        
 
         rowsT.push({
@@ -2255,6 +2344,7 @@ const tags = {
           symbolicSystemTags,
           textIndex,
           tags,
+          civilizationalCode: civCodeRaw, 
           originalText: originalTextLink,
           articlePost:  articlePostLink,
           imageMuseum:  imageMuseumLink,
@@ -2388,6 +2478,20 @@ const visTextRows = useMemo(
   () => (textRows || []).filter(r => itemPassesFilters(r, "text", selectedByGroup)),
   [textRows, selectedByGroup]
 );
+
+const civYes = visTextRows.filter(d =>
+  String(d["Civlizational code?"] ?? d["Civilizational code?"] ?? d.civilizationalCode ?? "")
+    .toUpperCase().trim() === "YES"
+);
+
+console.log("[CIV] visTextRows count:", visTextRows.length);
+console.log("[CIV] YES count:", civYes.length);
+console.log("[CIV] sample YES row:", civYes[0]);
+console.log("[CIV] sample YES raw value:",
+  civYes[0] && (civYes[0]["Civlizational code?"] ?? civYes[0]["Civilizational code?"] ?? civYes[0].civilizationalCode)
+);
+
+
 const visFatherRows = useMemo(
   () => (fatherRows || []).filter(r => itemPassesFilters(r, "father", selectedByGroup)),
   [fatherRows, selectedByGroup]
@@ -2494,7 +2598,6 @@ function redrawFatherAtRadius(gFather, d, r) {
   const zx = zxRef.current, zy = zyRef.current;
   if (!zx || !zy) return;
 
-  // Screen-space center of this father
   const cx = zx(toAstronomical(d.when));
   let cyU = y0(d.y);
 
@@ -2504,14 +2607,18 @@ function redrawFatherAtRadius(gFather, d, r) {
 
   const cy = zy(cyU);
 
-  // Colored triangle slices
+  const isConcept = hasConceptTag(d.historicMythicStatusTags);
+
+  // Colored slices
   const cols = (d.colors && d.colors.length) ? d.colors : [d.color || "#666"];
-  const triSlices = leftSplitTriangleSlices(cx, cy, r, cols);
+  const slices = isConcept
+    ? splitSquareSlices(cx, cy, r, cols)          // horizontal blocks version
+    : leftSplitTriangleSlices(cx, cy, r, cols);
 
   gFather
     .select("g.slices")
     .selectAll("path.slice")
-    .data(triSlices, (_, i) => i)
+    .data(slices, (_, i) => i)
     .join(
       (e) =>
         e
@@ -2525,9 +2632,12 @@ function redrawFatherAtRadius(gFather, d, r) {
     .attr("fill", (s) => s.fill)
     .attr("d", (s) => s.d);
 
-  // --- White internal overlays (splits + optional vertical "historic" midline)
-  const showMid = hasHistoricTag(d.historicMythicStatusTags) && r >= 3;
-  const segs = buildOverlaySegments(cx, cy, r, cols, showMid);
+  // White internal overlays
+  const showMid = !isConcept && hasHistoricTag(d.historicMythicStatusTags) && r >= 3;
+  const segs = isConcept
+    ? buildSquareOverlaySegments(cx, cy, r, cols) // horizontal split lines version
+    : buildOverlaySegments(cx, cy, r, cols, showMid);
+
   const gOver = gFather.select("g.overlays");
   const w = fatherBorderStrokeWidth(r);
 
@@ -2553,8 +2663,10 @@ function redrawFatherAtRadius(gFather, d, r) {
     .attr("y2", (s) => s.y2)
     .attr("stroke-width", w);
 
-  // --- Outer triangle border (white halo) – stroke toggled by hover/selection
-  const borderPath = `M ${cx - r} ${cy - r} L ${cx - r} ${cy + r} L ${cx + r} ${cy} Z`;
+  // Outer border path
+  const borderPath = isConcept
+    ? `M ${cx - r} ${cy - r} H ${cx + r} V ${cy + r} H ${cx - r} Z`
+    : `M ${cx - r} ${cy - r} L ${cx - r} ${cy + r} L ${cx + r} ${cy} Z`;
 
   gOver
     .selectAll("path.father-border")
@@ -2565,7 +2677,7 @@ function redrawFatherAtRadius(gFather, d, r) {
           .append("path")
           .attr("class", "father-border")
           .attr("fill", "none")
-          .attr("stroke", "none") // default: borderless; events will turn it on
+          .attr("stroke", "none")
           .attr("vector-effect", "non-scaling-stroke")
           .attr("shape-rendering", "geometricPrecision")
           .style("pointer-events", "none"),
@@ -2574,7 +2686,6 @@ function redrawFatherAtRadius(gFather, d, r) {
     )
     .attr("d", borderPath);
 
-  // Cache screen-space cy for tooltip anchor logic
   gFather.attr("data-cy", cy);
 }
 
@@ -2594,6 +2705,7 @@ const searchItems = useMemo(() => {
     colors: t.colors || null,
     when: t.when,
     durationId: t.durationId,
+    
   }));
 
   const fathers = (visFatherRows || []).map(f => ({
@@ -2610,6 +2722,7 @@ const searchItems = useMemo(() => {
     historic: hasHistoricTag(f.historicMythicStatusTags),
     when: f.when,
     durationId: f.durationId,
+    concept: hasConceptTag(f.historicMythicStatusTags),
   }));
 
   return [...texts, ...fathers];
@@ -3736,7 +3849,7 @@ gCustom
           (d.colors && d.colors.length > 1 ? "transparent" : (d.color || "#444"))
         )
         .attr("opacity", BASE_OPACITY)
-        .attr("r", TEXT_BASE_R * kRef.current)
+        .attr("r", d => textBaseR(d) * kRef.current)
         .style("transition", "r 120ms ease")
         // ensure the circle itself receives events (pies keep pointer-events: none)
         .style("pointer-events", "all")
@@ -3746,6 +3859,7 @@ gCustom
         .attr("fill", (d) =>
           (d.colors && d.colors.length > 1 ? "transparent" : (d.color || "#444"))
         )
+        .attr("r", d => textBaseR(d) * kRef.current)
         .style("pointer-events", "all")
         .style("cursor", "pointer"),
     (exit) => exit.remove()
@@ -3836,7 +3950,7 @@ piesSel
 
 const k = kRef.current;
 const gPie = piesSel.filter((p) => p.id === d.id).style("opacity", 1);
-drawTextDot(d3.select(this), gPie, k * HOVER_SCALE_DOT);
+drawTextDot(d3.select(this), gPie, k * HOVER_SCALE_DOT, d);
 
 // add white border when hovered/selected
 d3.select(this)
@@ -3878,7 +3992,7 @@ if (a) showTip(tipText, html, a.x, a.y, d.color);
 
   if (isSelected) {
     // keep it in "hover" size + border when selected
-    drawTextDot(d3.select(this), gPie, k * HOVER_SCALE_DOT);
+    drawTextDot(d3.select(this), gPie, k * HOVER_SCALE_DOT, d);
     d3.select(this)
       .attr("stroke", "#ffffff")
       .attr("stroke-width", 1.4)
@@ -3886,10 +4000,10 @@ if (a) showTip(tipText, html, a.x, a.y, d.color);
 
     if (!gPie.empty()) {
       gPie.style("opacity", 1);
-      drawSlicesAtRadius(gPie, TEXT_BASE_R * k * HOVER_SCALE_DOT);
+      drawSlicesAtRadius(gPie, textBaseR(d) * k * HOVER_SCALE_DOT);
     }
   } else {
-    const rDraw = TEXT_BASE_R * k;
+    const rDraw = textBaseR(d) * k;
     d3.select(this)
       .attr("r", rDraw)
       .attr("stroke", "none")
@@ -4338,7 +4452,7 @@ gTexts.selectAll("circle.textDot").each(function (d) {
   const cy = zy(cyU);
 
   const isSelected = selectedText && selectedText.id === d.id;
-  const rBase = TEXT_BASE_R * k;
+  const rBase = textBaseR(d) * k;
   const rDraw = isSelected ? rBase * HOVER_SCALE_DOT : rBase;
 
   const circle = d3.select(this)
@@ -4405,7 +4519,7 @@ textPinSel
     }
     const cy = zy(cyU);
 
-    const rBase = TEXT_BASE_R * k;
+    const rBase = textBaseR(d) * k;
     const rHead = rBase * HOVER_SCALE_DOT; // match enlarged selected dot
 
     // Robustly derive the same palette the base dot uses
@@ -4482,7 +4596,7 @@ gTexts.selectAll("g.dotSlices").each(function (d) {
   const cy = zy(cyU);
 
   const isSelected = selectedText && selectedText.id === d.id;
-  const rBase = TEXT_BASE_R * k;
+  const rBase = textBaseR(d) * k;
   const rDraw = isSelected ? rBase * HOVER_SCALE_DOT : rBase;
 
   const g = d3.select(this);
@@ -4511,74 +4625,83 @@ gTexts.selectAll("g.dotSlices").each(function (d) {
   const rBase = getFatherBaseR(d) * k * 2.2;
   const r = isSelected ? rBase * HOVER_SCALE_FATHER : rBase;
 
-  // 1) Colored triangle slices
-  const triSlices = leftSplitTriangleSlices(cx, cy, r, cols);
-  d3.select(this)
-    .select("g.slices")
-    .selectAll("path.slice")
-    .data(triSlices, (_, i) => i)
-    .join(
-      (e) =>
-        e
-          .append("path")
-          .attr("class", "slice")
-          .attr("vector-effect", "non-scaling-stroke")
-          .attr("shape-rendering", "geometricPrecision"),
-      (u) => u,
-      (x) => x.remove()
-    )
-    .attr("d", (s) => s.d)
-    .attr("fill", (s) => s.fill);
+const isConcept = hasConceptTag(d.historicMythicStatusTags);
 
-  // 2) Unified white overlays (splits + optional midline)
-  const showMid = hasHistoricTag(d.historicMythicStatusTags) && r >= 3;
-  const overlaySegs = buildOverlaySegments(cx, cy, r, cols, showMid);
+// 1) Colored slices (triangle default, square for Concept)
+const slices = isConcept
+  ? splitSquareSlices(cx, cy, r, cols)
+  : leftSplitTriangleSlices(cx, cy, r, cols);
 
-  // Use a single consistent stroke width based only on radius
-  const w = fatherBorderStrokeWidth(r);
-  const showOverlays = r >= 3;
+d3.select(this)
+  .select("g.slices")
+  .selectAll("path.slice")
+  .data(slices, (_, i) => i)
+  .join(
+    (e) =>
+      e
+        .append("path")
+        .attr("class", "slice")
+        .attr("vector-effect", "non-scaling-stroke")
+        .attr("shape-rendering", "geometricPrecision"),
+    (u) => u,
+    (x) => x.remove()
+  )
+  .attr("d", (s) => s.d)
+  .attr("fill", (s) => s.fill);
 
-  d3.select(this)
-    .select("g.overlays")
-    .selectAll("line.overlay")
-    .data(overlaySegs, (s, i) => `${s.type}:${i}`)
-    .join(
-      (e) =>
-        e
-          .append("line")
-          .attr("class", "overlay")
-          .attr("stroke", "#fff")
-          .attr("stroke-linecap", "round")
-          .attr("shape-rendering", "geometricPrecision")
-          .style("pointer-events", "none"),
-      (u) => u,
-      (x) => x.remove()
-    )
-    .attr("x1", (s) => s.x1)
-    .attr("y1", (s) => s.y1)
-    .attr("x2", (s) => s.x2)
-    .attr("y2", (s) => s.y2)
-    .attr("stroke-width", w)
-    .style("opacity", showOverlays ? 1 : 0);
+// 2) White overlays
+const showMid = !isConcept && hasHistoricTag(d.historicMythicStatusTags) && r >= 3;
 
-        // 3) Outer white triangle border (kept in sync with zoom/selection)
-    const borderPath = `M ${cx - r} ${cy - r} L ${cx - r} ${cy + r} L ${cx + r} ${cy} Z`;
+const overlaySegs = isConcept
+  ? buildSquareOverlaySegments(cx, cy, r, cols)
+  : buildOverlaySegments(cx, cy, r, cols, showMid);
 
-    const border = d3.select(this)
-      .select("g.overlays")
-      .selectAll("path.father-border")
-      .data([0])
-      .join("path")
-      .attr("class", "father-border")
-      .attr("fill", "none")
-      .attr("vector-effect", "non-scaling-stroke")
-      .attr("shape-rendering", "geometricPrecision")
-      .style("pointer-events", "none");
+const w = fatherBorderStrokeWidth(r);
+const showOverlays = r >= 3;
 
-    border
-      .attr("d", borderPath)
-      .attr("stroke", isSelected ? "#ffffff" : "none")
-      .attr("stroke-width", isSelected ? fatherBorderStrokeWidth(r) : 0);
+d3.select(this)
+  .select("g.overlays")
+  .selectAll("line.overlay")
+  .data(overlaySegs, (s, i) => `${s.type}:${i}`)
+  .join(
+    (e) =>
+      e
+        .append("line")
+        .attr("class", "overlay")
+        .attr("stroke", "#fff")
+        .attr("stroke-linecap", "round")
+        .attr("shape-rendering", "geometricPrecision")
+        .style("pointer-events", "none"),
+    (u) => u,
+    (x) => x.remove()
+  )
+  .attr("x1", (s) => s.x1)
+  .attr("y1", (s) => s.y1)
+  .attr("x2", (s) => s.x2)
+  .attr("y2", (s) => s.y2)
+  .attr("stroke-width", w)
+  .style("opacity", showOverlays ? 1 : 0);
+
+// 3) Outer border (triangle default, square for Concept)
+const borderPath = isConcept
+  ? `M ${cx - r} ${cy - r} H ${cx + r} V ${cy + r} H ${cx - r} Z`
+  : `M ${cx - r} ${cy - r} L ${cx - r} ${cy + r} L ${cx + r} ${cy} Z`;
+
+const border = d3.select(this)
+  .select("g.overlays")
+  .selectAll("path.father-border")
+  .data([0])
+  .join("path")
+  .attr("class", "father-border")
+  .attr("fill", "none")
+  .attr("vector-effect", "non-scaling-stroke")
+  .attr("shape-rendering", "geometricPrecision")
+  .style("pointer-events", "none");
+
+border
+  .attr("d", borderPath)
+  .attr("stroke", isSelected ? "#ffffff" : "none")
+  .attr("stroke-width", isSelected ? fatherBorderStrokeWidth(r) : 0);
 });
 
 // --- Selected FATHER pin (triangle-in-pin) ---
@@ -4624,6 +4747,7 @@ fatherPinSel
     exit => exit.remove()
   )
   .each(function (d) {
+    const isConcept = hasConceptTag(d.historicMythicStatusTags);
     const cx = zx(toAstronomical(d.when));
 
     let cyU = y0(d.y);
@@ -4664,8 +4788,8 @@ fatherPinSel
     const rIcon = R * 0.45;
 
     // Offset the icon a bit if needed:
-    const iconCx = cxHead + rIcon * 0.1;              // left/right tweak here
-    const iconCy = cyHead - rIcon * 0.5; // move slightly up
+    const iconCx = cxHead + rIcon * (isConcept ? 0.0 : 0.1);             // left/right tweak here
+    const iconCy = cyHead - rIcon * (isConcept ? 0.35 : 0.5); // move slightly up
 
     const g = d3.select(this);
 
@@ -4680,10 +4804,12 @@ fatherPinSel
     const iconG = g.select("g.tl-pin-icon");
 
     // 1) Colored triangle slices, same helper as main fathers but scaled
-    const triSlices = leftSplitTriangleSlices(iconCx, iconCy, rIcon, cols);
+    const iconSlices = isConcept
+      ? splitSquareSlices(iconCx, iconCy, rIcon, cols)   // (your horizontal-band version)
+      : leftSplitTriangleSlices(iconCx, iconCy, rIcon, cols);
 
     iconG.selectAll("path.slice")
-      .data(triSlices, (_, i) => i)
+      .data(iconSlices, (_, i) => i)
       .join(
         e => e.append("path")
               .attr("class", "slice")
@@ -4697,8 +4823,10 @@ fatherPinSel
       .style("fill", (s) => s.fill); 
 
     // 2) White overlays: split lines + optional historic midline
-    const showMid = hasHistoricTag(d.historicMythicStatusTags) && rIcon >= 3;
-    const overlaySegs = buildOverlaySegments(iconCx, iconCy, rIcon, cols, showMid);
+    const showMid = !isConcept && hasHistoricTag(d.historicMythicStatusTags) && rIcon >= 3;
+    const overlaySegs = isConcept
+        ? buildSquareOverlaySegments(iconCx, iconCy, rIcon, cols)
+        : buildOverlaySegments(iconCx, iconCy, rIcon, cols, showMid);
 
 
     const w = fatherBorderStrokeWidth(rIcon);

@@ -475,6 +475,7 @@ export default function SearchBar({
               type="father"
               founding={!!r.founding}
               historic={!!(r.historic ?? r.isHistoric)}
+              concept={!!(r.concept ?? r.isConcept)}
               {...deriveSymbolColorsFromItem(r)}
             />
           </span>

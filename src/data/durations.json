@@ -206,7 +206,7 @@
   {
     "id": "levantine-composite",
     "name": "Levantine",
-    "expanded name": "Levantine (West-Semitic)",
+    "expanded name": "Levantine (Akkadian/Canaanite/Phoenician/Hebrew/Aramaic)",
     "color": "#7C4DFF",
     "yRel": 0.315,
     "hRel": 0.04,
@@ -1097,6 +1097,91 @@
       "note": "Between 312 and 395 CE, the Levant was transformed into a heartland of the Christian Empire. Constantine and his successors monumentalized Jerusalem, Antioch, and Caesarea with churches and shrines, turning the region into a pilgrimage destination. Bishops became influential civic figures, while councils in Levantine cities helped shape Christian orthodoxy. Judaism, though still present, was increasingly marginalized under Christian imperial law. Symbolically, the Levant now stood as the sacred center of the empire’s new faith — the place where Rome’s authority and Christianity’s universal claims fused into a lasting imperial religion. Yet in institutionalizing Christianity — weaving it into imperial power structures, monumental architecture, and legal codes — the empire also set the faith on a course that contradicted its earliest message of humility, poverty, and detachment from worldly power."
     }
   ]
-  }
+  },
+  {
+  "id": "indian-composite",
+  "name": "Indian",
+  "expanded name": "Indian (South Asian Civilization)",
+  "color": "#2F2A6D",
+  "yRel": 0.567,
+  "hRel": 0.06,
+  "broad note": "Indian civilization takes shape from early agrarian communities established by the mid–5th millennium BCE, culminating in the Indus Valley Civilization—one of the ancient world’s most enigmatic urban cultures. The Indus system was marked by standardized infrastructure and symbolic coordination, yet shows little evidence of kingship, monumental temples, or entrenched social hierarchy, making its mode of order unusually egalitarian. Its gradual transformation and dispersal remain unresolved, but it left behind cultural patterns that shaped later developments. In the aftermath, Indo-Aryan ritual and linguistic traditions entered the subcontinent from the northwest and reorganized society around sacrifice, oral transmission, and a sacralized hierarchy structured through varna (caste). Over time, this sacred order hardened, aligning social rank, religious authority, and political power. From within this system arose repeated challenges—Upaniṣadic speculation, renunciant movements, and śramaṇic traditions such as Buddhism and Jainism—that questioned ritual dominance and inherited status. Shielded by the Himalayas and surrounding oceans, India developed a deeply cumulative and self-referential symbolic life with a strong capacity for internal reinterpretation rather than external replacement.",
+  "broad lifespan": "c. 5000 BCE – 550 CE",
+  "segments": [
+    {
+      "start": -5000,
+      "end": -4000,
+      "label": "Middle Neolithic Period",
+      "note": "This phase is defined by the stabilization of early agrarian life across northwestern South Asia, with sites such as Mehrgarh functioning as regionally influential but loosely organized settlement clusters rather than centralized urban centers. Farming, animal domestication, and permanent architecture became normalized, anchoring communities to specific landscapes and seasonal cycles. Social organization remained largely egalitarian and kin-based, with no evidence of formal hierarchy, state authority, or urban planning. Technological practices—especially in pottery production, subsistence tools, and craft continuity—were transmitted across generations, establishing durable cultural templates."
+    },
+    {
+      "start": -4000,
+      "end": -3300,
+      "label": "Late Neolithic Period",
+      "note": "Neolithic culture became increasingly complex and regionally diverse. While Mehrgarh began to decline — likely due to ecological changes (e.g., shifts in river flow or aridity) and overexploitation of local resources — its material traditions, including pottery, copper use, and craft specialization, spread eastward into the Indus and Ghaggar-Hakra valleys. New settlements like Kot Diji, Amri, and Rehman Dheri emerged, showing early signs of urban planning and social organization. Pottery became wheel-made, decorative styles flourished, and long-distance trade intensified. This period bridges village life and the rise of the Indus Valley Civilization."
+    },
+    {
+      "start": -3300,
+      "end": -2600,
+      "label": "Early Harappan Period",
+      "note": "The period marked the rise of proto-urban society in the northwestern Indian subcontinent. Settlements like Kot Diji, Kalibangan, and Amri featured standardized pottery, bricks, and weights, along with evidence of fortifications, granaries, and growing craft specialization. Seals and early script-like markings began to appear, suggesting the emergence of administrative systems and symbolic communication. Unlike Mesopotamia and Egypt at comparable stages, Early Harappan society shows little evidence of elite dominance — burials are relatively equal, and monumental structures appear communal rather than royal or religious. This phase laid the structural and cultural groundwork for the fully urban Indus Valley Civilization that followed."
+    },
+    {
+      "start": -2600,
+      "end": -1900,
+      "label": "Mature Harappan Period",
+      "note": "The Indus Valley Civilization reached its peak, with large, meticulously planned cities like Mohenjo-daro, Harappa, and Dholavira. These urban centers featured grid-based layouts, advanced drainage systems, standardized brick sizes, and centralized storage facilities, all without palaces, temples, or visible kingship. A sophisticated but still undeciphered writing system appeared on thousands of seals and objects, alongside a flourishing craft economy and long-distance trade with Mesopotamia and Central Asia. Despite their complexity, Harappan cities show remarkably little evidence of warfare, elite tombs, or centralized political rule. This period represents a rare form of high civilization organized through symbolic coordination, measurement, and collective order rather than coercive hierarchy."
+    },
+    {
+      "start": -1900,
+      "end": -1300,
+      "label": "Late Harappan Period",
+      "note": "The Indus Valley Civilization underwent a prolonged and uneven transformation marked by the gradual abandonment of large urban centers and a shift toward smaller, more localized settlements. While environmental factors—such as river course changes, climatic variability, and disruptions to long-distance exchange—are often cited as contributing pressures, no single cause fully accounts for the scale or pattern of urban contraction. The disappearance of writing, standardized weights, and uniform urban planning contrasts with the persistence of symbolic practices, including terracotta figurines and simple fire installations, suggesting a reorientation toward household and community-based ritual life. Notably, there remains no clear archaeological evidence for centralized kingship, monumental temples, or elite burial traditions either before or after this transition, reinforcing the view that Harappan society transformed without collapsing into overt hierarchy or violent breakdown."
+    },
+    {
+      "start": -1500,
+      "end": -1000,
+      "label": "Early Vedic Period",
+      "note": "The period saw the emergence of Vedic culture in the northwestern Indian subcontinent, particularly in the Punjab region. According to the broad academic consensus, this culture was introduced by Indo-Aryan-speaking pastoralists who migrated into the region from Central Asia or the Iranian plateau. These communities composed the Rigveda, a body of sacred hymns that celebrated deities like Indra and Agni, and upheld a worldview based on ritual sacrifice, cosmic order (ṛta), and oral transmission. Society was clan-based and semi-nomadic, with no temples, writing, or fixed caste system, though the earliest ideas of varna emerged."
+    },
+    {
+      "start": -1000,
+      "end": -500,
+      "label": "Later Vedic Period",
+      "note": "The period saw Indo-Aryan culture expand eastward into the fertile Ganges plain, transitioning from pastoral clans to settled agricultural kingdoms (janapadas). Ritual life became more complex and dominated by Brahmin priests, who formalized the varna system into a hereditary social hierarchy, though it remained less rigid than the stratified state societies of Egypt or Mesopotamia. No temples or royal tombs emerged; kings held modest power under priestly authority, and spiritual texts like the Upanishads began to question ritualism and hierarchy, introducing early ideas of liberation (moksha) and interiority. Social roles were still negotiable and not yet embedded in the full caste (jāti) system of later India."
+    },
+    {
+      "start": -600,
+      "end": -322,
+      "label": "Mahājanapada & Upanishadic Age",
+      "note": "The Mahājanapadas—large territorial states, emerged as organized kingdoms and republics across the Ganges plain. This political transformation coincided with a profound philosophical upheaval, as the Upanishads shifted spiritual focus from ritual sacrifice to inward metaphysical inquiry, introducing concepts like ātman, brahman, karma, and moksha. While Brahmanical traditions refined their ritual systems, new śramanic movements like Buddhism and Jainism openly challenged caste, priestly dominance, and external ritualism. Society became increasingly urbanized and intellectually diverse, as cities like Kashi, Kosala, and Magadha became centers of debate, renunciation, and royal ambition. This age laid the ideological and political groundwork for the Mauryan empire and the enduring dual legacy of worldly power and spiritual liberation in Indian civilization."
+    },
+    {
+      "start": -322,
+      "end": -268,
+      "label": "Maurya Empire",
+      "note": "The Maurya Empire emerged in the aftermath of Alexander’s incursion, founded by Chandragupta Maurya and guided by Chanakya’s Arthashastra, a pragmatic manual of imperial governance. Building on Magadha’s earlier expansion, the Mauryas unified much of the subcontinent through military conquest, diplomacy, and a highly centralized bureaucracy. Society was deeply stratified by the varna system, with Brahmins and Kshatriyas dominant, though the imperial structure allowed for some administrative mobility. Under Chandragupta and Bindusara, the state emphasized realpolitik, economic regulation, and standing armies—mirroring the imperial logic of Persia and China. This was an era of consolidation, infrastructure-building, and the assertion of sovereign authority before the later ethical transformation under Ashoka."
+    },
+    {
+      "start": -268,
+      "end": -185,
+      "label": "Decline of the Maurya Empire",
+      "note": "Under Ashoka, the Maurya Empire underwent a profound transformation, shifting from militaristic expansion to ethical governance inspired by Buddhist principles. After the devastating Kalinga War, Ashoka renounced conquest and promoted dhamma (moral law), focusing on compassion, tolerance, and the spiritual welfare of his subjects. While this ideological pivot marked a high point in moral statecraft, it also weakened military readiness and centralized control. Ashoka’s successors lacked his vision and authority, leading to administrative decay, rising provincial autonomy, and internal dissent. By 185 BCE, the last Mauryan ruler was overthrown by his general Pushyamitra Shunga, ending the dynasty and ushering in a new era of regional fragmentation."
+    },
+    {
+      "start": -185,
+      "end": 320,
+      "label": "Post-Mauryan Period",
+      "note": "India entered a politically fragmented yet culturally dynamic period marked by regional kingdoms, foreign dynasties, and expanding trade networks. While Buddhist and Jain institutions flourished under rulers like the Kushans and Satavahanas, Brahmins gradually filled the ideological void left by imperial collapse, offering ritual continuity, legal codification, and spiritual legitimacy to emerging powers. Texts like the Manusmriti reflect a turn toward social reordering and intensified caste stratification, even as urbanization and guild-based economies diversified the social fabric. The resulting society was both hierarchical and cosmopolitan—home to Greco-Buddhist art, Mahayana thought, and global commerce linking Rome to China."
+    },
+    {
+      "start": 320,
+      "end": 550,
+      "label": "Gupta Empire",
+      "note": "The Gupta Empire unified much of northern India through a decentralized yet symbolically potent model of rule rooted in Brahmanical cosmology. Emperors like Samudragupta embodied the ideal of the warrior-poet, fusing military conquest with cultural refinement and ritual sovereignty. This era witnessed a flourishing of Sanskrit literature, Hindu theology, classical art, and pioneering mathematical and astronomical thought—driven by a worldview that saw cosmic order reflected in numbers, verse, and kingship. Caste hierarchy and gender roles hardened as dharma was codified into law, while Buddhism gradually lost royal patronage. The empire ultimately fragmented under internal strain and the destabilizing invasions of the Hunas—nomadic Central Asian forces whose continuous incursions shattered the fragile balance of imperial unity and cosmic harmony."
+    }
+  ]
+}
+
 
 ]
