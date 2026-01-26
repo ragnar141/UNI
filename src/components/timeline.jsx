@@ -536,60 +536,54 @@ function getLooseField(obj, targetKey) {
   return undefined;
 }
 
+// ---- Connection line colors: duration color (same band) or mean (cross-band) ----
 
-// ---- Connection line colors: mix all symbolic-system colors of both ends ----
+function _hexToRgb(hex) {
+  const s = String(hex || "").trim();
+  if (!s) return null;
 
-// Average an array of hex colors like "#RRGGBB"
-function averageHexColors(hexes) {
-  const arr = (hexes || []).filter(Boolean);
-  if (arr.length === 0) return "#888888";
-  if (arr.length === 1) return arr[0];
+  // support #RGB and #RRGGBB
+  const h = s.startsWith("#") ? s.slice(1) : s;
+  const full =
+    h.length === 3
+      ? h.split("").map((ch) => ch + ch).join("")
+      : h;
 
-  let r = 0, g = 0, b = 0, n = 0;
-  for (const h of arr) {
-    const s = String(h || "").trim();
-    if (!/^#?[0-9a-fA-F]{6}$/.test(s)) continue;
-    const base = s.startsWith("#") ? s.slice(1) : s;
+  if (!/^[0-9a-fA-F]{6}$/.test(full)) return null;
 
-    const rv = parseInt(base.slice(0, 2), 16);
-    const gv = parseInt(base.slice(2, 4), 16);
-    const bv = parseInt(base.slice(4, 6), 16);
-
-    if (Number.isFinite(rv) && Number.isFinite(gv) && Number.isFinite(bv)) {
-      r += rv; g += gv; b += bv; n++;
-    }
-  }
-  if (n === 0) return "#888888";
-
-  const toHex = (v) => v.toString(16).padStart(2, "0");
-  return "#" + toHex(Math.round(r / n)) +
-               toHex(Math.round(g / n)) +
-               toHex(Math.round(b / n));
+  return {
+    r: parseInt(full.slice(0, 2), 16),
+    g: parseInt(full.slice(2, 4), 16),
+    b: parseInt(full.slice(4, 6), 16),
+  };
 }
 
-// fields that might contain symbolic-system tags
-const CONNECTION_TAG_FIELDS = [
-  "Symbolic System Tags",
-  "Symbolic Systems Tags",
-  "Symbolic System tags",
-  "Symbolic Systems tags",
-  "symbolicSystems",
-];
+function _rgbToHex({ r, g, b }) {
+  const toHex = (v) => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, "0");
+  return "#" + toHex(r) + toHex(g) + toHex(b);
+}
 
+function _meanHex(a, b) {
+  const A = _hexToRgb(a);
+  const B = _hexToRgb(b);
+  if (!A && !B) return null;
+  if (!A) return b;
+  if (!B) return a;
+  return _rgbToHex({
+    r: (A.r + B.r) / 2,
+    g: (A.g + B.g) / 2,
+    b: (A.b + B.b) / 2,
+  });
+}
 
+// expects composite ids like "custom-hellenistic-greek-composite"
+function connectionColorFromBandIds(bandA, bandB, outlines) {
+  const a = outlines?.find((o) => o.id === bandA)?.color;
+  const b = outlines?.find((o) => o.id === bandB)?.color;
 
-
-
-function connectionColorFromRows(rowA, rowB) {
-  // We already computed colors for fathers/texts when building rowsF/rowsT
-  const colorsA = Array.isArray(rowA?.colors) ? rowA.colors : [];
-  const colorsB = Array.isArray(rowB?.colors) ? rowB.colors : [];
-
-  const all = [...colorsA, ...colorsB].filter(Boolean);
-  if (!all.length) return "#999999";
-
-  const uniq = [...new Set(all)];
-  return averageHexColors(uniq);
+  if (!a && !b) return "#999999";
+  if (bandA === bandB) return a || b || "#999999";
+  return _meanHex(a, b) || "#999999";
 }
 
 
@@ -1026,11 +1020,13 @@ function useDiscoveredFatherSets() {
 
 /* ===== CONNECTIONS: discovery for *_connections.json ===== */
 function useDiscoveredConnectionSets() {
-  const modules =
-    import.meta.glob("../data/**/*_connections.json", {
-      eager: true,
-      import: "default",
-    }) || {};
+const modulesA =
+  import.meta.glob("../data/**/*_connections.json", { eager: true, import: "default" }) || {};
+
+const modulesB =
+  import.meta.glob("../data/**/supraclusteral_connections.json", { eager: true, import: "default" }) || {};
+
+const modules = { ...modulesA, ...modulesB };
 
   const folderOf = (p) => {
     const m = p.match(/\/data\/([^/]+)\//);
@@ -1220,6 +1216,9 @@ function buildFatherConnectionItems(subject, allConnections) {
   const customConnectionGroups = {}; // "relates to A, B, C"
   const explicitTextRefs = [];       // "is mentioned in Text1, Text2, Text3"
   const looseItems = [];
+  const cognateEntries = [];         // "is cognate with A, B, C"
+  const comparativeEntries = [];     // "shares a comparative framework with A, B, C"
+
 
   const ensureGroup = (obj, key) => {
     if (!obj[key]) obj[key] = [];
@@ -1330,6 +1329,18 @@ function buildFatherConnectionItems(subject, allConnections) {
     if (category.startsWith("custom connection")) {
       const g = ensureGroup(customConnectionGroups, "custom");
       g.push(entry);
+      continue;
+    }
+
+    // --- Cognate connection ---
+    if (category.startsWith("cognate connection")) {
+      cognateEntries.push(entry);
+      continue;
+    }
+
+    // --- Comparative connection ---
+    if (category.startsWith("comparative connection")) {
+      comparativeEntries.push(entry);
       continue;
     }
 
@@ -1451,6 +1462,16 @@ for (const role of Object.keys(childGroups)) {
     makeGroupedItem(`relates to `, customConnectionGroups.custom);
   }
 
+  // Cognates: "is cognate with A, B, C"
+  if (cognateEntries.length) {
+    makeGroupedItem(`is cognate with `, cognateEntries);
+  }
+
+  // Comparative: "shares a comparative framework with A, B, C"
+  if (comparativeEntries.length) {
+    makeGroupedItem(`shares a comparative framework with `, comparativeEntries);
+  }
+
   // Explicit text references: "is mentioned in Text1, Text2, Text3"
   if (explicitTextRefs.length) {
     makeGroupedItem(`is mentioned in `, explicitTextRefs);
@@ -1517,6 +1538,7 @@ function buildTextConnectionItems(subject, allConnections) {
 
   // father→text explicit references ("Connections with Mythic/Historic Figures")
   const fatherRefs = [];
+  const fatherRelates = [];
 
   // Helper to turn raw x into a finite number or null
   const normX = (raw) => {
@@ -1703,9 +1725,14 @@ function buildTextConnectionItems(subject, allConnections) {
       continue;
     }
 
-    // ===== 2) FATHER ↔ TEXT EXPLICIT REFERENCES =====
-    // We only care about explicit references where THIS text is the text side.
-    if (category === "explicit reference") {
+        // ===== 2) FATHER ↔ TEXT (explicit reference + custom connection) =====
+    // We only care about father↔text rows where THIS text is the text side.
+    const isExplicit = category === "explicit reference";
+    const isCustom   = category === "custom connection";
+
+    if (isExplicit || isCustom) {
+      const bucket = isExplicit ? fatherRefs : fatherRelates;
+
       // Case: father on A, text on B (subject)
       if (aIsFather && bIsText && c.bId === subjectId) {
         const otherName = c.aName || c["aName"] || "";
@@ -1714,7 +1741,7 @@ function buildTextConnectionItems(subject, allConnections) {
 
         const otherX = normX(c.ax);
 
-        fatherRefs.push({
+        bucket.push({
           otherId,
           otherType,
           otherName,
@@ -1732,7 +1759,7 @@ function buildTextConnectionItems(subject, allConnections) {
 
         const otherX = normX(c.bx);
 
-        fatherRefs.push({
+        bucket.push({
           otherId,
           otherType,
           otherName,
@@ -1838,8 +1865,8 @@ function buildTextConnectionItems(subject, allConnections) {
   // ===== Mythic/Historic: father ↔ text (kept as its own block, but sorted inside) =====
   const finalItems = [...finalTextualItems];
 
-  if (fatherRefs.length) {
-    const sortedFathers = [...fatherRefs].sort(compareByX);
+  if (fatherRelates.length) {
+    const sortedFathers = [...fatherRelates].sort(compareByX);
 
     const targets = sortedFathers.map((e) => ({
       type: e.otherType,
@@ -1849,10 +1876,10 @@ function buildTextConnectionItems(subject, allConnections) {
     }));
 
     finalItems.push({
-      section: "mythic", // for "Connections with Mythic/Historic Figures"
-      textBefore: "mentions ",
+      section: "mythic",
+      textBefore: "relates to ",
       targets,
-      note: "", // notes live on targets for per-name i buttons
+      note: "",
     });
   }
 
@@ -3032,7 +3059,7 @@ function renderConnections(zx, zy, k) {
 
 
 
-  useEffect(() => {
+useEffect(() => {
   if (!connectionRegistry.length) {
     allConnectionRowsRef.current = [];
     return;
@@ -3040,46 +3067,84 @@ function renderConnections(zx, zy, k) {
 
   const out = [];
 
-  // Helper to parse "index,type" like "12, father"
-  const parseEndFactory = (mapByIndexFather, mapByIndexText) => (raw, name) => {
-    if (!raw) return null;
-    const m = String(raw).match(/(\d+)\s*,\s*(\w+)/);
-    if (!m) return null;
-    const index = Number(m[1]);
-    const type = m[2].toLowerCase();
+  // Build durationId -> (index -> row) maps for ALL fathers/texts once.
+  // This lets supraclusteral rows resolve endpoints across different bands.
+  const fatherByBandByIndex = new Map(); // bandId -> Map(index, fatherRow)
+  const textByBandByIndex = new Map();   // bandId -> Map(index, textRow)
 
-    let row = null;
-    if (type === "father") row = mapByIndexFather.get(index);
-    else row = mapByIndexText.get(index);
+  for (const f of fatherRows) {
+    if (!f) continue;
+    if (f.durationId == null) continue;
+    if (f.index == null) continue;
 
-    if (!row) return null;
-    return { type, row };
+    const bandId = f.durationId;
+    if (!fatherByBandByIndex.has(bandId)) fatherByBandByIndex.set(bandId, new Map());
+    fatherByBandByIndex.get(bandId).set(Number(f.index), f);
+  }
+
+  for (const t of textRows) {
+    if (!t) continue;
+    if (t.durationId == null) continue;
+    if (t.textIndex == null) continue;
+
+    const bandId = t.durationId;
+    if (!textByBandByIndex.has(bandId)) textByBandByIndex.set(bandId, new Map());
+    textByBandByIndex.get(bandId).set(Number(t.textIndex), t);
+  }
+
+  // Helper to parse "index,type" like "12, father" BUT now also takes a bandId
+  // because supraclusteral endpoints may come from different bands.
+  const parseEndFactory =
+    (fatherByBandByIndex, textByBandByIndex) =>
+    (raw, name, bandId) => {
+      if (!raw) return null;
+      if (!bandId) return null;
+
+      const m = String(raw).match(/(\d+)\s*,\s*(\w+)/);
+      if (!m) return null;
+
+      const index = Number(m[1]);
+      const typeRaw = String(m[2] ?? "").toLowerCase();
+
+      // In your legacy data it’s basically father vs text.
+      // If the token isn't "father", treat as text.
+      if (typeRaw === "father") {
+        const row = fatherByBandByIndex.get(bandId)?.get(index) || null;
+        if (!row) return null;
+        return { type: "father", row, bandId };
+      } else {
+        const row = textByBandByIndex.get(bandId)?.get(index) || null;
+        if (!row) return null;
+        return { type: "text", row, bandId };
+      }
+    };
+
+  const parseEnd = parseEndFactory(fatherByBandByIndex, textByBandByIndex);
+
+  // Helper: supraclusteral stores Duration as folder name like "egyptian"
+  // but your timeline bands use "<folder>-composite"
+  const toCompositeBandId = (durationVal) => {
+    if (durationVal == null) return null;
+    const s = String(durationVal).trim();
+    if (!s) return null;
+    return s.endsWith("-composite") ? s : `${s}-composite`;
   };
 
   for (const ds of connectionRegistry) {
-    const bandId = ds.durationId;          // e.g. "egyptian-composite"
-    if (!bandId) continue;
-
-    // For this band only, build index→row maps
-    const mapByIndexFather = new Map();
-    const mapByIndexText   = new Map();
-
-    for (const f of fatherRows) {
-      if (f.durationId !== bandId) continue;
-      if (f.index == null) continue;
-      mapByIndexFather.set(Number(f.index), f);
-    }
-    for (const t of textRows) {
-      if (t.durationId !== bandId) continue;
-      if (t.textIndex == null) continue;
-      mapByIndexText.set(Number(t.textIndex), t);
-    }
-
-    const parseEnd = parseEndFactory(mapByIndexFather, mapByIndexText);
+    const fallbackBandId = ds.durationId; // legacy datasets (per folder)
+    if (!fallbackBandId) continue;
 
     for (const row of ds.connections) {
-      const A = parseEnd(row.Primary, row["Primary Name"]);
-      const B = parseEnd(row.Secondary, row["Secondary Name"]);
+      // For supraclusteral rows:
+      //   Primary Duration / Secondary Duration are present and may differ.
+      // For legacy rows:
+      //   they're missing -> we fall back to ds.durationId for both ends.
+      const aBandId = toCompositeBandId(row["Primary Duration"]) ?? fallbackBandId;
+      const bBandId = toCompositeBandId(row["Secondary Duration"]) ?? fallbackBandId;
+
+      const A = parseEnd(row.Primary, row["Primary Name"], aBandId);
+      const B = parseEnd(row.Secondary, row["Secondary Name"], bBandId);
+
       if (!A || !B) continue;
 
       const ax = Number(A.row.when ?? NaN);
@@ -3089,9 +3154,9 @@ function renderConnections(zx, zy, k) {
       const aYmap = A.type === "father" ? fatherYMap : textYMap;
       const bYmap = B.type === "father" ? fatherYMap : textYMap;
 
-      // NOTE: we use bandId (the composite band) for both ends
-      const ay = aYmap.get(bandId)?.get(A.row.id);
-      const by = bYmap.get(bandId)?.get(B.row.id);
+      // IMPORTANT: use each endpoint's own band id
+      const ay = aYmap.get(aBandId)?.get(A.row.id);
+      const by = bYmap.get(bBandId)?.get(B.row.id);
       if (!Number.isFinite(ay) || !Number.isFinite(by)) continue;
 
       const style = styleForConnection(
@@ -3102,19 +3167,16 @@ function renderConnections(zx, zy, k) {
         B.row
       );
 
-      const color = connectionColorFromRows(A.row, B.row) ?? "#999999";
+      const color = connectionColorFromBandIds(A.row.durationId, B.row.durationId, outlines);
+      const aName = A.type === "father" ? (A.row.name || "") : (A.row.title || "");
+      const bName = B.type === "father" ? (B.row.name || "") : (B.row.title || "");
 
-      const aName =
-        A.type === "father"
-          ? (A.row.name || "")
-          : (A.row.title || "");
-      const bName =
-        B.type === "father"
-          ? (B.row.name || "")
-          : (B.row.title || "");
+      // Key should include bandIds so supraclusteral rows don't collide with per-band keys
+      const rowId = row.Index ?? row.id ?? `${row.Primary}__${row.Secondary}`;
 
       out.push({
-        _key: `${row.Index ?? row.id ?? "conn"}::${A.row.id}::${B.row.id}`,
+        _key: `${aBandId}::${rowId}::${bBandId}::${A.row.id}::${B.row.id}`,
+
         ax,
         ay,
         bx,
@@ -3127,18 +3189,17 @@ function renderConnections(zx, zy, k) {
         bType: B.type,
         bName,
 
+        // Optional but useful for debugging / future features
+        aBandId,
+        bBandId,
+
         style,
         color,
         note: row.Note || "",
         category: row["Connection Category"] ?? "",
       });
-
-
-
-        }
-      }
-
-  
+    }
+  }
 
   allConnectionRowsRef.current = out;
 
@@ -3154,6 +3215,7 @@ function renderConnections(zx, zy, k) {
   y0,
   renderConnections,
 ]);
+
 
   // Re-apply connection styling when selected text/father changes
   useEffect(() => {

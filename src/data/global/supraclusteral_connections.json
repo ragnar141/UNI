@@ -1,0 +1,189 @@
+[
+  {
+    "Index": 1,
+    "Primary Duration": "indian",
+    "Primary": "1, father",
+    "Primary Name": "Agni",
+    "Secondary Duration": "custom-persian-iranian",
+    "Secondary": "13, father",
+    "Secondary Name": "Atar",
+    "Connection Category": "cognate connection",
+    "Note": "Both originate as a Proto-Indo-Iranian deity of contract and oath. After the Indo-Iranian split, Vedic Mitra remains largely conceptual and juridical, while Iranian Mithra becomes personified and solar, acting as an active enforcer of truth. The divergence reflects normative social order in India versus moralized cosmic enforcement in Iran."
+  },
+  {
+    "Index": 2,
+    "Primary Duration": "indian",
+    "Primary": "9, father",
+    "Primary Name": "Soma",
+    "Secondary Duration": "custom-persian-iranian",
+    "Secondary": "11, father",
+    "Secondary Name": "Haoma",
+    "Connection Category": "cognate connection",
+    "Note": "Soma and Haoma descend from a shared Indo-Iranian ritual intoxicant central to early sacrifice. In India, Soma becomes both deified substance and god, retaining ecstatic and vitality-giving roles. In Iran, Haoma is ritualized and demythologized, with intoxicating aspects minimized under Zoroastrian reform."
+  },
+  {
+    "Index": 3,
+    "Primary Duration": "indian",
+    "Primary": "12, father",
+    "Primary Name": "Ṛta",
+    "Secondary Duration": "custom-persian-iranian",
+    "Secondary": "3, father",
+    "Secondary Name": "Asha Vahishta",
+    "Connection Category": "cognate connection",
+    "Note": "Ṛta and Asha derive from a shared Indo-Iranian concept of cosmic order and truth. "
+  },
+  {
+    "Index": 4,
+    "Primary Duration": "indian",
+    "Primary": "10, father",
+    "Primary Name": "Yama",
+    "Secondary Duration": "custom-persian-iranian",
+    "Secondary": "8, father",
+    "Secondary Name": "Mashya",
+    "Connection Category": "comparative connection",
+    "Note": "Yama and Mashya trace back to a Proto-Indo-Iranian first-human figure. In India, Yama is transformed into the lord of death and moral judge. In Iran, Mashya remains a primordial human ancestor, with no judicial or underworld role."
+  },
+  {
+    "Index": 5,
+    "Primary Duration": "indian",
+    "Primary": "2, father",
+    "Primary Name": "Yami",
+    "Secondary Duration": "custom-persian-iranian",
+    "Secondary": "9, father",
+    "Secondary Name": "Mashyana",
+    "Connection Category": "comparative connection",
+    "Note": "Yami and Mashyana originate from a shared first-female / twin-human archetype in Indo-Iranian myth. In the Vedic tradition, Yami is de-emphasized and symbolically marginalized, functioning mainly as a narrative counterpart to Yama. In Iranian myth, Mashyana retains a central role as the mother of humankind, paired permanently with Mashya."
+  },
+  {
+    "Index": 6,
+    "Primary Duration": "custom-persian-iranian",
+    "Primary": "3, father",
+    "Primary Name": "Asha Vahishta",
+    "Secondary Duration": "egyptian",
+    "Secondary": "10, father",
+    "Secondary Name": "Maat",
+    "Connection Category": "comparative connection",
+    "Note": "Maat and Asha express parallel principles of cosmic truth and moral order understood as intrinsic to reality, structurally analogous to Greek Logos. In Egypt, Maat emphasizes balance and justice sustaining the world and kingship; in Iran, Asha is ethically absolutized, opposing falsehood within a moral dualism. The link reflects convergent thought rather than direct borrowing."
+  },
+  {
+    "Index": 7,
+    "Primary Duration": "mesopotamian",
+    "Primary": "1, father",
+    "Primary Name": "Adam",
+    "Secondary Duration": "custom-persian-iranian",
+    "Secondary": "8, father",
+    "Secondary Name": "Mashya",
+    "Connection Category": "comparative connection",
+    "Note": "Mashya and Adam represent primordial first-man figures at the origin of humanity. Adam’s narrative centers on a moral fall through disobedience, while Mashya’s story includes deception by falsehood but lacks a definitive fall, reflecting Iranian cosmic dualism rather than covenantal transgression."
+  },
+  {
+    "Index": 8,
+    "Primary Duration": "mesopotamian",
+    "Primary": "2, father",
+    "Primary Name": "Eve",
+    "Secondary Duration": "custom-persian-iranian",
+    "Secondary": "9, father",
+    "Secondary Name": "Mashyana",
+    "Connection Category": "comparative connection",
+    "Note": "Mashyana and Eve function as first-woman figures paired with the primordial man. In the Biblical tradition, Eve’s role is central to the fall narrative and its moral consequences, while in Iranian myth Mashyana and her consort Mashya are equal participants in early deception without a defining covenantal fall."
+  },
+  {
+    "Index": 9,
+    "Primary Duration": "mesopotamian",
+    "Primary": "6, father",
+    "Primary Name": "Enoch (Idris)",
+    "Secondary Duration": "egyptian",
+    "Secondary": "7, father",
+    "Secondary Name": "Thoth",
+    "Connection Category": "comparative connection",
+    "Note": "Enoch (Idris) and Thoth share structural similarities as wisdom–scribe figures associated with writing, astronomy, and access to cosmic knowledge beyond ordinary human limits. The parallel reflects a broader ancient archetype later echoed in Hermes."
+  },
+  {
+    "Index": 10,
+    "Primary Duration": "egyptian",
+    "Primary": "7, father",
+    "Primary Name": "Thoth",
+    "Secondary Duration": "custom-hellenistic-greek",
+    "Secondary": "10, father",
+    "Secondary Name": "Hermes",
+    "Connection Category": "comparative connection",
+    "Note": "Thoth and Hermes represent closely aligned scribe–messenger archetypes, governing writing, knowledge, mediation, and cosmic order in Egyptian and Greek traditions respectively. Their convergence becomes explicit in late antiquity through Hermes Trismegistus."
+  },
+  {
+    "Index": 11,
+    "Primary Duration": "custom-persian-iranian",
+    "Primary": "30, father",
+    "Primary Name": "Achaemenes",
+    "Secondary Duration": "custom-hellenistic-greek",
+    "Secondary": "20, text",
+    "Secondary Name": "Histories",
+    "Connection Category": "explicit reference",
+    "Note": "Herodotus presents Achaemenes as the eponymous ancestor of the Persian royal house, grounding Achaemenid legitimacy in noble lineage."
+  },
+  {
+    "Index": 12,
+    "Primary Duration": "custom-persian-iranian",
+    "Primary": "31, father",
+    "Primary Name": "Cyrus the Great",
+    "Secondary Duration": "custom-hellenistic-greek",
+    "Secondary": "20, text",
+    "Secondary Name": "Histories",
+    "Connection Category": "explicit reference",
+    "Note": "Cyrus is depicted with notable admiration, portrayed as a charismatic, capable, and relatively just ruler despite being Persia’s founder. Herodotus frames him as a tragic–heroic figure, emphasizing rise, hubris, and downfall, blending Persian royal tradition with Greek moral storytelling."
+  },
+  {
+    "Index": 13,
+    "Primary Duration": "custom-persian-iranian",
+    "Primary": "32, father",
+    "Primary Name": "Cambyses II",
+    "Secondary Duration": "custom-hellenistic-greek",
+    "Secondary": "20, text",
+    "Secondary Name": "Histories",
+    "Connection Category": "explicit reference",
+    "Note": "Cambyses is presented as a tyrannical and unstable ruler, marked by impiety, excess, and madness, especially during the Egyptian campaign. Herodotus uses Cambyses as a cautionary example of despotism and moral decay, a portrayal widely considered exaggerated by Greek bias."
+  },
+  {
+    "Index": 14,
+    "Primary Duration": "custom-persian-iranian",
+    "Primary": "33, father",
+    "Primary Name": "Darius I",
+    "Secondary Duration": "custom-hellenistic-greek",
+    "Secondary": "20, text",
+    "Secondary Name": "Histories",
+    "Connection Category": "explicit reference",
+    "Note": "Darius appears as an able administrator and organizer, restoring order after chaos and stabilizing the empire through law, taxation, and governance. While still framed within Greek suspicion of imperial power, Herodotus treats Darius more respectfully than Cambyses or Xerxes."
+  },
+  {
+    "Index": 15,
+    "Primary Duration": "custom-persian-iranian",
+    "Primary": "34, father",
+    "Primary Name": "Xerxes I",
+    "Secondary Duration": "custom-hellenistic-greek",
+    "Secondary": "20, text",
+    "Secondary Name": "Histories",
+    "Connection Category": "explicit reference",
+    "Note": "Xerxes is depicted as the archetypal overreaching imperial monarch, driven by pride and compelled by fate toward catastrophic failure in Greece. Herodotus emphasizes spectacle, excess, and hubris, shaping Xerxes into a moral antagonist in the Greek narrative of freedom versus despotism."
+  },
+  {
+    "Index": 16,
+    "Primary Duration": "custom-persian-iranian",
+    "Primary": "36, father",
+    "Primary Name": "Artaxerxes II",
+    "Secondary Duration": "custom-hellenistic-greek",
+    "Secondary": "20, text",
+    "Secondary Name": "Histories",
+    "Connection Category": "explicit reference",
+    "Note": "Artaxerxes II appears only marginally and indirectly, reflecting Herodotus’ limited chronological reach and diminishing narrative interest beyond the Persian Wars. His presence is historical, lacking the moralized treatment given to earlier kings."
+  },
+  {
+    "Index": 17,
+    "Primary Duration": "custom-hellenistic-greek",
+    "Primary": "40, text",
+    "Primary Name": "The Republic",
+    "Secondary Duration": "custom-roman-italic",
+    "Secondary": "17, text",
+    "Secondary Name": "De Republica (On the Republic)",
+    "Connection Category": "explicit reference",
+    "Note": "In De Republica, Cicero explicitly acknowledges Plato and his Republic as a foundational model for political philosophy. While adopting Plato’s dialogic form and concern with justice and the ideal state, Cicero consciously reworks Platonic theory into a Roman context, rejecting the philosopher-king in favor of a mixed constitution grounded in historical practice."
+  }
+]
