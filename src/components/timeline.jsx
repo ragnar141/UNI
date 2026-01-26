@@ -1089,7 +1089,7 @@ const TAG_GROUPS = [
     label: "Arts & Sciences",
     appliesTo: "texts",
     allTags: [ "Mathematics", "Logic/Formal Reasoning", "Physics", "Chemistry", "Biology", "Medicine", "Astronomy", "Warfare", "Education", "Public Relations", "Political Science/Law",
-     "Economics", "Agriculture", "Sociology", "Linguistics", "Psychology", "Theology", "Literature", "Art/Aesthetics", "History", "Philosophy", "Anthropology"],
+     "Economics", "Agriculture", "Sociology", "Linguistics", "Psychology", "Theology", "Literature", "Art/Aesthetics", "History", "Philosophy", "Anthropology", "None Applicable"],
   },
   {
     key: "literaryForms",
@@ -1116,7 +1116,7 @@ const TAG_GROUPS = [
     appliesTo: "both",
     allTags: [
       "Shadow","Anima","Animus","Persona","Self","Hero","Wise Old Man","Wise Old Woman","Trickster","Initiator",
-      "Father Archetype","Mother Archetype","Terrible Mother","Terrible Father"
+      "Father Archetype","Mother Archetype","Terrible Mother","Terrible Father", "None Applicable"
     ],
   },
   {
@@ -1126,7 +1126,7 @@ const TAG_GROUPS = [
     allTags: [
       "Uroboric Stage","Separation from World Parents","Battle with the Dragon","Isolation","Divine Intervention",
       "Initiation","Death","Rebirth","Magical Empowerment","Return to the Community","Descent into the Underworld",
-      "Mythic Ordering of Reality","Ego Collapse","Ego Transcendence","Coronation of the King"
+      "Mythic Ordering of Reality","Ego Collapse","Ego Transcendence","Coronation of the King", "None Applicable"
     ],
   },
   {
@@ -1862,28 +1862,62 @@ function buildTextConnectionItems(subject, allConnections) {
   // Strip internal _sortX from textual items
   const finalTextualItems = textualItems.map(({ _sortX, ...rest }) => rest);
 
-  // ===== Mythic/Historic: father ↔ text (kept as its own block, but sorted inside) =====
-  const finalItems = [...finalTextualItems];
+// ===== Mythic/Historic: father ↔ text (kept as its own block, but sorted inside) =====
+const finalItems = [...finalTextualItems];
 
-  if (fatherRelates.length) {
-    const sortedFathers = [...fatherRelates].sort(compareByX);
-
-    const targets = sortedFathers.map((e) => ({
-      type: e.otherType,
-      id: e.otherId,
-      name: e.otherName,
-      note: e.note || "",
-    }));
-
-    finalItems.push({
-      section: "mythic",
-      textBefore: "relates to ",
-      targets,
-      note: "",
-    });
+// dedupe helper (same father can appear twice if data has duplicates)
+const uniqByOtherId = (arr) => {
+  const seen = new Set();
+  const out = [];
+  for (const e of arr || []) {
+    const k = String(e?.otherId ?? "");
+    if (!k || seen.has(k)) continue;
+    seen.add(k);
+    out.push(e);
   }
+  return out;
+};
 
-  return finalItems;
+// 1) Explicit reference: fatherRefs -> "mentions ..."
+if (fatherRefs.length) {
+  const sortedFathers = uniqByOtherId(fatherRefs).sort(compareByX);
+
+  const targets = sortedFathers.map((e) => ({
+    type: e.otherType,
+    id: e.otherId,
+    name: e.otherName,
+    note: e.note || "",
+  }));
+
+  finalItems.push({
+    section: "mythic",
+    textBefore: "mentions ",
+    targets,
+    note: "",
+  });
+}
+
+// 2) Custom connection: fatherRelates -> "relates to ..."
+if (fatherRelates.length) {
+  const sortedFathers = uniqByOtherId(fatherRelates).sort(compareByX);
+
+  const targets = sortedFathers.map((e) => ({
+    type: e.otherType,
+    id: e.otherId,
+    name: e.otherName,
+    note: e.note || "",
+  }));
+
+  finalItems.push({
+    section: "mythic",
+    textBefore: "relates to ",
+    targets,
+    note: "",
+  });
+}
+
+return finalItems;
+
 }
 
 
@@ -1895,6 +1929,9 @@ function makeDefaultSelectedByGroup() {
 }
 
 function itemPassesFilters(row, type, selectedByGroup) {
+  const NON_APPLICABLE = "None Applicable";
+  const REQUIRED_GROUPS = new Set(["artsSciences", "jungian", "neumann"]);
+
   for (const g of TAG_GROUPS) {
     const applies =
       g.appliesTo === "both" ||
@@ -1912,16 +1949,39 @@ function itemPassesFilters(row, type, selectedByGroup) {
     // If user hasn't really narrowed anything (selected >= canon), don't filter
     if (selSize >= canonSize) continue;
 
-    // If user deselected everything and item actually has this group → hide it
-    if (selSize === 0) { if (!isNA) return false; continue; }
+    // REQUIRED groups behavior (Arts&Sciences + Jungian + Neumann):
+    // - if nothing selected => show NOTHING (hard gate)
+    // - NA items only show when "None Applicable" is selected
+    // - if ONLY "None Applicable" is selected => show ONLY NA items
+    if (REQUIRED_GROUPS.has(g.key)) {
+      if (selSize === 0) return false; // nothing selected => nothing rendered
 
-    if (isNA) continue; // item lacks this group → no constraint
+      if (isNA) {
+        if (selected.has(NON_APPLICABLE)) continue; // allow NA items
+        return false; // NA item blocked unless explicitly allowed
+      }
+
+      // Non-NA item: if user selected ONLY None Applicable, hide it
+      if (selSize === 1 && selected.has(NON_APPLICABLE)) return false;
+
+      // else: fall through to intersection check below
+    } else {
+      // Default behavior for other groups:
+      if (selSize === 0) {
+        if (!isNA) return false;
+        continue;
+      }
+      if (isNA) continue; // item lacks this group → no constraint
+    }
 
     // Require intersection with the currently selected tags
-    if (!itemTags.some(t => selected.has(t))) return false;
+    if (!itemTags.some((t) => selected.has(t))) return false;
   }
+
   return true;
 }
+
+
 
 
 

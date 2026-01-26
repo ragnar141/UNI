@@ -12,13 +12,73 @@ function escapeRegExp(s) {
 /* NEW: diacritic / apostrophe / punctuation–insensitive folding for search */
 function foldForSearch(s) {
   return String(s || "")
-    .normalize("NFD")                 // split base chars + diacritics
-    .replace(/[\u0300-\u036f]/g, "")  // strip diacritics
-    .replace(/[’‘ʻʼ`´]/g, "'")        // normalize apostrophes
-    .replace(/['"]/g, "")             // drop apostrophes/quotes
-    .replace(/[^a-zA-Z0-9]+/g, " ")   // punctuation → spaces
+    .normalize("NFD") // split base chars + diacritics
+    .replace(/[\u0300-\u036f]/g, "") // strip diacritics
+    .replace(/[’‘ʻʼ`´]/g, "'") // normalize apostrophes
+    .replace(/['"]/g, "") // drop apostrophes/quotes
+    .replace(/[^a-zA-Z0-9]+/g, " ") // punctuation → spaces
     .trim()
     .toLowerCase();
+}
+
+/* === Fuzzy helpers === */
+function clamp(n, a, b) {
+  return Math.max(a, Math.min(b, n));
+}
+
+// Damerau-Levenshtein (handles transpositions like "horemheb" vs "homerheb")
+function damerauLevenshtein(a, b, maxDist = 3) {
+  a = String(a || "");
+  b = String(b || "");
+  if (a === b) return 0;
+
+  const al = a.length;
+  const bl = b.length;
+  if (!al) return bl;
+  if (!bl) return al;
+
+  // quick length prune
+  if (Math.abs(al - bl) > maxDist) return maxDist + 1;
+
+  const dp = Array.from({ length: al + 1 }, () => new Array(bl + 1).fill(0));
+  for (let i = 0; i <= al; i++) dp[i][0] = i;
+  for (let j = 0; j <= bl; j++) dp[0][j] = j;
+
+  for (let i = 1; i <= al; i++) {
+    let rowMin = Infinity;
+    const ai = a.charCodeAt(i - 1);
+    for (let j = 1; j <= bl; j++) {
+      const cost = ai === b.charCodeAt(j - 1) ? 0 : 1;
+
+      let v = Math.min(
+        dp[i - 1][j] + 1, // deletion
+        dp[i][j - 1] + 1, // insertion
+        dp[i - 1][j - 1] + cost // substitution
+      );
+
+      // transposition
+      if (
+        i > 1 &&
+        j > 1 &&
+        a.charCodeAt(i - 1) === b.charCodeAt(j - 2) &&
+        a.charCodeAt(i - 2) === b.charCodeAt(j - 1)
+      ) {
+        v = Math.min(v, dp[i - 2][j - 2] + 1);
+      }
+
+      dp[i][j] = v;
+      rowMin = Math.min(rowMin, v);
+    }
+
+    // early exit if the best possible is already too large
+    if (rowMin > maxDist) return maxDist + 1;
+  }
+
+  return dp[al][bl];
+}
+
+function tokenizeFolded(s) {
+  return foldForSearch(s).split(/\s+/).filter(Boolean);
 }
 
 function durationLabelFromId(id) {
@@ -184,15 +244,74 @@ export default function SearchBar({
 
     const score = (it) => {
       let s = 0;
+
       // CHANGED: fold field text too
       const T = (v) => foldForSearch(v);
       const title = T(it.title);
+
       const inc = (v, w) => (T(v).includes(qq) ? w : 0);
 
-      // Title: strong, position-aware scoring so that:
-      // - exact title match (e.g. "ra") wins hard
-      // - titles starting with the query (e.g. "socrates of athens") outrank
-      //   those where the query appears later ("on the god of socrates")
+      // Fuzzy thresholds (dynamic)
+      const maxDistFor = (str) => {
+        const L = (str || "").length;
+        if (L <= 4) return 1;
+        if (L <= 8) return 2;
+        return 3;
+      };
+
+      const fuzzyTitleBonus = () => {
+        if (!title || !qq) return 0;
+
+        // If we already have a direct hit, don't waste time
+        if (title.includes(qq)) return 0;
+
+        // 1) whole-query vs whole-title
+        const maxDWhole = maxDistFor(qq);
+        const dWhole = damerauLevenshtein(qq, title, maxDWhole);
+        let bonus = 0;
+        if (dWhole <= maxDWhole) {
+          bonus = Math.max(bonus, 10 - dWhole * 3);
+        }
+
+        // 2) token-to-token (for single-bad-word typos like "homerheb")
+        const qTokens = tokenizeFolded(qq);
+        const tTokens = tokenizeFolded(title);
+
+        if (qTokens.length) {
+          let matched = 0;
+          let distSum = 0;
+
+          for (const qt of qTokens) {
+            const md = maxDistFor(qt);
+            let best = md + 1;
+
+            for (const tt of tTokens) {
+              // fast prune
+              if (Math.abs(qt.length - tt.length) > md) continue;
+              const d = damerauLevenshtein(qt, tt, md);
+              if (d < best) best = d;
+              if (best === 0) break;
+            }
+
+            if (best <= md) {
+              matched += 1;
+              distSum += best;
+            }
+          }
+
+          if (matched > 0) {
+            const req = qTokens.length <= 2 ? 1 : Math.ceil(qTokens.length * 0.6);
+            if (matched >= req) {
+              const avgD = distSum / matched;
+              bonus = Math.max(bonus, 8 + matched * 2 - avgD * 3);
+            }
+          }
+        }
+
+        return bonus;
+      };
+
+      // Title: strong, position-aware scoring + fuzzy fallback
       if (title && qq) {
         const idx = title.indexOf(qq);
         if (idx !== -1) {
@@ -204,7 +323,7 @@ export default function SearchBar({
             s += 20;
           } else {
             if (idx === 0) {
-              // title starts with query: e.g. "socrates of athens"
+              // title starts with query
               s += 6;
             }
             const prevChar = idx > 0 ? title[idx - 1] : " ";
@@ -215,10 +334,13 @@ export default function SearchBar({
               prevChar === "(" ||
               prevChar === "["
             ) {
-              // word-boundary hit inside the title: e.g. "... socrates"
+              // word-boundary hit inside the title
               s += 3;
             }
           }
+        } else {
+          // NEW: fuzzy title match so typos still show results
+          s += fuzzyTitleBonus();
         }
       }
 
@@ -230,6 +352,7 @@ export default function SearchBar({
       s += inc(it.author, 4);
       s += inc(it.date, 2);
       s += inc(it.dob, 2);
+
       return s;
     };
 

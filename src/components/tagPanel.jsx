@@ -15,12 +15,12 @@ function MenuPortal({ children }) {
  *  - onChange: (nextSelectedByGroup) => void
  */
 export default function TagPanel({ groups, selectedByGroup, onChange }) {
-  const [openKey, setOpenKey] = useState(null);   // which group's menu is open
-  const [isOpen, setIsOpen] = useState(false);    // slide-out state (false = hidden)
+  const [openKey, setOpenKey] = useState(null); // which group's menu is open
+  const [isOpen, setIsOpen] = useState(false); // slide-out state (false = hidden)
 
   const panelRef = useRef(null);
-  const menuRef = useRef(null);                   // portal menu container
-  const btnRefs = useRef(new Map());              // trigger buttons by group key
+  const menuRef = useRef(null); // portal menu container
+  const btnRefs = useRef(new Map()); // trigger buttons by group key
 
   // Floating menu position (fixed coords)
   const [menuPos, setMenuPos] = useState({ top: 0, left: 0, width: 320 });
@@ -73,7 +73,10 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
     const onDocDown = (e) => {
       const panelEl = panelRef.current;
       const portalEl = menuRef.current;
-      if ((panelEl && panelEl.contains(e.target)) || (portalEl && portalEl.contains(e.target))) {
+      if (
+        (panelEl && panelEl.contains(e.target)) ||
+        (portalEl && portalEl.contains(e.target))
+      ) {
         return;
       }
       setIsOpen(false);
@@ -119,19 +122,20 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openKey, isOpen]);
 
-  // ---- NEW: Forced order + section labels + display-name overrides ----
+  // ---- Forced order + section labels + display-name overrides ----
+  // (NOTE: as requested, removed the "Mythical Parents & Text Tags" section,
+  // renamed "Text Tags" -> "Tags", and listed all buttons together in the desired order.)
   const ORDER = [
-    "__textual__",            // section: "Textual Tags"
+    "__tags__", // section: "Tags"
     "artsSciences",
     "literaryForms",
-    "literaryContent",        // shown as "Literary Themes"
+    "literaryContent", // shown as "Literary Themes"
     "metaphysical",
     "socioPolitical",
-    "comtean",                // shown as "Comtean Framework"
-    "__myth__",               // section: "Mythical Parents & Textual Tags"
-    "symbolicSystems",
+    "comtean", // shown as "Comtean Framework"
     "jungian",
     "neumann",
+    "symbolicSystems",
   ];
 
   // Panel-only label overrides (does not mutate incoming group objects)
@@ -178,18 +182,17 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
     ],
   };
 
-  const groupsByKey = useMemo(() => new Map(groups.map((g) => [g.key, g])), [groups]);
+  const groupsByKey = useMemo(
+    () => new Map(groups.map((g) => [g.key, g])),
+    [groups]
+  );
 
   const orderedGroups = useMemo(() => {
     const seen = new Set();
     const out = [];
     for (const key of ORDER) {
-      if (key === "__textual__") {
-        out.push({ __section: true, label: "Text Tags", key });
-        continue;
-      }
-      if (key === "__myth__") {
-        out.push({ __section: true, label: "Mythical Parents\n& Text Tags", key });
+      if (key === "__tags__") {
+        out.push({ __section: true, label: "Tags", key });
         continue;
       }
       const g = groupsByKey.get(key);
@@ -239,7 +242,10 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
   function renderCountBadge(count, total) {
     const text = `${count}/${total}`;
     return (
-      <span className="tagPanel__badge" aria-label={`${count} of ${total} selected`}>
+      <span
+        className="tagPanel__badge"
+        aria-label={`${count} of ${total} selected`}
+      >
         {text}
       </span>
     );
@@ -249,7 +255,9 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
     <div
       id="tagPanel"
       ref={panelRef}
-      className={`tagPanelWrap ${isOpen ? "tagPanelWrap--open" : "tagPanelWrap--closed"}`}
+      className={`tagPanelWrap ${
+        isOpen ? "tagPanelWrap--open" : "tagPanelWrap--closed"
+      }`}
       aria-hidden={!isOpen}
       onMouseDown={(e) => e.stopPropagation()}
     >
@@ -312,8 +320,12 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
             const indexMap = new Map(customOrder.map((name, idx) => [name, idx]));
 
             items.sort((a, b) => {
-              const ia = indexMap.has(a) ? indexMap.get(a) : Number.POSITIVE_INFINITY;
-              const ib = indexMap.has(b) ? indexMap.get(b) : Number.POSITIVE_INFINITY;
+              const ia = indexMap.has(a)
+                ? indexMap.get(a)
+                : Number.POSITIVE_INFINITY;
+              const ib = indexMap.has(b)
+                ? indexMap.get(b)
+                : Number.POSITIVE_INFINITY;
 
               if (ia !== ib) return ia - ib;
               // if both unknown (or same slot), fall back to alpha
@@ -324,6 +336,16 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
             items.sort((a, b) =>
               a.localeCompare(b, "en", { sensitivity: "base" })
             );
+          }
+
+          // Force "None Applicable" to be the last option for ANY group
+          {
+            const NA = "None Applicable";
+            const ix = items.indexOf(NA);
+            if (ix !== -1 && ix !== items.length - 1) {
+              items = items.filter((t) => t !== NA);
+              items.push(NA);
+            }
           }
 
           const listClass =
