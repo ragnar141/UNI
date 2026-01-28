@@ -13,8 +13,16 @@ function MenuPortal({ children }) {
  *  - groups: [{ key, label, appliesTo, allTags: string[] }]
  *  - selectedByGroup: { [key: string]: Set<string> }
  *  - onChange: (nextSelectedByGroup) => void
+ *  - layerMode: "durations" | "segments" | "none"
+ *  - onLayerModeChange: (nextMode) => void
  */
-export default function TagPanel({ groups, selectedByGroup, onChange }) {
+export default function TagPanel({
+  groups,
+  selectedByGroup,
+  onChange,
+  layerMode = "durations",
+  onLayerModeChange = () => {},
+}) {
   const [openKey, setOpenKey] = useState(null); // which group's menu is open
   const [isOpen, setIsOpen] = useState(false); // slide-out state (false = hidden)
 
@@ -126,6 +134,7 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
   // (NOTE: as requested, removed the "Mythical Parents & Text Tags" section,
   // renamed "Text Tags" -> "Tags", and listed all buttons together in the desired order.)
   const ORDER = [
+    "__layers__", // section: "Layers" (radio controls)
     "__tags__", // section: "Tags"
     "artsSciences",
     "literaryForms",
@@ -191,6 +200,10 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
     const seen = new Set();
     const out = [];
     for (const key of ORDER) {
+      if (key === "__layers__") {
+        out.push({ __section: true, label: "Layers", key });
+        continue;
+      }
       if (key === "__tags__") {
         out.push({ __section: true, label: "Tags", key });
         continue;
@@ -251,6 +264,46 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
     );
   }
 
+  // --- layer mode radios ---
+  function renderLayerRadios() {
+    return (
+      <div className="tagPanel__layerMode" role="radiogroup" aria-label="Timeline layers">
+        <label className="tagPanel__radioRow">
+          <input
+            type="radio"
+            name="layerMode"
+            value="durations"
+            checked={layerMode === "durations"}
+            onChange={() => onLayerModeChange("durations")}
+          />
+          <span style={{ marginLeft: 8 }}>Durations</span>
+        </label>
+
+        <label className="tagPanel__radioRow">
+          <input
+            type="radio"
+            name="layerMode"
+            value="segments"
+            checked={layerMode === "segments"}
+            onChange={() => onLayerModeChange("segments")}
+          />
+          <span style={{ marginLeft: 8 }}>Segments</span>
+        </label>
+
+        <label className="tagPanel__radioRow">
+          <input
+            type="radio"
+            name="layerMode"
+            value="none"
+            checked={layerMode === "none"}
+            onChange={() => onLayerModeChange("none")}
+          />
+          <span style={{ marginLeft: 8 }}>None</span>
+        </label>
+      </div>
+    );
+  }
+
   return (
     <div
       id="tagPanel"
@@ -298,6 +351,17 @@ export default function TagPanel({ groups, selectedByGroup, onChange }) {
       <div className="tagPanel__content">
         {orderedGroups.map((g) => {
           if (g.__section) {
+            // Special section: Layers (radio controls)
+            if (g.key === "__layers__") {
+              return (
+                <div key={g.key}>
+                  <div className="tagPanel__sectionLabel">{g.label}</div>
+                  {renderLayerRadios()}
+                </div>
+              );
+            }
+
+            // Normal section label (Tags)
             return (
               <div key={g.key} className="tagPanel__sectionLabel">
                 {g.label}

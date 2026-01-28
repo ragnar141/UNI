@@ -137,11 +137,6 @@ body {
   opacity: 0;
 }
 
-/* mute fathers/texts a bit in the distance */
-.timelineSvg.zoom-outest circle.textDot,
-.timelineSvg.zoom-outest g.fatherMark {
-  opacity: 0.3;
-}
 
 /* MIDDLE: segment grid visible, nodes still slightly softer */
 .timelineSvg.zoom-middle g.durationOutline .outlineRect {
@@ -152,11 +147,7 @@ body {
   opacity: 0.4;
 }
 
-/* nodes come forward but not full blast yet */
-.timelineSvg.zoom-middle circle.textDot,
-.timelineSvg.zoom-middle g.fatherMark {
-  opacity: 0.3;
-}
+
 
 .timelineSvg.zoom-deepest g.durationOutline .outlineRect,
 .timelineSvg.zoom-deepest rect.segmentHit {
@@ -168,9 +159,9 @@ body {
   opacity: 0.2;
 }
 
-/* at deepest level fathers/texts are fully present */
-.timelineSvg.zoom-deepest circle.textDot,
-.timelineSvg.zoom-deepest g.fatherMark {
+/* Texts + Fathers always crisp (independent of zoom) */
+.timelineSvg circle.textDot,
+.timelineSvg g.fatherMark {
   opacity: 1;
 }
 
@@ -1318,6 +1309,16 @@ body {
 .timelineSvg.zoom-outest:not(.has-selection) .segmentHit {
   fill: transparent;
   stroke: transparent;
+}
+
+/* Segments visible in OUTEST only when explicitly in Segments mode.
+   JS controls visibility & opacity; CSS just provides stroke/fill defaults. */
+.timelineSvg.layer-segments.zoom-outest:not(.has-selection) .segmentHit {
+  fill: currentColor;
+  stroke: #ffffff;
+  stroke-opacity: 0.9;      /* <-- ADD THIS */
+  stroke-width: 1.2px;
+  vector-effect: non-scaling-stroke;
 }
 
 /* segments are visible as white dividers across the duration */

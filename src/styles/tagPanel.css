@@ -107,7 +107,7 @@
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-right: none;            /* merges visually with panel left border */
   border-radius: 10px 0 0 10px;
- 
+
   font-weight: 700;
   letter-spacing: 0.06em;
   cursor: pointer;
@@ -158,6 +158,32 @@
 .tagPanel__btn:hover { background:#f6f7fb; }
 
 /* =========================
+   NEW: Layer mode radios
+   ========================= */
+.tagPanel__layerMode {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px 6px 10px;         /* align with other panel padding rhythm */
+  background: var(--panel-bg);
+}
+
+.tagPanel__radioRow {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  line-height: 1.1;
+  min-width: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Make the radio black (modern browsers) */
+.tagPanel__radioRow input[type="radio"] {
+  accent-color: #000;
+}
+
+/* =========================
    Dropdown (opens to the left, portaled)
    ========================= */
 /* Portaled menu uses these styles, plus inline fixed positioning from JSX */
@@ -199,7 +225,6 @@
   animation: dropdown-slide-out 200ms ease-out both;
   will-change: translate, opacity;
 }
-
 
 /* Entry animation only */
 @keyframes dropdown-slide-out {
@@ -453,7 +478,6 @@
   right: -2px;
   z-index: 2;
 }
-
 
 /* When the tag cloud is the ONLY content in a dropdown,
    make it two columns on compact widths & three on wider screens */

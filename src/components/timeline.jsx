@@ -2062,6 +2062,14 @@ export default function Timeline() {
   const fatherCardRef = useRef(null);
 
   const [visibleIds, setVisibleIds] = useState(() => new Set());
+  const [layerMode, setLayerMode] = useState("none");
+
+  // Keep a ref so RAF/D3 handlers always see the latest mode (no stale closures)
+  const layerModeRef = useRef(layerMode);
+  useEffect(() => {
+  layerModeRef.current = layerMode;
+  }, [layerMode]);
+
   const visibleIdsRef = useRef(new Set());
   const visUpdateRaf = useRef(0);
 
@@ -3040,25 +3048,8 @@ function renderConnections(zx, zy, k) {
   const hoveredTextId = hoveredTextIdRef.current;
   const hoveredFatherId = hoveredFatherIdRef.current;
 
-  const hasSelection = !!(selText || selFather);
-
-  // zoom-dependent factors
-  const kVal = k ?? 1;
-  const isOutest = !hasSelection && kVal < ZOOM_SEGMENT_THRESHOLD;
-  const isMiddle = !hasSelection && kVal >= ZOOM_SEGMENT_THRESHOLD && kVal < ZOOM_THRESHOLD;
-
-  // base/highlight per tier, but selection forces "deepest" values
-  const baseOpacity =
-    hasSelection ? 0.09 :
-    isOutest     ? 0.01 :
-    isMiddle     ? 0.05 :
-                   0.09;
-
-  const highlightOpacity =
-    hasSelection ? 0.90 :
-    isOutest     ? 0.40 :
-    isMiddle     ? 0.70 :
-                   0.90;
+  const baseOpacity = CONNECTION_BASE_OPACITY;
+  const highlightOpacity = CONNECTION_HIGHLIGHT_OPACITY;
 
   const data = allConnectionRowsRef.current || [];
   const g = d3.select(connectionsRef.current);
@@ -3561,13 +3552,13 @@ clearActiveDurationRef.current = clearActiveDuration;
   // Fill strengths for duration bands per zoom tier
   let baseFill, hoverFill, activeFill;
   if (zoomMode === "outest") {
-    baseFill = 0.20;
-    hoverFill = 0.65;
-    activeFill = 0.80;
-  } else if (zoomMode === "middle") {
-    baseFill = 0.05;
+    baseFill = 0.30;
     hoverFill = 0.40;
-    activeFill = 0.70;
+    activeFill = 0.50;
+  } else if (zoomMode === "middle") {
+    baseFill = 0.30;
+    hoverFill = 0.40;
+    activeFill = 0.50;
   } else {
     // deepest: no duration chrome at all
     baseFill = 0.0;
@@ -3589,11 +3580,15 @@ clearActiveDurationRef.current = clearActiveDuration;
     return baseFill;
   }
 
-  // Rect-based durations
-  d3.select(outlinesRef.current)
-    .selectAll("rect.outlineRect")
-    .style("fill-opacity", (d) => durFillOpacity(d));
-
+// Rect-based durations
+// If this duration is a custom group, don't fill the band-wide rect,
+// because the custom polygon already fills it (otherwise you "double paint" and it looks darker).
+d3.select(outlinesRef.current)
+  .selectAll("rect.outlineRect")
+  .style("fill-opacity", (d) => {
+    if (d._isCustomGroup || d._hiddenCustom) return 0; // THIS is the real flag in your data
+    return durFillOpacity(d);
+  });
   // Custom polygons
   d3.select(customPolysRef.current)
     .selectAll("path.customGroup")
@@ -3657,20 +3652,27 @@ function updateSegmentPreview() {
   const k = kRef.current ?? 1;
   const hasSelection = !!(selectedText || selectedFather);
 
-  const inMiddleZoom =
-    !hasSelection &&
-    k >= ZOOM_SEGMENT_THRESHOLD &&
-    k < ZOOM_THRESHOLD;
+  // Segments should be visible in:
+  // - middle zoom (default behavior)
+  // - outest zoom ONLY when layerMode === "segments"
+  const inSegmentsMode = (layerModeRef.current === "segments");
 
-  // Segment fill strengths (middle zoom only)
-  const baseFill   = inMiddleZoom ? 0.10 : 0.0;
-  const hoverFill  = inMiddleZoom ? 0.22 : 0.0;
-  const activeFill = inMiddleZoom ? 0.32 : 0.0;
+  const inSegmentsZoomBand =
+    !hasSelection &&
+    (
+      (k >= ZOOM_SEGMENT_THRESHOLD && k < ZOOM_THRESHOLD) || // middle
+      (k < ZOOM_SEGMENT_THRESHOLD && inSegmentsMode)          // outest + segments mode
+    );
+
+  // Segment fill strengths (enabled for middle, and for outest when segments mode)
+  const baseFill   = inSegmentsZoomBand ? 0.30 : 0.0;
+  const hoverFill  = inSegmentsZoomBand ? 0.40 : 0.0;
+  const activeFill = inSegmentsZoomBand ? 0.50 : 0.0;
 
   d3.select(segmentsRef.current)
     .selectAll("rect.segmentHit")
     .style("fill-opacity", (d) => {
-      if (!inMiddleZoom) return 0;
+      if (!inSegmentsZoomBand) return 0;
 
       // If a segment is "open" (card out), treat it as active
       if (activeId) {
@@ -3685,6 +3687,7 @@ function updateSegmentPreview() {
       return baseFill;
     });
 }
+
 
 
 
@@ -3789,16 +3792,22 @@ function setActiveDuration(outline, { showCard = false } = {}) {
         const k = kRef.current ?? 1;
         const hasSelection = !!(selectedText || selectedFather);
 
-        // Only track segment hover on MIDDLE level and when nothing is selected
-        if (
-          !se ||
-          !("clientX" in se) ||
-          hasSelection ||
-          k < ZOOM_SEGMENT_THRESHOLD ||
-          k >= ZOOM_THRESHOLD
-          ) {
-           return;
-          }
+      const mode = layerModeRef.current;
+
+// Track segment hover on:
+// - MIDDLE (default)
+// - OUTEST only when Segments mode is selected
+const allowOutestSegments = (mode === "segments") && (k < ZOOM_SEGMENT_THRESHOLD);
+const allowMiddleSegments = (k >= ZOOM_SEGMENT_THRESHOLD) && (k < ZOOM_THRESHOLD);
+
+if (
+  !se ||
+  !("clientX" in se) ||
+  hasSelection ||
+  !(allowOutestSegments || allowMiddleSegments)
+) {
+  return;
+}
       const el = document.elementFromPoint(se.clientX, se.clientY);
       let newId = null, newParentId = null;
 
@@ -3819,18 +3828,60 @@ function setActiveDuration(outline, { showCard = false } = {}) {
       }
     }
 
-    function syncHoverRaf(srcEvt){
-  if (!srcEvt || !('clientX' in srcEvt)) return;
+function syncHoverRaf(srcEvt) {
+  if (!srcEvt || !("clientX" in srcEvt) || !("clientY" in srcEvt)) return;
   if (hoverRaf.current) return;
+
   hoverRaf.current = requestAnimationFrame(() => {
     hoverRaf.current = 0;
-    if (kRef.current < ZOOM_THRESHOLD) {
-      syncDurationHoverFromPointer(srcEvt);
-    } else {
+
+    const k = kRef.current ?? 1;
+    const mode = layerModeRef.current; // <-- requires the ref from step 1
+
+    if (k < ZOOM_SEGMENT_THRESHOLD) {
+      // OUTEST:
+      // - if Segments mode => segments hover (same feel as middle)
+      // - else => durations hover (existing behavior)
+      if (mode === "segments") {
+        syncSegmentHoverFromPointer(srcEvt);
+
+        // ensure duration hover doesn't linger
+        if (hoveredDurationIdRef.current != null) {
+          hoveredDurationIdRef.current = null;
+          setHoveredDurationId(null);
+        }
+      } else {
+        syncDurationHoverFromPointer(srcEvt);
+
+        // ensure segment hover doesn't linger
+        if (hoveredSegIdRef.current != null) {
+          hoveredSegIdRef.current = null;
+          setHoveredSegmentId(null);
+        }
+      }
+    } else if (k < ZOOM_THRESHOLD) {
+      // MIDDLE: segments hover
       syncSegmentHoverFromPointer(srcEvt);
+
+      // ensure duration hover doesn't linger
+      if (hoveredDurationIdRef.current != null) {
+        hoveredDurationIdRef.current = null;
+        setHoveredDurationId(null);
+      }
+    } else {
+      // DEEPEST: clear both to avoid "stuck" hover UI
+      if (hoveredDurationIdRef.current != null) {
+        hoveredDurationIdRef.current = null;
+        setHoveredDurationId(null);
+      }
+      if (hoveredSegIdRef.current != null) {
+        hoveredSegIdRef.current = null;
+        setHoveredSegmentId(null);
+      }
     }
   });
 }
+
 
     // OUTLINES (filled, faint stroke)
 const outlineSel = gOut
@@ -3871,27 +3922,29 @@ const outlineSel = gOut
 
     // Hide the rectangle if this is a custom GROUP (polygon handles visuals)
     outlineSel.select("rect.outlineRect")
-      .attr("fill-opacity", (d) => (d._isCustomGroup || d._hiddenCustom) ? 0 : 0.1)
+      // Let updateHoverVisuals() own ALL duration fill-opacity.
+      // Only custom-group rects stay hidden here.
+      .attr("fill-opacity", (d) => (d._isCustomGroup || d._hiddenCustom) ? 0 : null)
       .attr("stroke-opacity", (d) => (d._isCustomGroup || d._hiddenCustom) ? 0 : DUR_STROKE.baseOpacity)
       .style("pointer-events", d => (d._isCustomGroup || d._hiddenCustom) ? "none" : "all");
 
     // Whole-duration hover/click (zoomed-out only)
     outlineSel.select("rect.outlineRect")
       .on("mouseenter", function (_ev, d) {
-        if (kRef.current >= ZOOM_THRESHOLD) return;
+        if (kRef.current >= ZOOM_SEGMENT_THRESHOLD) return;
         if (activeDurationIdRef.current) return; // ignore hover while a duration is active
         hoveredDurationIdRef.current = d.id;
         updateHoverVisuals();
       })
       .on("mouseleave", function () {
-        if (kRef.current >= ZOOM_THRESHOLD) return;
+        if (kRef.current >= ZOOM_SEGMENT_THRESHOLD) return;
         if (zoomDraggingRef.current) return;
         if (activeDurationIdRef.current) return; // keep active styles
         hoveredDurationIdRef.current = null;
         updateHoverVisuals();
       })
       .on("click", function (ev, d) {
-        if (kRef.current >= ZOOM_THRESHOLD) return;
+        if (kRef.current >= ZOOM_SEGMENT_THRESHOLD) return;
 
         if (awaitingCloseClickRef.current) {
           awaitingCloseClickRef.current = false;
@@ -5041,107 +5094,130 @@ fatherPinSel
 function updateInteractivity(k) {
   const hasSelection = !!(selectedText || selectedFather);
 
-// 3-level zoom mode, but when selected: OUTEST stays OUTEST, MIDDLE behaves like DEEPEST for crisp marks
-let zoomMode;
-if (hasSelection) {
-  zoomMode = (k < ZOOM_SEGMENT_THRESHOLD) ? "outest" : "deepest";
-} else if (k < ZOOM_SEGMENT_THRESHOLD) {
-  zoomMode = "outest";
-} else if (k < ZOOM_THRESHOLD) {
-  zoomMode = "middle";
-} else {
-  zoomMode = "deepest";
-}
+  // 3-level zoom mode (do NOT assign tier CSS classes here anymore;
+  // the zoom handler is now the single source of truth for zoom-* classes)
+  let zoomMode;
+  if (hasSelection) {
+    // keep your existing behavior: when selected, middle behaves like deepest
+    zoomMode = (k < ZOOM_SEGMENT_THRESHOLD) ? "outest" : "deepest";
+  } else if (k < ZOOM_SEGMENT_THRESHOLD) {
+    zoomMode = "outest";
+  } else if (k < ZOOM_THRESHOLD) {
+    zoomMode = "middle";
+  } else {
+    zoomMode = "deepest";
+  }
 
+  // only keep generic flag(s) here (zoom tier classes live in zoom handler)
   const svgSel = d3.select(svgRef.current);
-  svgSel
-    // zoom tier classes for CSS
-    .classed("zoom-outest",  zoomMode === "outest")
-    .classed("zoom-middle",  zoomMode === "middle")
-    .classed("zoom-deepest", zoomMode === "deepest")
-    // generic flags
-    .classed("zoomed-in",    zoomMode !== "outest")
-    .classed("has-selection", hasSelection);
+  svgSel.classed("has-selection", hasSelection);
 
-      console.log("[UI] updateInteractivity", {
-    k,
-    hasSelection,
-    zoomMode,
-    svgClass: svgSel.attr("class"),
-  });
+  // Keep layer-mode classes on the SVG via D3 so React doesn't wipe zoom-* classes
+  svgSel
+    .classed("layer-durations", layerMode === "durations")
+    .classed("layer-segments",  layerMode === "segments")
+    .classed("layer-none",      layerMode === "none");
+
+  // === Radio-controlled layer policy (ONLY affects durations/segments) ===
+  const durationsAllowed = (layerMode === "durations");
+  const segmentsAllowed  = (layerMode === "segments");
+
+  const showDurationsLayer =
+    durationsAllowed && (zoomMode === "outest") && !hasSelection;
+
+  const showSegmentsLayer =
+    segmentsAllowed && (zoomMode === "outest" || zoomMode === "middle") && !hasSelection;
+
+  // Show/hide whole groups (prevents accidental hit-testing & visual collisions)
+  gOut.style("display", showDurationsLayer ? null : "none");
+  gSeg.style("display", showSegmentsLayer ? null : "none");
+
+  // Custom duration polygons: treat as "durations chrome"
+  gCustom.style("display", showDurationsLayer ? null : "none");
+
+  // Kill stale cards when mode/tier doesn't allow that layer
+  if (!showDurationsLayer) clearActiveDuration();
+  if (!showSegmentsLayer) clearActiveSegment();
 
   // === Selection override: once a text/father is selected,
   //     durations/segments become inert; texts/fathers stay clickable
-if (hasSelection) {
-  const nodesHot = (zoomMode !== "outest"); // <-- key rule
+  if (hasSelection) {
+    const nodesHot = (zoomMode !== "outest"); // <-- key rule
 
-  gOut.selectAll("rect.outlineRect")
-    .style("pointer-events", "none");
-  gSeg.selectAll("rect.segmentHit")
-    .style("pointer-events", "none");
-  gCustom.selectAll("path.customGroup")
-    .style("pointer-events", "none");
-
-  gTexts.selectAll("circle.textDot")
-    .style("pointer-events", nodesHot ? "all" : "none");
-  gFathers.selectAll("g.fatherMark")
-    .style("pointer-events", nodesHot ? "all" : "none");
-
-  clearActiveSegment();
-  clearActiveDuration();
-  updateHoverVisuals();
-  return;
-}
-
-  // === No selection: pure 3-level model ===
-  if (zoomMode === "outest") {
-    // OUTEST: durations hot, everything else inert
     gOut.selectAll("rect.outlineRect")
-      .style("pointer-events", d =>
-        (d._isCustomGroup || d._hiddenCustom) ?
-          "none" :
-          "all"
-      );
+      .style("pointer-events", "none");
     gSeg.selectAll("rect.segmentHit")
       .style("pointer-events", "none");
+    gCustom.selectAll("path.customGroup")
+      .style("pointer-events", "none");
+
+    gTexts.selectAll("circle.textDot")
+      .style("pointer-events", nodesHot ? "all" : "none");
+    gFathers.selectAll("g.fatherMark")
+      .style("pointer-events", nodesHot ? "all" : "none");
+
+    clearActiveSegment();
+    clearActiveDuration();
+    updateHoverVisuals();
+    return;
+  }
+
+  // === No selection: radio-aware 3-level model ===
+  if (zoomMode === "outest") {
+    // OUTEST: either durations hot (Durations mode) or segments hot (Segments mode) or neither
+    gOut.selectAll("rect.outlineRect")
+      .style("pointer-events", d =>
+        showDurationsLayer && !d._isCustomGroup && !d._hiddenCustom ? "all" : "none"
+      );
+
+    gSeg.selectAll("rect.segmentHit")
+      .style("pointer-events", showSegmentsLayer ? "all" : "none");
+
     gTexts.selectAll("circle.textDot")
       .style("pointer-events", "none");
     gFathers.selectAll("g.fatherMark")
       .style("pointer-events", "none");
-    gCustom.selectAll("path.customGroup")
-      .style("pointer-events", d =>
-        d._hiddenCustom ? "none" : "all"
-      );
 
-    // Durations are allowed to stay active; segments cannot be
-    clearActiveSegment();
+    gCustom.selectAll("path.customGroup")
+      .style("pointer-events", showDurationsLayer ? "all" : "none");
+
+    // ensure wrong-layer selection can't persist
+    if (!showDurationsLayer) clearActiveDuration();
+    if (!showSegmentsLayer) clearActiveSegment();
 
   } else if (zoomMode === "middle") {
-    // MIDDLE: segments hot, durations/nodes inert
+    // MIDDLE: segments can be hot only in Segments mode; durations always inert
     gOut.selectAll("rect.outlineRect")
       .style("pointer-events", "none");
+
     gSeg.selectAll("rect.segmentHit")
-      .style("pointer-events", "all");
+      .style("pointer-events", showSegmentsLayer ? "all" : "none");
+
     gTexts.selectAll("circle.textDot")
       .style("pointer-events", "none");
     gFathers.selectAll("g.fatherMark")
       .style("pointer-events", "none");
+
     gCustom.selectAll("path.customGroup")
       .style("pointer-events", "none");
 
-    // Only segments should be active at this level
+    // durations never active here; segments only if allowed
     clearActiveDuration();
+    if (!showSegmentsLayer) clearActiveSegment();
 
   } else {
     // DEEPEST: fathers/texts hot, durations/segments inert
     gOut.selectAll("rect.outlineRect")
       .style("pointer-events", "none");
+
     gSeg.selectAll("rect.segmentHit")
       .style("pointer-events", "none");
+
     gTexts.selectAll("circle.textDot")
       .style("pointer-events", "all");
     gFathers.selectAll("g.fatherMark")
       .style("pointer-events", "all");
+
     gCustom.selectAll("path.customGroup")
       .style("pointer-events", "none");
 
@@ -5166,7 +5242,7 @@ gSeg
       .attr("class", "segmentHit")
       // actual fill is controlled in CSS via --seg-color and zoom-* classes
       .attr("fill", "transparent")
-      .attr("pointer-events", "all")
+      .attr("pointer-events", "none")
       // border is always white; “block color” is the fill
       .attr("stroke", "#ffffff")
       .attr("stroke-opacity", 0.02)
@@ -5355,10 +5431,7 @@ const zoom = (zoomRef.current ?? d3.zoom())
     renderConnections(zx, zy, t.k);
     updateInteractivity(t.k);
 
-    console.log("[ZOOM] zoom handler", {
-      k: t.k,
-      hasSelection: !!(selectedText || selectedFather),
-    });
+ 
 
     // === Zoom-level “mode” classes for CSS (outest / middle / deepest) ===
     const hasSelection = !!(selectedText || selectedFather);
@@ -5526,6 +5599,7 @@ window.flyToTest = (id) => {
   fatherRows,        // FATHERS: ensure updates
   selectedText,
   selectedFather,
+  layerMode,
   width,
   height,
   innerWidth,
@@ -5572,6 +5646,8 @@ return (
       groups={TAG_GROUPS}
       selectedByGroup={selectedByGroup}
       onChange={setSelectedByGroup}
+      layerMode={layerMode}
+      onLayerModeChange={setLayerMode}
     />
 
     <svg
