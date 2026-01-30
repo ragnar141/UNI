@@ -67,7 +67,7 @@
   },
    {
     "id": "mesopotamian-composite",
-    "name": "Mesopotamian",
+    "name": "Mesopo-\ntamian",
     "expanded name": "Mesopotamian (Sumero-Akkadian)",
     "color": "#1E5BFF",
     "yRel": 0.356,
@@ -131,16 +131,16 @@
       },
       {
         "start": -911,
-        "end": -612,
+        "end": -626,
         "label": "Neo-Assyrian Empire",
-        "note": "The Neo-Assyrian Empire was the most powerful and feared empire of the ancient Near East, expanding through a professional military and systematic use of terror. Its kings ruled as divine agents, enforcing order through conquest, mass deportation, and centralized administration across a vast territory. Cultural achievements flourished alongside brutality, with royal libraries preserving Sumerian and Babylonian texts and imperial art glorifying cosmic kingship. Though it appeared invincible, the empire collapsed rapidly under rebellion and invasion, leaving behind a lasting blueprint for large-scale imperial power."
+        "note": "The Neo-Assyrian Empire was the most powerful and feared imperial system of the ancient Near East, expanding through a professional standing army, centralized administration, and systematic use of terror. Its kings ruled as divine agents, enforcing order through conquest, mass deportation, and the projection of cosmic kingship. Alongside its brutality, Assyria fostered major cultural achievements, including royal libraries that preserved Sumerian and Babylonian scholarship and monumental art celebrating imperial authority. From the late seventh century BCE, sustained rebellion and military overextension fatally weakened the empire, culminating in the loss of Babylon and the effective collapse of Assyrian imperial control."
       },
       {
         "start": -626,
         "end": -539,
         "label": "Neo-Babylonian Period",
-        "note": "The Neo-Babylonian period marked a cultural and political renaissance following Assyria’s collapse, led by Nabopolassar and his son Nebuchadnezzar II. Babylon was transformed into a grand imperial and sacred capital, adorned with monumental architecture and governed through priestly ritual centered on the god Marduk. Scholarship and religious tradition flourished, reflecting a deliberate restoration of Sumerian-Babylonian cosmic order. Yet beneath its splendor, signs of decline persisted—growing elite stratification, disaffection of the priesthood under Nabonidus, and a passive military apparatus—leaving the empire vulnerable to conquest by Cyrus the Great in 539 BCE."
-      }      
+        "note": "The Neo-Babylonian period began with Babylon’s successful revolt against Assyrian domination under Nabopolassar and marked a political and cultural renaissance in southern Mesopotamia. Under his son Nebuchadnezzar II, Babylon was transformed into a monumental imperial and sacred capital, governed through priestly ritual centered on the god Marduk. Scholarship and religious tradition flourished as rulers consciously restored Sumerian-Babylonian cosmic models of kingship and order. Beneath its splendor, however, elite stratification, priestly tensions under Nabonidus, and limited military capacity left the empire vulnerable to conquest by Cyrus the Great in 539 BCE."
+      }     
     ]
   },
   {
@@ -317,15 +317,15 @@
       },
       {
         "start": -1100,
-        "end": -539,
+        "end": -550,
         "label": "Late Elamite Period",
-        "note": "After the Shutrukid collapse, Elam enters a long era of fractured dynasts, shifting alliances, and reactive politics. Susa maintains its ancestral cults and administrative habits, but authority flickers between competing houses while the rising Neo-Assyrian Empire presses from the west. At the same time, Indo-Iranian groups—Medes in the Zagros, Persians rooted in the Anshan region—crystallize from tribal networks into proto-states. Their fire-rites, martial ethos, and evolving moral cosmologies begin to permeate the highland sphere that once belonged firmly to Elam. By the 7th century, Median power matures into territorial kingship, while Persian clans organize under Achaemenid leaders. Elam persists culturally but loses geopolitical weight; Ashurbanipal’s sack of Susa (646 BCE) shatters its autonomy. When Cyrus rises from Anshan, he inherits an Elamite landscape already transformed by Indo-Iranian settlement. The final absorption of Elam after 539 BCE marks not an annihilation, but a transition: Elam’s institutions, scribal practices, and sacred geography become foundational components of the early Achaemenid world."
+        "note": "After the Shutrukid collapse, Elam enters a long era of fractured dynasts, shifting alliances, and reactive politics. Susa maintains its ancestral cults and administrative habits, but authority flickers between competing houses while the rising Neo-Assyrian Empire presses from the west. At the same time, Indo-Iranian groups—Medes in the Zagros, Persians rooted in the Anshan region—crystallize from tribal networks into proto-states. Their fire-rites, martial ethos, and evolving moral cosmologies begin to permeate the highland sphere that once belonged firmly to Elam. By the 7th century BCE, Median power matures into territorial kingship, while Persian clans organize under emerging Achaemenid leaders. Elam persists culturally but steadily loses geopolitical weight; Ashurbanipal’s sack of Susa (646 BCE) shatters its autonomy. When Cyrus rises from Anshan, he inherits an Elamite landscape already transformed by Indo-Iranian settlement, marking the transition of Elam from an independent polity into a foundational substrate of a new imperial order."
       },
       {
         "start": -550,
         "end": -330,
         "label": "Achaemenid Empire",
-        "note": "The Achaemenid Empire emerges as a synthesis of Median authority, Elamite sacred geography, and Zoroastrian moral cosmology. Expanding across Mesopotamia, Anatolia, and Egypt, it sustains an imperial order grounded in tolerance, hierarchy, and law, framing conquest as ethical governance under divine truth. Its symbolic and administrative system endures until Alexander’s campaigns (330 BCE) draw Persia into the Hellenistic world."
+        "note": "The Achaemenid Empire emerges as a synthesis of Median authority, Elamite sacred geography, and Zoroastrian moral cosmology. Expanding across Mesopotamia, Anatolia, and Egypt, it sustains an imperial order grounded in tolerance, hierarchy, and law, framing conquest as ethical governance under divine truth. Elamite administrative practices, scribal traditions, and regional capitals—especially Susa—are incorporated rather than erased, enabling effective rule over a vast and diverse territory. This symbolic and bureaucratic system endures until Alexander’s campaigns (330 BCE) draw Persia into the Hellenistic world."
       }
     ]
   },
@@ -822,16 +822,16 @@
     },
     {
       "start": -800,
-      "end": -600,
-      "label": "Etruscan Ascendancy",
-      "note": "The Etruscan Ascendancy marks the transformation of Villanovan cremation communities into structured, proto-urban societies. Between 800 and 600 BCE, fortified hilltop settlements such as Tarquinia, Veii, and Cerveteri develop aristocratic lineages, monumental tumuli, and sophisticated metallurgy. Their far-reaching trade with Phoenicians and Greeks brings wine, luxury goods, and artistic motifs that Etruscan craftsmen reinterpret into a distinctive visual language. Ritual life deepens with elaborate funerary iconography and divinatory practices that bind religious authority to political rule. During these centuries, Latial settlements—including early Rome—absorb Etruscan aesthetics and symbols indirectly, before later political entanglements reshape central Italy."
+      "end": -700,
+      "label": "Early Etruscan Formation",
+      "note": "This period marks the crystallization of Etruscan aristocratic society out of Villanovan roots. Elite lineages consolidate power through control of land, metallurgy, and long-distance exchange networks linking central Italy to the Greek and Phoenician worlds. Hilltop settlements evolve into nucleated communities with formalized sacred spaces, defensive works, and hereditary leadership. South of the Etruscan heartland, small Latial villages cluster along river crossings and fertile lowlands. One such settlement, later known as Rome, begins as an unremarkable aggregation of huts on the Palatine and neighboring hills. Its early inhabitants leave little trace of distinctive institutions; material culture closely mirrors broader Latial patterns, with Etruscan influence already visible in burial customs and imported goods. The figures later celebrated by Roman tradition—Romulus, Remus, and the first kings—belong primarily to retrospective myth-making rather than contemporary historical record. The formative energies of central Italy during these centuries lie overwhelmingly with the Etruscan cities."
     },
     {
-      "start": -753,
+      "start": -700,
       "end": -509,
-      "label": "Roman Kingdom",
-      "note": "The Roman Kingdom emerged within the cultural shadow of the Etruscans. According to Roman tradition, Rome was founded in 753 BCE, and its first kings—Romulus, Numa, and others—represented a blending of Italic and Etruscan institutions. The city’s political order was based on monarchy, supported by aristocratic clans (the patricians) and assemblies of citizens. Religious life, military organization, and civic rituals bore strong Etruscan imprint, from augury to the use of the fasces. Rome grew into a significant settlement by controlling river crossings and trade routes, but its kingship model bred tension with aristocratic elites, culminating in the overthrow of the monarchy and the founding of the Republic."
-    },
+      "label": "Etruscan Hegemony in Central Italy",
+      "note": "During this phase, Etruscan city-states reach the height of their political, economic, and cultural influence. Centers such as Tarquinia, Veii, and Cerveteri dominate regional trade, ritual authority, and military power. Elite wealth is expressed through monumental tumuli, painted tombs, and luxury goods, while a shared divinatory and religious system underwrites political legitimacy. Rome develops squarely within this hegemonic environment. Urbanization accelerates as marshlands are drained, sacred boundaries formalized, and public spaces such as the Forum take shape through Etruscan engineering and ritual concepts. The Roman monarchy, particularly in its later phases, bears unmistakable Etruscan features in regalia, augury, architecture, and political symbolism. The expulsion of the last king in 509 BCE marks both a constitutional rupture and a narrative turning point. Thereafter, Roman memory frames the Etruscan past as a prelude to liberation, obscuring how deeply Rome’s early institutions, sacred practices, and urban form derive from Etruscan civilization."
+},
     {
       "start": -509,
       "end": -287,
@@ -1134,21 +1134,21 @@
     },
     {
       "start": -1900,
-      "end": -1300,
-      "label": "Late Harappan Period",
-      "note": "The Indus Valley Civilization underwent a prolonged and uneven transformation marked by the gradual abandonment of large urban centers and a shift toward smaller, more localized settlements. While environmental factors—such as river course changes, climatic variability, and disruptions to long-distance exchange—are often cited as contributing pressures, no single cause fully accounts for the scale or pattern of urban contraction. The disappearance of writing, standardized weights, and uniform urban planning contrasts with the persistence of symbolic practices, including terracotta figurines and simple fire installations, suggesting a reorientation toward household and community-based ritual life. Notably, there remains no clear archaeological evidence for centralized kingship, monumental temples, or elite burial traditions either before or after this transition, reinforcing the view that Harappan society transformed without collapsing into overt hierarchy or violent breakdown."
+      "end": -1500,
+      "label": "Late Harappan Transformation",
+      "note": "The Indus Valley Civilization underwent a prolonged transformation marked by the decentralization of urban life and the gradual abandonment of large, standardized cities. Populations dispersed into smaller regional settlements as long-distance trade networks weakened and uniform systems of writing, weights, and urban planning fell out of use. Environmental pressures—river shifts, climatic variability, and ecological stress—likely contributed, though no single cause explains the change. Cultural continuity persisted in domestic architecture, craft traditions, figurines, and localized ritual practices. Rather than a violent collapse or elite takeover, this phase represents the dissolution of a unique urban-symbolic order into localized, household-based forms of social coordination."
     },
     {
       "start": -1500,
       "end": -1000,
       "label": "Early Vedic Period",
-      "note": "The period saw the emergence of Vedic culture in the northwestern Indian subcontinent, particularly in the Punjab region. According to the broad academic consensus, this culture was introduced by Indo-Aryan-speaking pastoralists who migrated into the region from Central Asia or the Iranian plateau. These communities composed the Rigveda, a body of sacred hymns that celebrated deities like Indra and Agni, and upheld a worldview based on ritual sacrifice, cosmic order (ṛta), and oral transmission. Society was clan-based and semi-nomadic, with no temples, writing, or fixed caste system, though the earliest ideas of varna emerged."
+      "note": "This period marks the emergence of Vedic ritual culture in the northwestern subcontinent, centered in the Punjab and surrounding regions. Indo-Aryan-speaking pastoral communities composed the earliest layers of the Rigveda, transmitting them orally through complex mnemonic techniques. Social organization was clan-based and mobile, oriented around cattle wealth, seasonal movement, and ritual sacrifice rather than urban life or state administration. The Vedic worldview emphasized cosmic order (ṛta), reciprocity between humans and gods, and the efficacy of correctly performed speech. Early concepts of social differentiation (varna) appear, but hierarchy remained fluid and situational rather than fixed or hereditary."
     },
     {
       "start": -1000,
-      "end": -500,
+      "end": -600,
       "label": "Later Vedic Period",
-      "note": "The period saw Indo-Aryan culture expand eastward into the fertile Ganges plain, transitioning from pastoral clans to settled agricultural kingdoms (janapadas). Ritual life became more complex and dominated by Brahmin priests, who formalized the varna system into a hereditary social hierarchy, though it remained less rigid than the stratified state societies of Egypt or Mesopotamia. No temples or royal tombs emerged; kings held modest power under priestly authority, and spiritual texts like the Upanishads began to question ritualism and hierarchy, introducing early ideas of liberation (moksha) and interiority. Social roles were still negotiable and not yet embedded in the full caste (jāti) system of later India."
+      "note": "Indo-Aryan culture expanded eastward into the fertile Ganges plain, transitioning from pastoral communities to settled agricultural kingdoms (janapadas). Ritual life grew increasingly complex and was dominated by Brahmin priests, who formalized varna into a hereditary social hierarchy, though it remained less rigid than the stratified state systems of the ancient Near East. Political authority was limited and mediated through ritual expertise, while philosophical texts such as the Upanishads began to question ritualism and hierarchy, introducing early ideas of liberation (moksha) and interiority. Social roles remained negotiable and were not yet embedded in the fully articulated jāti system of later India."
     },
     {
       "start": -600,

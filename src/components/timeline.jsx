@@ -101,10 +101,10 @@ function textBaseR(d) {
 const ZOOM_SEGMENT_THRESHOLD = 2.0;
 
 /* --- Opacity/width levels for duration label + border --- */
-const DUR_LABEL_OPACITY = { base: 0.5, hover: 0.7, active: 0.7 };
+const DUR_LABEL_OPACITY = { base: 0.7, hover: 1, active: 1 };
 const DUR_STROKE = {
-  baseOpacity: 0.08, hoverOpacity: 0.45, activeOpacity: 0.9,
-  baseWidth: 1.5,    hoverWidth: 2.0,    activeWidth: 2.5,
+  baseOpacity: 0.03, hoverOpacity: 0.45, activeOpacity: 0.9,
+  baseWidth: 0.5,    hoverWidth: 2.0,    activeWidth: 2.5,
 };
 
 /* ===== Label visibility policy ===== */
@@ -2574,19 +2574,6 @@ const visTextRows = useMemo(
   [textRows, selectedByGroup]
 );
 
-const civYes = visTextRows.filter(d =>
-  String(d["Civlizational code?"] ?? d["Civilizational code?"] ?? d.civilizationalCode ?? "")
-    .toUpperCase().trim() === "YES"
-);
-
-console.log("[CIV] visTextRows count:", visTextRows.length);
-console.log("[CIV] YES count:", civYes.length);
-console.log("[CIV] sample YES row:", civYes[0]);
-console.log("[CIV] sample YES raw value:",
-  civYes[0] && (civYes[0]["Civlizational code?"] ?? civYes[0]["Civilizational code?"] ?? civYes[0].civilizationalCode)
-);
-
-
 const visFatherRows = useMemo(
   () => (fatherRows || []).filter(r => itemPassesFilters(r, "father", selectedByGroup)),
   [fatherRows, selectedByGroup]
@@ -3523,11 +3510,10 @@ clearActiveDurationRef.current = clearActiveDuration;
       tipDur.style("left", `${x}px`).style("top", `${y}px`).classed("below", below);
     }
 
-    // ===== Label + border visuals (3 states) =====
-    function updateHoverVisuals() {
+// ===== Label + border visuals (3 states) =====
+function updateHoverVisuals() {
   const activeDurationId = activeDurationIdRef.current;
   const hoveredDurationId = hoveredDurationIdRef.current;
-
   const hoveredSegParentId = hoveredSegParentIdRef.current;
 
   const ignoreHoverBecauseActive = !!activeDurationId;
@@ -3540,27 +3526,42 @@ clearActiveDurationRef.current = clearActiveDuration;
   if (hasSelection) {
     zoomMode = "deepest";
   } else if (k < ZOOM_SEGMENT_THRESHOLD) {
-    zoomMode = "outest";   // durations only
+    zoomMode = "outest";
   } else if (k < ZOOM_THRESHOLD) {
-    zoomMode = "middle";   // segments only
+    zoomMode = "middle";
   } else {
-    zoomMode = "deepest";  // fathers/texts only
+    zoomMode = "deepest";
   }
 
-    
+  const lm = layerModeRef.current;
+
+  const showDurationChrome =
+    (lm === "durations") &&
+    (zoomMode === "outest") &&
+    !hasSelection;
+
+  const showPassiveOutlines =
+    !hasSelection && (
+      (lm === "none") ||
+      (lm === "durations" && (zoomMode === "middle" || zoomMode === "deepest")) ||
+      (lm === "segments"  && (zoomMode === "deepest"))
+    );
+
+  // tweak this whenever you want
+  const OUTLINE_ONLY_STROKE_OPACITY = 0.2;
+  const OUTLINE_ONLY_STROKE_WIDTH = 1;
 
   // Fill strengths for duration bands per zoom tier
   let baseFill, hoverFill, activeFill;
   if (zoomMode === "outest") {
     baseFill = 0.30;
-    hoverFill = 0.40;
-    activeFill = 0.50;
+    hoverFill = 0.70;
+    activeFill = 0.90;
   } else if (zoomMode === "middle") {
     baseFill = 0.30;
-    hoverFill = 0.40;
-    activeFill = 0.50;
+    hoverFill = 0.70;
+    activeFill = 0.90;
   } else {
-    // deepest: no duration chrome at all
     baseFill = 0.0;
     hoverFill = 0.0;
     activeFill = 0.0;
@@ -3572,77 +3573,89 @@ clearActiveDurationRef.current = clearActiveDuration;
 
     const id = d.id;
     const isActive = id === activeDurationId;
-    const isHoverDuration =
-      !ignoreHoverBecauseActive && id === hoveredDurationId;
+    const isHoverDuration = !ignoreHoverBecauseActive && id === hoveredDurationId;
 
     if (isActive) return activeFill;
     if (isHoverDuration) return hoverFill;
     return baseFill;
   }
 
-// Rect-based durations
-// If this duration is a custom group, don't fill the band-wide rect,
-// because the custom polygon already fills it (otherwise you "double paint" and it looks darker).
-d3.select(outlinesRef.current)
-  .selectAll("rect.outlineRect")
-  .style("fill-opacity", (d) => {
-    if (d._isCustomGroup || d._hiddenCustom) return 0; // THIS is the real flag in your data
-    return durFillOpacity(d);
-  });
-  // Custom polygons
+  const outlineRoot = d3.select(outlinesRef.current);
+
+  // ===== Labels =====
+  outlineRoot
+    .selectAll("text.durationLabel")
+    .style("fill", (d) => {
+      const id = d.id;
+      const isActiveFromDuration = id === activeDurationId;
+      const isFromHoveredSeg = id === hoveredSegParentId;
+      const isHoverDuration = !ignoreHoverBecauseActive && id === hoveredDurationId;
+
+      if (isActiveFromDuration || isFromHoveredSeg || isHoverDuration) return "#fff";
+      return d.color || "#999";
+    })
+    .style("opacity", (d) => {
+      const id = d.id;
+      const isActiveFromDuration = id === activeDurationId;
+      const isFromHoveredSeg = id === hoveredSegParentId;
+      const isHoverDuration = !ignoreHoverBecauseActive && id === hoveredDurationId;
+
+      if (isActiveFromDuration || isFromHoveredSeg) return DUR_LABEL_OPACITY.active;
+      if (isHoverDuration) return DUR_LABEL_OPACITY.hover;
+      return DUR_LABEL_OPACITY.base;
+    });
+
+  // Only one hover-class toggler (OUTEST only)
+  outlineRoot
+    .selectAll("g.durationOutline")
+    .classed("hover", (d) => {
+      if (zoomMode !== "outest") return false;
+
+      const id = d.id;
+      const isActiveFromDuration = id === activeDurationId;
+      const isFromHoveredSeg = id === hoveredSegParentId;
+      const isHoverDuration = !ignoreHoverBecauseActive && id === hoveredDurationId;
+
+      return isActiveFromDuration || isFromHoveredSeg || isHoverDuration;
+    });
+
+  // ===== Rect-based durations =====
+  outlineRoot
+    .selectAll("rect.outlineRect")
+    .style("fill-opacity", (d) => {
+      if (d._isCustomGroup || d._hiddenCustom) return 0;
+      if (showPassiveOutlines) return 0;
+      if (!showDurationChrome) return 0;
+      return durFillOpacity(d);
+    })
+  .style("stroke", (d) => {
+    if (d._isCustomGroup || d._hiddenCustom) return "none";
+    return showPassiveOutlines ? "currentColor" : "none";
+  })
+  .style("stroke-opacity", (d) => {
+    if (d._isCustomGroup || d._hiddenCustom) return 0;
+    return showPassiveOutlines ? OUTLINE_ONLY_STROKE_OPACITY : 0;
+  })
+  .style("stroke-width", showPassiveOutlines ? OUTLINE_ONLY_STROKE_WIDTH : null);
+
+  // ===== Custom polygons =====
   d3.select(customPolysRef.current)
     .selectAll("path.customGroup")
     .style("fill-opacity", (d) => {
       if (d._hiddenCustom) return 0;
+      if (showPassiveOutlines) return 0;
 
-      // On middle level, keep custom durations at the base band opacity
-      // so they don't pulse when segments are hovered.
-      if (zoomMode === "middle") {
-        return baseFill;
-      }
+      // Keep your existing "middle base fill" behavior
+      if (zoomMode === "middle") return baseFill;
 
-      // Outest level still uses full hover/active behavior
+      if (!showDurationChrome) return 0;
       return durFillOpacity(d);
-    });
-
-  // Labels: can still brighten when a segment in this duration is hovered
-  const outlineRoot = d3.select(outlinesRef.current);
-
-  outlineRoot
-    .selectAll("text.durationLabel")
-    .attr("opacity", (d) => {
-      const id = d.id;
-      const isActiveFromDuration = id === activeDurationId;
-      const isFromHoveredSeg = id === hoveredSegParentId;
-      const isHoverDuration =
-        !ignoreHoverBecauseActive && id === hoveredDurationId;
-
-      if (isActiveFromDuration || isFromHoveredSeg) {
-        return DUR_LABEL_OPACITY.active;
-      }
-      if (isHoverDuration) {
-        return DUR_LABEL_OPACITY.hover;
-      }
-      return DUR_LABEL_OPACITY.base;
-    });
-
-  // NEW: toggle .hover class on durationOutline so CSS can make label crisp white on OUTEST
-  outlineRoot
-    .selectAll("g.durationOutline")
-    .classed("hover", (d) => {
-      const id = d.id;
-      const isActiveFromDuration = id === activeDurationId;
-      const isFromHoveredSeg = id === hoveredSegParentId;
-      const isHoverDuration =
-        !ignoreHoverBecauseActive && id === hoveredDurationId;
-
-      // Only care about this visual on OUTEST zoom
-      if (zoomMode !== "outest") return false;
-
-      // Treat active / hovered-segment / hovered-duration all as "hover" for label styling
-      return isActiveFromDuration || isFromHoveredSeg || isHoverDuration;
-    });
+    })
+    .attr("stroke", (d) => showPassiveOutlines ? (d.color || "#999") : "none")
+    .attr("stroke-opacity", showPassiveOutlines ? OUTLINE_ONLY_STROKE_OPACITY : 0)
+    .attr("stroke-width", showPassiveOutlines ? OUTLINE_ONLY_STROKE_WIDTH : null);
 }
+
 
 
 function updateSegmentPreview() {
@@ -3666,8 +3679,8 @@ function updateSegmentPreview() {
 
   // Segment fill strengths (enabled for middle, and for outest when segments mode)
   const baseFill   = inSegmentsZoomBand ? 0.30 : 0.0;
-  const hoverFill  = inSegmentsZoomBand ? 0.40 : 0.0;
-  const activeFill = inSegmentsZoomBand ? 0.50 : 0.0;
+  const hoverFill  = inSegmentsZoomBand ? 0.70 : 0.0;
+  const activeFill = inSegmentsZoomBand ? 0.90 : 0.0;
 
   d3.select(segmentsRef.current)
     .selectAll("rect.segmentHit")
@@ -3883,7 +3896,7 @@ function syncHoverRaf(srcEvt) {
 }
 
 
-    // OUTLINES (filled, faint stroke)
+// OUTLINES (filled, faint stroke)
 const outlineSel = gOut
   .selectAll("g.durationOutline")
   .data(outlines, (d) => d.id)
@@ -3894,30 +3907,53 @@ const outlineSel = gOut
       .attr("data-id", (d) => d.id)
       // flag custom-group durations so CSS can treat their rects differently
       .classed("isCustomGroup", (d) => !!d._isCustomGroup)
-      // expose duration color to CSS (used by zoom-outest / zoom-middle rules)
-      .style("--dur-color", (d) => d.color || "#999");
+      // flag hidden custom MEMBERS so CSS doesn't accidentally draw their rects in None mode
+      .classed("isHiddenCustom", (d) => !!d._hiddenCustom)
 
-  g.append("rect")
-    .attr("class", "outlineRect")
-     // let CSS decide the actual fill (via currentColor + zoom-level rules)
-    .attr("stroke", "none")
-    .attr("vector-effect", "non-scaling-stroke")
-    .attr("shape-rendering", "geometricPrecision");
+      // ✅ expose duration color to CSS; also force currentColor to use it (fixes grey in NONE mode)
+      .style(
+        "--dur-color",
+        (d) => d.color || d.stroke || d.outlineColor || d.fill || "#999999"
+      )
+      .style("color", "var(--dur-color)");
+
+    g.append("rect")
+      .attr("class", "outlineRect")
+      // let CSS decide the actual fill (via currentColor + zoom-level rules)
+      .attr("stroke", "none")
+      .attr("vector-effect", "non-scaling-stroke")
+      .attr("shape-rendering", "geometricPrecision");
     // NOTE: no .attr("fill", ...) here on purpose
-
 
     g.append("text")
       .attr("class", "durationLabel")
       .attr("dy", "0.32em")
       .style("dominant-baseline", "middle")
-      .attr("fill", (d) => d.color)
+      // (optional but consistent) don't assume d.color exists
+      .attr("fill", (d) => d.color || d.stroke || d.outlineColor || d.fill || "#999999")
       .attr("opacity", DUR_LABEL_OPACITY.base)
       .style("font-weight", 600)
       .style("pointer-events", "none")
-      .text((d) => (d._isCustomGroup && d._labelText) ? d._labelText : d.name);
+      .each(function (d) {
+        const raw = (d._isCustomGroup && d._labelText) ? d._labelText : d.name;
+        const label = String(raw ?? "");
+        const lines = label.split("\n");
+
+        const t = d3.select(this);
+        t.selectAll("tspan").remove();
+        t.text(null);
+
+        // Let tspans inherit the parent's x (do NOT force x=0)
+        lines.forEach((line, i) => {
+          t.append("tspan")
+            .attr("dy", i === 0 ? "0em" : "1.05em")
+            .text(line);
+        });
+      });
 
     return g;
   });
+
 
 
     // Hide the rectangle if this is a custom GROUP (polygon handles visuals)
@@ -3968,15 +4004,24 @@ gCustom
       enter
         .append("path")
         .attr("class", "customGroup")
-        // fill uses the same duration color from durations.json
-        .attr("fill", (d) => d.color || "#999")
-        // no border stroke – hover feedback will be via fill opacity
-        .attr("stroke", "none")
+        // ✅ let CSS control fill/stroke per zoom + layer mode
+        .attr("fill", null)
+        .attr("stroke", null)
+
+        // ✅ make sure currentColor resolves correctly even if nesting/inheritance breaks
+        .style("--dur-color", (d) => d.color || d.stroke || d.outlineColor || d.fill || "#999999")
+        .style("color", "var(--dur-color)")
+
         .attr("vector-effect", "non-scaling-stroke")
         .attr("shape-rendering", "geometricPrecision"),
-    (update) => update,
+    (update) =>
+      update
+        // keep color in sync on updates too
+        .style("--dur-color", (d) => d.color || d.stroke || d.outlineColor || d.fill || "#999999")
+        .style("color", "var(--dur-color)"),
     (exit) => exit.remove()
   );
+
 
     // Hover/click on the polygon itself (zoomed-out only)
     gCustom.selectAll("path.customGroup")
@@ -4533,41 +4578,81 @@ fathersSel
 
   // labels (font scales with the band's rendered height)
   gOut.selectAll("g.durationOutline").each(function (d) {
-    const g = d3.select(this);
+  const g = d3.select(this);
 
-    const x0 = zx(toAstronomical(d.start));
-    const x1 = zx(toAstronomical(d.end));
+  const x0 = zx(toAstronomical(d.start));
+  const x1 = zx(toAstronomical(d.end));
 
-    // Default: place inside the group's full envelope
-    let labelYTop = zy(d.y);
-    let labelHPix = zy(d.y + d.h) - zy(d.y);
+  // Default: place inside the group's full envelope
+  let labelYTop = zy(d.y);
+  let labelHPix = zy(d.y + d.h) - zy(d.y);
 
-    // For custom GROUPs, use the configured anchor band (if present)
-    if (
-      d._isCustomGroup &&
-      Number.isFinite(d._labelAnchorY) &&
-      Number.isFinite(d._labelAnchorH)
-    ) {
-      labelYTop = zy(d._labelAnchorY);
-      labelHPix = zy(d._labelAnchorY + d._labelAnchorH) - zy(d._labelAnchorY);
-    }
+  // For custom GROUPs, use the configured anchor band (if present)
+  if (
+    d._isCustomGroup &&
+    Number.isFinite(d._labelAnchorY) &&
+    Number.isFinite(d._labelAnchorH)
+  ) {
+    labelYTop = zy(d._labelAnchorY);
+    labelHPix =
+      zy(d._labelAnchorY + d._labelAnchorH) - zy(d._labelAnchorY);
+  }
 
-    const maxByBand = labelHPix * LABEL_FONT_MAX_REL;
-    const fontPx = clamp(
-      labelHPix * LABEL_TO_BAND,
-      LABEL_FONT_MIN,
-      Math.min(LABEL_FONT_MAX_ABS, maxByBand)
-    );
+  const maxByBand = labelHPix * LABEL_FONT_MAX_REL;
+  const fontPx = clamp(
+    labelHPix * LABEL_TO_BAND,
+    LABEL_FONT_MIN,
+    Math.min(LABEL_FONT_MAX_ABS, maxByBand)
+  );
 
-    const labelSel = g
-      .select("text.durationLabel")
-      .attr("x", Math.min(x0, x1) + 4)
-      .attr("y", labelYTop + labelHPix / 3)
-      .style("font-size", `${fontPx}px`)
-      .text((d) =>
-        d._isCustomGroup && d._labelText ? d._labelText : d.name ?? ""
-      );
+  // ─────────────────────────────────────────────
+  // Mesopotamian-only font scale (TWEAK THIS)
+  const isMesopotamian =
+    d.name === "Mesopotamian" ||
+    String(d.name ?? "").includes("Mesopo");
 
+  const finalFontPx = isMesopotamian
+    ? fontPx * 0.5   // ← adjust later
+    : fontPx;
+  // ─────────────────────────────────────────────
+
+const labelSel = g
+  .select("text.durationLabel")
+  .attr("x", Math.min(x0, x1) + 4)
+  .attr("y", labelYTop + labelHPix / 3)
+  .style("font-size", `${finalFontPx}px`);
+
+labelSel.each(function (d) {
+  const raw =
+    d._isCustomGroup && d._labelText
+      ? d._labelText
+      : (d.name ?? "");
+
+  const label = String(raw ?? "");
+  const lines = label.split("\n");
+
+  const t = d3.select(this);
+
+  // Clear previous content
+  t.selectAll("tspan").remove();
+
+  // ✅ If it's a normal single-line label, keep classic behavior (no tspans)
+  if (lines.length <= 1) {
+    t.text(label);
+    return;
+  }
+
+  // ✅ Multi-line only: build tspans and lock x per line
+  t.text(null);
+  const x = t.attr("x");
+
+  lines.forEach((line, i) => {
+    t.append("tspan")
+      .attr("x", x)
+      .attr("dy", i === 0 ? "0em" : "1.05em")
+      .text(line);
+  });
+}); 
     // Decide visibility after sizing
     const bandW = Math.abs(x1 - x0);
     const show = shouldShowDurationLabel({
@@ -5128,12 +5213,22 @@ function updateInteractivity(k) {
   const showSegmentsLayer =
     segmentsAllowed && (zoomMode === "outest" || zoomMode === "middle") && !hasSelection;
 
+const showPassiveOutlines =
+  !hasSelection && (
+    (layerMode === "none") ||
+    (layerMode === "durations" && (zoomMode === "middle" || zoomMode === "deepest")) ||
+    (layerMode === "segments"  && (zoomMode === "deepest"))
+  );
   // Show/hide whole groups (prevents accidental hit-testing & visual collisions)
-  gOut.style("display", showDurationsLayer ? null : "none");
+  gOut.style("display", null);
   gSeg.style("display", showSegmentsLayer ? null : "none");
 
-  // Custom duration polygons: treat as "durations chrome"
-  gCustom.style("display", showDurationsLayer ? null : "none");
+  // Ensure duration labels are always above segment rects.
+  // Otherwise segment hover (fill-opacity ~0.70) paints over the text.
+  gOut.raise();
+
+  // Custom duration polygons: show in Durations mode OR outline-only in None mode
+  gCustom.style("display", (showDurationsLayer || showPassiveOutlines) ? null : "none");
 
   // Kill stale cards when mode/tier doesn't allow that layer
   if (!showDurationsLayer) clearActiveDuration();
@@ -5541,15 +5636,6 @@ flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
     });
 };
 
-
- // Dev helper: try window.flyToTest(id) from DevTools
-window.flyToTest = (id) => {
-  const t = textRows.find(x => x.id === id);
-  if (t) { flyToRef.current?.(t, "text"); return; }
-  const f = fatherRows.find(x => x.id === id);
-  if (f) { flyToRef.current?.(f, "father"); return; }
-  // no logs; silently no-op
-};
 
    if (!didInitRef.current) {
    // First time only: bind zoom and set init transform
