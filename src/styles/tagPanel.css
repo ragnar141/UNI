@@ -149,7 +149,7 @@
 .tagPanel__btn {
   padding: 8px 10px;
   border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(0, 0, 0, 0.1);
   background: #fff;
   cursor: pointer;
   font-size: 12px;
@@ -157,32 +157,49 @@
 }
 .tagPanel__btn:hover { background:#f6f7fb; }
 
+/* Active tag button (dropdown open) */
+.tagPanel__btn--open {
+  border-color: #000;        /* darker */
+  border-width: 2px;         /* thicker */
+  background: #fff;          /* keep clean */
+}
+
+/* Optional: prevent hover from fighting active state */
+.tagPanel__btn--open:hover {
+  background: #fff;
+}
+
 /* =========================
    NEW: Layer mode radios
    ========================= */
-.tagPanel__layerMode {
+.tagPanel__layerMode,
+.tagPanel__radios {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 6px 6px 10px;         /* align with other panel padding rhythm */
+  padding: 6px 6px 10px;
   background: var(--panel-bg);
 }
 
-.tagPanel__radioRow {
+.tagPanel__radioRow,
+.tagPanel__radio {
   display: flex;
   align-items: center;
   font-size: 12px;
   line-height: 1.1;
+  gap: 2px; 
   min-width: 0;
   cursor: pointer;
   user-select: none;
 }
 
+
+
 /* Make the radio black (modern browsers) */
-.tagPanel__radioRow input[type="radio"] {
+.tagPanel__radioRow input[type="radio"],
+.tagPanel__radio input[type="radio"] {
   accent-color: #000;
 }
-
 /* =========================
    Dropdown (opens to the left, portaled)
    ========================= */
@@ -195,7 +212,7 @@
   top: 0;
   right: 100%;
   margin-right: 8px;
-  width: 300px;
+  width: 230px;
 
   /* keep inside viewport */
   max-height: calc(100vh - 32px);
@@ -218,7 +235,7 @@
      0  -12px 24px rgba(0, 0, 0, 0);
 
   padding: 8px;
-  z-index: 2070;
+  z-index: 1990;
 
   translate: calc(var(--menu-offset-x) + 10px) 0;
   opacity: 0;
@@ -291,6 +308,11 @@
   overflow-wrap: anywhere;
   word-break: break-word;
   min-width: 0;
+}
+
+/* Tighter checkbox–label spacing for Visibility only */
+.tagPanel__visibility .tagPanel__row span {
+  margin-left: 2px;   /* was 8px */
 }
 
 /* Make the checkbox box + checkmark black (modern browsers) */
@@ -477,6 +499,29 @@
   top: -5px;
   right: -2px;
   z-index: 2;
+}
+
+.tagPanel__btn--inactive {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.tagPanel__btn--inactive:hover {
+  background: #fff; /* cancel hover brighten */
+}
+
+
+
+/* =========================
+   Visibility checkboxes spacing
+   ========================= */
+
+.tagPanel__visibility {
+  margin-top: 12px;        /* space below the "Visibility" header */
+  padding-left: 8px;    /* indent checkboxes to the right */
+  display: flex;
+  flex-direction: column;
+  gap: 4px;              /* vertical spacing between the three rows */
 }
 
 /* When the tag cloud is the ONLY content in a dropdown,

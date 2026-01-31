@@ -14,7 +14,14 @@ function MenuPortal({ children }) {
  *  - selectedByGroup: { [key: string]: Set<string> }
  *  - onChange: (nextSelectedByGroup) => void
  *  - layerMode: "durations" | "segments" | "none"
- *  - onLayerModeChange: (nextMode) => void
+ *  - onLayerModeChange: (mode) => void
+ *
+ *  - showTexts: boolean
+ *  - onShowTextsChange: (bool) => void
+ *  - showFathers: boolean
+ *  - onShowFathersChange: (bool) => void
+ *  - showConnections: boolean
+ *  - onShowConnectionsChange: (bool) => void
  */
 export default function TagPanel({
   groups,
@@ -22,136 +29,54 @@ export default function TagPanel({
   onChange,
   layerMode = "durations",
   onLayerModeChange = () => {},
+
+  // NEW: global visibility overrides
+  showTexts = true,
+  onShowTextsChange = () => {},
+  showFathers = true,
+  onShowFathersChange = () => {},
+  showConnections = true,
+  onShowConnectionsChange = () => {},
 }) {
   const [openKey, setOpenKey] = useState(null); // which group's menu is open
   const [isOpen, setIsOpen] = useState(false); // slide-out state (false = hidden)
 
   const panelRef = useRef(null);
   const menuRef = useRef(null); // portal menu container
-  const btnRefs = useRef(new Map()); // trigger buttons by group key
+  const btnRefs = useRef(new Map()); // groupKey -> button element
+  const lastOpenBtnRef = useRef(null); // remember which tag button opened the menu
 
-  // Floating menu position (fixed coords)
-  const [menuPos, setMenuPos] = useState({ top: 0, left: 0, width: 320 });
-
-  // ---- Tweakables (keep MENU_WIDTH in sync with CSS) ----
-  const MENU_WIDTH = 230;
-  const GAP = 12;
-  const EXTRA_LEFT = 16;
-  const VIEWPAD = 8;
-
-  // Convert Sets to quick lookup for rendering (memoized)
-  const selectedMaps = useMemo(() => {
-    const m = new Map();
-    for (const g of groups) {
-      const set = selectedByGroup[g.key] || new Set();
-      m.set(g.key, set);
-    }
-    return m;
-  }, [groups, selectedByGroup]);
-
-  const toggleMenu = (key) => {
-    setOpenKey((prev) => (prev === key ? null : key));
-  };
-
-  const handleToggleTag = (groupKey, tag) => {
-    const current = selectedByGroup[groupKey] || new Set();
-    const next = new Set(current);
-    if (next.has(tag)) next.delete(tag);
-    else next.add(tag);
-    onChange({ ...selectedByGroup, [groupKey]: next });
-  };
-
-  const handleAll = (groupKey, allTags) => {
-    onChange({ ...selectedByGroup, [groupKey]: new Set(allTags) });
-  };
-
-  const handleNone = (groupKey) => {
-    onChange({ ...selectedByGroup, [groupKey]: new Set() });
-  };
-
-  const handleTogglePanel = () => {
-    if (isOpen) setOpenKey(null);
-    setIsOpen((v) => !v);
-  };
-
-  // Close on outside click + Esc (CAPTURE phase so nothing can block it)
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const onDocDown = (e) => {
-      const panelEl = panelRef.current;
-      const portalEl = menuRef.current;
-      if (
-        (panelEl && panelEl.contains(e.target)) ||
-        (portalEl && portalEl.contains(e.target))
-      ) {
-        return;
-      }
-      setIsOpen(false);
-      setOpenKey(null);
-    };
-
-    const onKey = (e) => {
-      if (e.key === "Escape") {
-        setIsOpen(false);
-        setOpenKey(null);
-      }
-    };
-
-    document.addEventListener("pointerdown", onDocDown, true);
-    document.addEventListener("keydown", onKey, true);
-    return () => {
-      document.removeEventListener("pointerdown", onDocDown, true);
-      document.removeEventListener("keydown", onKey, true);
-    };
-  }, [isOpen]);
-
-  // Reposition the floating menu on scroll/resize while open
-  useEffect(() => {
-    if (!openKey) return;
-    const onWin = () => positionMenu({ measure: true });
-    window.addEventListener("scroll", onWin, true);
-    window.addEventListener("resize", onWin);
-    return () => {
-      window.removeEventListener("scroll", onWin, true);
-      window.removeEventListener("resize", onWin);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openKey]);
-
-  // When a menu opens, position it on the next frame so we can measure height
-  useEffect(() => {
-    if (!openKey) return;
-    const r1 = requestAnimationFrame(() => {
-      const r2 = requestAnimationFrame(() => positionMenu({ measure: true }));
-      return () => cancelAnimationFrame(r2);
-    });
-    return () => cancelAnimationFrame(r1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openKey, isOpen]);
-
-  // ---- Forced order + section labels + display-name overrides ----
-  // (NOTE: as requested, removed the "Mythical Parents & Text Tags" section,
-  // renamed "Text Tags" -> "Tags", and listed all buttons together in the desired order.)
-  const ORDER = [
-    "__layers__", // section: "Layers" (radio controls)
-    "__tags__", // section: "Tags"
-    "artsSciences",
-    "literaryForms",
-    "literaryContent", // shown as "Literary Themes"
-    "metaphysical",
-    "socioPolitical",
-    "comtean", // shown as "Comtean Framework"
-    "jungian",
-    "neumann",
-    "symbolicSystems",
+  // Order + sectioning: layers + visibility + tags + groups
+const ORDER = [
+  "__layers__",       // section: "Layers" (radio controls)
+  "__visibility__",
+    "__tags__",         // section: "Tags"
+  "artsSciences",
+  "literaryForms",
+  "literaryContent",
+  "metaphysical",
+  "socioPolitical",
+  "comtean",
+  "jungian",
+  "neumann",
+  "symbolicSystems",
   ];
-
   // Panel-only label overrides (does not mutate incoming group objects)
   const LABEL_OVERRIDES = {
     literaryContent: "Literary Themes",
     comtean: "Comtean Framework",
   };
+
+  // When texts are globally hidden, these tag groups are effectively irrelevant.
+  // We'll render their buttons in a "faint/disabled-looking" style.
+  const TEXT_DEPENDENT_GROUP_KEYS = new Set([
+    "artsSciences",
+    "literaryForms",
+    "literaryContent",
+    "metaphysical",
+    "socioPolitical",
+    "comtean",
+  ]);
 
   // Custom tag orders for specific groups (others stay alphabetical)
   const CUSTOM_ORDERS = {
@@ -162,113 +87,272 @@ export default function TagPanel({
       "Synthetic Literature",
     ],
     metaphysical: [
-      "Apophatic–Aporetic (Unknowable)",
-      "Phenomenology (Experiential)",
-      "Pluralism (Multiplicities)",
-      "Grid (Systematic Structuralism)",
-      "Clockwork (Causal Determinism)",
-      "Monism (Single Principle)",
-      "Dialectics (Conflict)",
-      "Becoming (Process Ontology)",
-      "Subversion (Negation)",
+      "Apophatic–Aporetic (Unknowability)",
+      "Phenomenology–Idealism (Experience)",
+      "Dualism–Non-Dualism (Unity)",
+      "Grid–Continuum (Ontology)",
+      "Ritual–Ethics (Practice)",
+      "Dialectics–Argumentation (Reason)",
+      "Time–Eternity (Temporality)",
+      "Self–No-Self (Subjectivity)",
+      "None Applicable",
     ],
-    neumann: [
-      "Uroboric Stage",
-      "Separation from World Parents",
-      "Isolation",
-      "Initiation",
-      "Magical Empowerment",
-      "Divine Intervention",
-      "Battle with the Dragon",
-      "Ego Collapse",
-      "Descent into the Underworld",
-      "Death",
-      "Rebirth",
-      "Ego Transcendence",
-      "Return to the Community",
-      "Coronation of the King",
-      "Mythic Ordering of Reality",
+    socioPolitical: [
+      "Priestly",
+      "Warrior",
+      "Bureaucratic",
+      "Merchant",
+      "Artisan",
+      "Rural",
+      "Imperial",
+      "Tribal",
+      "Urban",
+      "None Applicable",
     ],
   };
 
-  const groupsByKey = useMemo(
-    () => new Map(groups.map((g) => [g.key, g])),
-    [groups]
-  );
-
+  // Build ordered groups list with section headers
   const orderedGroups = useMemo(() => {
-    const seen = new Set();
+    const groupsByKey = new Map((groups || []).map((g) => [g.key, g]));
     const out = [];
+
     for (const key of ORDER) {
       if (key === "__layers__") {
         out.push({ __section: true, label: "Layers", key });
+        continue;
+      }
+      if (key === "__visibility__") {
+        out.push({ __section: true, label: "Visibility", key });
         continue;
       }
       if (key === "__tags__") {
         out.push({ __section: true, label: "Tags", key });
         continue;
       }
+
       const g = groupsByKey.get(key);
-      if (g) {
-        out.push(g);
-        seen.add(key);
-      }
+      if (!g) continue;
+      out.push(g);
     }
-    // Append any groups not explicitly ordered (keeps backward compatibility)
-    for (const g of groups) {
-      if (!seen.has(g.key)) out.push(g);
+
+    // Append any leftover groups not in ORDER (stable)
+    for (const g of groups || []) {
+      if (!ORDER.includes(g.key)) out.push(g);
     }
+
     return out;
-  }, [groups, groupsByKey]);
+  }, [groups]);
 
-  // ---- Floating menu positioning (relative to the PANEL, not the button) ----
-  function positionMenu({ measure = false } = {}) {
-    const panelEl = panelRef.current;
-    if (!panelEl) return;
-
-    const panelRect = panelEl.getBoundingClientRect();
-
-    const width = MENU_WIDTH;
-    let left = panelRect.left - width - GAP - EXTRA_LEFT;
-
-    const panelCenter = panelRect.top + panelRect.height / 2;
-
-    let menuH = 300;
-    if (measure && menuRef.current && menuRef.current.offsetHeight) {
-      menuH = menuRef.current.offsetHeight;
+  // Convert selectedByGroup into maps for stable lookups
+  const selectedMaps = useMemo(() => {
+    const m = new Map();
+    for (const [k, v] of Object.entries(selectedByGroup || {})) {
+      m.set(k, v instanceof Set ? v : new Set(v || []));
     }
+    return m;
+  }, [selectedByGroup]);
 
-    let top = Math.round(panelCenter - menuH / 2);
+ // Position the floating portal menu so it slides out to the LEFT of the panel,
+// and is vertically centered relative to the clicked button.
+function positionMenu({ measure } = { measure: false }) {
+  const key = openKey;
+  if (!key) return;
 
-    const minTop = VIEWPAD;
-    const maxTop = Math.max(VIEWPAD, window.innerHeight - menuH - VIEWPAD);
-    if (top < minTop) top = minTop;
-    if (top > maxTop) top = maxTop;
+  const btnEl = btnRefs.current.get(key);
+  const menuEl = menuRef.current;
+  const panelEl = panelRef.current;
+  if (!btnEl || !menuEl || !panelEl) return;
 
-    const minLeft = 4;
-    if (left < minLeft) left = minLeft;
+  // Make sure positioning is viewport-based (we use getBoundingClientRect)
+  menuEl.style.position = "fixed";
 
-    setMenuPos({ top, left, width });
+  const btnRect = btnEl.getBoundingClientRect();
+  const panelRect = panelEl.getBoundingClientRect();
+
+  // Measure menu AFTER it's in the DOM
+  const menuRect = menuEl.getBoundingClientRect();
+
+  const gap = 8;        // space between panel edge and menu
+  const pad = 10;       // viewport padding for clamping
+
+  // Align the menu's RIGHT edge to the panel's LEFT edge (tucked-under feel)
+  let left = panelRect.left - gap - menuRect.width;
+
+  // Vertically center relative to the clicked button
+  let top =
+  panelRect.top +
+  panelRect.height / 2 -
+  menuRect.height / 2;
+
+  // Clamp to viewport
+  left = Math.max(pad, Math.min(left, window.innerWidth - menuRect.width - pad));
+  top = Math.max(pad, Math.min(top, window.innerHeight - menuRect.height - pad));
+
+  menuEl.style.left = `${left}px`;
+  menuEl.style.top = `${top}px`;
+
+  if (measure) {
+    // Force reflow for measurement when needed
+    // eslint-disable-next-line no-unused-expressions
+    menuEl.offsetHeight;
+  }
+}
+
+  function closeMenu() {
+  setOpenKey(null);
+
+  // If Esc closed the menu, the trigger button may still be focused (focus-visible styles).
+  // Blur it so border returns to normal.
+  requestAnimationFrame(() => {
+    lastOpenBtnRef.current?.blur?.();
+    lastOpenBtnRef.current = null;
+  });
+}
+
+
+  function toggleMenu(key) {
+    setOpenKey((prev) => (prev === key ? null : key));
   }
 
-  // --- badge helper (local) ---
+  function toggleTag(groupKey, tag) {
+    const next = { ...(selectedByGroup || {}) };
+    const cur =
+      next[groupKey] instanceof Set
+        ? next[groupKey]
+        : new Set(next[groupKey] || []);
+
+    if (cur.has(tag)) cur.delete(tag);
+    else cur.add(tag);
+
+    next[groupKey] = cur;
+    onChange(next);
+  }
+
+  function setAllTagsForGroup(groupKey, allTags) {
+  const next = { ...(selectedByGroup || {}) };
+  next[groupKey] = new Set(allTags || []);
+  onChange(next);
+  }
+
+function clearAllTagsForGroup(groupKey) {
+  const next = { ...(selectedByGroup || {}) };
+  next[groupKey] = new Set();
+  onChange(next);
+  }
+
+  // Close on outside click + Esc (CAPTURE phase so nothing can block it)
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const onDocDown = (e) => {
+      const panelEl = panelRef.current;
+      const portalEl = menuRef.current;
+
+      if (
+        (panelEl && panelEl.contains(e.target)) ||
+        (portalEl && portalEl.contains(e.target))
+      ) {
+        return;
+      }
+
+      setIsOpen(false);
+      setOpenKey(null);
+    };
+
+const onKey = (e) => {
+  if (e.key !== "Escape") return;
+
+  // Stop other Escape handlers in the app from also running.
+  e.preventDefault();
+  e.stopPropagation();
+  if (typeof e.stopImmediatePropagation === "function") {
+    e.stopImmediatePropagation();
+  }
+
+if (openKey) {
+  closeMenu();
+  return;
+}
+  setIsOpen(false);
+  setOpenKey(null);
+};
+
+
+    document.addEventListener("pointerdown", onDocDown, true);
+    document.addEventListener("keydown", onKey, true);
+    return () => {
+      document.removeEventListener("pointerdown", onDocDown, true);
+      document.removeEventListener("keydown", onKey, true);
+    };
+}, [isOpen, openKey]);
+
+
+  // Reposition the floating menu on scroll/resize while open
+  useEffect(() => {
+    if (!openKey) return;
+    const onWin = () => positionMenu({ measure: true });
+
+    window.addEventListener("scroll", onWin, true);
+    window.addEventListener("resize", onWin);
+
+    return () => {
+      window.removeEventListener("scroll", onWin, true);
+      window.removeEventListener("resize", onWin);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [isOpen, openKey]);
+
+  // If texts are hidden while a text-dependent menu is open, close that menu.
+  useEffect(() => {
+    if (!openKey) return;
+    if (!showTexts && TEXT_DEPENDENT_GROUP_KEYS.has(openKey)) {
+      setOpenKey(null);
+    }
+  }, [showTexts, openKey]);
+
+  
+
+  // If BOTH texts and fathers are hidden, connections become meaningless;
+  // auto-disable connections and close any open menu.
+  useEffect(() => {
+    const nothingRenderable = !showTexts && !showFathers;
+    if (!nothingRenderable) return;
+
+    // force connections off
+    if (showConnections) onShowConnectionsChange(false);
+
+    // close any open tag dropdown
+    if (openKey) setOpenKey(null);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showTexts, showFathers]);
+
+  // When a menu opens, position it on the next frame so we can measure height
+  useEffect(() => {
+    if (!openKey) return;
+
+    const r1 = requestAnimationFrame(() => {
+      const r2 = requestAnimationFrame(() => positionMenu({ measure: true }));
+      return () => cancelAnimationFrame(r2);
+    });
+
+    return () => cancelAnimationFrame(r1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openKey]);
+
   function renderCountBadge(count, total) {
-    const text = `${count}/${total}`;
+    // Show "count/total" for quick sense of filtering
     return (
-      <span
-        className="tagPanel__badge"
-        aria-label={`${count} of ${total} selected`}
-      >
-        {text}
+      <span className="tagPanel__count">
+        {count}/{total}
       </span>
     );
   }
 
-  // --- layer mode radios ---
   function renderLayerRadios() {
     return (
-      <div className="tagPanel__layerMode" role="radiogroup" aria-label="Timeline layers">
-        <label className="tagPanel__radioRow">
+      <div className="tagPanel__radios">
+        <label className="tagPanel__radio">
           <input
             type="radio"
             name="layerMode"
@@ -276,10 +360,10 @@ export default function TagPanel({
             checked={layerMode === "durations"}
             onChange={() => onLayerModeChange("durations")}
           />
-          <span style={{ marginLeft: 8 }}>Durations</span>
+          <span>Durations</span>
         </label>
 
-        <label className="tagPanel__radioRow">
+        <label className="tagPanel__radio">
           <input
             type="radio"
             name="layerMode"
@@ -287,10 +371,10 @@ export default function TagPanel({
             checked={layerMode === "segments"}
             onChange={() => onLayerModeChange("segments")}
           />
-          <span style={{ marginLeft: 8 }}>Segments</span>
+          <span>Segments</span>
         </label>
 
-        <label className="tagPanel__radioRow">
+        <label className="tagPanel__radio">
           <input
             type="radio"
             name="layerMode"
@@ -298,7 +382,41 @@ export default function TagPanel({
             checked={layerMode === "none"}
             onChange={() => onLayerModeChange("none")}
           />
-          <span style={{ marginLeft: 8 }}>None</span>
+          <span>None</span>
+        </label>
+      </div>
+    );
+  }
+
+  // --- global visibility toggles ---
+  function renderVisibilityToggles() {
+    return (
+      <div className="tagPanel__visibility">
+        <label className="tagPanel__row">
+          <input
+            type="checkbox"
+            checked={!!showTexts}
+            onChange={(e) => onShowTextsChange(e.target.checked)}
+          />
+          <span style={{ marginLeft: 2 }}>Texts</span>
+        </label>
+
+        <label className="tagPanel__row">
+          <input
+            type="checkbox"
+            checked={!!showFathers}
+            onChange={(e) => onShowFathersChange(e.target.checked)}
+          />
+          <span style={{ marginLeft: 2 }}>Fathers</span>
+        </label>
+
+        <label className="tagPanel__row">
+          <input
+            type="checkbox"
+            checked={!!showConnections}
+            onChange={(e) => onShowConnectionsChange(e.target.checked)}
+          />
+          <span style={{ marginLeft: 2 }}>Connections</span>
         </label>
       </div>
     );
@@ -306,52 +424,42 @@ export default function TagPanel({
 
   return (
     <div
-      id="tagPanel"
-      ref={panelRef}
       className={`tagPanelWrap ${
         isOpen ? "tagPanelWrap--open" : "tagPanelWrap--closed"
       }`}
-      aria-hidden={!isOpen}
-      onMouseDown={(e) => e.stopPropagation()}
+      ref={panelRef}
     >
-      {/* FILTERS tab */}
+      {/* Attached vertical tab */}
       <button
         type="button"
         className="tagPanel__tab"
-        aria-expanded={isOpen}
-        aria-controls="tagPanel"
-        aria-hidden={isOpen}
-        tabIndex={isOpen ? -1 : 0}
         onClick={() => {
-          setIsOpen(true);
-          setOpenKey(null);
+          setIsOpen((v) => !v);
+          if (isOpen) setOpenKey(null);
         }}
-        title="Toggle filters"
+        aria-expanded={isOpen}
       >
         FILTERS
       </button>
-
-      {/* Panel X close */}
       {isOpen && (
-        <button
-          type="button"
-          className="tagPanel__close tagPanel__panelClosePos"
-          aria-label="Close filters"
-          title="Close"
-          onClick={() => {
-            setIsOpen(false);
-            setOpenKey(null);
-          }}
-        >
-          ×
-        </button>
-      )}
+  <button
+    type="button"
+    className="tagPanel__close tagPanel__panelClosePos"
+    onClick={() => {
+      setIsOpen(false);
+      setOpenKey(null);
+    }}
+    aria-label="Close filters"
+    title="Close"
+  >
+    ×
+  </button>
+)}
 
-      {/* Panel content */}
+      {/* Inner scrollable area */}
       <div className="tagPanel__content">
         {orderedGroups.map((g) => {
           if (g.__section) {
-            // Special section: Layers (radio controls)
             if (g.key === "__layers__") {
               return (
                 <div key={g.key}>
@@ -361,7 +469,15 @@ export default function TagPanel({
               );
             }
 
-            // Normal section label (Tags)
+            if (g.key === "__visibility__") {
+              return (
+                <div key={g.key}>
+                  <div className="tagPanel__sectionLabel">{g.label}</div>
+                  {renderVisibilityToggles()}
+                </div>
+              );
+            }
+
             return (
               <div key={g.key} className="tagPanel__sectionLabel">
                 {g.label}
@@ -374,15 +490,11 @@ export default function TagPanel({
           const count = set.size;
           const isDropdownOpen = openKey === g.key;
 
-          // checklist items for this group
           let items = [...g.allTags];
 
           const customOrder = CUSTOM_ORDERS[g.key];
-
           if (customOrder) {
-            // map tag -> index in custom order
             const indexMap = new Map(customOrder.map((name, idx) => [name, idx]));
-
             items.sort((a, b) => {
               const ia = indexMap.has(a)
                 ? indexMap.get(a)
@@ -390,19 +502,14 @@ export default function TagPanel({
               const ib = indexMap.has(b)
                 ? indexMap.get(b)
                 : Number.POSITIVE_INFINITY;
-
               if (ia !== ib) return ia - ib;
-              // if both unknown (or same slot), fall back to alpha
               return a.localeCompare(b, "en", { sensitivity: "base" });
             });
           } else {
-            // default: pure alphabetical
-            items.sort((a, b) =>
-              a.localeCompare(b, "en", { sensitivity: "base" })
-            );
+            items.sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
           }
 
-          // Force "None Applicable" to be the last option for ANY group
+          // Force "None Applicable" last
           {
             const NA = "None Applicable";
             const ix = items.indexOf(NA);
@@ -417,8 +524,18 @@ export default function TagPanel({
               ? "tagPanel__menuList tagPanel__menuList--twoCols"
               : "tagPanel__menuList";
 
-          // panel display label (respect overrides)
           const displayLabel = LABEL_OVERRIDES[g.key] ?? g.label;
+
+          const nothingRenderable = !showTexts && !showFathers;
+
+          const isTextDependent = TEXT_DEPENDENT_GROUP_KEYS.has(g.key);
+          const isInactiveBecauseTextsHidden = !showTexts && isTextDependent;
+
+          // If nothing renders, ALL tag groups are useless.
+          const isInactiveAllTags = nothingRenderable;
+
+          // Final inactive flag for the group button
+          const isInactive = isInactiveAllTags || isInactiveBecauseTextsHidden;
 
           return (
             <div key={g.key} style={{ position: "relative" }}>
@@ -428,8 +545,19 @@ export default function TagPanel({
                   if (el) btnRefs.current.set(g.key, el);
                   else btnRefs.current.delete(g.key);
                 }}
-                onClick={() => toggleMenu(g.key)}
-                className="tagPanel__btn"
+onClick={(e) => {
+  if (isInactive) return;
+
+  // Remember this button so we can blur it on Esc-close
+  lastOpenBtnRef.current = e.currentTarget;
+
+  toggleMenu(g.key);
+}}
+                className={`tagPanel__btn
+                  ${isInactive ? "tagPanel__btn--inactive" : ""}
+                  ${isDropdownOpen ? "tagPanel__btn--open" : ""}
+                `}
+                aria-disabled={isInactive}
                 aria-expanded={isDropdownOpen}
                 aria-controls={`menu-${g.key}`}
                 title={displayLabel}
@@ -440,74 +568,63 @@ export default function TagPanel({
               {isDropdownOpen && (
                 <MenuPortal>
                   <div
-                    ref={menuRef}
-                    id={`menu-${g.key}`}
-                    role="menu"
-                    className="tagPanel__dropdown"
-                    style={{
-                      position: "fixed",
-                      top: `${menuPos.top}px`,
-                      left: `${menuPos.left}px`,
-                      width: `${menuPos.width}px`,
-                      maxHeight: "calc(100vh - 32px)",
-                      zIndex: 9999,
-                      transform: "none",
-                    }}
-                    onMouseDown={(e) => e.stopPropagation()}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {/* Header (title + corner X) */}
-                    <div className="tagPanel__menuHeader">
-                      <span style={{ fontWeight: 600 }}>{displayLabel}</span>
-                      <button
-                        type="button"
-                        className="tagPanel__close tagPanel__close--menu"
-                        aria-label="Close menu"
-                        title="Close"
-                        onClick={() => setOpenKey(null)}
-                      >
-                        ×
-                      </button>
-                    </div>
+  ref={menuRef}
+  id={`menu-${g.key}`}
+  className="tagPanel__dropdown"
+  role="dialog"
+  aria-label={`${displayLabel} tags`}
+>
+  <div className="tagPanel__menuHeader">
+    <span>{displayLabel}</span>
 
-                    {/* Scroll body: toolbar + list, clipped under header divider */}
-                    <div className="tagPanel__scrollBody">
-                      {/* Toolbar under divider, aligned with first tag */}
-                      <div className="tagPanel__toolbar">
-                        <button
-                          type="button"
-                          onClick={() => handleAll(g.key, g.allTags)}
-                          className="tagPanel__miniBtn"
-                        >
-                          All
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleNone(g.key)}
-                          className="tagPanel__miniBtn"
-                        >
-                          None
-                        </button>
-                      </div>
+    <button
+      type="button"
+      className="tagPanel__close tagPanel__close--menu"
+      onClick={() => setOpenKey(null)}
+      aria-label="Close menu"
+      title="Close"
+    >
+      ×
+    </button>
+  </div>
 
-                      {/* List */}
-                      <div className={listClass}>
-                        {items.map((tag) => {
-                          const checked = set.has(tag);
-                          return (
-                            <label key={tag} className="tagPanel__row">
-                              <input
-                                type="checkbox"
-                                checked={checked}
-                                onChange={() => handleToggleTag(g.key, tag)}
-                              />
-                              <span style={{ marginLeft: 8 }}>{tag}</span>
-                            </label>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
+  <div className="tagPanel__toolbar">
+  <button
+    type="button"
+    className="tagPanel__miniBtn"
+    onClick={() => setAllTagsForGroup(g.key, items)}
+  >
+    All
+  </button>
+
+  <button
+    type="button"
+    className="tagPanel__miniBtn"
+    onClick={() => clearAllTagsForGroup(g.key)}
+  >
+    None
+  </button>
+</div>
+
+  <div className="tagPanel__scrollBody">
+    <div className={listClass}>
+      {items.map((tag) => {
+        const checked = set.has(tag);
+        return (
+          <label key={tag} className="tagPanel__row">
+            <input
+              type="checkbox"
+              checked={checked}
+              onChange={() => toggleTag(g.key, tag)}
+            />
+            <span>{tag}</span>
+          </label>
+        );
+      })}
+    </div>
+  </div>
+</div>
+
                 </MenuPortal>
               )}
             </div>

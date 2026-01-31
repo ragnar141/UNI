@@ -2064,6 +2064,11 @@ export default function Timeline() {
   const [visibleIds, setVisibleIds] = useState(() => new Set());
   const [layerMode, setLayerMode] = useState("none");
 
+  // Global visibility overrides (panel checkboxes)
+  const [showTexts, setShowTexts] = useState(true);
+  const [showFathers, setShowFathers] = useState(true);
+  const [showConnections, setShowConnections] = useState(true);
+
   // Keep a ref so RAF/D3 handlers always see the latest mode (no stale closures)
   const layerModeRef = useRef(layerMode);
   useEffect(() => {
@@ -2569,15 +2574,16 @@ const tags = {
 
 
   // New: filtered (visible) rows based on selected tags
-const visTextRows = useMemo(
-  () => (textRows || []).filter(r => itemPassesFilters(r, "text", selectedByGroup)),
-  [textRows, selectedByGroup]
-);
+const visTextRows = useMemo(() => {
+  if (!showTexts) return [];
+  return (textRows || []).filter(r => itemPassesFilters(r, "text", selectedByGroup));
+}, [textRows, selectedByGroup, showTexts]);
 
-const visFatherRows = useMemo(
-  () => (fatherRows || []).filter(r => itemPassesFilters(r, "father", selectedByGroup)),
-  [fatherRows, selectedByGroup]
-);
+const visFatherRows = useMemo(() => {
+  if (!showFathers) return [];
+  return (fatherRows || []).filter(r => itemPassesFilters(r, "father", selectedByGroup));
+}, [fatherRows, selectedByGroup, showFathers]);
+
 
   const textMarks = useMemo(() => (visTextRows || []).map(t => ({
   id: t.id,
@@ -3038,7 +3044,27 @@ function renderConnections(zx, zy, k) {
   const baseOpacity = CONNECTION_BASE_OPACITY;
   const highlightOpacity = CONNECTION_HIGHLIGHT_OPACITY;
 
-  const data = allConnectionRowsRef.current || [];
+  const allData = allConnectionRowsRef.current || [];
+
+// If connections are globally hidden, only show those that touch the current selection.
+// (Selection overrides the checkbox; hover does NOT.)
+const hasSelection = !!(selText || selFather);
+
+const data = showConnections
+  ? allData
+  : (!hasSelection
+      ? []
+      : allData.filter(d => (
+          (selText && (
+            (d.aType === "text" && d.aId === selText.id) ||
+            (d.bType === "text" && d.bId === selText.id)
+          )) ||
+          (selFather && (
+            (d.aType === "father" && d.aId === selFather.id) ||
+            (d.bType === "father" && d.bId === selFather.id)
+          ))
+        )));
+
   const g = d3.select(connectionsRef.current);
 
   const sel = g
@@ -5734,6 +5760,12 @@ return (
       onChange={setSelectedByGroup}
       layerMode={layerMode}
       onLayerModeChange={setLayerMode}
+      showTexts={showTexts}
+      onShowTextsChange={setShowTexts}
+      showFathers={showFathers}
+      onShowFathersChange={setShowFathers}
+      showConnections={showConnections}
+      onShowConnectionsChange={setShowConnections}
     />
 
     <svg
