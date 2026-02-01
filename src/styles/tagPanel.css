@@ -510,6 +510,10 @@
   background: #fff; /* cancel hover brighten */
 }
 
+.focus-hidden {
+  display: none !important;
+}
+
 
 
 /* =========================

@@ -79,6 +79,10 @@ const TEXT_BASE_R = 0.4;       // at k=1
 const HOVER_SCALE_DOT = 1.6;   // how much bigger a dot gets on hover
 const HOVER_SCALE_FATHER = 1.6; 
 const ZOOM_THRESHOLD = 4.0;
+
+const DIM_NODE_OPACITY = 0.12;            // texts/fathers that are NOT relevant during selection
+const DIM_CONNECTION_OPACITY = 0.03;     // irrelevant connections when showConnections is ON
+
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
 const CIV_TEXT_SCALE = 1.6; // tweak to taste
@@ -878,7 +882,7 @@ function bandRectPx({ start, end, y, h }, zx, zy) {
 
 function drawTextDot(circleSel, pieSel, k, d){
   const r = textBaseR(d) * k;
-  circleSel.attr("r", r).attr("opacity", BASE_OPACITY);
+  circleSel.attr("r", r); // do NOT set opacity here
   if (!pieSel.empty()) drawSlicesAtRadius(pieSel, r);
 }
 
@@ -2013,6 +2017,10 @@ export default function Timeline() {
   const awaitingCloseClickSegRef = useRef(false);
   
   const zoomDraggingRef = useRef(false);
+
+  const relevantTextIdsRef = useRef(new Set());
+  const relevantFatherIdsRef = useRef(new Set());
+
   const clipId = useId();
     function logRenderedCounts() {
     // Count *rendered* marks (current DOM), not dataset sizes
@@ -2062,13 +2070,12 @@ export default function Timeline() {
   const fatherCardRef = useRef(null);
 
   const [visibleIds, setVisibleIds] = useState(() => new Set());
-  const [layerMode, setLayerMode] = useState("none");
+  const [layerMode, setLayerMode] = useState("durations");
 
   // Global visibility overrides (panel checkboxes)
   const [showTexts, setShowTexts] = useState(true);
   const [showFathers, setShowFathers] = useState(true);
-  const [showConnections, setShowConnections] = useState(true);
-
+  const [showConnections, setShowConnections] = useState(false);
   // Keep a ref so RAF/D3 handlers always see the latest mode (no stale closures)
   const layerModeRef = useRef(layerMode);
   useEffect(() => {
@@ -2749,7 +2756,7 @@ function redrawFatherAtRadius(gFather, d, r) {
     .attr("y1", (s) => s.y1)
     .attr("x2", (s) => s.x2)
     .attr("y2", (s) => s.y2)
-    .attr("stroke-width", w);
+    .attr("stroke-width", (s) => (s.type === "mid" ? w * 2.0 : w));
 
   // Outer border path
   const borderPath = isConcept
@@ -3113,9 +3120,13 @@ const data = showConnections
           (d.bType === "father" && d.bId === hoveredFatherId)
         ));
 
-      return (touchesSelected || touchesHovered)
-        ? highlightOpacity
-        : baseOpacity;
+if (touchesSelected || touchesHovered) return highlightOpacity;
+
+// If a selection exists and we're drawing *all* connections (showConnections ON),
+// dim non-relevant connections further.
+if (hasSelection && showConnections) return DIM_CONNECTION_OPACITY;
+
+return baseOpacity;
     });
 }
 
@@ -3279,6 +3290,79 @@ useEffect(() => {
   y0,
   renderConnections,
 ]);
+
+function computeRelevantIdSets() {
+  const relTexts = new Set();
+  const relFathers = new Set();
+
+  const selText = selectedText;
+  const selFather = selectedFather;
+  const hasSel = !!(selText || selFather);
+
+  if (!hasSel) {
+    return { relTexts, relFathers };
+  }
+
+  const selType = selText ? "text" : "father";
+  const selId = selText ? selText.id : selFather.id;
+
+  // Always include the selected node itself
+  if (selType === "text") relTexts.add(selId);
+  else relFathers.add(selId);
+
+  const allData = allConnectionRowsRef.current || [];
+  for (const d of allData) {
+    const aHit = d.aType === selType && d.aId === selId;
+    const bHit = d.bType === selType && d.bId === selId;
+    if (!aHit && !bHit) continue;
+
+    // Add the opposite endpoint as relevant
+    const otherType = aHit ? d.bType : d.aType;
+    const otherId   = aHit ? d.bId   : d.aId;
+
+    if (otherType === "text") relTexts.add(otherId);
+    if (otherType === "father") relFathers.add(otherId);
+  }
+
+  return { relTexts, relFathers };
+}
+
+
+  // NEW: compute relevant (1-hop) ids whenever selection changes
+useEffect(() => {
+  const { relTexts, relFathers } = computeRelevantIdSets();
+  relevantTextIdsRef.current = relTexts;
+  relevantFatherIdsRef.current = relFathers;
+
+  // Apply dimming immediately (apply() only runs on zoom/pan otherwise)
+  if (!textsRef.current || !fathersRef.current) return;
+
+  const hasSel = !!(selectedText || selectedFather);
+  const relT = relevantTextIdsRef.current;
+  const relF = relevantFatherIdsRef.current;
+
+  const gTexts = d3.select(textsRef.current);
+  const gFathers = d3.select(fathersRef.current);
+
+  gTexts.selectAll("circle.textDot")
+    .attr("opacity", d => {
+      if (!hasSel) return BASE_OPACITY;
+      return relT.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
+    }, "important");
+
+  gTexts.selectAll("g.dotSlices")
+    .style("opacity", d => {
+      if (!hasSel) return BASE_OPACITY;
+      return relT.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
+    }, "important");
+
+  gFathers.selectAll("g.fatherMark")
+    .attr("opacity", d => {
+      if (!hasSel) return BASE_OPACITY;
+      return relF.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
+    }, "important");
+}, [selectedText, selectedFather]);
+
 
 
   // Re-apply connection styling when selected text/father changes
@@ -4212,18 +4296,28 @@ d3.select(this)
         }
 
 
-const titleLine = d.title || "";
-const html = tipHTML(titleLine, d.displayDate || formatYear(d.when));
-const a = textAnchorClient(this, d);
-if (a) showTip(tipText, html, a.x, a.y, d.color);
+const isSelected = selectedText && selectedText.id === d.id;
+if (!isSelected) {
+  const titleLine = d.title || "";
+  const html = tipHTML(titleLine, d.displayDate || formatYear(d.when));
+  const a = textAnchorClient(this, d);
+  if (a) showTip(tipText, html, a.x, a.y, d.color);
+} else {
+  hideTipSel(tipText);
+}
 
       })
       .on("mousemove", function (_ev, d) {
 
-const titleLine = d.title || "";
-const html = tipHTML(titleLine, d.displayDate || formatYear(d.when));
-const a = textAnchorClient(this, d);
-if (a) showTip(tipText, html, a.x, a.y, d.color);
+const isSelected = selectedText && selectedText.id === d.id;
+if (!isSelected) {
+  const titleLine = d.title || "";
+  const html = tipHTML(titleLine, d.displayDate || formatYear(d.when));
+  const a = textAnchorClient(this, d);
+  if (a) showTip(tipText, html, a.x, a.y, d.color);
+} else {
+  hideTipSel(tipText);
+}
 
       })
 .on("mouseleave", function (_ev, d) {
@@ -4763,6 +4857,55 @@ gTexts
     d => !!selectedText && selectedText.id === d.id
   );
 
+// === Relevance dimming (visual only) ===
+const hasSel = !!(selectedText || selectedFather);
+const relTexts = relevantTextIdsRef.current;
+const relFathers = relevantFatherIdsRef.current;
+
+gTexts.selectAll("circle.textDot")
+  .style("opacity", d => {
+    // 🔴 hide selected text icon completely
+    if (selectedText && selectedText.id === d.id) return 0;
+
+    if (!hasSel) return BASE_OPACITY;
+    return relTexts.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
+  }, "important");
+
+
+// Stronger dimming for pies: dim wedges + separators directly
+gTexts.selectAll("g.dotSlices").each(function (d) {
+  // 🔴 hide selected text pie completely
+  if (selectedText && selectedText.id === d.id) {
+    const g = d3.select(this);
+    g.selectAll("path.slice").style("fill-opacity", 0, "important");
+    g.selectAll("line.sep").style("stroke-opacity", 0, "important");
+    return;
+  }
+
+  const isRel = !hasSel || relTexts.has(d.id);
+  const o = isRel ? BASE_OPACITY : DIM_NODE_OPACITY;
+
+  const g = d3.select(this);
+
+  g.selectAll("path.slice")
+    .style("fill-opacity", o, "important");
+
+  g.selectAll("line.sep")
+    .style("stroke-opacity", o, "important");
+});
+
+
+gFathers.selectAll("g.fatherMark")
+  .style("opacity", d => {
+    // 🔴 hide selected father icon completely
+    if (selectedFather && selectedFather.id === d.id) return 0;
+
+    if (!hasSel) return BASE_OPACITY;
+    return relFathers.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
+  }, "important");
+
+
+
 // --- Selected TEXT pin (circle-in-pin) ---
 const textPinData =
   selectedText ? [selectedText] : [];
@@ -4886,9 +5029,7 @@ gTexts.selectAll("g.dotSlices").each(function (d) {
   const rDraw = isSelected ? rBase * HOVER_SCALE_DOT : rBase;
 
   const g = d3.select(this);
-  g.attr("transform", `translate(${cx},${cy})`)
-    .style("opacity", isSelected ? 1 : BASE_OPACITY);
-
+  g.attr("transform", `translate(${cx},${cy})`);
   drawSlicesAtRadius(g, rDraw);
 });
 
@@ -4965,7 +5106,7 @@ d3.select(this)
   .attr("y1", (s) => s.y1)
   .attr("x2", (s) => s.x2)
   .attr("y2", (s) => s.y2)
-  .attr("stroke-width", w)
+  .attr("stroke-width", (s) => (s.type === "mid" ? w * 2.0 : w))
   .style("opacity", showOverlays ? 1 : 0);
 
 // 3) Outer border (triangle default, square for Concept)
@@ -5135,8 +5276,8 @@ fatherPinSel
       .attr("y1", (s) => s.y1)
       .attr("x2", (s) => s.x2)
       .attr("y2", (s) => s.y2)
-      .attr("stroke-width", showOverlays ? w : 0)
-      .attr("opacity", showOverlays ? 0.9 : 0);
+      .attr("stroke-width", showOverlays ? 2*w : 0)
+      .attr("opacity", showOverlays ? 1 : 0);
   });
 
 
@@ -5201,6 +5342,8 @@ fatherPinSel
 
   renderConnections(zx, zy, k);
 }
+
+
 
 function updateInteractivity(k) {
   const hasSelection = !!(selectedText || selectedFather);
@@ -5272,10 +5415,17 @@ const showPassiveOutlines =
     gCustom.selectAll("path.customGroup")
       .style("pointer-events", "none");
 
-    gTexts.selectAll("circle.textDot")
-      .style("pointer-events", nodesHot ? "all" : "none");
-    gFathers.selectAll("g.fatherMark")
-      .style("pointer-events", nodesHot ? "all" : "none");
+gTexts.selectAll("circle.textDot")
+  .style("pointer-events", d => {
+    if (!nodesHot) return "none";
+    return relevantTextIdsRef.current.has(d.id) ? "all" : "none";
+  });
+
+gFathers.selectAll("g.fatherMark")
+  .style("pointer-events", d => {
+    if (!nodesHot) return "none";
+    return relevantFatherIdsRef.current.has(d.id) ? "all" : "none";
+  });
 
     clearActiveSegment();
     clearActiveDuration();
