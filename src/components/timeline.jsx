@@ -81,7 +81,7 @@ const HOVER_SCALE_FATHER = 1.6;
 const ZOOM_THRESHOLD = 4.0;
 
 const DIM_NODE_OPACITY = 0.12;            // texts/fathers that are NOT relevant during selection
-const DIM_CONNECTION_OPACITY = 0.03;     // irrelevant connections when showConnections is ON
+const DIM_CONNECTION_OPACITY = 0.015;     // irrelevant connections when showConnections is ON
 
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
@@ -2021,6 +2021,10 @@ export default function Timeline() {
   const relevantTextIdsRef = useRef(new Set());
   const relevantFatherIdsRef = useRef(new Set());
 
+  // PERF: gate expensive bulk style updates (opacity/dimming) so they only rerun when tier/selection changes
+  const lastStyleStateRef = useRef({ zoomMode: null, key: "" });
+
+
   const clipId = useId();
     function logRenderedCounts() {
     // Count *rendered* marks (current DOM), not dataset sizes
@@ -2071,6 +2075,8 @@ export default function Timeline() {
 
   const [visibleIds, setVisibleIds] = useState(() => new Set());
   const [layerMode, setLayerMode] = useState("durations");
+  const [isReady, setIsReady] = useState(false);
+
 
   // Global visibility overrides (panel checkboxes)
   const [showTexts, setShowTexts] = useState(true);
@@ -2084,6 +2090,14 @@ export default function Timeline() {
 
   const visibleIdsRef = useRef(new Set());
   const visUpdateRaf = useRef(0);
+  // PERF: throttle connection rerenders to 1 per animation frame
+  const connUpdateRaf = useRef(0);
+  const connArgsRef = useRef(null);
+
+  // PERF: throttle viewport culling + visible-id computation to 1 per animation frame
+  const cullUpdateRaf = useRef(0);
+  const cullArgsRef = useRef(null);
+
 
 
 
@@ -2322,6 +2336,11 @@ const axisY = innerHeight;
     }
     return rows;
   }, [durations, innerHeight, outlines]);
+
+
+  // O(1) lookups (avoid .find(...) in hot paths like zoom)
+  const segmentsById = useMemo(() => new Map(segments.map((s) => [s.id, s])), [segments]);
+  const outlinesById = useMemo(() => new Map(outlines.map((o) => [o.id, o])), [outlines]);
 
   /* ---- Datasets (TEXTS ONLY) ---- */
   const datasetRegistry = useDiscoveredDatasets();
@@ -3130,6 +3149,20 @@ return baseOpacity;
     });
 }
 
+// PERF: coalesce renderConnections calls (zoom can fire dozens of times per second)
+function scheduleRenderConnections(zx, zy, k) {
+  connArgsRef.current = { zx, zy, k };
+  if (connUpdateRaf.current) return;
+  connUpdateRaf.current = requestAnimationFrame(() => {
+    connUpdateRaf.current = 0;
+    const args = connArgsRef.current;
+    if (!args) return;
+    renderConnections(args.zx, args.zy, args.k);
+  });
+}
+
+
+
 
 
 
@@ -3279,7 +3312,7 @@ useEffect(() => {
   allConnectionRowsRef.current = out;
 
   const t = lastTransformRef.current ?? d3.zoomIdentity;
-  renderConnections(t.rescaleX(x), t.rescaleY(y0), t.k);
+  scheduleRenderConnections(t.rescaleX(x), t.rescaleY(y0), t.k);
 }, [
   connectionRegistry,
   fatherRows,
@@ -3369,7 +3402,7 @@ useEffect(() => {
   useEffect(() => {
     if (!connectionsRef.current) return;
     const t = lastTransformRef.current ?? d3.zoomIdentity;
-    renderConnections(t.rescaleX(x), t.rescaleY(y0), t.k);
+    scheduleRenderConnections(t.rescaleX(x), t.rescaleY(y0), t.k);
   }, [selectedText, selectedFather, x, y0, renderConnections]);
 
 
@@ -4276,7 +4309,7 @@ piesSel
     // mark hovered text for connection highlighting
     hoveredTextIdRef.current = d.id;
     const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
-    if (zx && zy) renderConnections(zx, zy, kNow);
+    if (zx && zy) scheduleRenderConnections(zx, zy, kNow);
 
 const k = kRef.current;
 const gPie = piesSel.filter((p) => p.id === d.id).style("opacity", 1);
@@ -4324,7 +4357,7 @@ if (!isSelected) {
   // clear hovered text highlight
   hoveredTextIdRef.current = null;
   const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
-  if (zx && zy) renderConnections(zx, zy, kNow);
+  if (zx && zy) scheduleRenderConnections(zx, zy, kNow);
 
   const k = kRef.current;
   const isSelected = selectedText && selectedText.id === d.id;
@@ -4523,7 +4556,7 @@ fathersSel
     // mark hovered father for connection highlighting
     hoveredFatherIdRef.current = d.id;
     const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
-    if (zx && zy) renderConnections(zx, zy, kNow);
+    if (zx && zy) scheduleRenderConnections(zx, zy, kNow);
 
     const baseR = getFatherBaseR(d) * kRef.current * 2.2;
     const rHover = baseR * HOVER_SCALE_FATHER;
@@ -4556,7 +4589,7 @@ fathersSel
     // clear hovered father highlight
     hoveredFatherIdRef.current = null;
     const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
-    if (zx && zy) renderConnections(zx, zy, kNow);
+    if (zx && zy) scheduleRenderConnections(zx, zy, kNow);
 
     hideTipSel(tipText);
 
@@ -4753,6 +4786,13 @@ labelSel.each(function (d) {
 
   const t = d3.select(this);
 
+  // PERF: avoid rebuilding tspans every zoom tick if the label content/layout didn't change.
+  // We key by label text + number of lines + current x (multi-line tspans lock x).
+  const xAttr = t.attr("x") ?? "";
+  const nextKey = `${label}__${lines.length}__${xAttr}`;
+  if (this.__durLabelKey === nextKey) return;
+  this.__durLabelKey = nextKey;
+
   // Clear previous content
   t.selectAll("tspan").remove();
 
@@ -4764,7 +4804,7 @@ labelSel.each(function (d) {
 
   // ✅ Multi-line only: build tspans and lock x per line
   t.text(null);
-  const x = t.attr("x");
+  const x = xAttr;
 
   lines.forEach((line, i) => {
     t.append("tspan")
@@ -4772,7 +4812,7 @@ labelSel.each(function (d) {
       .attr("dy", i === 0 ? "0em" : "1.05em")
       .text(line);
   });
-}); 
+});
     // Decide visibility after sizing
     const bandW = Math.abs(x1 - x0);
     const show = shouldShowDurationLabel({
@@ -4862,47 +4902,68 @@ const hasSel = !!(selectedText || selectedFather);
 const relTexts = relevantTextIdsRef.current;
 const relFathers = relevantFatherIdsRef.current;
 
-gTexts.selectAll("circle.textDot")
-  .style("opacity", d => {
-    // 🔴 hide selected text icon completely
-    if (selectedText && selectedText.id === d.id) return 0;
+// Perf: these opacity passes touch many nodes; only redo when the zoom tier or selection changes.
+const hasSelectionForTier = hasSel;
+let zoomMode;
+if (hasSelectionForTier) {
+  zoomMode = (k < ZOOM_SEGMENT_THRESHOLD) ? "outest" : "deepest";
+} else if (k < ZOOM_SEGMENT_THRESHOLD) {
+  zoomMode = "outest";
+} else if (k < ZOOM_THRESHOLD) {
+  zoomMode = "middle";
+} else {
+  zoomMode = "deepest";
+}
 
-    if (!hasSel) return BASE_OPACITY;
-    return relTexts.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
-  }, "important");
+const styleKey =
+  `${layerMode}|${selectedText ? selectedText.id : ""}|${selectedFather ? selectedFather.id : ""}`;
 
+const last = lastStyleStateRef.current;
+const shouldUpdateDimming = (last.zoomMode !== zoomMode) || (last.key !== styleKey);
 
-// Stronger dimming for pies: dim wedges + separators directly
-gTexts.selectAll("g.dotSlices").each(function (d) {
-  // 🔴 hide selected text pie completely
-  if (selectedText && selectedText.id === d.id) {
+if (shouldUpdateDimming) {
+  lastStyleStateRef.current = { zoomMode, key: styleKey };
+
+  gTexts.selectAll("circle.textDot")
+    .style("opacity", d => {
+      // hide selected text icon completely
+      if (selectedText && selectedText.id === d.id) return 0;
+
+      if (!hasSel) return BASE_OPACITY;
+      return relTexts.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
+    }, "important");
+
+  // Stronger dimming for pies: dim wedges + separators directly
+  gTexts.selectAll("g.dotSlices").each(function (d) {
+    // hide selected text pie completely
+    if (selectedText && selectedText.id === d.id) {
+      const g = d3.select(this);
+      g.selectAll("path.slice").style("fill-opacity", 0, "important");
+      g.selectAll("line.sep").style("stroke-opacity", 0, "important");
+      return;
+    }
+
+    const isRel = !hasSel || relTexts.has(d.id);
+    const o = isRel ? BASE_OPACITY : DIM_NODE_OPACITY;
+
     const g = d3.select(this);
-    g.selectAll("path.slice").style("fill-opacity", 0, "important");
-    g.selectAll("line.sep").style("stroke-opacity", 0, "important");
-    return;
-  }
 
-  const isRel = !hasSel || relTexts.has(d.id);
-  const o = isRel ? BASE_OPACITY : DIM_NODE_OPACITY;
+    g.selectAll("path.slice")
+      .style("fill-opacity", o, "important");
 
-  const g = d3.select(this);
+    g.selectAll("line.sep")
+      .style("stroke-opacity", o, "important");
+  });
 
-  g.selectAll("path.slice")
-    .style("fill-opacity", o, "important");
+  gFathers.selectAll("g.fatherMark")
+    .style("opacity", d => {
+      // hide selected father icon completely
+      if (selectedFather && selectedFather.id === d.id) return 0;
 
-  g.selectAll("line.sep")
-    .style("stroke-opacity", o, "important");
-});
-
-
-gFathers.selectAll("g.fatherMark")
-  .style("opacity", d => {
-    // 🔴 hide selected father icon completely
-    if (selectedFather && selectedFather.id === d.id) return 0;
-
-    if (!hasSel) return BASE_OPACITY;
-    return relFathers.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
-  }, "important");
+      if (!hasSel) return BASE_OPACITY;
+      return relFathers.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
+    }, "important");
+}
 
 
 
@@ -5280,67 +5341,79 @@ fatherPinSel
       .attr("opacity", showOverlays ? 1 : 0);
   });
 
-
-
   // ----- Lightweight viewport culling (texts, pies, fathers) -----
-  const xMinAstro = zx.invert(0);
-  const xMaxAstro = zx.invert(innerWidth);
-  const xLo = Math.min(xMinAstro, xMaxAstro);
-  const xHi = Math.max(xMinAstro, xMaxAstro);
+  // PERF: this touches lots of DOM nodes; coalesce to 1 per animation frame during zoom/pan
+  cullArgsRef.current = { zx, innerWidth };
+  if (!cullUpdateRaf.current) {
+    cullUpdateRaf.current = requestAnimationFrame(() => {
+      cullUpdateRaf.current = 0;
+      const args = cullArgsRef.current;
+      if (!args) return;
 
-  // Hide text dots outside visible X
-  gTexts.selectAll("circle.textDot").each(function (d) {
-    const a = toAstronomical(d.when);
-    const on = a >= xLo && a <= xHi;
-    d3.select(this).style("display", on ? null : "none");
-  });
+      const xMinAstro = args.zx.invert(0);
+      const xMaxAstro = args.zx.invert(args.innerWidth);
+      const xLo = Math.min(xMinAstro, xMaxAstro);
+      const xHi = Math.max(xMinAstro, xMaxAstro);
 
-  // Keep pies in sync with dots
-  gTexts.selectAll("g.dotSlices").each(function (d) {
-    const a = toAstronomical(d.when);
-    const on = a >= xLo && a <= xHi;
-    d3.select(this).style("display", on ? null : "none");
-  });
-
-  // Hide father triangles outside visible X
-  gFathers.selectAll("g.fatherMark").each(function (d) {
-    const a = toAstronomical(d.when);
-    const on = a >= xLo && a <= xHi;
-    d3.select(this).style("display", on ? null : "none");
-  });
-
-  // ===== NEW: compute & publish visible ids for SearchBar =====
-  const newVisible = new Set();
-
-  // Use the same X-range check we just applied
-  gTexts.selectAll("circle.textDot").each(function (d) {
-    const a = toAstronomical(d.when);
-    if (a >= xLo && a <= xHi) newVisible.add(d.id);
-  });
-  gFathers.selectAll("g.fatherMark").each(function (d) {
-    const a = toAstronomical(d.when);
-    if (a >= xLo && a <= xHi) newVisible.add(d.id);
-  });
-
-  // Only update state if the set contents actually changed (throttled to rAF)
-  const prev = visibleIdsRef.current;
-  let changed = newVisible.size !== prev.size;
-  if (!changed) {
-    for (const id of newVisible) {
-      if (!prev.has(id)) { changed = true; break; }
-    }
-  }
-  if (changed) {
-    visibleIdsRef.current = newVisible;
-    if (!visUpdateRaf.current) {
-      visUpdateRaf.current = requestAnimationFrame(() => {
-        visUpdateRaf.current = 0;
-        setVisibleIds(new Set(visibleIdsRef.current));
+      // Hide text dots outside visible X
+      gTexts.selectAll("circle.textDot").each(function (d) {
+        const a = toAstronomical(d.when);
+        const on = a >= xLo && a <= xHi;
+        d3.select(this).style("display", on ? null : "none");
       });
-    }
+
+      // Keep pies in sync with dots
+      gTexts.selectAll("g.dotSlices").each(function (d) {
+        const a = toAstronomical(d.when);
+        const on = a >= xLo && a <= xHi;
+        d3.select(this).style("display", on ? null : "none");
+      });
+
+      // Hide father triangles outside visible X
+      gFathers.selectAll("g.fatherMark").each(function (d) {
+        const a = toAstronomical(d.when);
+        const on = a >= xLo && a <= xHi;
+        d3.select(this).style("display", on ? null : "none");
+      });
+
+      // ===== NEW: compute & publish visible ids for SearchBar =====
+      const newVisible = new Set();
+
+      // Use the same X-range check we just applied
+      gTexts.selectAll("circle.textDot").each(function (d) {
+        const a = toAstronomical(d.when);
+        if (a >= xLo && a <= xHi) newVisible.add(d.id);
+      });
+
+      gFathers.selectAll("g.fatherMark").each(function (d) {
+        const a = toAstronomical(d.when);
+        if (a >= xLo && a <= xHi) newVisible.add(d.id);
+      });
+
+      // Only update if changed (cheap equality check)
+      const prev = visibleIdsRef.current;
+      let changed = false;
+      if (prev.size !== newVisible.size) {
+        changed = true;
+      } else {
+        for (const id of newVisible) {
+          if (!prev.has(id)) { changed = true; break; }
+        }
+      }
+
+      if (changed) {
+        visibleIdsRef.current = newVisible;
+        if (!visUpdateRaf.current) {
+          visUpdateRaf.current = requestAnimationFrame(() => {
+            visUpdateRaf.current = 0;
+            setVisibleIds(new Set(visibleIdsRef.current));
+          });
+        }
+      }
+    });
   }
 
-  renderConnections(zx, zy, k);
+  scheduleRenderConnections(zx, zy, k);
 }
 
 
@@ -5699,8 +5772,9 @@ const zoom = (zoomRef.current ?? d3.zoom())
     const zx = t.rescaleX(x);
     const zy = t.rescaleY(y0);
     apply(zx, zy, t.k);
-    renderConnections(zx, zy, t.k);
+    scheduleRenderConnections(zx, zy, t.k);
     updateInteractivity(t.k);
+
 
  
 
@@ -5733,11 +5807,11 @@ if (hasSelection) {
 
     // Keep active cards anchored while panning/zooming
     if (activeSegIdRef.current) {
-      const seg = segments.find((s) => s.id === activeSegIdRef.current);
+      const seg = segmentsById.get(activeSegIdRef.current);
       if (seg) showSegAnchored(seg);
     }
     if (activeDurationIdRef.current) {
-      const out = outlines.find((o) => o.id === activeDurationIdRef.current);
+      const out = outlinesById.get(activeDurationIdRef.current);
       if (out) showDurationAnchored(out);
     }
 
@@ -5773,7 +5847,7 @@ if (hasSelection) {
     syncHoverRaf(event.sourceEvent);
 
     updateHoverVisuals();
-    logRenderedCounts();
+    // logRenderedCounts(); // disable: expensive during zoom end
   });
 
   // Bind zoom to the <svg> and expose refs/utilities
@@ -5821,6 +5895,29 @@ flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
    apply(initT.rescaleX(x), initT.rescaleY(y0), initT.k);
    svgSel.call(zoom).call(zoom.transform, initT);
    updateInteractivity(initT.k);
+   // Ensure zoom tier classes are correct even when state changes without a zoom event
+   {
+     const hasSelection = !!(selectedText || selectedFather);
+     let zoomMode;
+     if (hasSelection) {
+       zoomMode = (initT.k < ZOOM_SEGMENT_THRESHOLD) ? "outest" : "deepest";
+     } else if (initT.k < ZOOM_SEGMENT_THRESHOLD) {
+       zoomMode = "outest";
+     } else if (initT.k < ZOOM_THRESHOLD) {
+       zoomMode = "middle";
+     } else {
+       zoomMode = "deepest";
+     }
+     if (svgRef.current) {
+       d3.select(svgRef.current)
+         .classed("zoom-outest",  zoomMode === "outest")
+         .classed("zoom-middle",  zoomMode === "middle")
+         .classed("zoom-deepest", zoomMode === "deepest");
+     }
+   }
+
+   setIsReady(true);
+
    lastTransformRef.current = initT;   // remember
    didInitRef.current = true;
 } else {
@@ -5831,12 +5928,35 @@ flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
   apply(t.rescaleX(x), t.rescaleY(y0), t.k);
   updateInteractivity(t.k);
 
-  console.log("[UI] reapply transform after state change", {
-    tK: t.k,
-    hasSelection: !!(selectedText || selectedFather),
-  });
+   // Ensure zoom tier classes are correct even when state changes without a zoom event
+   {
+     const hasSelection = !!(selectedText || selectedFather);
+     let zoomMode;
+     if (hasSelection) {
+       zoomMode = (t.k < ZOOM_SEGMENT_THRESHOLD) ? "outest" : "deepest";
+     } else if (t.k < ZOOM_SEGMENT_THRESHOLD) {
+       zoomMode = "outest";
+     } else if (t.k < ZOOM_THRESHOLD) {
+       zoomMode = "middle";
+     } else {
+       zoomMode = "deepest";
+     }
+     if (svgRef.current) {
+       d3.select(svgRef.current)
+         .classed("zoom-outest",  zoomMode === "outest")
+         .classed("zoom-middle",  zoomMode === "middle")
+         .classed("zoom-deepest", zoomMode === "deepest");
+     }
+   }
 
-  logRenderedCounts();
+  setIsReady(true);
+
+  // console.log("[UI] reapply transform after state change", {
+  //   tK: t.k,
+  //   hasSelection: !!(selectedText || selectedFather),
+  // });
+
+  // logRenderedCounts(); // disable: expensive debug
 }
 
     // Hide tooltips if mouse leaves the whole svg area
@@ -5921,6 +6041,7 @@ return (
     <svg
       ref={svgRef}
       className={`timelineSvg ${modalOpen ? "isModalOpen" : ""}`}
+      style={{ opacity: isReady ? 1 : 0 }}
       width={width}
       height={height}
     >
