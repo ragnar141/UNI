@@ -360,7 +360,7 @@ if (openKey) {
             checked={layerMode === "durations"}
             onChange={() => onLayerModeChange("durations")}
           />
-          <span>Durations</span>
+          <span>Civilizational Arcs</span>
         </label>
 
         <label className="tagPanel__radio">
@@ -371,7 +371,7 @@ if (openKey) {
             checked={layerMode === "segments"}
             onChange={() => onLayerModeChange("segments")}
           />
-          <span>Segments</span>
+          <span>Historical Periods</span>
         </label>
 
         <label className="tagPanel__radio">

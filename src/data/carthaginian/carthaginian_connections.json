@@ -1,0 +1,56 @@
+[
+  {
+    "Index": 1,
+    "Primary": "1, father",
+    "Primary Name": "Ammon",
+    "Secondary": "2, father",
+    "Secondary Name": "Gurzil",
+    "Connection Category": "custom connection",
+    "Note": "Although Corippus explicitly calls Gurzil the son of Ammon, the pairing most plausibly reflects a Roman attempt to genealogize two manifestations of the same older Libyan horned high-god tradition rather than a preserved indigenous father–son myth."
+  },
+  {
+    "Index": 2,
+    "Primary": "6, father",
+    "Primary Name": "Tanit",
+    "Secondary": "2, text",
+    "Secondary Name": "Kition Inscriptions",
+    "Connection Category": "explicit reference",
+    "Note": "The appearance of Tanit in the Phoenician temple inscriptions at Kition (Cyprus) shows that this once-primarily Carthaginian goddess was already part of the shared Phoenician religious world, likely carried along ordinary networks of trade."
+  },
+  {
+    "Index": 3,
+    "Primary": "6, father",
+    "Primary Name": "Tanit",
+    "Secondary": "3, text",
+    "Secondary Name": "Tophet Inscriptions",
+    "Connection Category": "explicit reference",
+    "Note": "In the Tophet stelae of Carthage, Tanit is repeatedly invoked alongside Baal Hammon in the standard votive formula, making this corpus the clearest and strongest evidence of her central role in Carthaginian religion."
+  },
+  {
+    "Index": 4,
+    "Primary": "6, father",
+    "Primary Name": "Tanit",
+    "Secondary": "4, text",
+    "Secondary Name": "Punic Curse Tablets",
+    "Connection Category": "explicit reference",
+    "Note": "In Punic curse tablets, Tanit is invoked as an active enforcer of personal spells and bindings, revealing that her authority extended from formal state cult into the intimate, feared sphere of everyday magical practice."
+  },
+  {
+    "Index": 5,
+    "Primary": "7, father",
+    "Primary Name": "Mago the Farmer",
+    "Secondary": "5, text",
+    "Secondary Name": "Carthaginian Agricultural Treatise",
+    "Connection Category": "custom connection",
+    "Note": "Mago’s 28-book agricultural treatise was so authoritative that Rome translated and preserved it after destroying Carthage."
+  },
+  {
+    "Index": 6,
+    "Primary": "9, father",
+    "Primary Name": "Masinissa",
+    "Secondary": "10, father",
+    "Secondary Name": "Jugurtha",
+    "Connection Category": "custom connection",
+    "Note": "Jugurtha was politically treated as an adopted heir, but by blood he was Masinissa’s grandson via Mastanabal."
+  }
+]
