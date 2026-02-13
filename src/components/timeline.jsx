@@ -59,7 +59,12 @@ const SymbolicSystemColorPairs = {
   Tamil:         "#1E4F3A", // Deep Teal-Green — Sangam earth, landscape poetics
   Purāṇic:       "#9C1F3B", // Mythic Crimson — narrative, devotion, cosmology
   Yogic:         "#2E6F95", // Breath Blue — discipline, inward ascent, control
-  Sāṃkhya:       "#3D3A2A"  // Dualist Olive-Brown — prakṛti / puruṣa tension
+  Sāṃkhya:       "#3D3A2A",  // Dualist Olive-Brown — prakṛti / puruṣa tension
+  "Shang–Zhou": "#6B5B3E",   // Ritual Bronze-Earth — bronze vessels, ancestral order
+  Daoism:       "#2F7D6A",   // Mist-Green — mountain/river naturalness
+  Confucianism: "#2B4C7E",   // Scholar Ink-Blue — ethics, learning, administration
+  "Bingjia (military strategy)":      "#3A4A5A",   // Gunmetal — disciplined strategy
+  "Fa-jia (Legalism)":     "#2E2E38",   // Iron Graphite — impersonal law, coercive bureaucracy
 };
 
 
@@ -114,7 +119,7 @@ const DUR_STROKE = {
 /* ===== Label visibility policy ===== */
 const LABEL_ALLOWLIST = new Set([
   "egyptian-composite", "mesopotamian-composite", "anatolian-composite", "levantine-composite", "persian-composite", 
-  "greek-composite", "carthaginian-composite", "customgroup-hellenistic", "indian-composite"
+  "greek-composite", "carthaginian-composite", "customgroup-hellenistic", "indian-composite", "chinese-composite"
 ]);
 
 const LABEL_BLOCKLIST = new Set([

@@ -4,7 +4,7 @@
     "name": "Egyptian",
     "expanded name": "Egyptian (Ancient Egyptian)",
     "color": "#E53935",
-    "yRel": 0.254,
+    "yRel": 0.354,
     "hRel": 0.06,
     "broad note": "Ancient Egypt emerged from early foraging and farming settlements along the Nile, slowly coalescing into chiefdoms and temple-centered communities. Shielded by deserts, seas, and cataracts, Egypt's geographic isolation fostered extraordinary cultural and political continuity, enabling priestly elites and divine kingship to endure for millennia. From egalitarian villages, Egypt evolved into a centralized kingdom under pharaohs—living embodiments of ma’at, or cosmic order. Egyptian civilization revolved around maintaining this cosmic balance, expressed through monumental architecture, funerary rites, and a vast symbolic system centered on death, rebirth, and the afterlife. By the late sixth century BCE, this long-standing order was broken: in 525 BCE Cambyses II of Persia conquered Egypt, inaugurating Persian rule and incorporating Egypt into the expanding Achaemenid Empire.",
     "broad lifespan": "c. 5000 BCE - 525 BCE",
@@ -65,12 +65,12 @@
       }
     ]
   },
-   {
+  {
     "id": "mesopotamian-composite",
     "name": "Mesopo-\ntamian",
     "expanded name": "Mesopotamian (Sumero-Akkadian)",
     "color": "#1E5BFF",
-    "yRel": 0.356,
+    "yRel": 0.456,
     "hRel": 0.08,
     "broad note": "Mesopotamian civilization began among early farming and foraging communities settled along the Tigris and Euphrates rivers, where increasing social complexity gave rise to fortified towns and irrigation-based economies. The first true city-states—Sumerian centers like Uruk, Lagash, and Nippur—organized labor, ritual, and trade around ziggurats, temple households dedicated to patron deities. From these centers emerged innovations of lasting consequence: writing, legal codes, monarchical authority, and the very idea of urban civilization. Over the next three millennia, the Sumerian model was repeatedly overtaken and transformed by new warrior elites from the surrounding highlands and steppe: Akkadians, Amorites, Kassites, Assyrians, and Babylonians, each building empires atop the region’s sacred and economic foundations. Even amid upheaval, the deep structures of Sumerian religion, priesthood, and scribal culture persisted, radiating influence across the Near East. In 539 BCE, Cyrus the Great of Persia captured Babylon, inaugurating the Achaemenid period. Yet Persian rule preserved the temples and cults of the land between the rivers, signaling not the end of Mesopotamian tradition, but its absorption into a larger imperial order.",
     "broad lifespan": "c. 5000 BCE - 539 BCE",
@@ -140,7 +140,7 @@
         "end": -539,
         "label": "Neo-Babylonian Period",
         "note": "The Neo-Babylonian period began with Babylon’s successful revolt against Assyrian domination under Nabopolassar and marked a political and cultural renaissance in southern Mesopotamia. Under his son Nebuchadnezzar II, Babylon was transformed into a monumental imperial and sacred capital, governed through priestly ritual centered on the god Marduk. Scholarship and religious tradition flourished as rulers consciously restored Sumerian-Babylonian cosmic models of kingship and order. Beneath its splendor, however, elite stratification, priestly tensions under Nabonidus, and limited military capacity left the empire vulnerable to conquest by Cyrus the Great in 539 BCE."
-      }     
+      }
     ]
   },
   {
@@ -148,7 +148,7 @@
     "name": "Anatolian",
     "expanded name": "Anatolian (Hittite/Luwian/Phrygian/Lydian)",
     "color": "#E86A0C",
-    "yRel": 0.233,
+    "yRel": 0.333,
     "hRel": 0.02,
     "broad note": "Anatolian civilization emerged from early farming and metallurgical communities on the central plateau and western coasts, shaped by its position between Mesopotamia, the Aegean, and the Caucasus. From the outset, its societies bore a distinctly martial character, forged by the movement of peoples and the need to defend upland strongholds and trade routes. By the third and second millennia BCE, Hattian, Hittite, Hurrian, and Luwian groups developed fortified capitals, warrior aristocracies, and syncretic ritual systems blending local cults with Mesopotamian elements. The Hittite Empire became Anatolia’s first major hegemon, ruled by warrior-priest kings who extended power across Syria and into the Aegean, before collapsing in the wider Bronze Age upheavals. In the ensuing first millennium BCE, Phrygians, Urartians, Lydians, and Ionian Greeks built successor states that preserved and adapted the region’s martial and aristocratic traditions, acting as intermediaries between eastern empires and the Mediterranean world. By the mid-6th century BCE, the balance of power tipped decisively with the rise of the Achaemenid Persians, who began the conquest of Anatolia, absorbing its last great independent kingdoms by 540 BCE.",
     "broad lifespan": "c. 5000 BCE - 540 BCE",
@@ -200,7 +200,7 @@
         "end": -540,
         "label": "Iron Age – Lydian & Ionian Period",
         "note": "In western Anatolia, the Lydians consolidated power with their capital at Sardis, where kings like Gyges and Croesus became legendary for wealth and military strength. Lydia pioneered the invention of coinage, striking electrum pieces that transformed trade and symbolic economies. Along the Aegean coast, the Ionian Greek city-states of Miletus, Ephesus, and Smyrna flourished as commercial and intellectual hubs. It was here that figures such as Thales, Anaximander, and Heraclitus were born, blending Greek heritage with Anatolia’s cosmopolitan networks of Egypt, Mesopotamia, and the East. Together, Lydian kingship and Ionian philosophy made western Anatolia a cultural crossroads, until Persia’s conquest in 546 BCE reshaped the region’s order."
-      }      
+      }
     ]
   },
   {
@@ -208,7 +208,7 @@
     "name": "Levantine",
     "expanded name": "Levantine (Akkadian/Canaanite/Phoenician/Hebrew/Aramaic)",
     "color": "#7C4DFF",
-    "yRel": 0.315,
+    "yRel": 0.415,
     "hRel": 0.04,
     "broad note": "West Semitic civilization emerged along the Levantine coast and highlands, where early agricultural settlements and ritual sites developed into fortified towns linked by trade, pastoral mobility, and coastal seafaring. Positioned between Egypt, Mesopotamia, and Anatolia, the region became a crossroads of exchange and imperial ambition, compelling its communities to cultivate resilience and cultural flexibility. From Canaanite city-states and Ugaritic scribal schools to Phoenician mariners and early Hebrew tribes, Levantine societies forged distinct religious, political, and literary practices—blending local cults with borrowings from neighboring powers. Authority was typically shared among warrior chieftains, temple priesthoods, and merchant elites, while the alphabet, first developed in this region, became its most transformative cultural export, spreading across the Mediterranean world. During the first millennium BCE, Phoenician colonies, Israelite prophets, and Aramean kingdoms projected West Semitic influence far beyond the Levant, even as the region fell under successive domination by Assyrian and Babylonian empires. In 539 BCE, the Persian conquest of Babylon brought the Levant into the expanding Achaemenid Empire, marking the end of local sovereignty but not of the Levant’s enduring legacies in commerce, scripture, and the alphabetic script.",
     "broad lifespan": "c. 5000 BCE - 539 BCE",
@@ -274,7 +274,7 @@
     "name": "Persian",
     "expanded name": "Persian (Elamite/Zoroastrian/Indo-Iranian)",
     "color": "#00BFA6",
-    "yRel": 0.437,
+    "yRel": 0.537,
     "hRel": 0.06,
     "broad note": "Ancient Persia began with Elamite settlements in Susiana, whose craft-ritual economies and urban centers grew in dialogue with neighboring Sumer and Akkad. For centuries, Elamite rulers balanced independence with vulnerability, adopting Mesopotamian writing and monumental forms even as they resisted Akkadian, Babylonian, and Assyrian incursions. Into this layered landscape came Indo-Iranian migrations, bringing fire rituals, warrior traditions, and an oral cosmology of truth and oath that later crystallized in Zarathustra’s teachings of moral dualism. Out of this fusion of Elamite heritage and Indo-Iranian belief, the Median confederation forged a bridge between tribal alliances and territorial authority. In 550 BCE Cyrus the Great transformed this inheritance into the Achaemenid Empire, the first polity to fuse sacred geography, imperial administration, and universal moral order across vast territories. For nearly two centuries it stood as the defining Persian power, until the conquests of Alexander in 330 BCE absorbed its symbolic and political life into the Hellenistic world.",
     "broad lifespan": "c. 5000 BCE - 330 BCE",
@@ -334,37 +334,37 @@
     "name": "Persian",
     "expanded name": "Persian (Elamite/Zoroastrian/Indo-Iranian)",
     "color": "#00BFA6",
-    "yRel": 0.254,
+    "yRel": 0.354,
     "hRel": 0.06,
     "broad note": "Ancient Persia began with Elamite settlements in Susiana, whose craft-ritual economies and urban centers grew in dialogue with neighboring Sumer and Akkad. For centuries, Elamite rulers balanced independence with vulnerability, adopting Mesopotamian writing and monumental forms even as they resisted Akkadian, Babylonian, and Assyrian incursions. Into this layered landscape came Indo-Iranian migrations, bringing fire rituals, warrior traditions, and an oral cosmology of truth and oath that later crystallized in Zarathustra’s teachings of moral dualism. Out of this fusion of Elamite heritage and Indo-Iranian belief, the Median confederation forged a bridge between tribal alliances and territorial authority. In 550 BCE Cyrus the Great transformed this inheritance into the Achaemenid Empire, the first polity to fuse sacred geography, imperial administration, and universal moral order across vast territories. For nearly two centuries it stood as the defining Persian power, until the conquests of Alexander in 330 BCE absorbed its symbolic and political life into the Hellenistic world.",
     "broad lifespan": "c. 525 BCE - 332 BCE",
     "segments": [
-     {
+      {
         "start": -525,
         "end": -404,
         "label": "First Persian Period",
         "note": "Persian rule begins when Cambyses II conquers Egypt and folds it into the Achaemenid Empire as a royal prize whose ancient priesthoods and temples symbolized legitimacy. The pharaoh’s titles are adopted by Persian kings, but ritual authority is now filtered through satraps who oversee temple wealth, regulate offerings, and tax the Nile’s bounty. Yet symbolic life does not submit quietly: Egyptian priests negotiate and resist, demanding temple exemptions while grooming local leaders as symbols of native continuity. The greatest challenge to Persian control comes from outside: Greek fleets and mercenaries, who recognize Egypt as the keystone of Persian power. Their largest intervention, the revolt of Inaros II (c. 460–454 BCE), nearly restores independence."
-    },
-    {
+      },
+      {
         "start": -404,
         "end": -343,
         "label": "Native Interlude",
         "note": "When Persian grip finally slips in 404 BCE, Egypt surges back under native kings who reassert the full symbolic program of pharaonic rule—restoring temples, reviving ancient titles, and reclaiming ritual independence. Egypt becomes a mercenary state, paying in temple silver and lavish tomb-building to keep Greek-trained armies loyal against Persian encroachment. Under the 29th Dynasty, trade networks are rebuilt and priesthoods gain breathing room, turning the temple system back into the engine of social and cosmic life. Yet this sovereignty is precarious—anchored in fragile alliances with Greek poleis who are themselves fracturing in endless wars. While Egypt rebuilds symbolic authority, Persia regains military strength. The Nile kingdom has returned, but heavily dependent on Greek naval strategy."
-    },
-    {
+      },
+      {
         "start": -343,
         "end": -332,
         "label": "Second Persian Period",
         "note": "Persia returns under Artaxerxes III, who retakes Egypt and moves swiftly to crush the symbolic infrastructure that had sustained native resistance. Temples lose autonomy, priestly networks are purged, and the satrapal court exerts direct control over festivals, offerings, and the flow of grain and gold. Egypt remains a spiritual landscape, but its rituals are now under imperial supervision, and its trade arteries flow back toward Persepolis. This time, Greek mercenaries cannot save the Delta—as the poleis are too consumed by their own rivalries. But history has a larger pivot coming: in just over a decade, Alexander of Macedon will sweep aside Persia altogether, welcomed by Egyptian priests not only as a liberator from Persian harshness, but as a new pharaoh who recognizes the old cosmic script."
-    }
-   ]
+      }
+    ]
   },
   {
     "id": "custom-persian-mesopotamian-composite",
     "name": "Persian",
     "expanded name": "Persian (Elamite/Zoroastrian/Indo-Iranian)",
     "color": "#00BFA6",
-    "yRel": 0.356,
+    "yRel": 0.456,
     "hRel": 0.08,
     "broad note": "Ancient Persia began with Elamite settlements in Susiana, whose craft-ritual economies and urban centers grew in dialogue with neighboring Sumer and Akkad. For centuries, Elamite rulers balanced independence with vulnerability, adopting Mesopotamian writing and monumental forms even as they resisted Akkadian, Babylonian, and Assyrian incursions. Into this layered landscape came Indo-Iranian migrations, bringing fire rituals, warrior traditions, and an oral cosmology of truth and oath that later crystallized in Zarathustra’s teachings of moral dualism. Out of this fusion of Elamite heritage and Indo-Iranian belief, the Median confederation forged a bridge between tribal alliances and territorial authority. In 550 BCE Cyrus the Great transformed this inheritance into the Achaemenid Empire, the first polity to fuse sacred geography, imperial administration, and universal moral order across vast territories. For nearly two centuries it stood as the defining Persian power, until the conquests of Alexander in 330 BCE absorbed its symbolic and political life into the Hellenistic world.",
     "broad lifespan": "c. 539 BCE - 331 BCE",
@@ -374,7 +374,7 @@
         "end": -331,
         "label": "Achaemenid Period",
         "note": "The Achaemenid period marked a phase of imperial integration rather than cultural renewal. After Cyrus the Great’s peaceful conquest of Babylon, the Persian administration upheld Mesopotamian religious and bureaucratic traditions, portraying themselves as restorers of divine order under Marduk. Temples remained economically and symbolically central, and local elites were co-opted into the satrapal system. Administrative efficiency and relative tolerance defined Persian rule, beneath this continuity, however, a slow symbolic exhaustion set in—rituals lost generative power, local autonomy waned, and scholarly traditions increasingly served foreign rulers. By 331 BCE Alexander the Great arrived and set the foundation for Hellenistic space, which gradually absorbed Mesopotamian order into a new emergent symbolic structure."
-    } 
+      }
     ]
   },
   {
@@ -382,29 +382,29 @@
     "name": "Persian",
     "expanded name": "Persian (Elamite/Zoroastrian/Indo-Iranian)",
     "color": "#00BFA6",
-    "yRel": 0.233,
+    "yRel": 0.333,
     "hRel": 0.02,
     "broad note": "Ancient Persia began with Elamite settlements in Susiana, whose craft-ritual economies and urban centers grew in dialogue with neighboring Sumer and Akkad. For centuries, Elamite rulers balanced independence with vulnerability, adopting Mesopotamian writing and monumental forms even as they resisted Akkadian, Babylonian, and Assyrian incursions. Into this layered landscape came Indo-Iranian migrations, bringing fire rituals, warrior traditions, and an oral cosmology of truth and oath that later crystallized in Zarathustra’s teachings of moral dualism. Out of this fusion of Elamite heritage and Indo-Iranian belief, the Median confederation forged a bridge between tribal alliances and territorial authority. In 550 BCE Cyrus the Great transformed this inheritance into the Achaemenid Empire, the first polity to fuse sacred geography, imperial administration, and universal moral order across vast territories. For nearly two centuries it stood as the defining Persian power, until the conquests of Alexander in 330 BCE absorbed its symbolic and political life into the Hellenistic world.",
     "broad lifespan": "c. 540 BCE - 332 BCE",
     "segments": [
-       {
+      {
         "start": -540,
         "end": -499,
         "label": "Achaemenid Conquest & Integration",
         "note": "Persia takes Lydia and with it Sardis, the sanctuaries, and the Royal Road nexus. Satraps fold Phrygia, Lydia, Caria, Lycia, and Ionia into an imperial grid: temple lands audited, offerings regulated, and coastal tolls and caravan taxes aligned to imperial needs. Local cults (Artemis at Ephesus, Cybele, Apollo at Didyma) aren’t destroyed; they’re managed—grants, endowments, and priestly privilege in exchange for loyalty and quiet ports. Lydian coinage culture is repurposed into Persian sigloi and darics, greasing east–west trade from the Aegean to Susa. Symbolically, the message is simple: the king rules through your gods, your roads, your markets."
-    },
-    {
+      },
+      {
         "start": -499,
         "end": -449,
         "label": "Revolt & the Aegean Contest",
         "note": "The Ionian Revolt blows up Persian centered status quo. Temples become rallying points, harbors turn into war finance, and the Aegean becomes the hinge of empire. Persia tries to lock the coast; the Greeks move to break it—battle at Marathon, then Salamis, then the Delian League rolling Persian garrisons back from the islands and littoral. This is the decisive Greek effort to choke Persian expansion at sea. In Anatolia, priesthoods bargain hard to protect land and cult income while satraps tighten fiscal screws to fund fleets. In the end: Persia keeps the interior corridors and tribute routes, but loses freedom of action on the Aegean. The coast, once Persia’s gateway to the Mediterranean, becomes a frontier it can patrol but no longer command."
-    },
-    {
+      },
+      {
         "start": -449,
         "end": -332,
         "label": "Achaemenid Persian Anatolia",
         "note": "Persia pivots to funding rival Greek cities to fight each other while shoring up Anatolian satrapies. The King’s Peace (387/386) reasserts Persian rights over Ionia on paper; in practice, satraps run hybrid courts, patronize sanctuaries, welding Persian authority to local cult prestige. Trade keeps humming on the Royal Road and along the south-coast lanes; priests keep their estates, but under imperial book-keeping. Then the seams split: the Satraps’ Revolt (366–360) exposes the system’s fragility, and within a generation Macedon hits. Alexander rips Anatolia out of Persian hands; by 332 BCE the Achaemenid position is finished. The Greeks reversed Persian expansion, and the temples that once legitimated the Great King now hail new masters."
-    }
+      }
     ]
   },
   {
@@ -412,48 +412,47 @@
     "name": "Persian",
     "expanded name": "Persian (Elamite/Zoroastrian/Indo-Iranian)",
     "color": "#00BFA6",
-    "yRel": 0.315,
+    "yRel": 0.415,
     "hRel": 0.04,
     "broad note": "Ancient Persia began with Elamite settlements in Susiana, whose craft-ritual economies and urban centers grew in dialogue with neighboring Sumer and Akkad. For centuries, Elamite rulers balanced independence with vulnerability, adopting Mesopotamian writing and monumental forms even as they resisted Akkadian, Babylonian, and Assyrian incursions. Into this layered landscape came Indo-Iranian migrations, bringing fire rituals, warrior traditions, and an oral cosmology of truth and oath that later crystallized in Zarathustra’s teachings of moral dualism. Out of this fusion of Elamite heritage and Indo-Iranian belief, the Median confederation forged a bridge between tribal alliances and territorial authority. In 550 BCE Cyrus the Great transformed this inheritance into the Achaemenid Empire, the first polity to fuse sacred geography, imperial administration, and universal moral order across vast territories. For nearly two centuries it stood as the defining Persian power, until the conquests of Alexander in 330 BCE absorbed its symbolic and political life into the Hellenistic world.",
     "broad lifespan": "c. 539 BCE - 332 BCE",
     "segments": [
- {
+      {
         "start": -539,
         "end": -332,
         "label": "Achaemenid Persian Period",
         "note": "The region was folded into satrapies—notably Yehud (Judah), Phoenicia, and Syria—with local elites and temples governing under Persian-appointed officials and regular tribute. Imperial Aramaic served as the administrative lingua franca (alongside local languages), standardizing contracts, seals, and communications across courts, ports, and market towns. Economically, temple estates and city councils managed land, storage, and labor while Persian coinage (e.g., sigloi) and local issues (e.g., Yehud silver) greased maritime-Phoenician and inland caravan trade; roads and post relays tied the coast to the empire. Politically, cities like Tyre and Sidon enjoyed privileges (and fielded fleets for Persian wars) but also staged periodic revolts; inland, Yehud saw the Second Temple rebuilt (515 BCE) and evolving provincial law, identity, and scripture. Overall, the period brought administrative integration and relative stability without deep cultural homogenization—West Semitic scribal and religious traditions persisted and adapted until Alexander’s conquest shifted the Levant into the Hellenistic world."
-    }
+      }
     ]
   },
-  
-{
+  {
     "id": "custom-hellenistic-greek-composite",
     "name": "Greek",
     "expanded name": "Greek (Minoan/Mycenaean/Hellenic/Hellenistic)",
     "color": "#0095FF",
-    "yRel": 0.172,
+    "yRel": 0.272,
     "hRel": 0.06,
     "broad note": "Greek civilization took shape from the seafaring Minoans of Crete and the warrior Mycenaeans of the mainland, whose fusion around 1450 BCE generated a culture dominated by heroic elites before collapsing into a centuries-long dark age. Out of this silence arose the Archaic and Classical city-states, where Athens, Sparta, and their rivals developed strikingly different models of governance, ritual, and war, while philosophy, drama, and art flourished in the competitive civic arena. United briefly against Persia but fractured by internecine wars, the Greeks forged enduring traditions of political debate, inquiry, and aesthetics that influenced the wider Mediterranean. Macedon’s rise under Philip II and Alexander the Great extended this warrior-intellectual tradition far beyond Greece, reshaping the Near Eastern landscape with new cities, libraries, and civic institutions. The Hellenistic world that followed was cosmopolitan, spanning from Egypt and the Levant to Bactria and India, where Greek language, thought, and art intermingled with older traditions in hubs such as Alexandria and Pergamon. This synthesis, absorbed by Rome after 146 BCE, ensured that the Greek canon—myth, philosophy, political theory, and science—remained foundational to Mediterranean and global culture.",
     "broad lifespan": "c. 5000 BCE - 146 BCE",
     "segments": [
- {
-    "start": -5000,
-    "end": -4000,
-    "label": "Middle–Late Neolithic (Sesklo → Dimini Horizons)",
-    "note": "Neolithic communities in Thessaly and Macedonia had already developed into denser, more organized villages. The Sesklo tradition evolved into the Dimini horizon, marked by clustered houses and concentric ditches or low walls. Pottery styles shifted from red-on-cream wares to white-on-dark vessels with spirals and curvilinear motifs, alongside finer burnishing and more standardized shapes. House plans often included megaron-like rooms, fixed hearths, bins, and benches; shared courtyards and storage hint at communal coordination and periodic feasting. Figurines (human and animal), spindle whorls, loom weights, and polished stone tools remained common, while Melian obsidian and Spondylus shell ornaments testify to lively Aegean–Balkan exchange. Some sites added perimeter ditches and enclosures, signaling competition or social boundary-making rather than full fortification. Agriculture and herding intensified, craft skills modestly specialized, and symbols diversified—laying the economic, architectural, and ritual groundwork for the later Cycladic, Minoan, and Mycenaean cultures."
-  },
-  {
-    "start": -4000,
-    "end": -3200,
-    "label": "Final Neolithic Aegean (Island Links & Marble Figurines)",
-    "note": "The period bridges village farming and the seaborne world to come. Mainland tells continue, but the islands—especially the Cyclades and Crete—tighten inter-island links by routine short-haul sailing. Marble working flourishes: small schematic figurines and pendants anticipate later Cycladic types. Pottery trends toward dark burnished and incised wares, with more standardized shapes; obsidian from Melos and Spondylus ornaments circulate widely. The first copper beads and pins appear alongside polished stone tools. Evidence for conflict is limited but present: enclosure works at a few sites, defensible promontory settlements, and clusters of arrowheads point to raiding and small-group skirmishes rather than large-scale war. Houses cluster in stone/mudbrick compounds with hearths and storage, while burials diversify (cists, cairns, caves) and subtle status markers emerge. Growing craft specialization and exchange networks set the stage for the Early Bronze Age on both Crete and the Cyclades."
-  },
-  {
-    "start": -3200,
-    "end": -3000,
-    "label": "Prepalatial Threshold (Final Neolithic → Early Bronze)",
-    "note": "Prepalatial Threshold marks the shift from scattered village life to tighter coastal hubs across the Aegean. Short-haul sailing is routine, carrying obsidian, the first workable copper, foodstuffs, and textiles. Pottery grows more standardized, with larger storage and serving forms. On Crete and key islands, households cluster around shared courts and work areas; sealstones and simple weights hint at early bookkeeping. Copper use edges from beads and pins toward small tools and blades, though stone craft still dominates. Some communities add enclosures or occupy naturally defensible spurs—signs of raiding risk rather than formal war. By 3000 BCE, these threads feed directly into Early Minoan and Early Helladic developments: bigger nodes, wider exchange, and the first steps toward organized administration."
-  },
+      {
+        "start": -5000,
+        "end": -4000,
+        "label": "Middle–Late Neolithic (Sesklo → Dimini Horizons)",
+        "note": "Neolithic communities in Thessaly and Macedonia had already developed into denser, more organized villages. The Sesklo tradition evolved into the Dimini horizon, marked by clustered houses and concentric ditches or low walls. Pottery styles shifted from red-on-cream wares to white-on-dark vessels with spirals and curvilinear motifs, alongside finer burnishing and more standardized shapes. House plans often included megaron-like rooms, fixed hearths, bins, and benches; shared courtyards and storage hint at communal coordination and periodic feasting. Figurines (human and animal), spindle whorls, loom weights, and polished stone tools remained common, while Melian obsidian and Spondylus shell ornaments testify to lively Aegean–Balkan exchange. Some sites added perimeter ditches and enclosures, signaling competition or social boundary-making rather than full fortification. Agriculture and herding intensified, craft skills modestly specialized, and symbols diversified—laying the economic, architectural, and ritual groundwork for the later Cycladic, Minoan, and Mycenaean cultures."
+      },
+      {
+        "start": -4000,
+        "end": -3200,
+        "label": "Final Neolithic Aegean (Island Links & Marble Figurines)",
+        "note": "The period bridges village farming and the seaborne world to come. Mainland tells continue, but the islands—especially the Cyclades and Crete—tighten inter-island links by routine short-haul sailing. Marble working flourishes: small schematic figurines and pendants anticipate later Cycladic types. Pottery trends toward dark burnished and incised wares, with more standardized shapes; obsidian from Melos and Spondylus ornaments circulate widely. The first copper beads and pins appear alongside polished stone tools. Evidence for conflict is limited but present: enclosure works at a few sites, defensible promontory settlements, and clusters of arrowheads point to raiding and small-group skirmishes rather than large-scale war. Houses cluster in stone/mudbrick compounds with hearths and storage, while burials diversify (cists, cairns, caves) and subtle status markers emerge. Growing craft specialization and exchange networks set the stage for the Early Bronze Age on both Crete and the Cyclades."
+      },
+      {
+        "start": -3200,
+        "end": -3000,
+        "label": "Prepalatial Threshold (Final Neolithic → Early Bronze)",
+        "note": "Prepalatial Threshold marks the shift from scattered village life to tighter coastal hubs across the Aegean. Short-haul sailing is routine, carrying obsidian, the first workable copper, foodstuffs, and textiles. Pottery grows more standardized, with larger storage and serving forms. On Crete and key islands, households cluster around shared courts and work areas; sealstones and simple weights hint at early bookkeeping. Copper use edges from beads and pins toward small tools and blades, though stone craft still dominates. Some communities add enclosures or occupy naturally defensible spurs—signs of raiding risk rather than formal war. By 3000 BCE, these threads feed directly into Early Minoan and Early Helladic developments: bigger nodes, wider exchange, and the first steps toward organized administration."
+      },
       {
         "start": -3000,
         "end": -2700,
@@ -575,7 +574,7 @@
     "name": "Greek",
     "expanded name": "Greek (Minoan/Mycenaean/Hellenic/Hellenistic)",
     "color": "#0095FF",
-    "yRel": 0.233,
+    "yRel": 0.333,
     "hRel": 0.02,
     "broad note": "Greek civilization took shape from the seafaring Minoans of Crete and the warrior Mycenaeans of the mainland, whose fusion around 1450 BCE generated a culture dominated by heroic elites before collapsing into a centuries-long dark age. Out of this silence arose the Archaic and Classical city-states, where Athens, Sparta, and their rivals developed strikingly different models of governance, ritual, and war, while philosophy, drama, and art flourished in the competitive civic arena. United briefly against Persia but fractured by internecine wars, the Greeks forged enduring traditions of political debate, inquiry, and aesthetics that influenced the wider Mediterranean. Macedon’s rise under Philip II and Alexander the Great extended this warrior-intellectual tradition far beyond Greece, reshaping the Near Eastern landscape with new cities, libraries, and civic institutions. The Hellenistic world that followed was cosmopolitan, spanning from Egypt and the Levant to Bactria and India, where Greek language, thought, and art intermingled with older traditions in hubs such as Alexandria and Pergamon. This synthesis, absorbed by Rome after 146 BCE, ensured that the Greek canon—myth, philosophy, political theory, and science—remained foundational to Mediterranean and global culture.",
     "broad lifespan": "c. 332 BCE - 30 BCE",
@@ -605,7 +604,7 @@
     "name": "Greek",
     "expanded name": "Greek (Minoan/Mycenaean/Hellenic/Hellenistic)",
     "color": "#0095FF",
-    "yRel": 0.254,
+    "yRel": 0.354,
     "hRel": 0.06,
     "broad note": "Greek civilization took shape from the seafaring Minoans of Crete and the warrior Mycenaeans of the mainland, whose fusion around 1450 BCE generated a culture dominated by heroic elites before collapsing into a centuries-long dark age. Out of this silence arose the Archaic and Classical city-states, where Athens, Sparta, and their rivals developed strikingly different models of governance, ritual, and war, while philosophy, drama, and art flourished in the competitive civic arena. United briefly against Persia but fractured by internecine wars, the Greeks forged enduring traditions of political debate, inquiry, and aesthetics that influenced the wider Mediterranean. Macedon’s rise under Philip II and Alexander the Great extended this warrior-intellectual tradition far beyond Greece, reshaping the Near Eastern landscape with new cities, libraries, and civic institutions. The Hellenistic world that followed was cosmopolitan, spanning from Egypt and the Levant to Bactria and India, where Greek language, thought, and art intermingled with older traditions in hubs such as Alexandria and Pergamon. This synthesis, absorbed by Rome after 146 BCE, ensured that the Greek canon—myth, philosophy, political theory, and science—remained foundational to Mediterranean and global culture.",
     "broad lifespan": "c. 332 BCE - 30 BCE",
@@ -635,7 +634,7 @@
     "name": "Greek",
     "expanded name": "Greek (Minoan/Mycenaean/Hellenic/Hellenistic)",
     "color": "#0095FF",
-    "yRel": 0.315,
+    "yRel": 0.415,
     "hRel": 0.04,
     "broad note": "Greek civilization took shape from the seafaring Minoans of Crete and the warrior Mycenaeans of the mainland, whose fusion around 1450 BCE generated a culture dominated by heroic elites before collapsing into a centuries-long dark age. Out of this silence arose the Archaic and Classical city-states, where Athens, Sparta, and their rivals developed strikingly different models of governance, ritual, and war, while philosophy, drama, and art flourished in the competitive civic arena. United briefly against Persia but fractured by internecine wars, the Greeks forged enduring traditions of political debate, inquiry, and aesthetics that influenced the wider Mediterranean. Macedon’s rise under Philip II and Alexander the Great extended this warrior-intellectual tradition far beyond Greece, reshaping the Near Eastern landscape with new cities, libraries, and civic institutions. The Hellenistic world that followed was cosmopolitan, spanning from Egypt and the Levant to Bactria and India, where Greek language, thought, and art intermingled with older traditions in hubs such as Alexandria and Pergamon. This synthesis, absorbed by Rome after 146 BCE, ensured that the Greek canon—myth, philosophy, political theory, and science—remained foundational to Mediterranean and global culture.",
     "broad lifespan": "c. 332 BCE - 30 BCE",
@@ -665,7 +664,7 @@
     "name": "Greek",
     "expanded name": "Greek (Minoan/Mycenaean/Hellenic/Hellenistic)",
     "color": "#0095FF",
-    "yRel": 0.356,
+    "yRel": 0.456,
     "hRel": 0.08,
     "broad note": "Greek civilization took shape from the seafaring Minoans of Crete and the warrior Mycenaeans of the mainland, whose fusion around 1450 BCE generated a culture dominated by heroic elites before collapsing into a centuries-long dark age. Out of this silence arose the Archaic and Classical city-states, where Athens, Sparta, and their rivals developed strikingly different models of governance, ritual, and war, while philosophy, drama, and art flourished in the competitive civic arena. United briefly against Persia but fractured by internecine wars, the Greeks forged enduring traditions of political debate, inquiry, and aesthetics that influenced the wider Mediterranean. Macedon’s rise under Philip II and Alexander the Great extended this warrior-intellectual tradition far beyond Greece, reshaping the Near Eastern landscape with new cities, libraries, and civic institutions. The Hellenistic world that followed was cosmopolitan, spanning from Egypt and the Levant to Bactria and India, where Greek language, thought, and art intermingled with older traditions in hubs such as Alexandria and Pergamon. This synthesis, absorbed by Rome after 146 BCE, ensured that the Greek canon—myth, philosophy, political theory, and science—remained foundational to Mediterranean and global culture.",
     "broad lifespan": "c. 331 BCE - 141 BCE",
@@ -695,7 +694,7 @@
     "name": "Greek",
     "expanded name": "Greek (Minoan/Mycenaean/Hellenic/Hellenistic)",
     "color": "#0095FF",
-    "yRel": 0.437,
+    "yRel": 0.537,
     "hRel": 0.06,
     "broad note": "Greek civilization took shape from the seafaring Minoans of Crete and the warrior Mycenaeans of the mainland, whose fusion around 1450 BCE generated a culture dominated by heroic elites before collapsing into a centuries-long dark age. Out of this silence arose the Archaic and Classical city-states, where Athens, Sparta, and their rivals developed strikingly different models of governance, ritual, and war, while philosophy, drama, and art flourished in the competitive civic arena. United briefly against Persia but fractured by internecine wars, the Greeks forged enduring traditions of political debate, inquiry, and aesthetics that influenced the wider Mediterranean. Macedon’s rise under Philip II and Alexander the Great extended this warrior-intellectual tradition far beyond Greece, reshaping the Near Eastern landscape with new cities, libraries, and civic institutions. The Hellenistic world that followed was cosmopolitan, spanning from Egypt and the Levant to Bactria and India, where Greek language, thought, and art intermingled with older traditions in hubs such as Alexandria and Pergamon. This synthesis, absorbed by Rome after 146 BCE, ensured that the Greek canon—myth, philosophy, political theory, and science—remained foundational to Mediterranean and global culture.",
     "broad lifespan": "c. 330 BCE - 140 BCE",
@@ -721,467 +720,537 @@
     ]
   },
   {
-  "id": "carthaginian-composite",
-  "name": "North-African",
-  "expanded name": "North-African (Libyan/Berber/Punic/Carthaginian)",
-  "color": "#8E2BC0",
-  "yRel": 0.141,
-  "hRel": 0.03,
-  "broad note": "What was destined to become Carthage was at some point an amalgamation of pastoral villages, where Libyco-Berber clans forged ancestor rites, and warrior confederations. Into this landscape came Phoenician settlers after 1000 BCE, and with the founding of Carthage in 814 BCE, Punic mercantile urbanism fused with Libyan martial traditions, creating a hybrid republic admired by Aristotle and enriched by Saharan caravans, Iberian silver, and fertile North African estates. Carthage rose as the naval hegemon of the western Mediterranean, but after three great wars with Rome it was burned in 146 BCE, its people enslaved and much of its heritage destroyed, even as Punic traditions endured across North Africa.",
-  "broad lifespan": "c. 5000 BCE - 146 BCE",
-  "segments": [
-  {
-    "start": -5000,
-    "end": -4000,
-    "label": "Pastoral Sahara–Maghreb Rock-Art Horizon",
-    "note": "The period sees the earliest foundations of North African symbolic and social life were taking shape. During this greener Saharan phase, cattle herders ranged between seasonal lakes, oases, and the Maghreb plains. They left thousands of engravings and paintings—long-horned cattle, herders with bows, dogs, and dancing groups—etched along travel routes and camp walls. Some scenes with archers and clustered figures hint at organized clashes among mobile groups. Daily life mixed herding with hunting and gathering; small clay pots, leather bags, and simple huts appear alongside stone tools. Early cairns and low burial mounds begin to dot the steppe. As rains waned toward the end of the millennium, families edged closer to the Mediterranean coast, foreshadowing the coastal lifeways that would later connect to Phoenician and Punic maritime traditions."
+    "id": "carthaginian-composite",
+    "name": "North-African",
+    "expanded name": "North-African (Libyan/Berber/Punic/Carthaginian)",
+    "color": "#8E2BC0",
+    "yRel": 0.241,
+    "hRel": 0.03,
+    "broad note": "What was destined to become Carthage was at some point an amalgamation of pastoral villages, where Libyco-Berber clans forged ancestor rites, and warrior confederations. Into this landscape came Phoenician settlers after 1000 BCE, and with the founding of Carthage in 814 BCE, Punic mercantile urbanism fused with Libyan martial traditions, creating a hybrid republic admired by Aristotle and enriched by Saharan caravans, Iberian silver, and fertile North African estates. Carthage rose as the naval hegemon of the western Mediterranean, but after three great wars with Rome it was burned in 146 BCE, its people enslaved and much of its heritage destroyed, even as Punic traditions endured across North Africa.",
+    "broad lifespan": "c. 5000 BCE - 146 BCE",
+    "segments": [
+      {
+        "start": -5000,
+        "end": -4000,
+        "label": "Pastoral Sahara–Maghreb Rock-Art Horizon",
+        "note": "The period sees the earliest foundations of North African symbolic and social life were taking shape. During this greener Saharan phase, cattle herders ranged between seasonal lakes, oases, and the Maghreb plains. They left thousands of engravings and paintings—long-horned cattle, herders with bows, dogs, and dancing groups—etched along travel routes and camp walls. Some scenes with archers and clustered figures hint at organized clashes among mobile groups. Daily life mixed herding with hunting and gathering; small clay pots, leather bags, and simple huts appear alongside stone tools. Early cairns and low burial mounds begin to dot the steppe. As rains waned toward the end of the millennium, families edged closer to the Mediterranean coast, foreshadowing the coastal lifeways that would later connect to Phoenician and Punic maritime traditions."
+      },
+      {
+        "start": -4000,
+        "end": -3000,
+        "label": "Early Megalithic & Proto-Chalcolithic Tunisia",
+        "note": "Across the Tunisian capes and uplands, communities began to mark the landscape with stone—dolmens, ring-shaped tumuli (bazinas), and stone-lined graves—forming visible burial fields near villages (clusters are known around Dougga and Maktar). Daily life mixed grain farming with cattle, sheep, and goat herding. Pottery shifts from shell-impressed to smoother burnished and incised wares, and by the end of the millennium simple copper items (pins, awls, beads) appear. Inland tracks linking pastures to the coast stayed busy, with short sea hops along Cap Bon. These megalithic cemeteries and first copper objects point to rising ceremony and status. Hints of tension surface too: rock-art traditions to the south and interior show armed groups, caches of fine arrowheads and mace-heads accompany some burials, and spreading megalithic cemeteries suggest ancestor claims and territorial signaling as water and pastures tightened."
+      },
+      {
+        "start": -3000,
+        "end": -2000,
+        "label": "Early Libyco-Berber Chalcolithic",
+        "note": "The communities of the western desert and coastal Maghreb developed a distinctive Chalcolithic material culture — rock engravings, tumuli burials, copper ornaments — while moving across the steppe between Sahara and Mediterranean. Their position beside the Nile Valley created both tension and opportunity. Egypt’s growing splendor, visible in surplus grain, temples, and prestige goods, acted as a magnet: Libyan groups alternated between raiding frontier settlements and trading livestock, hides, and desert products in exchange for grain and crafted goods. This “love-hate” dynamic fostered the rise of warrior traditions among Libyan clans, who sharpened their identity in both conflict with and service to Egypt, much like “barbarians at the gate” in later history. The seeds of a warriorized, semi-nomadic Libyco-Berber ethos were thus sown in the Chalcolithic, long before they became visible in Egyptian inscriptions."
+      },
+      {
+        "start": -2000,
+        "end": -1000,
+        "label": "Bronze Age Libyco-Berber Societies",
+        "note": "During the Bronze Age, North Africa’s Libyco-Berber populations shifted from scattered pastoral villages to more coordinated and martial societies. Archaeological traces of tumulus burials and chariot iconography suggest the rise of clan chiefs and organized war bands. Egyptian records provide the clearest testimony of this centralization, describing Meshwesh and Libu confederations able to field thousands of warriors and chariots. The Bronze Age collapse destabilized the wider Mediterranean after 1200 BCE, and its effects on North Africa are mainly visible through Egyptian accounts of intensified Libyan incursions. By the end of this period, prominent Libyan families had begun to establish themselves inside Egypt, foreshadowing later dynasties of Libyan origin. Around 1000 BCE, a warrior-pastoral society had fully taken shape, laying the groundwork for interaction with Phoenician colonization and the eventual rise of Carthage."
+      },
+      {
+        "start": -1000,
+        "end": -814,
+        "label": "Phoenician Colonization & Foundation of Carthage",
+        "note": "As the Phoenician city-states of the Levant sought metals, farmland, and new markets, they expanded westward, planting colonies across the Mediterranean. North Africa was especially attractive: fertile plains, access to Saharan caravan routes, and a strategic midway position between Sicily, Sardinia, and Spain made it an ideal hub. Early foundations such as Utica were ruled by aristocrats tied to Tyre, but governance soon shifted to local suffetes and councils, always in negotiation with Libyco-Berber chiefs who controlled the hinterland. Alongside their mercantile institutions, the settlers also institutionalized Canaanite ritual practices, including offerings to Baal and Tanit that at times extended to child sacrifice, later remembered with horror by Greek and Roman observers. Trade flourished in wine, oil, and craft goods exchanged for livestock, grain, and desert commodities, while intermarriage produced a hybrid elite that bound Phoenician settlers to local society. By tradition, Tyrian colonists under Queen Dido founded Carthage in 814 BCE."
+      },
+      {
+        "start": -814,
+        "end": -500,
+        "label": "Early Carthaginian Expansion",
+        "note": "Founded as a Tyrian colony, Carthage quickly outgrew its mother city’s control and rose to dominate the western Phoenician settlements. Its elites formed a hybrid class of merchants and war leaders, investing in both maritime trade and agricultural estates while commanding fleets and armies. Unlike the Levantine Phoenician cities, which were hemmed in by Assyria and Babylonia, Carthage enjoyed a relatively peaceful North African setting; local Berber tribes were formidable, but decentralized, unlike the Levantine neighboring imperial overlords. This stability allowed rapid growth, as the city consolidated coastal colonies in Tunisia and Libya while projecting power toward Sicily, Sardinia, and Iberia. Carthage’s governance, centered on suffetes and a council of elders, balanced Punic aristocrats with Libyco-Berber tributaries and allies who supplied cavalry and manpower. By 500 BCE, the city had become the chief Punic hegemon of the Mediterranean, blending commerce, agriculture, and military might into a powerful maritime empire."
+      },
+      {
+        "start": -500,
+        "end": -264,
+        "label": "Classical Carthaginian Republic",
+        "note": "In this period Carthage matured into a powerful maritime republic governed by annually elected suffetes, a council of elders, and oversight tribunals that balanced mercantile and military interests. Aristotle admired this constitution as one of the most stable and well-ordered of the ancient world. Carthage’s wealth flowed from expansive trade networks and North African estates, exporting grain, olives, and wine while dominating routes to Iberia, Sardinia, and beyond. Its armies relied heavily on Libyco-Berber cavalry, Iberian infantry, Numidian horsemen, and other mercenaries, while its navy remained the strongest in the western Mediterranean. Greek rivals, especially Syracuse, contested control of Sicily in a series of long wars that strained Punic resources but failed to dislodge Carthaginian influence. By 264 BCE, Carthage stood as the chief naval superpower of the west, yet its dependence on mercenaries and looming rivalry with Rome foreshadowed the conflicts to come."
+      },
+      {
+        "start": -264,
+        "end": -146,
+        "label": "Punic Wars & Fall of Carthage",
+        "note": "Carthage’s rivalry with Rome erupted in the First Punic War (264–241 BCE), where Roman innovation at sea broke Punic naval supremacy and cost Carthage Sicily and heavy tribute. In the Second Punic War (218–201 BCE), Hannibal’s daring march across the Alps brought stunning victories in Italy, yet Rome endured and crushed him at Zama, stripping Carthage of its empire, fleet, and independence. Despite these blows, Carthage revived as a commercial hub, alarming Roman statesmen who feared its resurgence. The Third Punic War (149–146 BCE) ended with a three-year siege, after which Rome stormed the city, slaughtered or enslaved its population, and burned Carthage to the ground. This destruction obliterated much of Carthage’s cultural heritage, erasing Punic libraries, records, and monuments from history. With Carthage gone, Rome became the uncontested master of the western Mediterranean, while North Africa was reorganized as the Roman province of Africa."
+      }
+    ]
   },
   {
-    "start": -4000,
-    "end": -3000,
-    "label": "Early Megalithic & Proto-Chalcolithic Tunisia",
-    "note": "Across the Tunisian capes and uplands, communities began to mark the landscape with stone—dolmens, ring-shaped tumuli (bazinas), and stone-lined graves—forming visible burial fields near villages (clusters are known around Dougga and Maktar). Daily life mixed grain farming with cattle, sheep, and goat herding. Pottery shifts from shell-impressed to smoother burnished and incised wares, and by the end of the millennium simple copper items (pins, awls, beads) appear. Inland tracks linking pastures to the coast stayed busy, with short sea hops along Cap Bon. These megalithic cemeteries and first copper objects point to rising ceremony and status. Hints of tension surface too: rock-art traditions to the south and interior show armed groups, caches of fine arrowheads and mace-heads accompany some burials, and spreading megalithic cemeteries suggest ancestor claims and territorial signaling as water and pastures tightened."
-  },
-    {
-      "start": -3000,
-      "end": -2000,
-      "label": "Early Libyco-Berber Chalcolithic",
-      "note": "The communities of the western desert and coastal Maghreb developed a distinctive Chalcolithic material culture — rock engravings, tumuli burials, copper ornaments — while moving across the steppe between Sahara and Mediterranean. Their position beside the Nile Valley created both tension and opportunity. Egypt’s growing splendor, visible in surplus grain, temples, and prestige goods, acted as a magnet: Libyan groups alternated between raiding frontier settlements and trading livestock, hides, and desert products in exchange for grain and crafted goods. This “love-hate” dynamic fostered the rise of warrior traditions among Libyan clans, who sharpened their identity in both conflict with and service to Egypt, much like “barbarians at the gate” in later history. The seeds of a warriorized, semi-nomadic Libyco-Berber ethos were thus sown in the Chalcolithic, long before they became visible in Egyptian inscriptions."
-    },
-    {
-      "start": -2000,
-      "end": -1000,
-      "label": "Bronze Age Libyco-Berber Societies",
-      "note": "During the Bronze Age, North Africa’s Libyco-Berber populations shifted from scattered pastoral villages to more coordinated and martial societies. Archaeological traces of tumulus burials and chariot iconography suggest the rise of clan chiefs and organized war bands. Egyptian records provide the clearest testimony of this centralization, describing Meshwesh and Libu confederations able to field thousands of warriors and chariots. The Bronze Age collapse destabilized the wider Mediterranean after 1200 BCE, and its effects on North Africa are mainly visible through Egyptian accounts of intensified Libyan incursions. By the end of this period, prominent Libyan families had begun to establish themselves inside Egypt, foreshadowing later dynasties of Libyan origin. Around 1000 BCE, a warrior-pastoral society had fully taken shape, laying the groundwork for interaction with Phoenician colonization and the eventual rise of Carthage."
-    },
-    {
-      "start": -1000,
-      "end": -814,
-      "label": "Phoenician Colonization & Foundation of Carthage",
-      "note": "As the Phoenician city-states of the Levant sought metals, farmland, and new markets, they expanded westward, planting colonies across the Mediterranean. North Africa was especially attractive: fertile plains, access to Saharan caravan routes, and a strategic midway position between Sicily, Sardinia, and Spain made it an ideal hub. Early foundations such as Utica were ruled by aristocrats tied to Tyre, but governance soon shifted to local suffetes and councils, always in negotiation with Libyco-Berber chiefs who controlled the hinterland. Alongside their mercantile institutions, the settlers also institutionalized Canaanite ritual practices, including offerings to Baal and Tanit that at times extended to child sacrifice, later remembered with horror by Greek and Roman observers. Trade flourished in wine, oil, and craft goods exchanged for livestock, grain, and desert commodities, while intermarriage produced a hybrid elite that bound Phoenician settlers to local society. By tradition, Tyrian colonists under Queen Dido founded Carthage in 814 BCE."
-    },
-    {
-      "start": -814,
-      "end": -500,
-      "label": "Early Carthaginian Expansion",
-      "note": "Founded as a Tyrian colony, Carthage quickly outgrew its mother city’s control and rose to dominate the western Phoenician settlements. Its elites formed a hybrid class of merchants and war leaders, investing in both maritime trade and agricultural estates while commanding fleets and armies. Unlike the Levantine Phoenician cities, which were hemmed in by Assyria and Babylonia, Carthage enjoyed a relatively peaceful North African setting; local Berber tribes were formidable, but decentralized, unlike the Levantine neighboring imperial overlords. This stability allowed rapid growth, as the city consolidated coastal colonies in Tunisia and Libya while projecting power toward Sicily, Sardinia, and Iberia. Carthage’s governance, centered on suffetes and a council of elders, balanced Punic aristocrats with Libyco-Berber tributaries and allies who supplied cavalry and manpower. By 500 BCE, the city had become the chief Punic hegemon of the Mediterranean, blending commerce, agriculture, and military might into a powerful maritime empire."
-    },
-    {
-      "start": -500,
-      "end": -264,
-      "label": "Classical Carthaginian Republic",
-      "note": "In this period Carthage matured into a powerful maritime republic governed by annually elected suffetes, a council of elders, and oversight tribunals that balanced mercantile and military interests. Aristotle admired this constitution as one of the most stable and well-ordered of the ancient world. Carthage’s wealth flowed from expansive trade networks and North African estates, exporting grain, olives, and wine while dominating routes to Iberia, Sardinia, and beyond. Its armies relied heavily on Libyco-Berber cavalry, Iberian infantry, Numidian horsemen, and other mercenaries, while its navy remained the strongest in the western Mediterranean. Greek rivals, especially Syracuse, contested control of Sicily in a series of long wars that strained Punic resources but failed to dislodge Carthaginian influence. By 264 BCE, Carthage stood as the chief naval superpower of the west, yet its dependence on mercenaries and looming rivalry with Rome foreshadowed the conflicts to come."
-    },
-    {
-      "start": -264,
-      "end": -146,
-      "label": "Punic Wars & Fall of Carthage",
-      "note": "Carthage’s rivalry with Rome erupted in the First Punic War (264–241 BCE), where Roman innovation at sea broke Punic naval supremacy and cost Carthage Sicily and heavy tribute. In the Second Punic War (218–201 BCE), Hannibal’s daring march across the Alps brought stunning victories in Italy, yet Rome endured and crushed him at Zama, stripping Carthage of its empire, fleet, and independence. Despite these blows, Carthage revived as a commercial hub, alarming Roman statesmen who feared its resurgence. The Third Punic War (149–146 BCE) ended with a three-year siege, after which Rome stormed the city, slaughtered or enslaved its population, and burned Carthage to the ground. This destruction obliterated much of Carthage’s cultural heritage, erasing Punic libraries, records, and monuments from history. With Carthage gone, Rome became the uncontested master of the western Mediterranean, while North Africa was reorganized as the Roman province of Africa."
-    }
-  ]
-},
-{
     "id": "custom-roman-italic-composite",
     "name": "Roman",
     "expanded name": "Roman (Italic/Etruscan/Latin/Roman)",
     "color": "#C4002F",
-    "yRel": 0.080,
+    "yRel": 0.18,
     "hRel": 0.06,
     "broad note": "The roots of Rome lay in the warlike cultures of prehistoric Italy, where villages hardened into fortified communities. From Etruscan kings and Italic tribes, Rome inherited augury, sacred arms, and civic ritual, but transformed them into an unparalleled system of disciplined warriorship. The Republic elevated conquest into a civic religion: triumphs sanctified victory, law and order followed the legions, and the Senate cloaked expansion with universalizing ideals. In overtaking the Hellenistic world, Rome absorbed its gods, sciences, and philosophies, yet recast them under the authority of the legion and the Latin tongue. At later stages, Roman emperors embodied not only political supremacy but also symbolic mastery over the living Being. This war-forged system became the prototype of Western empires to come—uniting force, law, and cultural dominance into a single claim of globalist rule. The final division of 395 CE did not end Rome’s model, but ensured its legacy would echo across Byzantium, Christendom, and every empire that sought to emulate its fusion of power and permanence.",
-    "broad lifespan": "c. 5000 BCE - 395 CE",    
-  "segments": [
-    {
-      "start": -5000,
-      "end": -3500,
-      "label": "Neolithic Italy (Impressa & Cardial)",
-      "note": "Neolithic Italy saw the arrival of farming communities from the Balkans and the eastern Adriatic, carrying Impressa and Cardial pottery traditions. These settlers gradually introduced seasonal agriculture into the peninsula, combining new crops and livestock with existing foraging and hunting practices. Small coastal and riverine villages thrived on mixed farming, animal husbandry, and hunting, while obsidian from Lipari, Pantelleria, and Sardinia circulated as the key prestige trade good. Ritual life centered on fertility figurines and early megalithic monuments, but social stratification remained low, with burials showing little distinction in wealth or status. This was a pre-warriorized world, where symbolic value was tied to daily subsistence and exotic materials like obsidian, not yet to weapons or militarized prestige."
-    },
-    {
-      "start": -3500,
-      "end": -2300,
-      "label": "Copper Age (Remedello & Rinaldone)",
-      "note": "During the Copper Age, Italy entered a transitional phase between farming villages and more stratified societies. Copper tools and ornaments appeared as prestige goods in elite burials, while most daily tools remained stone. The Remedello and Rinaldone cultures marked new burial traditions, with copper daggers, arrowheads, and ornaments as symbols of status. Agriculture and animal husbandry intensified, and long-distance trade expanded. Obsidian from Lipari, Pantelleria, and Sardinia continued to circulate, prized by Aegean and central Mediterranean communities. The copper luxury materials in northern and central Italian graves likely came from Alpine and Balkan sources, linking the peninsula to wider metallurgical networks. This period marks Italy’s first clear step toward elite formation, where power was expressed through weapons and personal prestige."
-    },
-    {
-      "start": -2300,
-      "end": -1200,
-      "label": "Early Bronze Age (Terramare & Apennine)",
-      "note": "In the Early Bronze Age, Italy saw the rise of the Terramare culture in the north and the Apennine culture in the center and south. Fortified villages in the Po Valley suggest organized communities competing for control of rivers and Alpine routes, while Apennine hilltop settlements oversaw valleys tied to herding and regional trade. Farming and animal husbandry intensified, creating surpluses, while bronze tools and weapons remained elite goods, with most daily implements still stone. Burials with weapons and imported objects reveal growing social differentiation, as elites sought to monopolize Mediterranean contacts. Mycenaean pottery and prestige items reached select sites, underscoring how exchange became a source of power. As obsidian lost value, bronze became the primary symbol of status, until the Bronze Age Collapse disrupted networks, paving the way for the Proto-Villanovan world."
-    },
-    {
-      "start": -1200,
-      "end": -900,
-      "label": "Proto-Villanovan (Urnfield Horizon)",
-      "note": "The Proto-Villanovan period marked Italy’s integration into the wider Urnfield culture of Central Europe, most visibly through the adoption of cremation burials. Ashes were placed in urns, usually simple but sometimes accompanied by weapons or ornaments, signaling early but limited social distinctions. Iron tools and weapons appeared alongside bronze, foreshadowing a technological transition. With Mediterranean networks weakened after the Bronze Age Collapse, access to imported prestige goods declined, undermining earlier elites and old displays of wealth. Burial practices became more uniform, reflecting a temporary reduction in stratification, while new continental influences reshaped Italian society. This was a transitional age, laying the foundations for the Villanovan and later Etruscan cultures."
-    },
-    {
-      "start": -900,
-      "end": -800,
-      "label": "Villanovan Culture",
-      "note": "The Villanovan culture marked the first clear stage of Etruscan development, continuing cremation burials but with distinctive biconical urns, sometimes shaped like helmets or huts. Iron tools and weapons became more common, while bronze remained important for ornaments and fibulae. Burial goods show clearer social differentiation, with weapons highlighting the growing prestige of warrior elites. At the same time, Mediterranean contacts revived: Phoenician traders began reaching Italian shores, and early Greek settlers and merchants appeared, introducing geometric pottery and new agricultural techniques. These exchanges helped lift Villanovan society out of its Proto-Villanovan simplicity, setting the stage for the urban and aristocratic world of the Etruscans."
-    },
-    {
-      "start": -800,
-      "end": -700,
-      "label": "Early Etruscan Formation",
-      "note": "This period marks the crystallization of Etruscan aristocratic society out of Villanovan roots. Elite lineages consolidate power through control of land, metallurgy, and long-distance exchange networks linking central Italy to the Greek and Phoenician worlds. Hilltop settlements evolve into nucleated communities with formalized sacred spaces, defensive works, and hereditary leadership. South of the Etruscan heartland, small Latial villages cluster along river crossings and fertile lowlands. One such settlement, later known as Rome, begins as an unremarkable aggregation of huts on the Palatine and neighboring hills. Its early inhabitants leave little trace of distinctive institutions; material culture closely mirrors broader Latial patterns, with Etruscan influence already visible in burial customs and imported goods. The figures later celebrated by Roman tradition—Romulus, Remus, and the first kings—belong primarily to retrospective myth-making rather than contemporary historical record. The formative energies of central Italy during these centuries lie overwhelmingly with the Etruscan cities."
-    },
-    {
-      "start": -700,
-      "end": -509,
-      "label": "Etruscan Hegemony in Central Italy",
-      "note": "During this phase, Etruscan city-states reach the height of their political, economic, and cultural influence. Centers such as Tarquinia, Veii, and Cerveteri dominate regional trade, ritual authority, and military power. Elite wealth is expressed through monumental tumuli, painted tombs, and luxury goods, while a shared divinatory and religious system underwrites political legitimacy. Rome develops squarely within this hegemonic environment. Urbanization accelerates as marshlands are drained, sacred boundaries formalized, and public spaces such as the Forum take shape through Etruscan engineering and ritual concepts. The Roman monarchy, particularly in its later phases, bears unmistakable Etruscan features in regalia, augury, architecture, and political symbolism. The expulsion of the last king in 509 BCE marks both a constitutional rupture and a narrative turning point. Thereafter, Roman memory frames the Etruscan past as a prelude to liberation, obscuring how deeply Rome’s early institutions, sacred practices, and urban form derive from Etruscan civilization."
-},
-    {
-      "start": -509,
-      "end": -287,
-      "label": "Early Roman Republic",
-      "note": "After the expulsion of the last Etruscan king, Rome established the Republic in 509 BCE. Political authority shifted to elected magistrates (consuls) and the Senate, though patricians monopolized power. The early Republic was marked by the ‘Struggle of the Orders,’ as plebeians demanded representation and rights, gradually gaining access to political office and legal protections. Rome expanded its influence over Latium and neighboring peoples, forming alliances and fighting wars that extended its control. The capture of Veii in 396 BCE marked a turning point, bringing wealth and territory. Despite internal class conflict, Rome’s militarized and legally structured system created a resilient framework for expansion."
-    },
-    {
-      "start": -287,
-      "end": -133,
-      "label": "Middle Roman Republic",
-      "note": "The Lex Hortensia of 287 BCE ended the Conflict of the Orders, granting plebeian resolutions the force of law and integrating plebeians into Rome’s political system. Rome embarked on expansion across Italy, defeating Samnites, Etruscans, and Greek city-states. The Punic Wars (264–146 BCE) against Carthage defined the era: Rome destroyed its rival and gained overseas provinces, including Sicily, Spain, and Africa. Victories in the east brought Greece and Asia Minor under Roman influence. Wealth from conquest enriched elites, but widened the gap with ordinary citizens, fueling social tensions. Military service became professionalized, while political life was increasingly dominated by ambitious generals and factional rivalries."
-    },
-    {
-      "start": -133,
-      "end": -27,
-      "label": "Late Roman Republic",
-      "note": "The Late Republic was perhaps the most turbulent era in Roman history. The Gracchi attempted reforms to address inequality, but their violent deaths signaled a breakdown of consensus. Generals like Marius, Sulla, Pompey, and Caesar used armies for political power, waging civil wars that destabilized the Republic. Economic inequality, urban unrest, and provincial exploitation deepened. Intellectual and cultural life flourished, with Cicero, Lucretius, and Catullus among others, but politics grew ever more violent. Caesar’s dictatorship and assassination in 44 BCE epitomized the collapse of Republican norms. Octavian (later Augustus) emerged as sole ruler after defeating Antony and Cleopatra, transforming Rome into an empire."
-    },
-    {
-      "start": -27,
-      "end": 96,
-      "label": "Early Principate",
-      "note": "The period laid the foundations of imperial rule under Augustus (27 BCE–14 CE) and his successors. Augustus stabilized Rome after decades of civil war, centralizing authority while preserving republican forms in appearance. The Principate system balanced power between emperor, Senate, and assemblies, though real control lay with the princeps. Rome expanded into Egypt, northern Spain, and central Europe, while monumental architecture like the Ara Pacis celebrated peace and imperial ideology. Successors consolidated power, though dynastic instability (e.g., Caligula, Nero) revealed the system’s fragility. Yet the early Principate provided relative stability, prosperity, and cultural flourishing across the Mediterranean."
-    },
-    {
-      "start": 96,
-      "end": 192,
-      "label": "High Empire",
-      "note": "The High Empire (96–192 CE) marked the height of Roman prosperity and power. Under the ‘Five Good Emperors’—Nerva, Trajan, Hadrian, Antoninus Pius, and Marcus Aurelius—Rome achieved territorial maximum, stretching from Britain to Mesopotamia. The empire enjoyed relative internal peace (Pax Romana), economic integration, and legal development. Monumental architecture, including Trajan’s Forum and Hadrian’s Wall, reflected imperial grandeur. Yet pressures emerged: the cost of defense, frontier wars, and plagues strained resources. Marcus Aurelius fought the Marcomannic Wars, signaling mounting challenges. His death and the accession of Commodus ended the golden era, ushering in instability."
-    },
-    {
-      "start": 192,
-      "end": 284,
-      "label": "Late Principate",
-      "note": "The period was a century of crisis. The Severan dynasty initially brought stability, but heavy military spending and debasement of currency undermined the economy. From 235 CE, the empire entered the ‘Crisis of the Third Century,’ marked by rapid turnover of emperors, invasions, secessions, and economic collapse. Gothic and Persian threats grew, while internal rivalries weakened cohesion. Yet resilience endured: new leaders rose from the provinces, provincial economies adapted, and reforms were attempted. Intellectual life, especially Neoplatonism and Christian communities, expanded despite turmoil. By the late 3rd century, the old Principate was exhausted, setting the stage for radical reforms."
-    },
-    {
-      "start": 284,
-      "end": 305,
-      "label": "Diocletian and the Tetrarchy",
-      "note": "The reign of Diocletian (284–305 CE) inaugurated the Dominate, an openly autocratic system. To stabilize the empire, he established the Tetrarchy—two senior emperors (Augusti) and two junior emperors (Caesares)—dividing authority regionally. Administrative reforms increased bureaucracy, taxation, and control of society, including persecution of Christians. Military reorganization strengthened frontiers, while currency reforms sought stability. Symbolically, emperors were elevated as semi-divine figures, breaking with republican pretense. The Tetrarchy provided temporary order, but rivalries and succession crises soon fractured the arrangement."
-    },
-    {
-      "start": 305,
-      "end": 337,
-      "label": "Constantine and the Christian Turn",
-      "note": "The reign of Constantine marked a watershed in Roman history. After civil wars, Constantine consolidated power as sole ruler, defeating Licinius in 324 CE. He legalized Christianity with the Edict of Milan (313) and convened the Council of Nicaea (325), giving imperial backing to the Church. He moved the capital to Byzantium, renamed Constantinople, symbolically shifting Rome’s center of gravity eastward. Constantine fostered Christian patronage, building churches like the Lateran and St. Peter’s, while maintaining traditional imperial imagery. His reign redefined the relationship between state and religion, embedding Christianity into imperial structures."
-    },
-    {
-      "start": 337,
-      "end": 379,
-      "label": "The Constantinian Dynasty and Successors",
-      "note": "A transitional age in which Constantine’s Christian settlement continued but faced turbulence. His sons and successors divided the empire, leading to conflicts and instability. Christianity gained ground, but rival theological positions (Arianism vs. Nicene orthodoxy) divided society and politics. Paganism persisted but increasingly lost state support. Julian (361–363 CE) attempted to revive pagan traditions, but his failure underscored Christianity’s ascendancy. The empire faced external threats from Persians and Goths, while internal resources strained under dynastic feuds. The period ended with the rise of Theodosius I, who would complete the Christianization of the empire."
-    },
-    {
-      "start": 379,
-      "end": 395,
-      "label": "Theodosius I and the Christian Empire",
-      "note": "The reign of Theodosius I (379–395 CE) completed the Christian transformation of the Roman state. He made Nicene Christianity the official religion with the Edict of Thessalonica (380), suppressed pagan practices, and aligned imperial authority with Church power. His reign saw intense conflict with Gothic federates, culminating in the catastrophic defeat at Adrianople (378, just before his reign) and the settlement of Goths within the empire. Theodosius maintained unity through personal authority, but his death in 395 divided the empire permanently into East and West, marking the end of a unified Roman world."
-    }
-  ]
-},
- {
+    "broad lifespan": "c. 5000 BCE - 395 CE",
+    "segments": [
+      {
+        "start": -5000,
+        "end": -3500,
+        "label": "Neolithic Italy (Impressa & Cardial)",
+        "note": "Neolithic Italy saw the arrival of farming communities from the Balkans and the eastern Adriatic, carrying Impressa and Cardial pottery traditions. These settlers gradually introduced seasonal agriculture into the peninsula, combining new crops and livestock with existing foraging and hunting practices. Small coastal and riverine villages thrived on mixed farming, animal husbandry, and hunting, while obsidian from Lipari, Pantelleria, and Sardinia circulated as the key prestige trade good. Ritual life centered on fertility figurines and early megalithic monuments, but social stratification remained low, with burials showing little distinction in wealth or status. This was a pre-warriorized world, where symbolic value was tied to daily subsistence and exotic materials like obsidian, not yet to weapons or militarized prestige."
+      },
+      {
+        "start": -3500,
+        "end": -2300,
+        "label": "Copper Age (Remedello & Rinaldone)",
+        "note": "During the Copper Age, Italy entered a transitional phase between farming villages and more stratified societies. Copper tools and ornaments appeared as prestige goods in elite burials, while most daily tools remained stone. The Remedello and Rinaldone cultures marked new burial traditions, with copper daggers, arrowheads, and ornaments as symbols of status. Agriculture and animal husbandry intensified, and long-distance trade expanded. Obsidian from Lipari, Pantelleria, and Sardinia continued to circulate, prized by Aegean and central Mediterranean communities. The copper luxury materials in northern and central Italian graves likely came from Alpine and Balkan sources, linking the peninsula to wider metallurgical networks. This period marks Italy’s first clear step toward elite formation, where power was expressed through weapons and personal prestige."
+      },
+      {
+        "start": -2300,
+        "end": -1200,
+        "label": "Early Bronze Age (Terramare & Apennine)",
+        "note": "In the Early Bronze Age, Italy saw the rise of the Terramare culture in the north and the Apennine culture in the center and south. Fortified villages in the Po Valley suggest organized communities competing for control of rivers and Alpine routes, while Apennine hilltop settlements oversaw valleys tied to herding and regional trade. Farming and animal husbandry intensified, creating surpluses, while bronze tools and weapons remained elite goods, with most daily implements still stone. Burials with weapons and imported objects reveal growing social differentiation, as elites sought to monopolize Mediterranean contacts. Mycenaean pottery and prestige items reached select sites, underscoring how exchange became a source of power. As obsidian lost value, bronze became the primary symbol of status, until the Bronze Age Collapse disrupted networks, paving the way for the Proto-Villanovan world."
+      },
+      {
+        "start": -1200,
+        "end": -900,
+        "label": "Proto-Villanovan (Urnfield Horizon)",
+        "note": "The Proto-Villanovan period marked Italy’s integration into the wider Urnfield culture of Central Europe, most visibly through the adoption of cremation burials. Ashes were placed in urns, usually simple but sometimes accompanied by weapons or ornaments, signaling early but limited social distinctions. Iron tools and weapons appeared alongside bronze, foreshadowing a technological transition. With Mediterranean networks weakened after the Bronze Age Collapse, access to imported prestige goods declined, undermining earlier elites and old displays of wealth. Burial practices became more uniform, reflecting a temporary reduction in stratification, while new continental influences reshaped Italian society. This was a transitional age, laying the foundations for the Villanovan and later Etruscan cultures."
+      },
+      {
+        "start": -900,
+        "end": -800,
+        "label": "Villanovan Culture",
+        "note": "The Villanovan culture marked the first clear stage of Etruscan development, continuing cremation burials but with distinctive biconical urns, sometimes shaped like helmets or huts. Iron tools and weapons became more common, while bronze remained important for ornaments and fibulae. Burial goods show clearer social differentiation, with weapons highlighting the growing prestige of warrior elites. At the same time, Mediterranean contacts revived: Phoenician traders began reaching Italian shores, and early Greek settlers and merchants appeared, introducing geometric pottery and new agricultural techniques. These exchanges helped lift Villanovan society out of its Proto-Villanovan simplicity, setting the stage for the urban and aristocratic world of the Etruscans."
+      },
+      {
+        "start": -800,
+        "end": -700,
+        "label": "Early Etruscan Formation",
+        "note": "This period marks the crystallization of Etruscan aristocratic society out of Villanovan roots. Elite lineages consolidate power through control of land, metallurgy, and long-distance exchange networks linking central Italy to the Greek and Phoenician worlds. Hilltop settlements evolve into nucleated communities with formalized sacred spaces, defensive works, and hereditary leadership. South of the Etruscan heartland, small Latial villages cluster along river crossings and fertile lowlands. One such settlement, later known as Rome, begins as an unremarkable aggregation of huts on the Palatine and neighboring hills. Its early inhabitants leave little trace of distinctive institutions; material culture closely mirrors broader Latial patterns, with Etruscan influence already visible in burial customs and imported goods. The figures later celebrated by Roman tradition—Romulus, Remus, and the first kings—belong primarily to retrospective myth-making rather than contemporary historical record. The formative energies of central Italy during these centuries lie overwhelmingly with the Etruscan cities."
+      },
+      {
+        "start": -700,
+        "end": -509,
+        "label": "Etruscan Hegemony in Central Italy",
+        "note": "During this phase, Etruscan city-states reach the height of their political, economic, and cultural influence. Centers such as Tarquinia, Veii, and Cerveteri dominate regional trade, ritual authority, and military power. Elite wealth is expressed through monumental tumuli, painted tombs, and luxury goods, while a shared divinatory and religious system underwrites political legitimacy. Rome develops squarely within this hegemonic environment. Urbanization accelerates as marshlands are drained, sacred boundaries formalized, and public spaces such as the Forum take shape through Etruscan engineering and ritual concepts. The Roman monarchy, particularly in its later phases, bears unmistakable Etruscan features in regalia, augury, architecture, and political symbolism. The expulsion of the last king in 509 BCE marks both a constitutional rupture and a narrative turning point. Thereafter, Roman memory frames the Etruscan past as a prelude to liberation, obscuring how deeply Rome’s early institutions, sacred practices, and urban form derive from Etruscan civilization."
+      },
+      {
+        "start": -509,
+        "end": -287,
+        "label": "Early Roman Republic",
+        "note": "After the expulsion of the last Etruscan king, Rome established the Republic in 509 BCE. Political authority shifted to elected magistrates (consuls) and the Senate, though patricians monopolized power. The early Republic was marked by the ‘Struggle of the Orders,’ as plebeians demanded representation and rights, gradually gaining access to political office and legal protections. Rome expanded its influence over Latium and neighboring peoples, forming alliances and fighting wars that extended its control. The capture of Veii in 396 BCE marked a turning point, bringing wealth and territory. Despite internal class conflict, Rome’s militarized and legally structured system created a resilient framework for expansion."
+      },
+      {
+        "start": -287,
+        "end": -133,
+        "label": "Middle Roman Republic",
+        "note": "The Lex Hortensia of 287 BCE ended the Conflict of the Orders, granting plebeian resolutions the force of law and integrating plebeians into Rome’s political system. Rome embarked on expansion across Italy, defeating Samnites, Etruscans, and Greek city-states. The Punic Wars (264–146 BCE) against Carthage defined the era: Rome destroyed its rival and gained overseas provinces, including Sicily, Spain, and Africa. Victories in the east brought Greece and Asia Minor under Roman influence. Wealth from conquest enriched elites, but widened the gap with ordinary citizens, fueling social tensions. Military service became professionalized, while political life was increasingly dominated by ambitious generals and factional rivalries."
+      },
+      {
+        "start": -133,
+        "end": -27,
+        "label": "Late Roman Republic",
+        "note": "The Late Republic was perhaps the most turbulent era in Roman history. The Gracchi attempted reforms to address inequality, but their violent deaths signaled a breakdown of consensus. Generals like Marius, Sulla, Pompey, and Caesar used armies for political power, waging civil wars that destabilized the Republic. Economic inequality, urban unrest, and provincial exploitation deepened. Intellectual and cultural life flourished, with Cicero, Lucretius, and Catullus among others, but politics grew ever more violent. Caesar’s dictatorship and assassination in 44 BCE epitomized the collapse of Republican norms. Octavian (later Augustus) emerged as sole ruler after defeating Antony and Cleopatra, transforming Rome into an empire."
+      },
+      {
+        "start": -27,
+        "end": 96,
+        "label": "Early Principate",
+        "note": "The period laid the foundations of imperial rule under Augustus (27 BCE–14 CE) and his successors. Augustus stabilized Rome after decades of civil war, centralizing authority while preserving republican forms in appearance. The Principate system balanced power between emperor, Senate, and assemblies, though real control lay with the princeps. Rome expanded into Egypt, northern Spain, and central Europe, while monumental architecture like the Ara Pacis celebrated peace and imperial ideology. Successors consolidated power, though dynastic instability (e.g., Caligula, Nero) revealed the system’s fragility. Yet the early Principate provided relative stability, prosperity, and cultural flourishing across the Mediterranean."
+      },
+      {
+        "start": 96,
+        "end": 192,
+        "label": "High Empire",
+        "note": "The High Empire (96–192 CE) marked the height of Roman prosperity and power. Under the ‘Five Good Emperors’—Nerva, Trajan, Hadrian, Antoninus Pius, and Marcus Aurelius—Rome achieved territorial maximum, stretching from Britain to Mesopotamia. The empire enjoyed relative internal peace (Pax Romana), economic integration, and legal development. Monumental architecture, including Trajan’s Forum and Hadrian’s Wall, reflected imperial grandeur. Yet pressures emerged: the cost of defense, frontier wars, and plagues strained resources. Marcus Aurelius fought the Marcomannic Wars, signaling mounting challenges. His death and the accession of Commodus ended the golden era, ushering in instability."
+      },
+      {
+        "start": 192,
+        "end": 284,
+        "label": "Late Principate",
+        "note": "The period was a century of crisis. The Severan dynasty initially brought stability, but heavy military spending and debasement of currency undermined the economy. From 235 CE, the empire entered the ‘Crisis of the Third Century,’ marked by rapid turnover of emperors, invasions, secessions, and economic collapse. Gothic and Persian threats grew, while internal rivalries weakened cohesion. Yet resilience endured: new leaders rose from the provinces, provincial economies adapted, and reforms were attempted. Intellectual life, especially Neoplatonism and Christian communities, expanded despite turmoil. By the late 3rd century, the old Principate was exhausted, setting the stage for radical reforms."
+      },
+      {
+        "start": 284,
+        "end": 305,
+        "label": "Diocletian and the Tetrarchy",
+        "note": "The reign of Diocletian (284–305 CE) inaugurated the Dominate, an openly autocratic system. To stabilize the empire, he established the Tetrarchy—two senior emperors (Augusti) and two junior emperors (Caesares)—dividing authority regionally. Administrative reforms increased bureaucracy, taxation, and control of society, including persecution of Christians. Military reorganization strengthened frontiers, while currency reforms sought stability. Symbolically, emperors were elevated as semi-divine figures, breaking with republican pretense. The Tetrarchy provided temporary order, but rivalries and succession crises soon fractured the arrangement."
+      },
+      {
+        "start": 305,
+        "end": 337,
+        "label": "Constantine and the Christian Turn",
+        "note": "The reign of Constantine marked a watershed in Roman history. After civil wars, Constantine consolidated power as sole ruler, defeating Licinius in 324 CE. He legalized Christianity with the Edict of Milan (313) and convened the Council of Nicaea (325), giving imperial backing to the Church. He moved the capital to Byzantium, renamed Constantinople, symbolically shifting Rome’s center of gravity eastward. Constantine fostered Christian patronage, building churches like the Lateran and St. Peter’s, while maintaining traditional imperial imagery. His reign redefined the relationship between state and religion, embedding Christianity into imperial structures."
+      },
+      {
+        "start": 337,
+        "end": 379,
+        "label": "The Constantinian Dynasty and Successors",
+        "note": "A transitional age in which Constantine’s Christian settlement continued but faced turbulence. His sons and successors divided the empire, leading to conflicts and instability. Christianity gained ground, but rival theological positions (Arianism vs. Nicene orthodoxy) divided society and politics. Paganism persisted but increasingly lost state support. Julian (361–363 CE) attempted to revive pagan traditions, but his failure underscored Christianity’s ascendancy. The empire faced external threats from Persians and Goths, while internal resources strained under dynastic feuds. The period ended with the rise of Theodosius I, who would complete the Christianization of the empire."
+      },
+      {
+        "start": 379,
+        "end": 395,
+        "label": "Theodosius I and the Christian Empire",
+        "note": "The reign of Theodosius I (379–395 CE) completed the Christian transformation of the Roman state. He made Nicene Christianity the official religion with the Edict of Thessalonica (380), suppressed pagan practices, and aligned imperial authority with Church power. His reign saw intense conflict with Gothic federates, culminating in the catastrophic defeat at Adrianople (378, just before his reign) and the settlement of Goths within the empire. Theodosius maintained unity through personal authority, but his death in 395 divided the empire permanently into East and West, marking the end of a unified Roman world."
+      }
+    ]
+  },
+  {
     "id": "custom-roman-carthaginian-composite",
     "name": "Roman",
     "expanded name": "Roman (Italic/Etruscan/Latin/Roman)",
     "color": "#C4002F",
-    "yRel": 0.141,
+    "yRel": 0.241,
     "hRel": 0.03,
     "broad note": "The roots of Rome lay in the warlike cultures of prehistoric Italy, where villages hardened into fortified communities. From Etruscan kings and Italic tribes, Rome inherited augury, sacred arms, and civic ritual, but transformed them into an unparalleled system of disciplined warriorship. The Republic elevated conquest into a civic religion: triumphs sanctified victory, law and order followed the legions, and the Senate cloaked expansion with universalizing ideals. In overtaking the Hellenistic world, Rome absorbed its gods, sciences, and philosophies, yet recast them under the authority of the legion and the Latin tongue. At later stages, Roman emperors embodied not only political supremacy but also symbolic mastery over the living Being. This war-forged system became the prototype of Western empires to come—uniting force, law, and cultural dominance into a single claim of globalist rule. The final division of 395 CE did not end Rome’s model, but ensured its legacy would echo across Byzantium, Christendom, and every empire that sought to emulate its fusion of power and permanence.",
     "broad lifespan": "c. 146 BCE - 395 CE",
     "segments": [
-    {
-      "start": -146,
-      "end": -44,
-      "label": "Aftermath of Destruction",
-      "note": "After its destruction in 146 BCE, Carthage lay in ruins and Rome annexed its lands as the province of Africa, governed from Utica. The site itself became a potent symbol of Rome’s triumph, a cautionary reminder of what happened to rivals who defied the Republic. Politically, the fertile hinterlands were redistributed, and Numidian kings rose in prominence, culminating in conflicts like the Jugurthine War. Local Punic and Berber traditions survived in the countryside, even as Roman authority reshaped the region. Between 146 and 44 BCE, Carthage lived more as memory than city—an emblem of conquest and a foundation stone for Rome’s Mediterranean empire."
-    },
-    {
-      "start": -44,
-      "end": 14,
-      "label": "Refoundation and Augustan Carthage",
-      "note": "Between 44 BCE and 14 CE, Carthage was reborn from ruin into a showcase of Roman imperial order. Julius Caesar began its refoundation, and Augustus completed it as Colonia Julia Concordia Carthago, settled with veterans and citizens. The city was rebuilt with Roman forums, temples, and aqueducts, becoming the capital of Africa Proconsularis and a vital supplier of grain to Rome. Symbolically, the transformation proclaimed Rome’s power to not only annihilate rivals but also resurrect them in its own image. Carthage thus shifted from a warning of destruction to a living emblem of Augustan harmony and empire."
-    },
-    {
-      "start": 14,
-      "end": 235,
-      "label": "Flourishing Provincial Capital",
-      "note": "From 14 CE to 235 CE, Carthage grew into one of the great cities of the western empire, second only to Rome itself in size and prestige. As the capital of Africa Proconsularis, it oversaw a province that supplied much of the empire’s grain, making North Africa indispensable to Rome’s stability. The city flourished with theaters, baths, forums, and a vibrant cultural life, blending Roman law and language with lingering Punic and Berber traditions. In the later part of the period, Carthage also became a seedbed of Christianity, producing martyrs like Perpetua and Felicity and writers like Tertullian, who gave Latin Christianity an early voice. Symbolically, Carthage embodied both the height of Roman provincial order and the quiet emergence of a new faith that would one day redefine the empire itself."
-    },
-    {
-      "start": 235,
-      "end": 312,
-      "label": "Christian Carthage and African Bishops",
-      "note": "Between 235 and 312 CE, Carthage stood at the crossroads of political instability and religious transformation. The broader empire entered the Crisis of the Third Century, and while Africa remained Rome’s breadbasket, the city’s symbolic weight shifted increasingly toward Christianity. Carthage became the home of influential bishops such as Cyprian, who guided the church during waves of persecution and articulated a vision of unity and authority that rivaled Rome itself. Martyrdoms and schisms marked the city as a crucible where Christian identity was forged under pressure, most notably in disputes over the treatment of the lapsed and the beginnings of the Donatist controversy. In this period, Carthage’s symbolic life pivoted: once the emblem of Roman conquest, it was now emerging as a spiritual capital, where African bishops wielded voices powerful enough to shape the future of the church."
-    },
-    {
-      "start": 312,
-      "end": 395,
-      "label": "Carthage in the Christian Empire",
-      "note": "Carthage entered a new phase as part of a Christian empire. After Constantine’s Edict of Milan legalized the faith, the city flourished as a Christian metropolis, its bishops wielding influence in both theological debate and imperial politics. Figures like the bishops of Carthage became central in disputes such as the Donatist controversy, where questions of purity, authority, and legitimacy divided African Christianity. Politically, Africa Proconsularis continued to secure Rome’s food supply, but symbolically Carthage now stood less as a monument of Roman conquest and more as a pillar of the Christian order. By the time of the empire’s permanent division in 395 CE, Carthage became a Christian stronghold whose voice carried across the Mediterranean world."
-    }
-  ]
+      {
+        "start": -146,
+        "end": -44,
+        "label": "Aftermath of Destruction",
+        "note": "After its destruction in 146 BCE, Carthage lay in ruins and Rome annexed its lands as the province of Africa, governed from Utica. The site itself became a potent symbol of Rome’s triumph, a cautionary reminder of what happened to rivals who defied the Republic. Politically, the fertile hinterlands were redistributed, and Numidian kings rose in prominence, culminating in conflicts like the Jugurthine War. Local Punic and Berber traditions survived in the countryside, even as Roman authority reshaped the region. Between 146 and 44 BCE, Carthage lived more as memory than city—an emblem of conquest and a foundation stone for Rome’s Mediterranean empire."
+      },
+      {
+        "start": -44,
+        "end": 14,
+        "label": "Refoundation and Augustan Carthage",
+        "note": "Between 44 BCE and 14 CE, Carthage was reborn from ruin into a showcase of Roman imperial order. Julius Caesar began its refoundation, and Augustus completed it as Colonia Julia Concordia Carthago, settled with veterans and citizens. The city was rebuilt with Roman forums, temples, and aqueducts, becoming the capital of Africa Proconsularis and a vital supplier of grain to Rome. Symbolically, the transformation proclaimed Rome’s power to not only annihilate rivals but also resurrect them in its own image. Carthage thus shifted from a warning of destruction to a living emblem of Augustan harmony and empire."
+      },
+      {
+        "start": 14,
+        "end": 235,
+        "label": "Flourishing Provincial Capital",
+        "note": "From 14 CE to 235 CE, Carthage grew into one of the great cities of the western empire, second only to Rome itself in size and prestige. As the capital of Africa Proconsularis, it oversaw a province that supplied much of the empire’s grain, making North Africa indispensable to Rome’s stability. The city flourished with theaters, baths, forums, and a vibrant cultural life, blending Roman law and language with lingering Punic and Berber traditions. In the later part of the period, Carthage also became a seedbed of Christianity, producing martyrs like Perpetua and Felicity and writers like Tertullian, who gave Latin Christianity an early voice. Symbolically, Carthage embodied both the height of Roman provincial order and the quiet emergence of a new faith that would one day redefine the empire itself."
+      },
+      {
+        "start": 235,
+        "end": 312,
+        "label": "Christian Carthage and African Bishops",
+        "note": "Between 235 and 312 CE, Carthage stood at the crossroads of political instability and religious transformation. The broader empire entered the Crisis of the Third Century, and while Africa remained Rome’s breadbasket, the city’s symbolic weight shifted increasingly toward Christianity. Carthage became the home of influential bishops such as Cyprian, who guided the church during waves of persecution and articulated a vision of unity and authority that rivaled Rome itself. Martyrdoms and schisms marked the city as a crucible where Christian identity was forged under pressure, most notably in disputes over the treatment of the lapsed and the beginnings of the Donatist controversy. In this period, Carthage’s symbolic life pivoted: once the emblem of Roman conquest, it was now emerging as a spiritual capital, where African bishops wielded voices powerful enough to shape the future of the church."
+      },
+      {
+        "start": 312,
+        "end": 395,
+        "label": "Carthage in the Christian Empire",
+        "note": "Carthage entered a new phase as part of a Christian empire. After Constantine’s Edict of Milan legalized the faith, the city flourished as a Christian metropolis, its bishops wielding influence in both theological debate and imperial politics. Figures like the bishops of Carthage became central in disputes such as the Donatist controversy, where questions of purity, authority, and legitimacy divided African Christianity. Politically, Africa Proconsularis continued to secure Rome’s food supply, but symbolically Carthage now stood less as a monument of Roman conquest and more as a pillar of the Christian order. By the time of the empire’s permanent division in 395 CE, Carthage became a Christian stronghold whose voice carried across the Mediterranean world."
+      }
+    ]
   },
   {
     "id": "custom-roman-greek-composite",
-   "name": "Roman",
+    "name": "Roman",
     "expanded name": "Roman (Italic/Etruscan/Latin/Roman)",
     "color": "#C4002F",
-    "yRel": 0.172,
+    "yRel": 0.272,
     "hRel": 0.06,
     "broad note": "The roots of Rome lay in the warlike cultures of prehistoric Italy, where villages hardened into fortified communities. From Etruscan kings and Italic tribes, Rome inherited augury, sacred arms, and civic ritual, but transformed them into an unparalleled system of disciplined warriorship. The Republic elevated conquest into a civic religion: triumphs sanctified victory, law and order followed the legions, and the Senate cloaked expansion with universalizing ideals. In overtaking the Hellenistic world, Rome absorbed its gods, sciences, and philosophies, yet recast them under the authority of the legion and the Latin tongue. At later stages, Roman emperors embodied not only political supremacy but also symbolic mastery over the living Being. This war-forged system became the prototype of Western empires to come—uniting force, law, and cultural dominance into a single claim of globalist rule. The final division of 395 CE did not end Rome’s model, but ensured its legacy would echo across Byzantium, Christendom, and every empire that sought to emulate its fusion of power and permanence.",
     "broad lifespan": "c. 146 BCE - 395 CE",
     "segments": [
-    {
-      "start": -146,
-      "end": -27,
-      "label": "Subjugation and Province of Achaea",
-      "note": "After the sack of Corinth Greece was reduced to the Roman province of Achaea. Rome imposed governors and taxation, while allowing many poleis like Athens and Sparta to retain limited autonomy. Militarily subdued, Greece no longer posed a threat but became a stable client province within Rome’s growing Mediterranean order. Symbolically, however, Greece remained Rome’s cultural teacher: its art, philosophy, and literature were eagerly adopted by Roman elites. In this period, Greece embodied both conquered land and revered intellectual reservoir, its autonomy lost but its prestige enduring."
-    },
-    {
-      "start": -27,
-      "end": 96,
-      "label": "Integration under Augustus",
-      "note": "Greece entered a stable phase of integration under Augustus and the early emperors. Politically, the province of Achaea was securely tied into the Roman imperial system, with Athens, Corinth, and other poleis enjoying privileges while supplying loyalty and resources. Augustus and his successors invested in civic monuments, roads, and sanctuaries, while Athens flourished as a cultural capital that hosted Roman students of philosophy and rhetoric. Symbolically, Greece became the empire’s Hellenic soul, its heritage used to legitimize Roman power: emperors styled themselves heirs to Alexander and patrons of Greek culture. In this period, Greece was quiet militarily but vital intellectually, its classical prestige woven into the fabric of the Roman order."
-    },
-    {
-      "start": 96,
-      "end": 235,
-      "label": "High Imperial Greece",
-      "note": "Between 96 and 235 CE, Greece enjoyed prosperity as part of the High Roman Empire. Cities such as Athens, Corinth, and Thessalonica benefited from imperial patronage, with emperors funding theaters, temples, and public works. This period saw the flourishing of the Second Sophistic movement, a cultural revival where Greek orators and intellectuals celebrated classical traditions while working under Roman rule. Politically, Greece remained stable and loyal, its role less about power and more about providing cultural prestige to the empire. Symbolically, this era represented the height of the Greco-Roman synthesis, where Roman authority and Greek heritage fused into a shared imperial identity — with Greek enduring as the lingua franca of the eastern Mediterranean and much of the broader empire."
-    },
-    {
-      "start": 235,
-      "end": 312,
-      "label": "Christianization and Civic Decline",
-      "note": "Between 235 and 312 CE, Greece entered a period of strain marked by both civic decline and the spread of Christianity. The Crisis of the Third Century brought invasions, economic disruption, and weakened urban life; many cities saw their public works neglected and their prosperity diminished. Traditional sanctuaries and festivals lost vitality, as imperial resources and attention shifted elsewhere. At the same time, Christianity gained momentum, especially in cities like Corinth and Thessalonica, where urban networks supported the growth of congregations and local bishops. Symbolically, Greece transitioned from being the cultural heart of a pagan empire to a contested space, where the old gods waned and a new faith began reshaping the symbolic order."
-    },
-    {
-      "start": 312,
-      "end": 395,
-      "label": "Greece in the Christian Empire",
-      "note": "Between 312 and 395 CE, Greece became part of a Christianizing empire shaped by Constantine’s reforms and the new prominence of the Church. Bishops in cities like Athens, Corinth, and Thessalonica grew in authority, often taking on civic roles once held by local elites. Pagan centers such as Delphi and the philosophical schools of Athens continued for a time, but their prestige steadily eroded as imperial patronage favored churches and Christian institutions. Politically, Greece remained a secure and strategic province within the eastern Mediterranean, anchoring Rome’s control over the Aegean. Symbolically, it was transformed from the revered cultural tutor of Rome into a Christian province, integrated into the ideological fabric of the Eastern empire that endured after the imperial split of 395 CE."
-    }
-  ]
+      {
+        "start": -146,
+        "end": -27,
+        "label": "Subjugation and Province of Achaea",
+        "note": "After the sack of Corinth Greece was reduced to the Roman province of Achaea. Rome imposed governors and taxation, while allowing many poleis like Athens and Sparta to retain limited autonomy. Militarily subdued, Greece no longer posed a threat but became a stable client province within Rome’s growing Mediterranean order. Symbolically, however, Greece remained Rome’s cultural teacher: its art, philosophy, and literature were eagerly adopted by Roman elites. In this period, Greece embodied both conquered land and revered intellectual reservoir, its autonomy lost but its prestige enduring."
+      },
+      {
+        "start": -27,
+        "end": 96,
+        "label": "Integration under Augustus",
+        "note": "Greece entered a stable phase of integration under Augustus and the early emperors. Politically, the province of Achaea was securely tied into the Roman imperial system, with Athens, Corinth, and other poleis enjoying privileges while supplying loyalty and resources. Augustus and his successors invested in civic monuments, roads, and sanctuaries, while Athens flourished as a cultural capital that hosted Roman students of philosophy and rhetoric. Symbolically, Greece became the empire’s Hellenic soul, its heritage used to legitimize Roman power: emperors styled themselves heirs to Alexander and patrons of Greek culture. In this period, Greece was quiet militarily but vital intellectually, its classical prestige woven into the fabric of the Roman order."
+      },
+      {
+        "start": 96,
+        "end": 235,
+        "label": "High Imperial Greece",
+        "note": "Between 96 and 235 CE, Greece enjoyed prosperity as part of the High Roman Empire. Cities such as Athens, Corinth, and Thessalonica benefited from imperial patronage, with emperors funding theaters, temples, and public works. This period saw the flourishing of the Second Sophistic movement, a cultural revival where Greek orators and intellectuals celebrated classical traditions while working under Roman rule. Politically, Greece remained stable and loyal, its role less about power and more about providing cultural prestige to the empire. Symbolically, this era represented the height of the Greco-Roman synthesis, where Roman authority and Greek heritage fused into a shared imperial identity — with Greek enduring as the lingua franca of the eastern Mediterranean and much of the broader empire."
+      },
+      {
+        "start": 235,
+        "end": 312,
+        "label": "Christianization and Civic Decline",
+        "note": "Between 235 and 312 CE, Greece entered a period of strain marked by both civic decline and the spread of Christianity. The Crisis of the Third Century brought invasions, economic disruption, and weakened urban life; many cities saw their public works neglected and their prosperity diminished. Traditional sanctuaries and festivals lost vitality, as imperial resources and attention shifted elsewhere. At the same time, Christianity gained momentum, especially in cities like Corinth and Thessalonica, where urban networks supported the growth of congregations and local bishops. Symbolically, Greece transitioned from being the cultural heart of a pagan empire to a contested space, where the old gods waned and a new faith began reshaping the symbolic order."
+      },
+      {
+        "start": 312,
+        "end": 395,
+        "label": "Greece in the Christian Empire",
+        "note": "Between 312 and 395 CE, Greece became part of a Christianizing empire shaped by Constantine’s reforms and the new prominence of the Church. Bishops in cities like Athens, Corinth, and Thessalonica grew in authority, often taking on civic roles once held by local elites. Pagan centers such as Delphi and the philosophical schools of Athens continued for a time, but their prestige steadily eroded as imperial patronage favored churches and Christian institutions. Politically, Greece remained a secure and strategic province within the eastern Mediterranean, anchoring Rome’s control over the Aegean. Symbolically, it was transformed from the revered cultural tutor of Rome into a Christian province, integrated into the ideological fabric of the Eastern empire that endured after the imperial split of 395 CE."
+      }
+    ]
   },
   {
     "id": "custom-roman-anatolian-composite",
     "name": "Roman",
     "expanded name": "Roman (Italic/Etruscan/Latin/Roman)",
     "color": "#C4002F",
-    "yRel": 0.233,
+    "yRel": 0.333,
     "hRel": 0.02,
     "broad note": "The roots of Rome lay in the warlike cultures of prehistoric Italy, where villages hardened into fortified communities. From Etruscan kings and Italic tribes, Rome inherited augury, sacred arms, and civic ritual, but transformed them into an unparalleled system of disciplined warriorship. The Republic elevated conquest into a civic religion: triumphs sanctified victory, law and order followed the legions, and the Senate cloaked expansion with universalizing ideals. In overtaking the Hellenistic world, Rome absorbed its gods, sciences, and philosophies, yet recast them under the authority of the legion and the Latin tongue. At later stages, Roman emperors embodied not only political supremacy but also symbolic mastery over the living Being. This war-forged system became the prototype of Western empires to come—uniting force, law, and cultural dominance into a single claim of globalist rule. The final division of 395 CE did not end Rome’s model, but ensured its legacy would echo across Byzantium, Christendom, and every empire that sought to emulate its fusion of power and permanence.",
     "broad lifespan": "c. 146 BCE - 395 CE",
-     "segments": [
-    {
-      "start": -30,
-      "end": 14,
-      "label": "Imperial Consolidation under Augustus",
-      "note": "After the defeat of Cleopatra and Antony in 30 BCE, Augustus consolidated Roman control over Anatolia. Client kingdoms were drawn into tighter dependency and increasingly absorbed into direct imperial administration, with provincial boundaries, taxation, and governance brought under the imperial fisc. Legions secured the eastern approaches while prosperous coastal provinces like Asia were lightly garrisoned, allowing cities such as Ephesus, Pergamon, and Smyrna to flourish. The imperial cult was promoted alongside traditional sanctuaries, weaving loyalty to Rome into local religious life. Symbolically, this stage marked the transition from lingering Hellenistic autonomy to a unified imperial order, positioning Anatolia as both a frontier bulwark and a prosperous cultural region."
-    },
-    {
-      "start": 14,
-      "end": 96,
-      "label": "Augustan and Julio-Claudian Integration",
-      "note": "From 14 to 96 CE, Anatolia was steadily drawn deeper into the imperial fabric under the Julio-Claudian and Flavian dynasties. Remaining client arrangements were curtailed (e.g., Cappadocia annexed in 17 CE), completing the imperial map of Asia Minor. Cities like Ephesus, Smyrna, and Pergamon rose as wealthy provincial centers, showcasing theaters, temples, aqueducts, and imperial cult shrines funded by local euergetism and imperial patronage. Greek language and traditions endured but were framed within Roman law, taxation, and civic administration. Symbolically, Anatolia shifted from contested territory to a stable showcase of Romanized Hellenism, celebrated by emperors and local elites alike."
-    },
-    {
-      "start": 96,
-      "end": 235,
-      "label": "High Imperial Anatolia",
-      "note": "During this period, Anatolia was fully integrated into the Roman imperial system under the Nerva–Antonine and Severan dynasties. Prosperous cities such as Ephesus, Pergamon, and Smyrna thrived as centers of trade, culture, and religion, connected by extensive Roman roads and ports. The economy was fueled by agriculture, mining, and commerce, while local elites displayed wealth through theaters, baths, and temples. Traditional Anatolian cults like Cybele and Artemis coexisted with the imperial cult and mystery religions, as Christianity quietly took root in urban communities. Caracalla’s Constitutio Antoniniana (212 CE) extended citizenship across the provinces, reshaping civic identity and reinforcing Romanization. The period closed as external pressures and internal instability began to undermine prosperity."
-    },
-    {
-      "start": 235,
-      "end": 312,
-      "label": "Crisis and the Spread of Christianity",
-      "note": "Anatolia was deeply affected by the empire’s Third-Century Crisis, enduring invasions, economic disruption, and political instability. Gothic raids struck coastal cities, while civil strife and rapid imperial turnover destabilized governance and finances. Urban prosperity contracted, with once-flourishing centers like Ephesus and Sardis showing strain. At the same time, Cappadocia, Phrygia, and Asia nurtured vibrant Christian communities despite intermittent persecutions, producing martyrs and intellectuals whose witness reshaped regional culture. Symbolically, Anatolia shifted from a bastion of Greco-Roman civic religion to contested ground where Christian networks redefined communal identity."
-    },
-    {
-      "start": 312,
-      "end": 395,
-      "label": "Anatolia in the Christian Empire",
-      "note": "After Constantine’s rise and the Edict of Milan, Anatolia became a core region of a Christianizing empire. The founding of Constantinople in 330 CE transformed the political and symbolic landscape: at the hinge of Europe and Asia, it commanded trade, secured frontiers, and distanced imperial authority from Rome’s senatorial aristocracy. The new capital was a Christian city adorned with churches and relics, while bishops across Anatolia shaped doctrinal debates and civic life. Cities like Nicomedia, Ephesus, and Antioch retained prominence even as Constantinople emerged as the ultimate seat of power. This period embedded Christianity into law, urban space, and imperial ideology, tying Anatolia’s identity to both Roman authority and Christian universality."
-    }
-  ]
+    "segments": [
+      {
+        "start": -30,
+        "end": 14,
+        "label": "Imperial Consolidation under Augustus",
+        "note": "After the defeat of Cleopatra and Antony in 30 BCE, Augustus consolidated Roman control over Anatolia. Client kingdoms were drawn into tighter dependency and increasingly absorbed into direct imperial administration, with provincial boundaries, taxation, and governance brought under the imperial fisc. Legions secured the eastern approaches while prosperous coastal provinces like Asia were lightly garrisoned, allowing cities such as Ephesus, Pergamon, and Smyrna to flourish. The imperial cult was promoted alongside traditional sanctuaries, weaving loyalty to Rome into local religious life. Symbolically, this stage marked the transition from lingering Hellenistic autonomy to a unified imperial order, positioning Anatolia as both a frontier bulwark and a prosperous cultural region."
+      },
+      {
+        "start": 14,
+        "end": 96,
+        "label": "Augustan and Julio-Claudian Integration",
+        "note": "From 14 to 96 CE, Anatolia was steadily drawn deeper into the imperial fabric under the Julio-Claudian and Flavian dynasties. Remaining client arrangements were curtailed (e.g., Cappadocia annexed in 17 CE), completing the imperial map of Asia Minor. Cities like Ephesus, Smyrna, and Pergamon rose as wealthy provincial centers, showcasing theaters, temples, aqueducts, and imperial cult shrines funded by local euergetism and imperial patronage. Greek language and traditions endured but were framed within Roman law, taxation, and civic administration. Symbolically, Anatolia shifted from contested territory to a stable showcase of Romanized Hellenism, celebrated by emperors and local elites alike."
+      },
+      {
+        "start": 96,
+        "end": 235,
+        "label": "High Imperial Anatolia",
+        "note": "During this period, Anatolia was fully integrated into the Roman imperial system under the Nerva–Antonine and Severan dynasties. Prosperous cities such as Ephesus, Pergamon, and Smyrna thrived as centers of trade, culture, and religion, connected by extensive Roman roads and ports. The economy was fueled by agriculture, mining, and commerce, while local elites displayed wealth through theaters, baths, and temples. Traditional Anatolian cults like Cybele and Artemis coexisted with the imperial cult and mystery religions, as Christianity quietly took root in urban communities. Caracalla’s Constitutio Antoniniana (212 CE) extended citizenship across the provinces, reshaping civic identity and reinforcing Romanization. The period closed as external pressures and internal instability began to undermine prosperity."
+      },
+      {
+        "start": 235,
+        "end": 312,
+        "label": "Crisis and the Spread of Christianity",
+        "note": "Anatolia was deeply affected by the empire’s Third-Century Crisis, enduring invasions, economic disruption, and political instability. Gothic raids struck coastal cities, while civil strife and rapid imperial turnover destabilized governance and finances. Urban prosperity contracted, with once-flourishing centers like Ephesus and Sardis showing strain. At the same time, Cappadocia, Phrygia, and Asia nurtured vibrant Christian communities despite intermittent persecutions, producing martyrs and intellectuals whose witness reshaped regional culture. Symbolically, Anatolia shifted from a bastion of Greco-Roman civic religion to contested ground where Christian networks redefined communal identity."
+      },
+      {
+        "start": 312,
+        "end": 395,
+        "label": "Anatolia in the Christian Empire",
+        "note": "After Constantine’s rise and the Edict of Milan, Anatolia became a core region of a Christianizing empire. The founding of Constantinople in 330 CE transformed the political and symbolic landscape: at the hinge of Europe and Asia, it commanded trade, secured frontiers, and distanced imperial authority from Rome’s senatorial aristocracy. The new capital was a Christian city adorned with churches and relics, while bishops across Anatolia shaped doctrinal debates and civic life. Cities like Nicomedia, Ephesus, and Antioch retained prominence even as Constantinople emerged as the ultimate seat of power. This period embedded Christianity into law, urban space, and imperial ideology, tying Anatolia’s identity to both Roman authority and Christian universality."
+      }
+    ]
   },
   {
     "id": "custom-roman-egyptian-composite",
     "name": "Roman",
     "expanded name": "Roman (Italic/Etruscan/Latin/Roman)",
     "color": "#C4002F",
-    "yRel": 0.254,
+    "yRel": 0.354,
     "hRel": 0.06,
     "broad note": "The roots of Rome lay in the warlike cultures of prehistoric Italy, where villages hardened into fortified communities. From Etruscan kings and Italic tribes, Rome inherited augury, sacred arms, and civic ritual, but transformed them into an unparalleled system of disciplined warriorship. The Republic elevated conquest into a civic religion: triumphs sanctified victory, law and order followed the legions, and the Senate cloaked expansion with universalizing ideals. In overtaking the Hellenistic world, Rome absorbed its gods, sciences, and philosophies, yet recast them under the authority of the legion and the Latin tongue. At later stages, Roman emperors embodied not only political supremacy but also symbolic mastery over the living Being. This war-forged system became the prototype of Western empires to come—uniting force, law, and cultural dominance into a single claim of globalist rule. The final division of 395 CE did not end Rome’s model, but ensured its legacy would echo across Byzantium, Christendom, and every empire that sought to emulate its fusion of power and permanence.",
     "broad lifespan": "c. 30 BCE - 395 CE",
     "segments": [
-    {
-      "start": -30,
-      "end": 96,
-      "label": "Annexation under Augustus",
-      "note": "Between 30 BCE and 96 CE, Egypt passed from the rule of Cleopatra to direct Roman control, her death marking the definitive end of the Ptolemaic dynasty. Augustus annexed Egypt not as a normal province but as his personal possession, governed by a Roman prefect of equestrian rank to prevent ambitious senators from seizing its immense wealth. Politically, the fertile Nile valley became Rome’s indispensable grain lifeline, securing food for the capital and cementing Egypt’s role as a keystone of imperial stability. Symbolically, Egypt retained its aura of antiquity and mystery: pharaonic temples and priesthoods endured, while emperors adopted pharaonic imagery to cloak their power in sacred legitimacy. In this era, Egypt stood as both the empire’s most tightly guarded province and a land where Roman authority fused with the prestige of its ancient kingship."
-    },
-    {
-      "start": 96,
-      "end": 235,
-      "label": "High Imperial Egypt",
-      "note": "Between 96 and 235 CE, Egypt flourished as one of the most valuable provinces of the Roman Empire. Politically, its role as the empire’s granary only deepened, with Nile harvests ensuring the food supply of Rome and other great cities. Alexandria thrived as the empire’s second city, a cosmopolitan hub where Greeks, Romans, Egyptians, and Jews lived side by side, driving trade, scholarship, and administration. Culturally, it remained a beacon: philosophers, scientists, and theologians worked there, and the city’s libraries and schools kept Egypt at the forefront of Mediterranean intellectual life. Symbolically, this was the height of Roman Egypt — a province where the empire’s economic power, cultural prestige, and the mystique of ancient traditions all converged under stable imperial rule."
-    },
-    {
-      "start": 235,
-      "end": 312,
-      "label": "Crisis and Religious Ferment",
-      "note": "The mid-3rd to early 4th century was a time of upheaval for Roman Egypt. The empire’s wider Crisis of the Third Century brought heavy taxation, revolts, and rival emperors who fought to control Egypt’s strategic wealth. Alexandria, long a jewel of prosperity, became a battleground of ideas and faiths: pagan cults, Jewish communities, and a rapidly growing Christian population coexisted uneasily, often erupting into violent clashes. The city also emerged as a leading center of Christian theology, producing influential teachers and martyrs even amid persecution. Symbolically, Egypt embodied both the fragility of imperial power and the vitality of new religious movements that were reshaping the spiritual destiny of the empire."
-    },
-    {
-      "start": 312,
-      "end": 395,
-      "label": "Christian Egypt in the Empire",
-      "note": "With Constantine’s conversion and the Edict of Milan in 312 CE, Egypt entered a new era as one of the great Christian heartlands of the empire. Alexandria rose as a theological capital, producing towering figures such as Athanasius, whose defense of orthodoxy made the city central to imperial debates. The Egyptian desert gave birth to monasticism, as hermits like Anthony inspired movements that spread across Christendom. Pagan temples still stood for a time, but imperial patronage shifted decisively to churches, and bishops replaced priests as the spiritual authorities of the land. Symbolically, Egypt was transformed from the realm of ancient gods and dynasties into a Christian stronghold, its voice shaping the doctrinal battles and spiritual life of the empire on the eve of its permanent division in 395 CE."
-    }
-  ]
+      {
+        "start": -30,
+        "end": 96,
+        "label": "Annexation under Augustus",
+        "note": "Between 30 BCE and 96 CE, Egypt passed from the rule of Cleopatra to direct Roman control, her death marking the definitive end of the Ptolemaic dynasty. Augustus annexed Egypt not as a normal province but as his personal possession, governed by a Roman prefect of equestrian rank to prevent ambitious senators from seizing its immense wealth. Politically, the fertile Nile valley became Rome’s indispensable grain lifeline, securing food for the capital and cementing Egypt’s role as a keystone of imperial stability. Symbolically, Egypt retained its aura of antiquity and mystery: pharaonic temples and priesthoods endured, while emperors adopted pharaonic imagery to cloak their power in sacred legitimacy. In this era, Egypt stood as both the empire’s most tightly guarded province and a land where Roman authority fused with the prestige of its ancient kingship."
+      },
+      {
+        "start": 96,
+        "end": 235,
+        "label": "High Imperial Egypt",
+        "note": "Between 96 and 235 CE, Egypt flourished as one of the most valuable provinces of the Roman Empire. Politically, its role as the empire’s granary only deepened, with Nile harvests ensuring the food supply of Rome and other great cities. Alexandria thrived as the empire’s second city, a cosmopolitan hub where Greeks, Romans, Egyptians, and Jews lived side by side, driving trade, scholarship, and administration. Culturally, it remained a beacon: philosophers, scientists, and theologians worked there, and the city’s libraries and schools kept Egypt at the forefront of Mediterranean intellectual life. Symbolically, this was the height of Roman Egypt — a province where the empire’s economic power, cultural prestige, and the mystique of ancient traditions all converged under stable imperial rule."
+      },
+      {
+        "start": 235,
+        "end": 312,
+        "label": "Crisis and Religious Ferment",
+        "note": "The mid-3rd to early 4th century was a time of upheaval for Roman Egypt. The empire’s wider Crisis of the Third Century brought heavy taxation, revolts, and rival emperors who fought to control Egypt’s strategic wealth. Alexandria, long a jewel of prosperity, became a battleground of ideas and faiths: pagan cults, Jewish communities, and a rapidly growing Christian population coexisted uneasily, often erupting into violent clashes. The city also emerged as a leading center of Christian theology, producing influential teachers and martyrs even amid persecution. Symbolically, Egypt embodied both the fragility of imperial power and the vitality of new religious movements that were reshaping the spiritual destiny of the empire."
+      },
+      {
+        "start": 312,
+        "end": 395,
+        "label": "Christian Egypt in the Empire",
+        "note": "With Constantine’s conversion and the Edict of Milan in 312 CE, Egypt entered a new era as one of the great Christian heartlands of the empire. Alexandria rose as a theological capital, producing towering figures such as Athanasius, whose defense of orthodoxy made the city central to imperial debates. The Egyptian desert gave birth to monasticism, as hermits like Anthony inspired movements that spread across Christendom. Pagan temples still stood for a time, but imperial patronage shifted decisively to churches, and bishops replaced priests as the spiritual authorities of the land. Symbolically, Egypt was transformed from the realm of ancient gods and dynasties into a Christian stronghold, its voice shaping the doctrinal battles and spiritual life of the empire on the eve of its permanent division in 395 CE."
+      }
+    ]
   },
   {
     "id": "custom-roman-levantine-composite",
     "name": "Roman",
     "expanded name": "Roman (Italic/Etruscan/Latin/Roman)",
     "color": "#C4002F",
-    "yRel": 0.315,
+    "yRel": 0.415,
     "hRel": 0.04,
     "broad note": "The roots of Rome lay in the warlike cultures of prehistoric Italy, where villages hardened into fortified communities. From Etruscan kings and Italic tribes, Rome inherited augury, sacred arms, and civic ritual, but transformed them into an unparalleled system of disciplined warriorship. The Republic elevated conquest into a civic religion: triumphs sanctified victory, law and order followed the legions, and the Senate cloaked expansion with universalizing ideals. In overtaking the Hellenistic world, Rome absorbed its gods, sciences, and philosophies, yet recast them under the authority of the legion and the Latin tongue. At later stages, Roman emperors embodied not only political supremacy but also symbolic mastery over the living Being. This war-forged system became the prototype of Western empires to come—uniting force, law, and cultural dominance into a single claim of globalist rule. The final division of 395 CE did not end Rome’s model, but ensured its legacy would echo across Byzantium, Christendom, and every empire that sought to emulate its fusion of power and permanence.",
     "broad lifespan": "c. 30 BCE - 395 CE",
     "segments": [
-    {
-      "start": -30,
-      "end": 70,
-      "label": "Roman Annexation and Herodian Client Kingdom",
-      "note": "Between 30 BCE and 70 CE, the Levant was ruled by the Herodian dynasty under Rome’s patronage and later by Roman prefects. Herod the Great expanded the Jerusalem Temple while also importing Roman forms of kingship and architecture, embodying the uneasy blend of local and imperial authority. The Temple remained the symbolic heart of Jewish identity, yet Rome’s taxation and cultic impositions created deep resentment. Out of this tense environment, Christianity was born as a small sect within Judaism, marked by the crucifixion of Jesus of Nazareth under Roman authority. By the 60s, discontent erupted into revolt, leading toward the catastrophic fall of Jerusalem in 70 CE."
-    },
-    {
-      "start": 70,
-      "end": 135,
-      "label": "Jewish Wars and Diaspora",
-      "note": "Between 70 and 135 CE, Judea was devastated by Rome through the Jewish Wars, beginning with the destruction of the Temple in 70 CE. The obliteration of the priestly-sacrificial system unintentionally strengthened Judaism by forcing it to decentralize into rabbinic, synagogue-centered practice that could survive anywhere. This new portable religion encouraged independent religious study and interpretation, empowering communities across the diaspora rather than tying worship to a single Temple. In trying to erase Jewish identity, Rome instead laid the foundations for a tradition that would endure far beyond the empire. The irony is that by crushing Jerusalem, Rome also cleared the space for Christianity to diverge from Judaism, ensuring that both religions born in the Levant would ultimately outlast and reshape the empire that sought to suppress them."
-    },
-    {
-      "start": 135,
-      "end": 235,
-      "label": "Hellenistic-Roman Synthesis in the Cities",
-      "note": "From 135 to 235 CE, the Levant entered a period of stability as Rome integrated its cities into the imperial system. Antioch, Caesarea, Tyre, and Damascus flourished as hubs of Roman administration, commerce, and Hellenistic culture, with temples, theaters, baths, and the imperial cult dominating public life. Greek remained the lingua franca, binding the region to the broader eastern Mediterranean. Judaism persisted in rabbinic form, quieter but resilient, while Christianity began to build durable urban communities. These early Christian groups held together through rituals of belonging, charity, and a radical inclusivity that offered a striking alternative to the transactional nature of Rome’s civic cults. Symbolically, this era embodied imperial synthesis on the surface, but underneath it, Christianity’s quiet spread was preparing to overturn the very religious foundations of the Roman order."
-    },
-    {
-      "start": 235,
-      "end": 312,
-      "label": "Christianization and Conflict",
-      "note": "Between 235 and 312 CE, the Levant was swept into the turmoil of the empire’s wider crisis, with militarization and instability marking civic life. In this environment, Christianity expanded rapidly in cities like Antioch and Caesarea, offering solidarity and hope where Rome’s civic religion seemed hollow. The state responded with waves of persecution, from Decius’ edicts to Diocletian’s Great Persecution, which created martyrs and paradoxically strengthened the movement. Judaism endured as a dispersed, rabbinic tradition, while Christianity increasingly defined itself as universal and distinct. Symbolically, the Levant became the frontline where Rome’s effort to preserve its old order only accelerated the Christianization that would ultimately transform the empire."
-    },
-    {
-      "start": 312,
-      "end": 395,
-      "label": "Levant in the Christian Empire",
-      "note": "Between 312 and 395 CE, the Levant was transformed into a heartland of the Christian Empire. Constantine and his successors monumentalized Jerusalem, Antioch, and Caesarea with churches and shrines, turning the region into a pilgrimage destination. Bishops became influential civic figures, while councils in Levantine cities helped shape Christian orthodoxy. Judaism, though still present, was increasingly marginalized under Christian imperial law. Symbolically, the Levant now stood as the sacred center of the empire’s new faith — the place where Rome’s authority and Christianity’s universal claims fused into a lasting imperial religion. Yet in institutionalizing Christianity — weaving it into imperial power structures, monumental architecture, and legal codes — the empire also set the faith on a course that contradicted its earliest message of humility, poverty, and detachment from worldly power."
-    }
-  ]
+      {
+        "start": -30,
+        "end": 70,
+        "label": "Roman Annexation and Herodian Client Kingdom",
+        "note": "Between 30 BCE and 70 CE, the Levant was ruled by the Herodian dynasty under Rome’s patronage and later by Roman prefects. Herod the Great expanded the Jerusalem Temple while also importing Roman forms of kingship and architecture, embodying the uneasy blend of local and imperial authority. The Temple remained the symbolic heart of Jewish identity, yet Rome’s taxation and cultic impositions created deep resentment. Out of this tense environment, Christianity was born as a small sect within Judaism, marked by the crucifixion of Jesus of Nazareth under Roman authority. By the 60s, discontent erupted into revolt, leading toward the catastrophic fall of Jerusalem in 70 CE."
+      },
+      {
+        "start": 70,
+        "end": 135,
+        "label": "Jewish Wars and Diaspora",
+        "note": "Between 70 and 135 CE, Judea was devastated by Rome through the Jewish Wars, beginning with the destruction of the Temple in 70 CE. The obliteration of the priestly-sacrificial system unintentionally strengthened Judaism by forcing it to decentralize into rabbinic, synagogue-centered practice that could survive anywhere. This new portable religion encouraged independent religious study and interpretation, empowering communities across the diaspora rather than tying worship to a single Temple. In trying to erase Jewish identity, Rome instead laid the foundations for a tradition that would endure far beyond the empire. The irony is that by crushing Jerusalem, Rome also cleared the space for Christianity to diverge from Judaism, ensuring that both religions born in the Levant would ultimately outlast and reshape the empire that sought to suppress them."
+      },
+      {
+        "start": 135,
+        "end": 235,
+        "label": "Hellenistic-Roman Synthesis in the Cities",
+        "note": "From 135 to 235 CE, the Levant entered a period of stability as Rome integrated its cities into the imperial system. Antioch, Caesarea, Tyre, and Damascus flourished as hubs of Roman administration, commerce, and Hellenistic culture, with temples, theaters, baths, and the imperial cult dominating public life. Greek remained the lingua franca, binding the region to the broader eastern Mediterranean. Judaism persisted in rabbinic form, quieter but resilient, while Christianity began to build durable urban communities. These early Christian groups held together through rituals of belonging, charity, and a radical inclusivity that offered a striking alternative to the transactional nature of Rome’s civic cults. Symbolically, this era embodied imperial synthesis on the surface, but underneath it, Christianity’s quiet spread was preparing to overturn the very religious foundations of the Roman order."
+      },
+      {
+        "start": 235,
+        "end": 312,
+        "label": "Christianization and Conflict",
+        "note": "Between 235 and 312 CE, the Levant was swept into the turmoil of the empire’s wider crisis, with militarization and instability marking civic life. In this environment, Christianity expanded rapidly in cities like Antioch and Caesarea, offering solidarity and hope where Rome’s civic religion seemed hollow. The state responded with waves of persecution, from Decius’ edicts to Diocletian’s Great Persecution, which created martyrs and paradoxically strengthened the movement. Judaism endured as a dispersed, rabbinic tradition, while Christianity increasingly defined itself as universal and distinct. Symbolically, the Levant became the frontline where Rome’s effort to preserve its old order only accelerated the Christianization that would ultimately transform the empire."
+      },
+      {
+        "start": 312,
+        "end": 395,
+        "label": "Levant in the Christian Empire",
+        "note": "Between 312 and 395 CE, the Levant was transformed into a heartland of the Christian Empire. Constantine and his successors monumentalized Jerusalem, Antioch, and Caesarea with churches and shrines, turning the region into a pilgrimage destination. Bishops became influential civic figures, while councils in Levantine cities helped shape Christian orthodoxy. Judaism, though still present, was increasingly marginalized under Christian imperial law. Symbolically, the Levant now stood as the sacred center of the empire’s new faith — the place where Rome’s authority and Christianity’s universal claims fused into a lasting imperial religion. Yet in institutionalizing Christianity — weaving it into imperial power structures, monumental architecture, and legal codes — the empire also set the faith on a course that contradicted its earliest message of humility, poverty, and detachment from worldly power."
+      }
+    ]
   },
   {
-  "id": "indian-composite",
-  "name": "Indian",
-  "expanded name": "Indian (South Asian Civilization)",
-  "color": "#2F2A6D",
-  "yRel": 0.567,
-  "hRel": 0.06,
-  "broad note": "Indian civilization takes shape from early agrarian communities established by the mid–5th millennium BCE, culminating in the Indus Valley Civilization—one of the ancient world’s most enigmatic urban cultures. The Indus system was marked by standardized infrastructure and symbolic coordination, yet shows little evidence of kingship, monumental temples, or entrenched social hierarchy, making its mode of order unusually egalitarian. Its gradual transformation and dispersal remain unresolved, but it left behind cultural patterns that shaped later developments. In the aftermath, Indo-Aryan ritual and linguistic traditions entered the subcontinent from the northwest and reorganized society around sacrifice, oral transmission, and a sacralized hierarchy structured through varna (caste). Over time, this sacred order hardened, aligning social rank, religious authority, and political power. From within this system arose repeated challenges—Upaniṣadic speculation, renunciant movements, and śramaṇic traditions such as Buddhism and Jainism—that questioned ritual dominance and inherited status. Shielded by the Himalayas and surrounding oceans, India developed a deeply cumulative and self-referential symbolic life with a strong capacity for internal reinterpretation rather than external replacement.",
-  "broad lifespan": "c. 5000 BCE – 550 CE",
-  "segments": [
-    {
-      "start": -5000,
-      "end": -4000,
-      "label": "Middle Neolithic Period",
-      "note": "This phase is defined by the stabilization of early agrarian life across northwestern South Asia, with sites such as Mehrgarh functioning as regionally influential but loosely organized settlement clusters rather than centralized urban centers. Farming, animal domestication, and permanent architecture became normalized, anchoring communities to specific landscapes and seasonal cycles. Social organization remained largely egalitarian and kin-based, with no evidence of formal hierarchy, state authority, or urban planning. Technological practices—especially in pottery production, subsistence tools, and craft continuity—were transmitted across generations, establishing durable cultural templates."
-    },
-    {
-      "start": -4000,
-      "end": -3300,
-      "label": "Late Neolithic Period",
-      "note": "Neolithic culture became increasingly complex and regionally diverse. While Mehrgarh began to decline — likely due to ecological changes (e.g., shifts in river flow or aridity) and overexploitation of local resources — its material traditions, including pottery, copper use, and craft specialization, spread eastward into the Indus and Ghaggar-Hakra valleys. New settlements like Kot Diji, Amri, and Rehman Dheri emerged, showing early signs of urban planning and social organization. Pottery became wheel-made, decorative styles flourished, and long-distance trade intensified. This period bridges village life and the rise of the Indus Valley Civilization."
-    },
-    {
-      "start": -3300,
-      "end": -2600,
-      "label": "Early Harappan Period",
-      "note": "The period marked the rise of proto-urban society in the northwestern Indian subcontinent. Settlements like Kot Diji, Kalibangan, and Amri featured standardized pottery, bricks, and weights, along with evidence of fortifications, granaries, and growing craft specialization. Seals and early script-like markings began to appear, suggesting the emergence of administrative systems and symbolic communication. Unlike Mesopotamia and Egypt at comparable stages, Early Harappan society shows little evidence of elite dominance — burials are relatively equal, and monumental structures appear communal rather than royal or religious. This phase laid the structural and cultural groundwork for the fully urban Indus Valley Civilization that followed."
-    },
-    {
-      "start": -2600,
-      "end": -1900,
-      "label": "Mature Harappan Period",
-      "note": "The Indus Valley Civilization reached its peak, with large, meticulously planned cities like Mohenjo-daro, Harappa, and Dholavira. These urban centers featured grid-based layouts, advanced drainage systems, standardized brick sizes, and centralized storage facilities, all without palaces, temples, or visible kingship. A sophisticated but still undeciphered writing system appeared on thousands of seals and objects, alongside a flourishing craft economy and long-distance trade with Mesopotamia and Central Asia. Despite their complexity, Harappan cities show remarkably little evidence of warfare, elite tombs, or centralized political rule. This period represents a rare form of high civilization organized through symbolic coordination, measurement, and collective order rather than coercive hierarchy."
-    },
-    {
-      "start": -1900,
-      "end": -1500,
-      "label": "Late Harappan Transformation",
-      "note": "The Indus Valley Civilization underwent a prolonged transformation marked by the decentralization of urban life and the gradual abandonment of large, standardized cities. Populations dispersed into smaller regional settlements as long-distance trade networks weakened and uniform systems of writing, weights, and urban planning fell out of use. Environmental pressures—river shifts, climatic variability, and ecological stress—likely contributed, though no single cause explains the change. Cultural continuity persisted in domestic architecture, craft traditions, figurines, and localized ritual practices. Rather than a violent collapse or elite takeover, this phase represents the dissolution of a unique urban-symbolic order into localized, household-based forms of social coordination."
-    },
-    {
-      "start": -1500,
-      "end": -1000,
-      "label": "Early Vedic Period",
-      "note": "This period marks the emergence of Vedic ritual culture in the northwestern subcontinent, centered in the Punjab and surrounding regions. Indo-Aryan-speaking pastoral communities composed the earliest layers of the Rigveda, transmitting them orally through complex mnemonic techniques. Social organization was clan-based and mobile, oriented around cattle wealth, seasonal movement, and ritual sacrifice rather than urban life or state administration. The Vedic worldview emphasized cosmic order (ṛta), reciprocity between humans and gods, and the efficacy of correctly performed speech. Early concepts of social differentiation (varna) appear, but hierarchy remained fluid and situational rather than fixed or hereditary."
-    },
-    {
-      "start": -1000,
-      "end": -600,
-      "label": "Later Vedic Period",
-      "note": "Indo-Aryan culture expanded eastward into the fertile Ganges plain, transitioning from pastoral communities to settled agricultural kingdoms (janapadas). Ritual life grew increasingly complex and was dominated by Brahmin priests, who formalized varna into a hereditary social hierarchy, though it remained less rigid than the stratified state systems of the ancient Near East. Political authority was limited and mediated through ritual expertise, while philosophical texts such as the Upanishads began to question ritualism and hierarchy, introducing early ideas of liberation (moksha) and interiority. Social roles remained negotiable and were not yet embedded in the fully articulated jāti system of later India."
-    },
-    {
-      "start": -600,
-      "end": -322,
-      "label": "Mahājanapada & Upanishadic Age",
-      "note": "The Mahājanapadas—large territorial states, emerged as organized kingdoms and republics across the Ganges plain. This political transformation coincided with a profound philosophical upheaval, as the Upanishads shifted spiritual focus from ritual sacrifice to inward metaphysical inquiry, introducing concepts like ātman, brahman, karma, and moksha. While Brahmanical traditions refined their ritual systems, new śramanic movements like Buddhism and Jainism openly challenged caste, priestly dominance, and external ritualism. Society became increasingly urbanized and intellectually diverse, as cities like Kashi, Kosala, and Magadha became centers of debate, renunciation, and royal ambition. This age laid the ideological and political groundwork for the Mauryan empire and the enduring dual legacy of worldly power and spiritual liberation in Indian civilization."
-    },
-    {
-      "start": -322,
-      "end": -268,
-      "label": "Maurya Empire",
-      "note": "The Maurya Empire emerged in the aftermath of Alexander’s incursion, founded by Chandragupta Maurya and guided by Chanakya’s Arthashastra, a pragmatic manual of imperial governance. Building on Magadha’s earlier expansion, the Mauryas unified much of the subcontinent through military conquest, diplomacy, and a highly centralized bureaucracy. Society was deeply stratified by the varna system, with Brahmins and Kshatriyas dominant, though the imperial structure allowed for some administrative mobility. Under Chandragupta and Bindusara, the state emphasized realpolitik, economic regulation, and standing armies—mirroring the imperial logic of Persia and China. This was an era of consolidation, infrastructure-building, and the assertion of sovereign authority before the later ethical transformation under Ashoka."
-    },
-    {
-      "start": -268,
-      "end": -185,
-      "label": "Decline of the Maurya Empire",
-      "note": "Under Ashoka, the Maurya Empire underwent a profound transformation, shifting from militaristic expansion to ethical governance inspired by Buddhist principles. After the devastating Kalinga War, Ashoka renounced conquest and promoted dhamma (moral law), focusing on compassion, tolerance, and the spiritual welfare of his subjects. While this ideological pivot marked a high point in moral statecraft, it also weakened military readiness and centralized control. Ashoka’s successors lacked his vision and authority, leading to administrative decay, rising provincial autonomy, and internal dissent. By 185 BCE, the last Mauryan ruler was overthrown by his general Pushyamitra Shunga, ending the dynasty and ushering in a new era of regional fragmentation."
-    },
-    {
-      "start": -185,
-      "end": 320,
-      "label": "Post-Mauryan Period",
-      "note": "India entered a politically fragmented yet culturally dynamic period marked by regional kingdoms, foreign dynasties, and expanding trade networks. While Buddhist and Jain institutions flourished under rulers like the Kushans and Satavahanas, Brahmins gradually filled the ideological void left by imperial collapse, offering ritual continuity, legal codification, and spiritual legitimacy to emerging powers. Texts like the Manusmriti reflect a turn toward social reordering and intensified caste stratification, even as urbanization and guild-based economies diversified the social fabric. The resulting society was both hierarchical and cosmopolitan—home to Greco-Buddhist art, Mahayana thought, and global commerce linking Rome to China."
-    },
-    {
-      "start": 320,
-      "end": 550,
-      "label": "Gupta Empire",
-      "note": "The Gupta Empire unified much of northern India through a decentralized yet symbolically potent model of rule rooted in Brahmanical cosmology. Emperors like Samudragupta embodied the ideal of the warrior-poet, fusing military conquest with cultural refinement and ritual sovereignty. This era witnessed a flourishing of Sanskrit literature, Hindu theology, classical art, and pioneering mathematical and astronomical thought—driven by a worldview that saw cosmic order reflected in numbers, verse, and kingship. Caste hierarchy and gender roles hardened as dharma was codified into law, while Buddhism gradually lost royal patronage. The empire ultimately fragmented under internal strain and the destabilizing invasions of the Hunas—nomadic Central Asian forces whose continuous incursions shattered the fragile balance of imperial unity and cosmic harmony."
-    }
-  ]
-}
-
-
+    "id": "indian-composite",
+    "name": "Indian",
+    "expanded name": "Indian (South Asian Civilization)",
+    "color": "#2F2A6D",
+    "yRel": 0.717,
+    "hRel": 0.06,
+    "broad note": "Indian civilization emerges from early agrarian communities of the mid–5th millennium BCE and reaches its first urban culmination in the Indus Valley Civilization, whose standardized civic order and restrained monumental expression suggest forms of authority that remain archaeologically opaque. After its transformation and dispersal, Indo-Aryan ritual and linguistic traditions entered from the northwest, gradually reorganizing society around sacrifice, oral transmission, and an increasingly formalized social taxonomy that later hardened into the varna framework. From within this sacral order arose recurring internal critiques—Upaniṣadic speculation, renunciant movements, and śramaṇic traditions such as Buddhism and Jainism—that challenged ritual centrality and inherited status. Despite repeated external incursions, the subcontinent’s geography and scale allowed for an unusual continuity in which new influences were absorbed into an expanding symbolic conversation rather than replacing it. Over millennia, India developed a deeply cumulative, self-referential  discourse with exceptional capacity for reinterpretation and internal pluralism. Indian civilization remains a living continuum, with ritual forms, philosophical categories, and social frameworks still actively inhabited and reinterpreted today by over a billion people.",
+    "broad lifespan": "c. 5000 BCE – 550 CE",
+    "segments": [
+      {
+        "start": -5000,
+        "end": -4000,
+        "label": "Middle Neolithic Period",
+        "note": "This phase is defined by the stabilization of early agrarian life across northwestern South Asia, with sites such as Mehrgarh functioning as regionally influential but loosely organized settlement clusters rather than centralized urban centers. Farming, animal domestication, and permanent architecture became normalized, anchoring communities to specific landscapes and seasonal cycles. Social organization remained largely egalitarian and kin-based, with no evidence of formal hierarchy, state authority, or urban planning. Technological practices—especially in pottery production, subsistence tools, and craft continuity—were transmitted across generations, establishing durable cultural templates."
+      },
+      {
+        "start": -4000,
+        "end": -3300,
+        "label": "Late Neolithic Period",
+        "note": "Neolithic culture became increasingly complex and regionally diverse. While Mehrgarh began to decline — likely due to ecological changes (e.g., shifts in river flow or aridity) and overexploitation of local resources — its material traditions, including pottery, copper use, and craft specialization, spread eastward into the Indus and Ghaggar-Hakra valleys. New settlements like Kot Diji, Amri, and Rehman Dheri emerged, showing early signs of urban planning and social organization. Pottery became wheel-made, decorative styles flourished, and long-distance trade intensified. This period bridges village life and the rise of the Indus Valley Civilization."
+      },
+      {
+        "start": -3300,
+        "end": -2600,
+        "label": "Early Harappan Period",
+        "note": "The period marked the rise of proto-urban society in the northwestern Indian subcontinent. Settlements like Kot Diji, Kalibangan, and Amri featured standardized pottery, bricks, and weights, along with evidence of fortifications, granaries, and growing craft specialization. Seals and early script-like markings began to appear, suggesting the emergence of administrative systems and symbolic communication. Unlike Mesopotamia and Egypt at comparable stages, Early Harappan society shows little evidence of elite dominance — burials are relatively equal, and monumental structures appear communal rather than royal or religious. This phase laid the structural and cultural groundwork for the fully urban Indus Valley Civilization that followed."
+      },
+      {
+        "start": -2600,
+        "end": -1900,
+        "label": "Mature Harappan Period",
+        "note": "The Indus Valley Civilization reached its peak, with large, meticulously planned cities like Mohenjo-daro, Harappa, and Dholavira. These urban centers featured grid-based layouts, advanced drainage systems, standardized brick sizes, and centralized storage facilities, all without palaces, temples, or visible kingship. A sophisticated but still undeciphered writing system appeared on thousands of seals and objects, alongside a flourishing craft economy and long-distance trade with Mesopotamia and Central Asia. Despite their complexity, Harappan cities show remarkably little evidence of warfare, elite tombs, or centralized political rule. This period represents a rare form of high civilization organized through symbolic coordination, measurement, and collective order rather than coercive hierarchy."
+      },
+      {
+        "start": -1900,
+        "end": -1500,
+        "label": "Late Harappan Transformation",
+        "note": "The Indus Valley Civilization underwent a prolonged transformation marked by the decentralization of urban life and the gradual abandonment of large, standardized cities. Populations dispersed into smaller regional settlements as long-distance trade networks weakened and uniform systems of writing, weights, and urban planning fell out of use. Environmental pressures—river shifts, climatic variability, and ecological stress—likely contributed, though no single cause explains the change. Cultural continuity persisted in domestic architecture, craft traditions, figurines, and localized ritual practices. Rather than a violent collapse or elite takeover, this phase represents the dissolution of a unique urban-symbolic order into localized, household-based forms of social coordination."
+      },
+      {
+        "start": -1500,
+        "end": -1000,
+        "label": "Early Vedic Period",
+        "note": "This period marks the emergence of Vedic ritual culture in the northwestern subcontinent, centered in the Punjab and surrounding regions. Indo-Aryan-speaking pastoral communities composed the earliest layers of the Rigveda, transmitting them orally through complex mnemonic techniques. Social organization was clan-based and mobile, oriented around cattle wealth, seasonal movement, and ritual sacrifice rather than urban life or state administration. The Vedic worldview emphasized cosmic order (ṛta), reciprocity between humans and gods, and the efficacy of correctly performed speech. Early concepts of social differentiation (varna) appear, but hierarchy remained fluid and situational rather than fixed or hereditary."
+      },
+      {
+        "start": -1000,
+        "end": -600,
+        "label": "Later Vedic Period",
+        "note": "Indo-Aryan culture expanded eastward into the fertile Ganges plain, transitioning from pastoral communities to settled agricultural kingdoms (janapadas). Ritual life grew increasingly complex and was dominated by Brahmin priests, who formalized varna into a hereditary social hierarchy, though it remained less rigid than the stratified state systems of the ancient Near East. Political authority was limited and mediated through ritual expertise, while philosophical texts such as the Upanishads began to question ritualism and hierarchy, introducing early ideas of liberation (moksha) and interiority. Social roles remained negotiable and were not yet embedded in the fully articulated jāti system of later India."
+      },
+      {
+        "start": -600,
+        "end": -322,
+        "label": "Mahājanapada & Upanishadic Age",
+        "note": "The Mahājanapadas—large territorial states, emerged as organized kingdoms and republics across the Ganges plain. This political transformation coincided with a profound philosophical upheaval, as the Upanishads shifted spiritual focus from ritual sacrifice to inward metaphysical inquiry, introducing concepts like ātman, brahman, karma, and moksha. While Brahmanical traditions refined their ritual systems, new śramanic movements like Buddhism and Jainism openly challenged caste, priestly dominance, and external ritualism. Society became increasingly urbanized and intellectually diverse, as cities like Kashi, Kosala, and Magadha became centers of debate, renunciation, and royal ambition. This age laid the ideological and political groundwork for the Mauryan empire and the enduring dual legacy of worldly power and spiritual liberation in Indian civilization."
+      },
+      {
+        "start": -322,
+        "end": -268,
+        "label": "Maurya Empire",
+        "note": "The Maurya Empire emerged in the aftermath of Alexander’s incursion, founded by Chandragupta Maurya and guided by Chanakya’s Arthashastra, a pragmatic manual of imperial governance. Building on Magadha’s earlier expansion, the Mauryas unified much of the subcontinent through military conquest, diplomacy, and a highly centralized bureaucracy. Society was deeply stratified by the varna system, with Brahmins and Kshatriyas dominant, though the imperial structure allowed for some administrative mobility. Under Chandragupta and Bindusara, the state emphasized realpolitik, economic regulation, and standing armies—mirroring the imperial logic of Persia and China. This was an era of consolidation, infrastructure-building, and the assertion of sovereign authority before the later ethical transformation under Ashoka."
+      },
+      {
+        "start": -268,
+        "end": -185,
+        "label": "Decline of the Maurya Empire",
+        "note": "Under Ashoka, the Maurya Empire underwent a profound transformation, shifting from militaristic expansion to ethical governance inspired by Buddhist principles. After the devastating Kalinga War, Ashoka renounced conquest and promoted dhamma (moral law), focusing on compassion, tolerance, and the spiritual welfare of his subjects. While this ideological pivot marked a high point in moral statecraft, it also weakened military readiness and centralized control. Ashoka’s successors lacked his vision and authority, leading to administrative decay, rising provincial autonomy, and internal dissent. By 185 BCE, the last Mauryan ruler was overthrown by his general Pushyamitra Shunga, ending the dynasty and ushering in a new era of regional fragmentation."
+      },
+      {
+        "start": -185,
+        "end": 320,
+        "label": "Post-Mauryan Period",
+        "note": "India entered a politically fragmented yet culturally dynamic period marked by regional kingdoms, foreign dynasties, and expanding trade networks. While Buddhist and Jain institutions flourished under rulers like the Kushans and Satavahanas, Brahmins gradually filled the ideological void left by imperial collapse, offering ritual continuity, legal codification, and spiritual legitimacy to emerging powers. Texts like the Manusmriti reflect a turn toward social reordering and intensified caste stratification, even as urbanization and guild-based economies diversified the social fabric. The resulting society was both hierarchical and cosmopolitan—home to Greco-Buddhist art, Mahayana thought, and global commerce linking Rome to China."
+      },
+      {
+        "start": 320,
+        "end": 550,
+        "label": "Gupta Empire",
+        "note": "The Gupta Empire unified much of northern India through a decentralized yet symbolically potent model of rule rooted in Brahmanical cosmology. Emperors like Samudragupta embodied the ideal of the warrior-poet, fusing military conquest with cultural refinement and ritual sovereignty. This era witnessed a flourishing of Sanskrit literature, Hindu theology, classical art, and pioneering mathematical and astronomical thought—driven by a worldview that saw cosmic order reflected in numbers, verse, and kingship. Caste hierarchy and gender roles hardened as dharma was codified into law, while Buddhism gradually lost royal patronage. The empire ultimately fragmented under internal strain and the destabilizing invasions of the Hunas—nomadic Central Asian forces whose continuous incursions shattered the fragile balance of imperial unity and cosmic harmony."
+      }
+    ]
+  },
+  {
+    "id": "chinese-composite",
+    "name": "Chinese",
+    "expanded name": "Chinese (Yellow River & Imperial Civilization)",
+    "color": "#A33A2B",
+    "yRel": 0.778,
+    "hRel": 0.06,
+    "broad note": "Chinese civilization emerged from Neolithic farming communities along the Yellow River that gradually developed ancestor reverence and a worldview linking Heaven, Earth, and human lineage. As villages grew into stratified ritual centers, political life became inseparable from cosmology: rulership was understood as the maintenance of harmony between the human realm and a moral order embodied in Heaven. Across millennia, China displayed a recurring rhythm of unification, fragmentation, and reunification. The open geography of the North China Plain allowed regional powers to arise whenever central legitimacy weakened, yet the same conditions demanded renewed coordination for agriculture, flood control, and social stability. Periods of crisis generated new philosophical and administrative responses. Over time, this produced one of the earliest and most sophisticated bureaucratic traditions. By the early centuries of the Common Era, this fusion of cosmology, governance, and ethical administration had formed a durable pattern that would outlast other civilizational arcs and continue to shape Chinese identity.",
+    "broad lifespan": "c. 5000 BCE – 420 CE",
+    "segments": [
+      {
+        "start": -5000,
+        "end": -3000,
+        "label": "Early Neolithic Villages",
+        "note": "Neolithic communities along the Yellow River formed stable millet-farming villages on the fertile loess plains, creating some of the earliest long-lived settlements in East Asia. These villages were organized spaces with pit-houses, storage pits, kilns, and sometimes surrounding moats, showing an early sense of planned communal order. Painted pottery decorated with repeating geometric and animal motifs reveals a shared visual language and emerging abstract symbolic thinking across distant settlements. Burial practices with grave goods and signs of social distinction indicate that memory of the dead and awareness of lineage were already becoming culturally important. Together, these features show a society in which permanence of place, ritual awareness, and patterned symbolism were taking root."
+      },
+      {
+        "start": -3000,
+        "end": -1900,
+        "label": "Late Neolithic Ritual Elites",
+        "note": "During this period Neolithic communities along the Yellow River and surrounding regions transformed into stratified societies centered on ritual authority. Walled settlements, rammed-earth platforms, and organized town layouts indicate coordinated labor and emerging leadership. Elite burials filled with finely worked jade objects and delicate “eggshell” pottery reveal both extreme craft specialization and clear social hierarchy. These artifacts had little practical use and instead signaled status through symbolic and ceremonial value. This period marks the rise of ritual elites, fortified centers, and refined arts that foreshadow the political and cosmological order of later Chinese civilization."
+      },
+      {
+        "start": -1900,
+        "end": -1600,
+        "label": "Erlitou Proto-State",
+        "note": "The Erlitou horizon marks the transition from ritual-elite towns to the first clear signs of proto-state organization in early China. Large rammed-earth palatial compounds, planned road layouts, and specialized neighborhoods indicate centralized coordination. Bronze workshops operated at scale under what appears to be elite oversight, producing prestige objects that signaled authority and control over skilled labor. Burials reveal a distinct ruling stratum, yet there is little evidence of large-scale warfare or fortified urban defense. More than a millennium later, Chinese historiography would look back on this formative stage and remember it as the age of the Xia, the first dynasty ruled by sage kings beginning with Yu the Great and ending with the tyrant Jie. Although no writing or royal names survive from Erlitou itself, its archaeological profile closely matches what later texts describe as the earliest dynastic order preceding the Shang."
+      },
+      {
+        "start": -1600,
+        "end": -1046,
+        "label": "Shang",
+        "note": "Shang period marks the first fully historical stage of Chinese civilization, where archaeology and later textual memory align around a long-ruling royal house centered in the Yellow River region. Kings ruled as both war leaders and high priests, mediating between the living and powerful ancestral spirits through divination inscribed on oracle bones. Organized warfare clearly appears in this era, but its scale differs from that of the contemporary Near East: rather than large peer states fighting for survival, Shang campaigns were typically expeditions by a dominant center against surrounding polities and tribes to secure tribute, captives, and authority. Bronze technology reached extraordinary sophistication, producing ritual vessels and ceremonial weapons that expressed political and sacred power, while agricultural stability supported dense settlement and craft specialization. Later tradition remembered the rise of Shang as a moral succession, in which a virtuous founder overthrew the failing Xia ruler because Heaven had withdrawn its favor. This idea—that there must be a single central authority aligned with cosmic order—became foundational to Chinese political thought."
+      },
+      {
+        "start": -1046,
+        "end": -771,
+        "label": "Western Zhou",
+        "note": "The Western Zhou period marks a decisive shift away from the tightly fused theocratic rule of the Shang toward a more abstract, moralized vision of political order. Authority was now grounded primarily in alignment with Heaven understood as an impersonal moral principle, articulated through the Mandate of Heaven. This subtle secularization reframed rulership as an ethical responsibility, laying the conceptual foundations for later Chinese philosophy and historical reflection. Politically, the Zhou organized their realm through a feudal aristocratic system governed by ritual hierarchy (li), kinship obligations, and moral example. Warfare continued and became more systematized—especially through chariot-based aristocratic armies—but remained limited in scale and subordinated to the maintenance of order. Technologically, the period saw advances in bronze inscriptional writing, agricultural coordination, calendrical regulation, and early iron use, alongside increasingly sophisticated military organization. In later cultural memory, Western Zhou was idealized as a lost golden age of moral clarity and proper order."
+      },
+      {
+        "start": -771,
+        "end": -476,
+        "label": "Spring and Autumn Period",
+        "note": "The Spring and Autumn period begins with the weakening of Western Zhou authority and marks a long era of political fragmentation, during which the Zhou king remained a ritual figure while real power shifted to regional lords. Dozens of feudal states—traditionally counted at over a hundred early on, gradually consolidating into a few dozen major polities—competed through shifting alliances, limited wars, and ritualized diplomacy. In this environment, inherited titles and rites (li) persisted but became increasingly ossified, no longer capable of compelling loyalty or producing stable order. It is in response to this moral and political decay that Confucius appears, arguing that social harmony could only be restored through ethical cultivation, proper ritual, and a return to the moral way (dao) of the ancient kings. Named after the Spring and Autumn Annals, a terse moralized record of events, the period is remembered as an age of instability and reflection, when the failure of inherited order forced Chinese civilization to begin thinking explicitly about history, legitimacy, and the foundations of governance."
+      },
+      {
+        "start": -476,
+        "end": -221,
+        "label": "Warring States Period",
+        "note": "The Warring States period marks the culmination of the fragmentation that began in the Spring and Autumn age, as dozens of smaller polities consolidated into a handful of powerful rival states locked in continuous, existential conflict. Warfare between these states became large-scale and relentless, driving a paradoxical transformation: the pressure to fight more efficiently incentivized the creation of centralized legal and bureaucratic systems capable of registering populations, extracting resources, and sustaining mass armies. In this environment, inherited ritual authority collapsed entirely, replaced by impersonal law, administrative discipline, and merit-based organization. Alongside bureaucratization came intensified knowledge production, as states sponsored thinkers, strategists, and scholars to formulate doctrines of governance, ethics, and warfare that could secure survival. The result was an unprecedented consolidation of political theory, philosophy, and military strategy, laying the institutional and intellectual foundations for imperial unification under a single centralized state."
+      },
+      {
+        "start": -221,
+        "end": -206,
+        "label": "Qin Empire",
+        "note": "The Qin Empire represents a radical compression of the institutional innovations developed during the Warring States period. After unification, the Qin abolished feudal rule and imposed a centralized bureaucratic system, standardizing law, script, weights, measures, and infrastructure across the realm. Massive state projects and strict population control were made possible by Legalist administration, which prioritized efficiency and obedience over ritual or moral persuasion. The empire unraveled almost immediately after the death of the first emperor, when fear-based authority collapsed and widespread rebellion punctured the fragile legitimacy of the regime. Despite its brevity, Qin permanently reshaped China by establishing the administrative framework that later dynasties would retain and refine."
+      },
+      {
+        "start": -206,
+        "end": 220,
+        "label": "Han Empire",
+        "note": "The Han Empire transformed the coercive machinery inherited from Qin into a durable moral and administrative order, fusing centralized bureaucracy with a comprehensive cosmological worldview. Governance was carried out by scholar-officials trained in classical learning, ritual, and administration, giving rise to the philosopher-statesman as a defining political figure. Knowledge production flourished as an arm of statecraft: histories were compiled, calendars refined, astronomy systematized, medicine theorized, and geography and administration rendered legible through writing and record-keeping. Law and taxation remained firm but were framed within Confucian moral language and cosmic balance, allowing imperial power to appear both rational and meaningful. During this period China also became integrated into intercontinental trade networks, with Chinese silk reaching as far as the Roman world through Central Asian and Indian intermediaries. Toward the end of the dynasty, Buddhism enters China quietly along these same routes just as the Han system itself began to fragment."
+      },
+      {
+        "start": 220,
+        "end": 420,
+        "label": "Post-Han Fragmentation",
+        "note": "The collapse of the Han Empire in 220 CE led to a prolonged period of fragmentation, as central authority disintegrated under the weight of court factionalism, regional militarization, population strain, and the loss of cosmological legitimacy that had once justified imperial rule. China divided into multiple competing regimes—most notably the Three Kingdoms, followed by a succession of northern and southern states—producing a landscape of shifting powers rather than a simple feudal reversion, with roughly a dozen major players emerging over two centuries. Warfare became endemic but uneven: large imperial-style armies still existed, yet conflict was episodic, regional, and shaped by inherited bureaucratic and military practices rather than aristocratic norms. Confucian state orthodoxy weakened, while Daoist metaphysics, literary culture, and elite withdrawal flourished, and Buddhism expanded rapidly, providing new frameworks for understanding suffering, impermanence, and moral disorder."
+      }
+    ]
+  }
 ]
