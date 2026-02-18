@@ -13,7 +13,7 @@ function MenuPortal({ children }) {
  *  - groups: [{ key, label, appliesTo, allTags: string[] }]
  *  - selectedByGroup: { [key: string]: Set<string> }
  *  - onChange: (nextSelectedByGroup) => void
- *  - layerMode: "durations" | "segments" | "none"
+ *  - layerMode: "durations" | "segments" | "none" | "noborders"
  *  - onLayerModeChange: (mode) => void
  *
  *  - showTexts: boolean
@@ -172,7 +172,7 @@ function positionMenu({ measure } = { measure: false }) {
   // Measure menu AFTER it's in the DOM
   const menuRect = menuEl.getBoundingClientRect();
 
-  const gap = 8;        // space between panel edge and menu
+  const gap = -1;        // space between panel edge and menu
   const pad = 10;       // viewport padding for clamping
 
   // Align the menu's RIGHT edge to the panel's LEFT edge (tucked-under feel)
@@ -187,6 +187,10 @@ function positionMenu({ measure } = { measure: false }) {
   // Clamp to viewport
   left = Math.max(pad, Math.min(left, window.innerWidth - menuRect.width - pad));
   top = Math.max(pad, Math.min(top, window.innerHeight - menuRect.height - pad));
+
+  // NEW: snap to whole pixels to avoid blurry text
+  left = Math.round(left);
+  top  = Math.round(top);
 
   menuEl.style.left = `${left}px`;
   menuEl.style.top = `${top}px`;
@@ -352,6 +356,19 @@ if (openKey) {
   function renderLayerRadios() {
     return (
       <div className="tagPanel__radios">
+
+        <label className="tagPanel__radio">
+          <input
+            type="radio"
+            name="layerMode"
+            value="noborders"
+            checked={layerMode === "noborders"}
+            onChange={() => onLayerModeChange("noborders")}
+          />
+          <span className="tagPanel__label">None</span>
+        </label>
+
+
         <label className="tagPanel__radio">
           <input
             type="radio"
@@ -360,7 +377,7 @@ if (openKey) {
             checked={layerMode === "durations"}
             onChange={() => onLayerModeChange("durations")}
           />
-          <span>Civilizational Arcs</span>
+          <span className="tagPanel__label">Civilizational Arcs</span>
         </label>
 
         <label className="tagPanel__radio">
@@ -371,7 +388,7 @@ if (openKey) {
             checked={layerMode === "segments"}
             onChange={() => onLayerModeChange("segments")}
           />
-          <span>Historical Periods</span>
+          <span className="tagPanel__label">Historical Periods</span>
         </label>
 
         <label className="tagPanel__radio">
@@ -382,8 +399,10 @@ if (openKey) {
             checked={layerMode === "none"}
             onChange={() => onLayerModeChange("none")}
           />
-          <span>None</span>
+          <span className="tagPanel__label">Borders Only</span>
         </label>
+
+
       </div>
     );
   }
@@ -398,7 +417,7 @@ if (openKey) {
             checked={!!showTexts}
             onChange={(e) => onShowTextsChange(e.target.checked)}
           />
-          <span style={{ marginLeft: 2 }}>Texts</span>
+          <span className="tagPanel__label tagPanel__rowLabel">Texts</span>
         </label>
 
         <label className="tagPanel__row">
@@ -407,7 +426,7 @@ if (openKey) {
             checked={!!showFathers}
             onChange={(e) => onShowFathersChange(e.target.checked)}
           />
-          <span style={{ marginLeft: 2 }}>Fathers</span>
+          <span className="tagPanel__label tagPanel__rowLabel">Fathers</span>
         </label>
 
         <label className="tagPanel__row">
@@ -416,7 +435,7 @@ if (openKey) {
             checked={!!showConnections}
             onChange={(e) => onShowConnectionsChange(e.target.checked)}
           />
-          <span style={{ marginLeft: 2 }}>Connections</span>
+          <span className="tagPanel__label tagPanel__rowLabel">Connections</span>
         </label>
       </div>
     );
@@ -537,33 +556,53 @@ if (openKey) {
           // Final inactive flag for the group button
           const isInactive = isInactiveAllTags || isInactiveBecauseTextsHidden;
 
-          return (
-            <div key={g.key} style={{ position: "relative" }}>
-              <button
-                type="button"
-                ref={(el) => {
-                  if (el) btnRefs.current.set(g.key, el);
-                  else btnRefs.current.delete(g.key);
-                }}
-onClick={(e) => {
-  if (isInactive) return;
+const isModified = total > 0 && count !== total;
 
-  // Remember this button so we can blur it on Esc-close
-  lastOpenBtnRef.current = e.currentTarget;
+return (
+  <div key={g.key} className="tagPanel__btnRow">
+    <button
+      type="button"
+      ref={(el) => {
+        if (el) btnRefs.current.set(g.key, el);
+        else btnRefs.current.delete(g.key);
+      }}
+      onClick={(e) => {
+        if (isInactive) return;
 
-  toggleMenu(g.key);
-}}
-                className={`tagPanel__btn
-                  ${isInactive ? "tagPanel__btn--inactive" : ""}
-                  ${isDropdownOpen ? "tagPanel__btn--open" : ""}
-                `}
-                aria-disabled={isInactive}
-                aria-expanded={isDropdownOpen}
-                aria-controls={`menu-${g.key}`}
-                title={displayLabel}
-              >
-                {displayLabel} {renderCountBadge(count, total)}
-              </button>
+        // Remember this button so we can blur it on Esc-close
+        lastOpenBtnRef.current = e.currentTarget;
+
+        toggleMenu(g.key);
+      }}
+      className={`tagPanel__btn
+        ${isInactive ? "tagPanel__btn--inactive" : ""}
+        ${isDropdownOpen ? "tagPanel__btn--open" : ""}
+      `}
+      aria-disabled={isInactive}
+      aria-expanded={isDropdownOpen}
+      aria-controls={`menu-${g.key}`}
+      title={displayLabel}
+    >
+      <span className="tagPanel__btnLabel">{displayLabel}</span>
+      {renderCountBadge(count, total)}
+    </button>
+
+    {isModified && (
+      <button
+        type="button"
+        className={`tagPanel__resetDot ${
+          isInactive ? "tagPanel__resetDot--inactive" : ""
+        }`}
+        disabled={isInactive}
+        onClick={(e) => {
+          e.stopPropagation(); // don't open/close the dropdown
+          if (isInactive) return;
+          setAllTagsForGroup(g.key, items);
+        }}
+        aria-label={`Select all ${displayLabel} tags`}
+        title="Select all"
+      />
+    )}
 
               {isDropdownOpen && (
                 <MenuPortal>
@@ -575,7 +614,7 @@ onClick={(e) => {
   aria-label={`${displayLabel} tags`}
 >
   <div className="tagPanel__menuHeader">
-    <span>{displayLabel}</span>
+    <span className="tagPanel__menuTitle">{displayLabel}</span>
 
     <button
       type="button"

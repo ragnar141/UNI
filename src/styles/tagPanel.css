@@ -6,13 +6,18 @@
 .tagPanelWrap {
   --tab-w: 30px;                 /* width of the FILTERS tab that sticks out */
   --panel-bg: #fdf5d8;           /* warm panel background */
+  --tag-font-family: var(--font-ui, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
+  --tag-font-size: 12px;
+  --tag-font-weight: 600;
 
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;                     /* stretch to bottom; covers the axis */
-  width: 200px;                  /* tweak width to taste */
+  width: 210px;                  /* tweak width to taste */
   z-index: 2000;                 /* above grid/axis */
+  
+  
 
   display: flex;
   flex-direction: column;
@@ -45,7 +50,7 @@
    ========================= */
 .tagPanel__content {
   height: 100%;
-  padding: 12px 10px;
+  padding: 12px 15px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -86,6 +91,17 @@
   background: var(--scroll-thumb-hover);
 }
 
+.tagPanel__btnRow {
+  margin-left: -8px;
+}
+
+.tagPanel__radios {
+  margin-left: -14px;
+}
+
+.tagPanel__visibility {
+  margin-left: -15px;
+}
 /* =========================
    Attached FILTERS tab
    ========================= */
@@ -144,17 +160,70 @@
 }
 
 /* =========================
+   NEW: Shared label weight (Layers / Visibility / Tags)
+   ========================= */
+.tagPanel__label,
+.tagPanel__btnLabel {
+  font-family: var(--tag-font-family);
+  font-size: var(--tag-font-size);
+  font-weight: var(--tag-font-weight);
+}
+
+/* Optional helper if you switched Visibility spans to a class */
+.tagPanel__rowLabel {
+  margin-left: 2px;
+}
+
+/* =========================
    Group trigger buttons
    ========================= */
+
+/* Row that holds the group button + the small reset dot */
+.tagPanel__btnRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;  /* keep everything hugged left */
+  gap: 6px;
+}
+
+/* Reduce button width slightly + reserve a consistent right gutter
+   so the dot can appear without shrinking the button */
+.tagPanel__btnRow .tagPanel__btn {
+  flex: 0 0 auto;                 /* DON'T stretch to full row width */
+  width: calc(100% - 12px);       /* leaves right space for dot + air */
+}
+
+/* Main group button */
 .tagPanel__btn {
   padding: 8px 10px;
+  height: 30px;
   border-radius: 10px;
   border: 2px solid rgba(0, 0, 0, 0.1);
   background: #fff;
   cursor: pointer;
-  font-size: 12px;
-  line-height: 1.1;
+  font-family: var(--tag-font-family);
+  font-size: var(--tag-font-size);
+  font-weight: var(--tag-font-weight);
+  line-height: 2px;
+
+  /* NEW: label left, count right */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
+
+/* Make label truncate cleanly if needed */
+.tagPanel__btnLabel {
+  min-width: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.2;
+  transform: translateY(-0.75px);
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
 .tagPanel__btn:hover { background:#f6f7fb; }
 
 /* Active tag button (dropdown open) */
@@ -167,6 +236,45 @@
 /* Optional: prevent hover from fighting active state */
 .tagPanel__btn--open:hover {
   background: #fff;
+}
+
+/* Dropdown header title (e.g. Metaphysical) — match panel section headers */
+.tagPanel__menuTitle {
+  font-family: var(--font-ui, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+}
+
+/* Bolden tag labels inside the dropdown list */
+.tagPanel__dropdown .tagPanel__row span {
+  font-weight: 500;
+  color: #000;
+  font-size: 12px;
+}
+
+/* Small circular "reset to all" dot */
+.tagPanel__resetDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: none;
+  background: #000;
+  cursor: pointer;
+  padding: 0;
+  flex: 0 0 auto;
+}
+
+.tagPanel__resetDot:hover {
+  transform: scale(1.5);
+}
+
+/* Inactive/dimmed version (matches inactive tag button behavior) */
+.tagPanel__resetDot--inactive,
+.tagPanel__resetDot:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* =========================
@@ -185,7 +293,9 @@
 .tagPanel__radio {
   display: flex;
   align-items: center;
-  font-size: 12px;
+  font-family: var(--tag-font-family);
+  font-size: var(--tag-font-size);
+  font-weight: var(--tag-font-weight);
   line-height: 1.1;
   gap: 2px; 
   min-width: 0;
@@ -193,68 +303,77 @@
   user-select: none;
 }
 
-
-
 /* Make the radio black (modern browsers) */
 .tagPanel__radioRow input[type="radio"],
 .tagPanel__radio input[type="radio"] {
   accent-color: #000;
 }
+
 /* =========================
    Dropdown (opens to the left, portaled)
    ========================= */
 /* Portaled menu uses these styles, plus inline fixed positioning from JSX */
 .tagPanel__dropdown {
   --menu-bg: #fdf5d8;           /* warm dropdown background */
-  --menu-offset-x: 11px;        /* increase to move the menu RIGHT; negative moves LEFT */
+  --menu-offset-x: 11px;        /* used by JSX positioning */
 
   position: absolute;           /* overridden by inline `position: fixed` */
   top: 0;
   right: 100%;
-  margin-right: 8px;
-  width: 230px;
+  margin-right: 10px;
+  width: 230px;                 /* REAL width (JS relies on this) */
 
   /* keep inside viewport */
   max-height: calc(100vh - 32px);
 
-  /* NEW: frame; inner body scrolls/clips */
+  /* frame; inner body scrolls/clips */
   display: flex;
   flex-direction: column;
   overflow: hidden;
 
-  /* Tucked-under look */
+  /* tucked-under look */
   background: var(--menu-bg);
   border: 1px solid rgba(0, 0, 0, 0.18);
-  border-right: none;
-  border-top: none;
-  border-left: none;      /* no vertical line on the left edge */
-  border-radius: 12px 0 0 12px;
+
+  border-radius: 0;
   box-shadow:
-    -16px 0   24px rgba(0, 0, 0, 0.04),
-     0   12px 24px rgba(0, 0, 0, 0),
-     0  -12px 24px rgba(0, 0, 0, 0);
+    -16px 0 24px rgba(0, 0, 0, 0.04),
+     0  12px 24px rgba(0, 0, 0, 0),
+     0 -12px 24px rgba(0, 0, 0, 0);
 
-  padding: 8px;
-  z-index: 1990;
+  padding-top: 12px;
+  padding-left: 4px;
+  z-index: 9999;                /* ensure above panel */
 
-  translate: calc(var(--menu-offset-x) + 10px) 0;
+  /* ---- CRISP DRAWER SLIDE (NO transform) ---- */
   opacity: 0;
-  animation: dropdown-slide-out 200ms ease-out both;
-  will-change: translate, opacity;
+
+  /* hide from LEFT, reveal toward LEFT; right edge stays anchored */
+  clip-path: inset(0 0 0 100%);
+
+  animation:
+    dropdown-fade-in 140ms ease-out both,
+    dropdown-drawer-reveal 220ms cubic-bezier(.2,.8,.2,1) both;
+
+  will-change: opacity, clip-path;
 }
 
 /* Entry animation only */
-@keyframes dropdown-slide-out {
-  from { opacity: 0; translate: calc(var(--menu-offset-x) + 10px) 0; }
-  to   { opacity: 1; translate: var(--menu-offset-x) 0; }
+@keyframes dropdown-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
+@keyframes dropdown-drawer-reveal {
+  from { clip-path: inset(0 0 0 100%); }
+  to   { clip-path: inset(0 0 0 0); }
+}
 /* header inside dropdown */
 .tagPanel__menuHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 4px 6px 8px;
+  padding: 4px 12px 8px;
 
   /* unified 1px divider, no shadow */
   border-bottom: 2px solid var(--tl-divider, #000);
@@ -267,6 +386,15 @@
   background: var(--menu-bg);
   z-index: 1;
   transform: translateZ(0);
+}
+
+.tagPanel__dropdown .tagPanel__menuHeader {
+  padding-left: 0px;   /* was 6px */
+}
+
+.tagPanel__dropdown .tagPanel__menuHeader {
+  margin-left: 6px;
+  margin-right: 6px;
 }
 
 /* Scroll body under the header divider — this is what scrolls & gets clipped */
@@ -300,11 +428,14 @@
 .tagPanel__row {
   display: flex;
   align-items: center;
-  font-size: 12px;
+  font-family: var(--tag-font-family);
+  font-size: var(--tag-font-size);
+  font-weight: var(--tag-font-weight);
   min-width: 0;
 }
 .tagPanel__row span {
   margin-left: 8px;
+  font-weight: var(--tag-font-weight);
   overflow-wrap: anywhere;
   word-break: break-word;
   min-width: 0;
@@ -323,7 +454,7 @@
 /* count badge in button */
 .tagPanel__badge {
   margin-left: 6px;
-  font-size: 12px;
+  font-size: var(--tag-font-size);
   padding: 2px 6px;
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.06);
@@ -343,7 +474,7 @@
   white-space: pre-line;
 
   /* Spacing + divider identical to .tagPanel__menuHeader */
-  padding: 4px 6px 8px;
+  padding: 4px 0px 8px;
   border-bottom: 2px solid var(--tl-divider, #000);
   box-shadow: none;
   margin-bottom: 6px;
@@ -361,7 +492,7 @@
   background: transparent;
   border: 1px solid transparent;
   border-radius: 10px;
-  color: var(--muted);
+  
   font-size: 20px;
   line-height: 1;
   cursor: pointer;
@@ -399,7 +530,7 @@
   border: 1px solid rgba(0,0,0,0.1);
   background: #fff;
   cursor: pointer;
-  font-size: 12px;
+  font-size: var(--tag-font-size);
   line-height: 1.1;
 }
 .tagPanel__cloudBtn:hover { background: #f6f7fb; }
@@ -408,7 +539,7 @@
 .tagCloud {
   --chip-gap: 6px;
   --chip-pad-x: 8px;
-  --chip-pad-y: 6px;
+  --chip-pad-y: 7px;
 
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr)); /* tight since menu is 300px */
@@ -429,9 +560,10 @@
   border: 1px solid rgba(0,0,0,0.12);
   background: #fff;
   cursor: pointer;
-
-  font-size: 12px;
-  line-height: 1.1;
+  font-family: var(--tag-font-family);
+  font-size: var(--tag-font-size);
+  font-weight: var(--tag-font-weight);
+  line-height: 1.2;
   user-select: none;
 
   transition: background 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
@@ -513,8 +645,6 @@
 .focus-hidden {
   display: none !important;
 }
-
-
 
 /* =========================
    Visibility checkboxes spacing

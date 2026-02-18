@@ -1329,11 +1329,13 @@ body {
    Custom duration polygons
    =========================== */
 
-/* DURATIONS mode: OUTEST = filled, no outline (clean blocks) */
-.timelineSvg.layer-durations.zoom-outest path.customGroup {
-  fill: var(--dur-color, #999999);
-  fill-opacity: var(--dur-fill-opacity, 0.25);
-  stroke: none;
+/* When a text/father is selected, keep custom polygon borders visible in all non-noborders modes */
+.timelineSvg.has-selection:not(.layer-noborders) path.customGroup {
+  fill-opacity: 0 !important;
+  stroke: currentColor !important;
+  stroke-opacity: 0.2 !important;
+  stroke-width: 1px !important;
+  vector-effect: non-scaling-stroke;
 }
 
 /* DURATIONS mode: MIDDLE + DEEPEST = keep fill AND show outline */
@@ -1346,10 +1348,17 @@ body {
   stroke-width: var(--dur-stroke-width, 1 px);
 }
 
-/* NONE mode: outline only (no fill) */
-.timelineSvg.layer-none path.customGroup {
+/* NONE mode: outline only (no fill) — keep it faint and consistent */
+.timelineSvg.layer-none:not(.has-selection) path.customGroup {
   fill: none;
-  stroke: var(--dur-color, #999999);
-  stroke-opacity: 0.9;
-  stroke-width: var(--dur-stroke-width, 1.25px);
+  stroke: currentColor;
+  stroke-opacity: 0.2;
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+
+/* === FIX: Custom polygons must explicitly fill from the dataset color === */
+/* Without this, SVG fill inherits and can end up grey. */
+.timelineSvg.layer-durations path.customGroup {
+  fill: var(--dur-color, #999999) !important;
 }

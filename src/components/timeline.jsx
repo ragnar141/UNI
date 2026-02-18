@@ -2031,22 +2031,27 @@ export default function Timeline() {
 
 
   const clipId = useId();
-    function logRenderedCounts() {
-    // Count *rendered* marks (current DOM), not dataset sizes
-    const textsCount = d3.select(textsRef.current)
-      .selectAll("circle.textDot")
-      .size();
+    
+  
+function logRenderedCounts(reason = "") {
+  if (!textsRef.current || !fathersRef.current) return;
 
-    const fathersCount = d3.select(fathersRef.current)
-      .selectAll("g.fatherMark")
-      .size();
+  // Count *rendered* marks (current DOM), not dataset sizes
+  const textsCount = d3.select(textsRef.current)
+    .selectAll("circle.textDot")
+    .size();
 
-    const total = textsCount + fathersCount;
+  const fathersCount = d3.select(fathersRef.current)
+    .selectAll("g.fatherMark")
+    .size();
 
-    console.log(
-      `[Timeline] Rendered — texts: ${textsCount}, fathers: ${fathersCount}, total: ${total}`
-    );
-  }
+  const total = textsCount + fathersCount;
+
+  console.log(
+    `[Timeline] Rendered${reason ? ` (${reason})` : ""} — texts: ${textsCount}, fathers: ${fathersCount}, total: ${total}`
+  );
+}
+
 
 
   // NEW: single source of truth for hovered segment
@@ -2248,6 +2253,7 @@ const axisY = innerHeight;
       const y = top;
       const h = bot - top;
       const first = members[0] || {};
+      
 
       // NEW: choose which member anchors the label (via config; fallback to first)
       const { shortLabel, longTitle, anchor } = deriveGroupTitles(groupKey, members);
@@ -3664,6 +3670,10 @@ function updateHoverVisuals() {
   const hoveredDurationId = hoveredDurationIdRef.current;
   const hoveredSegParentId = hoveredSegParentIdRef.current;
 
+  // legacy no-ops (hover is ref-driven now)
+const setHoveredDurationId = () => {};
+const setHoveredSegmentId = () => {};
+
   const ignoreHoverBecauseActive = !!activeDurationId;
 
   const k = kRef.current ?? 1;
@@ -3683,17 +3693,37 @@ function updateHoverVisuals() {
 
   const lm = layerModeRef.current;
 
+    // === NEW: "noborders" mode ===
+  // No fills, no strokes, no outlines, no custom group borders.
+  if (lm === "noborders") {
+    const outlineRoot = d3.select(outlinesRef.current);
+
+    outlineRoot.selectAll("rect.outlineRect")
+      .style("fill-opacity", 0)
+      .style("stroke-opacity", 0)
+      .style("stroke", "none");
+
+    d3.select(customPolysRef.current)
+      .selectAll("path.customGroup")
+    .style("fill-opacity", 0)
+    .style("stroke-opacity", 0)
+  .style("stroke", "none");
+
+    // labels are hidden by gOut display:none in updateInteractivity,
+    // but leaving label styling alone here is fine.
+    return;
+  }
+
+
   const showDurationChrome =
     (lm === "durations") &&
     (zoomMode === "outest") &&
     !hasSelection;
 
   const showPassiveOutlines =
-    !hasSelection && (
-      (lm === "none") ||
-      (lm === "durations" && (zoomMode === "middle" || zoomMode === "deepest")) ||
-      (lm === "segments"  && (zoomMode === "deepest"))
-    );
+    (lm === "none") ||
+    (lm === "durations" && (zoomMode === "middle" || zoomMode === "deepest")) ||
+    (lm === "segments"  && (zoomMode === "deepest"));
 
   // tweak this whenever you want
   const OUTLINE_ONLY_STROKE_OPACITY = 0.2;
@@ -3799,9 +3829,9 @@ function updateHoverVisuals() {
       if (!showDurationChrome) return 0;
       return durFillOpacity(d);
     })
-    .attr("stroke", (d) => showPassiveOutlines ? (d.color || "#999") : "none")
-    .attr("stroke-opacity", showPassiveOutlines ? OUTLINE_ONLY_STROKE_OPACITY : 0)
-    .attr("stroke-width", showPassiveOutlines ? OUTLINE_ONLY_STROKE_WIDTH : null);
+    .style("stroke", (d) => showPassiveOutlines ? (d.color || "#999") : "none")
+    .style("stroke-opacity", showPassiveOutlines ? OUTLINE_ONLY_STROKE_OPACITY : 0)
+    .style("stroke-width", showPassiveOutlines ? `${OUTLINE_ONLY_STROKE_WIDTH}px` : null);
 }
 
 
@@ -4009,7 +4039,7 @@ function syncHoverRaf(srcEvt) {
         // ensure duration hover doesn't linger
         if (hoveredDurationIdRef.current != null) {
           hoveredDurationIdRef.current = null;
-          setHoveredDurationId(null);
+          updateHoverVisuals();
         }
       } else {
         syncDurationHoverFromPointer(srcEvt);
@@ -4017,7 +4047,7 @@ function syncHoverRaf(srcEvt) {
         // ensure segment hover doesn't linger
         if (hoveredSegIdRef.current != null) {
           hoveredSegIdRef.current = null;
-          setHoveredSegmentId(null);
+          updateSegmentPreview();
         }
       }
     } else if (k < ZOOM_THRESHOLD) {
@@ -4027,17 +4057,17 @@ function syncHoverRaf(srcEvt) {
       // ensure duration hover doesn't linger
       if (hoveredDurationIdRef.current != null) {
         hoveredDurationIdRef.current = null;
-        setHoveredDurationId(null);
+        updateHoverVisuals();
       }
     } else {
       // DEEPEST: clear both to avoid "stuck" hover UI
       if (hoveredDurationIdRef.current != null) {
         hoveredDurationIdRef.current = null;
-        setHoveredDurationId(null);
+        updateHoverVisuals();
       }
       if (hoveredSegIdRef.current != null) {
         hoveredSegIdRef.current = null;
-        setHoveredSegmentId(null);
+        updateSegmentPreview();
       }
     }
   });
@@ -5440,15 +5470,47 @@ function updateInteractivity(k) {
     zoomMode = "deepest";
   }
 
+    // === NEW: "noborders" mode ===
+  // Hide ALL duration/segment rendering (fills + borders + labels), regardless of zoom/selection.
+  if (layerMode === "noborders") {
+    // Hide the whole durations layer (includes duration labels + outline rects)
+    gOut.style("display", "none");
+
+    // Hide custom polygons too
+    gCustom.style("display", "none");
+
+    // Hide segments layer
+    gSeg.style("display", "none");
+
+    // No duration/segment interactivity
+    clearActiveDuration();
+    clearActiveSegment();
+
+    // Keep your existing node click policy by zoom tier:
+    if (zoomMode === "deepest") {
+      gTexts.selectAll("circle.textDot").style("pointer-events", "all");
+      gFathers.selectAll("g.fatherMark").style("pointer-events", "all");
+    } else {
+      gTexts.selectAll("circle.textDot").style("pointer-events", "none");
+      gFathers.selectAll("g.fatherMark").style("pointer-events", "none");
+    }
+
+    // Make sure any leftover styling updates don't resurrect strokes
+    updateSegmentPreview();
+    updateHoverVisuals();
+    return;
+  }
+
   // only keep generic flag(s) here (zoom tier classes live in zoom handler)
   const svgSel = d3.select(svgRef.current);
   svgSel.classed("has-selection", hasSelection);
 
   // Keep layer-mode classes on the SVG via D3 so React doesn't wipe zoom-* classes
   svgSel
-    .classed("layer-durations", layerMode === "durations")
-    .classed("layer-segments",  layerMode === "segments")
-    .classed("layer-none",      layerMode === "none");
+    .classed("layer-durations",  layerMode === "durations")
+    .classed("layer-segments",   layerMode === "segments")
+    .classed("layer-none",       layerMode === "none")
+    .classed("layer-noborders",  layerMode === "noborders");
 
   // === Radio-controlled layer policy (ONLY affects durations/segments) ===
   const durationsAllowed = (layerMode === "durations");
@@ -5461,11 +5523,10 @@ function updateInteractivity(k) {
     segmentsAllowed && (zoomMode === "outest" || zoomMode === "middle") && !hasSelection;
 
 const showPassiveOutlines =
-  !hasSelection && (
-    (layerMode === "none") ||
-    (layerMode === "durations" && (zoomMode === "middle" || zoomMode === "deepest")) ||
-    (layerMode === "segments"  && (zoomMode === "deepest"))
-  );
+  (layerMode === "none") ||
+  (hasSelection && layerMode !== "noborders") ||
+  (layerMode === "durations" && (zoomMode === "middle" || zoomMode === "deepest")) ||
+  (layerMode === "segments"  && (zoomMode === "deepest"));
   // Show/hide whole groups (prevents accidental hit-testing & visual collisions)
   gOut.style("display", null);
   gSeg.style("display", showSegmentsLayer ? null : "none");
@@ -5852,7 +5913,7 @@ if (hasSelection) {
     syncHoverRaf(event.sourceEvent);
 
     updateHoverVisuals();
-    // logRenderedCounts(); // disable: expensive during zoom end
+    logRenderedCounts("zoom end");
   });
 
   // Bind zoom to the <svg> and expose refs/utilities
