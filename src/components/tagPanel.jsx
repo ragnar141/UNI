@@ -426,7 +426,7 @@ if (openKey) {
             checked={!!showFathers}
             onChange={(e) => onShowFathersChange(e.target.checked)}
           />
-          <span className="tagPanel__label tagPanel__rowLabel">Fathers</span>
+          <span className="tagPanel__label tagPanel__rowLabel">Mythic/Historic Figures</span>
         </label>
 
         <label className="tagPanel__row">

@@ -457,6 +457,13 @@ body {
   margin-left: 4px;
 }
 
+/* Link highlight driven by timeline hover */
+.textCard-connectionLink.isTimelineHover,
+.textCard-connTarget.isTimelineHover {
+  color: #1a73e8;
+  text-decoration: underline;
+}
+
 /* Speech-bubble tooltip for connection notes in TextCard & FatherCard */
 .connNoteTooltip {
   position: absolute;
@@ -574,7 +581,7 @@ body {
   line-height: 1;
   cursor: pointer;
 }
-.textCard-close:hover { background: #f3f4f6; border-color: #e5e7eb; }
+.textCard-close:hover { background: #f3f4f6; border-color: #e5e7eb; color: black;}
 
 /* ↓↓↓ TIGHTER label/value spacing for TextCard ↓↓↓ */
 .textCard-row { display: flex; align-items: baseline; gap: 3px; padding: 6px 0; }
@@ -1239,11 +1246,35 @@ body {
   stroke: none;
 }
 
-/* Used to hide the original marker icon while selected */
+.tl-pin-cardHover {
+  transform: translateY(var(--cardHoverPinDy, -6px)) scale(var(--cardHoverPinScale, 0.7));
+  transform-box: fill-box;
+  transform-origin: center;
+}
+/* Used to hide the original marker icon while pinned (selected OR hover-pin) */
 .hidden-icon {
   opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
+
+
+/* Secondary pin: dashed outline + lighter stroke (safe for any SVG element) */
+.tl-pin-cardHover * {
+  stroke-dasharray: 5 4;
+
+}
+
+/* Secondary pin (card-hover): dashed + lighter (applies to text + father pins) */
+.tl-pin-cardHover .tl-pin-body,
+.tl-pin-cardHover path,
+.tl-pin-cardHover circle,
+.tl-pin-cardHover polygon,
+.tl-pin-cardHover rect {
+  stroke-dasharray: 5 4;
+  
+}
 /* ============================
    Duration / segment chrome per zoom level
    ============================ */

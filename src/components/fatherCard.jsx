@@ -18,6 +18,10 @@ const FatherCard = forwardRef(function FatherCard(
     onClose = () => {},
     connections = [],
     onNavigate,
+    onHoverLink,
+
+    // NEW: comes from timeline.jsx (hovering nodes on timeline)
+    hoveredTimelineTarget,
   },
   ref
 ) {
@@ -28,6 +32,9 @@ const FatherCard = forwardRef(function FatherCard(
   const [isClosing, setIsClosing] = useState(false);
   const closedOnceRef = useRef(false);
   const [isContribOpen, setIsContribOpen] = useState(false);
+
+  // NEW: normalize naming in case some targets are "figure" instead of "father"
+  const normType = (t) => (t === "figure" ? "father" : t);
 
   // Shared tooltip overlay state (fixed, outside scroll area)
   const [hoverNote, setHoverNote] = useState(null);
@@ -117,7 +124,7 @@ const FatherCard = forwardRef(function FatherCard(
       .filter(Boolean)
       .filter((t) => t !== "-"); // treat "-" as NA
 
-    // ---- Links helpers (new) ----
+  // ---- Links helpers (new) ----
   const getLoose = (obj, key) => {
     const want = String(key || "").trim().toLowerCase();
     for (const k of Object.keys(obj || {})) {
@@ -156,8 +163,16 @@ const FatherCard = forwardRef(function FatherCard(
 
   const buildLinkRows = () => {
     const fields = [
-      { key: "articlePost", rawKeys: ["Article/post", "Article/Post"], iconKey: "article" },
-      { key: "imageMuseum", rawKeys: ["Image/museum", "Image/Museum"], iconKey: "image" },
+      {
+        key: "articlePost",
+        rawKeys: ["Article/post", "Article/Post"],
+        iconKey: "article",
+      },
+      {
+        key: "imageMuseum",
+        rawKeys: ["Image/museum", "Image/Museum"],
+        iconKey: "image",
+      },
       { key: "video", rawKeys: ["Video"], iconKey: "video" },
       { key: "other", rawKeys: ["Other"], iconKey: "other" },
     ];
@@ -187,7 +202,6 @@ const FatherCard = forwardRef(function FatherCard(
     if (iconKey === "video") return "🎥";
     return "🔗";
   };
-
 
   const Row = ({ label, value, className }) =>
     value ? (
@@ -240,16 +254,12 @@ const FatherCard = forwardRef(function FatherCard(
     entries.map(({ conn, idx }) => {
       const targets = Array.isArray(conn.targets) ? conn.targets : [];
 
-      const hasTargetNotes = targets.some(
-        (t) => t && t.note && t.note !== "-"
-      );
+      const hasTargetNotes = targets.some((t) => t && t.note && t.note !== "-");
       const hasRowNote = !hasTargetNotes && conn.note && conn.note !== "-";
 
       return (
         <li key={`${groupKey}-${idx}`} className="textCard-connectionItem">
-          <span className="textCard-connectionIntro">
-            {conn.textBefore}
-          </span>
+          <span className="textCard-connectionIntro">{conn.textBefore}</span>
 
           {/* Row-level note: i + tooltip, opens on hover */}
           {hasRowNote && (
@@ -276,6 +286,12 @@ const FatherCard = forwardRef(function FatherCard(
 
             const hasNote = t && t.note && t.note !== "-";
 
+            // NEW: timeline-hover -> highlight the matching link
+            const isTimelineHover =
+              hoveredTimelineTarget &&
+              normType(hoveredTimelineTarget.type) === normType(t.type) &&
+              hoveredTimelineTarget.id === t.id;
+
             return (
               <React.Fragment key={`${t.type}-${t.id}-${i}`}>
                 {needsComma && ", "}
@@ -286,10 +302,12 @@ const FatherCard = forwardRef(function FatherCard(
                 <span className="textCard-connectionTargetGroup">
                   <button
                     type="button"
-                    className="textCard-connTarget"
-                    onClick={() =>
-                      onNavigate && onNavigate(t.type, t.id)
-                    }
+                    className={`textCard-connTarget${
+                      isTimelineHover ? " isTimelineHover" : ""
+                    }`}
+                    onClick={() => onNavigate && onNavigate(t.type, t.id)}
+                    onMouseEnter={() => onHoverLink && onHoverLink(t.type, t.id)}
+                    onMouseLeave={() => onHoverLink && onHoverLink(null, null)}
                   >
                     {t.name}
                   </button>
@@ -302,10 +320,7 @@ const FatherCard = forwardRef(function FatherCard(
                       onMouseEnter={(e) => showHoverNote(e, t.note)}
                       onMouseLeave={hideHoverNote}
                     >
-                      <span
-                        className="connNoteIcon"
-                        aria-hidden="true"
-                      >
+                      <span className="connNoteIcon" aria-hidden="true">
                         i
                       </span>
                     </button>
@@ -352,44 +367,38 @@ const FatherCard = forwardRef(function FatherCard(
           {metaLine && <div className="textCard-meta">{metaLine}</div>}
 
           {/* Symbolic systems */}
-          <SymbolicTagRow
-            label="Symbolic System(s):"
-            value={d.symbolicSystem}
-          />
+          <SymbolicTagRow label="Symbolic System(s):" value={d.symbolicSystem} />
 
-<div className="textCard-links">
-  <div className="textCard-connections-subtitle">Links</div>
+          <div className="textCard-links">
+            <div className="textCard-connections-subtitle">Links</div>
 
-  {linksEmpty ? (
-    <div className="textCard-linksEmpty">-</div>
-  ) : (
-    <ul className="textCard-connections-list">
-      {linkRows.map((it, i) => (
-        <li key={`${it.url}-${i}`} className="textCard-connectionItem">
-          <span className="textCard-connectionIntro">
-            <span className="textCard-linkIcon" aria-hidden="true">
-              {iconFor(it.iconKey)}
-            </span>{" "}
-            <a
-              className="textCard-link"
-              href={it.url}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {it.anchor}
-            </a>
-            {it.desc ? (
-              <span className="textCard-linkDesc"> — {it.desc}</span>
-            ) : null}
-          </span>
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
-
-
-
+            {linksEmpty ? (
+              <div className="textCard-linksEmpty">-</div>
+            ) : (
+              <ul className="textCard-connections-list">
+                {linkRows.map((it, i) => (
+                  <li key={`${it.url}-${i}`} className="textCard-connectionItem">
+                    <span className="textCard-connectionIntro">
+                      <span className="textCard-linkIcon" aria-hidden="true">
+                        {iconFor(it.iconKey)}
+                      </span>{" "}
+                      <a
+                        className="textCard-link"
+                        href={it.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {it.anchor}
+                      </a>
+                      {it.desc ? (
+                        <span className="textCard-linkDesc"> — {it.desc}</span>
+                      ) : null}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
           {Array.isArray(connections) && connections.length > 0 && (
             <div className="textCard-connections">

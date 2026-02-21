@@ -2029,6 +2029,8 @@ export default function Timeline() {
   // PERF: gate expensive bulk style updates (opacity/dimming) so they only rerun when tier/selection changes
   const lastStyleStateRef = useRef({ zoomMode: null, key: "" });
 
+  // PERF: bump whenever TagPanel changes what nodes exist (exit/re-enter resets opacity)
+  const visVersionRef = useRef(0);
 
   const clipId = useId();
     
@@ -2083,15 +2085,17 @@ function logRenderedCounts(reason = "") {
   const textCardRef = useRef(null);
   const fatherCardRef = useRef(null);
 
+  
+
   const [visibleIds, setVisibleIds] = useState(() => new Set());
-  const [layerMode, setLayerMode] = useState("durations");
+  const [layerMode, setLayerMode] = useState("noborders");
   const [isReady, setIsReady] = useState(false);
 
 
   // Global visibility overrides (panel checkboxes)
   const [showTexts, setShowTexts] = useState(true);
   const [showFathers, setShowFathers] = useState(true);
-  const [showConnections, setShowConnections] = useState(false);
+  const [showConnections, setShowConnections] = useState(true);
   // Keep a ref so RAF/D3 handlers always see the latest mode (no stale closures)
   const layerModeRef = useRef(layerMode);
   useEffect(() => {
@@ -2123,10 +2127,59 @@ function logRenderedCounts(reason = "") {
 // Start at 0 so we don't render the SVG with a fake size before ResizeObserver fires.
 const [size, setSize] = useState({ width: 0, height: 0 });
   const [selectedText, setSelectedText] = useState(null);
+  // Hover target from links inside TextCard/FatherCard (secondary pin)
+  const [hoverPinTarget, setHoverPinTarget] = useState(null);
+
+  // Hover target from hovering actual nodes on the timeline (used to tint links inside cards)
+const [hoveredTimelineTarget, setHoveredTimelineTarget] = useState(null);
+
+// avoid rerender spam when hovering the same thing repeatedly
+const setHoveredTimelineTargetSafe = (next) => {
+  setHoveredTimelineTarget((prev) => {
+    const pType = prev?.type ?? null;
+    const pId = prev?.id ?? null;
+    const nType = next?.type ?? null;
+    const nId = next?.id ?? null;
+    if (pType === nType && pId === nId) return prev;
+    return next;
+  });
+};
+
+// NEW: prevent hover ping-pong when card rerender briefly steals pointer events
+const hoverTL_ClearTimerRef = useRef(null);
+
+const cancelHoverTLClear = () => {
+  if (hoverTL_ClearTimerRef.current) {
+    clearTimeout(hoverTL_ClearTimerRef.current);
+    hoverTL_ClearTimerRef.current = null;
+  }
+};
+
+const clearHoveredTimelineTargetSoon = (ms = 60) => {
+  cancelHoverTLClear();
+  hoverTL_ClearTimerRef.current = setTimeout(() => {
+    setHoveredTimelineTargetSafe(null);
+    hoverTL_ClearTimerRef.current = null;
+  }, ms);
+};
+
   const [showMore, setShowMore] = useState(false);
   const [cardPos, setCardPos] = useState({ left: 16, top: 16 });
   const [selectedFather, setSelectedFather] = useState(null);
   const [fatherCardPos, setFatherCardPos] = useState({ left: 16, top: 16 });
+
+  // If nothing is selected (no card open), there is nowhere to hover-link from.
+  useEffect(() => {
+    if (!selectedText && !selectedFather && hoverPinTarget) {
+      setHoverPinTarget(null);
+    }
+  }, [selectedText, selectedFather]);
+
+ // NEW: clear timeline-hover → card highlight when cards close 
+useEffect(() => {
+  if (!selectedText && !selectedFather) setHoveredTimelineTarget(null);
+}, [selectedText, selectedFather]);
+
 const closeAllAnimated = () => {
   if (selectedText && textCardRef.current?.startClose) {
     textCardRef.current.startClose();
@@ -2621,6 +2674,29 @@ const visFatherRows = useMemo(() => {
   return (fatherRows || []).filter(r => itemPassesFilters(r, "father", selectedByGroup));
 }, [fatherRows, selectedByGroup, showFathers]);
 
+useEffect(() => {
+  visVersionRef.current += 1;
+}, [visTextRows, visFatherRows]);
+
+// Fast lookups for hover-pin targets (only among *currently visible* rows)
+const visTextById = useMemo(
+  () => new Map((visTextRows || []).map(r => [r.id, r])),
+  [visTextRows]
+);
+const visFatherById = useMemo(
+  () => new Map((visFatherRows || []).map(r => [r.id, r])),
+  [visFatherRows]
+);
+
+// If TagPanel filtering removes the currently selected item, auto-clear selection.
+useEffect(() => {
+  if (selectedText && !visTextById.has(selectedText.id)) {
+    setSelectedText(null);
+  }
+  if (selectedFather && !visFatherById.has(selectedFather.id)) {
+    setSelectedFather(null);
+  }
+}, [selectedText, selectedFather, visTextById, visFatherById]);
 
   const textMarks = useMemo(() => (visTextRows || []).map(t => ({
   id: t.id,
@@ -2892,6 +2968,8 @@ const handleSearchSelect = (item) => {
 };
 
 const handleConnectionNavigate = (targetType, targetId) => {
+  // Clicking a link should clear any transient hover-pin
+  if (hoverPinTarget) setHoverPinTarget(null);
   const wrapRect = wrapRef.current?.getBoundingClientRect();
   const CARD_W = 430, CARD_H = 320;
   const left = wrapRect ? Math.round((wrapRect.width - CARD_W) / 2) : 24;
@@ -2921,6 +2999,16 @@ const handleConnectionNavigate = (targetType, targetId) => {
       flyToRef.current?.(payload, "father");
     }
   }
+};
+
+// Hover-pin from links inside cards (secondary pin + temporarily hide target icon)
+const handleCardLinkHover = (targetType, targetId) => {
+  if (!selectedText && !selectedFather) return; // no open card -> ignore
+  if (!targetType || !targetId) {
+    setHoverPinTarget(null);
+    return;
+  }
+  setHoverPinTarget({ type: targetType, id: targetId });
 };
 
 
@@ -3150,7 +3238,11 @@ const data = showConnections
           (d.bType === "father" && d.bId === hoveredFatherId)
         ));
 
-if (touchesSelected || touchesHovered) return highlightOpacity;
+// Selection always highlights its own connections.
+if (touchesSelected) return highlightOpacity;
+
+// Hover highlighting is only active when nothing is selected.
+if (!hasSelection && touchesHovered) return highlightOpacity;
 
 // If a selection exists and we're drawing *all* connections (showConnections ON),
 // dim non-relevant connections further.
@@ -3405,7 +3497,7 @@ useEffect(() => {
       if (!hasSel) return BASE_OPACITY;
       return relF.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
     }, "important");
-}, [selectedText, selectedFather]);
+}, [selectedText, selectedFather, visTextRows, visFatherRows]);
 
 
 
@@ -4247,7 +4339,13 @@ gCustom
           (d.colors && d.colors.length > 1 ? "transparent" : (d.color || "#444"))
         )
         .attr("opacity", BASE_OPACITY)
-        .attr("r", d => textBaseR(d) * kRef.current)
+        .attr("r", (d) => {
+          const k = kRef.current;
+          const rBase = textBaseR(d) * k;
+          const isSelected = selectedText && selectedText.id === d.id;
+          const isHovered = hoveredTextIdRef.current === d.id;
+          return (isSelected || isHovered) ? rBase * HOVER_SCALE_DOT : rBase;
+      })
         .style("transition", "r 120ms ease")
         // ensure the circle itself receives events (pies keep pointer-events: none)
         .style("pointer-events", "all")
@@ -4257,7 +4355,13 @@ gCustom
         .attr("fill", (d) =>
           (d.colors && d.colors.length > 1 ? "transparent" : (d.color || "#444"))
         )
-        .attr("r", d => textBaseR(d) * kRef.current)
+        .attr("r", (d) => {
+          const k = kRef.current;
+          const rBase = textBaseR(d) * k;
+          const isSelected = selectedText && selectedText.id === d.id;
+          const isHovered = hoveredTextIdRef.current === d.id;
+          return (isSelected || isHovered) ? rBase * HOVER_SCALE_DOT : rBase;
+        })
         .style("pointer-events", "all")
         .style("cursor", "pointer"),
     (exit) => exit.remove()
@@ -4338,91 +4442,62 @@ piesSel
       );
     };
 
-    // Text dots hover/click (zoomed-in only via pointer-events toggle)
-    textSel
+textSel
   .on("mouseenter", function (_ev, d) {
     // mark hovered text for connection highlighting
+    cancelHoverTLClear();
+    
     hoveredTextIdRef.current = d.id;
-    const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
-    if (zx && zy) scheduleRenderConnections(zx, zy, kNow);
-
-const k = kRef.current;
-const gPie = piesSel.filter((p) => p.id === d.id).style("opacity", 1);
-drawTextDot(d3.select(this), gPie, k * HOVER_SCALE_DOT, d);
-
-// add white border when hovered/selected
-d3.select(this)
-  .attr("stroke", "#ffffff")
-  .attr("stroke-width", 1.4);
-        // NEW: derive segment preview from state (no ad-hoc styling)
-        const seg = findSegForText(d);
-        if (seg) {
-          hoveredSegIdRef.current = seg.id;
-          hoveredSegParentIdRef.current = seg.parentId;
-          updateSegmentPreview();
-          updateHoverVisuals();
-        }
 
 
-const isSelected = selectedText && selectedText.id === d.id;
-if (!isSelected) {
-  const titleLine = d.title || "";
-  const html = tipHTML(titleLine, d.displayDate || formatYear(d.when));
-  const a = textAnchorClient(this, d);
-  if (a) showTip(tipText, html, a.x, a.y, d.color);
-} else {
-  hideTipSel(tipText);
-}
 
-      })
-      .on("mousemove", function (_ev, d) {
+    // NEW: let open cards know what is being hovered on the timeline
+    if (selectedText || selectedFather) {
+      setHoveredTimelineTargetSafe({ type: "text", id: d.id });
+    }
 
-const isSelected = selectedText && selectedText.id === d.id;
-if (!isSelected) {
-  const titleLine = d.title || "";
-  const html = tipHTML(titleLine, d.displayDate || formatYear(d.when));
-  const a = textAnchorClient(this, d);
-  if (a) showTip(tipText, html, a.x, a.y, d.color);
-} else {
-  hideTipSel(tipText);
-}
+    const zx = zxRef.current,
+      zy = zyRef.current,
+      kNow = kRef.current;
+    if (zx && zy) apply(zx, zy, kNow);
 
-      })
+
+    // NEW: derive segment preview from state (no ad-hoc styling)
+    const seg = findSegForText(d);
+    if (seg) {
+      hoveredSegIdRef.current = seg.id;
+      hoveredSegParentIdRef.current = seg.parentId;
+      updateSegmentPreview();
+      updateHoverVisuals();
+    }
+
+    const isSelected = selectedText && selectedText.id === d.id;
+    if (!isSelected) {
+      const titleLine = d.title || "";
+      const html = tipHTML(titleLine, d.displayDate || formatYear(d.when));
+      const a = textAnchorClient(this, d);
+      if (a) showTip(tipText, html, a.x, a.y, d.color);
+    } else {
+      hideTipSel(tipText);
+    }
+  })
+  .on("mousemove", function (_ev, d) {
+    const isSelected = selectedText && selectedText.id === d.id;
+    if (!isSelected) {
+      const titleLine = d.title || "";
+      const html = tipHTML(titleLine, d.displayDate || formatYear(d.when));
+      const a = textAnchorClient(this, d);
+      if (a) showTip(tipText, html, a.x, a.y, d.color);
+    } else {
+      hideTipSel(tipText);
+    }
+  })
 .on("mouseleave", function (_ev, d) {
-  // clear hovered text highlight
   hoveredTextIdRef.current = null;
+  clearHoveredTimelineTargetSoon(60);
+
   const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
-  if (zx && zy) scheduleRenderConnections(zx, zy, kNow);
-
-  const k = kRef.current;
-  const isSelected = selectedText && selectedText.id === d.id;
-  const gPie = piesSel.filter((p) => p.id === d.id);
-
-  if (isSelected) {
-    // keep it in "hover" size + border when selected
-    drawTextDot(d3.select(this), gPie, k * HOVER_SCALE_DOT, d);
-    d3.select(this)
-      .attr("stroke", "#ffffff")
-      .attr("stroke-width", 1.4)
-      .attr("opacity", BASE_OPACITY);
-
-    if (!gPie.empty()) {
-      gPie.style("opacity", 1);
-      drawSlicesAtRadius(gPie, textBaseR(d) * k * HOVER_SCALE_DOT);
-    }
-  } else {
-    const rDraw = textBaseR(d) * k;
-    d3.select(this)
-      .attr("r", rDraw)
-      .attr("stroke", "none")
-      .attr("stroke-width", 0)
-      .attr("opacity", BASE_OPACITY);
-
-    if (!gPie.empty()) {
-      gPie.style("opacity", BASE_OPACITY);
-      drawSlicesAtRadius(gPie, rDraw);
-    }
-  }
+  if (zx && zy) apply(zx, zy, kNow);
 
   hideTipSel(tipText);
         // clear preview if it came from this text
@@ -4577,6 +4652,33 @@ const fathersSel = gFathers
     exit => exit.remove()
   );
 
+  // Re-apply selection dimming AFTER joins.
+// This is critical when TagPanel filters cause nodes to exit/re-enter:
+// enter() sets opacity to BASE_OPACITY, so we must re-dim here.
+{
+  const hasSel = !!(selectedText || selectedFather);
+  const relT = relevantTextIdsRef.current;
+  const relF = relevantFatherIdsRef.current;
+
+  gTexts.selectAll("circle.textDot")
+    .attr("opacity", d => {
+      if (!hasSel) return BASE_OPACITY;
+      return relT && relT.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
+    });
+
+  gTexts.selectAll("g.dotSlices")
+    .style("opacity", d => {
+      if (!hasSel) return BASE_OPACITY;
+      return relT && relT.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
+    });
+
+  gFathers.selectAll("g.fatherMark")
+    .attr("opacity", d => {
+      if (!hasSel) return BASE_OPACITY;
+      return relF && relF.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
+    });
+}
+
   const allowFatherHover = () => {
   const k = kRef.current;
   const hasSel = !!(selectedText || selectedFather);
@@ -4586,32 +4688,28 @@ const fathersSel = gFathers
 
     // Lightweight hover tooltip for fathers (zoomed-in like texts)
 fathersSel
-  .on("mouseover", function (_ev, d) {
-    if (!allowFatherHover()) return;
-    // mark hovered father for connection highlighting
-    hoveredFatherIdRef.current = d.id;
-    const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
-    if (zx && zy) scheduleRenderConnections(zx, zy, kNow);
+.on("mouseover", function (_ev, d) {
+  cancelHoverTLClear();
+  if (!allowFatherHover()) return;
 
-    const baseR = getFatherBaseR(d) * kRef.current * 2.2;
-    const rHover = baseR * HOVER_SCALE_FATHER;
+  // mark hovered father for connection highlighting
+  hoveredFatherIdRef.current = d.id;
 
-    // redraw at hover size
-    redrawFatherAtRadius(d3.select(this), d, rHover);
+  // NEW
+  if (selectedText || selectedFather) {
+    setHoveredTimelineTargetSafe({ type: "father", id: d.id });
+  }
 
-    // white border on hover (same idea as text dots)
-    d3.select(this)
-      .select("path.father-border")
-      .attr("stroke", "#ffffff")
-      .attr("stroke-width", fatherBorderStrokeWidth(rHover));
+  const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
+  if (zx && zy) apply(zx, zy, kNow); // <-- changed
 
-    // keep your tooltip code (unchanged)...
-    const a = fatherAnchorClient(this, d);
-    if (!a) return;
-    const title = d.name || "";
-    const subtitle = d.dob || "";
-    showTip(tipText, tipHTML(title, subtitle, null), a.x, a.y, d.color);
-  })
+  // keep your tooltip code (unchanged)...
+  const a = fatherAnchorClient(this, d);
+  if (!a) return;
+  const title = d.name || "";
+  const subtitle = d.dob || "";
+  showTip(tipText, tipHTML(title, subtitle, null), a.x, a.y, d.color);
+})
   .on("mousemove", function (_ev, d) {
     if (!allowFatherHover()) return;
     const a = fatherAnchorClient(this, d);
@@ -4621,34 +4719,17 @@ fathersSel
     showTip(tipText, tipHTML(title, subtitle, null), a.x, a.y, d.color);
   })
   .on("mouseout", function (_ev, d) {
-    // clear hovered father highlight
-    hoveredFatherIdRef.current = null;
-    const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
-    if (zx && zy) scheduleRenderConnections(zx, zy, kNow);
+  // clear hovered father highlight
+  hoveredFatherIdRef.current = null;
 
-    hideTipSel(tipText);
+  // NEW
+  clearHoveredTimelineTargetSoon(60);
 
-    const isSelected = selectedFather && selectedFather.id === d.id;
-    const baseR = getFatherBaseR(d) * kRef.current * 2.2;
-    const r = isSelected ? baseR * HOVER_SCALE_FATHER : baseR;
+  const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
+  if (zx && zy) apply(zx, zy, kNow); // <-- changed
 
-    // redraw at base or "selected" size
-    redrawFatherAtRadius(d3.select(this), d, r);
-
-    // border logic mirrors the dots:
-    const border = d3.select(this).select("path.father-border");
-    if (isSelected) {
-      // keep border when selected
-      border
-        .attr("stroke", "#ffffff")
-        .attr("stroke-width", fatherBorderStrokeWidth(r));
-    } else {
-      // plain triangle when not hovered and not selected
-      border
-        .attr("stroke", "none")
-        .attr("stroke-width", 0);
-    }
-  })
+  hideTipSel(tipText);
+})
      .on("click", function (ev, d) {
     // Keep any open segment box visible
     // Do NOT clear active segment or duration; do NOT close all
@@ -4906,20 +4987,24 @@ gTexts.selectAll("circle.textDot").each(function (d) {
 
   const cy = zy(cyU);
 
-  const isSelected = selectedText && selectedText.id === d.id;
-  const rBase = textBaseR(d) * k;
-  const rDraw = isSelected ? rBase * HOVER_SCALE_DOT : rBase;
+const isSelected = selectedText && selectedText.id === d.id;
+const isHovered  = hoveredTextIdRef.current === d.id;
 
-  const circle = d3.select(this)
-    .attr("cx", cx)
-    .attr("cy", cy)
-    .attr("r", rDraw)
-    .attr("stroke", isSelected ? "#ffffff" : "none")
-    .attr("stroke-width", isSelected ? 1.4 : 0);
+const rBase = textBaseR(d) * k;
+const rDraw = (isSelected || isHovered) ? rBase * HOVER_SCALE_DOT : rBase;
 
-// When there is a selected text, hide its original icon
-const shouldHide = !!selectedText &&
-  selectedText.id === d.id;
+const circle = d3.select(this)
+  .attr("cx", cx)
+  .attr("cy", cy)
+  .attr("r", rDraw)
+  .attr("stroke", (isSelected || isHovered) ? "#ffffff" : "none")
+  .attr("stroke-width", (isSelected || isHovered) ? 1.4 : 0);
+
+// When there is a selected text, hide its original icon.
+// Also hide the icon when this text is the current hover-pin target.
+const shouldHide =
+  (!!selectedText && selectedText.id === d.id) ||
+  (!!hoverPinTarget && hoverPinTarget.type === "text" && hoverPinTarget.id === d.id);
 
 circle.classed("hidden-icon", shouldHide);
 });
@@ -4929,7 +5014,9 @@ gTexts
   .selectAll("g.dotSlices")
   .classed(
     "hidden-icon",
-    d => !!selectedText && selectedText.id === d.id
+    d =>
+      (!!selectedText && selectedText.id === d.id) ||
+      (!!hoverPinTarget && hoverPinTarget.type === "text" && hoverPinTarget.id === d.id)
   );
 
 // === Relevance dimming (visual only) ===
@@ -4951,7 +5038,7 @@ if (hasSelectionForTier) {
 }
 
 const styleKey =
-  `${layerMode}|${selectedText ? selectedText.id : ""}|${selectedFather ? selectedFather.id : ""}`;
+  `${layerMode}|${selectedText ? selectedText.id : ""}|${selectedFather ? selectedFather.id : ""}|v${visVersionRef.current}`;
 
 const last = lastStyleStateRef.current;
 const shouldUpdateDimming = (last.zoomMode !== zoomMode) || (last.key !== styleKey);
@@ -4963,6 +5050,8 @@ if (shouldUpdateDimming) {
     .style("opacity", d => {
       // hide selected text icon completely
       if (selectedText && selectedText.id === d.id) return 0;
+      // hide hover-pin target icon completely
+      if (hoverPinTarget && hoverPinTarget.type === "text" && hoverPinTarget.id === d.id) return 0;
 
       if (!hasSel) return BASE_OPACITY;
       return relTexts.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
@@ -4972,6 +5061,14 @@ if (shouldUpdateDimming) {
   gTexts.selectAll("g.dotSlices").each(function (d) {
     // hide selected text pie completely
     if (selectedText && selectedText.id === d.id) {
+      const g = d3.select(this);
+      g.selectAll("path.slice").style("fill-opacity", 0, "important");
+      g.selectAll("line.sep").style("stroke-opacity", 0, "important");
+      return;
+    }
+
+    // hide hover-pin target pie completely
+    if (hoverPinTarget && hoverPinTarget.type === "text" && hoverPinTarget.id === d.id) {
       const g = d3.select(this);
       g.selectAll("path.slice").style("fill-opacity", 0, "important");
       g.selectAll("line.sep").style("stroke-opacity", 0, "important");
@@ -4994,6 +5091,8 @@ if (shouldUpdateDimming) {
     .style("opacity", d => {
       // hide selected father icon completely
       if (selectedFather && selectedFather.id === d.id) return 0;
+      // hide hover-pin target father icon completely
+      if (hoverPinTarget && hoverPinTarget.type === "father" && hoverPinTarget.id === d.id) return 0;
 
       if (!hasSel) return BASE_OPACITY;
       return relFathers.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
@@ -5121,8 +5220,10 @@ gTexts.selectAll("g.dotSlices").each(function (d) {
   const cy = zy(cyU);
 
   const isSelected = selectedText && selectedText.id === d.id;
+  const isHovered  = hoveredTextIdRef.current === d.id;
+
   const rBase = textBaseR(d) * k;
-  const rDraw = isSelected ? rBase * HOVER_SCALE_DOT : rBase;
+  const rDraw = (isSelected || isHovered) ? rBase * HOVER_SCALE_DOT : rBase;
 
   const g = d3.select(this);
   g.attr("transform", `translate(${cx},${cy})`);
@@ -5144,9 +5245,11 @@ gTexts.selectAll("g.dotSlices").each(function (d) {
 
   const cols = d.colors && d.colors.length ? d.colors : [d.color || "#666"];
 
-  const isSelected = selectedFather && selectedFather.id === d.id;
-  const rBase = getFatherBaseR(d) * k * 2.2;
-  const r = isSelected ? rBase * HOVER_SCALE_FATHER : rBase;
+const isSelected = selectedFather && selectedFather.id === d.id;
+const isHovered  = hoveredFatherIdRef.current === d.id;
+
+const rBase = getFatherBaseR(d) * k * 2.2;
+const r = (isSelected || isHovered) ? rBase * HOVER_SCALE_FATHER : rBase;
 
 const isConcept = hasConceptTag(d.historicMythicStatusTags);
 
@@ -5233,7 +5336,9 @@ gFathers
   .selectAll("g.fatherMark")
   .classed(
     "hidden-icon",
-    d => !!selectedFather && selectedFather.id === d.id
+    d =>
+      (!!selectedFather && selectedFather.id === d.id) ||
+      (!!hoverPinTarget && hoverPinTarget.type === "father" && hoverPinTarget.id === d.id)
   );
 
 // --- Selected FATHER pin (triangle-in-pin) ---
@@ -5376,6 +5481,196 @@ fatherPinSel
       .attr("opacity", showOverlays ? 1 : 0);
   });
 
+  // --- Hover pins (from links inside cards) ---
+  // These are smaller than selected pins and only appear if the target item is currently visible
+  const hoverTextRow =
+    hoverPinTarget && hoverPinTarget.type === "text"
+      ? visTextById.get(hoverPinTarget.id)
+      : null;
+
+  const hoverFatherRow =
+    hoverPinTarget && hoverPinTarget.type === "father"
+      ? visFatherById.get(hoverPinTarget.id)
+      : null;
+
+  // Small TEXT hover pin
+  const hoverTextPinSel = gPins
+    .selectAll("g.hoverTextPin")
+    .data(hoverTextRow ? [hoverTextRow] : [], d => d.id);
+
+  hoverTextPinSel
+    .join(
+      enter => {
+        const g = enter
+          .append("g")
+          .attr("class", "hoverTextPin tl-pin tl-pin-hover tl-pin-cardHover")
+          .style("pointer-events", "none");
+
+        g.append("path")
+          .attr("class", "tl-pin-body")
+          .attr("vector-effect", "non-scaling-stroke")
+          .attr("shape-rendering", "geometricPrecision");
+
+        g.append("g")
+          .attr("class", "tl-pin-icon")
+          .style("pointer-events", "none");
+
+        return g;
+      },
+      update => update,
+      exit => exit.remove()
+    )
+    .each(function (d) {
+      const cx = zx(toAstronomical(d.when));
+
+      let cyU = textYMap.get(d.durationId)?.get(d.id);
+      if (!Number.isFinite(cyU)) cyU = y0(d.y);
+      const cy = zy(cyU);
+
+      const rBase = textBaseR(d) * k;
+      const rHeadSelected = rBase * HOVER_SCALE_DOT;
+      const rHead = rHeadSelected * 0.7; // ~30% smaller than selected pin
+
+      // Palette
+      let cols = Array.isArray(d.colors) && d.colors.length ? d.colors : null;
+      if (!cols || !cols.length) cols = [d.color || "#666"]; 
+      const pinColor = cols[0];
+
+      const { cxHead, cyHead, R } = computePinHeadGeometry(cx, cy, rHead);
+      const rIcon = R * 0.45;
+
+      const g = d3.select(this);
+      g.style("--pin-color", pinColor);
+
+      g.select("path.tl-pin-body")
+        .attr("d", pinPathD(cx, cy, rHead));
+
+      const iconG = g.select("g.tl-pin-icon")
+        .attr(
+          "transform",
+          `translate(${cxHead}, ${cyHead - rIcon * 0.5})`
+        );
+
+      iconG.datum({ colors: cols });
+
+      iconG.selectAll("path.slice")
+        .data((cols || []).map((color, i) => ({ color, i, n: cols.length })))
+        .join(
+          e => e.append("path").attr("class", "slice"),
+          u => u,
+          x => x.remove()
+        )
+        .attr("fill", s => s.color)
+        .style("fill", s => s.color);
+
+      drawSlicesAtRadius(iconG, rIcon);
+    });
+
+  // Small FATHER hover pin
+  const hoverFatherPinSel = gPins
+    .selectAll("g.hoverFatherPin")
+    .data(hoverFatherRow ? [hoverFatherRow] : [], d => d.id);
+
+  hoverFatherPinSel
+    .join(
+      enter => {
+        const g = enter
+          .append("g")
+          .attr("class", "hoverFatherPin tl-pin tl-pin-hover tl-pin-cardHover")
+          .style("pointer-events", "none");
+
+        g.append("path")
+          .attr("class", "tl-pin-body")
+          .attr("vector-effect", "non-scaling-stroke")
+          .attr("shape-rendering", "geometricPrecision");
+
+        g.append("g")
+          .attr("class", "tl-pin-icon")
+          .style("pointer-events", "none");
+
+        return g;
+      },
+      update => update,
+      exit => exit.remove()
+    )
+    .each(function (d) {
+      const isConcept = hasConceptTag(d.historicMythicStatusTags);
+      const cx = zx(toAstronomical(d.when));
+
+      let cyU = y0(d.y);
+      const yBandMap = fatherYMap.get(d.durationId);
+      const assignedU = yBandMap?.get(d.id);
+      if (Number.isFinite(assignedU)) cyU = assignedU;
+      const cy = zy(cyU);
+
+      const baseR = getFatherBaseR(d) * k * 2.2;
+      const rHeadSelected = baseR * HOVER_SCALE_FATHER;
+      const rHead = rHeadSelected * 0.7; // ~30% smaller than selected pin
+
+      let cols = Array.isArray(d.colors) && d.colors.length ? d.colors : null;
+      if (!cols || !cols.length) cols = [d.color || "#666"];
+      const pinColor = cols[0];
+
+      const { cxHead, cyHead, R } = computePinHeadGeometry(cx, cy, rHead);
+      const rIcon = R * 0.45;
+
+      const iconCx = cxHead + rIcon * (isConcept ? 0.0 : 0.1);
+      const iconCy = cyHead - rIcon * (isConcept ? 0.35 : 0.5);
+
+      const g = d3.select(this);
+      g.style("--pin-color", pinColor);
+
+      g.select("path.tl-pin-body")
+        .attr("d", pinPathD(cx, cy, rHead));
+
+      const iconG = g.select("g.tl-pin-icon");
+
+      const iconSlices = isConcept
+        ? splitSquareSlices(iconCx, iconCy, rIcon, cols)
+        : leftSplitTriangleSlices(iconCx, iconCy, rIcon, cols);
+
+      iconG.selectAll("path.slice")
+        .data(iconSlices, (_, i) => i)
+        .join(
+          e => e.append("path")
+                .attr("class", "slice")
+                .attr("vector-effect", "non-scaling-stroke")
+                .attr("shape-rendering", "geometricPrecision"),
+          u => u,
+          x => x.remove()
+        )
+        .attr("d", s => s.d)
+        .attr("fill", s => s.fill)
+        .style("fill", s => s.fill);
+
+      const showMid = !isConcept && hasHistoricTag(d.historicMythicStatusTags) && rIcon >= 3;
+      const overlaySegs = isConcept
+        ? buildSquareOverlaySegments(iconCx, iconCy, rIcon, cols)
+        : buildOverlaySegments(iconCx, iconCy, rIcon, cols, showMid);
+
+      const w = fatherBorderStrokeWidth(rIcon);
+      const showOverlays = rIcon >= 3;
+
+      iconG.selectAll("line.overlay")
+        .data(overlaySegs, (s, i) => `${s.type}:${i}`)
+        .join(
+          e => e.append("line")
+                .attr("class", "overlay")
+                .attr("stroke", "#fff")
+                .attr("stroke-linecap", "round")
+                .attr("shape-rendering", "geometricPrecision")
+                .style("pointer-events", "none"),
+          u => u,
+          x => x.remove()
+        )
+        .attr("x1", s => s.x1)
+        .attr("y1", s => s.y1)
+        .attr("x2", s => s.x2)
+        .attr("y2", s => s.y2)
+        .attr("stroke-width", showOverlays ? 2 * w : 0)
+        .attr("opacity", showOverlays ? 1 : 0);
+    });
+
   // ----- Lightweight viewport culling (texts, pies, fathers) -----
   // PERF: this touches lots of DOM nodes; coalesce to 1 per animation frame during zoom/pan
   cullArgsRef.current = { zx, innerWidth };
@@ -5486,14 +5781,32 @@ function updateInteractivity(k) {
     clearActiveDuration();
     clearActiveSegment();
 
-    // Keep your existing node click policy by zoom tier:
-    if (zoomMode === "deepest") {
-      gTexts.selectAll("circle.textDot").style("pointer-events", "all");
-      gFathers.selectAll("g.fatherMark").style("pointer-events", "all");
-    } else {
-      gTexts.selectAll("circle.textDot").style("pointer-events", "none");
-      gFathers.selectAll("g.fatherMark").style("pointer-events", "none");
-    }
+    // Node interactivity policy in noborders:
+// - If there is a selection, gate to only relevant nodes (same as normal selection behavior)
+// - Otherwise keep the existing zoom-tier rule
+if (hasSelection) {
+  const nodesHot = (zoomMode === "deepest"); // in selection mode, zoomMode is outest/deepest only
+
+  gTexts.selectAll("circle.textDot")
+    .style("pointer-events", d => {
+      if (!nodesHot) return "none";
+      return relevantTextIdsRef.current.has(d.id) ? "all" : "none";
+    });
+
+  gFathers.selectAll("g.fatherMark")
+    .style("pointer-events", d => {
+      if (!nodesHot) return "none";
+      return relevantFatherIdsRef.current.has(d.id) ? "all" : "none";
+    });
+} else {
+  if (zoomMode === "deepest") {
+    gTexts.selectAll("circle.textDot").style("pointer-events", "all");
+    gFathers.selectAll("g.fatherMark").style("pointer-events", "all");
+  } else {
+    gTexts.selectAll("circle.textDot").style("pointer-events", "none");
+    gFathers.selectAll("g.fatherMark").style("pointer-events", "none");
+  }
+}
 
     // Make sure any leftover styling updates don't resurrect strokes
     updateSegmentPreview();
@@ -6045,8 +6358,11 @@ flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
   segments,
   textRows,
   fatherRows,        // FATHERS: ensure updates
+  visTextRows,
+  visFatherRows,
   selectedText,
   selectedFather,
+  hoverPinTarget,
   layerMode,
   width,
   height,
@@ -6169,9 +6485,12 @@ return (
         setShowMore={setShowMore}
         connections={textConnectionsForCard}
         onNavigate={handleConnectionNavigate}
+        hoveredTimelineTarget={hoveredTimelineTarget}
+        onHoverLink={handleCardLinkHover}
         onClose={() => {
           setSelectedText(null);
           setShowMore(false);
+          setHoverPinTarget(null);
         }}
       />
     )}
@@ -6185,9 +6504,12 @@ return (
         setShowMore={setShowMore}
         connections={fatherConnectionsForCard}
         onNavigate={handleConnectionNavigate}
+        hoveredTimelineTarget={hoveredTimelineTarget}
+        onHoverLink={handleCardLinkHover}
         onClose={() => {
           setSelectedFather(null);
           setShowMore(false);
+          setHoverPinTarget(null);
         }}
       />
     )}
