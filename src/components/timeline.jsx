@@ -6246,12 +6246,33 @@ svgSel.on("pointermove.tl-hover", onPointerMove);
 flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
   if (!zoomRef.current || !svgSelRef.current || !d) return;
 
-  const kTarget = SEARCH_FLY.k;
-  const xAstro  = toAstronomical(d.when);
-
-  // Use the same lane logic you already defined
+  const xAstro = toAstronomical(d.when);
   const yU = (type === "father") ? laneYUForFather(d) : laneYUForText(d);
 
+  // ---- NEW: if already visible AND we are not at the outest zoom tier, do nothing ----
+  const tCur = lastTransformRef.current ?? d3.zoomIdentity;
+
+  // outest tier is k < ZOOM_SEGMENT_THRESHOLD in your current zoom-mode logic
+  const notOutest = tCur.k >= ZOOM_SEGMENT_THRESHOLD;
+
+  // "Visible" under the CURRENT transform: rescale the base scales, then check pixel bounds
+  const xNow = tCur.rescaleX(x);
+  const yNow = tCur.rescaleY(y0);
+
+  const px = xNow(xAstro);
+  const py = yNow(yU);
+
+  const PAD = 18; // small gutter so "barely on screen" still triggers a fly-to if desired
+  const isVisible =
+    px >= PAD && px <= (innerWidth - PAD) &&
+    py >= PAD && py <= (innerHeight - PAD);
+
+  if (isVisible && notOutest) {
+    return; // no pan/zoom
+  }
+
+  // ---- existing behavior (zoom + pan) ----
+  const kTarget = SEARCH_FLY.k;
   const t = computeTransformForPoint(xAstro, yU, kTarget);
 
   svgSelRef.current
