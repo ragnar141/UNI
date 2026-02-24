@@ -1265,15 +1265,17 @@ body {
   stroke-dasharray: 5 4;
 
 }
+/* Secondary pin: ONLY dash the teardrop outline */
+.tl-pin-cardHover path.tl-pin-body {
+  stroke-dasharray: 4 3;     /* slightly tighter reads better small */
+  stroke-linecap: round;     /* reduces “dotty” artifacts */
+}
 
-/* Secondary pin (card-hover): dashed + lighter (applies to text + father pins) */
-.tl-pin-cardHover .tl-pin-body,
-.tl-pin-cardHover path,
-.tl-pin-cardHover circle,
-.tl-pin-cardHover polygon,
-.tl-pin-cardHover rect {
-  stroke-dasharray: 5 4;
-  
+/* Keep icon + overlays solid (historic midline etc.) */
+.tl-pin-cardHover .tl-pin-icon *,
+.tl-pin-cardHover .tl-pin-icon line,
+.tl-pin-cardHover .tl-pin-icon path {
+  stroke-dasharray: none !important;
 }
 /* ============================
    Duration / segment chrome per zoom level
