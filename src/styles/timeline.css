@@ -551,7 +551,7 @@ body {
   gap: 4px;
   text-align: center;
   margin-bottom: 8px;
-  margin-top: 14px
+  margin-top: 32px
 }
 .textCard-sep { opacity: 0.6; margin: 0 9px; display: none; }
 .textCard-category {
@@ -582,6 +582,47 @@ body {
   cursor: pointer;
 }
 .textCard-close:hover { background: #f3f4f6; border-color: #e5e7eb; color: black;}
+
+/* Fold / Unfold button (makes the card thinner) */
+.textCard-fold {
+  position: absolute;
+  top: 8px;
+  right: calc(max(4px, calc(var(--card-pad-right) - 10px)) + 34px);
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--muted);
+  cursor: pointer;
+
+  /* REMOVE these (SVG now) */
+  /* font-size: 16px; */
+  /* line-height: 1; */
+}
+
+.textCard-fold svg {
+  display: block;
+  opacity: 0.75;
+  transition: opacity 120ms ease-out;
+}
+
+.textCard-fold:hover {
+  background: #f3f4f6;
+  border-color: #e5e7eb;
+  color: black;
+}
+
+.textCard-fold:hover svg { opacity: 1; }
+
+/* Folded mode: narrower sidebar */
+.textCard.isFolded,
+.fatherCard.isFolded {
+  width: min(260px, 88vw);
+}
+
 
 /* ↓↓↓ TIGHTER label/value spacing for TextCard ↓↓↓ */
 .textCard-row { display: flex; align-items: baseline; gap: 3px; padding: 6px 0; }

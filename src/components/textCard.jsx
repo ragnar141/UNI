@@ -4,9 +4,38 @@ import React, {
   useEffect,
   forwardRef,
   useImperativeHandle,
+  isFolded,
+  setIsFolded,
 } from "react";
 import "../styles/timeline.css";
 import ContributionModal from "./contributionModal";
+
+function FoldDensityIcon({ action }) {
+  // action: "fold" | "unfold"
+  // unfold = 6 full-width lines
+  // fold   = 4 shorter lines (same height, visually narrower)
+  return action === "unfold" ? (
+    <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+      <g fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8">
+        <path d="M3 3.5H15" />
+        <path d="M3 6.0H15" />
+        <path d="M3 8.5H15" />
+        <path d="M3 11.0H15" />
+        <path d="M3 13.5H15" />
+        <path d="M3 16.0H15" />
+      </g>
+    </svg>
+  ) : (
+    <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+      <g fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8">
+<path d="M5 2H10" />
+<path d="M5 6.67H10" />
+<path d="M5 11.33H10" />
+<path d="M5 16H10" />
+      </g>
+    </svg>
+  );
+}
 
 const TextCard = forwardRef(function TextCard(
   {
@@ -16,6 +45,8 @@ const TextCard = forwardRef(function TextCard(
     onClose,
     showMore,
     setShowMore,
+    isFolded,
+    setIsFolded,
     connections = [],
     onNavigate,
     onHoverLink,
@@ -32,6 +63,7 @@ const TextCard = forwardRef(function TextCard(
   const [isClosing, setIsClosing] = useState(false);
   const closedOnceRef = useRef(false);
   const [isContribOpen, setIsContribOpen] = useState(false);
+  
 
   // NEW: normalize naming in case some targets are "figure" instead of "father"
   const normType = (t) => (t === "figure" ? "father" : t);
@@ -49,8 +81,9 @@ const TextCard = forwardRef(function TextCard(
   };
   const hideHoverNote = () => setHoverNote(null);
 
-  // Always scroll the inner content area to the top when subject changes
-  useEffect(() => {
+
+
+useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = 0;
       if (typeof scrollRef.current.scrollTo === "function") {
@@ -336,7 +369,7 @@ const TextCard = forwardRef(function TextCard(
     <>
       <div
         ref={cardRef}
-        className="textCard tl-slideIn"
+        className={`textCard tl-slideIn${isFolded ? " isFolded" : ""}`}
         style={{ position: "absolute", left, top }}
         role="dialog"
         aria-label={`Details for ${titleOnly}`}
@@ -351,6 +384,15 @@ const TextCard = forwardRef(function TextCard(
           ×
         </button>
 
+<button
+  className="textCard-fold"
+  onClick={() => setIsFolded((v) => !v)}
+  aria-label={isFolded ? "Unfold" : "Fold"}
+  title={isFolded ? "Unfold" : "Fold"}
+>
+  <FoldDensityIcon action={isFolded ? "unfold" : "fold"} />
+</button>
+
         {/* Internal scroll area: tooltips render outside this via hoverNote */}
         <div className="textCard-scroll" ref={scrollRef}>
           <div className="textCard-titleCombo">
@@ -360,10 +402,12 @@ const TextCard = forwardRef(function TextCard(
               <span className="textCard-category">{d.category}</span>
             )}
           </div>
+{d.shortDescription && (
+  <Row value={d.shortDescription} className="is-centered" />
+)}
 
-          <Row value={d.shortDescription} className="is-centered" />
-
-          {(d.displayDate || metaLocation || d.originalLanguage) && (
+          {/* Folded mode: keep header + links + connections, but hide extra meta fields/buttons */}
+          {!isFolded && (d.displayDate || metaLocation || d.originalLanguage) && (
             <div className="textCard-meta">
               {`composed in ${d.displayDate || "—"} in ${
                 metaLocation || "—"
@@ -374,12 +418,14 @@ const TextCard = forwardRef(function TextCard(
             </div>
           )}
 
-          <SymbolicTagRow
-            label="Symbolic System(s):"
-            value={d.symbolicSystemTags}
-          />
-          <Row label="Comtean framework:" value={d.comteanFramework} />
-          <Row label="Access Level:" value={d.accessLevel} />
+          {!isFolded && (
+            <SymbolicTagRow
+              label="Symbolic System(s):"
+              value={d.symbolicSystemTags}
+            />
+          )}
+          {!isFolded && <Row label="Comtean framework:" value={d.comteanFramework} />}
+          {!isFolded && <Row label="Access Level:" value={d.accessLevel} />}
 
           <div className="textCard-links">
             <div className="textCard-connections-subtitle">Links</div>
@@ -438,17 +484,19 @@ const TextCard = forwardRef(function TextCard(
             </div>
           )}
 
-          <div className="textCard-moreToggle">
-            <button
-              className="textCard-button"
-              onClick={() => setShowMore((v) => !v)}
-              aria-expanded={showMore ? "true" : "false"}
-            >
-              {showMore ? "Hide tags" : "Show tags"}
-            </button>
-          </div>
+          {!isFolded && (
+            <div className="textCard-moreToggle">
+              <button
+                className="textCard-button"
+                onClick={() => setShowMore((v) => !v)}
+                aria-expanded={showMore ? "true" : "false"}
+              >
+                {showMore ? "Hide tags" : "Show tags"}
+              </button>
+            </div>
+          )}
 
-          {showMore && (
+          {!isFolded && showMore && (
             <div className="textCard-more">
               <div className="textCard-row is-tags">
                 <span className="textCard-label">Arts & Sciences:</span>
@@ -530,15 +578,17 @@ const TextCard = forwardRef(function TextCard(
           )}
 
           {/* Offer a contribution — opens shared modal */}
-          <div className="textCard-contrib">
-            <button
-              type="button"
-              className="textCard-button textCard-contrib-open"
-              onClick={() => setIsContribOpen(true)}
-            >
-              Share relevent media
-            </button>
-          </div>
+          {!isFolded && (
+            <div className="textCard-contrib">
+              <button
+                type="button"
+                className="textCard-button textCard-contrib-open"
+                onClick={() => setIsContribOpen(true)}
+              >
+                Share relevent media
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

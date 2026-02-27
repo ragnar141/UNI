@@ -2123,6 +2123,8 @@ function logRenderedCounts(reason = "") {
   const [layerMode, setLayerMode] = useState("noborders");
   const [isReady, setIsReady] = useState(false);
 
+  
+
 
   // Global visibility overrides (panel checkboxes)
   const [showTexts, setShowTexts] = useState(true);
@@ -2207,6 +2209,25 @@ const clearHoveredTimelineTargetSoon = (ms = 60) => {
 };
 
   const [showMore, setShowMore] = useState(false);
+
+  // Card density (fold/unfold) is shared across TextCard + FatherCard and persisted
+const CARD_FOLD_KEY = "tl_card_folded_v1";
+
+const [isCardFolded, setIsCardFolded] = useState(() => {
+  try {
+    const raw = localStorage.getItem(CARD_FOLD_KEY);
+    return raw ? JSON.parse(raw) : false;
+  } catch {
+    return false;
+  }
+});
+
+useEffect(() => {
+  try {
+    localStorage.setItem(CARD_FOLD_KEY, JSON.stringify(isCardFolded));
+  } catch {}
+}, [isCardFolded]);
+
   const [cardPos, setCardPos] = useState({ left: 16, top: 16 });
   const [selectedFather, setSelectedFather] = useState(null);
   const [fatherCardPos, setFatherCardPos] = useState({ left: 16, top: 16 });
@@ -5419,8 +5440,10 @@ if (shouldUpdateDimming) {
       return;
     }
 
-    const isRel = !hasSel || relTexts.has(d.id);
-    const o = isRel ? BASE_OPACITY : DIM_NODE_OPACITY;
+// NOTE: Opacity for pie dots is handled at the group level (g.dotSlices) to match circles/fathers.
+// If we also dim individual wedges here, the opacity gets applied twice (group * wedge),
+// making non-related pies effectively invisible.
+const o = BASE_OPACITY;
 
     const g = d3.select(this);
 
@@ -6922,6 +6945,8 @@ return (
         top={cardPos.top}
         showMore={showMore}
         setShowMore={setShowMore}
+        isFolded={isCardFolded}
+        setIsFolded={setIsCardFolded}
         connections={textConnectionsForCard}
         onNavigate={handleConnectionNavigate}
         hoveredTimelineTarget={hoveredTimelineTarget}
@@ -6941,6 +6966,8 @@ return (
         top={fatherCardPos.top}
         showMore={showMore}
         setShowMore={setShowMore}
+        isFolded={isCardFolded}
+        setIsFolded={setIsCardFolded}
         connections={fatherConnectionsForCard}
         onNavigate={handleConnectionNavigate}
         hoveredTimelineTarget={hoveredTimelineTarget}

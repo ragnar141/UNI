@@ -4,15 +4,46 @@ import React, {
   useState,
   useEffect,
   useImperativeHandle,
+  isFolded,
+  setIsFolded,
 } from "react";
 import "../styles/timeline.css";
 import ContributionModal from "./contributionModal";
+
+function FoldDensityIcon({ action }) {
+  // action: "fold" | "unfold"
+  // unfold = 6 full-width lines
+  // fold   = 4 shorter lines (same height, visually narrower)
+  return action === "unfold" ? (
+    <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+      <g fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="1.5">
+        <path d="M3 3.5H15" />
+        <path d="M3 6.0H15" />
+        <path d="M3 8.5H15" />
+        <path d="M3 11.0H15" />
+        <path d="M3 13.5H15" />
+        <path d="M3 16.0H15" />
+      </g>
+    </svg>
+  ) : (
+    <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+      <g fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="1.5">
+<path d="M5 2H10" />
+<path d="M5 6.67H10" />
+<path d="M5 11.33H10" />
+<path d="M5 16H10" />
+      </g>
+    </svg>
+  );
+}
 
 const FatherCard = forwardRef(function FatherCard(
   {
     d,
     left = 16,
     top = 16,
+    isFolded,
+    setIsFolded,
     showMore = false,
     setShowMore = () => {},
     onClose = () => {},
@@ -32,7 +63,7 @@ const FatherCard = forwardRef(function FatherCard(
   const [isClosing, setIsClosing] = useState(false);
   const closedOnceRef = useRef(false);
   const [isContribOpen, setIsContribOpen] = useState(false);
-
+  
   // NEW: normalize naming in case some targets are "figure" instead of "father"
   const normType = (t) => (t === "figure" ? "father" : t);
 
@@ -55,8 +86,9 @@ const FatherCard = forwardRef(function FatherCard(
     },
   }));
 
-  // Always scroll the inner content area to the top when the subject changes
-  useEffect(() => {
+
+
+useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = 0;
       if (typeof scrollRef.current.scrollTo === "function") {
@@ -337,7 +369,7 @@ const FatherCard = forwardRef(function FatherCard(
     <>
       <div
         ref={cardRef}
-        className="fatherCard tl-slideIn"
+        className={`fatherCard tl-slideIn${isFolded ? " isFolded" : ""}`}
         style={{ position: "absolute", left, top }}
         role="dialog"
         aria-label={`Details for ${title}`}
@@ -352,6 +384,15 @@ const FatherCard = forwardRef(function FatherCard(
           ×
         </button>
 
+<button
+  className="textCard-fold"
+  onClick={() => setIsFolded((v) => !v)}
+  aria-label={isFolded ? "Unfold" : "Fold"}
+  title={isFolded ? "Unfold" : "Fold"}
+>
+  <FoldDensityIcon action={isFolded ? "unfold" : "fold"} />
+</button>
+
         {/* Internal scroll area; tooltip overlay is separate via hoverNote */}
         <div className="textCard-scroll" ref={scrollRef}>
           <div className="textCard-titleCombo">
@@ -361,13 +402,20 @@ const FatherCard = forwardRef(function FatherCard(
               <span className="textCard-category">{d.category}</span>
             )}
           </div>
+{d.description && (
+  <Row value={d.description} className="is-centered" />
+)} 
 
-          <Row value={d.description} className="is-centered" />
-
-          {metaLine && <div className="textCard-meta">{metaLine}</div>}
+          {/* Folded mode: keep the header + links + connections, but hide extra meta fields/buttons */}
+          {!isFolded && metaLine && <div className="textCard-meta">{metaLine}</div>}
 
           {/* Symbolic systems */}
-          <SymbolicTagRow label="Symbolic System(s):" value={d.symbolicSystem} />
+          {!isFolded && (
+            <SymbolicTagRow
+              label="Symbolic System(s):"
+              value={d.symbolicSystem}
+            />
+          )}
 
           <div className="textCard-links">
             <div className="textCard-connections-subtitle">Links</div>
@@ -426,17 +474,19 @@ const FatherCard = forwardRef(function FatherCard(
             </div>
           )}
 
-          <div className="textCard-moreToggle">
-            <button
-              className="textCard-button"
-              onClick={() => setShowMore(!showMore)}
-              aria-expanded={showMore ? "true" : "false"}
-            >
-              {showMore ? "Hide tags" : "Show tags"}
-            </button>
-          </div>
+          {!isFolded && (
+            <div className="textCard-moreToggle">
+              <button
+                className="textCard-button"
+                onClick={() => setShowMore(!showMore)}
+                aria-expanded={showMore ? "true" : "false"}
+              >
+                {showMore ? "Hide tags" : "Show tags"}
+              </button>
+            </div>
+          )}
 
-          {showMore && (
+          {!isFolded && showMore && (
             <div className="textCard-more">
               {/* Jungian */}
               <div className="textCard-row is-tags">
@@ -477,15 +527,17 @@ const FatherCard = forwardRef(function FatherCard(
           )}
 
           {/* Offer a contribution — opens shared modal */}
-          <div className="textCard-contrib">
-            <button
-              type="button"
-              className="textCard-button textCard-contrib-open"
-              onClick={() => setIsContribOpen(true)}
-            >
-              Share relevent media
-            </button>
-          </div>
+          {!isFolded && (
+            <div className="textCard-contrib">
+              <button
+                type="button"
+                className="textCard-button textCard-contrib-open"
+                onClick={() => setIsContribOpen(true)}
+              >
+                Share relevent media
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
