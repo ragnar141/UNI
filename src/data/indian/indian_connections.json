@@ -1,0 +1,2810 @@
+[
+  {
+    "Index": 1,
+    "Primary": "1, father",
+    "Primary Name": "Agni",
+    "Secondary": "6, father",
+    "Secondary Name": "Indra",
+    "Connection Category": "custom connection",
+    "Note": "Agni and Indra are frequently paired in the Veda. Their connection is mainly functional and ritual. Later summaries may sometimes treat them as related fire/lightning/solar figures."
+  },
+  {
+    "Index": 2,
+    "Primary": "1, father",
+    "Primary Name": "Agni",
+    "Secondary": "22, father",
+    "Secondary Name": "Prajāpati",
+    "Connection Category": "custom connection",
+    "Note": "Some Brāhmaṇa texts present Agni as created by or emerging from Prajāpati. Other passages blur them as expressions of the same creative-sacrificial principle."
+  },
+  {
+    "Index": 3,
+    "Primary": "1, father",
+    "Primary Name": "Agni",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Agni is central in the Ṛgveda as sacred fire, divine priest, messenger, and carrier of offerings between humans and gods. Across multiple Maṇḍalas, he appears as household protector, ritual mediator, cosmic power, and the gateway through which sacrifice reaches the divine realm."
+  },
+  {
+    "Index": 4,
+    "Primary": "1, father",
+    "Primary Name": "Agni",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Agni is central in the Yajurveda because the text is built around sacrificial formulas and ritual actions performed through the yajña fire. He appears as the sacred fire that receives, transforms, and carries offerings, linking the sacrificer, the ritual act, and the divine realm."
+  },
+  {
+    "Index": 5,
+    "Primary": "1, father",
+    "Primary Name": "Agni",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Agni appears in the Atharvaveda in protective, domestic, healing, and prosperity-oriented contexts, not only in formal śrauta sacrifice. He is invoked as household lord, protector, wealth-giver, and Jātavedas whose presence extends through plants, waters, cattle, ancestors, and gods."
+  },
+  {
+    "Index": 6,
+    "Primary": "1, father",
+    "Primary Name": "Agni",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, Agni becomes central to sacrificial explanation and cosmology, not merely as a fire deity but as the organizing power of ritual. He is identified with the altar, offering, priestly mediation, Prajāpati’s creative force, and the cosmic structure produced and maintained through sacrifice."
+  },
+  {
+    "Index": 7,
+    "Primary": "1, father",
+    "Primary Name": "Agni",
+    "Secondary": "15, text",
+    "Secondary Name": "Āraṇyakas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Āraṇyakas, Agni remains tied to sacrifice, but the meaning of fire becomes more contemplative and internalized. Fire is treated as a symbolic bridge between external sacrifice and inner knowledge."
+  },
+  {
+    "Index": 8,
+    "Primary": "1, father",
+    "Primary Name": "Agni",
+    "Secondary": "17, text",
+    "Secondary Name": "Principal Upaniṣads",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Upaniṣads, Agni shifts from external sacrificial fire toward internalized and metaphysical meanings: fire becomes linked with speech, knowledge, cosmic processes, death, and the path beyond ritual. Remarkably, in the Kena Upaniṣad, Agni fails to burn a blade of grass, showing that even divine fire depends on Brahman."
+  },
+  {
+    "Index": 9,
+    "Primary": "1, father",
+    "Primary Name": "Agni",
+    "Secondary": "53, text",
+    "Secondary Name": "Rāmāyaṇa",
+    "Connection Category": "explicit reference ",
+    "Note": "Agni is important in the Rāmāyaṇa, especially through Sītā’s fire ordeal, where fire functions as divine witness and purifier. Agni also appears in ritual and sacrificial contexts surrounding kingship, vows, and dharma."
+  },
+  {
+    "Index": 10,
+    "Primary": "1, father",
+    "Primary Name": "Agni",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Agni appears as an active mythological deity in the Mahābhārata, most famously in the burning of the Khāṇḍava forest with Kṛṣṇa and Arjuna. He also remains connected to sacrifice, divine power, and the transformation of offerings through fire."
+  },
+  {
+    "Index": 11,
+    "Primary": "1, father",
+    "Primary Name": "Agni",
+    "Secondary": "70, text",
+    "Secondary Name": "Manusmṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Agni appears in Manusmṛti through sacrifice, domestic fire, marriage, purity, cremation, and the ritual duties of householders. The connection is mainly legal-ritual, where fire structures social and religious obligation."
+  },
+  {
+    "Index": 12,
+    "Primary": "1, father",
+    "Primary Name": "Agni",
+    "Secondary": "95, text",
+    "Secondary Name": "Śābara Bhāṣya",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Śābara Bhāṣya, Agni appears mainly through Mīmāṃsā analysis of Vedic sacrifice, injunctions, offerings, and ritual deities. The connection is technical and ritual-philosophical: Agni matters as the fire/deity addressed by Vedic rites."
+  },
+  {
+    "Index": 13,
+    "Primary": "2, father",
+    "Primary Name": "Yami",
+    "Secondary": "10, father",
+    "Secondary Name": "Yama",
+    "Connection Category": "familial: sister/brother",
+    "Note": "-"
+  },
+  {
+    "Index": 14,
+    "Primary": "2, father",
+    "Primary Name": "Yami",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Yamī appears in the Ṛgveda mainly in Maṇḍala 10, especially in the Yama–Yamī dialogue, where she urges her twin brother Yama toward sexual union as a way to begin human reproduction. Yama refuses, turning the hymn into an early Vedic reflection on desire, kinship, incest taboo, moral restraint, and cosmic order."
+  },
+  {
+    "Index": 15,
+    "Primary": "2, father",
+    "Primary Name": "Yami",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Yamī appears in the Atharvaveda largely through reuse or expansion of the Yama–Yamī dialogue, especially in Book 18’s funerary/death-related material."
+  },
+  {
+    "Index": 16,
+    "Primary": "3, father",
+    "Primary Name": "Tvaṣṭṛ",
+    "Secondary": "6, father",
+    "Secondary Name": "Indra",
+    "Connection Category": "custom connection",
+    "Note": "Tvaṣṭṛ is often associated with the making of Indra’s vajra, the thunderbolt weapon. But the relationship is tense: in some Vedic mythic material, Indra kills Tvaṣṭṛ’s son Viśvarūpa/Triśiras, creating hostility between them."
+  },
+  {
+    "Index": 17,
+    "Primary": "3, father",
+    "Primary Name": "Tvaṣṭṛ",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Tvaṣṭṛ appears in the Ṛgveda as a divine artisan, form-maker, and procreative shaper of beings. Across the hymns, he is connected with fertility, the crafting of forms, the generation of offspring, and Indra’s thunderbolt, making him a specialized creator-craftsman rather than a dominant sovereign deity."
+  },
+  {
+    "Index": 18,
+    "Primary": "3, father",
+    "Primary Name": "Tvaṣṭṛ",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, Tvaṣṭṛ becomes especially important through sacrificial mythology, particularly the Indra–Viśvarūpa/Vṛtra complex. He appears as the divine artisan and father of Viśvarūpa, whose killing by Indra connects sacrifice, dangerous creative power, ritual generation, and the emergence of anti-Indra forces."
+  },
+  {
+    "Index": 19,
+    "Primary": "3, father",
+    "Primary Name": "Tvaṣṭṛ",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Tvaṣṭṛ appears in the Mahābhārata as a reduced but still recognizable divine artisan, connected with Viśvarūpa/Triśiras, Vṛtra, and divine craftsmanship."
+  },
+  {
+    "Index": 20,
+    "Primary": "4, father",
+    "Primary Name": "Āpas",
+    "Secondary": "7, father",
+    "Secondary Name": "Varuṇa",
+    "Connection Category": "custom connection",
+    "Note": "Āpas and Varuṇa are strongly linked through the Vedic symbolism of sacred waters, purification, depth, and cosmic order. The connection is not familial: Varuṇa is the sovereign/orderly power associated with the waters, while Āpas are the divine waters themselves."
+  },
+  {
+    "Index": 21,
+    "Primary": "4, father",
+    "Primary Name": "Āpas",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Āpas appear in the Ṛgveda as the divine Waters, associated with purification, healing, vitality, life-giving power, and ritual blessing. Across the hymns, they function less as a single personal deity and more as sacred waters that cleanse, nourish, protect, and participate in cosmic order."
+  },
+  {
+    "Index": 22,
+    "Primary": "4, father",
+    "Primary Name": "Āpas",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Āpas are important in the Yajurveda because water is repeatedly used in sacrifice for purification, consecration, sprinkling, offering, and ritual preparation. The Waters function as sacred life-giving powers that cleanse and help activate the yajña."
+  },
+  {
+    "Index": 23,
+    "Primary": "4, father",
+    "Primary Name": "Āpas",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Āpas appear in the Atharvaveda as sacred waters associated with healing, purification, protection, and vitality. Their role is especially practical and ritual: water is invoked to cleanse illness, remove impurity, restore strength, and support life."
+  },
+  {
+    "Index": 24,
+    "Primary": "4, father",
+    "Primary Name": "Āpas",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, Āpas become part of sacrificial cosmology, purification, fertility, and creation symbolism. The Waters are linked with ritual preparation, cosmic generation, and the ordering power of sacrifice."
+  },
+  {
+    "Index": 25,
+    "Primary": "5, father",
+    "Primary Name": "Mitra",
+    "Secondary": "7, father",
+    "Secondary Name": "Varuṇa",
+    "Connection Category": "custom connection",
+    "Note": "Mitra and Varuṇa are one of the strongest paired deity relationships in the Veda, often invoked together as guardians of ṛta, oath, truth, and cosmic-social order."
+  },
+  {
+    "Index": 26,
+    "Primary": "5, father",
+    "Primary Name": "Mitra",
+    "Secondary": "12, father",
+    "Secondary Name": "Ṛta",
+    "Connection Category": "custom connection",
+    "Note": "Mitra guards ṛta especially as truth, oath, contract, and right relation. With Varuṇa, he preserves the social and cosmic order that binds humans, gods, and ritual obligations."
+  },
+  {
+    "Index": 27,
+    "Primary": "5, father",
+    "Primary Name": "Mitra",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Mitra appears in the Ṛgveda mainly as a deity of truth, oath, agreement, and cosmic-social order, often paired with Varuṇa. His role is less mythic-narrative and more theological: he helps guard ṛta and the bonds that hold gods, humans, and ritual order together."
+  },
+  {
+    "Index": 28,
+    "Primary": "5, father",
+    "Primary Name": "Mitra",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Mitra appears in the Yajurveda through sacrificial formulas and ritual contexts, often with Varuṇa as part of the order-sustaining Mitra-Varuṇa complex. His role is liturgical and theological, representing truth, agreement, lawful relation, and the proper ordering of sacrifice."
+  },
+  {
+    "Index": 29,
+    "Primary": "5, father",
+    "Primary Name": "Mitra",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Mitra appears in the Atharvaveda especially with Varuṇa as a protector of truth, order, and lawful conduct. The Mitra-Varuṇa pairing is invoked for protection, relief from trouble, and support of the truthful."
+  },
+  {
+    "Index": 30,
+    "Primary": "5, father",
+    "Primary Name": "Mitra",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, Mitra is developed through ritual theology, especially in contrast and partnership with Varuṇa. He represents the priestly, conciliatory, orderly side of sacrificial power, while Varuṇa often represents the stronger sovereign and binding side."
+  },
+  {
+    "Index": 31,
+    "Primary": "5, father",
+    "Primary Name": "Mitra",
+    "Secondary": "24, father",
+    "Secondary Name": "Agastya",
+    "Connection Category": "familial: father/son",
+    "Note": "Agastya is connected to Mitra through a Vedic birth myth in which he is generated from the seed of Mitra and Varuṇa after their encounter with Urvaśī. The connection is quasi-familial: Mitra functions as one of Agastya’s divine progenitors rather than as an ordinary father."
+  },
+  {
+    "Index": 32,
+    "Primary": "6, father",
+    "Primary Name": "Indra",
+    "Secondary": "35, father",
+    "Secondary Name": "Arjuna",
+    "Connection Category": "familial: father/son",
+    "Note": "Indra is the divine father of Arjuna, who is born to Kuntī through Indra; socially and dynastically, Arjuna is also treated as a son of Pāṇḍu."
+  },
+  {
+    "Index": 33,
+    "Primary": "6, father",
+    "Primary Name": "Indra",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Indra is one of the dominant deities of the Ṛgveda, celebrated as the Soma-drinking storm-warrior who wields the vajra, defeats Vṛtra, and releases the waters. Across the hymns, he represents martial force, divine kingship, rain, victory, protection, and the power that breaks obstruction."
+  },
+  {
+    "Index": 34,
+    "Primary": "6, father",
+    "Primary Name": "Indra",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Indra appears in the Yajurveda through sacrificial formulas and ritual contexts, especially those connected with Soma, strength, kingship, victory, protection, and prosperity. His power is treated liturgically: the warrior god’s force is invoked and activated through yajña."
+  },
+  {
+    "Index": 35,
+    "Primary": "6, father",
+    "Primary Name": "Indra",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Indra appears in the Atharvaveda as a powerful protector, enemy-destroyer, and giver of strength, wealth, and victory. His martial Vedic character remains, but he is also drawn into more practical contexts of protection, healing, and worldly success."
+  },
+  {
+    "Index": 36,
+    "Primary": "6, father",
+    "Primary Name": "Indra",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, Indra becomes central to sacrificial mythology and ritual explanation, especially through conflicts with Viśvarūpa, Vṛtra, and other threatening powers. These texts use Indra to explore divine violence, kingship, guilt, sacrifice, and the restoration of cosmic order."
+  },
+  {
+    "Index": 37,
+    "Primary": "6, father",
+    "Primary Name": "Indra",
+    "Secondary": "15, text",
+    "Secondary Name": "Āraṇyakas",
+    "Connection Category": "explicit reference ",
+    "Note": "Indra appears in the Āraṇyakas as part of inherited Vedic ritual and symbolic material, but he is usually less central than in the Ṛgveda or Brāhmaṇas. His connection is secondary, tied to sacrifice, divine power, and the internalization of older ritual meanings."
+  },
+  {
+    "Index": 38,
+    "Primary": "6, father",
+    "Primary Name": "Indra",
+    "Secondary": "53, text",
+    "Secondary Name": "Rāmāyaṇa",
+    "Connection Category": "explicit reference ",
+    "Note": "Indra appears in the Rāmāyaṇa as king of the gods and a major celestial authority, though not as the central hero of the narrative. His role reflects divine kingship, heavenly intervention, and the older Vedic order within a Rāma-centered epic world."
+  },
+  {
+    "Index": 39,
+    "Primary": "6, father",
+    "Primary Name": "Indra",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Indra is highly important in the Mahābhārata as king of the gods and father of Arjuna. His role links Vedic warrior sovereignty to epic heroism, divine weapons, heaven, kingship, and the heroic destiny of the Pāṇḍavas."
+  },
+  {
+    "Index": 40,
+    "Primary": "7, father",
+    "Primary Name": "Varuṇa",
+    "Secondary": "6, father",
+    "Secondary Name": "Indra",
+    "Connection Category": "familial: brother/brother",
+    "Note": "In later Purāṇic genealogy, Indra and Varuṇa can be treated as brothers because both are counted among the Ādityas, the sons of Aditi and Kaśyapa. In the older Vedic layer, however, their relationship is more important as a contrast between two forms of sovereignty: Indra’s martial storm-power and Varuṇa’s juridical-cosmic authority."
+  },
+  {
+    "Index": 41,
+    "Primary": "7, father",
+    "Primary Name": "Varuṇa",
+    "Secondary": "24, father",
+    "Secondary Name": "Agastya",
+    "Connection Category": "familial: father/son",
+    "Note": "Agastya is connected to Varuṇa through the same Vedic birth myth in which he is generated from the seed of Mitra and Varuṇa, often associated with a jar or vessel birth. The connection is quasi-familial and links Agastya to Varuṇa’s domains of waters, oath, and cosmic order."
+  },
+  {
+    "Index": 42,
+    "Primary": "7, father",
+    "Primary Name": "Varuṇa",
+    "Secondary": "16, father",
+    "Secondary Name": "Kaśyapa",
+    "Connection Category": "familial: son/father",
+    "Note": "In later genealogical tradition, Varuṇa is often counted among the Ādityas, the deities born from Aditi and Kaśyapa. This makes Kaśyapa Varuṇa’s father in the later family-tree system, though Varuṇa’s older Vedic identity is mainly as a sovereign guardian of ṛta and cosmic law."
+  },
+  {
+    "Index": 43,
+    "Primary": "7, father",
+    "Primary Name": "Varuṇa",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Varuṇa appears in the Ṛgveda as a major sovereign deity of ṛta, oath, truth, cosmic law, and moral surveillance. He watches human conduct, binds wrongdoers, and can also release worshippers from guilt, making him one of the clearest Vedic figures of juridical and cosmic authority."
+  },
+  {
+    "Index": 44,
+    "Primary": "7, father",
+    "Primary Name": "Varuṇa",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Varuṇa appears in the Yajurveda through sacrificial formulas tied to oath, binding, purification, water, kingship, and cosmic order. His role is ritual-theological: he represents the binding authority that can punish guilt but also release the sacrificer through proper ritual."
+  },
+  {
+    "Index": 45,
+    "Primary": "7, father",
+    "Primary Name": "Varuṇa",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "-"
+  },
+  {
+    "Index": 46,
+    "Primary": "7, father",
+    "Primary Name": "Varuṇa",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, Varuṇa is developed as a deity of sovereignty, binding power, oath, and ritual order, often in contrast or partnership with Mitra. He represents the forceful, royal, and constraining side of sacrificial authority, while Mitra often represents its conciliatory and orderly side."
+  },
+  {
+    "Index": 47,
+    "Primary": "7, father",
+    "Primary Name": "Varuṇa",
+    "Secondary": "53, text",
+    "Secondary Name": "Rāmāyaṇa",
+    "Connection Category": "explicit reference ",
+    "Note": "Varuṇa appears in the Rāmāyaṇa mainly as the oceanic sovereign, especially when Rāma appeals to the sea before crossing to Laṅkā. His role shifts from Vedic guardian of ṛta toward epic lord of the waters and cosmic authority."
+  },
+  {
+    "Index": 48,
+    "Primary": "7, father",
+    "Primary Name": "Varuṇa",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Varuṇa appears in the Mahābhārata as an old Vedic deity, lord of waters, and divine sovereign associated with cosmic authority and celestial weapons. His role is no longer central but remains important in divine assemblies and mythic genealogies."
+  },
+  {
+    "Index": 49,
+    "Primary": "7, father",
+    "Primary Name": "Varuṇa",
+    "Secondary": "70, text",
+    "Secondary Name": "Manusmṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "-"
+  },
+  {
+    "Index": 50,
+    "Primary": "8, father",
+    "Primary Name": "Vṛtra",
+    "Secondary": "3, father",
+    "Secondary Name": "Tvaṣṭṛ",
+    "Connection Category": "familial: son/father",
+    "Note": "In Brāhmaṇa and Purāṇic developments of the myth, Vṛtra is described as being created or generated by Tvaṣṭṛ (sometimes explicitly called his son) as part of a ritual act meant to oppose Indra after the death of Tvaṣṭṛ’s earlier son (Viśvarūpa)."
+  },
+  {
+    "Index": 51,
+    "Primary": "8, father",
+    "Primary Name": "Vṛtra",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Vṛtra appears in the Ṛgveda as Indra’s defining enemy: the serpent/dragon-like obstructer who holds back the waters. Indra kills Vṛtra with the vajra, releasing the waters and restoring rain, fertility, movement, and cosmic order."
+  },
+  {
+    "Index": 52,
+    "Primary": "8, father",
+    "Primary Name": "Vṛtra",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Vṛtra appears in the Yajurveda through sacrificial formulas and ritual mythology connected with Indra’s victory, strength, and release of obstruction. His defeat becomes a ritual-theological symbol of overcoming enemies, drought, blockage, and disorder through yajña."
+  },
+  {
+    "Index": 53,
+    "Primary": "8, father",
+    "Primary Name": "Vṛtra",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Vṛtra appears in the Atharvaveda as a hostile obstructive power associated with enemyhood, blockage, and the forces defeated by Indra. The connection is more practical and protective than narrative, using the Vṛtra mythic pattern to invoke victory, release, and protection from harm."
+  },
+  {
+    "Index": 54,
+    "Primary": "8, father",
+    "Primary Name": "Vṛtra",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, Vṛtra becomes part of detailed sacrificial mythology, especially the Indra–Viśvarūpa/Tvaṣṭṛ revenge cycle. His defeat by Indra is used to explain ritual power, divine violence, guilt, cosmic restoration, and the dangerous consequences of sacrifice."
+  },
+  {
+    "Index": 55,
+    "Primary": "9, father",
+    "Primary Name": "Soma",
+    "Secondary": "22, father",
+    "Secondary Name": "Prajāpati",
+    "Connection Category": "familial, father -son ",
+    "Note": "Soma is strongly connected with Prajāpati in Brāhmaṇa-style sacrificial cosmology, where both are tied to creation, vitality, sacrifice, and the generation of cosmic life. Soma often functions as the life-giving sacrificial essence, while Prajāpati is the creator-sacrificer whose creative power is expressed through ritual."
+  },
+  {
+    "Index": 56,
+    "Primary": "9, father",
+    "Primary Name": "Soma",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Soma is central in the Ṛgveda as both a sacred ritual drink and a deified power of inspiration, vitality, immortality, and divine strength. Maṇḍala 9 is especially devoted to Soma Pavamāna, the purified/flowing Soma, while across the Ṛgveda Soma empowers gods such as Indra and links sacrifice with ecstasy, vision, and cosmic potency."
+  },
+  {
+    "Index": 57,
+    "Primary": "9, father",
+    "Primary Name": "Soma",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Soma appears in the Yajurveda through sacrificial formulas and ritual procedures, especially Soma sacrifice, pressing, offering, and consecration. The connection is strongly ritual: Soma functions as the sacred substance whose preparation and offering activate divine power, strength, prosperity, and cosmic order."
+  },
+  {
+    "Index": 58,
+    "Primary": "9, father",
+    "Primary Name": "Soma",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Soma appears in the Atharvaveda as a sacred power connected with vitality, healing, protection, inspiration, and divine strength. The emphasis is less on Soma as a full ritual system and more on its life-giving, protective, and empowered quality within practical and sacred contexts."
+  },
+  {
+    "Index": 59,
+    "Primary": "9, father",
+    "Primary Name": "Soma",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, Soma becomes central to sacrificial cosmology, especially through detailed explanations of Soma rites, pressing, offering, divine consumption, and ritual transformation. Soma is treated as a life-giving sacrificial essence linked with gods, Prajāpati, immortality, and the generation of cosmic order."
+  },
+  {
+    "Index": 60,
+    "Primary": "9, father",
+    "Primary Name": "Soma",
+    "Secondary": "15, text",
+    "Secondary Name": "Āraṇyakas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Āraṇyakas, Soma remains tied to sacrifice but is increasingly interpreted through symbolic and contemplative meanings. The ritual drink becomes part of a broader internalized reflection on vitality, knowledge, breath, sacrifice, and the hidden correspondences between body, cosmos, and ritual."
+  },
+  {
+    "Index": 61,
+    "Primary": "9, father",
+    "Primary Name": "Soma",
+    "Secondary": "17, text",
+    "Secondary Name": "Principal Upaniṣads",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Upaniṣads, Soma is less central as a ritual drink and more often appears through lunar, vital, and sacrificial symbolism. It can be linked with the moon, nourishment, rebirth, and the path of ritual merit, while the Upaniṣads generally subordinate Soma sacrifice to higher knowledge of the Self/Brahman."
+  },
+  {
+    "Index": 62,
+    "Primary": "9, father",
+    "Primary Name": "Soma",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Soma appears in the Mahābhārata as an older Vedic deity and celestial power associated with the moon, sacrifice, immortality, and divine lineage. His role is no longer as central as in the Vedas, but he remains part of the epic’s inherited sacred cosmology and divine genealogies."
+  },
+  {
+    "Index": 63,
+    "Primary": "9, father",
+    "Primary Name": "Soma",
+    "Secondary": "70, text",
+    "Secondary Name": "Manusmṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Soma appears in Manusmṛti mainly through ritual law, sacrifice, purity, lunar symbolism, and the religious duties of twice-born householders. The connection is legal-ritual rather than mythic, preserving Soma as part of the sacrificial and cosmological order regulated by dharma."
+  },
+  {
+    "Index": 64,
+    "Primary": "9, father",
+    "Primary Name": "Soma",
+    "Secondary": "75, text",
+    "Secondary Name": "Yājñavalkya Smṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Soma appears in Yājñavalkya Smṛti through ritual, purity, lunar, ancestral, and sacrificial contexts. Like Manusmṛti, the connection is mainly Dharmaśāstric: Soma belongs to the regulated world of rites, offerings, calendars, and religious obligation."
+  },
+  {
+    "Index": 65,
+    "Primary": "10, father",
+    "Primary Name": "Yama",
+    "Secondary": "37, father",
+    "Secondary Name": "Manu",
+    "Connection Category": "familial: brother/brother",
+    "Note": "Yama and Manu are broadly related as complementary figures of human destiny: Yama represents mortality, death, and the ancestor-world, while Manu represents human descent, law, social order, and the continuation of civilization. In later genealogy, both are linked as sons of Vivasvat/Sūrya, making them brothers within the solar lineage."
+  },
+  {
+    "Index": 66,
+    "Primary": "10, father",
+    "Primary Name": "Yama",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Yama appears in the Ṛgveda as the first mortal and pathfinder to the realm of the ancestors. He is associated with death, the afterlife, the Pitṛs, and the ordered passage from human life into the ancestral world."
+  },
+  {
+    "Index": 67,
+    "Primary": "10, father",
+    "Primary Name": "Yama",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Yama appears in the Yajurveda through funerary and sacrificial formulas connected with death, ancestors, offerings, and the journey after life. His role is ritualized: he becomes a divine authority approached through rites that guide the dead and maintain relations with the ancestor-world."
+  },
+  {
+    "Index": 68,
+    "Primary": "10, father",
+    "Primary Name": "Yama",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Yama is important in the Atharvaveda’s death and funerary material, especially as ruler of the dead and lord of the ancestral realm. The text invokes him in contexts of burial, protection, transition, and the proper movement of the deceased toward the fathers."
+  },
+  {
+    "Index": 69,
+    "Primary": "10, father",
+    "Primary Name": "Yama",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, Yama is integrated into sacrificial explanation and ancestral cosmology. He appears less as a dramatic character and more as a ritual-cosmic figure governing death, offerings to the dead, and the ordered relation between sacrificers and ancestors."
+  },
+  {
+    "Index": 70,
+    "Primary": "10, father",
+    "Primary Name": "Yama",
+    "Secondary": "17, text",
+    "Secondary Name": "Principal Upaniṣads",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Upaniṣads, Yama becomes a teacher of death-transcending knowledge, most famously in the Kaṭha Upaniṣad, where he instructs Nachiketas on the Self, death, and liberation. This marks a shift from Yama as lord of the dead toward Yama as revealer of metaphysical truth."
+  },
+  {
+    "Index": 71,
+    "Primary": "10, father",
+    "Primary Name": "Yama",
+    "Secondary": "26, text",
+    "Secondary Name": "Dharmasūtras",
+    "Connection Category": "explicit reference ",
+    "Note": "Yama appears in the Dharmasūtras mainly through legal-ritual concerns around death, ancestors, impurity, funeral rites, and moral consequence. His role is less mythological and more dharmic: he stands behind the ordered handling of death and the consequences of conduct."
+  },
+  {
+    "Index": 72,
+    "Primary": "10, father",
+    "Primary Name": "Yama",
+    "Secondary": "53, text",
+    "Secondary Name": "Rāmāyaṇa",
+    "Connection Category": "explicit reference ",
+    "Note": "Yama appears in the Rāmāyaṇa as a divine lord of death and cosmic authority within the epic universe. His role is secondary but important, representing mortality, judgment, and the divine order that even heroic beings must ultimately face."
+  },
+  {
+    "Index": 73,
+    "Primary": "10, father",
+    "Primary Name": "Yama",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Yama is highly important in the Mahābhārata as lord of death, judge of beings, and father of Yudhiṣṭhira through Dharma. His role connects mortality, justice, truth, kingship, and the moral testing of human beings."
+  },
+  {
+    "Index": 74,
+    "Primary": "10, father",
+    "Primary Name": "Yama",
+    "Secondary": "70, text",
+    "Secondary Name": "Manusmṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Yama appears in Manusmṛti as a divine judge and authority connected with punishment, moral consequence, death, ancestors, and postmortem accountability. The connection is legal-theological: Yama reinforces dharma by linking conduct in life with judgment after death."
+  },
+  {
+    "Index": 75,
+    "Primary": "10, father",
+    "Primary Name": "Yama",
+    "Secondary": "75, text",
+    "Secondary Name": "Yājñavalkya Smṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Yama appears in Yājñavalkya Smṛti through death rites, ancestral duties, punishment, judgment, and moral consequence. Like Manusmṛti, the text preserves Yama as a legal-ritual figure who connects dharma, death, and accountability beyond ordinary human law."
+  },
+  {
+    "Index": 76,
+    "Primary": "11, father",
+    "Primary Name": "Sarasvatī",
+    "Secondary": "40, father",
+    "Secondary Name": "Brahmā",
+    "Connection Category": "familial: consorts",
+    "Note": "Sarasvatī is often treated as Brahmā consort and the goddess of speech, learning, and sacred knowledge."
+  },
+  {
+    "Index": 77,
+    "Primary": "11, father",
+    "Primary Name": "Sarasvatī",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Sarasvatī appears in the Ṛgveda as both a mighty river and a goddess of sacred power, inspiration, nourishment, and protection. Her identity is still strongly riverine, but already begins to move toward speech, prayer, and inspired intelligence."
+  },
+  {
+    "Index": 78,
+    "Primary": "11, father",
+    "Primary Name": "Sarasvatī",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Sarasvatī appears in the Yajurveda through sacrificial formulas, often as a goddess invoked for purification, vitality, speech, fertility, and ritual success. Her role is liturgical: she supports the proper performance of sacrifice and the inspired power of sacred speech."
+  },
+  {
+    "Index": 79,
+    "Primary": "11, father",
+    "Primary Name": "Sarasvatī",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Sarasvatī appears in the Atharvaveda in ritual, healing, protective, and speech-related contexts. Compared with the Ṛgveda, her role leans more toward practical blessing, inspired utterance, and sacred efficacy than toward the image of a great river."
+  },
+  {
+    "Index": 80,
+    "Primary": "11, father",
+    "Primary Name": "Sarasvatī",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, Sarasvatī is integrated into sacrificial explanation as a ritual goddess connected with speech, offering, purification, fertility, and sacred flow. Her river identity remains present, but the texts increasingly treat her as part of the symbolic machinery of sacrifice."
+  },
+  {
+    "Index": 81,
+    "Primary": "11, father",
+    "Primary Name": "Sarasvatī",
+    "Secondary": "15, text",
+    "Secondary Name": "Āraṇyakas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Āraṇyakas, Sarasvatī is at most a secondary inherited Vedic presence, connected with sacrifice, speech, and contemplative reinterpretation of ritual. I would keep this entry only as weak/secondary unless your source has a specific passage in mind."
+  },
+  {
+    "Index": 82,
+    "Primary": "11, father",
+    "Primary Name": "Sarasvatī",
+    "Secondary": "17, text",
+    "Secondary Name": "Principal Upaniṣads",
+    "Connection Category": "explicit reference ",
+    "Note": "Sarasvatī is not a major figure across the Principal Upaniṣads, but she does appear in specific inherited ritual contexts, such as Bṛhadāraṇyaka Upaniṣad 6.4.27, where Sarasvatī is invoked in a birth/nursing rite. The connection is therefore valid but narrow."
+  },
+  {
+    "Index": 83,
+    "Primary": "11, father",
+    "Primary Name": "Sarasvatī",
+    "Secondary": "53, text",
+    "Secondary Name": "Rāmāyaṇa",
+    "Connection Category": "explicit reference ",
+    "Note": "Sarasvatī appears in the Rāmāyaṇa mainly as a sacred river and geographical-religious presence rather than as a central goddess of learning. Her role reflects the epic memory of Sarasvatī as part of the sacred landscape through which royal and dharmic journeys unfold."
+  },
+  {
+    "Index": 84,
+    "Primary": "11, father",
+    "Primary Name": "Sarasvatī",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Sarasvatī is important in the Mahābhārata as a sacred river and pilgrimage landscape, especially in Balarāma’s pilgrimage along Sarasvatī tīrthas. The epic also reflects the post-Vedic shift in which Sarasvatī becomes both a river of sacred geography and, increasingly, a goddess associated with speech and learning."
+  },
+  {
+    "Index": 85,
+    "Primary": "11, father",
+    "Primary Name": "Sarasvatī",
+    "Secondary": "70, text",
+    "Secondary Name": "Manusmṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Sarasvatī appears in Manusmṛti mainly as a sacred river marking Brahmāvarta, the authoritative ritual-cultural homeland between the Sarasvatī and Dṛṣadvatī rivers. The connection is legal-geographical rather than mythic: Sarasvatī helps define the sacred space from which normative dharma is imagined to arise."
+  },
+  {
+    "Index": 86,
+    "Primary": "12, father",
+    "Primary Name": "Ṛta",
+    "Secondary": "23, father",
+    "Secondary Name": "Dharma",
+    "Connection Category": "custom connection",
+    "Note": "Ṛta is the older Vedic principle of cosmic and ritual order, while dharma later expands this logic into law, duty, conduct, and social-religious order. The connection is developmental: dharma inherits and broadens many functions of ṛta."
+  },
+  {
+    "Index": 87,
+    "Primary": "12, father",
+    "Primary Name": "Ṛta",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Ṛta is one of the central concepts of the Ṛgveda, meaning cosmic, moral, ritual, and natural order. It is upheld by deities such as Varuṇa, Mitra, and the Ādityas, and it structures truth, sacrifice, dawn, seasons, oath, and the proper relation between gods and humans."
+  },
+  {
+    "Index": 88,
+    "Primary": "12, father",
+    "Primary Name": "Ṛta",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Yajurveda, ṛta becomes closely tied to the correct performance of sacrifice: order is maintained through precise ritual action, formula, offering, and priestly discipline. The concept shifts from broad cosmic order toward ritualized order enacted through yajña."
+  },
+  {
+    "Index": 89,
+    "Primary": "12, father",
+    "Primary Name": "Ṛta",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Atharvaveda, ṛta appears within a more practical sacred world of protection, healing, truth, oath, blessing, and cosmic stability. The concept remains connected to order, but it is often applied to preserving life, warding off disorder, and aligning human action with divine truth."
+  },
+  {
+    "Index": 90,
+    "Primary": "12, father",
+    "Primary Name": "Ṛta",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, ṛta is absorbed into sacrificial cosmology: the correctly performed ritual does not merely honor order but actively reproduces and sustains it. Here ṛta becomes bound to yajña, Prajāpati, priestly knowledge, and the idea that ritual precision maintains the cosmos."
+  },
+  {
+    "Index": 91,
+    "Primary": "13, father",
+    "Primary Name": "Satya",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Satya appears in the Ṛgveda as truth, truthfulness, and reality aligned with ṛta, the cosmic and ritual order. It is not merely factual accuracy but truthful speech and action that participate in the ordered structure upheld by gods such as Varuṇa and Mitra."
+  },
+  {
+    "Index": 92,
+    "Primary": "13, father",
+    "Primary Name": "Satya",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Yajurveda, satya is tied to sacrificial correctness, truthful speech, vow, and ritual order. Truth becomes something enacted through yajña: the sacrificer, priest, mantra, and offering must align with the order they invoke."
+  },
+  {
+    "Index": 93,
+    "Primary": "13, father",
+    "Primary Name": "Satya",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Atharvaveda, satya appears in contexts of oath, protection, healing, blessing, and moral force. Truth is treated as a sacred power that can protect, stabilize, and oppose falsehood, disorder, illness, or hostile speech."
+  },
+  {
+    "Index": 94,
+    "Primary": "13, father",
+    "Primary Name": "Satya",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, satya is absorbed into sacrificial theology, where truth, correct ritual performance, and cosmic order reinforce one another. Truth is not only ethical speech but a ritual-cosmic principle that helps make sacrifice effective and reality stable."
+  },
+  {
+    "Index": 95,
+    "Primary": "13, father",
+    "Primary Name": "Satya",
+    "Secondary": "17, text",
+    "Secondary Name": "Principal Upaniṣads",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Upaniṣads, satya becomes increasingly metaphysical: truth is linked not only with right speech and conduct but with Brahman, the Self, and what is ultimately real. The older Vedic connection between truth and cosmic order is internalized into the search for reality behind appearances."
+  },
+  {
+    "Index": 96,
+    "Primary": "13, father",
+    "Primary Name": "Satya",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Mahābhārata, satya becomes a major ethical problem: truthfulness is praised as a supreme virtue, yet it often collides with duty, survival, kingship, and moral ambiguity. The epic tests whether truth can remain pure inside a world of war, politics, vows, and competing dharmas."
+  },
+  {
+    "Index": 97,
+    "Primary": "13, father",
+    "Primary Name": "Satya",
+    "Secondary": "70, text",
+    "Secondary Name": "Manusmṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "In Manusmṛti, satya is treated as a core virtue of dharma, especially through truthful speech, oath, testimony, purity, and moral discipline. Truth becomes juridical and social: it sustains lawful order, caste-duty, ritual purity, and accountability before divine and human authority."
+  },
+  {
+    "Index": 98,
+    "Primary": "14, father",
+    "Primary Name": "Vasiṣṭha",
+    "Secondary": "5, father",
+    "Secondary Name": "Mitra",
+    "Connection Category": "familial: son/father",
+    "Note": "Vasiṣṭha is connected to Mitra through a Vedic birth myth in which he is generated from the seed of Mitra and Varuṇa after their encounter with Urvaśī. This makes Mitra one of Vasiṣṭha’s divine progenitors and links Vasiṣṭha’s priestly authority to oath, truth, agreement, and cosmic-social order."
+  },
+  {
+    "Index": 99,
+    "Primary": "14, father",
+    "Primary Name": "Vasiṣṭha",
+    "Secondary": "7, father",
+    "Secondary Name": "Varuṇa",
+    "Connection Category": "familial: son/father",
+    "Note": "Vasiṣṭha is connected to Mitra through a Vedic birth myth in which he is generated from the seed of Mitra and Varuṇa after their encounter with Urvaśī. This makes Mitra one of Vasiṣṭha’s divine progenitors and links Vasiṣṭha’s priestly authority to oath, truth, agreement, and cosmic-social order."
+  },
+  {
+    "Index": 100,
+    "Primary": "14, father",
+    "Primary Name": "Vasiṣṭha",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Vasiṣṭha is strongly present in the Ṛgveda, especially through Maṇḍala 7, the Vasiṣṭha family book. He appears as a priestly seer whose hymns link ritual authority, inspired speech, Indra’s power, Varuṇa’s order, and the fortunes of kings and tribes."
+  },
+  {
+    "Index": 101,
+    "Primary": "14, father",
+    "Primary Name": "Vasiṣṭha",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Vasiṣṭha appears in the Yajurveda more as an inherited Vedic priest-sage than as a developed narrative figure. His connection is ritual and lineage-based, tied to the authority of Vedic seers, mantras, sacrifice, and priestly transmission."
+  },
+  {
+    "Index": 102,
+    "Primary": "14, father",
+    "Primary Name": "Vasiṣṭha",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, Vasiṣṭha belongs to the world of priestly lineages, sacrificial authority, and mythic explanation. His role is not usually central like Agni or Prajāpati, but he matters as a Vedic seer whose authority is embedded in ritual tradition."
+  },
+  {
+    "Index": 103,
+    "Primary": "14, father",
+    "Primary Name": "Vasiṣṭha",
+    "Secondary": "53, text",
+    "Secondary Name": "Rāmāyaṇa",
+    "Connection Category": "explicit reference ",
+    "Note": "Vasiṣṭha is important in the Rāmāyaṇa as the royal priest of Daśaratha and the Raghu dynasty, guiding royal ritual, counsel, and dharmic legitimacy. His role is priestly-political: he anchors Rāma’s royal world in Vedic authority and sacred kingship."
+  },
+  {
+    "Index": 104,
+    "Primary": "14, father",
+    "Primary Name": "Vasiṣṭha",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Vasiṣṭha appears in the Mahābhārata as an ancient sage and priestly authority, often connected with royal lineages, dharma, ascetic power, and inherited Vedic prestige. His role is secondary but significant as part of the epic’s older seer-tradition and Brahminical authority."
+  },
+  {
+    "Index": 105,
+    "Primary": "15, father",
+    "Primary Name": "Viśvāmitra",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Viśvāmitra is strongly connected to the Ṛgveda through the Viśvāmitra family tradition, especially Maṇḍala 3, which includes the famous Gāyatrī mantra. Here he represents Vedic seerhood, inspired speech, ritual authority, and the power of mantra within the sacrificial-poetic order."
+  },
+  {
+    "Index": 106,
+    "Primary": "15, father",
+    "Primary Name": "Viśvāmitra",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Viśvāmitra appears in the Yajurveda mainly as an inherited Vedic seer-name within the ritual tradition rather than as a developed narrative figure. His connection is secondary and lineage-based, tied to mantra authority, sacrificial transmission, and the prestige of Vedic ṛṣis."
+  },
+  {
+    "Index": 107,
+    "Primary": "15, father",
+    "Primary Name": "Viśvāmitra",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, Viśvāmitra belongs to the world of priestly lineages, ritual authority, and sacrificial explanation. His role is less central than in the Ṛgvedic and epic layers, but he remains important as a seer whose authority supports the inherited Vedic ritual system."
+  },
+  {
+    "Index": 108,
+    "Primary": "15, father",
+    "Primary Name": "Viśvāmitra",
+    "Secondary": "53, text",
+    "Secondary Name": "Rāmāyaṇa",
+    "Connection Category": "explicit reference ",
+    "Note": "Viśvāmitra is highly important in the Rāmāyaṇa as the sage who brings Rāma and Lakṣmaṇa into the forest, initiates them into sacred violence, and gives Rāma divine weapons. His role is transformative: he moves Rāma from protected prince into dharmic warrior under priestly guidance."
+  },
+  {
+    "Index": 109,
+    "Primary": "15, father",
+    "Primary Name": "Viśvāmitra",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Viśvāmitra appears in the Mahābhārata as an ancient sage whose stories preserve his rivalry with Vasiṣṭha, tapas, and transformation from royal power toward Brahminical seerhood. His role is secondary but symbolically strong, dramatizing the tension between kingship, ascetic force, and sacred authority."
+  },
+  {
+    "Index": 110,
+    "Primary": "16, father",
+    "Primary Name": "Kaśyapa",
+    "Secondary": "5, father",
+    "Secondary Name": "Mitra",
+    "Connection Category": "familial: father/son",
+    "Note": "Mitra is later counted among the Ādityas, the sons of Aditi and Kaśyapa. This makes Kaśyapa Mitra’s genealogical father in later Purāṇic tradition."
+  },
+  {
+    "Index": 111,
+    "Primary": "16, father",
+    "Primary Name": "Kaśyapa",
+    "Secondary": "7, father",
+    "Secondary Name": "Varuṇa",
+    "Connection Category": "familial: father/son",
+    "Note": "Varuṇa is also often counted among the Ādityas, making him a son of Aditi and Kaśyapa in later genealogy. His older Vedic role as guardian of ṛta is later placed into this family-tree structure."
+  },
+  {
+    "Index": 112,
+    "Primary": "16, father",
+    "Primary Name": "Kaśyapa",
+    "Secondary": "6, father",
+    "Secondary Name": "Indra",
+    "Connection Category": "familial: father/son",
+    "Note": "Indra is commonly treated in later tradition as a son of Aditi and Kaśyapa, making Kaśyapa his father. This is a later genealogical framing added to an older Vedic storm-god identity."
+  },
+  {
+    "Index": 113,
+    "Primary": "16, father",
+    "Primary Name": "Kaśyapa",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Kaśyapa appears in the Ṛgveda mainly as an early seer-name rather than as the later full genealogical progenitor. His later role as father of gods, demons, serpents, birds, and cosmic lineages is not yet fully developed in the Ṛgvedic layer."
+  },
+  {
+    "Index": 114,
+    "Primary": "16, father",
+    "Primary Name": "Kaśyapa",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, Kaśyapa becomes more firmly embedded in priestly and sacrificial tradition, appearing as a sage connected with ritual authority and inherited Vedic knowledge. His later image as a great progenitor begins to fit the Brāhmaṇa world of sacrifice, lineage, and cosmic generation."
+  },
+  {
+    "Index": 115,
+    "Primary": "16, father",
+    "Primary Name": "Kaśyapa",
+    "Secondary": "53, text",
+    "Secondary Name": "Rāmāyaṇa",
+    "Connection Category": "explicit reference ",
+    "Note": "Kaśyapa appears in the Rāmāyaṇa as an ancient sage and progenitor within the epic’s inherited sacred genealogy. His role is not usually narrative-centered, but he helps anchor gods, beings, and royal-cosmic history within a larger lineage structure."
+  },
+  {
+    "Index": 116,
+    "Primary": "16, father",
+    "Primary Name": "Kaśyapa",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Kaśyapa is important in the Mahābhārata as a major progenitor-sage, connected with the lineages of gods, Asuras, Nāgas, Garuḍa, and many beings. The epic develops him as a genealogical hub through whom cosmic diversity is organized into family lines."
+  },
+  {
+    "Index": 117,
+    "Primary": "16, father",
+    "Primary Name": "Kaśyapa",
+    "Secondary": "70, text",
+    "Secondary Name": "Manusmṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Kaśyapa appears in Manusmṛti as one of the ancient sages/progenitors within the dharmic memory of creation, lineage, and social order. His connection is legal-genealogical rather than narrative: he helps place human and cosmic society within an inherited sacred ancestry."
+  },
+  {
+    "Index": 118,
+    "Primary": "16, father",
+    "Primary Name": "Kaśyapa",
+    "Secondary": "75, text",
+    "Secondary Name": "Yājñavalkya Smṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Kaśyapa appears in Yājñavalkya Smṛti mainly as an authoritative ancient sage within the Dharmaśāstra tradition. His role is secondary, tied to inherited lineage, ritual authority, and the transmission of dharma rather than developed mythic narrative."
+  },
+  {
+    "Index": 119,
+    "Primary": "17, father",
+    "Primary Name": "Śiva",
+    "Secondary": "40, father",
+    "Secondary Name": "Brahmā",
+    "Connection Category": "custom connection",
+    "Note": "Śiva and Brahmā are connected in the Trimūrti as destruction/transformation and creation; their pair expresses the cycle by which forms arise, dissolve, and make room for renewed creation."
+  },
+  {
+    "Index": 120,
+    "Primary": "17, father",
+    "Primary Name": "Śiva",
+    "Secondary": "41, father",
+    "Secondary Name": "Viṣṇu",
+    "Connection Category": "custom connection",
+    "Note": "Viṣṇu and Śiva are connected as preservation and destruction/transformation within the Trimūrti; later traditions often balance them as complementary supreme powers, sometimes fused in forms like Harihara."
+  },
+  {
+    "Index": 121,
+    "Primary": "17, father",
+    "Primary Name": "Śiva",
+    "Secondary": "18, father",
+    "Secondary Name": "Devī",
+    "Connection Category": "familial: consorts",
+    "Note": "Śiva and Devī are divine consorts and metaphysical complements: Śiva represents transcendent consciousness, while Devī/Śakti represents dynamic power, manifestation, and creative energy."
+  },
+  {
+    "Index": 122,
+    "Primary": "17, father",
+    "Primary Name": "Śiva",
+    "Secondary": "38, father",
+    "Secondary Name": "Gaṇeśa",
+    "Connection Category": "familial: father/son",
+    "Note": "Śiva is Gaṇeśa’s father in Purāṇic mythology, though their relationship is famously tense at first: Śiva beheads Gaṇeśa without recognizing him and later restores him with an elephant head. This makes their connection both familial and symbolic, linking paternal authority, destruction, restoration, and Gaṇeśa’s role as remover of obstacles."
+  },
+  {
+    "Index": 123,
+    "Primary": "17, father",
+    "Primary Name": "Śiva",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Yajurveda, especially through the Śatarudrīya/Rudram material, Rudra-Śiva becomes prominent as a fierce yet auspicious deity invoked for protection, healing, and release from harm. This is one of the strongest Vedic bridges from Rudra to later Śiva."
+  },
+  {
+    "Index": 124,
+    "Primary": "17, father",
+    "Primary Name": "Śiva",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Atharvaveda, Rudra-Śiva appears in protective, healing, dangerous, and appeasing contexts. The deity remains ambivalent: feared as a source of disease or harm, but also invoked as a healer and protector."
+  },
+  {
+    "Index": 125,
+    "Primary": "17, father",
+    "Primary Name": "Śiva",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, Rudra-Śiva is integrated into sacrificial mythology as a dangerous outsider power who must be appeased, included, or ritually managed. This layer helps develop Śiva’s later identity as a liminal deity connected with danger, exclusion, healing, and transformative power."
+  },
+  {
+    "Index": 126,
+    "Primary": "17, father",
+    "Primary Name": "Śiva",
+    "Secondary": "53, text",
+    "Secondary Name": "Rāmāyaṇa",
+    "Connection Category": "explicit reference ",
+    "Note": "Śiva appears in the Rāmāyaṇa as a major divine power within the epic world, especially through references to his bow, ascetic force, and cosmic authority. His role is secondary to Rāma’s story, but he represents older divine power, tapas, weaponry, and sacred awe."
+  },
+  {
+    "Index": 127,
+    "Primary": "17, father",
+    "Primary Name": "Śiva",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Śiva is highly important in the Mahābhārata as a great god of ascetic power, destruction, weapons, boons, and cosmic sovereignty. His encounter with Arjuna as the Kirāta, where he grants the Pāśupata weapon, is one of the epic’s clearest Śaiva moments."
+  },
+  {
+    "Index": 128,
+    "Primary": "17, father",
+    "Primary Name": "Śiva",
+    "Secondary": "70, text",
+    "Secondary Name": "Manusmṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Śiva appears in Manusmṛti only weakly or indirectly compared with Vedic and epic texts, mostly through inherited divine lists or Rudra-related material. The text’s main concern is dharma, law, purity, and social order, so Śiva is not a major theological figure there."
+  },
+  {
+    "Index": 129,
+    "Primary": "18, father",
+    "Primary Name": "Devī",
+    "Secondary": "38, father",
+    "Secondary Name": "Gaṇeśa",
+    "Connection Category": "familial: mother/son",
+    "Note": "Gaṇeśa is Devī/Pārvatī’s son in Purāṇic mythology. In the famous birth myth, Pārvatī creates Gaṇeśa, Śiva beheads him without recognizing him, and he is restored with an elephant head, making the mother-son relation central to Gaṇeśa’s identity."
+  },
+  {
+    "Index": 130,
+    "Primary": "18, father",
+    "Primary Name": "Devī",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Ṛgveda, Devī is present more as several powerful feminine divinities than as one fully unified Great Goddess: Vāc, Uṣas, Aditi, Sarasvatī, and others carry aspects of speech, dawn, motherhood, river-power, and cosmic breadth. The closest early “Devī” moment is the Vāk/Devī Sūkta of RV 10.125, where the goddess speaks in the first person as a cosmic power moving among gods and humans."
+  },
+  {
+    "Index": 131,
+    "Primary": "18, father",
+    "Primary Name": "Devī",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Atharvaveda, Devī is present through goddess and feminine-power material connected with protection, blessing, speech, fertility, healing, and sacred force, but not yet as the later fully systematized Devī of Śākta theology. Later Devī-oriented Upaniṣadic material is attached to the Atharvaveda, showing how this Vedic layer becomes an important base for later Goddess theology."
+  },
+  {
+    "Index": 132,
+    "Primary": "18, father",
+    "Primary Name": "Devī",
+    "Secondary": "53, text",
+    "Secondary Name": "Rāmāyaṇa",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Rāmāyaṇa, Devī appears mainly through particular goddess forms and divine feminine presences rather than as the central theological principle of the text. Her role is secondary but meaningful, tied to auspiciousness, protection, Śiva’s consort tradition, sacred geography, and the epic’s broader divine order."
+  },
+  {
+    "Index": 133,
+    "Primary": "18, father",
+    "Primary Name": "Devī",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Mahābhārata, Devī becomes more explicit as Durgā and protective goddess-power, especially in the hymn to Durgā before battle. The epic marks a stronger transition toward the later Great Goddess: Devī is invoked for victory, protection, power, and cosmic support, though she is still not the sole center of the narrative."
+  },
+  {
+    "Index": 134,
+    "Primary": "19, father",
+    "Primary Name": "Nārada",
+    "Secondary": "40, father",
+    "Secondary Name": "Brahmā",
+    "Connection Category": "familial: son/father",
+    "Note": "Nārada is often described in later Hindu tradition as a mind-born son of Brahmā. This makes Brahmā his genealogical or quasi-genealogical father, though the relationship is more creator-sage lineage than ordinary biological family."
+  },
+  {
+    "Index": 135,
+    "Primary": "19, father",
+    "Primary Name": "Nārada",
+    "Secondary": "53, text",
+    "Secondary Name": "Rāmāyaṇa",
+    "Connection Category": "explicit reference ",
+    "Note": "Nārada appears at the beginning of the Rāmāyaṇa as the sage who tells Vālmīki about Rāma, effectively initiating the epic narrative. His role is that of a divine informer and narrative catalyst: he identifies Rāma as the ideal man whose life becomes worthy of poetic telling."
+  },
+  {
+    "Index": 136,
+    "Primary": "19, father",
+    "Primary Name": "Nārada",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Nārada appears frequently in the Mahābhārata as a wandering divine sage, messenger, advisor, and provocateur moving between gods, kings, sages, and worlds. His role is narrative-catalytic: he delivers knowledge, warns rulers, exposes hidden tensions, and helps move dharma-centered events forward."
+  },
+  {
+    "Index": 137,
+    "Primary": "20, father",
+    "Primary Name": "Keśin",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Keśin appears most clearly in Maṇḍala 10, the famous Keśin hymn, where the long-haired muni is portrayed as an ecstatic ascetic moving with the wind, bearing fire and poison, and crossing between human, divine, and wild realms. The hymn is often treated as an early witness to Indian ascetic/yogic currents and as a precursor to later Rudra-Śiva imagery."
+  },
+  {
+    "Index": 138,
+    "Primary": "21, father",
+    "Primary Name": "Puruṣa",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Puruṣa appears most famously in the Ṛgveda’s Puruṣa Sūkta in Maṇḍala 10, where the cosmic person is sacrificed and the world, gods, animals, meters, and social order emerge from his body. Here Puruṣa is not a normal deity but a mythic image of totality: the universe generated through primordial sacrifice."
+  },
+  {
+    "Index": 139,
+    "Primary": "21, father",
+    "Primary Name": "Puruṣa",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Puruṣa appears in the Yajurveda through sacrificial liturgy and recensions of the Puruṣa Sūkta, where the cosmic body becomes closely tied to ritual performance. The Yajurvedic layer emphasizes Puruṣa less as poetic myth and more as a sacrificial-cosmic pattern enacted through yajña."
+  },
+  {
+    "Index": 140,
+    "Primary": "21, father",
+    "Primary Name": "Puruṣa",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Puruṣa appears in the Atharvaveda through versions or echoes of the cosmic-person tradition, linking him to creation, totality, and the structure of the world. The emphasis remains cosmological, but with the Atharvavedic tendency to place cosmic formulas into practical, protective, and sacred-power contexts."
+  },
+  {
+    "Index": 141,
+    "Primary": "21, father",
+    "Primary Name": "Puruṣa",
+    "Secondary": "17, text",
+    "Secondary Name": "Principal Upaniṣads",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Upaniṣads, Puruṣa is increasingly internalized and metaphysical: the cosmic person becomes connected with the inner Self, the witness, and the reality behind bodily and cosmic appearances. The emphasis shifts from the sacrificed cosmic body toward the deepest subject or ultimate principle known through insight."
+  },
+  {
+    "Index": 142,
+    "Primary": "21, father",
+    "Primary Name": "Puruṣa",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Mahābhārata, Puruṣa appears within epic theology as a cosmic principle often associated with Nārāyaṇa/Viṣṇu and the supreme person behind the world. The older Vedic cosmic-person image is absorbed into broader epic discussions of creation, dharma, yoga, and divine sovereignty."
+  },
+  {
+    "Index": 143,
+    "Primary": "21, father",
+    "Primary Name": "Puruṣa",
+    "Secondary": "97, text",
+    "Secondary Name": "Sāṃkhyakārikā",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Sāṃkhyakārikā, Puruṣa becomes a technical philosophical principle: pure consciousness, inactive witness, and the subject distinct from Prakṛti. This is a major transformation from the Vedic cosmic person into a plural metaphysical principle of awareness."
+  },
+  {
+    "Index": 144,
+    "Primary": "21, father",
+    "Primary Name": "Puruṣa",
+    "Secondary": "22, father",
+    "Secondary Name": "Prajāpati",
+    "Connection Category": "custom connection",
+    "Note": "Puruṣa and Prajāpati are linked to creation through sacrificial self-offering. Puruṣa is the cosmic being whose dismemberment generates the world, while Prajāpati is the creator whose sacrifice and generative power structure Brāhmaṇa cosmology."
+  },
+  {
+    "Index": 145,
+    "Primary": "21, father",
+    "Primary Name": "Puruṣa",
+    "Secondary": "30, father",
+    "Secondary Name": "Prakṛti",
+    "Connection Category": "custom connection",
+    "Note": "Prakṛti is most strongly connected to Puruṣa in Sāṃkhya: Prakṛti is nature, matter, activity, causality, and manifestation, while Puruṣa is pure witnessing consciousness. Their relation is foundational: the world of experience arises through Prakṛti’s activity in the presence of Puruṣa."
+  },
+  {
+    "Index": 146,
+    "Primary": "22, father",
+    "Primary Name": "Prajāpati",
+    "Secondary": "40, father",
+    "Secondary Name": "Brahmā",
+    "Connection Category": "custom connection",
+    "Note": "Brahmā later inherits and systematizes many creator functions earlier associated with Prajāpati. The connection is developmental: Prajāpati is the older Vedic/Brāhmaṇa creator-sacrificer, while Brahmā becomes the later creator god of classical Hindu mythology."
+  },
+  {
+    "Index": 147,
+    "Primary": "22, father",
+    "Primary Name": "Prajāpati",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Prajāpati appears in the Ṛgveda as an emerging creator figure, especially in later speculative hymns such as Maṇḍala 10. He is not yet the fully dominant creator of later Brāhmaṇa mythology, but he already represents lordship over creatures, generation, and cosmic origin."
+  },
+  {
+    "Index": 148,
+    "Primary": "22, father",
+    "Primary Name": "Prajāpati",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Prajāpati appears in the Yajurveda through sacrificial formulas and ritual theology, where creation, procreation, sacrifice, and cosmic order are closely linked. His role becomes more explicitly ritual-cosmic: the sacrificer acts within a world generated and maintained through Prajāpati-like creative power."
+  },
+  {
+    "Index": 149,
+    "Primary": "22, father",
+    "Primary Name": "Prajāpati",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Prajāpati appears in the Atharvaveda as a creator and lord of beings, often tied to generation, fertility, protection, and cosmic ordering. Compared with the Brāhmaṇas, his role is less systematically sacrificial but still strongly connected to life, creation, and sacred power."
+  },
+  {
+    "Index": 150,
+    "Primary": "22, father",
+    "Primary Name": "Prajāpati",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Brāhmaṇas, Prajāpati becomes one of the central figures of sacrificial cosmology: the creator who generates beings through desire, heat, exhaustion, and sacrifice. He is often identified with the sacrifice itself, making creation a ritual process that must be repeated and stabilized through yajña."
+  },
+  {
+    "Index": 151,
+    "Primary": "22, father",
+    "Primary Name": "Prajāpati",
+    "Secondary": "15, text",
+    "Secondary Name": "Āraṇyakas",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Āraṇyakas, Prajāpati remains tied to sacrifice and creation, but his meaning becomes more symbolic and contemplative. The external creator-sacrificer is increasingly read through hidden correspondences between ritual, body, breath, cosmos, and inner knowledge."
+  },
+  {
+    "Index": 152,
+    "Primary": "22, father",
+    "Primary Name": "Prajāpati",
+    "Secondary": "17, text",
+    "Secondary Name": "Principal Upaniṣads",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Upaniṣads, Prajāpati appears less as a mythic creator and more as a teacher or symbolic figure within the transition from ritual cosmology to metaphysical knowledge. A major example is the Chāndogya Upaniṣad, where Prajāpati instructs Indra and Virocana on the Self, shifting creation-theology toward inquiry into ātman."
+  },
+  {
+    "Index": 153,
+    "Primary": "22, father",
+    "Primary Name": "Prajāpati",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Mahābhārata, Prajāpati appears as an inherited creator/progenitor figure within epic cosmology and divine genealogy. His role is less ritually central than in the Brāhmaṇas, but he remains important as a background source of beings, lineages, cosmic order, and sacred authority."
+  },
+  {
+    "Index": 154,
+    "Primary": "23, father",
+    "Primary Name": "Dharma",
+    "Secondary": "26, text",
+    "Secondary Name": "Dharmasūtras",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Dharmasūtras, dharma becomes the central subject: rules of conduct, ritual duty, purity, penance, inheritance, kingship, social order, and life-stage obligations. This is where dharma shifts strongly into legal-ritual norm, organizing everyday life through inherited Vedic authority and social regulation."
+  },
+  {
+    "Index": 155,
+    "Primary": "23, father",
+    "Primary Name": "Dharma",
+    "Secondary": "70, text",
+    "Secondary Name": "Manusmṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "In Manusmṛti, dharma is systematized as a comprehensive religious-social law governing varṇa, āśrama, purity, marriage, inheritance, punishment, kingship, penance, and ritual duty. The concept becomes normative and hierarchical: dharma orders both individual conduct and society as a whole."
+  },
+  {
+    "Index": 156,
+    "Primary": "23, father",
+    "Primary Name": "Dharma",
+    "Secondary": "75, text",
+    "Secondary Name": "Yājñavalkya Smṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "In Yājñavalkya Smṛti, dharma is presented in a more concise and systematic legal form, covering conduct, ritual, civil law, inheritance, punishment, penance, and royal authority. Compared with Manusmṛti, it is often more juridically organized and influential for later legal commentary."
+  },
+  {
+    "Index": 157,
+    "Primary": "23, father",
+    "Primary Name": "Dharma",
+    "Secondary": "87, text",
+    "Secondary Name": "Nāradasmṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "In Nāradasmṛti, dharma is focused especially through legal procedure, dispute resolution, contracts, debt, property, inheritance, witnesses, and royal justice. The concept becomes more explicitly juridical: dharma is applied as law governing social conflict and court-like adjudication."
+  },
+  {
+    "Index": 158,
+    "Primary": "24, father",
+    "Primary Name": "Agastya",
+    "Secondary": "14, father",
+    "Secondary Name": "Vasiṣṭha",
+    "Connection Category": "familial: brother/brother",
+    "Note": "Agastya and Vasiṣṭha are connected through their shared Mitra-Varuṇa birth myth. They can be treated as parallel jar-born sages or mythic brothers, both carrying priestly authority rooted in divine order."
+  },
+  {
+    "Index": 159,
+    "Primary": "24, father",
+    "Primary Name": "Agastya",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Agastya is strongly connected to the Ṛgveda as a Vedic seer, especially through hymns attributed to him and his lineage, including material in Maṇḍala 1. In the Ṛgvedic layer he is primarily a poet-priest and inspired sage, not yet the later southern culture-hero or miracle-working ascetic."
+  },
+  {
+    "Index": 160,
+    "Primary": "24, father",
+    "Primary Name": "Agastya",
+    "Secondary": "53, text",
+    "Secondary Name": "Rāmāyaṇa",
+    "Connection Category": "explicit reference ",
+    "Note": "Agastya appears in the Rāmāyaṇa as a powerful forest sage who receives Rāma, gives counsel, and is associated with divine weapons and southern sacred geography. Here he shifts from Vedic seer into epic ascetic authority, helping guide Rāma’s dharmic mission in the wilderness."
+  },
+  {
+    "Index": 161,
+    "Primary": "24, father",
+    "Primary Name": "Agastya",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Agastya appears in the Mahābhārata as a legendary sage of immense ascetic power, linked with stories of cosmic control, southern movement, and the disciplining of dangerous forces. His role is epic-mythic: he becomes a world-ordering ascetic, not merely a Vedic hymn-seer."
+  },
+  {
+    "Index": 162,
+    "Primary": "25, father",
+    "Primary Name": "Brahman",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Brahman appears in the Ṛgveda, but not yet mainly as the later non-dual ground of reality. It more often means sacred utterance, prayer, formulation, or ritual power."
+  },
+  {
+    "Index": 163,
+    "Primary": "25, father",
+    "Primary Name": "Brahman",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Brahman remains closely tied to sacrifice, mantra, priestly knowledge, and the power of correctly performed ritual speech. The concept is still largely liturgical."
+  },
+  {
+    "Index": 164,
+    "Primary": "25, father",
+    "Primary Name": "Brahman",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Brahman appears as sacred verbal power, prayer, spell, protection, and ritual efficacy. This preserves the older sense of charged speech before the later metaphysical expansion."
+  },
+  {
+    "Index": 165,
+    "Primary": "25, father",
+    "Primary Name": "Brahman",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "Brahman is bound to sacrificial knowledge, priestly speech, and the hidden power that makes ritual work. It begins moving from sacred formula toward an underlying ritual-cosmic principle."
+  },
+  {
+    "Index": 166,
+    "Primary": "25, father",
+    "Primary Name": "Brahman",
+    "Secondary": "15, text",
+    "Secondary Name": "Āraṇyakas",
+    "Connection Category": "explicit reference ",
+    "Note": "Brahman becomes more contemplative and symbolic as ritual speech and sacrificial knowledge are internalized through body, breath, cosmos, and hidden correspondences."
+  },
+  {
+    "Index": 167,
+    "Primary": "25, father",
+    "Primary Name": "Brahman",
+    "Secondary": "17, text",
+    "Secondary Name": "Principal Upaniṣads",
+    "Connection Category": "explicit reference ",
+    "Note": "Brahman becomes the ultimate ground of reality: not merely ritual formula or priestly power, but that by which everything exists, is known, and is inwardly grounded."
+  },
+  {
+    "Index": 168,
+    "Primary": "25, father",
+    "Primary Name": "Brahman",
+    "Secondary": "56, text",
+    "Secondary Name": "Brahmasūtras",
+    "Connection Category": "explicit reference ",
+    "Note": "Brahman is the central object of systematic Vedānta inquiry, used to organize and interpret scattered Upaniṣadic teachings into a philosophical framework."
+  },
+  {
+    "Index": 169,
+    "Primary": "25, father",
+    "Primary Name": "Brahman",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Brahman appears within epic reflections on ultimate reality, yoga, renunciation, dharma, and liberation. It coexists with devotional and theistic language as the supreme reality behind gods, self, and cosmic order."
+  },
+  {
+    "Index": 170,
+    "Primary": "26, father",
+    "Primary Name": "Yājñavalkya",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Yājñavalkya is strongly connected to the Yajurveda, especially the Śukla Yajurveda/Vājasaneyi tradition, where later accounts associate him with receiving or transmitting Yajurvedic revelation. The connection is mainly textual-lineage rather than narrative: Yājñavalkya becomes a key sage-authority behind a major Yajurvedic branch."
+  },
+  {
+    "Index": 171,
+    "Primary": "26, father",
+    "Primary Name": "Yājñavalkya",
+    "Secondary": "17, text",
+    "Secondary Name": "Principal Upaniṣads",
+    "Connection Category": "explicit reference ",
+    "Note": "Yājñavalkya is one of the most important figures in the Principal Upaniṣads, especially in the Bṛhadāraṇyaka Upaniṣad. Through his dialogues with Maitreyī, Gārgī, and Janaka, he becomes a central teacher of ātman, Brahman, “neti neti,” immortality, and the limits of ritual knowledge."
+  },
+  {
+    "Index": 172,
+    "Primary": "26, father",
+    "Primary Name": "Yājñavalkya",
+    "Secondary": "75, text",
+    "Secondary Name": "Yājñavalkya Smṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Yājñavalkya is the attributed sage-authority of the Yājñavalkya Smṛti, where his name anchors a systematic Dharmaśāstra treatment of conduct, ritual duty, civil law, inheritance, penance, and kingship. Here he shifts from Upaniṣadic metaphysical teacher to legal-religious authority within the dharma tradition."
+  },
+  {
+    "Index": 173,
+    "Primary": "27, father",
+    "Primary Name": "Lakṣmī",
+    "Secondary": "41, father",
+    "Secondary Name": "Viṣṇu",
+    "Connection Category": "familial: consorts",
+    "Note": "Lakṣmī is Viṣṇu’s consort in later Hindu tradition, forming one of the strongest divine couple relationships in the Indian tradition. Their connection links prosperity, auspiciousness, royal fortune, preservation, and cosmic order."
+  },
+  {
+    "Index": 174,
+    "Primary": "27, father",
+    "Primary Name": "Lakṣmī",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Lakṣmī appears in the Ṛgveda in an early sense connected with marks, signs, fortune, beauty, and auspicious presence, but she is not yet the fully developed consort of Viṣṇu. The later goddess Lakṣmī grows out of this older field of prosperity, splendor, and auspiciousness, closely related to Śrī."
+  },
+  {
+    "Index": 175,
+    "Primary": "27, father",
+    "Primary Name": "Lakṣmī",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Lakṣmī appears in the Yajurveda through ritual language connected with prosperity, auspiciousness, abundance, fertility, and blessing. Her role is not yet the full Purāṇic goddess narrative, but a sacred power of fortune invoked within the ritual field."
+  },
+  {
+    "Index": 176,
+    "Primary": "27, father",
+    "Primary Name": "Lakṣmī",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Lakṣmī appears in the Mahābhārata as a goddess of fortune, beauty, prosperity, royal splendor, and auspicious power. In the epic layer she is much closer to the later Hindu Lakṣmī, increasingly connected with Viṣṇu/Kṛṣṇa and the theology of divine sovereignty and prosperity."
+  },
+  {
+    "Index": 177,
+    "Primary": "28, father",
+    "Primary Name": "Rāma",
+    "Secondary": "53, text",
+    "Secondary Name": "Rāmāyaṇa",
+    "Connection Category": "explicit reference ",
+    "Note": "Rāma is the central figure of the Rāmāyaṇa, where he appears as prince, exile, warrior, husband of Sītā, destroyer of Rāvaṇa, and model of dharma. The text presents him as the ideal king and human embodiment of righteous conduct, while later theology increasingly understands him as an avatāra of Viṣṇu."
+  },
+  {
+    "Index": 178,
+    "Primary": "28, father",
+    "Primary Name": "Rāma",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Rāma appears in the Mahābhārata as an earlier heroic and dharmic exemplar whose story is known within the epic world. His role is secondary, but important: he functions as a model of kingship, exile, righteous war, and Viṣṇu-linked divine heroism against which later epic figures can be compared."
+  },
+  {
+    "Index": 179,
+    "Primary": "29, father",
+    "Primary Name": "Kapila",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Kapila appears in the Mahābhārata as an ancient sage associated with ascetic power, spiritual insight, and early Sāṃkhya-like teaching. His role is not just narrative; he functions as a primordial philosopher-sage whose authority helps ground later reflections on knowledge, renunciation, liberation, and the distinction between spirit and nature."
+  },
+  {
+    "Index": 180,
+    "Primary": "29, father",
+    "Primary Name": "Kapila",
+    "Secondary": "97, text",
+    "Secondary Name": "Sāṃkhyakārikā",
+    "Connection Category": "custom connection",
+    "Note": "Kapila is the traditional founder of Sāṃkhya, the philosophical system summarized in the Sāṃkhyakārikā, even though the text itself is attributed to Īśvarakṛṣṇa rather than Kapila. The connection is therefore foundational but lineage-based: Kapila stands behind the system as its legendary originator, while the Sāṃkhyakārikā gives the later classical formulation of Sāṃkhya doctrine."
+  },
+  {
+    "Index": 181,
+    "Primary": "30, father",
+    "Primary Name": "Prakṛti",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Prakṛti appears in the Mahābhārata within broader reflections on creation, guṇas, embodiment, bondage, liberation, and the relation between nature and consciousness. The text does not treat Prakṛti with the later precision of classical Sāṃkhya, but it strongly anticipates Sāṃkhya-style metaphysics through its concern with nature, self, action, and release."
+  },
+  {
+    "Index": 182,
+    "Primary": "30, father",
+    "Primary Name": "Prakṛti",
+    "Secondary": "97, text",
+    "Secondary Name": "Sāṃkhyakārikā",
+    "Connection Category": "explicit reference ",
+    "Note": "Prakṛti is one of the central principles of the Sāṃkhyakārikā, where it names primordial nature: active, unconscious, causally productive, and composed of the three guṇas. It is defined in contrast to Puruṣa, pure witnessing consciousness, and becomes the source of mind, senses, elements, and the manifest world."
+  },
+  {
+    "Index": 183,
+    "Primary": "31, father",
+    "Primary Name": "Pāṇini",
+    "Secondary": "27, text",
+    "Secondary Name": "Aṣṭādhyāyī",
+    "Connection Category": "custom connection",
+    "Note": "Pāṇini is the attributed author of the Aṣṭādhyāyī, the foundational Sanskrit grammatical sūtra text. His role is central: the text systematizes Sanskrit through an extremely compressed rule-based grammar that becomes the basis of later grammatical tradition."
+  },
+  {
+    "Index": 184,
+    "Primary": "32, father",
+    "Primary Name": "Buddha",
+    "Secondary": "57, text",
+    "Secondary Name": "Pāli Canon",
+    "Connection Category": "explicit reference ",
+    "Note": "The Buddha is the central figure of the Pāli Canon: the awakened teacher whose discourses, monastic rules, and doctrinal analysis structure the whole canon. He appears primarily as the historical-enlightened teacher who teaches Dhamma, establishes the Saṅgha, explains suffering and liberation, and enters parinibbāna."
+  },
+  {
+    "Index": 185,
+    "Primary": "32, father",
+    "Primary Name": "Buddha",
+    "Secondary": "66, text",
+    "Secondary Name": "Prajñāpāramitā Sūtras",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Prajñāpāramitā Sūtras, the Buddha appears as the Mahāyāna teacher of emptiness and perfect wisdom, often guiding bodhisattvas beyond attachment to persons, dharmas, and fixed views. Compared with the Pāli Canon, the Buddha’s role becomes more cosmic and paradoxical: he teaches that even enlightenment, teaching, and Buddhahood must not be grasped as fixed entities."
+  },
+  {
+    "Index": 186,
+    "Primary": "32, father",
+    "Primary Name": "Buddha",
+    "Secondary": "73, text",
+    "Secondary Name": "Saddharmapuṇḍarīka Sūtra",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Lotus Sūtra, the Buddha becomes a cosmic and salvific figure who teaches the One Vehicle, skillful means, and the eventual Buddhahood of all beings. The text strongly expands the Buddha beyond the historical teacher, presenting him as an enduring cosmic presence whose teaching adapts to beings’ capacities."
+  },
+  {
+    "Index": 187,
+    "Primary": "32, father",
+    "Primary Name": "Buddha",
+    "Secondary": "86, text",
+    "Secondary Name": "Mūlamadhyamakakārikā",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Mūlamadhyamakakārikā, the Buddha appears less as a narrative figure and more as the supreme teacher whose doctrine of dependent origination grounds Nāgārjuna’s philosophy of emptiness. The text treats the Buddha’s teaching as the authority behind Madhyamaka’s critique of inherent existence."
+  },
+  {
+    "Index": 188,
+    "Primary": "32, father",
+    "Primary Name": "Buddha",
+    "Secondary": "91, text",
+    "Secondary Name": "Laṅkāvatāra Sūtra",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Laṅkāvatāra Sūtra, the Buddha teaches Mahāyāna doctrines related to consciousness, mind, Buddha-nature, and the transformation of perception, often in dialogue with Mahāmati. Here the Buddha is not merely a historical teacher but a revealer of deep mind-only and tathāgatagarbha-oriented teachings."
+  },
+  {
+    "Index": 189,
+    "Primary": "32, father",
+    "Primary Name": "Buddha",
+    "Secondary": "92, text",
+    "Secondary Name": "Yogācārabhūmi",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Yogācārabhūmi, the Buddha functions as the authoritative source behind a massive scholastic analysis of consciousness, meditation, psychology, bodhisattva practice, and stages of the path. His role is less narrative and more doctrinal: the text systematizes the path and mind-analysis under Buddhist authority."
+  },
+  {
+    "Index": 190,
+    "Primary": "32, father",
+    "Primary Name": "Buddha",
+    "Secondary": "93, text",
+    "Secondary Name": "Abhidharmakośa",
+    "Connection Category": "explicit reference ",
+    "Note": "In the Abhidharmakośa, the Buddha appears mainly as the authoritative teacher behind Abhidharma analysis of dharmas, karma, cosmology, mind, causality, and liberation. The role is scholastic rather than narrative: the Buddha’s teaching is analyzed, categorized, and debated through systematic doctrine."
+  },
+  {
+    "Index": 191,
+    "Primary": "33, father",
+    "Primary Name": "Vyāsa",
+    "Secondary": "56, text",
+    "Secondary Name": "Brahmasūtras",
+    "Connection Category": "explicit reference ",
+    "Note": "Vyāsa, often identified with Bādarāyaṇa, is traditionally credited with the Brahmasūtras. Here his role is central: he becomes the systematic organizer of Upaniṣadic teachings on Brahman, ātman, liberation, and the interpretation of revelation."
+  },
+  {
+    "Index": 192,
+    "Primary": "33, father",
+    "Primary Name": "Vyāsa",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Vyāsa is central to the Mahābhārata as its traditional compiler/author and as a character within the story. He is also genealogically crucial: he fathers Dhṛtarāṣṭra, Pāṇḍu, and Vidura, making him the ancestor of the main Kuru conflict."
+  },
+  {
+    "Index": 193,
+    "Primary": "34, father",
+    "Primary Name": "Bhīṣma",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Bhīṣma is a major figure in the Mahābhārata as the son of Śāntanu and Gaṅgā, guardian of the Kuru dynasty, commander in the war, and teacher of dharma from the bed of arrows."
+  },
+  {
+    "Index": 194,
+    "Primary": "35, father",
+    "Primary Name": "Arjuna",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Arjuna is a central figure in the Mahābhārata: the third Pāṇḍava, son of Kuntī and divine son of Indra, great archer, companion of Kṛṣṇa, and receiver of the Bhagavad Gītā teaching."
+  },
+  {
+    "Index": 195,
+    "Primary": "36, father",
+    "Primary Name": "Kṛṣṇa",
+    "Secondary": "27, father",
+    "Secondary Name": "Lakṣmī",
+    "Connection Category": "familial: consorts",
+    "Note": "Lakṣmī is connected to Kṛṣṇa through Vaiṣṇava theology as the consort of Viṣṇu; in Kṛṣṇa traditions, this relation is often refracted through figures such as Rukmiṇī or Śrī."
+  },
+  {
+    "Index": 196,
+    "Primary": "36, father",
+    "Primary Name": "Kṛṣṇa",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Kṛṣṇa is a central figure in the Mahābhārata as Arjuna’s friend and charioteer, the Pāṇḍavas’ ally, a major political strategist, and the divine speaker of the Bhagavad Gītā."
+  },
+  {
+    "Index": 197,
+    "Primary": "37, father",
+    "Primary Name": "Manu",
+    "Secondary": "40, father",
+    "Secondary Name": "Brahmā",
+    "Connection Category": "familial: son/father",
+    "Note": "In many traditions, Svāyambhuva Manu is produced from or descended from Brahmā, making Brahmā one of Manu’s creator-father."
+  },
+  {
+    "Index": 198,
+    "Primary": "37, father",
+    "Primary Name": "Manu",
+    "Secondary": "10, father",
+    "Secondary Name": "Yama",
+    "Connection Category": "familial: brother/brother",
+    "Note": "In the Vaivasvata tradition, Manu and Yama are both connected to Vivasvat/Sūrya, making them sibling-like figures within the solar lineage."
+  },
+  {
+    "Index": 199,
+    "Primary": "37, father",
+    "Primary Name": "Manu",
+    "Secondary": "1, text",
+    "Secondary Name": "Ṛgveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Manu is mentioned in the Ṛgveda as an ancient ancestral figure, first sacrificer, and model human progenitor associated with the origin of ritual order."
+  },
+  {
+    "Index": 200,
+    "Primary": "37, father",
+    "Primary Name": "Manu",
+    "Secondary": "7, text",
+    "Secondary Name": "Sāmaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Manu appears in the Sāmaveda mainly through inherited Ṛgvedic verses, so the connection is ritual and liturgical rather than narratively developed."
+  },
+  {
+    "Index": 201,
+    "Primary": "37, father",
+    "Primary Name": "Manu",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Manu is mentioned in the Yajurveda as an early sacrificer and ancestral ritual authority connected with the proper performance of sacrifice and social order."
+  },
+  {
+    "Index": 202,
+    "Primary": "37, father",
+    "Primary Name": "Manu",
+    "Secondary": "11, text",
+    "Secondary Name": "Atharvaveda",
+    "Connection Category": "explicit reference ",
+    "Note": "Manu appears in the Atharvaveda as an ancestral and law-like human progenitor figure, though less centrally than in later Dharma literature."
+  },
+  {
+    "Index": 203,
+    "Primary": "37, father",
+    "Primary Name": "Manu",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "Manu is important in the Brāhmaṇas, especially as a primordial sacrificer and, in the Śatapatha Brāhmaṇa, as the survivor of the flood aided by the fish."
+  },
+  {
+    "Index": 204,
+    "Primary": "37, father",
+    "Primary Name": "Manu",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Manu appears in the Mahābhārata as an ancient progenitor, lawgiver, and authority on dharma, with the Vaivasvata Manu lineage especially important for human and royal ancestry."
+  },
+  {
+    "Index": 205,
+    "Primary": "37, father",
+    "Primary Name": "Manu",
+    "Secondary": "70, text",
+    "Secondary Name": "Manusmṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Manu is the central authority of the Manusmṛti, where he is presented as the primordial lawgiver whose teaching organizes dharma, society, kingship, caste duties, inheritance, and conduct."
+  },
+  {
+    "Index": 206,
+    "Primary": "37, father",
+    "Primary Name": "Manu",
+    "Secondary": "75, text",
+    "Secondary Name": "Yājñavalkya Smṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Manu is an important earlier authority behind the Yājñavalkya Smṛti; the text continues the Dharmaśāstra tradition associated with Manu while systematizing law in its own way."
+  },
+  {
+    "Index": 207,
+    "Primary": "37, father",
+    "Primary Name": "Manu",
+    "Secondary": "87, text",
+    "Secondary Name": "Nāradasmṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Manu is an important legal predecessor for the Nāradasmṛti, which develops especially the juridical and litigation-focused side of Dharmaśāstra tradition."
+  },
+  {
+    "Index": 208,
+    "Primary": "38, father",
+    "Primary Name": "Gaṇeśa",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Gaṇeśa is strongly connected to the Mahābhārata through the famous tradition that he wrote the epic down as Vyāsa dictated it, though this is often treated as a later framing tradition rather than part of the oldest epic core."
+  },
+  {
+    "Index": 209,
+    "Primary": "39, father",
+    "Primary Name": "Patañjali",
+    "Secondary": "41, text",
+    "Secondary Name": "Mahābhāṣya",
+    "Connection Category": "custom connection",
+    "Note": "Patañjali is the central figure of the Mahābhāṣya, traditionally credited as its author and major commentator on Pāṇini and Kātyāyana."
+  },
+  {
+    "Index": 210,
+    "Primary": "39, father",
+    "Primary Name": "Patañjali",
+    "Secondary": "89, text",
+    "Secondary Name": "Yoga Sūtras",
+    "Connection Category": "custom connection",
+    "Note": "Patañjali is traditionally credited with the Yoga Sūtras, where he systematizes Yoga as a path of mental discipline, concentration, and liberation."
+  },
+  {
+    "Index": 211,
+    "Primary": "40, father",
+    "Primary Name": "Brahmā",
+    "Secondary": "37, father",
+    "Secondary Name": "Manu",
+    "Connection Category": "familial: father/son",
+    "Note": "Brahmā is strongly connected to Manu, especially Svāyambhuva Manu, who is traditionally born from or generated by Brahmā and becomes an ancestor of humanity."
+  },
+  {
+    "Index": 212,
+    "Primary": "40, father",
+    "Primary Name": "Brahmā",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "Brahmā’s later role grows out of Brāhmaṇa-era creator and ritual speculation, especially around Prajāpati, sacrifice, speech, and cosmic generation."
+  },
+  {
+    "Index": 213,
+    "Primary": "40, father",
+    "Primary Name": "Brahmā",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Brahmā is meaningfully present in the Mahābhārata as a creator deity, divine authority, boon-giver, and part of the broader theological world alongside Viṣṇu and Śiva."
+  },
+  {
+    "Index": 214,
+    "Primary": "41, father",
+    "Primary Name": "Viṣṇu",
+    "Secondary": "35, father",
+    "Secondary Name": "Arjuna",
+    "Connection Category": "custom connection",
+    "Note": "Kṛṣṇa and Arjuna are cousins through Kuntī’s family line; Kṛṣṇa is also Arjuna’s charioteer, friend, guide, and the speaker of the Bhagavad Gītā."
+  },
+  {
+    "Index": 215,
+    "Primary": "41, father",
+    "Primary Name": "Viṣṇu",
+    "Secondary": "36, father",
+    "Secondary Name": "Kṛṣṇa",
+    "Connection Category": "custom connection",
+    "Note": "Kṛṣṇa is one of the major avatāras of Viṣṇu, and in many devotional traditions he is treated either as Viṣṇu’s incarnation or as the supreme form of Viṣṇu himself."
+  },
+  {
+    "Index": 216,
+    "Primary": "41, father",
+    "Primary Name": "Viṣṇu",
+    "Secondary": "40, father",
+    "Secondary Name": "Brahmā",
+    "Connection Category": "custom connection",
+    "Note": "Brahmā and Viṣṇu are strongly connected in the Trimūrti as creation and preservation; in many traditions Brahmā emerges from the lotus growing from Viṣṇu’s navel and performs creation while Viṣṇu sustains the cosmic order."
+  },
+  {
+    "Index": 217,
+    "Primary": "41, father",
+    "Primary Name": "Viṣṇu",
+    "Secondary": "53, text",
+    "Secondary Name": "Rāmāyaṇa",
+    "Connection Category": "explicit reference ",
+    "Note": "Viṣṇu is central to the Rāmāyaṇa through Rāma, who is understood as Viṣṇu’s avatāra born to defeat Rāvaṇa and restore dharma."
+  },
+  {
+    "Index": 218,
+    "Primary": "41, father",
+    "Primary Name": "Viṣṇu",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "Viṣṇu is strongly present in the Mahābhārata through Kṛṣṇa, who is identified with Viṣṇu/Nārāyaṇa and becomes the divine guide of Arjuna and protector of dharma."
+  },
+  {
+    "Index": 219,
+    "Primary": "1, text",
+    "Primary Name": "Ṛgveda",
+    "Secondary": "2, text",
+    "Secondary Name": "Maṇḍala 1",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 220,
+    "Primary": "1, text",
+    "Primary Name": "Ṛgveda",
+    "Secondary": "3, text",
+    "Secondary Name": "Maṇḍala 3",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 221,
+    "Primary": "1, text",
+    "Primary Name": "Ṛgveda",
+    "Secondary": "4, text",
+    "Secondary Name": "Maṇḍala 6",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 222,
+    "Primary": "1, text",
+    "Primary Name": "Ṛgveda",
+    "Secondary": "5, text",
+    "Secondary Name": "Maṇḍala 9",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 223,
+    "Primary": "1, text",
+    "Primary Name": "Ṛgveda",
+    "Secondary": "6, text",
+    "Secondary Name": "Maṇḍala 10",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 224,
+    "Primary": "1, text",
+    "Primary Name": "Ṛgveda",
+    "Secondary": "7, text",
+    "Secondary Name": "Sāmaveda",
+    "Connection Category": "partof",
+    "Note": "The Sāmaveda is a separate Veda that draws heavily from Ṛgvedic verses, adapting them for melodic chanting in ritual; it is derived from the Ṛgveda but not a subsection of it like a Maṇḍala."
+  },
+  {
+    "Index": 225,
+    "Primary": "1, text",
+    "Primary Name": "Ṛgveda",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "The Yajurveda directly draws on and repurposes Ṛgvedic verses for sacrificial formulas, but it reorganizes them for ritual action rather than preserving them as hymnic poetry."
+  },
+  {
+    "Index": 226,
+    "Primary": "1, text",
+    "Primary Name": "Ṛgveda",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "The Brāhmaṇas frequently explain Vedic ritual by citing or interpreting Ṛgvedic verses, treating the Ṛgveda as an authoritative source for sacrificial meaning."
+  },
+  {
+    "Index": 227,
+    "Primary": "1, text",
+    "Primary Name": "Ṛgveda",
+    "Secondary": "17, text",
+    "Secondary Name": "Principal Upaniṣads",
+    "Connection Category": "explicit reference ",
+    "Note": "Several Principal Upaniṣads explicitly refer to the Ṛgveda as one of the Vedas, though their main focus shifts from ritual recitation toward Brahman, ātman, and liberation."
+  },
+  {
+    "Index": 228,
+    "Primary": "1, text",
+    "Primary Name": "Ṛgveda",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "The Mahābhārata directly references the Ṛgveda as part of sacred Vedic authority and often treats mastery of the Vedas, including Ṛgveda, as a marker of Brahminical learning and dharma."
+  },
+  {
+    "Index": 229,
+    "Primary": "1, text",
+    "Primary Name": "Ṛgveda",
+    "Secondary": "70, text",
+    "Secondary Name": "Manusmṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Manusmṛti directly references the Ṛgveda as one of the foundational Vedas and uses Vedic authority to ground dharma, ritual obligation, social order, and law."
+  },
+  {
+    "Index": 230,
+    "Primary": "7, text",
+    "Primary Name": "Sāmaveda",
+    "Secondary": "8, text",
+    "Secondary Name": "Yajurveda",
+    "Connection Category": "explicit reference ",
+    "Note": "The Yajurveda explicitly recognizes the Sāmaveda as part of the Vedic corpus and shares the same sacrificial world, though its own focus is ritual formula and procedure rather than chant."
+  },
+  {
+    "Index": 231,
+    "Primary": "7, text",
+    "Primary Name": "Sāmaveda",
+    "Secondary": "12, text",
+    "Secondary Name": "Brāhmaṇas",
+    "Connection Category": "explicit reference ",
+    "Note": "The Brāhmaṇas explicitly reference the Sāmaveda in ritual contexts, especially where different priestly roles and chant traditions are being explained."
+  },
+  {
+    "Index": 232,
+    "Primary": "7, text",
+    "Primary Name": "Sāmaveda",
+    "Secondary": "17, text",
+    "Secondary Name": "Principal Upaniṣads",
+    "Connection Category": "explicit reference ",
+    "Note": "Several Principal Upaniṣads explicitly name the Sāmaveda as one of the Vedas, usually as part of a broader list of sacred knowledge that is ultimately surpassed by knowledge of Brahman."
+  },
+  {
+    "Index": 233,
+    "Primary": "8, text",
+    "Primary Name": "Yajurveda",
+    "Secondary": "9, text",
+    "Secondary Name": "Kṛṣṇa Yajurveda",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 234,
+    "Primary": "8, text",
+    "Primary Name": "Yajurveda",
+    "Secondary": "10, text",
+    "Secondary Name": "Śukla Yajurveda",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 235,
+    "Primary": "8, text",
+    "Primary Name": "Yajurveda",
+    "Secondary": "17, text",
+    "Secondary Name": "Principal Upaniṣads",
+    "Connection Category": "explicit reference ",
+    "Note": "Several Principal Upaniṣads are directly connected to Yajurveda recensions, especially the Bṛhadāraṇyaka and Īśa Upaniṣads."
+  },
+  {
+    "Index": 236,
+    "Primary": "8, text",
+    "Primary Name": "Yajurveda",
+    "Secondary": "70, text",
+    "Secondary Name": "Manusmṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Manusmṛti references Yajurveda as one of the authoritative Vedas and uses Vedic authority to ground dharma, ritual obligation, social order, and law."
+  },
+  {
+    "Index": 237,
+    "Primary": "11, text",
+    "Primary Name": "Atharvaveda",
+    "Secondary": "17, text",
+    "Secondary Name": "Principal Upaniṣads",
+    "Connection Category": "explicit reference ",
+    "Note": "The Muṇḍaka Upaniṣad and Chāndogya Upaniṣad explicitly name Atharvaveda among the Vedas, usually while ranking Vedic learning below direct knowledge of Brahman."
+  },
+  {
+    "Index": 238,
+    "Primary": "11, text",
+    "Primary Name": "Atharvaveda",
+    "Secondary": "70, text",
+    "Secondary Name": "Manusmṛti",
+    "Connection Category": "explicit reference ",
+    "Note": "Recognizes the four Vedas, including the Atharvaveda, as authoritative sources of sacred knowledge."
+  },
+  {
+    "Index": 239,
+    "Primary": "12, text",
+    "Primary Name": "Brāhmaṇas",
+    "Secondary": "13, text",
+    "Secondary Name": "Śatapatha Brāhmaṇa",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 240,
+    "Primary": "12, text",
+    "Primary Name": "Brāhmaṇas",
+    "Secondary": "15, text",
+    "Secondary Name": "Āraṇyakas",
+    "Connection Category": "explicit reference ",
+    "Note": "The Āraṇyakas are directly connected to the Brāhmaṇas as a later/inner ritual layer of Vedic literature; some are even treated as “secret Brāhmaṇas” because they reinterpret Brāhmaṇa ritual material in more symbolic and contemplative ways."
+  },
+  {
+    "Index": 241,
+    "Primary": "12, text",
+    "Primary Name": "Brāhmaṇas",
+    "Secondary": "17, text",
+    "Secondary Name": "Principal Upaniṣads",
+    "Connection Category": "indirect connection",
+    "Note": "Several Principal Upaniṣads are structurally attached to Brāhmaṇa or Āraṇyaka material, especially Bṛhadāraṇyaka Upaniṣad, which belongs to the Śatapatha Brāhmaṇa tradition; so the connection is direct, though not always a simple."
+  },
+  {
+    "Index": 242,
+    "Primary": "14, text",
+    "Primary Name": "Vedāṅga Jyotiṣa",
+    "Secondary": "96, text",
+    "Secondary Name": "Sūrya Siddhānta",
+    "Connection Category": "indirect connection",
+    "Note": "Later Indian astronomical texts develop more advanced calculations based on earlier traditions that include Vedāṅga Jyotiṣa."
+  },
+  {
+    "Index": 243,
+    "Primary": "15, text",
+    "Primary Name": "Āraṇyakas",
+    "Secondary": "17, text",
+    "Secondary Name": "Principal Upaniṣads",
+    "Connection Category": "explicit reference ",
+    "Note": "The Principal Upaniṣads grow directly out of the Āraṇyaka layer of Vedic literature, with several major Upaniṣads embedded in or attached to Āraṇyakas; the connection is structural and textual."
+  },
+  {
+    "Index": 244,
+    "Primary": "16, text",
+    "Primary Name": "Śuśruta Saṃhitā",
+    "Secondary": "74, text",
+    "Secondary Name": "Caraka Saṃhitā",
+    "Connection Category": "indirect connection",
+    "Note": "Both texts are major foundational works of Ayurveda and frequently cited together in the medical tradition."
+  },
+  {
+    "Index": 245,
+    "Primary": "17, text",
+    "Primary Name": "Principal Upaniṣads",
+    "Secondary": "18, text",
+    "Secondary Name": "Bṛhadāraṇyaka Upaniṣad",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 246,
+    "Primary": "17, text",
+    "Primary Name": "Principal Upaniṣads",
+    "Secondary": "19, text",
+    "Secondary Name": "Chāndogya Upaniṣad",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 247,
+    "Primary": "17, text",
+    "Primary Name": "Principal Upaniṣads",
+    "Secondary": "20, text",
+    "Secondary Name": "Īśa Upaniṣad",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 248,
+    "Primary": "17, text",
+    "Primary Name": "Principal Upaniṣads",
+    "Secondary": "21, text",
+    "Secondary Name": "Kaṭha Upaniṣad",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 249,
+    "Primary": "17, text",
+    "Primary Name": "Principal Upaniṣads",
+    "Secondary": "22, text",
+    "Secondary Name": "Kena Upaniṣad",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 250,
+    "Primary": "17, text",
+    "Primary Name": "Principal Upaniṣads",
+    "Secondary": "23, text",
+    "Secondary Name": "Muṇḍaka Upaniṣad",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 251,
+    "Primary": "17, text",
+    "Primary Name": "Principal Upaniṣads",
+    "Secondary": "24, text",
+    "Secondary Name": "Praśna Upaniṣad",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 252,
+    "Primary": "17, text",
+    "Primary Name": "Principal Upaniṣads",
+    "Secondary": "25, text",
+    "Secondary Name": "Māṇḍūkya Upaniṣad",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 253,
+    "Primary": "26, text",
+    "Primary Name": "Dharmasūtras",
+    "Secondary": "70, text",
+    "Secondary Name": "Manusmṛti",
+    "Connection Category": "indirect connection",
+    "Note": "Manusmṛti continues the Dharmasūtra tradition by taking earlier sūtra-style rules on dharma, ritual duty, social order, kingship, inheritance, punishment, and conduct, and recasting them into a more systematic verse-based Dharmaśāstra."
+  },
+  {
+    "Index": 254,
+    "Primary": "26, text",
+    "Primary Name": "Dharmasūtras",
+    "Secondary": "75, text",
+    "Secondary Name": "Yājñavalkya Smṛti",
+    "Connection Category": "indirect connection",
+    "Note": "Yājñavalkya Smṛti continues the Dharmaśāstra legal tradition shaped by earlier Dharmasūtra materials."
+  },
+  {
+    "Index": 255,
+    "Primary": "26, text",
+    "Primary Name": "Dharmasūtras",
+    "Secondary": "87, text",
+    "Secondary Name": "Nāradasmṛti",
+    "Connection Category": "indirect connection",
+    "Note": "Nāradasmṛti develops the legal and litigation-focused side of Dharmaśāstra, downstream from the Dharmasūtra tradition."
+  },
+  {
+    "Index": 256,
+    "Primary": "27, text",
+    "Primary Name": "Aṣṭādhyāyī",
+    "Secondary": "28, text",
+    "Secondary Name": "Vārttikas",
+    "Connection Category": "explicit reference ",
+    "Note": "The Vārttikas directly address and supplement rules of Pāṇini’s Aṣṭādhyāyī, clarifying, correcting, or expanding specific sūtras in the grammatical system."
+  },
+  {
+    "Index": 257,
+    "Primary": "27, text",
+    "Primary Name": "Aṣṭādhyāyī",
+    "Secondary": "41, text",
+    "Secondary Name": "Mahābhāṣya",
+    "Connection Category": "explicit reference ",
+    "Note": "Patañjali’s Mahābhāṣya explicitly comments on Pāṇini’s Aṣṭādhyāyī, discussing its rules together with Kātyāyana’s Vārttikas."
+  },
+  {
+    "Index": 258,
+    "Primary": "28, text",
+    "Primary Name": "Vārttikas",
+    "Secondary": "41, text",
+    "Secondary Name": "Mahābhāṣya",
+    "Connection Category": "explicit reference ",
+    "Note": "Patañjali’s Mahābhāṣya explicitly discusses Kātyāyana’s Vārttikas, often evaluating their corrections, additions, and objections to Pāṇini’s Aṣṭādhyāyī."
+  },
+  {
+    "Index": 259,
+    "Primary": "29, text",
+    "Primary Name": "Tolkāppiyam",
+    "Secondary": "30, text",
+    "Secondary Name": "Ettuthokai",
+    "Connection Category": "indirect connection",
+    "Note": "Eṭṭuttokai is part of the Sangam poetic corpus, while Tolkāppiyam provides the grammatical and poetic-theoretical framework used to classify Sangam themes, landscapes, genres, and conventions; the connection is structural and literary"
+  },
+  {
+    "Index": 260,
+    "Primary": "29, text",
+    "Primary Name": "Tolkāppiyam",
+    "Secondary": "42, text",
+    "Secondary Name": "Pattuppāṭṭu",
+    "Connection Category": "indirect connection",
+    "Note": "Pattuppāṭṭu belongs to the Sangam literary corpus and can be interpreted through the poetic categories associated with Tolkāppiyam."
+  },
+  {
+    "Index": 261,
+    "Primary": "30, text",
+    "Primary Name": "Ettuthokai",
+    "Secondary": "31, text",
+    "Secondary Name": "Akanāṉūru",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 262,
+    "Primary": "30, text",
+    "Primary Name": "Ettuthokai",
+    "Secondary": "32, text",
+    "Secondary Name": "Puṟanāṉūru",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 263,
+    "Primary": "30, text",
+    "Primary Name": "Ettuthokai",
+    "Secondary": "33, text",
+    "Secondary Name": "Kuruntokai",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 264,
+    "Primary": "30, text",
+    "Primary Name": "Ettuthokai",
+    "Secondary": "34, text",
+    "Secondary Name": "Naṟṟiṇai",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 265,
+    "Primary": "30, text",
+    "Primary Name": "Ettuthokai",
+    "Secondary": "35, text",
+    "Secondary Name": "Aiṅkuṟunūṟu",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 266,
+    "Primary": "30, text",
+    "Primary Name": "Ettuthokai",
+    "Secondary": "36, text",
+    "Secondary Name": "Kalittokai",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 267,
+    "Primary": "30, text",
+    "Primary Name": "Ettuthokai",
+    "Secondary": "37, text",
+    "Secondary Name": "Patiṟṟuppattu",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 268,
+    "Primary": "30, text",
+    "Primary Name": "Ettuthokai",
+    "Secondary": "38, text",
+    "Secondary Name": "Paripāṭal",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 269,
+    "Primary": "57, text",
+    "Primary Name": "Pāli Canon",
+    "Secondary": "39, text",
+    "Secondary Name": "Aśoka’s Edicts",
+    "Connection Category": "indirect connection",
+    "Note": "Aśoka’s Edicts promote Buddhist dharma (dhamma)—ethical teachings such as nonviolence, compassion, and moral discipline found in the Canon."
+  },
+  {
+    "Index": 270,
+    "Primary": "40, text",
+    "Primary Name": "Nāṭyaśāstra",
+    "Secondary": "42, text",
+    "Secondary Name": "Pattuppāṭṭu",
+    "Connection Category": "explicit reference ",
+    "Note": "Pattuppāṭṭu belongs to the Tamil Sangam literary world and shares broader Indian concerns with poetry, music, performance, emotion, and courtly praise."
+  },
+  {
+    "Index": 271,
+    "Primary": "40, text",
+    "Primary Name": "Nāṭyaśāstra",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "The Mahābhārata and Nāṭyaśāstra are strongly connected through performance, recitation, drama, rasa, and epic storytelling culture."
+  },
+  {
+    "Index": 272,
+    "Primary": "40, text",
+    "Primary Name": "Nāṭyaśāstra",
+    "Secondary": "94, text",
+    "Secondary Name": "Jaina Mahākāvyas",
+    "Connection Category": "explicit reference ",
+    "Note": "Jaina Mahākāvyas participate in the broader Sanskrit kāvya and aesthetic world shaped by drama, rasa, poetics, and performance theory."
+  },
+  {
+    "Index": 273,
+    "Primary": "42, text",
+    "Primary Name": "Pattuppāṭṭu",
+    "Secondary": "43, text",
+    "Secondary Name": "Tirumurukāṟṟuppaṭai",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 274,
+    "Primary": "42, text",
+    "Primary Name": "Pattuppāṭṭu",
+    "Secondary": "44, text",
+    "Secondary Name": "Poruṇarāṟṟuppaṭai",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 275,
+    "Primary": "42, text",
+    "Primary Name": "Pattuppāṭṭu",
+    "Secondary": "45, text",
+    "Secondary Name": "Ciṟupāṇāṟṟuppaṭai",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 276,
+    "Primary": "42, text",
+    "Primary Name": "Pattuppāṭṭu",
+    "Secondary": "46, text",
+    "Secondary Name": "Perumpāṇāṟṟuppaṭai",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 277,
+    "Primary": "42, text",
+    "Primary Name": "Pattuppāṭṭu",
+    "Secondary": "47, text",
+    "Secondary Name": "Pattinappālai",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 278,
+    "Primary": "42, text",
+    "Primary Name": "Pattuppāṭṭu",
+    "Secondary": "48, text",
+    "Secondary Name": "Mullaippāṭṭu",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 279,
+    "Primary": "42, text",
+    "Primary Name": "Pattuppāṭṭu",
+    "Secondary": "49, text",
+    "Secondary Name": "Neṭunalvāṭai",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 280,
+    "Primary": "42, text",
+    "Primary Name": "Pattuppāṭṭu",
+    "Secondary": "50, text",
+    "Secondary Name": "Maturaikkāñci",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 281,
+    "Primary": "42, text",
+    "Primary Name": "Pattuppāṭṭu",
+    "Secondary": "51, text",
+    "Secondary Name": "Kuṟiñcippāṭṭu",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 282,
+    "Primary": "42, text",
+    "Primary Name": "Pattuppāṭṭu",
+    "Secondary": "52, text",
+    "Secondary Name": "Malaipaṭukaṭām",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 283,
+    "Primary": "53, text",
+    "Primary Name": "Rāmāyaṇa",
+    "Secondary": "69, text",
+    "Secondary Name": "Mahābhārata",
+    "Connection Category": "explicit reference ",
+    "Note": "The Mahābhārata does contain versions or summaries of the Rāma story, especially the Rāmopākhyāna, making this a real epic cross-reference to the Rāmāyaṇa tradition."
+  },
+  {
+    "Index": 284,
+    "Primary": "53, text",
+    "Primary Name": "Rāmāyaṇa",
+    "Secondary": "94, text",
+    "Secondary Name": "Jaina Mahākāvyas",
+    "Connection Category": "explicit reference ",
+    "Note": "Jaina Mahākāvyas often retell or adapt Rāma narrative material within Jain ethical and cosmological frameworks."
+  },
+  {
+    "Index": 285,
+    "Primary": "54, text",
+    "Primary Name": "Arthaśāstra",
+    "Secondary": "70, text",
+    "Secondary Name": "Manusmṛti",
+    "Connection Category": "indirect connection",
+    "Note": "Manusmṛti overlaps strongly with Arthaśāstra in law, kingship, punishment, property, and social order, but the connection is best treated as shared legal-political tradition."
+  },
+  {
+    "Index": 286,
+    "Primary": "54, text",
+    "Primary Name": "Arthaśāstra",
+    "Secondary": "75, text",
+    "Secondary Name": "Yājñavalkya Smṛti",
+    "Connection Category": "indirect connection",
+    "Note": "Yājñavalkya Smṛti shares legal and administrative concerns with Arthaśāstra traditions, especially judicial procedure and royal authority."
+  },
+  {
+    "Index": 287,
+    "Primary": "54, text",
+    "Primary Name": "Arthaśāstra",
+    "Secondary": "87, text",
+    "Secondary Name": "Nāradasmṛti",
+    "Connection Category": "indirect connection",
+    "Note": "Nāradasmṛti’s focus on legal procedure, litigation, contracts, debts, and property overlaps with Arthaśāstra’s juridical material"
+  },
+  {
+    "Index": 288,
+    "Primary": "56, text",
+    "Primary Name": "Brahmasūtras",
+    "Secondary": "95, text",
+    "Secondary Name": "Śābara Bhāṣya",
+    "Connection Category": "indirect connection",
+    "Note": "Śābara Bhāṣya belongs to the Mīmāṃsā tradition, while Brahmasūtras belongs to Vedānta; they are strongly connected through Vedic interpretation and later debate."
+  },
+  {
+    "Index": 289,
+    "Primary": "56, text",
+    "Primary Name": "Brahmasūtras",
+    "Secondary": "97, text",
+    "Secondary Name": "Sāṃkhyakārikā",
+    "Connection Category": "indirect connection",
+    "Note": "Sāṃkhyakārikā and Brahmasūtras are connected through classical debates over Sāṃkhya, Vedānta, causality, puruṣa, prakṛti, and liberation, but the connection is philosophical rather than an explicit citation."
+  },
+  {
+    "Index": 290,
+    "Primary": "57, text",
+    "Primary Name": "Pāli Canon",
+    "Secondary": "58, text",
+    "Secondary Name": "Vinaya Piṭaka",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 291,
+    "Primary": "57, text",
+    "Primary Name": "Pāli Canon",
+    "Secondary": "59, text",
+    "Secondary Name": "Abhidhamma Piṭaka",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 292,
+    "Primary": "57, text",
+    "Primary Name": "Pāli Canon",
+    "Secondary": "60, text",
+    "Secondary Name": "Sutta Piṭaka",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 293,
+    "Primary": "60, text",
+    "Primary Name": "Sutta Piṭaka",
+    "Secondary": "61, text",
+    "Secondary Name": "Dīgha Nikāya",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 294,
+    "Primary": "60, text",
+    "Primary Name": "Sutta Piṭaka",
+    "Secondary": "62, text",
+    "Secondary Name": "Majjhima Nikāya",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 295,
+    "Primary": "60, text",
+    "Primary Name": "Sutta Piṭaka",
+    "Secondary": "63, text",
+    "Secondary Name": "Saṃyutta Nikāya",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 296,
+    "Primary": "60, text",
+    "Primary Name": "Sutta Piṭaka",
+    "Secondary": "64, text",
+    "Secondary Name": "Aṅguttara Nikāya",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 297,
+    "Primary": "60, text",
+    "Primary Name": "Sutta Piṭaka",
+    "Secondary": "65, text",
+    "Secondary Name": "Khuddaka Nikāya",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 298,
+    "Primary": "66, text",
+    "Primary Name": "Prajñāpāramitā Sūtras",
+    "Secondary": "67, text",
+    "Secondary Name": "Hṛdaya Sūtra",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 299,
+    "Primary": "66, text",
+    "Primary Name": "Prajñāpāramitā Sūtras",
+    "Secondary": "68, text",
+    "Secondary Name": "Vajracchedikā Prajñāpāramitā Sūtra",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 300,
+    "Primary": "70, text",
+    "Primary Name": "Manusmṛti",
+    "Secondary": "75, text",
+    "Secondary Name": "Yājñavalkya Smṛti",
+    "Connection Category": "indirect connection",
+    "Note": "Yājñavalkya Smṛti is strongly connected to Manusmṛti as a later Dharmaśāstra text that develops the same legal-dharmic tradition."
+  },
+  {
+    "Index": 301,
+    "Primary": "76, text",
+    "Primary Name": "Jaina Āgamas",
+    "Secondary": "77, text",
+    "Secondary Name": "Aṅgas",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 302,
+    "Primary": "76, text",
+    "Primary Name": "Jaina Āgamas",
+    "Secondary": "80, text",
+    "Secondary Name": "Upāṅgas",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 303,
+    "Primary": "76, text",
+    "Primary Name": "Jaina Āgamas",
+    "Secondary": "81, text",
+    "Secondary Name": "Chedasūtras",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 304,
+    "Primary": "76, text",
+    "Primary Name": "Jaina Āgamas",
+    "Secondary": "82, text",
+    "Secondary Name": "Mūlasūtras",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 305,
+    "Primary": "76, text",
+    "Primary Name": "Jaina Āgamas",
+    "Secondary": "83, text",
+    "Secondary Name": "Prakīrṇakas",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 306,
+    "Primary": "77, text",
+    "Primary Name": "Aṅgas",
+    "Secondary": "78, text",
+    "Secondary Name": "Ācārāṅga Sūtra",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 307,
+    "Primary": "77, text",
+    "Primary Name": "Aṅgas",
+    "Secondary": "79, text",
+    "Secondary Name": "Sūtrakṛtāṅga Sūtra",
+    "Connection Category": "partof",
+    "Note": "-"
+  },
+  {
+    "Index": 308,
+    "Primary": "86, text",
+    "Primary Name": "Mūlamadhyamakakārikā",
+    "Secondary": "93, text",
+    "Secondary Name": "Abhidharmakośa",
+    "Connection Category": "indirect connection",
+    "Note": "Abhidharmakośa and Mūlamadhyamakakārikā are strongly connected within Buddhist philosophical debate, especially around dharmas, emptiness, causality, and Abhidharma analysis."
+  },
+  {
+    "Index": 309,
+    "Primary": "89, text",
+    "Primary Name": "Yoga Sūtras",
+    "Secondary": "97, text",
+    "Secondary Name": "Sāṃkhyakārikā",
+    "Connection Category": "indirect connection",
+    "Note": "Yoga Sūtras is strongly connected to Sāṃkhya philosophy through shared concepts like puruṣa, prakṛti, guṇas, bondage, and liberation."
+  },
+  {
+    "Index": 310,
+    "Primary": "91, text",
+    "Primary Name": "Laṅkāvatāra Sūtra",
+    "Secondary": "92, text",
+    "Secondary Name": "Yogācārabhūmi",
+    "Connection Category": "indirect connection",
+    "Note": "Yogācārabhūmi and Laṅkāvatāra Sūtra are strongly connected through Yogācāra themes such as consciousness-only, storehouse consciousness, mind, perception, and the transformation of cognition."
+  },
+  {
+    "Index": 311,
+    "Primary": "92, text",
+    "Primary Name": "Yogācārabhūmi",
+    "Secondary": "93, text",
+    "Secondary Name": "Abhidharmakośa",
+    "Connection Category": "indirect connection",
+    "Note": "Yogācārabhūmi and Abhidharmakośa are strongly connected through Buddhist scholastic analysis of mind, dharmas, meditation, karma, and liberation."
+  },
+  {
+    "Index": 312,
+    "Primary": "95, text",
+    "Primary Name": "Śābara Bhāṣya",
+    "Secondary": "97, text",
+    "Secondary Name": "Sāṃkhyakārikā",
+    "Connection Category": "indirect connection",
+    "Note": "Śābara Bhāṣya represents Mīmāṃsā exegesis while Sāṃkhyakārikā represents Sāṃkhya metaphysics; they are connected through broader inter-school debate."
+  }
+]

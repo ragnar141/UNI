@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState, useId } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useId } from "react";
+import { createPortal } from "react-dom";
 import * as d3 from "d3";
 import durations from "../data/durations.json";
 import "../styles/timeline.css";
@@ -6,6 +7,7 @@ import TextCard from "./textCard";
 import FatherCard from "./fatherCard";
 import SearchBar from "./searchBar";
 import TagPanel from "./tagPanel";
+import TimelineMap from "./timelineMap";
 
 /* ===== Timeline debug helpers (safe) =====
    Toggle DEBUG_TL to enable/disable logs without breaking runtime.
@@ -31,6 +33,7 @@ function dbgLog(label, payload) {
 
 // ===== Timeline debug logging =====
 const DEBUG_HOVER = false; // set false to silence hover/connection logs
+const DEBUG_MAP_SYNC = false; // set true only while debugging pin/map alignment
 
 
 
@@ -111,8 +114,107 @@ const HOVER_SCALE_DOT = 1.6;   // how much bigger a dot gets on hover
 const HOVER_SCALE_FATHER = 1.6; 
 const ZOOM_THRESHOLD = 4.0;
 
+/*
+ * Map View location clusters:
+ * projected objects within this many browser pixels are treated as sharing one
+ * location and represented by a disclosure triangle plus expandable branch.
+ */
+const LOCATION_CLUSTER_TOLERANCE_PX = 10;
+
+/*
+ * Selected-location disclosure triangle size, in fixed screen pixels.
+ * Both the closed/downward and open/upward arrows use this same geometry.
+ */
+const LOCATION_CLUSTER_BUTTON_RADIUS = 7.2;
+const LOCATION_CLUSTER_COLLAPSED_RADIUS = LOCATION_CLUSTER_BUTTON_RADIUS;
+const LOCATION_CLUSTER_EXPANDED_RADIUS = LOCATION_CLUSTER_BUTTON_RADIUS;
+
+/*
+ * Position of the hidden-object count relative to the disclosure button.
+ * TWEAK THESE TWO VALUES to move every count label:
+ * - negative X moves it left; positive X moves it right
+ * - negative Y moves it up; positive Y moves it down
+ */
+const LOCATION_CLUSTER_COUNT_X_OFFSET = -2;
+const LOCATION_CLUSTER_COUNT_Y_OFFSET = 2;
+
+function locationClusterTrianglePath(cx, cy, size, pointsUp = false) {
+  const halfWidth = size;
+  const halfHeight = size * 0.78;
+
+  return pointsUp
+    ? [
+        `M ${cx - halfWidth} ${cy + halfHeight}`,
+        `L ${cx + halfWidth} ${cy + halfHeight}`,
+        `L ${cx} ${cy - halfHeight}`,
+        "Z",
+      ].join(" ")
+    : [
+        `M ${cx - halfWidth} ${cy - halfHeight}`,
+        `L ${cx + halfWidth} ${cy - halfHeight}`,
+        `L ${cx} ${cy + halfHeight}`,
+        "Z",
+      ].join(" ");
+}
+/*
+ * Base branch geometry at the reference map zoom.
+ *
+ * TWEAK THESE TWO VALUES to change the ordinary branch length:
+ * - FIRST_ICON_Y controls the initial line from the pin to the first icon.
+ * - ICON_SPACING controls the distance between subsequent icons.
+ */
+const LOCATION_CLUSTER_FIRST_ICON_Y = 18;
+const LOCATION_CLUSTER_ICON_SPACING = 14;
+
+/*
+ * TWEAK THIS VALUE to control how strongly branch length reacts to map zoom.
+ *
+ * 0    = branch length never changes
+ * 0.5  = gentle zoom response
+ * 1    = branch length changes directly with map zoom
+ */
+const LOCATION_CLUSTER_BRANCH_ZOOM_SENSITIVITY = 0.4;
+
+/*
+ * The initial map camera opens at k=3. At that zoom the branch uses exactly
+ * FIRST_ICON_Y and ICON_SPACING above.
+ */
+const LOCATION_CLUSTER_BRANCH_REFERENCE_MAP_ZOOM = 10;
+
+/* Safety limits so the branch never becomes unusably short or long. */
+const LOCATION_CLUSTER_BRANCH_MIN_SCALE = 0.5;
+const LOCATION_CLUSTER_BRANCH_MAX_SCALE = 2.25;
+
+/*
+ * Unified object-size controls.
+ *
+ * Default View and Map View use different camera zoom ranges, so Map View's
+ * camera zoom is converted to the same visual zoom scale as Default View.
+ * At maximum zoom, ordinary, selected-neighborhood, and Map View objects now
+ * receive exactly the same effective zoom value.
+ *
+ * TWEAK OBJECT_SIZE_MAX_VISUAL_ZOOM only if Default View's maximum zoom changes.
+ * TWEAK OBJECT_SIZE_MAP_MAX_CAMERA_ZOOM only if TimelineMap's maximum changes.
+ * Actual text/father sizes remain controlled in one place by TEXT_BASE_R,
+ * CIV_TEXT_SCALE, FATHER_R_FOUNDING, FATHER_R_NONFOUND, and FATHER_SIZE_SCALE.
+ */
+const OBJECT_SIZE_MAX_VISUAL_ZOOM = 22;
+const OBJECT_SIZE_MAP_MAX_CAMERA_ZOOM = 40;
+const FATHER_SIZE_SCALE = 2.2;
+
+/* Selected pin size at maximum visual zoom. Both views now match at max zoom. */
+const SELECTED_PIN_HEAD_RADIUS_AT_MAX_ZOOM = 14;
+const SELECTED_PIN_HEAD_RADIUS_MIN = 10;
+
+/*
+ * Connected objects use the same gentle hover enlargement in both views.
+ * The branch CSS also uses 1.18.
+ */
+const CONNECTED_OBJECT_HOVER_SCALE = 1.18;
+
+const LOCATION_CLUSTER_HIT_RADIUS = 13;
+
 const DIM_NODE_OPACITY = 0.12;            // texts/fathers that are NOT relevant during selection
-const DIM_CONNECTION_OPACITY = 0.015;     // irrelevant connections when showConnections is ON
 
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
@@ -134,6 +236,27 @@ function textBaseR(d) {
 
 // New: boundary between “outest” (duration-only) and “middle” (segment) zoom
 const ZOOM_SEGMENT_THRESHOLD = 2.0;
+
+/*
+ * Bottom timeline sizing.
+ * Normal mode keeps the original one-row axis area. Selected chronological
+ * mode expands it to three rows: later / selected / earlier.
+ */
+const TIMELINE_AXIS_BOTTOM_HEIGHT = 28;
+const SELECTED_TIMELINE_AXIS_HEIGHT_MULTIPLIER = 3;
+const SELECTED_TIMELINE_AXIS_BOTTOM_HEIGHT =
+  TIMELINE_AXIS_BOTTOM_HEIGHT *
+  SELECTED_TIMELINE_AXIS_HEIGHT_MULTIPLIER;
+
+/*
+ * Label baselines measured downward from the horizontal timeline.
+ * These values intentionally fit inside 3 × TIMELINE_AXIS_BOTTOM_HEIGHT.
+ */
+const SELECTED_AXIS_LABEL_Y = {
+  upper: 16,
+  middle: 40,
+  lower: 64,
+};
 
 /* --- Opacity/width levels for duration label + border --- */
 const DUR_LABEL_OPACITY = { base: 0.7, hover: 1, active: 1 };
@@ -182,12 +305,202 @@ const FORBIDDEN_TICKS_ASTRO = new Set([toAstronomical(-5500), toAstronomical(250
 
 /* ===== Tooltip helpers ===== */
 const fmtRange = (s, e) => `${formatYear(s)} – ${formatYear(e)}`;
+
+/*
+ * Selected-tooltip placement controls.
+ * Chronological View always places the main tooltip directly above the pin.
+ * Map View retains the collision-aware placement scorer for later tuning.
+ */
+const SELECTED_TOOLTIP_GAP = 12;
+const SELECTED_TOOLTIP_CHRONOLOGICAL_GAP = 6;
+const SELECTED_TOOLTIP_VIEWPORT_PADDING = 6;
+const SELECTED_TOOLTIP_OBJECT_CLEARANCE = 44;
+const SELECTED_TOOLTIP_LINE_CLEARANCE = 64;
+
+/* Tooltip border hierarchy.
+ * These values feed CSS custom properties, including the visible hover frame.
+ */
+const MAIN_TOOLTIP_BORDER_WIDTH = 2;
+const MINI_TOOLTIP_BORDER_WIDTH = 1;
+const MINI_TOOLTIP_HOVER_RING_WIDTH = 0;
+
+/*
+ * Selected chronological guide appearance.
+ * Opacity accepts 0–1. The guide color is intentionally darker than the
+ * ordinary grid because the normal grid was already at full opacity but used
+ * a very pale stroke.
+ */
+const SELECTED_CHRONOLOGY_GUIDE_OPACITY = 1;
+const SELECTED_CHRONOLOGY_GUIDE_COLOR = "#94a3b8";
+
+/* Selected chronological date is slightly larger than connected dates. */
+const SELECTED_AXIS_PRIMARY_DATE_FONT_SIZE = "1.22em";
+
+/* Info Window relationship-name emphasis. */
+const CONNECTION_INFO_SELECTED_NAME_FONT_SIZE = "1.1em";
+const CONNECTION_INFO_CONNECTED_NAME_FONT_SIZE = "1em";
+
+/*
+ * Persistent connected-object mini-label controls.
+ */
+const MINI_TOOLTIP_GAP = 7;
+const MINI_TOOLTIP_VIEWPORT_PADDING = 4;
+const MINI_TOOLTIP_OBJECT_CLEARANCE = 28;
+const MINI_TOOLTIP_LINE_CLEARANCE = 34;
+
+/*
+ * Selection tooltip sequence infrastructure is intentionally retained, but
+ * automatic mini-tooltips are disabled for the current presentation.
+ */
+const MINI_TOOLTIPS_ENABLED = false;
+const MINI_TOOLTIP_AUTO_MIN_MS = 0;
+const MINI_TOOLTIP_AUTO_MAX_MS = 0;
+const MINI_TOOLTIP_OBJECTS_FOR_MAX = 10;
+
+/*
+ * Selected-neighborhood focus controls.
+ * With no connected object hovered, every selected connection remains bright.
+ * Hovering one connected object keeps its own line/object bright and dims the
+ * rest of the selected one-hop neighborhood.
+ */
+const CONNECTION_SELECTED_DIM_OPACITY = 0.08;
+
+/*
+ * Selected pins and connected objects now respond to the active view's zoom.
+ * The scale is clamped so maximum map/timeline zoom remains usable.
+ */
+
+function getMiniTooltipAutoDuration(connectedObjectCount) {
+  const count = Math.max(1, Number(connectedObjectCount) || 1);
+  const denominator = Math.max(1, MINI_TOOLTIP_OBJECTS_FOR_MAX - 1);
+  const progress = clamp((count - 1) / denominator, 0, 1);
+
+  return Math.round(
+    MINI_TOOLTIP_AUTO_MIN_MS +
+      progress *
+        (MINI_TOOLTIP_AUTO_MAX_MS - MINI_TOOLTIP_AUTO_MIN_MS)
+  );
+}
+
 // Now supports an optional third line for "note"
 const tipHTML = (title, subtitle, note) => `
   <div class="tl-tip-title">${title ?? ""}</div>
   ${subtitle ? `<div class="tl-tip-sub">${subtitle}</div>` : ""}
   ${note ? `<div class="tl-tip-note">${note}</div>` : ""}
 `;
+
+/*
+ * Shared object tooltip layout:
+ * line 1: object name
+ * line 2: date metadata (and author for texts)
+ * line 3: historical/original location, slightly bolder than the date line
+ */
+const hasTooltipValue = (value) => {
+  const text = String(value ?? "").trim();
+  return !!text && text !== "-" && text !== "—";
+};
+
+const objectTipHTML = (title, dateLineHTML, location) => {
+  const locationText = String(location || "").trim();
+
+  return `
+    <div class="tl-tip-title">${title ?? ""}</div>
+    ${
+      dateLineHTML
+        ? `<div class="tl-tip-meta tl-tip-dateLine">${dateLineHTML}</div>`
+        : ""
+    }
+    ${
+      hasTooltipValue(locationText)
+        ? `<div class="tl-tip-meta tl-tip-location" style="font-weight: 600;">${locationText}</div>`
+        : ""
+    }
+  `;
+};
+
+const textObjectTipHTML = (row) => {
+  const dateText = String(
+    row?.displayDate || formatYear(row?.when) || ""
+  ).trim();
+
+  const authorText = String(
+    row?.authorName || row?.Author || row?.["Author"] || ""
+  ).trim();
+
+  const authorHTML = hasTooltipValue(authorText)
+    ? `<span class="tl-tip-author">by ${authorText}</span>`
+    : "";
+
+  const dateHTML = hasTooltipValue(dateText)
+    ? `<span class="tl-tip-date">${dateText}</span>`
+    : "";
+
+  const dateLineHTML = [authorHTML, dateHTML]
+    .filter(Boolean)
+    .join('<span class="tl-tip-metaDivider" aria-hidden="true"> · </span>');
+
+  return objectTipHTML(
+    row?.title || "",
+    dateLineHTML,
+    row?.originalLocation ||
+      row?.originalGeographicalLocation ||
+      row?.["Original Geographical Location"] ||
+      ""
+  );
+};
+
+const fatherObjectTipHTML = (row) => {
+  const dobText = String(row?.dob || row?.["D.O.B"] || "").trim();
+  const dodText = String(row?.dod || row?.["D.O.D"] || "").trim();
+
+  const dateRangeText =
+    hasTooltipValue(dobText) && hasTooltipValue(dodText)
+      ? `${dobText} – ${dodText}`
+      : hasTooltipValue(dobText)
+        ? dobText
+        : hasTooltipValue(dodText)
+          ? dodText
+          : "";
+
+  const dateLineHTML = hasTooltipValue(dateRangeText)
+    ? `<span class="tl-tip-date">${dateRangeText}</span>`
+    : "";
+
+  return objectTipHTML(
+    row?.name || "",
+    dateLineHTML,
+    row?.location ||
+      row?.originalLocation ||
+      row?.Location ||
+      ""
+  );
+};
+
+/*
+ * Tooltip borders use the same mean-color logic as cross-system
+ * connection lines. A one-system object simply keeps its own color.
+ */
+function meanObjectColors(colors) {
+  const valid = (Array.isArray(colors) ? colors : [colors])
+    .map((color) => String(color || "").trim())
+    .filter(Boolean);
+
+  if (!valid.length) return "#777777";
+
+  return valid.slice(1).reduce(
+    (mixed, color) => _meanHex(mixed, color) || mixed,
+    valid[0]
+  );
+}
+
+function objectTooltipAccent(row) {
+  const colors =
+    Array.isArray(row?.colors) && row.colors.length
+      ? row.colors
+      : [row?.color];
+
+  return meanObjectColors(colors);
+}
 
 /* ===== Small utils ===== */
 const hashString = (str) => {
@@ -445,12 +758,24 @@ function fatherBorderStrokeWidth(r) {
   return Math.max(1, r * 0.08); // THINNER, tweak multiplier as needed
 }
 
-function computePinHeadGeometry(cx, cy, rHead) {
+function computePinHeadGeometry(
+  cx,
+  cy,
+  rHead,
+  fixedHeadRadius = null
+) {
   const MIN_R = 10;
   const MAX_R = 22;
 
   const scaled = (rHead || MIN_R) * 3;
-  const R = Math.max(MIN_R, Math.min(MAX_R, scaled));
+
+  /*
+   * Selected pins pass a direct screen-space radius here. Other pin types,
+   * such as card-hover pins, keep their existing computed/clamped sizing.
+   */
+  const R = Number.isFinite(fixedHeadRadius)
+    ? Math.max(1, fixedHeadRadius)
+    : Math.max(MIN_R, Math.min(MAX_R, scaled));
 
   const OFFSET_Y = R * 1.8;
 
@@ -466,8 +791,19 @@ function computePinHeadGeometry(cx, cy, rHead) {
 
 
 
-function pinPathD(cx, cy, rHead) {
-  const { cxHead, cyHead, R } = computePinHeadGeometry(cx, cy, rHead);
+function pinPathD(
+  cx,
+  cy,
+  rHead,
+  fixedHeadRadius = null
+) {
+  const { cxHead, cyHead, R } =
+    computePinHeadGeometry(
+      cx,
+      cy,
+      rHead,
+      fixedHeadRadius
+    );
 
   const topY   = cyHead - R;        // top of head
   const tipY   = cyHead + R * 1.8;  // bottom tip of the drop
@@ -569,6 +905,43 @@ function getLooseField(obj, targetKey) {
     if (k && k.trim().toLowerCase() === want) return obj[k];
   }
   return undefined;
+}
+
+// Read an optional numeric dataset field without turning an empty string into 0.
+function getOptionalFiniteNumber(obj, ...candidateKeys) {
+  for (const key of candidateKeys) {
+    const raw = getLooseField(obj, key);
+
+    if (raw == null || String(raw).trim() === "") continue;
+
+    const value = Number(raw);
+    if (Number.isFinite(value)) return value;
+  }
+
+  return null;
+}
+
+function hasMapCoordinates(entry) {
+  if (!entry) return false;
+
+  const latitude =
+    entry.Latitude ?? entry.latitude ?? entry.lat;
+  const longitude =
+    entry.Longitude ?? entry.longitude ?? entry.lng ?? entry.lon;
+
+  if (
+    latitude == null ||
+    longitude == null ||
+    String(latitude).trim() === "" ||
+    String(longitude).trim() === ""
+  ) {
+    return false;
+  }
+
+  return (
+    Number.isFinite(Number(latitude)) &&
+    Number.isFinite(Number(longitude))
+  );
 }
 
 // ---- Connection line colors: duration color (same band) or mean (cross-band) ----
@@ -1558,38 +1931,44 @@ function buildTextConnectionItems(subject, allConnections) {
   const subjectId = subject.id;
   const subjectName = subject.title || "";
 
-  // Aggregated textual connections (store x for chronology)
-  const implicitInformedTargets = [];    // subject is secondary: "implicitly informed by X, Y"
-  const explicitInformedByTargets = [];  // subject is secondary: "explicitly informed by X, Y"
+  // Aggregated textual connections
+  const implicitInformedTargets = [];
+  const explicitInformedByTargets = [];
 
-  const implicitInformsTargets = [];     // subject is primary: "implicitly informs X, Y"
-  const explicitInformsTargets = [];     // subject is primary: "explicitly informs X, Y"
+  const implicitInformsTargets = [];
+  const explicitInformsTargets = [];
 
   // Comparative split by direction
-  const comparativeSecondaryTargets = []; // subject is secondary (B): "shares a comparative framework with an earlier text X, Y"
-  const comparativePrimaryTargets = [];   // subject is primary (A): "provides an earlier comparative framework for X, Y"
+  const comparativeSecondaryTargets = [];
+  const comparativePrimaryTargets = [];
 
-  const textualOther = [];               // fallback explicit/comparative etc. that we don't aggregate
+  // Part-of relationship split by direction
+  // Primary text contains the secondary text.
+  const containedWithinTargets = []; // subject is secondary
+  const containsTargets = [];        // subject is primary
 
-  // father→text explicit references ("Connections with Mythic/Historic Figures")
+  const textualOther = [];
+
+  // Father → text connections
   const fatherRefs = [];
   const fatherRelates = [];
 
-  // Helper to turn raw x into a finite number or null
   const normX = (raw) => {
     const v = Number(raw ?? NaN);
     return Number.isFinite(v) ? v : null;
   };
 
-  // Helper for target-level chronological sort
   const compareByX = (a, b) => {
     const ax = normX(a.x);
     const bx = normX(b.x);
+
     const aOk = ax !== null;
     const bOk = bx !== null;
+
     if (aOk && bOk) return ax - bx;
     if (aOk) return -1;
     if (bOk) return 1;
+
     return 0;
   };
 
@@ -1597,8 +1976,9 @@ function buildTextConnectionItems(subject, allConnections) {
   for (const c of allConnections) {
     const rawCat = c.category || "";
     const category = String(rawCat).toLowerCase().trim();
-    const rawNote = (c.note || "").trim();
-    const hasNote = !!rawNote && rawNote !== "-";
+
+    const rawNote = String(c.note || "").trim();
+    const hasNote = rawNote !== "" && rawNote !== "-";
 
     const aIsText = c.aType === "text";
     const bIsText = c.bType === "text";
@@ -1614,44 +1994,32 @@ function buildTextConnectionItems(subject, allConnections) {
         const otherSide = isSubjectA ? "b" : "a";
 
         const otherName = c[`${otherSide}Name`] || "";
-        const otherId   = c[`${otherSide}Id`];
+        const otherId = c[`${otherSide}Id`];
         const otherType = c[`${otherSide}Type`];
 
-        // Chronological position of the OTHER text on the timeline
         let otherX = null;
+
         if (isSubjectA && !isSubjectB) {
-          // subject is A, other is B
           otherX = normX(c.bx);
         } else if (isSubjectB && !isSubjectA) {
-          // subject is B, other is A
           otherX = normX(c.ax);
-        } else {
-          // weird symmetric case, treat as unknown
-          otherX = null;
         }
 
-        // --- Directional semantics for "indirect connection" ---
+        const target = {
+          type: otherType,
+          id: otherId,
+          name: otherName,
+          note: hasNote ? rawNote : "",
+          x: otherX,
+        };
+
+        // --- Indirect connection ---
         if (category === "indirect connection") {
           if (isSubjectB && !isSubjectA) {
-            // Subject is on secondary side -> implicitly informed by primary
-            implicitInformedTargets.push({
-              type: otherType,
-              id: otherId,
-              name: otherName,
-              note: hasNote ? rawNote : "",
-              x: otherX,
-            });
+            implicitInformedTargets.push(target);
           } else if (isSubjectA && !isSubjectB) {
-            // Subject is on primary side -> implicitly informs secondary
-            implicitInformsTargets.push({
-              type: otherType,
-              id: otherId,
-              name: otherName,
-              note: hasNote ? rawNote : "",
-              x: otherX,
-            });
+            implicitInformsTargets.push(target);
           } else {
-            // Fallback (shouldn't normally happen): symmetric wording
             textualOther.push({
               section: "textual",
               textBefore: `${subjectName} is implicitly related to `,
@@ -1663,7 +2031,7 @@ function buildTextConnectionItems(subject, allConnections) {
                   note: hasNote ? rawNote : "",
                 },
               ],
-              note: hasNote ? rawNote : "",
+              note: "",
               _sortX: otherX,
             });
           }
@@ -1671,28 +2039,13 @@ function buildTextConnectionItems(subject, allConnections) {
           continue;
         }
 
-        // --- Explicit reference between texts (directional) ---
+        // --- Explicit reference ---
         if (category === "explicit reference") {
           if (isSubjectB && !isSubjectA) {
-            // Subject is on secondary side -> explicitly informed by primary
-            explicitInformedByTargets.push({
-              type: otherType,
-              id: otherId,
-              name: otherName,
-              note: hasNote ? rawNote : "",
-              x: otherX,
-            });
+            explicitInformedByTargets.push(target);
           } else if (isSubjectA && !isSubjectB) {
-            // Subject is on primary side -> explicitly informs secondary
-            explicitInformsTargets.push({
-              type: otherType,
-              id: otherId,
-              name: otherName,
-              note: hasNote ? rawNote : "",
-              x: otherX,
-            });
+            explicitInformsTargets.push(target);
           } else {
-            // Fallback (shouldn't normally happen): symmetric wording
             textualOther.push({
               section: "textual",
               textBefore: `${subjectName} is explicitly related to `,
@@ -1704,7 +2057,7 @@ function buildTextConnectionItems(subject, allConnections) {
                   note: hasNote ? rawNote : "",
                 },
               ],
-              note: hasNote ? rawNote : "",
+              note: "",
               _sortX: otherX,
             });
           }
@@ -1712,28 +2065,13 @@ function buildTextConnectionItems(subject, allConnections) {
           continue;
         }
 
-        // --- Comparative connections (directional aggregation) ---
+        // --- Comparative connection ---
         if (category === "comparative connection") {
           if (isSubjectB && !isSubjectA) {
-            // Subject is the secondary text: later text, pointing back to earlier primary
-            comparativeSecondaryTargets.push({
-              type: otherType,
-              id: otherId,
-              name: otherName,
-              note: hasNote ? rawNote : "",
-              x: otherX,
-            });
+            comparativeSecondaryTargets.push(target);
           } else if (isSubjectA && !isSubjectB) {
-            // Subject is the primary text: earlier text, providing a framework for later ones
-            comparativePrimaryTargets.push({
-              type: otherType,
-              id: otherId,
-              name: otherName,
-              note: hasNote ? rawNote : "",
-              x: otherX,
-            });
+            comparativePrimaryTargets.push(target);
           } else {
-            // Fallback symmetric case
             textualOther.push({
               section: "textual",
               textBefore: `${subjectName} is comparatively related to `,
@@ -1745,7 +2083,7 @@ function buildTextConnectionItems(subject, allConnections) {
                   note: hasNote ? rawNote : "",
                 },
               ],
-              note: hasNote ? rawNote : "",
+              note: "",
               _sortX: otherX,
             });
           }
@@ -1753,83 +2091,89 @@ function buildTextConnectionItems(subject, allConnections) {
           continue;
         }
 
-        // Anything else that slips through (unlikely) could be handled here if needed.
+        // --- Part-of relationship ---
+        //
+        // Primary/A = containing text or collection
+        // Secondary/B = text contained within it
+        //
+        // A card: "contains B"
+        // B card: "is contained within A"
+        if (category === "partof") {
+          if (isSubjectB && !isSubjectA) {
+            containedWithinTargets.push(target);
+          } else if (isSubjectA && !isSubjectB) {
+            containsTargets.push(target);
+          }
+
+          continue;
+        }
       }
 
-      // text↔text handled; skip father logic for this row
+      // Text ↔ text row has been handled.
       continue;
     }
 
-        // ===== 2) FATHER ↔ TEXT (explicit reference + custom connection) =====
-    // We only care about father↔text rows where THIS text is the text side.
+    // ===== 2) FATHER ↔ TEXT =====
     const isExplicit = category === "explicit reference";
-    const isCustom   = category === "custom connection";
+    const isCustom = category === "custom connection";
 
     if (isExplicit || isCustom) {
       const bucket = isExplicit ? fatherRefs : fatherRelates;
 
-      // Case: father on A, text on B (subject)
+      // Father on A, text on B
       if (aIsFather && bIsText && c.bId === subjectId) {
-        const otherName = c.aName || c["aName"] || "";
-        const otherId = c.aId;
-        const otherType = c.aType;
-
-        const otherX = normX(c.ax);
-
         bucket.push({
-          otherId,
-          otherType,
-          otherName,
+          otherId: c.aId,
+          otherType: c.aType,
+          otherName: c.aName || "",
           note: hasNote ? rawNote : "",
-          x: otherX,
+          x: normX(c.ax),
         });
+
         continue;
       }
 
-      // Case: text on A (subject), father on B
+      // Text on A, father on B
       if (bIsFather && aIsText && c.aId === subjectId) {
-        const otherName = c.bName || c["bName"] || "";
-        const otherId = c.bId;
-        const otherType = c.bType;
-
-        const otherX = normX(c.bx);
-
         bucket.push({
-          otherId,
-          otherType,
-          otherName,
+          otherId: c.bId,
+          otherType: c.bType,
+          otherName: c.bName || "",
           note: hasNote ? rawNote : "",
-          x: otherX,
+          x: normX(c.bx),
         });
+
         continue;
       }
     }
-
-    // Any other categories / shapes are ignored here for now.
   }
 
-  // ===== Assemble textual items, chronologically =====
+  // ===== Assemble textual items =====
 
   const textualItems = [];
 
-  // Helper: build a textual row from an aggregated target list
   const makeTextualRow = (textBefore, targetsWithX) => {
     if (!targetsWithX || !targetsWithX.length) return;
 
     const sortedTargets = [...targetsWithX].sort(compareByX);
 
-    const targets = sortedTargets.map((t) => ({
-      type: t.type,
-      id: t.id,
-      name: t.name,
-      note: t.note || "",
+    const targets = sortedTargets.map((target) => ({
+      type: target.type,
+      id: target.id,
+      name: target.name,
+
+      // TextCard uses this target object to render the link and,
+      // when present, the target-specific information button.
+      note: target.note || "",
     }));
 
     let rowSortX = null;
-    for (const t of sortedTargets) {
-      const v = normX(t.x);
-      if (v !== null) {
-        rowSortX = v;
+
+    for (const target of sortedTargets) {
+      const x = normX(target.x);
+
+      if (x !== null) {
+        rowSortX = x;
         break;
       }
     }
@@ -1838,18 +2182,26 @@ function buildTextConnectionItems(subject, allConnections) {
       section: "textual",
       textBefore,
       targets,
-      note: "", // per-target notes only
+
+      // Notes belong to individual targets, not to the full row.
+      note: "",
       _sortX: rowSortX,
     });
   };
 
-  // Subject as secondary (B)
+  // Subject is the secondary text
   if (implicitInformedTargets.length) {
-    makeTextualRow("implicitly informed by ", implicitInformedTargets);
+    makeTextualRow(
+      "implicitly informed by ",
+      implicitInformedTargets
+    );
   }
 
   if (explicitInformedByTargets.length) {
-    makeTextualRow("explicitly informed by ", explicitInformedByTargets);
+    makeTextualRow(
+      "explicitly informed by ",
+      explicitInformedByTargets
+    );
   }
 
   if (comparativeSecondaryTargets.length) {
@@ -1859,13 +2211,26 @@ function buildTextConnectionItems(subject, allConnections) {
     );
   }
 
-  // Subject as primary (A)
+  if (containedWithinTargets.length) {
+    makeTextualRow(
+      "is contained within ",
+      containedWithinTargets
+    );
+  }
+
+  // Subject is the primary text
   if (implicitInformsTargets.length) {
-    makeTextualRow("implicitly informs ", implicitInformsTargets);
+    makeTextualRow(
+      "implicitly informs ",
+      implicitInformsTargets
+    );
   }
 
   if (explicitInformsTargets.length) {
-    makeTextualRow("explicitly informs ", explicitInformsTargets);
+    makeTextualRow(
+      "explicitly informs ",
+      explicitInformsTargets
+    );
   }
 
   if (comparativePrimaryTargets.length) {
@@ -1875,85 +2240,465 @@ function buildTextConnectionItems(subject, allConnections) {
     );
   }
 
-  // Fallback textualOther (already have _sortX)
+  if (containsTargets.length) {
+    makeTextualRow(
+      "contains ",
+      containsTargets
+    );
+  }
+
   for (const row of textualOther) {
     textualItems.push(row);
   }
 
-  // Row-level sort for textual items
   const compareRowsBySortX = (a, b) => {
     const ax = normX(a._sortX);
     const bx = normX(b._sortX);
+
     const aOk = ax !== null;
     const bOk = bx !== null;
+
     if (aOk && bOk) return ax - bx;
     if (aOk) return -1;
     if (bOk) return 1;
+
     return 0;
   };
 
   textualItems.sort(compareRowsBySortX);
 
-  // Strip internal _sortX from textual items
-  const finalTextualItems = textualItems.map(({ _sortX, ...rest }) => rest);
+  const finalTextualItems = textualItems.map(
+    ({ _sortX, ...rest }) => rest
+  );
 
-// ===== Mythic/Historic: father ↔ text (kept as its own block, but sorted inside) =====
-const finalItems = [...finalTextualItems];
+  // ===== Mythic/Historic figure connections =====
 
-// dedupe helper (same father can appear twice if data has duplicates)
-const uniqByOtherId = (arr) => {
-  const seen = new Set();
-  const out = [];
-  for (const e of arr || []) {
-    const k = String(e?.otherId ?? "");
-    if (!k || seen.has(k)) continue;
-    seen.add(k);
-    out.push(e);
+  const finalItems = [...finalTextualItems];
+
+  const uniqByOtherId = (arr) => {
+    const seen = new Set();
+    const out = [];
+
+    for (const entry of arr || []) {
+      const key = String(entry?.otherId ?? "");
+
+      if (!key || seen.has(key)) continue;
+
+      seen.add(key);
+      out.push(entry);
+    }
+
+    return out;
+  };
+
+  // Explicit reference: "mentions ..."
+  if (fatherRefs.length) {
+    const sortedFathers = uniqByOtherId(fatherRefs).sort(compareByX);
+
+    const targets = sortedFathers.map((entry) => ({
+      type: entry.otherType,
+      id: entry.otherId,
+      name: entry.otherName,
+      note: entry.note || "",
+    }));
+
+    finalItems.push({
+      section: "mythic",
+      textBefore: "mentions ",
+      targets,
+      note: "",
+    });
   }
-  return out;
-};
 
-// 1) Explicit reference: fatherRefs -> "mentions ..."
-if (fatherRefs.length) {
-  const sortedFathers = uniqByOtherId(fatherRefs).sort(compareByX);
+  // Custom connection: "relates to ..."
+  if (fatherRelates.length) {
+    const sortedFathers = uniqByOtherId(fatherRelates).sort(compareByX);
 
-  const targets = sortedFathers.map((e) => ({
-    type: e.otherType,
-    id: e.otherId,
-    name: e.otherName,
-    note: e.note || "",
-  }));
+    const targets = sortedFathers.map((entry) => ({
+      type: entry.otherType,
+      id: entry.otherId,
+      name: entry.otherName,
+      note: entry.note || "",
+    }));
 
-  finalItems.push({
-    section: "mythic",
-    textBefore: "mentions ",
-    targets,
-    note: "",
-  });
+    finalItems.push({
+      section: "mythic",
+      textBefore: "relates to ",
+      targets,
+      note: "",
+    });
+  }
+
+  return finalItems;
 }
 
-// 2) Custom connection: fatherRelates -> "relates to ..."
-if (fatherRelates.length) {
-  const sortedFathers = uniqByOtherId(fatherRelates).sort(compareByX);
 
-  const targets = sortedFathers.map((e) => ({
-    type: e.otherType,
-    id: e.otherId,
-    name: e.otherName,
-    note: e.note || "",
-  }));
 
-  finalItems.push({
-    section: "mythic",
-    textBefore: "relates to ",
-    targets,
-    note: "",
-  });
+/* ===== Selected-connection Info Window ===== */
+
+function singularConnectionRole(rawRole) {
+  const role = String(rawRole || "")
+    .trim()
+    .toLowerCase();
+
+  const aliases = {
+    consorts: "consort",
+    siblings: "sibling",
+    brothers: "brother",
+    sisters: "sister",
+    fathers: "father",
+    mothers: "mother",
+    sons: "son",
+    daughters: "daughter",
+  };
+
+  return aliases[role] || role;
 }
 
-return finalItems;
+function roleWithIndefiniteArticle(rawRole) {
+  const role = singularConnectionRole(rawRole);
+  if (!role) return "";
 
+  const article = /^[aeiou]/i.test(role)
+    ? "an"
+    : "a";
+
+  return `${article} ${role}`;
 }
+
+function buildFamilialRelationshipSentence(
+  connection,
+  selectedIsA,
+  subjectName,
+  objectName
+) {
+  const category = String(connection?.category || "")
+    .trim()
+    .toLowerCase();
+
+  const rawRelationship = category
+    .replace(/^familial\s*:\s*/, "")
+    .trim();
+
+  const parts = rawRelationship
+    .split(",")
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  const core = parts[0] || "";
+  const hasConsortQualifier =
+    parts.slice(1).some((part) =>
+      part.includes("consort")
+    ) ||
+    (
+      core.includes("consort") &&
+      core.includes("/")
+    );
+
+  let roleA = "";
+  let roleB = "";
+
+  if (core.includes("/")) {
+    const roleParts = core
+      .split("/")
+      .map((role) => singularConnectionRole(role));
+
+    roleA = roleParts[0] || "";
+    roleB = roleParts[1] || roleA;
+  } else if (core.includes("consort")) {
+    roleA = "consort";
+    roleB = "consort";
+  } else if (core.includes("sibling")) {
+    roleA = "sibling";
+    roleB = "sibling";
+  } else {
+    roleA = singularConnectionRole(core);
+    roleB = roleA;
+  }
+
+  let subjectRole = selectedIsA
+    ? roleA
+    : roleB;
+
+  if (!subjectRole) {
+    return `${subjectName} is related to ${objectName}`;
+  }
+
+  if (
+    hasConsortQualifier &&
+    subjectRole !== "consort"
+  ) {
+    subjectRole = `${subjectRole} and consort`;
+  }
+
+  return `${subjectName} is ${roleWithIndefiniteArticle(
+    subjectRole
+  )} of ${objectName}`;
+}
+
+function buildConnectionRelationshipSentence(
+  connection,
+  selectedType,
+  selectedId
+) {
+  if (!connection || !selectedType || selectedId == null) {
+    return "";
+  }
+
+  const selectedIsA =
+    connection.aType === selectedType &&
+    connection.aId === selectedId;
+
+  const selectedIsB =
+    connection.bType === selectedType &&
+    connection.bId === selectedId;
+
+  if (!selectedIsA && !selectedIsB) return "";
+
+  const subjectType = selectedIsA
+    ? connection.aType
+    : connection.bType;
+
+  const objectType = selectedIsA
+    ? connection.bType
+    : connection.aType;
+
+  const subjectName = selectedIsA
+    ? connection.aName
+    : connection.bName;
+
+  const objectName = selectedIsA
+    ? connection.bName
+    : connection.aName;
+
+  const category = String(connection.category || "")
+    .trim()
+    .toLowerCase();
+
+  const bothFathers =
+    subjectType === "father" &&
+    objectType === "father";
+
+  const bothTexts =
+    subjectType === "text" &&
+    objectType === "text";
+
+  const mixed = !bothFathers && !bothTexts;
+
+  const isExplicit =
+    category === "explicit reference" ||
+    category === "direct reference";
+
+  const isIndirect =
+    category === "indirect connection";
+
+  const isComparative =
+    category === "comparative connection";
+
+  const isSpeculative =
+    category === "speculative connection";
+
+  const isCustom =
+    category === "custom connection";
+
+  const isCognate =
+    category === "cognate connection";
+
+  const isPartOf =
+    category === "partof" ||
+    category === "part of";
+
+  const isSyncretic =
+    category.startsWith("syncretic");
+
+  if (
+    bothFathers &&
+    category.startsWith("familial:")
+  ) {
+    return buildFamilialRelationshipSentence(
+      connection,
+      selectedIsA,
+      subjectName,
+      objectName
+    );
+  }
+
+  if (bothFathers) {
+    if (isSyncretic) {
+      return `${subjectName} was syncretized with ${objectName}`;
+    }
+
+    if (isCognate) {
+      return `${subjectName} is cognate with ${objectName}`;
+    }
+
+    if (isComparative) {
+      return `${subjectName} shares a comparative framework with ${objectName}`;
+    }
+
+    if (isCustom) {
+      return `${subjectName} relates to ${objectName}`;
+    }
+
+    if (isSpeculative) {
+      return `${subjectName} has a speculative connection to ${objectName}`;
+    }
+
+    return `${subjectName} is related to ${objectName}`;
+  }
+
+  if (mixed) {
+    const selectedIsFather =
+      subjectType === "father";
+
+    if (isExplicit) {
+      return selectedIsFather
+        ? `${subjectName} is mentioned in ${objectName}`
+        : `${subjectName} mentions ${objectName}`;
+    }
+
+    if (isIndirect) {
+      return selectedIsFather
+        ? `${subjectName} is indirectly referenced in ${objectName}`
+        : `${subjectName} indirectly references ${objectName}`;
+    }
+
+    if (isCustom) {
+      return `${subjectName} relates to ${objectName}`;
+    }
+
+    if (isComparative) {
+      return `${subjectName} shares a comparative framework with ${objectName}`;
+    }
+
+    if (isCognate) {
+      return `${subjectName} is cognate with ${objectName}`;
+    }
+
+    if (isSpeculative) {
+      return `${subjectName} has a speculative connection to ${objectName}`;
+    }
+
+    return `${subjectName} is related to ${objectName}`;
+  }
+
+  if (bothTexts) {
+    if (isPartOf) {
+      return selectedIsA
+        ? `${subjectName} contains ${objectName}`
+        : `${subjectName} is contained within ${objectName}`;
+    }
+
+    if (isIndirect) {
+      return selectedIsA
+        ? `${subjectName} implicitly informs ${objectName}`
+        : `${subjectName} is implicitly informed by ${objectName}`;
+    }
+
+    if (isExplicit) {
+      return selectedIsA
+        ? `${subjectName} explicitly informs ${objectName}`
+        : `${subjectName} is explicitly informed by ${objectName}`;
+    }
+
+    if (isComparative) {
+      return selectedIsA
+        ? `${subjectName} provides an earlier comparative framework for ${objectName}`
+        : `${subjectName} shares a comparative framework with the earlier text ${objectName}`;
+    }
+
+    if (isCognate) {
+      return `${subjectName} is cognate with ${objectName}`;
+    }
+
+    if (isCustom) {
+      return `${subjectName} relates to ${objectName}`;
+    }
+
+    if (isSpeculative) {
+      return `${subjectName} has a speculative connection to ${objectName}`;
+    }
+
+    return `${subjectName} is related to ${objectName}`;
+  }
+
+  return `${subjectName} is related to ${objectName}`;
+}
+
+function buildConnectionInfoWindowEntries({
+  allConnections,
+  selectedType,
+  selectedId,
+  hoveredType,
+  hoveredId,
+}) {
+  if (
+    !selectedType ||
+    selectedId == null ||
+    !hoveredType ||
+    hoveredId == null
+  ) {
+    return [];
+  }
+
+  return (allConnections || [])
+    .filter((connection) => {
+      const selectedTouchesA =
+        connection.aType === selectedType &&
+        connection.aId === selectedId;
+
+      const selectedTouchesB =
+        connection.bType === selectedType &&
+        connection.bId === selectedId;
+
+      if (!selectedTouchesA && !selectedTouchesB) {
+        return false;
+      }
+
+      const otherType = selectedTouchesA
+        ? connection.bType
+        : connection.aType;
+
+      const otherId = selectedTouchesA
+        ? connection.bId
+        : connection.aId;
+
+      return (
+        otherType === hoveredType &&
+        otherId === hoveredId
+      );
+    })
+    .map((connection) => {
+      const note = String(connection.note || "").trim();
+
+      const selectedIsA =
+        connection.aType === selectedType &&
+        connection.aId === selectedId;
+
+      return {
+        key: connection._key,
+        statement: buildConnectionRelationshipSentence(
+          connection,
+          selectedType,
+          selectedId
+        ),
+        selectedName: selectedIsA
+          ? connection.aName || ""
+          : connection.bName || "",
+        connectedName: selectedIsA
+          ? connection.bName || ""
+          : connection.aName || "",
+        note:
+          note && note !== "-" && note !== "—"
+            ? note
+            : "",
+        category: connection.category || "",
+        color: connection.color || "#777777",
+      };
+    })
+    .filter((entry) => entry.statement);
+}
+
 
 
 /* Build "all selected" default state: { [groupKey]: Set(allTags) } */
@@ -2035,9 +2780,61 @@ export default function Timeline() {
   const textsRef = useRef(null);
   const fathersRef = useRef(null); // FATHERS: new layer ref
   const pinsRef = useRef(null); // NEW: top layer for selected pins
+  // Unclipped SVG overlay for the selected-location dropdown.
+  const locationClusterBranchRef = useRef(null);
 
   const connectionsRef = useRef(null);
   const allConnectionRowsRef = useRef([]);
+
+  /*
+   * renderConnections runs outside the D3 setup effect. This ref lets it ask
+   * the selected tooltip to rescore after connection-line geometry changes.
+   */
+  const renderSelectedTooltipRef = useRef(() => {});
+
+  /*
+   * Placement is chosen only once for each selected object in each view.
+   * During drag/zoom, only the anchor coordinates change.
+   */
+  const selectedTooltipPlacementRef = useRef({
+    layoutKey: null,
+    placement: null,
+    width: 0,
+    height: 0,
+  });
+
+  const miniTooltipPlacementsRef = useRef(new Map());
+
+  /*
+   * Mini-tooltip sequence state is retained for possible later reuse. The
+   * selected object's main tooltip is now driven by the active zoom tier.
+   */
+  const tooltipSequenceRef = useRef({
+    selectionKey: null,
+    phase: "idle", // idle | selected | mini | hover
+    connectedCount: 0,
+    miniDurationMs: 0,
+  });
+  const tooltipSequenceTimersRef = useRef({
+    main: 0,
+    mini: 0,
+    raf: 0,
+  });
+
+
+  /*
+   * Map View cannot open location branches until geographic clustering has
+   * finished for the newly rendered view. This one-shot flag is consumed by
+   * rebuildGeographicNodePositions after every Map View activation.
+   */
+  const pendingAutoOpenMapClustersRef = useRef(false);
+
+  /*
+   * The tooltip-sequence effect is declared before the cluster callback.
+   * This ref gives its timers a stable way to fold all branches at the end of
+   * the automatic Map View presentation.
+   */
+  const closeLocationClusterBranchRef = useRef(() => {});
 
   const hoveredTextIdRef = useRef(null);
   const hoveredFatherIdRef = useRef(null);
@@ -2057,6 +2854,41 @@ export default function Timeline() {
 
   const relevantTextIdsRef = useRef(new Set());
   const relevantFatherIdsRef = useRef(new Set());
+
+  /*
+   * Map View positions, stored in the chart group's local SVG coordinates.
+   * Only the selected one-hop neighborhood is present here.
+   */
+  const geographicNodePositionsRef = useRef({
+    text: new Map(),
+    father: new Map(),
+  });
+
+  /*
+   * Map-location cluster state stays outside React's render cycle.
+   * One cluster may be attached to the selected pin, while additional clusters
+   * represent two or more connected objects sharing another projected location.
+   */
+  const selectedLocationClusterRef = useRef({
+    key: null,
+    selectedType: null,
+    selectedId: null,
+    selectedPoint: null,
+    locationLabel: "",
+    entries: [],
+  });
+  const connectedLocationClustersRef = useRef([]);
+
+  // Normal markers for every clustered object are hidden. Only selected-location
+  // members suppress their original zero-length connection lines.
+  const clusteredNodeKeysRef = useRef(new Set());
+  const connectionSuppressedNodeKeysRef = useRef(new Set());
+
+  // Each location cluster keeps its own open/closed state while one object is
+  // selected. Selection changes clear the set and restore every control to its
+  // folded/downward state.
+  const locationClusterOpenRef = useRef(false);
+  const openLocationClusterKeysRef = useRef(new Set());
 
   // PERF: gate expensive bulk style updates (opacity/dimming) so they only rerun when tier/selection changes
   const lastStyleStateRef = useRef({ zoomMode: null, key: "" });
@@ -2130,6 +2962,7 @@ function logRenderedCounts(reason = "") {
   const [showTexts, setShowTexts] = useState(true);
   const [showFathers, setShowFathers] = useState(true);
   const [showConnections, setShowConnections] = useState(true);
+  const [showMap, setShowMap] = useState(false);
   // Keep a ref so RAF/D3 handlers always see the latest mode (no stale closures)
   const layerModeRef = useRef(layerMode);
   useEffect(() => {
@@ -2161,8 +2994,234 @@ function logRenderedCounts(reason = "") {
 // Start at 0 so we don't render the SVG with a fake size before ResizeObserver fires.
 const [size, setSize] = useState({ width: 0, height: 0 });
   const [selectedText, setSelectedText] = useState(null);
-  // Hover target from links inside TextCard/FatherCard (secondary pin)
-  const [hoverPinTarget, setHoverPinTarget] = useState(null);
+  // Hover target from links inside TextCard/FatherCard.
+  // The ref updates D3 immediately; the matching state also drives the
+  // React-rendered connection Info Window.
+  const hoverPinTargetRef = useRef(null);
+  const [cardHoveredTarget, setCardHoveredTarget] = useState(null);
+
+  function getSelectedFocusTarget() {
+    return (
+      hoveredTimelineTargetRef.current ||
+      hoverPinTargetRef.current ||
+      null
+    );
+  }
+
+  function selectedNeighborhoodOpacity(type, id) {
+    if (!selectedText && !selectedFather) return BASE_OPACITY;
+
+    const selectedType = selectedText ? "text" : "father";
+    const selectedId = selectedText?.id ?? selectedFather?.id ?? null;
+
+    // The selected object's ordinary icon stays hidden behind its pin.
+    if (type === selectedType && id === selectedId) return 0;
+
+    const activeTarget = getSelectedFocusTarget();
+    if (!activeTarget) return BASE_OPACITY;
+
+    return activeTarget.type === type && activeTarget.id === id
+      ? BASE_OPACITY
+      : DIM_NODE_OPACITY;
+  }
+
+  function syncSelectedNeighborhoodFocus() {
+    if (textsRef.current) {
+      const textRoot = d3.select(textsRef.current);
+
+      textRoot
+        .selectAll("circle.textDot")
+        .style(
+          "opacity",
+          (row) => selectedNeighborhoodOpacity("text", row?.id),
+          "important"
+        );
+
+      textRoot
+        .selectAll("g.dotSlices")
+        .style(
+          "opacity",
+          (row) => selectedNeighborhoodOpacity("text", row?.id),
+          "important"
+        );
+    }
+
+    if (fathersRef.current) {
+      d3.select(fathersRef.current)
+        .selectAll("g.fatherMark")
+        .style(
+          "opacity",
+          (row) => selectedNeighborhoodOpacity("father", row?.id),
+          "important"
+        );
+    }
+
+    if (pinsRef.current) {
+      const activeTarget = getSelectedFocusTarget();
+      const pinsRoot = d3.select(pinsRef.current);
+
+      const clusterContainsTarget = (cluster) =>
+        !!activeTarget &&
+        Array.isArray(cluster?.entries) &&
+        cluster.entries.some(
+          (entry) =>
+            entry?.type === activeTarget.type &&
+            entry?.id === activeTarget.id
+        );
+
+      // The selected pin itself always remains fully visible.
+      pinsRoot
+        .selectAll("g.textPin, g.fatherPin")
+        .style("opacity", BASE_OPACITY);
+
+      /*
+       * Disclosure controls participate in the same selected-neighbour focus
+       * treatment as ordinary connected objects. While one object is hovered,
+       * keep only the triangle belonging to that object's location prominent.
+       */
+      pinsRoot
+        .selectAll("g.connectedLocationClusterControl")
+        .each(function (cluster) {
+          const keepProminent =
+            !activeTarget || clusterContainsTarget(cluster);
+          const control = d3.select(this);
+
+          control.style(
+            "opacity",
+            keepProminent ? BASE_OPACITY : DIM_NODE_OPACITY
+          );
+
+          control
+            .select("path.tl-pin-cluster-button")
+            .style(
+              "pointer-events",
+              keepProminent ? "all" : "none"
+            );
+        });
+
+      const selectedCluster = selectedLocationClusterRef.current;
+      const keepSelectedClusterControl =
+        !activeTarget || clusterContainsTarget(selectedCluster);
+
+      pinsRoot
+        .selectAll("g.textPin, g.fatherPin")
+        .each(function () {
+          const pin = d3.select(this);
+          const controlOpacity = keepSelectedClusterControl
+            ? BASE_OPACITY
+            : DIM_NODE_OPACITY;
+
+          pin
+            .select("path.tl-pin-cluster-button")
+            .style("opacity", controlOpacity)
+            .style(
+              "pointer-events",
+              keepSelectedClusterControl ? "all" : "none"
+            );
+
+          pin
+            .select("text.tl-pin-cluster-count")
+            .style("opacity", controlOpacity);
+        });
+    }
+
+    if (locationClusterBranchRef.current) {
+      const activeTarget = getSelectedFocusTarget();
+      const branchLayer = d3.select(locationClusterBranchRef.current);
+
+      /*
+       * Segment data is ordered from the disclosure button downward. Therefore
+       * a hovered lower item must retain every segment whose index is less than
+       * or equal to the hovered item's index. Doing this per branch also avoids
+       * a hovered object in one location brightening a different open branch.
+       */
+      branchLayer
+        .selectAll("g.locationClusterBranch")
+        .each(function () {
+          const branch = d3.select(this);
+          const segments = branch.selectAll(
+            "line.locationClusterBranch__segment"
+          );
+          const segmentEntries = segments.data();
+          const activeBranchIndex = activeTarget
+            ? segmentEntries.findIndex(
+                (entry) =>
+                  entry?.type === activeTarget.type &&
+                  entry?.id === activeTarget.id
+              )
+            : -1;
+
+          segments.attr("stroke-opacity", (_entry, index) => {
+            if (!activeTarget) {
+              return CONNECTION_HIGHLIGHT_OPACITY;
+            }
+
+            if (activeBranchIndex < 0) {
+              return CONNECTION_SELECTED_DIM_OPACITY;
+            }
+
+            return index <= activeBranchIndex
+              ? CONNECTION_HIGHLIGHT_OPACITY
+              : CONNECTION_SELECTED_DIM_OPACITY;
+          });
+
+          branch
+            .selectAll("g.locationClusterBranch__item")
+            .style("opacity", (entry) => {
+              if (!activeTarget) return BASE_OPACITY;
+
+              return activeTarget.type === entry?.type &&
+                activeTarget.id === entry?.id
+                ? BASE_OPACITY
+                : DIM_NODE_OPACITY;
+            });
+        });
+    }
+  }
+
+  function setCardLinkHoverTarget(nextTarget) {
+    hoverPinTargetRef.current = nextTarget;
+
+    setCardHoveredTarget((previous) => {
+      const previousType = previous?.type ?? null;
+      const previousId = previous?.id ?? null;
+      const nextType = nextTarget?.type ?? null;
+      const nextId = nextTarget?.id ?? null;
+
+      if (
+        previousType === nextType &&
+        previousId === nextId
+      ) {
+        return previous;
+      }
+
+      return nextTarget;
+    });
+
+    if (wrapRef.current) {
+      d3.select(wrapRef.current)
+        .selectAll("div.tl-mini-tooltip")
+        .classed(
+          "is-card-link-hover",
+          (entry) =>
+            !!nextTarget &&
+            nextTarget.type === entry?.type &&
+            nextTarget.id === entry?.id
+        );
+    }
+
+    syncSelectedNeighborhoodFocus();
+    scheduleCurrentConnectionRender();
+
+    // Show the matching mini-tooltip immediately.
+    renderSelectedTooltipRef.current?.(true);
+
+    // The selected chronological date guides live inside the D3 layout rather
+    // than React, so card-link hover must explicitly redraw that layer too.
+    if (selectedText || selectedFather) {
+      reapplyCurrentLayoutRef.current?.();
+    }
+  }
 
   // Hover target from hovering actual nodes on the timeline (used to tint links inside cards)
 const [hoveredTimelineTarget, setHoveredTimelineTarget] = useState(null);
@@ -2175,8 +3234,33 @@ useEffect(() => {
 
 // avoid rerender spam when hovering the same thing repeatedly
 const setHoveredTimelineTargetSafe = (next) => {
-  // update ref immediately (important during hover)
+  // Update the ref immediately so D3 hover handlers and the persistent
+  // mini-tooltip layer see the same target without waiting for React.
   hoveredTimelineTargetRef.current = next;
+
+  if (wrapRef.current) {
+    d3.select(wrapRef.current)
+      .selectAll("div.tl-mini-tooltip")
+      .classed(
+        "is-timeline-icon-hover",
+        (entry) =>
+          !!next &&
+          next.type === entry?.type &&
+          next.id === entry?.id
+      );
+  }
+
+  syncSelectedNeighborhoodFocus();
+  scheduleCurrentConnectionRender();
+
+  // Mini-tooltip code remains wired for later reactivation.
+  renderSelectedTooltipRef.current?.(true);
+
+  // Selected chronological guides and their three-tier labels are part of the
+  // D3 layout, so update them immediately on timeline-object enter/leave.
+  if (selectedText || selectedFather) {
+    reapplyCurrentLayoutRef.current?.();
+  }
 
   setHoveredTimelineTarget((prev) => {
     const pType = prev?.type ?? null;
@@ -2204,8 +3288,6 @@ const clearHoveredTimelineTargetSoon = (ms = 60) => {
     setHoveredTimelineTargetSafe(null);
     hoverTL_ClearTimerRef.current = null;
   }, ms);
-  hoveredTimelineTargetRef.current = null;
-  setHoveredTimelineTargetSafe(null);
 };
 
   const [showMore, setShowMore] = useState(false);
@@ -2232,10 +3314,535 @@ useEffect(() => {
   const [selectedFather, setSelectedFather] = useState(null);
   const [fatherCardPos, setFatherCardPos] = useState({ left: 16, top: 16 });
 
+  /*
+   * Keep the sequence infrastructure ready for later use, but for now:
+   * - the selected object's main tooltip is controlled by the zoom tier;
+   * - mini-tooltips never enter an automatic or hover-visible phase;
+   * - Map View location branches do not auto-open for a disabled mini phase.
+   */
+  useEffect(() => {
+    const timers = tooltipSequenceTimersRef.current;
+
+    if (timers.main) clearTimeout(timers.main);
+    if (timers.mini) clearTimeout(timers.mini);
+    if (timers.raf) cancelAnimationFrame(timers.raf);
+
+    timers.main = 0;
+    timers.mini = 0;
+    timers.raf = 0;
+
+    closeLocationClusterBranchRef.current?.();
+    pendingAutoOpenMapClustersRef.current =
+      Boolean(showMap && MINI_TOOLTIPS_ENABLED);
+
+    const selectedType = selectedText
+      ? "text"
+      : selectedFather
+        ? "father"
+        : null;
+
+    const selectedId =
+      selectedText?.id ??
+      selectedFather?.id ??
+      null;
+
+    if (!selectedType || !selectedId) {
+      pendingAutoOpenMapClustersRef.current = false;
+
+      tooltipSequenceRef.current = {
+        selectionKey: null,
+        phase: "idle",
+        connectedCount: 0,
+        miniDurationMs: 0,
+      };
+
+      renderSelectedTooltipRef.current?.(false);
+      return undefined;
+    }
+
+    const selectionKey = `${selectedType}:${selectedId}`;
+    const connectedKeys = new Set();
+
+    for (const row of allConnectionRowsRef.current || []) {
+      const aHit =
+        row.aType === selectedType &&
+        row.aId === selectedId;
+
+      const bHit =
+        row.bType === selectedType &&
+        row.bId === selectedId;
+
+      if (!aHit && !bHit) continue;
+
+      const otherType = aHit ? row.bType : row.aType;
+      const otherId = aHit ? row.bId : row.aId;
+
+      if (otherType && otherId != null) {
+        connectedKeys.add(`${otherType}:${otherId}`);
+      }
+    }
+
+    const connectedCount = connectedKeys.size;
+
+    tooltipSequenceRef.current = {
+      selectionKey,
+      phase: "hover",
+      connectedCount,
+      miniDurationMs: 0,
+    };
+
+    timers.raf = requestAnimationFrame(() => {
+      timers.raf = 0;
+
+      if (
+        tooltipSequenceRef.current.selectionKey !==
+        selectionKey
+      ) {
+        return;
+      }
+
+      renderSelectedTooltipRef.current?.(true);
+    });
+
+    return () => {
+      if (timers.main) clearTimeout(timers.main);
+      if (timers.mini) clearTimeout(timers.mini);
+      if (timers.raf) cancelAnimationFrame(timers.raf);
+
+      timers.main = 0;
+      timers.mini = 0;
+      timers.raf = 0;
+    };
+  }, [selectedText?.id, selectedFather?.id, showMap]);
+
+  /*
+   * Connected objects and the selected pin use the active view's zoom scale.
+   * Default View reads the timeline zoom; Map View reads TimelineMap's camera.
+   */
+  function getActiveViewZoomK(timelineZoomK = kRef.current) {
+    if (showMapRef.current) {
+      const mapZoom = Number(
+        timelineMapRef.current
+          ?.getViewportTransform?.()
+          ?.k
+      );
+
+      if (Number.isFinite(mapZoom)) return mapZoom;
+    }
+
+    const fallback = Number(timelineZoomK);
+    return Number.isFinite(fallback) ? fallback : 1;
+  }
+
+  /*
+   * Single visual zoom used by every timeline object in every mode.
+   * Default View already uses the visual scale directly. Map View is normalized
+   * so its maximum camera zoom maps to Default View's maximum visual zoom.
+   */
+  function getObjectSizingZoomK(timelineZoomK = kRef.current) {
+    const activeZoom = getActiveViewZoomK(timelineZoomK);
+
+    if (showMapRef.current) {
+      return clamp(
+        (activeZoom / OBJECT_SIZE_MAP_MAX_CAMERA_ZOOM) *
+          OBJECT_SIZE_MAX_VISUAL_ZOOM,
+        0,
+        OBJECT_SIZE_MAX_VISUAL_ZOOM
+      );
+    }
+
+    return clamp(activeZoom, 0, OBJECT_SIZE_MAX_VISUAL_ZOOM);
+  }
+
+  function getSelectedPinHeadRadius(timelineZoomK = kRef.current) {
+    const visualZoom = getObjectSizingZoomK(timelineZoomK);
+    return Math.max(
+      SELECTED_PIN_HEAD_RADIUS_MIN,
+      SELECTED_PIN_HEAD_RADIUS_AT_MAX_ZOOM *
+        (visualZoom / OBJECT_SIZE_MAX_VISUAL_ZOOM)
+    );
+  }
+
+
+  /*
+   * A directly connected object remains visually emphasized, but now scales
+   * with the active Default/Map View zoom instead of staying fixed-size.
+   * The selected object itself is excluded because it is represented by the
+   * larger selected pin.
+   */
+  const isConnectedTextObject = (row) => {
+    if (!row || (!selectedText && !selectedFather)) return false;
+    if (selectedText?.id === row.id) return false;
+    return relevantTextIdsRef.current.has(row.id);
+  };
+
+  const isConnectedFatherObject = (row) => {
+    if (!row || (!selectedText && !selectedFather)) return false;
+    if (selectedFather?.id === row.id) return false;
+    return relevantFatherIdsRef.current.has(row.id);
+  };
+
+  const getTextObjectRadius = (row, zoomK) =>
+    textBaseR(row) * getObjectSizingZoomK(zoomK);
+
+  const getFatherObjectRadius = (row, zoomK) =>
+    getFatherBaseR(row) * getObjectSizingZoomK(zoomK) * FATHER_SIZE_SCALE;
+
+  const getTextObjectHoverScale = (row) =>
+    isConnectedTextObject(row)
+      ? CONNECTED_OBJECT_HOVER_SCALE
+      : HOVER_SCALE_DOT;
+
+  const getFatherObjectHoverScale = (row) =>
+    isConnectedFatherObject(row)
+      ? CONNECTED_OBJECT_HOVER_SCALE
+      : HOVER_SCALE_FATHER;
+
+  const selectedMapEntry = selectedText || selectedFather;
+  const selectedMapAvailable = hasMapCoordinates(selectedMapEntry);
+
+  // A map is meaningful only while a coordinate-bearing card is open.
+  // Keep Map View on while navigating between mapped entries, but reset it
+  // when the card closes or navigation reaches an entry without coordinates.
+  useEffect(() => {
+    if (!selectedMapEntry || !selectedMapAvailable) {
+      setShowMap(false);
+    }
+  }, [selectedMapEntry, selectedMapAvailable]);
+
+  /*
+   * TimelineMap owns a persistent geographic viewport.
+   *
+   * We measure the selected pin only to establish the initial map center when
+   * Map View opens. Dragging, zooming, and later selection changes never route
+   * through React state and never recenter the geographic camera.
+   */
+  const timelineMapRef = useRef(null);
+  const selectedPinScreenPositionRef = useRef(null);
+  const selectedPinPositionRafRef = useRef(0);
+  const selectedPinSettleTimerRef = useRef(0);
+  const mapProjectionRafRef = useRef(0);
+  const reapplyCurrentLayoutRef = useRef(() => {});
+
+  /*
+   * When switching views, remember the selected pin's browser position.
+   * The destination camera is then translated so the pin remains under the
+   * same screen pixel instead of jumping.
+   */
+  const pendingViewSwitchRef = useRef(null);
+  const viewSwitchAlignmentRafRef = useRef(0);
+
+  const showMapRef = useRef(showMap);
+  const selectedMapAvailableRef = useRef(selectedMapAvailable);
+  showMapRef.current = showMap;
+  selectedMapAvailableRef.current = selectedMapAvailable;
+
+  function getGeographicNodePosition(type, id) {
+    if (!showMapRef.current) return null;
+
+    const bucket =
+      type === "father"
+        ? geographicNodePositionsRef.current.father
+        : geographicNodePositionsRef.current.text;
+
+    return bucket.get(id) || null;
+  }
+
+  function readSelectedPinTipClient() {
+    const selectedPinPath = pinsRef.current?.querySelector(
+      "g.textPin path.tl-pin-body, g.fatherPin path.tl-pin-body"
+    );
+
+    if (!selectedPinPath) return null;
+
+    const rect = selectedPinPath.getBoundingClientRect();
+
+    const clientX = rect.left + rect.width / 2;
+    const clientY = rect.bottom;
+
+    if (
+      !Number.isFinite(clientX) ||
+      !Number.isFinite(clientY)
+    ) {
+      return null;
+    }
+
+    return { clientX, clientY };
+  }
+
+  const closeLocationClusterBranch = useCallback((clusterKey = null) => {
+    const openKeys = openLocationClusterKeysRef.current;
+
+    if (clusterKey) {
+      openKeys.delete(clusterKey);
+    } else {
+      openKeys.clear();
+    }
+
+    locationClusterOpenRef.current = openKeys.size > 0;
+
+    if (locationClusterBranchRef.current) {
+      const branchLayer = d3.select(locationClusterBranchRef.current);
+
+      if (clusterKey) {
+        branchLayer
+          .selectAll("g.locationClusterBranch")
+          .filter((cluster) => cluster?.key === clusterKey)
+          .remove();
+      } else {
+        branchLayer
+          .selectAll("g.locationClusterBranch")
+          .remove();
+      }
+
+      if (!locationClusterOpenRef.current) {
+        branchLayer
+          .style("display", "none")
+          .attr("aria-hidden", "true");
+      }
+    }
+
+    if (pinsRef.current) {
+      d3.select(pinsRef.current)
+        .selectAll("path.tl-pin-cluster-button")
+        .each(function () {
+          const button = d3.select(this);
+          const key = button.attr("data-cluster-key");
+          const isOpen = !!key && openKeys.has(key);
+          const cx = Number(button.attr("data-cx"));
+          const cy = Number(button.attr("data-cy"));
+
+          const selectedCluster = selectedLocationClusterRef.current;
+          const cluster =
+            selectedCluster?.key === key
+              ? selectedCluster
+              : connectedLocationClustersRef.current.find(
+                  (candidate) => candidate?.key === key
+                );
+          const clusterCount = Array.isArray(cluster?.entries)
+            ? cluster.entries.length
+            : 0;
+
+          button
+            .classed("is-open", isOpen)
+            .attr("aria-expanded", isOpen ? "true" : "false")
+            .attr(
+              "aria-label",
+              isOpen
+                ? `Hide ${clusterCount} connected objects at this location`
+                : `Show ${clusterCount} connected objects at this location`
+            );
+
+          if (Number.isFinite(cx) && Number.isFinite(cy)) {
+            button.attr(
+              "d",
+              locationClusterTrianglePath(
+                cx,
+                cy,
+                isOpen
+                  ? LOCATION_CLUSTER_EXPANDED_RADIUS
+                  : LOCATION_CLUSTER_COLLAPSED_RADIUS,
+                isOpen
+              )
+            );
+          }
+
+          const control = d3.select(this.parentNode);
+          control
+            .select("text.tl-pin-cluster-count")
+            .style("display", isOpen ? "none" : null);
+        });
+    }
+
+    renderSelectedTooltipRef.current?.(true);
+  }, []);
+
+  closeLocationClusterBranchRef.current = closeLocationClusterBranch;
+
+  /*
+   * Branches remain open until their own triangle is pressed. Escape is the
+   * one global user action that folds every open branch.
+   */
+  useEffect(() => {
+    const onDocumentKeyDown = (event) => {
+      if (event.key === "Escape") {
+        closeLocationClusterBranch();
+      }
+    };
+
+    document.addEventListener("keydown", onDocumentKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", onDocumentKeyDown);
+    };
+  }, [closeLocationClusterBranch]);
+
+  /*
+   * A new selection, closing the card, or leaving Map View starts closed.
+   */
+  useEffect(() => {
+    closeLocationClusterBranch();
+    selectedLocationClusterRef.current = {
+      key: null,
+      selectedType: null,
+      selectedId: null,
+      selectedPoint: null,
+      locationLabel: "",
+      entries: [],
+    };
+    connectedLocationClustersRef.current = [];
+    clusteredNodeKeysRef.current = new Set();
+    connectionSuppressedNodeKeysRef.current = new Set();
+  }, [
+    selectedText?.id,
+    selectedFather?.id,
+    showMap,
+    closeLocationClusterBranch,
+  ]);
+
+  const handleMapProjectionChange = useCallback(() => {
+    if (mapProjectionRafRef.current) return;
+
+    mapProjectionRafRef.current = requestAnimationFrame(() => {
+      mapProjectionRafRef.current = 0;
+      reapplyCurrentLayoutRef.current?.();
+    });
+  }, []);
+
+  function clearSelectedPinScreenPosition() {
+    selectedPinScreenPositionRef.current = null;
+    timelineMapRef.current?.resetViewport?.();
+  }
+
+  function scheduleSelectedPinScreenPositionFromDom(
+    reason = "apply"
+  ) {
+    if (!showMapRef.current) return;
+
+    const mapApi = timelineMapRef.current;
+    if (mapApi?.isViewportInitialized?.()) return;
+
+    if (selectedPinPositionRafRef.current) return;
+
+    selectedPinPositionRafRef.current = requestAnimationFrame(() => {
+      selectedPinPositionRafRef.current = 0;
+
+      if (!showMapRef.current) return;
+
+      const currentMapApi = timelineMapRef.current;
+      if (currentMapApi?.isViewportInitialized?.()) return;
+
+      const pendingSwitch =
+        pendingViewSwitchRef.current;
+
+      const measuredPinTip = readSelectedPinTipClient();
+
+      const next =
+        pendingSwitch?.targetShowMap === true &&
+        pendingSwitch.anchor
+          ? pendingSwitch.anchor
+          : measuredPinTip;
+
+      if (!next) return;
+
+      const roundedNext = {
+        clientX:
+          Math.round(next.clientX * 10) / 10,
+        clientY:
+          Math.round(next.clientY * 10) / 10,
+      };
+
+      selectedPinScreenPositionRef.current = roundedNext;
+
+      const initialized =
+        currentMapApi?.ensureViewportInitialized?.(
+          roundedNext
+        );
+
+      if (
+        initialized &&
+        pendingSwitch?.targetShowMap === true
+      ) {
+        pendingViewSwitchRef.current = null;
+      }
+
+      if (DEBUG_MAP_SYNC) {
+        console.log("[MAP VIEWPORT INITIALIZED]", {
+          reason,
+          selectedType:
+            selectedText
+              ? "text"
+              : selectedFather
+                ? "father"
+                : null,
+          selectedId:
+            selectedText?.id ??
+            selectedFather?.id ??
+            null,
+          measuredPinTipScreen: roundedNext,
+        });
+      }
+    });
+  }
+
+  // Initialize on Map View open; selection changes become no-ops once initialized.
+  useEffect(() => {
+    if (selectedPinSettleTimerRef.current) {
+      clearTimeout(selectedPinSettleTimerRef.current);
+      selectedPinSettleTimerRef.current = 0;
+    }
+
+    if (
+      !showMap ||
+      !selectedMapAvailable ||
+      (!selectedText && !selectedFather)
+    ) {
+      clearSelectedPinScreenPosition();
+      return undefined;
+    }
+
+    scheduleSelectedPinScreenPositionFromDom("map-or-selection");
+    selectedPinSettleTimerRef.current = setTimeout(() => {
+      selectedPinSettleTimerRef.current = 0;
+      scheduleSelectedPinScreenPositionFromDom("pin-animation-settled");
+    }, 280);
+
+    return () => {
+      if (selectedPinSettleTimerRef.current) {
+        clearTimeout(selectedPinSettleTimerRef.current);
+        selectedPinSettleTimerRef.current = 0;
+      }
+    };
+  }, [
+    showMap,
+    selectedMapAvailable,
+    selectedText?.id,
+    selectedFather?.id,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      if (selectedPinPositionRafRef.current) {
+        cancelAnimationFrame(selectedPinPositionRafRef.current);
+      }
+      if (selectedPinSettleTimerRef.current) {
+        clearTimeout(selectedPinSettleTimerRef.current);
+      }
+      if (mapProjectionRafRef.current) {
+        cancelAnimationFrame(mapProjectionRafRef.current);
+      }
+      if (viewSwitchAlignmentRafRef.current) {
+        cancelAnimationFrame(
+          viewSwitchAlignmentRafRef.current
+        );
+      }
+    };
+  }, []);
+
   // If nothing is selected (no card open), there is nowhere to hover-link from.
   useEffect(() => {
-    if (!selectedText && !selectedFather && hoverPinTarget) {
-      setHoverPinTarget(null);
+    if (!selectedText && !selectedFather) {
+      setCardLinkHoverTarget(null);
     }
   }, [selectedText, selectedFather]);
 
@@ -2256,6 +3863,178 @@ const closeAllAnimated = () => {
 
 const modalOpen = !!selectedText || !!selectedFather;
 const lastTransformRef = useRef(null);
+
+/*
+ * Clicking a visible chronological object should not move it merely because
+ * selected mode reserves a taller axis area. Store its pre-selection browser
+ * anchor and compensate the zoom transform after the new layout is measured.
+ */
+const pendingSelectionCameraRef = useRef(null);
+
+/* Close an open Filters drawer before the whole control slides offscreen. */
+useEffect(() => {
+  if (!modalOpen) return;
+
+  const panel = wrapRef.current?.querySelector(
+    ".timelineTagPanelHost .tagPanelWrap"
+  );
+
+  if (panel?.classList.contains("tagPanelWrap--open")) {
+    panel.querySelector(".tagPanel__tab")?.click();
+  }
+}, [modalOpen]);
+
+/*
+ * Translate the Default View camera so the newly rendered chronological pin
+ * lands at the same browser position that the geographic pin occupied.
+ * Zoom level remains unchanged.
+ */
+function alignDefaultViewPinToClient(anchorClient) {
+  if (
+    showMapRef.current ||
+    !anchorClient ||
+    !svgRef.current ||
+    !zoomRef.current ||
+    !svgSelRef.current
+  ) {
+    return false;
+  }
+
+  const currentPin = readSelectedPinTipClient();
+  const svgMatrix = svgRef.current.getScreenCTM?.();
+
+  if (!currentPin || !svgMatrix) return false;
+
+  let inverseSvgMatrix;
+  try {
+    inverseSvgMatrix = svgMatrix.inverse();
+  } catch {
+    return false;
+  }
+
+  const desiredLocal = new DOMPoint(
+    anchorClient.clientX,
+    anchorClient.clientY
+  ).matrixTransform(inverseSvgMatrix);
+
+  const currentLocal = new DOMPoint(
+    currentPin.clientX,
+    currentPin.clientY
+  ).matrixTransform(inverseSvgMatrix);
+
+  const dx = desiredLocal.x - currentLocal.x;
+  const dy = desiredLocal.y - currentLocal.y;
+
+  if (!Number.isFinite(dx) || !Number.isFinite(dy)) {
+    return false;
+  }
+
+  if (Math.abs(dx) < 0.05 && Math.abs(dy) < 0.05) {
+    return true;
+  }
+
+  const currentTransform =
+    lastTransformRef.current ?? d3.zoomIdentity;
+
+  const nextTransform = d3.zoomIdentity
+    .translate(
+      currentTransform.x + dx,
+      currentTransform.y + dy
+    )
+    .scale(currentTransform.k);
+
+  svgSelRef.current.call(
+    zoomRef.current.transform,
+    nextTransform
+  );
+
+  lastTransformRef.current = nextTransform;
+  kRef.current = nextTransform.k;
+
+  return true;
+}
+
+/*
+ * Map View is initialized from the current pin position. Default View is
+ * translated back to the current map-pin position. This keeps the pin visually
+ * stationary in both directions while preserving each view's zoom level.
+ */
+const handleShowMapChange = useCallback((nextValue) => {
+  const nextShowMap = Boolean(nextValue);
+
+  if (nextShowMap === showMapRef.current) return;
+
+  const anchor = readSelectedPinTipClient();
+
+  pendingViewSwitchRef.current = anchor
+    ? {
+        targetShowMap: nextShowMap,
+        anchor,
+      }
+    : null;
+
+  if (nextShowMap) {
+    timelineMapRef.current?.resetViewport?.();
+  }
+
+  setShowMap(nextShowMap);
+}, []);
+
+/*
+ * The main D3 rendering effect runs later in the same commit. Waiting for the
+ * next animation frame lets the Default View pin finish receiving its
+ * chronological coordinates before the camera translation is calculated.
+ */
+useEffect(() => {
+  if (showMap) return undefined;
+
+  const pendingSwitch = pendingViewSwitchRef.current;
+
+  if (
+    pendingSwitch?.targetShowMap !== false ||
+    !pendingSwitch.anchor
+  ) {
+    return undefined;
+  }
+
+  if (viewSwitchAlignmentRafRef.current) {
+    cancelAnimationFrame(
+      viewSwitchAlignmentRafRef.current
+    );
+  }
+
+  viewSwitchAlignmentRafRef.current =
+    requestAnimationFrame(() => {
+      viewSwitchAlignmentRafRef.current = 0;
+
+      const activeSwitch =
+        pendingViewSwitchRef.current;
+
+      if (
+        activeSwitch?.targetShowMap !== false ||
+        !activeSwitch.anchor
+      ) {
+        return;
+      }
+
+      if (
+        alignDefaultViewPinToClient(
+          activeSwitch.anchor
+        )
+      ) {
+        pendingViewSwitchRef.current = null;
+      }
+    });
+
+  return () => {
+    if (viewSwitchAlignmentRafRef.current) {
+      cancelAnimationFrame(
+        viewSwitchAlignmentRafRef.current
+      );
+      viewSwitchAlignmentRafRef.current = 0;
+    }
+  };
+}, [showMap, selectedText?.id, selectedFather?.id]);
 
 
   const didInitRef = useRef(false);       // tracks first-time init
@@ -2294,7 +4073,17 @@ useEffect(() => {
   const { width, height } = size;
 
   /* ---- Layout ---- */
-const margin = { top: 8, right: 0, bottom: 28, left: 0 };
+const selectedChronologicalAxisExpanded =
+  !!(selectedText || selectedFather) && !showMap;
+
+const margin = {
+  top: 8,
+  right: 0,
+  bottom: selectedChronologicalAxisExpanded
+    ? SELECTED_TIMELINE_AXIS_BOTTOM_HEIGHT
+    : TIMELINE_AXIS_BOTTOM_HEIGHT,
+  left: 0,
+};
 
 // Prevent negative inner dimensions during the first render
 const innerWidth = Math.max(0, width - margin.left - margin.right);
@@ -2513,6 +4302,14 @@ const axisY = innerHeight;
         const jungianArchetypesTags = (t["Jungian Archetypes Tags"] || "").trim();
         const neumannStagesTags = (t["Neumann Stages Tags"] || "").trim();
         const originalGeo = (t["Original Geographical Location"] || "").trim();
+        const currentGeo = (t["Current Geographical Location"] || "").trim();
+        const latitude = getOptionalFiniteNumber(t, "Latitude", "lat");
+        const longitude = getOptionalFiniteNumber(
+          t,
+          "Longitude",
+          "lng",
+          "lon"
+        );
         const originalLanguage = (t["Original Language"] || "").trim();
         const comteanFramework = (t["Comtean framework"] || "").trim();
         const category = (t["Category"] || "").trim();
@@ -2592,6 +4389,14 @@ const tags = {
           jungianArchetypesTags,
           neumannStagesTags,
           originalGeographicalLocation: originalGeo,
+          currentGeographicalLocation: currentGeo,
+
+          // Normalized map fields consumed by TimelineMap.
+          originalLocation: originalGeo,
+          modernLocation: currentGeo,
+          latitude,
+          longitude,
+
           originalLanguage,
           comteanFramework,
           category,
@@ -2649,6 +4454,18 @@ const tags = {
       const dob = (f["D.O.B"] || "").trim();
       const dod = (f["D.O.D"] || "").trim();
       const location = (f["Location"] || "").trim();
+      const modernLocation = (
+        f["Current Geographical Location"] ||
+        f["Modern Geographical Location"] ||
+        location
+      ).trim();
+      const latitude = getOptionalFiniteNumber(f, "Latitude", "lat");
+      const longitude = getOptionalFiniteNumber(
+        f,
+        "Longitude",
+        "lng",
+        "lon"
+      );
       const description = (f["Description"] || "").trim();
       const historicMythicStatusTags = (f["Historic-Mythic Status Tags"] || "").trim();
       const foundingFigure = (f["Founding Figure?"] || "").trim();
@@ -2702,6 +4519,13 @@ const tags = {
         dob,
         dod,
         location,
+
+        // Same normalized map interface used by text rows.
+        originalLocation: location,
+        modernLocation,
+        latitude,
+        longitude,
+
         description,
         historicMythicStatusTags,
         foundingFigure,
@@ -2866,14 +4690,21 @@ function redrawFatherAtRadius(gFather, d, r) {
   const zx = zxRef.current, zy = zyRef.current;
   if (!zx || !zy) return;
 
-  const cx = zx(toAstronomical(d.when));
-  let cyU = y0(d.y);
+  const geographicPoint = getGeographicNodePosition("father", d.id);
 
-  const yBandMap = fatherYMap.get(d.durationId);
-  const assignedU = yBandMap?.get(d.id);
-  if (Number.isFinite(assignedU)) cyU = assignedU;
+  let cx = geographicPoint?.x;
+  let cy = geographicPoint?.y;
 
-  const cy = zy(cyU);
+  if (!Number.isFinite(cx) || !Number.isFinite(cy)) {
+    cx = zx(toAstronomical(d.when));
+
+    let cyU = y0(d.y);
+    const yBandMap = fatherYMap.get(d.durationId);
+    const assignedU = yBandMap?.get(d.id);
+    if (Number.isFinite(assignedU)) cyU = assignedU;
+
+    cy = zy(cyU);
+  }
 
   const isConcept = hasConceptTag(d.historicMythicStatusTags);
 
@@ -3035,8 +4866,8 @@ const handleSearchSelect = (item) => {
 };
 
 const handleConnectionNavigate = (targetType, targetId) => {
-  // Clicking a link should clear any transient hover-pin
-  if (hoverPinTarget) setHoverPinTarget(null);
+  // Clicking a link clears any transient card-link hover emphasis.
+  setCardLinkHoverTarget(null);
   const wrapRect = wrapRef.current?.getBoundingClientRect();
   const CARD_W = 430, CARD_H = 320;
   const left = wrapRect ? Math.round((wrapRect.width - CARD_W) / 2) : 24;
@@ -3068,58 +4899,19 @@ const handleConnectionNavigate = (targetType, targetId) => {
   }
 };
 
-// Hover-pin from links inside cards (secondary pin + temporarily hide target icon)
-// ALSO drives connection "peak" highlighting by setting hoveredTextIdRef/hoveredFatherIdRef.
+// Card-link hover emphasizes the matching connected object's mini-tooltip.
 const handleCardLinkHover = (targetType, targetId) => {
-  if (!selectedText && !selectedFather) return; // no open card -> ignore
+  if (!selectedText && !selectedFather) return;
 
-  // NOTE: this handler is called from React (TextCard/FatherCard) and is NOT a D3 event handler.
-  // So `this` and `d` are not meaningful here. Keep rerender minimal and safe.
-  const rerender = () => {
-    const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
-    if (zx && zy) {
-      // Coalesce into the normal rendering pipeline
-      scheduleRenderConnections(zx, zy, kNow);
-    }
-  };
-
-  if (DEBUG_TL && DEBUG_HOVER) {
-    dbgLog("cardLinkHover", {
-      targetType: targetType || null,
-      targetId: targetId || null,
-      hasSelectedText: !!selectedText,
-      hasSelectedFather: !!selectedFather,
-      prevHoverPinTarget: hoverPinTarget,
-      k: kRef.current,
-    });
-  }
-
-  // Clear hover (mouse left the link)
   if (!targetType || !targetId) {
-    setHoverPinTarget(null);
-
-    // Only clear the refs if they were set by card-link hover.
-    // (If you later decide to allow timeline-hover to persist while card hovered, this guard matters.)
-    hoveredTextIdRef.current = null;
-    hoveredFatherIdRef.current = null;
-
-    rerender();
+    setCardLinkHoverTarget(null);
     return;
   }
 
-  // Set the secondary pin target
-  setHoverPinTarget({ type: targetType, id: targetId });
-
-  // NEW: drive connection highlighting from card-link hover
-  if (targetType === "text") {
-    hoveredTextIdRef.current = targetId;
-    hoveredFatherIdRef.current = null;
-  } else if (targetType === "father") {
-    hoveredFatherIdRef.current = targetId;
-    hoveredTextIdRef.current = null;
-  }
-
-  rerender();
+  setCardLinkHoverTarget({
+    type: targetType === "figure" ? "father" : targetType,
+    id: targetId,
+  });
 };
 
 
@@ -3266,7 +5058,6 @@ function styleForConnection(category, typeA, typeB, rowA, rowB) {
 
 const CONNECTION_BASE_OPACITY = 0.015;   // faint default
 const CONNECTION_HIGHLIGHT_OPACITY = 0.9; // bright when linked
-const CONNECTION_PEAK_OPACITY = 1.0; // NEW: brightest for selected <-> hovered singular connection
 
 
 
@@ -3276,11 +5067,17 @@ function renderConnections(zx, zy, k) {
   // Current selection / hover state
   const selText       = selectedText;
   const selFather     = selectedFather;
-  // If connections are globally hidden, only show those that touch the current selection.
-  // (Selection overrides the checkbox; hover does NOT.)
+  // Selection mode renders only connections touching the selected node.
+  // This overrides the checkbox and removes unrelated lines from the DOM.
   const hasSelection = !!(selText || selFather);
   const hoveredTextId   = hasSelection ? null : hoveredTextIdRef.current;
   const hoveredFatherId = hasSelection ? null : hoveredFatherIdRef.current;
+  const selectedHoverTarget = hasSelection
+    ? (
+        hoveredTimelineTargetRef.current ||
+        hoverPinTargetRef.current
+      )
+    : null;
 
   const baseOpacity = CONNECTION_BASE_OPACITY;
   const highlightOpacity = CONNECTION_HIGHLIGHT_OPACITY;
@@ -3303,20 +5100,56 @@ if (DEBUG_HOVER) {
 
 
 
-const data = showConnections
-  ? allData
-  : (!hasSelection
-      ? []
-      : allData.filter(d => (
-          (selText && (
-            (d.aType === "text" && d.aId === selText.id) ||
-            (d.bType === "text" && d.bId === selText.id)
-          )) ||
-          (selFather && (
-            (d.aType === "father" && d.aId === selFather.id) ||
-            (d.bType === "father" && d.bId === selFather.id)
-          ))
-        )));
+const mapModeActive =
+  showMapRef.current && selectedMapAvailableRef.current;
+
+const selectedType = selText
+  ? "text"
+  : selFather
+    ? "father"
+    : null;
+
+const selectedId =
+  selText?.id ??
+  selFather?.id ??
+  null;
+
+const geographicPositions = geographicNodePositionsRef.current;
+
+const endpointPosition = (type, id) => {
+  const bucket =
+    type === "father"
+      ? geographicPositions.father
+      : geographicPositions.text;
+
+  return bucket.get(id) || null;
+};
+
+let data = hasSelection
+  ? allData.filter((d) => (
+      (selText && (
+        (d.aType === "text" && d.aId === selText.id) ||
+        (d.bType === "text" && d.bId === selText.id)
+      )) ||
+      (selFather && (
+        (d.aType === "father" && d.aId === selFather.id) ||
+        (d.bType === "father" && d.bId === selFather.id)
+      ))
+    ))
+  : (showConnections ? allData : []);
+
+if (mapModeActive) {
+  const suppressedKeys =
+    connectionSuppressedNodeKeysRef.current;
+
+  data = data.filter(
+    (d) =>
+      endpointPosition(d.aType, d.aId) &&
+      endpointPosition(d.bType, d.bId) &&
+      !suppressedKeys.has(`${d.aType}:${d.aId}`) &&
+      !suppressedKeys.has(`${d.bType}:${d.bId}`)
+  );
+}
 
 if (DEBUG_HOVER) {
   console.log("[CONN DATA]", { nData: data.length, t: performance.now().toFixed(1) });
@@ -3341,10 +5174,30 @@ if (DEBUG_HOVER) {
     .style("pointer-events", "none");
 
   merged
-    .attr("x1", d => zx(toAstronomical(d.ax)))
-    .attr("y1", d => zy(d.ay))
-    .attr("x2", d => zx(toAstronomical(d.bx)))
-    .attr("y2", d => zy(d.by))
+    .attr("x1", (d) => {
+      const point = mapModeActive
+        ? endpointPosition(d.aType, d.aId)
+        : null;
+      return point ? point.x : zx(toAstronomical(d.ax));
+    })
+    .attr("y1", (d) => {
+      const point = mapModeActive
+        ? endpointPosition(d.aType, d.aId)
+        : null;
+      return point ? point.y : zy(d.ay);
+    })
+    .attr("x2", (d) => {
+      const point = mapModeActive
+        ? endpointPosition(d.bType, d.bId)
+        : null;
+      return point ? point.x : zx(toAstronomical(d.bx));
+    })
+    .attr("y2", (d) => {
+      const point = mapModeActive
+        ? endpointPosition(d.bType, d.bId)
+        : null;
+      return point ? point.y : zy(d.by);
+    })
     .attr("stroke-width", d => d.style.strokeWidth)
     .attr("stroke-dasharray", d => d.style.strokeDasharray || null)
     .attr("stroke-linecap", d => d.style.strokeLinecap || "round")
@@ -3370,20 +5223,42 @@ if (DEBUG_HOVER) {
           (d.bType === "father" && d.bId === hoveredFatherId)
         ));
 
-if (hasSelection && touchesSelected && touchesHovered) return CONNECTION_PEAK_OPACITY;
+      const connectsSelectedToHovered =
+        !!selectedHoverTarget &&
+        !!selectedType &&
+        !!selectedId &&
+        (
+          (
+            d.aType === selectedType &&
+            d.aId === selectedId &&
+            d.bType === selectedHoverTarget.type &&
+            d.bId === selectedHoverTarget.id
+          ) ||
+          (
+            d.bType === selectedType &&
+            d.bId === selectedId &&
+            d.aType === selectedHoverTarget.type &&
+            d.aId === selectedHoverTarget.id
+          )
+        );
 
-// Selection always highlights its own connections.
-if (touchesSelected) return highlightOpacity;
+// Selection keeps every direct line bright in both Default and Map View.
+// Hovering one connected object spotlights only its line and dims the rest.
+if (hasSelection) {
+  if (!selectedHoverTarget) return highlightOpacity;
+
+  return connectsSelectedToHovered
+    ? highlightOpacity
+    : CONNECTION_SELECTED_DIM_OPACITY;
+}
 
 // Hover highlighting is only active when nothing is selected.
 if (!hasSelection && touchesHovered) return highlightOpacity;
 
-// If a selection exists and we're drawing *all* connections (showConnections ON),
-// dim non-relevant connections further.
-if (hasSelection && showConnections) return DIM_CONNECTION_OPACITY;
-
 return baseOpacity;
     });
+
+  renderSelectedTooltipRef.current?.(true);
 }
 
 // PERF: coalesce renderConnections calls (zoom can fire dozens of times per second)
@@ -3400,6 +5275,23 @@ if (DEBUG_HOVER) {
     if (!args) return;
     renderConnections(args.zx, args.zy, args.k);
   });
+}
+
+function scheduleCurrentConnectionRender() {
+  const transform =
+    lastTransformRef.current ?? d3.zoomIdentity;
+
+  const zx =
+    zxRef.current ?? transform.rescaleX(x);
+
+  const zy =
+    zyRef.current ?? transform.rescaleY(y0);
+
+  scheduleRenderConnections(
+    zx,
+    zy,
+    transform.k ?? kRef.current ?? 1
+  );
 }
 
 
@@ -3611,30 +5503,7 @@ useEffect(() => {
   // Apply dimming immediately (apply() only runs on zoom/pan otherwise)
   if (!textsRef.current || !fathersRef.current) return;
 
-  const hasSel = !!(selectedText || selectedFather);
-  const relT = relevantTextIdsRef.current;
-  const relF = relevantFatherIdsRef.current;
-
-  const gTexts = d3.select(textsRef.current);
-  const gFathers = d3.select(fathersRef.current);
-
-  gTexts.selectAll("circle.textDot")
-    .attr("opacity", d => {
-      if (!hasSel) return BASE_OPACITY;
-      return relT.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
-    }, "important");
-
-  gTexts.selectAll("g.dotSlices")
-    .style("opacity", d => {
-      if (!hasSel) return BASE_OPACITY;
-      return relT.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
-    }, "important");
-
-  gFathers.selectAll("g.fatherMark")
-    .attr("opacity", d => {
-      if (!hasSel) return BASE_OPACITY;
-      return relF.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
-    }, "important");
+  syncSelectedNeighborhoodFocus();
 }, [selectedText, selectedFather, visTextRows, visFatherRows]);
 
 
@@ -3644,7 +5513,7 @@ useEffect(() => {
     if (!connectionsRef.current) return;
     const t = lastTransformRef.current ?? d3.zoomIdentity;
     scheduleRenderConnections(t.rescaleX(x), t.rescaleY(y0), t.k);
-  }, [selectedText, selectedFather, x, y0, renderConnections]);
+  }, [selectedText, selectedFather, showMap, x, y0, renderConnections]);
 
 
 
@@ -3659,7 +5528,38 @@ useEffect(() => {
     const gSeg = d3.select(segmentsRef.current);
     const gTexts = d3.select(textsRef.current);
     const gFathers = d3.select(fathersRef.current);   // FATHERS: layer
-    const gPins = d3.select(pinsRef.current); 
+    const gPins = d3.select(pinsRef.current);
+
+    /*
+     * Selection performance mode:
+     * while a card is open, keep only the selected node and its direct
+     * one-hop text/father neighbors in the D3 data joins.
+     *
+     * Selected mode derives rows from the complete text/father collections
+     * so every direct neighbor can appear. When the card closes, the normal
+     * TagPanel-filtered collections return.
+     */
+    const hasSelectionForRendering = !!(selectedText || selectedFather);
+    const relevantTextIdsForRendering = relevantTextIdsRef.current;
+    const relevantFatherIdsForRendering = relevantFatherIdsRef.current;
+    const mapModeForRendering =
+      showMapRef.current && selectedMapAvailableRef.current;
+
+    const renderTextRows = hasSelectionForRendering
+      ? (textRows || []).filter(
+          (row) =>
+            relevantTextIdsForRendering.has(row.id) &&
+            (!mapModeForRendering || hasMapCoordinates(row))
+        )
+      : visTextRows;
+
+    const renderFatherRows = hasSelectionForRendering
+      ? (fatherRows || []).filter(
+          (row) =>
+            relevantFatherIdsForRendering.has(row.id) &&
+            (!mapModeForRendering || hasMapCoordinates(row))
+        )
+      : visFatherRows;
 
     
 
@@ -3707,6 +5607,26 @@ useEffect(() => {
         .style("transform", "translate3d(0,0,0)");
     }
     const tipText = makeTip("tl-text");
+
+    /*
+     * Persistent selected-object tooltip for the deepest Default View tier.
+     * It is separate from tipText, so ordinary hover tooltips remain
+     * independent when no object is selected.
+     */
+    const tipSelected = makeTip("tl-selected")
+      .classed("tl-text", true)
+      .style(
+        "--tl-main-tooltip-border-width",
+        `${MAIN_TOOLTIP_BORDER_WIDTH}px`
+      );
+
+    const miniTooltipLayer = d3
+      .select(wrapEl)
+      .selectAll("div.tl-mini-tooltip-layer")
+      .data([0])
+      .join("div")
+      .attr("class", "tl-mini-tooltip-layer");
+
     const tipSeg = makeTip("tl-seg");
     const tipDur = makeTip("tl-duration");
 
@@ -3765,6 +5685,1222 @@ clearActiveDurationRef.current = clearActiveDuration;
 
       sel.style("left", `${x}px`).style("top", `${y}px`).classed("below", below);
     }
+
+    /*
+     * Persistent selected-object tooltip and connected-object mini-labels.
+     *
+     * Placement is scored once for a selected object in each view. Later
+     * drag/zoom frames preserve the chosen side and simply follow each SVG
+     * anchor. This avoids flicker and prevents labels from lingering at a
+     * viewport edge when their objects are dragged offscreen.
+     */
+    function renderPersistentObjectTooltips(
+      allowPlacementCalculation = false
+    ) {
+      const selectedRow =
+        selectedText || selectedFather;
+
+      const selectedType = selectedText
+        ? "text"
+        : selectedFather
+          ? "father"
+          : null;
+
+      const selectedId =
+        selectedText?.id ??
+        selectedFather?.id ??
+        null;
+
+      const activeSelectionKey =
+        selectedType && selectedId
+          ? `${selectedType}:${selectedId}`
+          : null;
+
+      const tooltipSequence =
+        tooltipSequenceRef.current;
+
+      const tooltipPhase =
+        tooltipSequence.selectionKey === activeSelectionKey
+          ? tooltipSequence.phase
+          : activeSelectionKey
+            ? "selected"
+            : "idle";
+
+      /*
+       * The selected tooltip is persistent in both views at the middle and
+       * deepest zoom tiers. It disappears only in the outest tier.
+       */
+      const showSelectedPersistent =
+        getActiveViewZoomK(kRef.current) >=
+        ZOOM_SEGMENT_THRESHOLD;
+
+      const showAllMiniIntro =
+        MINI_TOOLTIPS_ENABLED &&
+        tooltipPhase === "mini";
+
+      /*
+       * Automatic mini-tooltips remain disabled. While an object is selected,
+       * hovering either an actual connected object or its link inside the open
+       * card shows that one mini-tooltip. In either view the hovered label is
+       * anchored directly above its object.
+       */
+      const selectionHoverMini =
+        !!activeSelectionKey &&
+        tooltipPhase === "hover";
+
+      const directSelectionHoverMini =
+        selectionHoverMini;
+
+      const showHoveredMiniOnly =
+        selectionHoverMini ||
+        (
+          MINI_TOOLTIPS_ENABLED &&
+          tooltipPhase === "hover"
+        );
+
+      if (!selectedRow || !selectedType || !selectedId) {
+        hideTipSel(tipSelected);
+
+        miniTooltipLayer
+          .selectAll("div.tl-mini-tooltip")
+          .data([])
+          .join("div");
+
+        selectedTooltipPlacementRef.current = {
+          layoutKey: null,
+          placement: null,
+          width: 0,
+          height: 0,
+        };
+
+        miniTooltipPlacementsRef.current.clear();
+        return;
+      }
+
+      const viewName = showMapRef.current
+        ? "map"
+        : "default";
+
+      const layoutKey =
+        `${viewName}:${selectedType}:${selectedId}`;
+
+      if (
+        selectedTooltipPlacementRef.current
+          .layoutKey !== layoutKey
+      ) {
+        selectedTooltipPlacementRef.current = {
+          layoutKey,
+          placement: null,
+          width: 0,
+          height: 0,
+        };
+
+        miniTooltipPlacementsRef.current.clear();
+
+        tipSelected
+          .style("display", "none")
+          .style("visibility", "hidden")
+          .style("opacity", 0);
+      }
+
+      const selector = selectedText
+        ? "g.textPin path.tl-pin-body"
+        : "g.fatherPin path.tl-pin-body";
+
+      const pinBody =
+        pinsRef.current?.querySelector(selector);
+
+      if (!pinBody) {
+        hideTipSel(tipSelected);
+
+        miniTooltipLayer
+          .selectAll("div.tl-mini-tooltip")
+          .style("display", "none");
+
+        return;
+      }
+
+      const wrapRect =
+        wrapEl.getBoundingClientRect();
+
+      const pinClientRect =
+        pinBody.getBoundingClientRect();
+
+      const intersectsViewport = (rect) =>
+        (
+          rect.right >= wrapRect.left &&
+          rect.left <= wrapRect.right &&
+          rect.bottom >= wrapRect.top &&
+          rect.top <= wrapRect.bottom
+        );
+
+      const pinIsVisible =
+        pinClientRect.width > 0 &&
+        pinClientRect.height > 0 &&
+        intersectsViewport(pinClientRect);
+
+      const toLocalRect = (
+        clientRect,
+        padding = 0
+      ) => ({
+        left:
+          clientRect.left -
+          wrapRect.left -
+          padding,
+        top:
+          clientRect.top -
+          wrapRect.top -
+          padding,
+        right:
+          clientRect.right -
+          wrapRect.left +
+          padding,
+        bottom:
+          clientRect.bottom -
+          wrapRect.top +
+          padding,
+        width:
+          clientRect.width + padding * 2,
+        height:
+          clientRect.height + padding * 2,
+      });
+
+      const addRectDimensions = (rect) => ({
+        ...rect,
+        width:
+          rect.width ??
+          Math.max(0, rect.right - rect.left),
+        height:
+          rect.height ??
+          Math.max(0, rect.bottom - rect.top),
+        cx:
+          (rect.left + rect.right) / 2,
+        cy:
+          (rect.top + rect.bottom) / 2,
+      });
+
+      const rectangleOverlapArea = (a, b) => {
+        const width = Math.max(
+          0,
+          Math.min(a.right, b.right) -
+            Math.max(a.left, b.left)
+        );
+
+        const height = Math.max(
+          0,
+          Math.min(a.bottom, b.bottom) -
+            Math.max(a.top, b.top)
+        );
+
+        return width * height;
+      };
+
+      const pointToSegmentDistance = (
+        px,
+        py,
+        segment
+      ) => {
+        const vx = segment.x2 - segment.x1;
+        const vy = segment.y2 - segment.y1;
+        const lengthSquared = vx * vx + vy * vy;
+
+        if (lengthSquared <= 0.0001) {
+          return Math.hypot(
+            px - segment.x1,
+            py - segment.y1
+          );
+        }
+
+        const t = clamp(
+          (
+            (px - segment.x1) * vx +
+            (py - segment.y1) * vy
+          ) / lengthSquared,
+          0,
+          1
+        );
+
+        const nearestX = segment.x1 + t * vx;
+        const nearestY = segment.y1 + t * vy;
+
+        return Math.hypot(
+          px - nearestX,
+          py - nearestY
+        );
+      };
+
+      const lineSegmentsIntersect = (
+        ax,
+        ay,
+        bx,
+        by,
+        cx,
+        cy,
+        dx,
+        dy
+      ) => {
+        const cross = (
+          x1,
+          y1,
+          x2,
+          y2,
+          x3,
+          y3
+        ) =>
+          (x2 - x1) * (y3 - y1) -
+          (y2 - y1) * (x3 - x1);
+
+        const d1 = cross(ax, ay, bx, by, cx, cy);
+        const d2 = cross(ax, ay, bx, by, dx, dy);
+        const d3 = cross(cx, cy, dx, dy, ax, ay);
+        const d4 = cross(cx, cy, dx, dy, bx, by);
+
+        return (
+          ((d1 >= 0 && d2 <= 0) ||
+            (d1 <= 0 && d2 >= 0)) &&
+          ((d3 >= 0 && d4 <= 0) ||
+            (d3 <= 0 && d4 >= 0))
+        );
+      };
+
+      const segmentIntersectsRect = (
+        segment,
+        rect
+      ) => {
+        const endpointInside = (x, y) =>
+          x >= rect.left &&
+          x <= rect.right &&
+          y >= rect.top &&
+          y <= rect.bottom;
+
+        if (
+          endpointInside(segment.x1, segment.y1) ||
+          endpointInside(segment.x2, segment.y2)
+        ) {
+          return true;
+        }
+
+        return (
+          lineSegmentsIntersect(
+            segment.x1,
+            segment.y1,
+            segment.x2,
+            segment.y2,
+            rect.left,
+            rect.top,
+            rect.right,
+            rect.top
+          ) ||
+          lineSegmentsIntersect(
+            segment.x1,
+            segment.y1,
+            segment.x2,
+            segment.y2,
+            rect.right,
+            rect.top,
+            rect.right,
+            rect.bottom
+          ) ||
+          lineSegmentsIntersect(
+            segment.x1,
+            segment.y1,
+            segment.x2,
+            segment.y2,
+            rect.right,
+            rect.bottom,
+            rect.left,
+            rect.bottom
+          ) ||
+          lineSegmentsIntersect(
+            segment.x1,
+            segment.y1,
+            segment.x2,
+            segment.y2,
+            rect.left,
+            rect.bottom,
+            rect.left,
+            rect.top
+          )
+        );
+      };
+
+      const placementVector = (placement) => {
+        switch (placement) {
+          case "top":
+            return { x: 0, y: -1 };
+          case "top-right":
+            return { x: 0.707, y: -0.707 };
+          case "right":
+            return { x: 1, y: 0 };
+          case "bottom-right":
+            return { x: 0.707, y: 0.707 };
+          case "bottom":
+            return { x: 0, y: 1 };
+          case "bottom-left":
+            return { x: -0.707, y: 0.707 };
+          case "left":
+            return { x: -1, y: 0 };
+          case "top-left":
+            return { x: -0.707, y: -0.707 };
+          default:
+            return { x: 0, y: -1 };
+        }
+      };
+
+      const placementRect = (
+        anchorRect,
+        placement,
+        width,
+        height,
+        gap
+      ) => {
+        const anchor = addRectDimensions(anchorRect);
+
+        let left;
+        let top;
+
+        switch (placement) {
+          case "top-right":
+            left = anchor.right + gap;
+            top = anchor.top - height - gap;
+            break;
+          case "right":
+            left = anchor.right + gap;
+            top = anchor.cy - height / 2;
+            break;
+          case "bottom-right":
+            left = anchor.right + gap;
+            top = anchor.bottom + gap;
+            break;
+          case "bottom":
+            left = anchor.cx - width / 2;
+            top = anchor.bottom + gap;
+            break;
+          case "bottom-left":
+            left = anchor.left - width - gap;
+            top = anchor.bottom + gap;
+            break;
+          case "left":
+            left = anchor.left - width - gap;
+            top = anchor.cy - height / 2;
+            break;
+          case "top-left":
+            left = anchor.left - width - gap;
+            top = anchor.top - height - gap;
+            break;
+          case "top":
+          default:
+            left = anchor.cx - width / 2;
+            top = anchor.top - height - gap;
+            break;
+        }
+
+        return addRectDimensions({
+          left,
+          top,
+          right: left + width,
+          bottom: top + height,
+          width,
+          height,
+        });
+      };
+
+      const connectionSegments = [];
+
+      connectionsRef.current
+        ?.querySelectorAll("line.connection")
+        .forEach((line) => {
+          const style =
+            window.getComputedStyle(line);
+
+          if (
+            style.display === "none" ||
+            style.visibility === "hidden" ||
+            Number(style.opacity) === 0 ||
+            Number(style.strokeOpacity) === 0
+          ) {
+            return;
+          }
+
+          const matrix = line.getScreenCTM?.();
+          if (!matrix) return;
+
+          const x1 = Number(line.getAttribute("x1"));
+          const y1 = Number(line.getAttribute("y1"));
+          const x2 = Number(line.getAttribute("x2"));
+          const y2 = Number(line.getAttribute("y2"));
+
+          if (
+            ![x1, y1, x2, y2].every(
+              Number.isFinite
+            )
+          ) {
+            return;
+          }
+
+          const p1 = new DOMPoint(
+            x1,
+            y1
+          ).matrixTransform(matrix);
+
+          const p2 = new DOMPoint(
+            x2,
+            y2
+          ).matrixTransform(matrix);
+
+          connectionSegments.push({
+            x1: p1.x - wrapRect.left,
+            y1: p1.y - wrapRect.top,
+            x2: p2.x - wrapRect.left,
+            y2: p2.y - wrapRect.top,
+          });
+        });
+
+      const markerByKey = new Map();
+
+      const registerMarker = (
+        node,
+        type,
+        forcePlacement = null
+      ) => {
+        if (!node) return;
+
+        const style =
+          window.getComputedStyle(node);
+
+        if (
+          style.display === "none" ||
+          style.visibility === "hidden" ||
+          Number(style.opacity) === 0
+        ) {
+          return;
+        }
+
+        const datum = d3.select(node).datum();
+        const row = datum?.row || datum;
+
+        const id = datum?.id ?? row?.id;
+
+        if (!row || id == null) return;
+
+        if (
+          type === selectedType &&
+          id === selectedId
+        ) {
+          return;
+        }
+
+        const clientRect =
+          node.getBoundingClientRect();
+
+        if (
+          clientRect.width <= 0 ||
+          clientRect.height <= 0
+        ) {
+          return;
+        }
+
+        const key = `${type}:${id}`;
+
+        const existing = markerByKey.get(key);
+
+        /*
+         * Text circles and pie groups may both exist. Keep whichever currently
+         * has the more useful rendered bounding box.
+         */
+        if (
+          existing &&
+          (
+            existing.clientRect.width *
+              existing.clientRect.height
+          ) >=
+            (
+              clientRect.width *
+              clientRect.height
+            )
+        ) {
+          return;
+        }
+
+        markerByKey.set(key, {
+          key,
+          type,
+          id,
+          row,
+          node,
+          clientRect,
+          forcePlacement,
+          label:
+            type === "text"
+              ? row.title || datum?.label || ""
+              : row.name || datum?.label || "",
+          accent:
+            datum?.colors
+              ? meanObjectColors(datum.colors)
+              : objectTooltipAccent(row),
+        });
+      };
+
+      textsRef.current
+        ?.querySelectorAll(
+          "circle.textDot, g.dotSlices"
+        )
+        .forEach((node) =>
+          registerMarker(node, "text")
+        );
+
+      fathersRef.current
+        ?.querySelectorAll("g.fatherMark")
+        .forEach((node) =>
+          registerMarker(node, "father")
+        );
+
+      /*
+       * Co-located markers exist only as branch icons while the branch is
+       * expanded. Their labels use the same collision-aware placement scorer
+       * as ordinary connected objects, so they may appear on either side.
+       */
+      if (
+        showMapRef.current &&
+        locationClusterOpenRef.current
+      ) {
+        locationClusterBranchRef.current
+          ?.querySelectorAll(
+            "g.locationClusterBranch__item"
+          )
+          .forEach((node) => {
+            const datum = d3.select(node).datum();
+
+            registerMarker(
+              node,
+              datum?.type || "text"
+            );
+          });
+      }
+
+      const markerEntries =
+        Array.from(markerByKey.values());
+
+      /*
+       * The selected tooltip chooses its side from connected-object geometry
+       * only. Cards, SearchBar, and connection lines must not influence that
+       * initial decision. Mini-tooltips may still avoid the interface chrome.
+       */
+      const connectedObjectObstacles = markerEntries.map(
+        (entry) =>
+          addRectDimensions(
+            toLocalRect(entry.clientRect, 5)
+          )
+      );
+
+      const miniTooltipObstacles = [
+        ...connectedObjectObstacles,
+      ];
+
+      wrapEl
+        .querySelectorAll(
+          ".textCard, .fatherCard, .timelineSearch, .searchBar"
+        )
+        .forEach((node) => {
+          const rect = node.getBoundingClientRect();
+
+          if (rect.width > 0 && rect.height > 0) {
+            miniTooltipObstacles.push(
+              addRectDimensions(
+                toLocalRect(rect, 2)
+              )
+            );
+          }
+        });
+
+      const scoreRectangle = (
+        candidate,
+        {
+          obstacles,
+          occupiedLabels = [],
+          viewportPadding,
+          objectClearance,
+          lineClearance,
+          radialVector = null,
+          placement = null,
+          considerConnectionLines = true,
+        }
+      ) => {
+        let score = 0;
+
+        const overflowLeft = Math.max(
+          0,
+          viewportPadding - candidate.left
+        );
+
+        const overflowTop = Math.max(
+          0,
+          viewportPadding - candidate.top
+        );
+
+        const overflowRight = Math.max(
+          0,
+          candidate.right -
+            (
+              wrapRect.width -
+              viewportPadding
+            )
+        );
+
+        const overflowBottom = Math.max(
+          0,
+          candidate.bottom -
+            (
+              wrapRect.height -
+              viewportPadding
+            )
+        );
+
+        score +=
+          (
+            overflowLeft +
+            overflowTop +
+            overflowRight +
+            overflowBottom
+          ) * 10000;
+
+        for (const obstacle of obstacles) {
+          const overlap =
+            rectangleOverlapArea(
+              candidate,
+              obstacle
+            );
+
+          if (overlap > 0) {
+            score += 100000 + overlap * 30;
+          }
+
+          const distance = Math.hypot(
+            candidate.cx - obstacle.cx,
+            candidate.cy - obstacle.cy
+          );
+
+          if (distance < objectClearance) {
+            score +=
+              (
+                objectClearance - distance
+              ) * 25;
+          }
+        }
+
+        for (const occupied of occupiedLabels) {
+          const overlap =
+            rectangleOverlapArea(
+              candidate,
+              occupied
+            );
+
+          if (overlap > 0) {
+            score += 160000 + overlap * 45;
+          }
+        }
+
+        if (considerConnectionLines) {
+          for (const segment of connectionSegments) {
+            if (
+              segmentIntersectsRect(
+                segment,
+                candidate
+              )
+            ) {
+              score += 75000;
+            }
+
+            const distance =
+              pointToSegmentDistance(
+                candidate.cx,
+                candidate.cy,
+                segment
+              );
+
+            if (distance < lineClearance) {
+              score +=
+                (
+                  lineClearance - distance
+                ) * 18;
+            }
+          }
+        }
+
+        /*
+         * Mini-labels naturally prefer the side facing away from the selected
+         * pin, while still yielding to actual crowding.
+         */
+        if (
+          radialVector &&
+          placement
+        ) {
+          const direction =
+            placementVector(placement);
+
+          const length = Math.hypot(
+            radialVector.x,
+            radialVector.y
+          ) || 1;
+
+          const dot =
+            (
+              direction.x * radialVector.x +
+              direction.y * radialVector.y
+            ) / length;
+
+          score -= dot * 42;
+        }
+
+        return score;
+      };
+
+      const allPlacements = [
+        "top",
+        "top-right",
+        "right",
+        "bottom-right",
+        "bottom",
+        "bottom-left",
+        "left",
+        "top-left",
+      ];
+
+      const pinRect = addRectDimensions(
+        toLocalRect(pinClientRect)
+      );
+
+      let selectedTooltipRect = null;
+
+      const selectedPlacementCache =
+        selectedTooltipPlacementRef.current;
+
+      const selectedHTML = selectedText
+        ? textObjectTipHTML(selectedText)
+        : fatherObjectTipHTML(selectedFather);
+
+      const selectedAccent =
+        objectTooltipAccent(selectedRow);
+
+      const selectedTooltipGap = showMapRef.current
+        ? SELECTED_TOOLTIP_GAP
+        : SELECTED_TOOLTIP_CHRONOLOGICAL_GAP;
+
+      if (
+        showSelectedPersistent &&
+        !selectedPlacementCache.placement &&
+        allowPlacementCalculation
+      ) {
+        tipSelected
+          .html(selectedHTML)
+          .style("--accent", selectedAccent)
+          .style("display", "block")
+          .style("visibility", "hidden")
+          .style("opacity", 1);
+
+        const tipNode = tipSelected.node();
+
+        const width =
+          tipNode?.offsetWidth || 0;
+
+        const height =
+          tipNode?.offsetHeight || 0;
+
+        if (width > 0 && height > 0) {
+          if (!showMapRef.current) {
+            /*
+             * Chronological View intentionally has no placement scoring:
+             * the main tooltip is always centered immediately above the pin.
+             */
+            selectedTooltipPlacementRef.current = {
+              layoutKey,
+              placement: "top",
+              width,
+              height,
+            };
+          } else {
+            const best = allPlacements.reduce(
+              (winner, placement, priority) => {
+                const candidate = placementRect(
+                  pinRect,
+                  placement,
+                  width,
+                  height,
+                  selectedTooltipGap
+                );
+
+                const score =
+                  scoreRectangle(candidate, {
+                    obstacles: connectedObjectObstacles,
+                    viewportPadding:
+                      SELECTED_TOOLTIP_VIEWPORT_PADDING,
+                    objectClearance:
+                      SELECTED_TOOLTIP_OBJECT_CLEARANCE,
+                    lineClearance:
+                      SELECTED_TOOLTIP_LINE_CLEARANCE,
+                    considerConnectionLines: false,
+                  }) + priority * 0.01;
+
+                return (
+                  !winner ||
+                  score < winner.score
+                )
+                  ? {
+                      placement,
+                      score,
+                    }
+                  : winner;
+              },
+              null
+            );
+
+            selectedTooltipPlacementRef.current = {
+              layoutKey,
+              placement:
+                best?.placement || "top",
+              width,
+              height,
+            };
+          }
+        }
+      }
+
+      const activeSelectedPlacement =
+        selectedTooltipPlacementRef.current;
+
+      if (
+        showSelectedPersistent &&
+        activeSelectedPlacement.placement &&
+        pinIsVisible
+      ) {
+        selectedTooltipRect = placementRect(
+          pinRect,
+          activeSelectedPlacement.placement,
+          activeSelectedPlacement.width,
+          activeSelectedPlacement.height,
+          selectedTooltipGap
+        );
+
+        tipSelected
+          .html(selectedHTML)
+          .style("--accent", selectedAccent)
+          .style("display", "block")
+          .style("visibility", "visible")
+          .style("opacity", 1)
+          .style(
+            "left",
+            `${selectedTooltipRect.left}px`
+          )
+          .style(
+            "top",
+            `${selectedTooltipRect.top}px`
+          )
+          .attr(
+            "data-placement",
+            activeSelectedPlacement.placement
+          );
+      } else {
+        tipSelected
+          .style("display", "none")
+          .style("visibility", "hidden")
+          .style("opacity", 0);
+      }
+
+      const selectedPinCenter = {
+        x: pinRect.cx,
+        y: pinRect.cy,
+      };
+
+      markerEntries.sort((a, b) => {
+        const aRect = addRectDimensions(
+          toLocalRect(a.clientRect)
+        );
+
+        const bRect = addRectDimensions(
+          toLocalRect(b.clientRect)
+        );
+
+        const angleA = Math.atan2(
+          aRect.cy - selectedPinCenter.y,
+          aRect.cx - selectedPinCenter.x
+        );
+
+        const angleB = Math.atan2(
+          bRect.cy - selectedPinCenter.y,
+          bRect.cx - selectedPinCenter.x
+        );
+
+        return angleA - angleB;
+      });
+
+      const miniSelection = miniTooltipLayer
+        .selectAll("div.tl-mini-tooltip")
+        .data(
+          markerEntries,
+          (entry) => entry.key
+        )
+        .join(
+          (enter) =>
+            enter
+              .append("div")
+              .attr(
+                "class",
+                "tl-mini-tooltip"
+              )
+              .style("position", "absolute")
+              .style("pointer-events", "none")
+              .style("display", "none")
+              .style("visibility", "hidden")
+              .style("opacity", 0),
+          (update) => update,
+          (exit) => exit.remove()
+        )
+        .html((entry) =>
+          entry.type === "text"
+            ? textObjectTipHTML(entry.row)
+            : fatherObjectTipHTML(entry.row)
+        )
+        .style(
+          "--accent",
+          (entry) => entry.accent
+        )
+        .style(
+          "--tl-mini-tooltip-border-width",
+          `${MINI_TOOLTIP_BORDER_WIDTH}px`
+        )
+        .style(
+          "--tl-mini-tooltip-hover-ring-width",
+          `${MINI_TOOLTIP_HOVER_RING_WIDTH}px`
+        )
+        .classed(
+          "is-card-link-hover",
+          (entry) => {
+            const target = hoverPinTargetRef.current;
+
+            return (
+              !!target &&
+              target.type === entry.type &&
+              target.id === entry.id
+            );
+          }
+        )
+        .classed(
+          "is-timeline-icon-hover",
+          (entry) => {
+            const target = hoveredTimelineTargetRef.current;
+
+            return (
+              !!target &&
+              target.type === entry.type &&
+              target.id === entry.id
+            );
+          }
+        );
+
+      const occupiedMiniRects = [];
+
+      miniSelection.each(function (entry) {
+        const label = d3.select(this);
+
+        const cardHoverTarget =
+          hoverPinTargetRef.current;
+
+        const iconHoverTarget =
+          hoveredTimelineTargetRef.current;
+
+        const isCardHovered =
+          !!cardHoverTarget &&
+          cardHoverTarget.type === entry.type &&
+          cardHoverTarget.id === entry.id;
+
+        const isIconHovered =
+          !!iconHoverTarget &&
+          iconHoverTarget.type === entry.type &&
+          iconHoverTarget.id === entry.id;
+
+        const shouldShowMini =
+          showAllMiniIntro ||
+          (
+            showHoveredMiniOnly &&
+            (isCardHovered || isIconHovered)
+          );
+
+        const currentRect =
+          entry.node.getBoundingClientRect();
+
+        const markerIsVisible =
+          currentRect.width > 0 &&
+          currentRect.height > 0 &&
+          intersectsViewport(currentRect);
+
+        const placementKey =
+          `${layoutKey}:${entry.key}`;
+
+        let placementCache =
+          miniTooltipPlacementsRef.current.get(
+            placementKey
+          );
+
+        if (
+          shouldShowMini &&
+          !placementCache &&
+          allowPlacementCalculation
+        ) {
+          label
+            .style("display", "block")
+            .style("visibility", "hidden")
+            .style("opacity", 1);
+
+          const labelNode = label.node();
+
+          const width =
+            labelNode?.offsetWidth || 0;
+
+          const height =
+            labelNode?.offsetHeight || 0;
+
+          if (width > 0 && height > 0) {
+            const anchorRect =
+              addRectDimensions(
+                toLocalRect(currentRect)
+              );
+
+            const radialVector = {
+              x:
+                anchorRect.cx -
+                selectedPinCenter.x,
+              y:
+                anchorRect.cy -
+                selectedPinCenter.y,
+            };
+
+            let placement =
+              directSelectionHoverMini
+                ? "top"
+                : entry.forcePlacement;
+
+            if (!placement) {
+              const occupied = [
+                ...(selectedTooltipRect
+                  ? [selectedTooltipRect]
+                  : []),
+                ...occupiedMiniRects,
+              ];
+
+              const best = allPlacements.reduce(
+                (
+                  winner,
+                  candidatePlacement,
+                  priority
+                ) => {
+                  const candidate =
+                    placementRect(
+                      anchorRect,
+                      candidatePlacement,
+                      width,
+                      height,
+                      MINI_TOOLTIP_GAP
+                    );
+
+                  const score =
+                    scoreRectangle(candidate, {
+                      obstacles:
+                        miniTooltipObstacles,
+                      occupiedLabels:
+                        occupied,
+                      viewportPadding:
+                        MINI_TOOLTIP_VIEWPORT_PADDING,
+                      objectClearance:
+                        MINI_TOOLTIP_OBJECT_CLEARANCE,
+                      lineClearance:
+                        MINI_TOOLTIP_LINE_CLEARANCE,
+                      radialVector,
+                      placement:
+                        candidatePlacement,
+                    }) +
+                    priority * 0.01;
+
+                  return (
+                    !winner ||
+                    score < winner.score
+                  )
+                    ? {
+                        placement:
+                          candidatePlacement,
+                        score,
+                      }
+                    : winner;
+                },
+                null
+              );
+
+              placement =
+                best?.placement || "right";
+            }
+
+            placementCache = {
+              placement,
+              width,
+              height,
+            };
+
+            miniTooltipPlacementsRef.current.set(
+              placementKey,
+              placementCache
+            );
+          }
+        }
+
+        if (
+          !shouldShowMini ||
+          !placementCache ||
+          !markerIsVisible
+        ) {
+          label
+            .style("display", "none")
+            .style("visibility", "hidden")
+            .style("opacity", 0);
+
+          return;
+        }
+
+        const anchorRect =
+          addRectDimensions(
+            toLocalRect(currentRect)
+          );
+
+        const labelRect = placementRect(
+          anchorRect,
+          placementCache.placement,
+          placementCache.width,
+          placementCache.height,
+          MINI_TOOLTIP_GAP
+        );
+
+        occupiedMiniRects.push(labelRect);
+
+        label
+          .style("display", "block")
+          .style("visibility", "visible")
+          .style("opacity", 1)
+          .style("left", `${labelRect.left}px`)
+          .style("top", `${labelRect.top}px`)
+          .attr(
+            "data-placement",
+            placementCache.placement
+          );
+      });
+
+      if (!showMapRef.current) {
+        renderDefaultSelectionAxisAndGuides(
+          zxRef.current,
+          zyRef.current
+        );
+      }
+    }
+
+    renderSelectedTooltipRef.current =
+      renderPersistentObjectTooltips;
 
     // ===== SEGMENT ANCHORING helpers =====
     function getSegmentAnchorPx(seg) {
@@ -4466,7 +7602,7 @@ gCustom
     // TEXTS (dots)
     const textSel = gTexts
   .selectAll("circle.textDot")
-  .data(visTextRows, (d) => d.id)
+  .data(renderTextRows, (d) => d.id)
   .join(
     (enter) =>
       enter
@@ -4479,7 +7615,7 @@ gCustom
         .attr("opacity", BASE_OPACITY)
         .attr("r", (d) => {
           const k = kRef.current;
-          const rBase = textBaseR(d) * k;
+          const rBase = getTextObjectRadius(d, k);
           const isSelected = selectedText && selectedText.id === d.id;
           const isHovered = hoveredTextIdRef.current === d.id;
           return isSelected ? rBase * HOVER_SCALE_DOT : rBase;
@@ -4495,7 +7631,7 @@ gCustom
         )
         .attr("r", (d) => {
           const k = kRef.current;
-          const rBase = textBaseR(d) * k;
+          const rBase = getTextObjectRadius(d, k);
           const isSelected = selectedText && selectedText.id === d.id;
           const isHovered = hoveredTextIdRef.current === d.id;
           return isSelected ? rBase * HOVER_SCALE_DOT : rBase;
@@ -4518,7 +7654,10 @@ gCustom
 const piesSel = gTexts.selectAll("g.dotSlices");
 
 piesSel
-  .data(visTextRows.filter(d => (d.colors || []).length > 1), d => d.id)
+  .data(
+    renderTextRows.filter((d) => (d.colors || []).length > 1),
+    (d) => d.id
+  )
   .join(
     enter => {
       const g = enter.append("g")
@@ -4619,6 +7758,11 @@ function getTextCenterPx(d) {
   const zx = zxRef.current, zy = zyRef.current;
   if (!zx || !zy) return null;
 
+  const geographicPoint = getGeographicNodePosition("text", d.id);
+  if (geographicPoint) {
+    return { cx: geographicPoint.x, cy: geographicPoint.y };
+  }
+
   const cx = zx(toAstronomical(d.when));
 
   // Use placed Y (lane/base) in band-units
@@ -4633,7 +7777,9 @@ function animateTextHover(el, d, hovering) {
   const c = getTextCenterPx(d);
   if (!c) return;
 
-  const s = hovering ? HOVER_SCALE_DOT : 1;
+  const s = hovering
+    ? getTextObjectHoverScale(d)
+    : 1;
 
 
 // DEBUG
@@ -4675,10 +7821,22 @@ function animateFatherHover(el, d, hovering) {
   const zx = zxRef.current, zy = zyRef.current;
   if (!zx || !zy) return;
 
-  const cx = zx(toAstronomical(d.when));
+  const geographicPoint = getGeographicNodePosition("father", d.id);
+
+  let cx = geographicPoint?.x;
+  let cy = geographicPoint?.y;
+
+  if (!Number.isFinite(cx)) {
+    cx = parseFloat(d3.select(el).attr("data-cx"));
+  }
+  if (!Number.isFinite(cx)) {
+    cx = zx(toAstronomical(d.when));
+  }
 
   // Use the already-computed on-screen cy if present (set in apply).
-  let cy = parseFloat(d3.select(el).attr("data-cy"));
+  if (!Number.isFinite(cy)) {
+    cy = parseFloat(d3.select(el).attr("data-cy"));
+  }
   if (!Number.isFinite(cy)) {
     let cyU = y0(d.y);
     const yBandMap = fatherYMap.get(d.durationId);
@@ -4687,7 +7845,9 @@ function animateFatherHover(el, d, hovering) {
     cy = zy(cyU);
   }
 
-  const s = hovering ? HOVER_SCALE_FATHER : 1;
+  const s = hovering
+    ? getFatherObjectHoverScale(d)
+    : 1;
 
 
 // DEBUG
@@ -4764,23 +7924,40 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
       updateHoverVisuals();
     }
 
+    const hasActiveSelection = !!(selectedText || selectedFather);
     const isSelected = selectedText && selectedText.id === d.id;
-    if (!isSelected) {
-      const titleLine = d.title || "";
-      const html = tipHTML(titleLine, d.displayDate || formatYear(d.when));
+
+    // In selected-neighborhood mode the persistent mini-tooltip already names
+    // every connected object. Hover therefore emphasizes that frame instead
+    // of opening the larger ordinary tooltip.
+    if (!hasActiveSelection && !isSelected) {
+      const html = textObjectTipHTML(d);
       const a = textAnchorClient(this, d);
-      if (a) showTip(tipText, html, a.x, a.y, d.color);
+      if (a) showTip(
+        tipText,
+        html,
+        a.x,
+        a.y,
+        objectTooltipAccent(d)
+      );
     } else {
       hideTipSel(tipText);
     }
   })
   .on("mousemove", function (_ev, d) {
+    const hasActiveSelection = !!(selectedText || selectedFather);
     const isSelected = selectedText && selectedText.id === d.id;
-    if (!isSelected) {
-      const titleLine = d.title || "";
-      const html = tipHTML(titleLine, d.displayDate || formatYear(d.when));
+
+    if (!hasActiveSelection && !isSelected) {
+      const html = textObjectTipHTML(d);
       const a = textAnchorClient(this, d);
-      if (a) showTip(tipText, html, a.x, a.y, d.color);
+      if (a) showTip(
+        tipText,
+        html,
+        a.x,
+        a.y,
+        objectTooltipAccent(d)
+      );
     } else {
       hideTipSel(tipText);
     }
@@ -4851,49 +8028,43 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
         const tooLeft   = relX < LEFT_THRESHOLD;
         const tooRight  = relX > wrapRect.width  - EDGE_PAD;
         const tooTop    = relY < EDGE_PAD;
-        const tooBottom = relY > wrapRect.height - EDGE_PAD;
+        const tooBottom =
+          relY >
+          wrapRect.height -
+            SELECTED_TIMELINE_AXIS_BOTTOM_HEIGHT -
+            EDGE_PAD;
 
         const shouldRecenter = (tooLeft || tooRight || tooTop || tooBottom);
 
         hideTipSel(tipText); // hide small hover tip, keep segment box if any
 
-        if (shouldRecenter && zoomRef.current && svgSelRef.current) {
-          // Behave like SearchBar in terms of placement, but DO NOT change zoom
+        pendingSelectionCameraRef.current = {
+          mode: shouldRecenter ? "recenter" : "preserve",
+          type: "text",
+          id: d.id,
+          clientX: a?.x ?? (wrapRect.left + relX),
+          clientY: a?.y ?? (wrapRect.top + relY),
+        };
+
+        if (shouldRecenter) {
+          // The card occupies the left side; the existing fly-to target places
+          // the object in the center of the remaining visible workspace.
           const centerLeft = Math.round((wrapRect.width - CARD_W) / 2);
-          const centerTop  = Math.max(8, Math.round(72));
-
+          const centerTop = Math.max(8, Math.round(72));
           setCardPos({ left: centerLeft, top: centerTop });
-          setSelectedText(d);
-          setSelectedFather(null);
-          setShowMore(false);
-
-          const kTarget = kRef.current ?? 1;
-          const xAstro  = toAstronomical(d.when);
-          const yU      = laneYUForText(d);
-
-          const t = computeTransformForPoint(xAstro, yU, kTarget);
-
-          svgSelRef.current
-            .transition()
-            .duration(SEARCH_FLY.duration)
-            .ease(SEARCH_FLY.ease)
-            .call(zoomRef.current.transform, t)
-            .on("end", () => {
-              lastTransformRef.current = t;
-              kRef.current = t.k;
-            });
         } else {
-          // Old behavior: card anchored near the dot, no camera move
+          // Keep the card near the clicked object while the camera preserves
+          // the object's exact pre-selection browser position.
           let left = a ? a.x - wrapRect.left + PAD : PAD;
-          let top  = a ? a.y - wrapRect.top  + PAD : PAD;
-          left = Math.max(4, Math.min(left, wrapRect.width  - CARD_W - 4));
-          top  = Math.max(4, Math.min(top,  wrapRect.height - CARD_H - 4));
-
+          let top = a ? a.y - wrapRect.top + PAD : PAD;
+          left = Math.max(4, Math.min(left, wrapRect.width - CARD_W - 4));
+          top = Math.max(4, Math.min(top, wrapRect.height - CARD_H - 4));
           setCardPos({ left, top });
-          setSelectedText(d);
-          setSelectedFather(null);
-          setShowMore(false);
         }
+
+        setSelectedText(d);
+        setSelectedFather(null);
+        setShowMore(false);
 
         ev.stopPropagation();
       })
@@ -4906,15 +8077,37 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
       const zx = zxRef.current,
         zy = zyRef.current;
       if (!zx || !zy) return null;
-      const svgRect = svgRef.current.getBoundingClientRect();
 
-      const cx = zx(toAstronomical(d.when));
-      // Fallback must use band-units -> current zoom
-      const cyAttr = el ? parseFloat(d3.select(el).attr("cy")) : zy(y0(d.y));
+      const chartNode = gRoot.node();
+      const chartScreenMatrix = chartNode?.getScreenCTM?.();
+      if (!chartScreenMatrix) return null;
+
+      const geographicPoint = getGeographicNodePosition("text", d.id);
+
+      let cx = geographicPoint?.x;
+      let cy = geographicPoint?.y;
+
+      if (!Number.isFinite(cx)) {
+        cx = el ? parseFloat(d3.select(el).attr("cx")) : NaN;
+      }
+      if (!Number.isFinite(cy)) {
+        cy = el ? parseFloat(d3.select(el).attr("cy")) : NaN;
+      }
+
+      if (!Number.isFinite(cx) || !Number.isFinite(cy)) {
+        const fallback = timelinePointForText(d, zx, zy);
+        cx = fallback.x;
+        cy = fallback.y;
+      }
+
+      const clientPoint = new DOMPoint(
+        cx,
+        cy
+      ).matrixTransform(chartScreenMatrix);
 
       return {
-        x: svgRect.left + margin.left + cx,
-        y: svgRect.top + margin.top + cyAttr,
+        x: clientPoint.x,
+        y: clientPoint.y,
       };
     }
 
@@ -4949,15 +8142,36 @@ function fatherAnchorClient(el, d) {
   const zx = zxRef.current, zy = zyRef.current;
   if (!zx || !zy || !el) return null;
 
-  const svgRect = svgRef.current.getBoundingClientRect();
-  const cx = zx(toAstronomical(d.when));               // x from data time
-  const cyAttr = parseFloat(d3.select(el).attr("data-cy")); // y from apply()
+  const chartNode = gRoot.node();
+  const chartScreenMatrix = chartNode?.getScreenCTM?.();
+  if (!chartScreenMatrix) return null;
 
-  if (!Number.isFinite(cyAttr)) return null;
+  const geographicPoint = getGeographicNodePosition("father", d.id);
+
+  let cx = geographicPoint?.x;
+  let cy = geographicPoint?.y;
+
+  if (!Number.isFinite(cx)) {
+    cx = parseFloat(d3.select(el).attr("data-cx"));
+  }
+  if (!Number.isFinite(cy)) {
+    cy = parseFloat(d3.select(el).attr("data-cy"));
+  }
+
+  if (!Number.isFinite(cx) || !Number.isFinite(cy)) {
+    const fallback = timelinePointForFather(d, zx, zy);
+    cx = fallback.x;
+    cy = fallback.y;
+  }
+
+  const clientPoint = new DOMPoint(
+    cx,
+    cy
+  ).matrixTransform(chartScreenMatrix);
 
   return {
-    x: svgRect.left + margin.left + cx,
-    y: svgRect.top  + margin.top  + cyAttr,
+    x: clientPoint.x,
+    y: clientPoint.y,
   };
 }
 
@@ -4970,7 +8184,7 @@ function fatherAnchorClient(el, d) {
 // In fathersSel join (enter)
 const fathersSel = gFathers
   .selectAll("g.fatherMark")
-  .data(visFatherRows, d => d.id)
+  .data(renderFatherRows, (d) => d.id)
   .join(
     enter => {
       const g = enter.append("g")
@@ -4985,35 +8199,11 @@ const fathersSel = gFathers
     exit => exit.remove()
   );
 
-  // Re-apply selection dimming AFTER joins.
-// This is critical when TagPanel filters cause nodes to exit/re-enter:
-// enter() sets opacity to BASE_OPACITY, so we must re-dim here.
-{
-  const hasSel = !!(selectedText || selectedFather);
-  const relT = relevantTextIdsRef.current;
-  const relF = relevantFatherIdsRef.current;
-
-  gTexts.selectAll("circle.textDot")
-    .attr("opacity", d => {
-      if (!hasSel) return BASE_OPACITY;
-      return relT && relT.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
-    });
-
-  gTexts.selectAll("g.dotSlices")
-    .style("opacity", d => {
-      if (!hasSel) return BASE_OPACITY;
-      return relT && relT.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
-    });
-
-  gFathers.selectAll("g.fatherMark")
-    .attr("opacity", d => {
-      if (!hasSel) return BASE_OPACITY;
-      return relF && relF.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
-    });
-}
+  // Re-apply selected-neighborhood focus AFTER joins.
+  syncSelectedNeighborhoodFocus();
 
   const allowFatherHover = () => {
-  const k = kRef.current;
+  const k = getActiveViewZoomK(kRef.current);
   const hasSel = !!(selectedText || selectedFather);
   return (k >= ZOOM_THRESHOLD) || (hasSel && k >= ZOOM_SEGMENT_THRESHOLD);
 };
@@ -5055,20 +8245,38 @@ const zx = zxRef.current, zy = zyRef.current, kNow = kRef.current;
 const hasSel = !!(selectedText || selectedFather);
 if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow), 0);
 
-  // keep your tooltip code (unchanged)...
+  if (selectedText || selectedFather) {
+    hideTipSel(tipText);
+    return;
+  }
+
   const a = fatherAnchorClient(this, d);
   if (!a) return;
-  const title = d.name || "";
-  const subtitle = d.dob || "";
-  showTip(tipText, tipHTML(title, subtitle, null), a.x, a.y, d.color);
+  showTip(
+    tipText,
+    fatherObjectTipHTML(d),
+    a.x,
+    a.y,
+    objectTooltipAccent(d)
+  );
 })
   .on("mousemove", function (_ev, d) {
     if (!allowFatherHover()) return;
+
+    if (selectedText || selectedFather) {
+      hideTipSel(tipText);
+      return;
+    }
+
     const a = fatherAnchorClient(this, d);
     if (!a) return;
-    const title = d.name || "";
-    const subtitle = d.dob || "";
-    showTip(tipText, tipHTML(title, subtitle, null), a.x, a.y, d.color);
+    showTip(
+      tipText,
+      fatherObjectTipHTML(d),
+      a.x,
+      a.y,
+      objectTooltipAccent(d)
+    );
   })
   .on("mouseleave", function (_ev, d) {
 if (DEBUG_HOVER) {
@@ -5132,7 +8340,11 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
     const tooLeft   = relX < LEFT_THRESHOLD;
     const tooRight  = relX > wrapRect.width  - EDGE_PAD;
     const tooTop    = relY < EDGE_PAD;
-    const tooBottom = relY > wrapRect.height - EDGE_PAD;
+    const tooBottom =
+      relY >
+      wrapRect.height -
+        SELECTED_TIMELINE_AXIS_BOTTOM_HEIGHT -
+        EDGE_PAD;
 
     const shouldRecenter = (tooLeft || tooRight || tooTop || tooBottom);
 
@@ -5141,65 +8353,774 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
     // hideTipSel(tipSeg);   // <-- do NOT call this
     // hideTipSel(tipDur);   // optional: keep duration card if it’s open
 
-    if (shouldRecenter && zoomRef.current && svgSelRef.current) {
-      // Behave like SearchBar for card placement, but keep current zoom
+    pendingSelectionCameraRef.current = {
+      mode: shouldRecenter ? "recenter" : "preserve",
+      type: "father",
+      id: d.id,
+      clientX: a?.x ?? (wrapRect.left + relX),
+      clientY: a?.y ?? (wrapRect.top + relY),
+    };
+
+    if (shouldRecenter) {
       const centerLeft = Math.round((wrapRect.width - CARD_W) / 2);
-      const centerTop  = Math.max(8, Math.round(72));
-
+      const centerTop = Math.max(8, Math.round(72));
       setFatherCardPos({ left: centerLeft, top: centerTop });
-      setSelectedFather(d);
-      setSelectedText(null);
-      setShowMore(false);
-
-      const kTarget = kRef.current ?? 1;
-      const xAstro  = toAstronomical(d.when);
-      const yU      = laneYUForFather(d);
-
-      const t = computeTransformForPoint(xAstro, yU, kTarget);
-
-      svgSelRef.current
-        .transition()
-        .duration(SEARCH_FLY.duration)
-        .ease(SEARCH_FLY.ease)
-        .call(zoomRef.current.transform, t)
-        .on("end", () => {
-          lastTransformRef.current = t;
-          kRef.current = t.k;
-        });
     } else {
-      // Old behavior: card anchored near the triangle, no camera move
       let left = a ? a.x - wrapRect.left + PAD : PAD;
-      let top  = a ? a.y - wrapRect.top  + PAD : PAD;
-      left = Math.max(4, Math.min(left, wrapRect.width  - CARD_W - 4));
-      top  = Math.max(4, Math.min(top,  wrapRect.height - CARD_H - 4));
-
+      let top = a ? a.y - wrapRect.top + PAD : PAD;
+      left = Math.max(4, Math.min(left, wrapRect.width - CARD_W - 4));
+      top = Math.max(4, Math.min(top, wrapRect.height - CARD_H - 4));
       setFatherCardPos({ left, top });
-      setSelectedFather(d);   // open FatherCard
-      setSelectedText(null);  // ensure TextCard is closed
-      setShowMore(false);
     }
+
+    setSelectedFather(d);
+    setSelectedText(null);
+    setShowMore(false);
 
     ev.stopPropagation();
   })
 
 
 
+    function timelinePointForText(d, zx, zy) {
+      const xPx = zx(toAstronomical(d.when));
+
+      let yU = textYMap.get(d.durationId)?.get(d.id);
+      if (!Number.isFinite(yU)) {
+        yU = y0(d.y);
+      }
+
+      return { x: xPx, y: zy(yU) };
+    }
+
+    function timelinePointForFather(d, zx, zy) {
+      const xPx = zx(toAstronomical(d.when));
+
+      let yU = y0(d.y);
+      const yBandMap = fatherYMap.get(d.durationId);
+      const assignedU = yBandMap?.get(d.id);
+      if (Number.isFinite(assignedU)) {
+        yU = assignedU;
+      }
+
+      return { x: xPx, y: zy(yU) };
+    }
+
+    function placedPointForText(d, zx, zy) {
+      return (
+        getGeographicNodePosition("text", d.id) ||
+        timelinePointForText(d, zx, zy)
+      );
+    }
+
+    function placedPointForFather(d, zx, zy) {
+      return (
+        getGeographicNodePosition("father", d.id) ||
+        timelinePointForFather(d, zx, zy)
+      );
+    }
+
+    /*
+     * Selected Default View replaces the ordinary adaptive timeline ticks and
+     * full-height grid with one selected-object date guide. Hovering either an
+     * actual connected object or its card link adds its date and guide until
+     * pointer leave.
+     *
+     * We intentionally reuse the existing axis/grid generators so these ticks
+     * and dashed lines inherit the exact normal timeline styling.
+     */
+    function renderDefaultSelectionAxisAndGuides(zx, zy) {
+      const selectedRow = selectedText || selectedFather;
+      const selectedType = selectedText
+        ? "text"
+        : selectedFather
+          ? "father"
+          : null;
+
+      if (
+        showMapRef.current ||
+        !selectedRow ||
+        !selectedType ||
+        !zx ||
+        !zy
+      ) {
+        gAxis
+          .selectAll("text.selectedChronologyDateLabel")
+          .remove();
+        return false;
+      }
+
+      const selectedWhen = Number(selectedRow.when);
+      const guideEntries = [];
+
+      const addGuide = (type, row, role) => {
+        if (!row || !Number.isFinite(Number(row.when))) return;
+
+        const point = type === "father"
+          ? timelinePointForFather(row, zx, zy)
+          : timelinePointForText(row, zx, zy);
+
+        if (
+          !Number.isFinite(point?.x) ||
+          !Number.isFinite(point?.y)
+        ) {
+          return;
+        }
+
+        const when = Number(row.when);
+
+        let level = "middle";
+        if (role === "hovered") {
+          if (when < selectedWhen) level = "lower";
+          else if (when > selectedWhen) level = "upper";
+          else level = "upper";
+        }
+
+        const label = type === "father"
+          ? String(row?.dob || "").trim()
+          : String(row?.displayDate || "").trim();
+
+        guideEntries.push({
+          key: `${role}:${type}:${row.id}`,
+          role,
+          type,
+          row,
+          when,
+          tickValue: toAstronomical(when),
+          objectY: point.y,
+          level,
+          label: label || formatTick(toAstronomical(when)),
+        });
+      };
+
+      addGuide(selectedType, selectedRow, "selected");
+
+      const hovered = getSelectedFocusTarget();
+      if (hovered) {
+        const isConnected = hovered.type === "father"
+          ? relevantFatherIdsRef.current.has(hovered.id)
+          : relevantTextIdsRef.current.has(hovered.id);
+
+        if (isConnected) {
+          const hoveredRow = hovered.type === "father"
+            ? fatherRows.find((row) => row.id === hovered.id)
+            : textRows.find((row) => row.id === hovered.id);
+
+          addGuide(hovered.type, hoveredRow, "hovered");
+        }
+      }
+
+      /*
+       * One numeric Dataviz position needs only one physical tick and one
+       * dashed guide. Separate visible labels are still retained so selected
+       * and hovered objects can occupy different rows even at the same X.
+       */
+      const guideByTick = new Map();
+      for (const entry of guideEntries) {
+        const previous = guideByTick.get(entry.tickValue);
+        if (!previous || entry.objectY < previous.objectY) {
+          guideByTick.set(entry.tickValue, entry);
+        }
+      }
+
+      const tickValues = Array.from(guideByTick.keys())
+        .sort((a, b) => a - b);
+
+      /*
+       * Use the axis generator's own tick text nodes for selected/hovered dates.
+       * This gives the labels exactly the same typography, fill, smoothing, and
+       * inherited CSS as the ordinary unselected chronological labels.
+       */
+      const labelsByTick = new Map();
+      for (const entry of guideEntries) {
+        const bucket = labelsByTick.get(entry.tickValue) || [];
+        bucket.push(entry);
+        labelsByTick.set(entry.tickValue, bucket);
+      }
+
+      const axisEntryForTick = (tickValue) => {
+        const entries = labelsByTick.get(tickValue) || [];
+        return (
+          entries.find((entry) => entry.role === "selected") ||
+          entries[0] ||
+          null
+        );
+      };
+
+      gAxis
+        .style("display", null)
+        .attr(
+          "transform",
+          `translate(${margin.left},${margin.top + axisY})`
+        )
+        .call(
+          d3
+            .axisBottom(zx)
+            .tickValues(tickValues)
+            .tickFormat((tickValue) =>
+              (labelsByTick.get(tickValue) || [])
+                .map((entry) => entry.label)
+                .filter(Boolean)
+                .join(" / ")
+            )
+        );
+
+      gAxis
+        .selectAll("g.tick text")
+        .attr("y", (tickValue) => {
+          const entry = axisEntryForTick(tickValue);
+          return SELECTED_AXIS_LABEL_Y[entry?.level || "middle"];
+        })
+        .attr("dy", "0.71em")
+        .classed(
+          "selectedChronologyPrimaryDate",
+          (tickValue) =>
+            axisEntryForTick(tickValue)?.role === "selected"
+        )
+        .style("font-size", (tickValue) =>
+          axisEntryForTick(tickValue)?.role === "selected"
+            ? SELECTED_AXIS_PRIMARY_DATE_FONT_SIZE
+            : null
+        );
+
+      // Remove stale labels created by earlier selected-axis implementations.
+      gAxis
+        .selectAll("text.selectedChronologyDateLabel")
+        .remove();
+
+      gGrid
+        .style("display", null)
+        .attr("transform", `translate(0,${axisY})`)
+        .call(gridFor(zx, tickValues));
+
+      gGrid
+        .selectAll("g.tick")
+        .each(function (tickValue) {
+          const entry = guideByTick.get(tickValue);
+          const y2 = entry
+            ? Math.min(0, entry.objectY - axisY)
+            : 0;
+
+          d3.select(this)
+            .select("line")
+            .attr("y2", y2)
+            .style("stroke", SELECTED_CHRONOLOGY_GUIDE_COLOR)
+            .style("opacity", SELECTED_CHRONOLOGY_GUIDE_OPACITY)
+            .attr(
+              "stroke-opacity",
+              SELECTED_CHRONOLOGY_GUIDE_OPACITY
+            );
+        });
+
+      snapGrid(zx);
+      return true;
+    }
+
+    /*
+     * Rebuild the geographic one-hop layout in the chart SVG's own
+     * coordinate system. TimelineMap remains the single owner of the map
+     * projection; Timeline only consumes projected browser coordinates.
+     */
+    function rebuildGeographicNodePositions(zx, zy) {
+      const nextTextPositions = new Map();
+      const nextFatherPositions = new Map();
+
+      geographicNodePositionsRef.current = {
+        text: nextTextPositions,
+        father: nextFatherPositions,
+      };
+      selectedLocationClusterRef.current = {
+        key: null,
+        selectedType: null,
+        selectedId: null,
+        selectedPoint: null,
+        locationLabel: "",
+        entries: [],
+      };
+      connectedLocationClustersRef.current = [];
+      clusteredNodeKeysRef.current = new Set();
+      connectionSuppressedNodeKeysRef.current = new Set();
+
+      if (
+        !showMapRef.current ||
+        !selectedMapAvailableRef.current ||
+        (!selectedText && !selectedFather)
+      ) {
+        return false;
+      }
+
+      const mapApi = timelineMapRef.current;
+      const chartNode = gRoot.node();
+
+      if (
+        !mapApi?.projectLocationToClient ||
+        !mapApi?.ensureViewportInitialized ||
+        !chartNode
+      ) {
+        return false;
+      }
+
+      const chartScreenMatrix = chartNode.getScreenCTM?.();
+      if (!chartScreenMatrix) return false;
+
+      let inverseChartScreenMatrix;
+      try {
+        inverseChartScreenMatrix = chartScreenMatrix.inverse();
+      } catch {
+        return false;
+      }
+
+      const selectedAnchor = selectedText
+        ? timelinePointForText(selectedText, zx, zy)
+        : timelinePointForFather(selectedFather, zx, zy);
+
+      const anchorClientPoint = new DOMPoint(
+        selectedAnchor.x,
+        selectedAnchor.y
+      ).matrixTransform(chartScreenMatrix);
+
+      const computedAnchorClient = {
+        clientX: anchorClientPoint.x,
+        clientY: anchorClientPoint.y,
+      };
+
+      const pendingSwitch = pendingViewSwitchRef.current;
+
+      const anchorClient =
+        pendingSwitch?.targetShowMap === true &&
+        pendingSwitch.anchor
+          ? pendingSwitch.anchor
+          : computedAnchorClient;
+
+      const viewportReady =
+        mapApi.ensureViewportInitialized(anchorClient);
+
+      if (!viewportReady) {
+        return false;
+      }
+
+      if (pendingSwitch?.targetShowMap === true) {
+        pendingViewSwitchRef.current = null;
+      }
+
+      selectedPinScreenPositionRef.current = anchorClient;
+
+      const projectRow = (row) => {
+        if (!hasMapCoordinates(row)) return null;
+
+        const longitude =
+          row.Longitude ?? row.longitude ?? row.lng ?? row.lon;
+        const latitude =
+          row.Latitude ?? row.latitude ?? row.lat;
+
+        const clientPoint = mapApi.projectLocationToClient(
+          longitude,
+          latitude
+        );
+
+        if (!clientPoint) return null;
+
+        const chartPoint = new DOMPoint(
+          clientPoint.clientX,
+          clientPoint.clientY
+        ).matrixTransform(inverseChartScreenMatrix);
+
+        if (
+          !Number.isFinite(chartPoint.x) ||
+          !Number.isFinite(chartPoint.y)
+        ) {
+          return null;
+        }
+
+        return {
+          x: chartPoint.x,
+          y: chartPoint.y,
+          clientX: clientPoint.clientX,
+          clientY: clientPoint.clientY,
+        };
+      };
+
+      for (const row of renderTextRows) {
+        const point = projectRow(row);
+        if (point) nextTextPositions.set(row.id, point);
+      }
+
+      for (const row of renderFatherRows) {
+        const point = projectRow(row);
+        if (point) nextFatherPositions.set(row.id, point);
+      }
+
+      const selectedType = selectedText ? "text" : "father";
+      const selectedRow = selectedText || selectedFather;
+      const selectedBucket =
+        selectedType === "text"
+          ? nextTextPositions
+          : nextFatherPositions;
+      const selectedPoint =
+        selectedBucket.get(selectedRow?.id) || null;
+
+      const getLocationLabel = (row) => {
+        if (!row) return "";
+
+        const original = String(
+          row.originalLocation ??
+          row["Original Geographical Location"] ??
+          row.Location ??
+          row.location ??
+          ""
+        ).trim();
+
+        const modern = String(
+          row.modernLocation ??
+          row["Current Geographical Location"] ??
+          row.currentGeographicalLocation ??
+          ""
+        ).trim();
+
+        if (!original && !modern) return "";
+        if (!original) return modern;
+        if (!modern) return original;
+
+        const originalLower = original.toLocaleLowerCase();
+        const modernLower = modern.toLocaleLowerCase();
+
+        if (
+          originalLower === modernLower ||
+          modernLower.startsWith(`${originalLower},`) ||
+          modernLower.startsWith(`${originalLower} `)
+        ) {
+          return modern;
+        }
+
+        return `${original} · ${modern}`;
+      };
+
+      const directConnections =
+        allConnectionRowsRef.current || [];
+
+      const findDirectConnection = (type, id) =>
+        directConnections.find((connection) => (
+          (
+            connection.aType === selectedType &&
+            connection.aId === selectedRow?.id &&
+            connection.bType === type &&
+            connection.bId === id
+          ) ||
+          (
+            connection.bType === selectedType &&
+            connection.bId === selectedRow?.id &&
+            connection.aType === type &&
+            connection.aId === id
+          )
+        )) || null;
+
+      const makeClusterEntry = (type, row, point) => {
+        const label =
+          type === "text"
+            ? (row.title || "Untitled text")
+            : (row.name || "Unnamed figure");
+
+        const colors =
+          Array.isArray(row.colors) && row.colors.length
+            ? row.colors
+            : [row.color || "#666"];
+
+        const connection =
+          findDirectConnection(type, row.id);
+
+        return {
+          type,
+          id: row.id,
+          row,
+          point,
+          label,
+          color: colors[0] || "#666",
+          colors,
+          connectionColor:
+            connection?.color || colors[0] || "#999999",
+          connectionStyle:
+            connection?.style || {
+              strokeWidth: 1.4,
+              strokeDasharray: null,
+              strokeLinecap: "round",
+            },
+        };
+      };
+
+      const candidates = [];
+
+      for (const row of renderTextRows) {
+        if (
+          selectedType === "text" &&
+          row.id === selectedRow?.id
+        ) {
+          continue;
+        }
+
+        const point = nextTextPositions.get(row.id);
+        if (point) {
+          candidates.push(
+            makeClusterEntry("text", row, point)
+          );
+        }
+      }
+
+      for (const row of renderFatherRows) {
+        if (
+          selectedType === "father" &&
+          row.id === selectedRow?.id
+        ) {
+          continue;
+        }
+
+        const point = nextFatherPositions.get(row.id);
+        if (point) {
+          candidates.push(
+            makeClusterEntry("father", row, point)
+          );
+        }
+      }
+
+      const selectedEntries = [];
+      const remainingCandidates = [];
+
+      for (const entry of candidates) {
+        const distance = selectedPoint
+          ? Math.hypot(
+              entry.point.clientX - selectedPoint.clientX,
+              entry.point.clientY - selectedPoint.clientY
+            )
+          : Infinity;
+
+        if (distance <= LOCATION_CLUSTER_TOLERANCE_PX) {
+          selectedEntries.push(entry);
+        } else {
+          remainingCandidates.push(entry);
+        }
+      }
+
+      const compareEntries = (a, b) =>
+        a.label.localeCompare(b.label, undefined, {
+          sensitivity: "base",
+          numeric: true,
+        });
+
+      selectedEntries.sort(compareEntries);
+
+      const selectedClusterKey =
+        `selected:${selectedType}:${selectedRow?.id || ""}`;
+
+      selectedLocationClusterRef.current = {
+        key: selectedClusterKey,
+        selectedType,
+        selectedId: selectedRow?.id || null,
+        selectedPoint,
+        locationLabel: getLocationLabel(selectedRow),
+        entries: selectedEntries,
+      };
+
+      const clusteredKeys = new Set();
+      const suppressedConnectionKeys = new Set();
+
+      for (const entry of selectedEntries) {
+        const nodeKey = `${entry.type}:${entry.id}`;
+        clusteredKeys.add(nodeKey);
+        suppressedConnectionKeys.add(nodeKey);
+      }
+
+      /*
+       * Build connected components by projected screen distance. This is more
+       * robust than grouping by location strings and still works when nearby
+       * records use slightly different coordinate precision.
+       */
+      const parent = remainingCandidates.map((_, index) => index);
+
+      const findRoot = (index) => {
+        let root = index;
+        while (parent[root] !== root) {
+          root = parent[root];
+        }
+
+        while (parent[index] !== index) {
+          const next = parent[index];
+          parent[index] = root;
+          index = next;
+        }
+
+        return root;
+      };
+
+      const union = (a, b) => {
+        const rootA = findRoot(a);
+        const rootB = findRoot(b);
+        if (rootA !== rootB) parent[rootB] = rootA;
+      };
+
+      for (let i = 0; i < remainingCandidates.length; i += 1) {
+        for (let j = i + 1; j < remainingCandidates.length; j += 1) {
+          const a = remainingCandidates[i].point;
+          const b = remainingCandidates[j].point;
+
+          if (
+            Math.hypot(
+              a.clientX - b.clientX,
+              a.clientY - b.clientY
+            ) <= LOCATION_CLUSTER_TOLERANCE_PX
+          ) {
+            union(i, j);
+          }
+        }
+      }
+
+      const groupsByRoot = new Map();
+
+      remainingCandidates.forEach((entry, index) => {
+        const root = findRoot(index);
+        const group = groupsByRoot.get(root) || [];
+        group.push(entry);
+        groupsByRoot.set(root, group);
+      });
+
+      const connectedClusters = [];
+
+      for (const group of groupsByRoot.values()) {
+        if (group.length < 2) continue;
+
+        group.sort(compareEntries);
+
+        const anchorPoint = {
+          x:
+            group.reduce(
+              (sum, entry) => sum + entry.point.x,
+              0
+            ) / group.length,
+          y:
+            group.reduce(
+              (sum, entry) => sum + entry.point.y,
+              0
+            ) / group.length,
+          clientX:
+            group.reduce(
+              (sum, entry) => sum + entry.point.clientX,
+              0
+            ) / group.length,
+          clientY:
+            group.reduce(
+              (sum, entry) => sum + entry.point.clientY,
+              0
+            ) / group.length,
+        };
+
+        const memberKey = group
+          .map((entry) => `${entry.type}:${entry.id}`)
+          .sort()
+          .join("|");
+
+        const cluster = {
+          key: `connected:${memberKey}`,
+          anchorPoint,
+          locationLabel:
+            getLocationLabel(group[0]?.row),
+          entries: group,
+          color: meanObjectColors(
+            group.flatMap((entry) => entry.colors)
+          ),
+        };
+
+        connectedClusters.push(cluster);
+
+        for (const entry of group) {
+          clusteredKeys.add(`${entry.type}:${entry.id}`);
+        }
+      }
+
+      connectedLocationClustersRef.current =
+        connectedClusters;
+      clusteredNodeKeysRef.current = clusteredKeys;
+      connectionSuppressedNodeKeysRef.current =
+        suppressedConnectionKeys;
+
+      const validClusterKeys = new Set([
+        ...(selectedEntries.length
+          ? [selectedClusterKey]
+          : []),
+        ...connectedClusters.map((cluster) => cluster.key),
+      ]);
+
+      const openClusterKeys = openLocationClusterKeysRef.current;
+      for (const key of Array.from(openClusterKeys)) {
+        if (!validClusterKeys.has(key)) {
+          openClusterKeys.delete(key);
+        }
+      }
+
+      if (
+        showMapRef.current &&
+        pendingAutoOpenMapClustersRef.current
+      ) {
+        openClusterKeys.clear();
+        for (const key of validClusterKeys) {
+          openClusterKeys.add(key);
+        }
+        pendingAutoOpenMapClustersRef.current = false;
+      }
+
+      locationClusterOpenRef.current = openClusterKeys.size > 0;
+
+      return (
+        nextTextPositions.size > 0 ||
+        nextFatherPositions.size > 0
+      );
+    }
 
     function apply(zx, zy, k = 1) {
   // cache latest rescaled axes for anchored tooltips
   zxRef.current = zx;
   zyRef.current = zy;
 
-  // axis & grid with adaptive ticks
-  const ticks = makeAdaptiveTicks(zx);
-  gAxis
-    .attr("transform", `translate(${margin.left},${margin.top + axisY})`)
-    .call(axisFor(zx, ticks));
-  gGrid
-    .attr("transform", `translate(0,${axisY})`)
-    .call(gridFor(zx, ticks));
-  snapGrid(zx);
+  const mapModeActive =
+    showMapRef.current &&
+    selectedMapAvailableRef.current &&
+    !!(selectedText || selectedFather);
 
+  rebuildGeographicNodePositions(zx, zy);
+
+  // axis & grid with adaptive ticks, or selected-object date guides
+  if (mapModeActive) {
+    gAxis.style("display", "none");
+    gGrid.style("display", "none");
+  } else if (
+    !renderDefaultSelectionAxisAndGuides(zx, zy)
+  ) {
+    const ticks = makeAdaptiveTicks(zx);
+
+    gAxis
+      .style("display", null)
+      .attr("transform", `translate(${margin.left},${margin.top + axisY})`)
+      .call(axisFor(zx, ticks));
+
+    gAxis
+      .selectAll("g.tick text")
+      .classed("selectedChronologyPrimaryDate", false)
+      .style("font-size", null);
+
+    gGrid
+      .style("display", null)
+      .attr("transform", `translate(0,${axisY})`)
+      .call(gridFor(zx, ticks));
+
+    // Remove selected-mode inline guide styling so the normal CSS grid style
+    // returns when the card closes.
+    gGrid
+      .selectAll("g.tick line")
+      .style("stroke", null)
+      .style("opacity", null)
+      .attr("stroke-opacity", null);
+
+    snapGrid(zx);
+  }
+
+  if (!mapModeActive) {
   // outlines rects
   gOut.selectAll("rect.outlineRect").each(function (d) {
     const r = bandRectPx(d, zx, zy);
@@ -5338,24 +9259,21 @@ labelSel.each(function (d) {
     d3.select(this).attr("d", dPath);
   });
 
+  }
+
   // === Author-lane layout (stable across zoom) ===
   // Position circles using per-band author lanes
 // === Author-lane layout (stable across zoom) ===
 // Position circles using per-band author lanes
 gTexts.selectAll("circle.textDot").each(function (d) {
-  const cx = zx(toAstronomical(d.when));
-
-  let cyU = textYMap.get(d.durationId)?.get(d.id);
-  if (!Number.isFinite(cyU)) {
-    cyU = y0(d.y);
-  }
-
-  const cy = zy(cyU);
+  const point = placedPointForText(d, zx, zy);
+  const cx = point.x;
+  const cy = point.y;
 
 const isSelected = selectedText && selectedText.id === d.id;
 const isHovered  = hoveredTextIdRef.current === d.id;
 
-const rBase = textBaseR(d) * k;
+const rBase = getTextObjectRadius(d, k);
 const rDraw = isSelected ? rBase * HOVER_SCALE_DOT : rBase;
 
 const circle = d3.select(this)
@@ -5365,23 +9283,19 @@ const circle = d3.select(this)
   .attr("stroke", (isSelected || isHovered) ? "#ffffff" : "none")
   .attr("stroke-width", (isSelected || isHovered) ? 1.4 : 0);
 
-// When there is a selected text, hide its original icon.
-// Also hide the icon when this text is the current hover-pin target.
+// The selected text is represented by the main pin, so hide only that icon.
 const shouldHide =
-  (!!selectedText && selectedText.id === d.id) ||
-  (!!hoverPinTarget && hoverPinTarget.type === "text" && hoverPinTarget.id === d.id);
+  !!selectedText && selectedText.id === d.id;
 
 circle.classed("hidden-icon", shouldHide);
 });
 
-// Also hide/show the multi-color pie for the selected text when pinned
+// Also hide/show the multi-color pie for the selected text when pinned.
 gTexts
   .selectAll("g.dotSlices")
   .classed(
     "hidden-icon",
-    d =>
-      (!!selectedText && selectedText.id === d.id) ||
-      (!!hoverPinTarget && hoverPinTarget.type === "text" && hoverPinTarget.id === d.id)
+    d => !!selectedText && selectedText.id === d.id
   );
 
 // === Relevance dimming (visual only) ===
@@ -5415,25 +9329,15 @@ if (shouldUpdateDimming) {
     .style("opacity", d => {
       // hide selected text icon completely
       if (selectedText && selectedText.id === d.id) return 0;
-      // hide hover-pin target icon completely
-      if (hoverPinTarget && hoverPinTarget.type === "text" && hoverPinTarget.id === d.id) return 0;
 
       if (!hasSel) return BASE_OPACITY;
-      return relTexts.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
+      return selectedNeighborhoodOpacity("text", d.id);
     }, "important");
 
   // Stronger dimming for pies: dim wedges + separators directly
   gTexts.selectAll("g.dotSlices").each(function (d) {
     // hide selected text pie completely
     if (selectedText && selectedText.id === d.id) {
-      const g = d3.select(this);
-      g.selectAll("path.slice").style("fill-opacity", 0, "important");
-      g.selectAll("line.sep").style("stroke-opacity", 0, "important");
-      return;
-    }
-
-    // hide hover-pin target pie completely
-    if (hoverPinTarget && hoverPinTarget.type === "text" && hoverPinTarget.id === d.id) {
       const g = d3.select(this);
       g.selectAll("path.slice").style("fill-opacity", 0, "important");
       g.selectAll("line.sep").style("stroke-opacity", 0, "important");
@@ -5458,14 +9362,639 @@ const o = BASE_OPACITY;
     .style("opacity", d => {
       // hide selected father icon completely
       if (selectedFather && selectedFather.id === d.id) return 0;
-      // hide hover-pin target father icon completely
-      if (hoverPinTarget && hoverPinTarget.type === "father" && hoverPinTarget.id === d.id) return 0;
 
       if (!hasSel) return BASE_OPACITY;
-      return relFathers.has(d.id) ? BASE_OPACITY : DIM_NODE_OPACITY;
+      return selectedNeighborhoodOpacity("father", d.id);
     }, "important");
 }
 
+
+
+/*
+ * Render one vertical branch in an unclipped SVG layer. The active branch may
+ * belong to the selected pin or to any crowded connected-object location.
+ */
+function getOpenLocationClusters() {
+  const openKeys = openLocationClusterKeysRef.current;
+  if (!openKeys.size) return [];
+
+  const selectedCluster = selectedLocationClusterRef.current;
+  const allClusters = [
+    ...(selectedCluster?.key ? [selectedCluster] : []),
+    ...connectedLocationClustersRef.current,
+  ];
+
+  return allClusters.filter((cluster) => {
+    const point = cluster?.selectedPoint || cluster?.anchorPoint;
+    return (
+      cluster?.key &&
+      openKeys.has(cluster.key) &&
+      point &&
+      Array.isArray(cluster.entries) &&
+      cluster.entries.length > 0
+    );
+  });
+}
+
+function renderLocationClusterBranch() {
+  const branchLayer = d3.select(locationClusterBranchRef.current);
+  const openClusters = showMapRef.current
+    ? getOpenLocationClusters()
+    : [];
+
+  const branchRoots = branchLayer
+    .selectAll("g.locationClusterBranch")
+    .data(openClusters, (cluster) => cluster.key)
+    .join(
+      (enter) =>
+        enter
+          .append("g")
+          .attr("class", "locationClusterBranch"),
+      (update) => update,
+      (exit) => exit.remove()
+    );
+
+  if (!openClusters.length) {
+    branchLayer
+      .style("display", "none")
+      .attr("aria-hidden", "true");
+
+    renderSelectedTooltipRef.current?.(true);
+    return;
+  }
+
+  branchLayer
+    .style("display", null)
+    .attr("aria-hidden", "false");
+
+  branchRoots.each(function (cluster) {
+    const branchRoot = d3.select(this);
+    const entries = cluster.entries || [];
+    const point = cluster.selectedPoint || cluster.anchorPoint;
+
+      const anchorX = margin.left + point.x;
+      const anchorY = margin.top + point.y;
+
+      const mapZoom =
+        timelineMapRef.current
+          ?.getViewportTransform?.()
+          ?.k ??
+        LOCATION_CLUSTER_BRANCH_REFERENCE_MAP_ZOOM;
+
+      const branchLengthScale = clamp(
+        Math.pow(
+          mapZoom /
+            LOCATION_CLUSTER_BRANCH_REFERENCE_MAP_ZOOM,
+          LOCATION_CLUSTER_BRANCH_ZOOM_SENSITIVITY
+        ),
+        LOCATION_CLUSTER_BRANCH_MIN_SCALE,
+        LOCATION_CLUSTER_BRANCH_MAX_SCALE
+      );
+
+      const firstIconY =
+        LOCATION_CLUSTER_FIRST_ICON_Y *
+        branchLengthScale;
+
+      const iconSpacing =
+        LOCATION_CLUSTER_ICON_SPACING *
+        branchLengthScale;
+
+      const layoutEntries = entries.map((entry, index) => ({
+        ...entry,
+        branchY:
+          firstIconY +
+          index * iconSpacing,
+        previousY:
+          index === 0
+            ? LOCATION_CLUSTER_EXPANDED_RADIUS
+            : firstIconY +
+              (index - 1) * iconSpacing,
+      }));
+
+      branchRoot
+        .style("display", null)
+        .attr("aria-hidden", "false")
+        .attr("role", "group")
+        .attr(
+          "aria-label",
+          "Connected objects at this location"
+        )
+        .attr("transform", `translate(${anchorX},${anchorY})`)
+        .on("pointerdown.locationCluster", (event) => {
+          event.stopPropagation();
+        })
+        .on("click.locationCluster", (event) => {
+          event.stopPropagation();
+        });
+
+      /*
+       * When one branch object is focused, every segment from the disclosure
+       * button down to that object remains highlighted. This preserves a
+       * continuous visual path for the second, third, and later branch items.
+       */
+      const activeBranchTarget = getSelectedFocusTarget();
+      const activeBranchIndex = activeBranchTarget
+        ? layoutEntries.findIndex(
+            (entry) =>
+              activeBranchTarget.type === entry.type &&
+              activeBranchTarget.id === entry.id
+          )
+        : -1;
+
+      /*
+       * Each segment inherits the actual color, thickness, dash pattern, and
+       * line-cap of the connection it replaces.
+       */
+      branchRoot
+        .selectAll("line.locationClusterBranch__segment")
+        .data(
+          layoutEntries,
+          (entry) => `${entry.type}:${entry.id}`
+        )
+        .join("line")
+        .attr("class", "locationClusterBranch__segment")
+        .attr("x1", 0)
+        .attr("x2", 0)
+        .attr("y1", (entry) => entry.previousY)
+        .attr("y2", (entry) => entry.branchY)
+        .attr(
+          "stroke",
+          (entry) => entry.connectionColor
+        )
+        .attr(
+          "stroke-width",
+          (entry) =>
+            entry.connectionStyle?.strokeWidth || 1.4
+        )
+        .attr(
+          "stroke-dasharray",
+          (entry) =>
+            entry.connectionStyle?.strokeDasharray || null
+        )
+        .attr(
+          "stroke-linecap",
+          (entry) =>
+            entry.connectionStyle?.strokeLinecap || "round"
+        )
+        .attr("stroke-opacity", (entry, index) => {
+          if (!activeBranchTarget) {
+            return CONNECTION_HIGHLIGHT_OPACITY;
+          }
+
+          if (activeBranchIndex < 0) {
+            return CONNECTION_SELECTED_DIM_OPACITY;
+          }
+
+          return index <= activeBranchIndex
+            ? CONNECTION_HIGHLIGHT_OPACITY
+            : CONNECTION_SELECTED_DIM_OPACITY;
+        });
+
+      const activateEntry = (event, entry) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        hideTipSel(tipText);
+        closeLocationClusterBranch();
+        setCardLinkHoverTarget(null);
+        setHoveredTimelineTargetSafe(null);
+        setShowMore(false);
+
+        if (entry.type === "text") {
+          setSelectedText(entry.row);
+          setSelectedFather(null);
+        } else {
+          setSelectedFather(entry.row);
+          setSelectedText(null);
+        }
+      };
+
+      const items = branchRoot
+        .selectAll("g.locationClusterBranch__item")
+        .data(
+          layoutEntries,
+          (entry) => `${entry.type}:${entry.id}`
+        )
+        .join(
+          (enter) => {
+            const item = enter
+              .append("g")
+              .attr("class", "locationClusterBranch__item")
+              .attr("role", "button")
+              .attr("tabindex", 0);
+
+            item
+              .append("circle")
+              .attr("class", "locationClusterBranch__hit");
+
+            item
+              .append("g")
+              .attr("class", "locationClusterBranch__icon");
+
+            return item;
+          },
+          (update) => update,
+          (exit) => exit.remove()
+        )
+        .attr(
+          "transform",
+          (entry) => `translate(0,${entry.branchY})`
+        )
+        .attr("aria-label", (entry) => entry.label)
+        .on("pointerdown.locationCluster", (event) => {
+          event.stopPropagation();
+        })
+        .on("mouseenter.locationCluster", function (event, entry) {
+          cancelHoverTLClear();
+
+          d3.select(this).classed("is-hovered", true);
+
+          setHoveredTimelineTargetSafe({
+            type: entry.type,
+            id: entry.id,
+          });
+
+          hideTipSel(tipText);
+        })
+        .on("mousemove.locationCluster", function () {
+          hideTipSel(tipText);
+        })
+        .on("mouseleave.locationCluster", function () {
+          d3.select(this).classed("is-hovered", false);
+          clearHoveredTimelineTargetSoon(60);
+          hideTipSel(tipText);
+        })
+        .on("click.locationCluster", activateEntry)
+        .on(
+          "keydown.locationCluster",
+          (event, entry) => {
+            if (
+              event.key === "Enter" ||
+              event.key === " "
+            ) {
+              activateEntry(event, entry);
+            }
+          }
+        )
+        .style("opacity", (entry) => {
+          const activeTarget = getSelectedFocusTarget();
+          if (!activeTarget) return BASE_OPACITY;
+
+          return activeTarget.type === entry.type &&
+            activeTarget.id === entry.id
+            ? BASE_OPACITY
+            : DIM_NODE_OPACITY;
+        });
+
+      const branchIconRadiusForEntry = (entry) =>
+        entry?.type === "father"
+          ? getFatherObjectRadius(entry.row, k)
+          : getTextObjectRadius(entry.row, k);
+
+      items
+        .select("circle.locationClusterBranch__hit")
+        .attr(
+          "r",
+          (entry) =>
+            Math.max(
+              LOCATION_CLUSTER_HIT_RADIUS,
+              branchIconRadiusForEntry(entry) + 7
+            )
+        );
+
+
+      /*
+       * Render the same icon language used by the timeline:
+       * text = circle/pie; father = triangle or concept square.
+       */
+      items.each(function (entry) {
+        const item = d3.select(this);
+        const icon = item.select(
+          "g.locationClusterBranch__icon"
+        );
+
+        icon.selectAll("*").remove();
+
+        const colors =
+          Array.isArray(entry.colors) &&
+          entry.colors.length
+            ? entry.colors
+            : [entry.color || "#666"];
+
+        if (entry.type === "text") {
+          icon.datum({ colors });
+
+          icon
+            .selectAll("path.slice")
+            .data(
+              colors.map((color, index) => ({
+                color,
+                index,
+              }))
+            )
+            .join("path")
+            .attr("class", "slice")
+            .attr("fill", (slice) => slice.color)
+            .style("fill", (slice) => slice.color);
+
+          drawSlicesAtRadius(
+            icon,
+            branchIconRadiusForEntry(entry)
+          );
+
+          return;
+        }
+
+        const isConcept =
+          hasConceptTag(
+            entry.row.historicMythicStatusTags
+          );
+
+        const radius = branchIconRadiusForEntry(entry);
+
+        const slices = isConcept
+          ? splitSquareSlices(0, 0, radius, colors)
+          : leftSplitTriangleSlices(
+              0,
+              0,
+              radius,
+              colors
+            );
+
+        icon
+          .selectAll("path.slice")
+          .data(slices, (_, index) => index)
+          .join("path")
+          .attr("class", "slice")
+          .attr("d", (slice) => slice.d)
+          .attr("fill", (slice) => slice.fill)
+          .style("fill", (slice) => slice.fill)
+          .attr(
+            "vector-effect",
+            "non-scaling-stroke"
+          )
+          .attr(
+            "shape-rendering",
+            "geometricPrecision"
+          );
+
+        const showMid =
+          !isConcept &&
+          hasHistoricTag(
+            entry.row.historicMythicStatusTags
+          );
+
+        const overlays = isConcept
+          ? buildSquareOverlaySegments(
+              0,
+              0,
+              radius,
+              colors
+            )
+          : buildOverlaySegments(
+              0,
+              0,
+              radius,
+              colors,
+              showMid
+            );
+
+        const borderWidth =
+          fatherBorderStrokeWidth(radius);
+
+        icon
+          .selectAll("line.overlay")
+          .data(
+            overlays,
+            (segment, index) =>
+              `${segment.type}:${index}`
+          )
+          .join("line")
+          .attr("class", "overlay")
+          .attr("x1", (segment) => segment.x1)
+          .attr("y1", (segment) => segment.y1)
+          .attr("x2", (segment) => segment.x2)
+          .attr("y2", (segment) => segment.y2)
+          .attr("stroke", "#ffffff")
+          .attr(
+            "stroke-width",
+            (segment) =>
+              segment.type === "mid"
+                ? borderWidth * 2
+                : borderWidth
+          )
+          .attr("stroke-linecap", "round")
+          .attr(
+            "vector-effect",
+            "non-scaling-stroke"
+          )
+          .style("pointer-events", "none");
+      });
+
+  });
+
+  renderSelectedTooltipRef.current?.(true);
+}
+
+function toggleLocationClusterBranch(
+  event,
+  cluster,
+  clusterButton,
+  cx,
+  cy
+) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  if (!cluster?.key || !cluster.entries?.length) return;
+
+  const openKeys = openLocationClusterKeysRef.current;
+  const wasOpen = openKeys.has(cluster.key);
+
+  if (wasOpen) {
+    closeLocationClusterBranch(cluster.key);
+    renderLocationClusterBranch();
+    return;
+  }
+
+  openKeys.add(cluster.key);
+  locationClusterOpenRef.current = true;
+
+  if (event.type === "click") {
+    event.currentTarget?.blur?.();
+  }
+
+  clusterButton
+    .classed("is-open", true)
+    .attr(
+      "d",
+      locationClusterTrianglePath(
+        cx,
+        cy,
+        LOCATION_CLUSTER_EXPANDED_RADIUS,
+        true
+      )
+    )
+    .attr("aria-expanded", "true")
+    .attr(
+      "aria-label",
+      "Hide connected objects at this location"
+    );
+
+  d3.select(clusterButton.node()?.parentNode)
+    .select("text.tl-pin-cluster-count")
+    .style("display", "none");
+
+  renderLocationClusterBranch();
+}
+
+
+/*
+ * Co-located connected objects are represented by location-cluster controls,
+ * so their normal markers and mini-tooltips do not remain stacked together.
+ */
+{
+  const clusteredKeys = clusteredNodeKeysRef.current;
+
+  gTexts
+    .selectAll("circle.textDot")
+    .style(
+      "display",
+      (d) =>
+        clusteredKeys.has(`text:${d.id}`)
+          ? "none"
+          : null
+    );
+
+  gTexts
+    .selectAll("g.dotSlices")
+    .style(
+      "display",
+      (d) =>
+        clusteredKeys.has(`text:${d.id}`)
+          ? "none"
+          : null
+    );
+
+  gFathers
+    .selectAll("g.fatherMark")
+    .style(
+      "display",
+      (d) =>
+        clusteredKeys.has(`father:${d.id}`)
+          ? "none"
+          : null
+    );
+}
+
+/*
+ * Every non-selected map location containing two or more connected objects is
+ * represented by one disclosure triangle. Its hidden objects are rendered only
+ * inside the vertical branch after the triangle is opened.
+ */
+const connectedClusterControls = gPins
+  .selectAll("g.connectedLocationClusterControl")
+  .data(
+    showMapRef.current
+      ? connectedLocationClustersRef.current
+      : [],
+    (cluster) => cluster.key
+  )
+  .join(
+    (enter) => {
+      const control = enter
+        .append("g")
+        .attr(
+          "class",
+          "connectedLocationClusterControl"
+        );
+
+      control
+        .append("path")
+        .attr("class", "tl-pin-cluster-button")
+        .attr("role", "button")
+        .attr("tabindex", 0)
+        .attr("aria-expanded", "false")
+        .style("pointer-events", "all");
+
+      control
+        .append("text")
+        .attr("class", "tl-pin-cluster-count")
+        .attr("aria-hidden", "true");
+
+      return control;
+    },
+    (update) => update,
+    (exit) => exit.remove()
+  );
+
+connectedClusterControls.each(function (cluster) {
+  const point = cluster.anchorPoint;
+  if (!point) return;
+
+  const cx = point.x;
+  const cy = point.y;
+  const isOpen =
+    openLocationClusterKeysRef.current.has(cluster.key);
+
+  const control = d3.select(this);
+  const button = control
+    .select("path.tl-pin-cluster-button")
+    .attr("data-cluster-key", cluster.key)
+    .attr("data-cx", cx)
+    .attr("data-cy", cy)
+    .attr(
+      "d",
+      locationClusterTrianglePath(
+        cx,
+        cy,
+        isOpen
+          ? LOCATION_CLUSTER_EXPANDED_RADIUS
+          : LOCATION_CLUSTER_COLLAPSED_RADIUS,
+        isOpen
+      )
+    )
+    .attr(
+      "aria-label",
+      isOpen
+        ? `Hide ${cluster.entries.length} connected objects at this location`
+        : `Show ${cluster.entries.length} connected objects at this location`
+    )
+    .attr("aria-expanded", isOpen ? "true" : "false")
+    .classed("is-open", isOpen);
+
+  control
+    .select("text.tl-pin-cluster-count")
+    .style("display", isOpen ? "none" : null)
+    .attr("text-anchor", "middle")
+    .attr("dominant-baseline", "hanging")
+    .attr("x", cx + LOCATION_CLUSTER_COUNT_X_OFFSET)
+    .attr(
+      "y",
+      cy +
+        LOCATION_CLUSTER_COLLAPSED_RADIUS * 0.78 +
+        4 +
+        LOCATION_CLUSTER_COUNT_Y_OFFSET
+    )
+    .text(cluster.entries.length);
+
+  const activate = (event) =>
+    toggleLocationClusterBranch(
+      event,
+      cluster,
+      button,
+      cx,
+      cy
+    );
+
+  button
+    .on("click.locationCluster", activate)
+    .on("keydown.locationCluster", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        activate(event);
+      }
+    });
+});
 
 
 // --- Selected TEXT pin (circle-in-pin) ---
@@ -5496,22 +10025,32 @@ textPinSel
         .attr("class", "tl-pin-icon")
         .style("pointer-events", "none");
 
+      // Visible only when connected objects share the selected map location.
+      g.append("path")
+        .attr("class", "tl-pin-cluster-button")
+        .attr("role", "button")
+        .attr("tabindex", 0)
+        .attr("aria-expanded", "false")
+        .style("display", "none")
+        .style("pointer-events", "all");
+
+      g.append("text")
+        .attr("class", "tl-pin-cluster-count")
+        .attr("aria-hidden", "true")
+        .style("display", "none");
+
       return g;
     },
     update => update,
     exit => exit.remove()
   )
   .each(function (d) {
-    const cx = zx(toAstronomical(d.when));
+    const point = placedPointForText(d, zx, zy);
+    const cx = point.x;
+    const cy = point.y;
 
-    let cyU = textYMap.get(d.durationId)?.get(d.id);
-    if (!Number.isFinite(cyU)) {
-      cyU = y0(d.y);
-    }
-    const cy = zy(cyU);
-
-    const rBase = textBaseR(d) * k;
-    const rHead = rBase * HOVER_SCALE_DOT; // match enlarged selected dot
+    const fixedPinHeadRadius =
+      getSelectedPinHeadRadius(k);
 
     // Robustly derive the same palette the base dot uses
     let cols = Array.isArray(d.colors) && d.colors.length ? d.colors : null;
@@ -5537,7 +10076,13 @@ textPinSel
     const pinColor = cols[0];
 
 
-    const { cxHead, cyHead, R } = computePinHeadGeometry(cx, cy, rHead);
+    const { cxHead, cyHead, R } =
+      computePinHeadGeometry(
+        cx,
+        cy,
+        null,
+        fixedPinHeadRadius
+      );
     const rIcon = R * 0.45;
 
     const g = d3.select(this);
@@ -5547,7 +10092,15 @@ textPinSel
 
     // Teardrop body path (white fill + colored border via CSS)
     g.select("path.tl-pin-body")
-      .attr("d", pinPathD(cx, cy, rHead));
+      .attr(
+        "d",
+        pinPathD(
+          cx,
+          cy,
+          null,
+          fixedPinHeadRadius
+        )
+      );
 
     // Circle icon in the pin head (solid system color)
     // Icon: mini multi-color pie, reusing the same logic as the base dots
@@ -5574,21 +10127,122 @@ iconG.selectAll("path.slice")
 
     // Now let the shared helper compute the arc geometry for this radius
     drawSlicesAtRadius(iconG, rIcon);
+
+    const cluster = selectedLocationClusterRef.current;
+    const hasLocationCluster =
+      showMapRef.current &&
+      cluster.selectedType === "text" &&
+      cluster.selectedId === d.id &&
+      cluster.entries.length > 0;
+
+    const isClusterOpen =
+      hasLocationCluster &&
+      openLocationClusterKeysRef.current.has(cluster.key);
+
+    const clusterButton = g
+      .select("path.tl-pin-cluster-button")
+      .style(
+        "display",
+        hasLocationCluster ? null : "none"
+      )
+      .attr("data-cluster-key", cluster.key || "")
+      .attr("data-cx", cx)
+      .attr("data-cy", cy + 1)
+      .attr(
+        "d",
+        locationClusterTrianglePath(
+          cx,
+          cy + 1,
+          isClusterOpen
+            ? LOCATION_CLUSTER_EXPANDED_RADIUS
+            : LOCATION_CLUSTER_COLLAPSED_RADIUS,
+          isClusterOpen
+        )
+      )
+      .attr(
+        "aria-label",
+        hasLocationCluster
+          ? (
+              isClusterOpen
+                ? `Hide ${cluster.entries.length} connected objects at this location`
+                : `Show ${cluster.entries.length} connected objects at this location`
+            )
+          : null
+      )
+      .attr(
+        "aria-expanded",
+        isClusterOpen ? "true" : "false"
+      )
+      .classed("is-open", isClusterOpen);
+
+    const clusterCount = g
+      .select("text.tl-pin-cluster-count")
+      .style(
+        "display",
+        hasLocationCluster && !isClusterOpen ? null : "none"
+      )
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "hanging")
+      .attr("x", cx + LOCATION_CLUSTER_COUNT_X_OFFSET)
+      .attr(
+        "y",
+        cy +
+          1 +
+          LOCATION_CLUSTER_COLLAPSED_RADIUS * 0.78 +
+          4 +
+          LOCATION_CLUSTER_COUNT_Y_OFFSET
+      )
+      .text(
+        hasLocationCluster
+          ? cluster.entries.length
+          : ""
+      );
+
+    // SVG child order controls layering: put the triangle behind the pin body.
+    clusterButton.lower();
+    clusterCount.raise();
+
+    const toggleClusterBranch = (event) => {
+      if (!hasLocationCluster) return;
+
+      toggleLocationClusterBranch(
+        event,
+        cluster,
+        clusterButton,
+        cx,
+        cy + 1
+      );
+    };
+
+    clusterButton
+      .on(
+        "click.locationCluster",
+        toggleClusterBranch
+      )
+      .on(
+        "keydown.locationCluster",
+        (event) => {
+          if (
+            event.key === "Enter" ||
+            event.key === " "
+          ) {
+            toggleClusterBranch(event);
+          }
+        }
+      );
   });
 
 
 // Position pies to match circles (same cy rule)
 gTexts.selectAll("g.dotSlices").each(function (d) {
-  const cx = zx(toAstronomical(d.when));
-
-  let cyU = textYMap.get(d.durationId)?.get(d.id);
-  if (!Number.isFinite(cyU)) cyU = y0(d.y);
-  const cy = zy(cyU);
+  const point = placedPointForText(d, zx, zy);
+  const cx = point.x;
+  const cy = point.y;
 
   const isSelected = !!(selectedText && selectedText.id === d.id);
   const isHovered  = (hoveredTextIdRef.current === d.id);
 
-  const rBase = textBaseR(d) * k;
+  const rBase = getTextObjectRadius(d, k);
 
   // IMPORTANT:
   // - Selected pies are rendered "big" via arc radius (rDraw) with NO scale transform.
@@ -5603,48 +10257,26 @@ gTexts.selectAll("g.dotSlices").each(function (d) {
     g.attr("transform", `translate(${cx},${cy})`);
   }
 
-  // Debug: pies jittering under selection tends to come from isHovered toggling
-  // or from hover-pin logic. Log only when this pie is the current hover-pin target.
-  if (DEBUG_TL && DEBUG_HOVER && hoverPinTarget && hoverPinTarget.type === "text" && hoverPinTarget.id === d.id) {
-    const c = dbgCount(`pieXform:${d.id}`);
-    if (c <= 8 || c % 60 === 0) {
-      dbgLog("pie.transform", {
-        id: d.id,
-        hasSelection: !!(selectedText || selectedFather),
-        isSelected,
-        isHovered,
-        hoveredTextId: hoveredTextIdRef.current,
-        hoverPinTarget,
-        rBase,
-        rDraw,
-        k,
-        transform: g.attr("transform"),
-      });
-    }
-  }
-
   drawSlicesAtRadius(g, rDraw);
 });
 
 
   // Fathers (triangles)
  gFathers.selectAll("g.fatherMark").each(function (d) {
-  const cx = zx(toAstronomical(d.when));
+  const point = placedPointForFather(d, zx, zy);
+  const cx = point.x;
+  const cy = point.y;
 
-  let cyU = y0(d.y);
-  const yBandMap = fatherYMap.get(d.durationId);
-  const assignedU = yBandMap?.get(d.id);
-  if (Number.isFinite(assignedU)) cyU = assignedU;
-  const cy = zy(cyU);
-
-  d3.select(this).attr("data-cy", cy);
+  d3.select(this)
+    .attr("data-cx", cx)
+    .attr("data-cy", cy);
 
   const cols = d.colors && d.colors.length ? d.colors : [d.color || "#666"];
 
 const isSelected = selectedFather && selectedFather.id === d.id;
 const isHovered  = hoveredFatherIdRef.current === d.id;
 
-const rBase = getFatherBaseR(d) * k * 2.2;
+const rBase = getFatherObjectRadius(d, k);
 const r = isSelected ? rBase * HOVER_SCALE_FATHER : rBase;
 
 const isConcept = hasConceptTag(d.historicMythicStatusTags);
@@ -5727,14 +10359,12 @@ border
 });
 
 // --- Selected FATHER pin (triangle-in-pin) ---
-// Hide the original father icon whenever it is selected
+// Hide the original father icon only while it is represented by the main pin.
 gFathers
   .selectAll("g.fatherMark")
   .classed(
     "hidden-icon",
-    d =>
-      (!!selectedFather && selectedFather.id === d.id) ||
-      (!!hoverPinTarget && hoverPinTarget.type === "father" && hoverPinTarget.id === d.id)
+    d => !!selectedFather && selectedFather.id === d.id
   );
 
 // --- Selected FATHER pin (triangle-in-pin) ---
@@ -5765,6 +10395,20 @@ fatherPinSel
         .attr("class", "tl-pin-icon")
         .style("pointer-events", "none");
 
+      // Visible only when connected objects share the selected map location.
+      g.append("path")
+        .attr("class", "tl-pin-cluster-button")
+        .attr("role", "button")
+        .attr("tabindex", 0)
+        .attr("aria-expanded", "false")
+        .style("display", "none")
+        .style("pointer-events", "all");
+
+      g.append("text")
+        .attr("class", "tl-pin-cluster-count")
+        .attr("aria-hidden", "true")
+        .style("display", "none");
+
       return g;
     },
     update => update,
@@ -5772,16 +10416,12 @@ fatherPinSel
   )
   .each(function (d) {
     const isConcept = hasConceptTag(d.historicMythicStatusTags);
-    const cx = zx(toAstronomical(d.when));
+    const point = placedPointForFather(d, zx, zy);
+    const cx = point.x;
+    const cy = point.y;
 
-    let cyU = y0(d.y);
-    const yBandMap = fatherYMap.get(d.durationId);
-    const assignedU = yBandMap?.get(d.id);
-    if (Number.isFinite(assignedU)) cyU = assignedU;
-    const cy = zy(cyU);
-
-    const baseR = getFatherBaseR(d) * k * 2.2;
-    const rHead = baseR * HOVER_SCALE_FATHER;
+    const fixedPinHeadRadius =
+      getSelectedPinHeadRadius(k);
 
     // Derive the same palette as the base father icon / markerIcon
     let cols = Array.isArray(d.colors) && d.colors.length ? d.colors : null;
@@ -5808,7 +10448,13 @@ fatherPinSel
     const pinColor = cols[0];
 
 
-    const { cxHead, cyHead, R } = computePinHeadGeometry(cx, cy, rHead);
+    const { cxHead, cyHead, R } =
+      computePinHeadGeometry(
+        cx,
+        cy,
+        null,
+        fixedPinHeadRadius
+      );
     const rIcon = R * 0.45;
 
     // Offset the icon a bit if needed:
@@ -5822,7 +10468,15 @@ fatherPinSel
 
     // Teardrop body outline
     g.select("path.tl-pin-body")
-      .attr("d", pinPathD(cx, cy, rHead));
+      .attr(
+        "d",
+        pinPathD(
+          cx,
+          cy,
+          null,
+          fixedPinHeadRadius
+        )
+      );
 
     // Simple right-pointing triangle in the head
     const iconG = g.select("g.tl-pin-icon");
@@ -5875,241 +10529,126 @@ fatherPinSel
       .attr("y2", (s) => s.y2)
       .attr("stroke-width", showOverlays ? 2*w : 0)
       .attr("opacity", showOverlays ? 1 : 0);
+
+    const cluster = selectedLocationClusterRef.current;
+    const hasLocationCluster =
+      showMapRef.current &&
+      cluster.selectedType === "father" &&
+      cluster.selectedId === d.id &&
+      cluster.entries.length > 0;
+
+    const isClusterOpen =
+      hasLocationCluster &&
+      openLocationClusterKeysRef.current.has(cluster.key);
+
+    const clusterButton = g
+      .select("path.tl-pin-cluster-button")
+      .style(
+        "display",
+        hasLocationCluster ? null : "none"
+      )
+      .attr("data-cluster-key", cluster.key || "")
+      .attr("data-cx", cx)
+      .attr("data-cy", cy + 1)
+      .attr(
+        "d",
+        locationClusterTrianglePath(
+          cx,
+          cy + 1,
+          isClusterOpen
+            ? LOCATION_CLUSTER_EXPANDED_RADIUS
+            : LOCATION_CLUSTER_COLLAPSED_RADIUS,
+          isClusterOpen
+        )
+      )
+      .attr(
+        "aria-label",
+        hasLocationCluster
+          ? (
+              isClusterOpen
+                ? "Hide connected objects at this location"
+                : "Show connected objects at this location"
+            )
+          : null
+      )
+      .attr(
+        "aria-expanded",
+        isClusterOpen ? "true" : "false"
+      )
+      .classed("is-open", isClusterOpen);
+
+    const clusterCount = g
+      .select("text.tl-pin-cluster-count")
+      .style(
+        "display",
+        hasLocationCluster && !isClusterOpen ? null : "none"
+      )
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "hanging")
+      .attr("x", cx + LOCATION_CLUSTER_COUNT_X_OFFSET)
+      .attr(
+        "y",
+        cy +
+          1 +
+          LOCATION_CLUSTER_COLLAPSED_RADIUS * 0.78 +
+          4 +
+          LOCATION_CLUSTER_COUNT_Y_OFFSET
+      )
+      .text(
+        hasLocationCluster
+          ? cluster.entries.length
+          : ""
+      );
+
+    // SVG child order controls layering: put the triangle behind the pin body.
+    clusterButton.lower();
+    clusterCount.raise();
+
+    const toggleClusterBranch = (event) => {
+      if (!hasLocationCluster) return;
+
+      toggleLocationClusterBranch(
+        event,
+        cluster,
+        clusterButton,
+        cx,
+        cy + 1
+      );
+    };
+
+    clusterButton
+      .on(
+        "click.locationCluster",
+        toggleClusterBranch
+      )
+      .on(
+        "keydown.locationCluster",
+        (event) => {
+          if (
+            event.key === "Enter" ||
+            event.key === " "
+          ) {
+            toggleClusterBranch(event);
+          }
+        }
+      );
   });
 
-  // --- Hover pins (from links inside cards) ---
-  // These are smaller than selected pins and only appear if the target item is currently visible
-  const hoverTextRow =
-    hoverPinTarget && hoverPinTarget.type === "text"
-      ? visTextById.get(hoverPinTarget.id)
-      : null;
+  // Initialize the map once; an established viewport is never recentered here.
+  if (
+    showMapRef.current &&
+    (selectedText || selectedFather)
+  ) {
+    scheduleSelectedPinScreenPositionFromDom("d3-apply");
+  } else if (!selectedText && !selectedFather) {
+    clearSelectedPinScreenPosition();
+  }
 
-  const hoverFatherRow =
-    hoverPinTarget && hoverPinTarget.type === "father"
-      ? visFatherById.get(hoverPinTarget.id)
-      : null;
-
-  // Small TEXT hover pin
-  const hoverTextPinSel = gPins
-    .selectAll("g.hoverTextPin")
-    .data(hoverTextRow ? [hoverTextRow] : [], d => d.id);
-
-  hoverTextPinSel
-    .join(
-      enter => {
-        const g = enter
-          .append("g")
-          .attr("class", "hoverTextPin tl-pin tl-pin-hover tl-pin-cardHover")
-          .style("pointer-events", "none");
-
-        g.append("path")
-          .attr("class", "tl-pin-body")
-          .attr("vector-effect", "non-scaling-stroke")
-          .attr("shape-rendering", "geometricPrecision");
-
-        g.append("g")
-          .attr("class", "tl-pin-icon")
-          .style("pointer-events", "none");
-
-        return g;
-      },
-      update => update,
-      exit => exit.remove()
-    )
-    .each(function (d) {
-      const cx = zx(toAstronomical(d.when));
-
-      let cyU = textYMap.get(d.durationId)?.get(d.id);
-      if (!Number.isFinite(cyU)) cyU = y0(d.y);
-      const cy = zy(cyU);
-
-      const rBase = textBaseR(d) * k;
-      const rHeadSelected = rBase * HOVER_SCALE_DOT;
-      const rHead = rHeadSelected * 0.7; // ~30% smaller than selected pin
-
-      // Palette
-      let cols = Array.isArray(d.colors) && d.colors.length ? d.colors : null;
-      if (!cols || !cols.length) cols = [d.color || "#666"]; 
-      const pinColor = cols[0];
-
-      const { cxHead, cyHead, R } = computePinHeadGeometry(cx, cy, rHead);
-      const rIcon = R * 0.45;
-
-      if (DEBUG_TL && DEBUG_HOVER) {
-        const c = dbgCount(`hoverTextPin:${d.id}`);
-        if (c <= 5 || c % 60 === 0) {
-          dbgLog("hoverTextPin.draw", {
-            id: d.id,
-            rHead,
-            rIcon,
-            nColors: cols?.length || 0,
-            colors: cols,
-          });
-        }
-      }
-
-      const g = d3.select(this);
-      g.style("--pin-color", pinColor);
-
-      g.select("path.tl-pin-body")
-        .attr("d", pinPathD(cx, cy, rHead));
-
-      const iconG = g.select("g.tl-pin-icon")
-        .attr(
-          "transform",
-          `translate(${cxHead}, ${cyHead - rIcon * 0.5})`
-        );
-
-      iconG.datum({ colors: cols });
-
-      iconG.selectAll("path.slice")
-        .data((cols || []).map((color, i) => ({ color, i, n: cols.length })))
-        .join(
-          e => e.append("path").attr("class", "slice"),
-          u => u,
-          x => x.remove()
-        )
-        .attr("fill", s => s.color)
-        .style("fill", s => s.color);
-
-      drawSlicesAtRadius(iconG, rIcon);
-    });
-
-  // Small FATHER hover pin
-  const hoverFatherPinSel = gPins
-    .selectAll("g.hoverFatherPin")
-    .data(hoverFatherRow ? [hoverFatherRow] : [], d => d.id);
-
-  hoverFatherPinSel
-    .join(
-      enter => {
-        const g = enter
-          .append("g")
-          .attr("class", "hoverFatherPin tl-pin tl-pin-hover tl-pin-cardHover")
-          .style("pointer-events", "none");
-
-        g.append("path")
-          .attr("class", "tl-pin-body")
-          .attr("vector-effect", "non-scaling-stroke")
-          .attr("shape-rendering", "geometricPrecision");
-
-        g.append("g")
-          .attr("class", "tl-pin-icon")
-          .style("pointer-events", "none");
-
-        return g;
-      },
-      update => update,
-      exit => exit.remove()
-    )
-    .each(function (d) {
-      const isConcept = hasConceptTag(d.historicMythicStatusTags);
-      const cx = zx(toAstronomical(d.when));
-
-      let cyU = y0(d.y);
-      const yBandMap = fatherYMap.get(d.durationId);
-      const assignedU = yBandMap?.get(d.id);
-      if (Number.isFinite(assignedU)) cyU = assignedU;
-      const cy = zy(cyU);
-
-      const baseR = getFatherBaseR(d) * k * 2.2;
-      const rHeadSelected = baseR * HOVER_SCALE_FATHER;
-      const rHead = rHeadSelected * 0.7; // ~30% smaller than selected pin
-
-      let cols = Array.isArray(d.colors) && d.colors.length ? d.colors : null;
-      if (!cols || !cols.length) cols = [d.color || "#666"];
-      const pinColor = cols[0];
-
-      const { cxHead, cyHead, R } = computePinHeadGeometry(cx, cy, rHead);
-      const rIcon = R * 0.45;
-
-      const iconCx = cxHead + rIcon * (isConcept ? 0.0 : 0.1);
-      const iconCy = cyHead - rIcon * (isConcept ? 0.35 : 0.5);
-
-      const g = d3.select(this);
-      g.style("--pin-color", pinColor);
-
-      g.select("path.tl-pin-body")
-        .attr("d", pinPathD(cx, cy, rHead));
-
-      const iconG = g.select("g.tl-pin-icon");
-
-      // Card-hover pins are intentionally small.
-      // For multi-system and/or historic fathers, the full slice+overlay treatment
-      // becomes visually noisy at small radii (reads as a "dirty" icon).
-      // So: simplify the icon when it’s small — use only the first system color
-      // and suppress the historic midline/overlays.
-      const simplifyIcon = (Array.isArray(cols) && cols.length > 1) || hasHistoricTag(d.historicMythicStatusTags);
-      const colsIcon = (simplifyIcon && rIcon < 7) ? [cols[0]] : cols;
-
-      const iconSlices = isConcept
-        ? splitSquareSlices(iconCx, iconCy, rIcon, colsIcon)
-        : leftSplitTriangleSlices(iconCx, iconCy, rIcon, colsIcon);
-
-      iconG.selectAll("path.slice")
-        .data(iconSlices, (_, i) => i)
-        .join(
-          e => e.append("path")
-                .attr("class", "slice")
-                .attr("vector-effect", "non-scaling-stroke")
-                .attr("shape-rendering", "geometricPrecision"),
-          u => u,
-          x => x.remove()
-        )
-        .attr("d", s => s.d)
-        .attr("fill", s => s.fill)
-        .style("fill", s => s.fill);
-
-      const allowOverlays = rIcon >= 7; // keep overlays only when there's enough room
-      const showMid = allowOverlays && !isConcept && hasHistoricTag(d.historicMythicStatusTags);
-      const overlaySegs = !allowOverlays
-        ? []
-        : (isConcept
-            ? buildSquareOverlaySegments(iconCx, iconCy, rIcon, colsIcon)
-            : buildOverlaySegments(iconCx, iconCy, rIcon, colsIcon, showMid));
-
-      if (DEBUG_TL && DEBUG_HOVER) {
-        const c = dbgCount(`hoverFatherPin:${d.id}`);
-        if (c <= 5 || c % 60 === 0) {
-          dbgLog("hoverFatherPin.draw", {
-            id: d.id,
-            isConcept,
-            hasHistoric: hasHistoricTag(d.historicMythicStatusTags),
-            nColors: cols?.length || 0,
-            cols,
-            simplifyIcon,
-            colsIcon,
-            rHead,
-            rIcon,
-            allowOverlays,
-            overlayCount: overlaySegs.length,
-            showMid,
-          });
-        }
-      }
-
-      const w = fatherBorderStrokeWidth(rIcon);
-      const showOverlays = overlaySegs.length > 0;
-
-      iconG.selectAll("line.overlay")
-        .data(overlaySegs, (s, i) => `${s.type}:${i}`)
-        .join(
-          e => e.append("line")
-                .attr("class", "overlay")
-                .attr("stroke", "#fff")
-                .attr("stroke-linecap", "round")
-                .attr("shape-rendering", "geometricPrecision")
-                .style("pointer-events", "none"),
-          u => u,
-          x => x.remove()
-        )
-        .attr("x1", s => s.x1)
-        .attr("y1", s => s.y1)
-        .attr("x2", s => s.x2)
-        .attr("y2", s => s.y2)
-        .attr("stroke-width", showOverlays ? 2 * w : 0)
-        .attr("opacity", showOverlays ? 1 : 0);
-    });
+  // Card-link hover is represented by the matching mini-tooltip frame,
+  // not by a secondary SVG pin. Remove any stale hover pins left by HMR.
+  gPins
+    .selectAll("g.hoverTextPin, g.hoverFatherPin")
+    .remove();
 
   // ----- Lightweight viewport culling (texts, pies, fathers) -----
   // PERF: this touches lots of DOM nodes; coalesce to 1 per animation frame during zoom/pan
@@ -6119,6 +10658,71 @@ fatherPinSel
       cullUpdateRaf.current = 0;
       const args = cullArgsRef.current;
       if (!args) return;
+
+      if (
+        showMapRef.current &&
+        selectedMapAvailableRef.current
+      ) {
+        const newVisible = new Set();
+
+        const clusteredKeys =
+          clusteredNodeKeysRef.current;
+
+        gTexts.selectAll("circle.textDot").each(function (d) {
+          d3.select(this).style(
+            "display",
+            clusteredKeys.has(`text:${d.id}`)
+              ? "none"
+              : null
+          );
+          newVisible.add(d.id);
+        });
+
+        gTexts.selectAll("g.dotSlices")
+          .style(
+            "display",
+            (d) =>
+              clusteredKeys.has(`text:${d.id}`)
+                ? "none"
+                : null
+          );
+
+        gFathers.selectAll("g.fatherMark").each(function (d) {
+          d3.select(this).style(
+            "display",
+            clusteredKeys.has(`father:${d.id}`)
+              ? "none"
+              : null
+          );
+          newVisible.add(d.id);
+        });
+
+        const previousVisible = visibleIdsRef.current;
+        let changed =
+          previousVisible.size !== newVisible.size;
+
+        if (!changed) {
+          for (const id of newVisible) {
+            if (!previousVisible.has(id)) {
+              changed = true;
+              break;
+            }
+          }
+        }
+
+        if (changed) {
+          visibleIdsRef.current = newVisible;
+
+          if (!visUpdateRaf.current) {
+            visUpdateRaf.current = requestAnimationFrame(() => {
+              visUpdateRaf.current = 0;
+              setVisibleIds(new Set(visibleIdsRef.current));
+            });
+          }
+        }
+
+        return;
+      }
 
       const xMinAstro = args.zx.invert(0);
       const xMaxAstro = args.zx.invert(args.innerWidth);
@@ -6183,13 +10787,77 @@ fatherPinSel
     });
   }
 
-  scheduleRenderConnections(zx, zy, k);
+  // Placement calculation is cheap after the cache is populated and is
+  // needed when a selected object re-enters the middle/deepest zoom tiers.
+  renderPersistentObjectTooltips(true);
+  renderLocationClusterBranch();
+  syncSelectedNeighborhoodFocus();
+
+  /*
+   * Map projection changes already arrive through a requestAnimationFrame.
+   * Rendering map connections synchronously here keeps lines in the same frame
+   * as their projected endpoints instead of letting them trail by one frame.
+   */
+  if (mapModeForRendering) {
+    if (connUpdateRaf.current) {
+      cancelAnimationFrame(connUpdateRaf.current);
+      connUpdateRaf.current = 0;
+    }
+    connArgsRef.current = null;
+    renderConnections(zx, zy, k);
+  } else {
+    scheduleRenderConnections(zx, zy, k);
+  }
 }
 
+reapplyCurrentLayoutRef.current = () => {
+  const transform = lastTransformRef.current ?? d3.zoomIdentity;
+  const zx = transform.rescaleX(x);
+  const zy = transform.rescaleY(y0);
+
+  apply(zx, zy, transform.k);
+  updateInteractivity(transform.k);
+};
 
 
 function updateInteractivity(k) {
   const hasSelection = !!(selectedText || selectedFather);
+  const mapModeActive =
+    showMapRef.current &&
+    selectedMapAvailableRef.current &&
+    hasSelection;
+
+  /*
+   * Geographic mode keeps the civilizational labels available but removes
+   * temporal border geometry, segment geometry, and all temporal hit targets.
+   */
+  if (mapModeActive) {
+    gOut.style("display", null);
+
+    gOut.selectAll("rect.outlineRect")
+      .style("display", "none")
+      .style("pointer-events", "none");
+
+    gOut.selectAll("text.durationLabel")
+      .style("pointer-events", "none");
+
+    gCustom.style("display", "none");
+    gSeg.style("display", "none");
+
+    gTexts.selectAll("circle.textDot")
+      .style("pointer-events", "all");
+
+    gFathers.selectAll("g.fatherMark")
+      .style("pointer-events", "all");
+
+    clearActiveDuration();
+    clearActiveSegment();
+    return;
+  }
+
+  // Restore duration rectangles after leaving Map View.
+  gOut.selectAll("rect.outlineRect")
+    .style("display", null);
 
   // 3-level zoom mode (do NOT assign tier CSS classes here anymore;
   // the zoom handler is now the single source of truth for zoom-* classes)
@@ -6470,23 +11138,74 @@ function laneYUForFather(d) {
   return yU;
 }
 
-// Compute a zoom transform that places (xData, yU) at desired screen fractions
-function computeTransformForPoint(xDataAstro, yU, kTarget) {
-  // base k=1 pixel positions (inner chart space)
+function computeTransformForChartPoint(
+  xDataAstro,
+  yU,
+  kTarget,
+  desiredX,
+  desiredY
+) {
   const px0 = x(xDataAstro);
-  const py0 = y0(yU);          // y0: band units -> px
-
-
-
-  const desiredX = innerWidth  * SEARCH_FLY.xFrac;
-  const desiredY = innerHeight * SEARCH_FLY.yFrac;
+  const py0 = y0(yU);
 
   const tx = desiredX - kTarget * px0;
   const ty = desiredY - kTarget * py0;
 
- 
-
   return d3.zoomIdentity.translate(tx, ty).scale(kTarget);
+}
+
+// Compute a zoom transform that places (xData, yU) at the existing fly-to target.
+function computeTransformForPoint(xDataAstro, yU, kTarget) {
+  return computeTransformForChartPoint(
+    xDataAstro,
+    yU,
+    kTarget,
+    innerWidth * SEARCH_FLY.xFrac,
+    innerHeight * SEARCH_FLY.yFrac
+  );
+}
+
+/*
+ * Preserve an object's browser position while React changes the selected-mode
+ * chart height. The chart group's screen matrix accounts for the wrapper,
+ * SVG, and chart margins without assuming one CSS pixel equals one SVG unit.
+ */
+function computeTransformForClientPoint(
+  xDataAstro,
+  yU,
+  kTarget,
+  clientX,
+  clientY
+) {
+  const chartMatrix = gRoot.node()?.getScreenCTM?.();
+  if (!chartMatrix) return null;
+
+  let inverse;
+  try {
+    inverse = chartMatrix.inverse();
+  } catch {
+    return null;
+  }
+
+  const desired = new DOMPoint(
+    clientX,
+    clientY
+  ).matrixTransform(inverse);
+
+  if (
+    !Number.isFinite(desired.x) ||
+    !Number.isFinite(desired.y)
+  ) {
+    return null;
+  }
+
+  return computeTransformForChartPoint(
+    xDataAstro,
+    yU,
+    kTarget,
+    desired.x,
+    desired.y
+  );
 }
 
 
@@ -6523,7 +11242,14 @@ const zoom = (zoomRef.current ?? d3.zoom())
     // we want clicks, but NOT drag-panning.
     const onText = t.closest("circle.textDot");
     const onFather = t.closest("g.fatherMark");
+    const onLocationClusterControl =
+      t.closest(".tl-pin-cluster-button") ||
+      t.closest(".locationClusterBranch");
     const onMark = onText || onFather;
+
+    if (onLocationClusterControl) {
+      return false;
+    }
 
     if (onMark) {
       // Allow wheel zoom over marks, but block drag/pan starting on them
@@ -6762,12 +11488,82 @@ flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
    lastTransformRef.current = initT;   // remember
    didInitRef.current = true;
 } else {
-  // Subsequent runs: DO NOT reset transform.
-  // Re-apply the last transform to current scales for a seamless update.
-  const t = lastTransformRef.current ?? d3.zoomIdentity;
-  kRef.current = t.k;  // make sure hover logic sees the current zoom
-  apply(t.rescaleX(x), t.rescaleY(y0), t.k);
+  // Subsequent runs normally reuse the current transform. A direct timeline
+  // selection may first compensate for the taller selected-mode axis.
+  let t = lastTransformRef.current ?? d3.zoomIdentity;
+  let appliedThroughZoom = false;
+  let recenterTarget = null;
+
+  const pendingSelection = pendingSelectionCameraRef.current;
+  const selectedType = selectedText ? "text" : selectedFather ? "father" : null;
+  const selectedRow = selectedText
+    ? (textRows || []).find((row) => row.id === selectedText.id) || selectedText
+    : selectedFather
+      ? (fatherRows || []).find((row) => row.id === selectedFather.id) || selectedFather
+      : null;
+
+  const pendingMatches =
+    !!pendingSelection &&
+    !showMap &&
+    !!selectedRow &&
+    pendingSelection.type === selectedType &&
+    pendingSelection.id === selectedRow.id;
+
+  if (pendingMatches) {
+    const xAstro = toAstronomical(selectedRow.when);
+    const yU = selectedText
+      ? laneYUForText(selectedRow)
+      : laneYUForFather(selectedRow);
+    const kTarget = t.k ?? kRef.current ?? 1;
+
+    const preserved = computeTransformForClientPoint(
+      xAstro,
+      yU,
+      kTarget,
+      pendingSelection.clientX,
+      pendingSelection.clientY
+    );
+
+    if (preserved) {
+      t = preserved;
+      lastTransformRef.current = t;
+      kRef.current = t.k;
+      svgSel.call(zoom.transform, t);
+      appliedThroughZoom = true;
+    }
+
+    if (pendingSelection.mode === "recenter") {
+      recenterTarget = computeTransformForPoint(
+        xAstro,
+        yU,
+        kTarget
+      );
+    }
+
+    pendingSelectionCameraRef.current = null;
+  }
+
+  kRef.current = t.k;
+
+  if (!appliedThroughZoom) {
+    apply(t.rescaleX(x), t.rescaleY(y0), t.k);
+  }
+
   updateInteractivity(t.k);
+
+  // Danger-zone selections start from the preserved pixel and then use the
+  // existing fly-to motion to move into the center of the card-free space.
+  if (recenterTarget) {
+    svgSel
+      .transition()
+      .duration(SEARCH_FLY.duration)
+      .ease(SEARCH_FLY.ease)
+      .call(zoom.transform, recenterTarget)
+      .on("end", () => {
+        lastTransformRef.current = recenterTarget;
+        kRef.current = recenterTarget.k;
+      });
+  }
 
    // Ensure zoom tier classes are correct even when state changes without a zoom event
    {
@@ -6791,13 +11587,6 @@ flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
    }
 
   setIsReady(true);
-
-  // console.log("[UI] reapply transform after state change", {
-  //   tK: t.k,
-  //   hasSelection: !!(selectedText || selectedFather),
-  // });
-
-  // logRenderedCounts(); // disable: expensive debug
 }
 
     // Hide tooltips if mouse leaves the whole svg area
@@ -6814,6 +11603,22 @@ flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
         svgSel.on("pointermove.tl-hover", null);
 
         window.removeEventListener("click", onAnyClickClose, true);
+        hideTipSel(tipSelected);
+
+        miniTooltipLayer
+          .selectAll("div.tl-mini-tooltip")
+          .remove();
+
+        selectedTooltipPlacementRef.current = {
+          layoutKey: null,
+          placement: null,
+          width: 0,
+          height: 0,
+        };
+
+        miniTooltipPlacementsRef.current.clear();
+        renderSelectedTooltipRef.current = () => {};
+        reapplyCurrentLayoutRef.current = () => {};
     };
 }, [
   outlines,
@@ -6824,7 +11629,7 @@ flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
   visFatherRows,
   selectedText,
   selectedFather,
-  hoverPinTarget,
+  showMap,
   layerMode,
   width,
   height,
@@ -6852,39 +11657,206 @@ flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
       )
     : [];
 
+  /*
+   * The top Info Window follows the same active connected-object focus used
+   * by the lines and mini-tooltips. Actual timeline/map-object hover takes
+   * priority; otherwise a hovered connection link inside either card drives it.
+   */
+  const connectionInfoEntries = useMemo(() => {
+    const selectedType = selectedText
+      ? "text"
+      : selectedFather
+        ? "father"
+        : null;
+
+    const selectedId =
+      selectedText?.id ??
+      selectedFather?.id ??
+      null;
+
+    const activeHoveredTarget =
+      hoveredTimelineTarget ||
+      cardHoveredTarget ||
+      null;
+
+    return buildConnectionInfoWindowEntries({
+      allConnections:
+        allConnectionRowsRef.current || [],
+      selectedType,
+      selectedId,
+      hoveredType:
+        activeHoveredTarget?.type ?? null,
+      hoveredId:
+        activeHoveredTarget?.id ?? null,
+    });
+  }, [
+    selectedText?.id,
+    selectedFather?.id,
+    hoveredTimelineTarget?.type,
+    hoveredTimelineTarget?.id,
+    cardHoveredTarget?.type,
+    cardHoveredTarget?.id,
+  ]);
+
+  const connectionInfoAccent =
+    connectionInfoEntries[0]?.color ||
+    "#777777";
+
 
 return (
-  <div
-    ref={wrapRef}
-    className="timelineWrap"
-    style={{ width: "100%", height: "100%", position: "relative" }}
-  >
-    {/* Search stays as-is */}
-    <SearchBar
-      items={searchItems}
-      onSelect={handleSearchSelect}
-      placeholder="Search"
-      onInteract={handleSearchInteract}
-    />
+  <>
+    {typeof document !== "undefined"
+      ? createPortal(
+          <div
+            className={`timelineSearchHost ${
+              modalOpen
+                ? "timelineSearchHost--selectionHidden"
+                : ""
+            }`}
+            aria-hidden={modalOpen ? "true" : undefined}
+          >
+            <SearchBar
+              items={searchItems}
+              onSelect={handleSearchSelect}
+              placeholder="Search"
+              onInteract={handleSearchInteract}
+            />
+          </div>,
+          document.body
+        )
+      : null}
 
-    {/* NEW: Tag filter panel (absolute, top-right; lives inside the wrapper so it overlays the SVG) */}
-    <TagPanel
-      groups={TAG_GROUPS}
-      selectedByGroup={selectedByGroup}
-      onChange={setSelectedByGroup}
-      layerMode={layerMode}
-      onLayerModeChange={setLayerMode}
-      showTexts={showTexts}
-      onShowTextsChange={setShowTexts}
-      showFathers={showFathers}
-      onShowFathersChange={setShowFathers}
-      showConnections={showConnections}
-      onShowConnectionsChange={setShowConnections}
+    <div
+      ref={wrapRef}
+      className={`timelineWrap ${
+        modalOpen ? "has-object-selection" : ""
+      }`}
+      style={{ width: "100%", height: "100%", position: "relative" }}
+    >
+    {modalOpen && (
+      <div
+        className={`timelineConnectionInfoHost ${
+          connectionInfoEntries.length
+            ? "is-visible"
+            : ""
+        }`}
+        aria-live="polite"
+        aria-atomic="true"
+        aria-hidden={
+          connectionInfoEntries.length
+            ? undefined
+            : "true"
+        }
+      >
+        {connectionInfoEntries.length > 0 && (
+          <div
+            className="timelineConnectionInfo"
+            style={{
+              "--connection-info-accent":
+                connectionInfoAccent,
+              "--connection-info-selected-name-font-size":
+                CONNECTION_INFO_SELECTED_NAME_FONT_SIZE,
+              "--connection-info-connected-name-font-size":
+                CONNECTION_INFO_CONNECTED_NAME_FONT_SIZE,
+            }}
+          >
+            {connectionInfoEntries.map(
+              (entry, index) => {
+                const statement = entry.statement || "";
+                const selectedName = entry.selectedName || "";
+                const connectedName = entry.connectedName || "";
+
+                const selectedStartsStatement =
+                  !!selectedName &&
+                  statement.startsWith(selectedName);
+
+                const connectedNameIndex = connectedName
+                  ? statement.lastIndexOf(connectedName)
+                  : -1;
+
+                const canStyleNames =
+                  selectedStartsStatement &&
+                  connectedNameIndex >= selectedName.length;
+
+                return (
+                  <div
+                    className="timelineConnectionInfo__entry"
+                    key={
+                      entry.key ||
+                      `${entry.statement}-${index}`
+                    }
+                  >
+                    <div className="timelineConnectionInfo__statement">
+                      {canStyleNames ? (
+                        <>
+                          <span className="timelineConnectionInfo__selectedName">
+                            {selectedName}
+                          </span>
+                          {statement.slice(
+                            selectedName.length,
+                            connectedNameIndex
+                          )}
+                          <span className="timelineConnectionInfo__connectedName">
+                            {connectedName}
+                          </span>
+                          {statement.slice(
+                            connectedNameIndex + connectedName.length
+                          )}
+                          :
+                        </>
+                      ) : (
+                        <>{statement}:</>
+                      )}
+                    </div>
+
+                    {entry.note && (
+                      <div className="timelineConnectionInfo__note">
+                        {entry.note}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+            )}
+          </div>
+        )}
+      </div>
+    )}
+
+    {/* Filters leave the workspace while an object card is open. */}
+    <div
+      className={`timelineTagPanelHost ${
+        modalOpen ? "timelineTagPanelHost--selectionHidden" : ""
+      }`}
+      aria-hidden={modalOpen ? "true" : undefined}
+    >
+      <TagPanel
+        groups={TAG_GROUPS}
+        selectedByGroup={selectedByGroup}
+        onChange={setSelectedByGroup}
+        layerMode={layerMode}
+        onLayerModeChange={setLayerMode}
+        showTexts={showTexts}
+        onShowTextsChange={setShowTexts}
+        showFathers={showFathers}
+        onShowFathersChange={setShowFathers}
+        showConnections={showConnections}
+        onShowConnectionsChange={setShowConnections}
+      />
+    </div>
+    <TimelineMap
+      ref={timelineMapRef}
+      visible={showMap && selectedMapAvailable}
+      selectedEntry={selectedMapEntry}
+      debug={DEBUG_MAP_SYNC}
+      onProjectionChange={handleMapProjectionChange}
     />
 
     <svg
       ref={svgRef}
-      className={`timelineSvg ${modalOpen ? "isModalOpen" : ""}`}
+      className={`timelineSvg ${
+        showMap && selectedMapAvailable ? "is-map-view" : ""
+      } ${modalOpen ? "isModalOpen" : ""}`}
       style={{ opacity: isReady ? 1 : 0 }}
       width={width}
       height={height}
@@ -6903,7 +11875,11 @@ return (
   transform={`translate(${margin.left},${margin.top})`}
   clipPath={`url(#${clipId}-clip)`}
 >
-<g ref={gridRef} className="grid" />
+<g
+  ref={gridRef}
+  className="grid"
+  style={{ display: showMap ? "none" : undefined }}
+/>
 <g ref={customPolysRef} className="customPolys" />
 <g ref={outlinesRef} className="durations" />
 <g ref={segmentsRef} className="segments" />
@@ -6919,6 +11895,14 @@ return (
 <g ref={pinsRef} className="pins" />
 </g>
 
+      {/* Unclipped vertical branch attached to a selected map-location cluster. */}
+      <g
+        ref={locationClusterBranchRef}
+        className="locationClusterBranchLayer"
+        style={{ display: "none" }}
+        aria-hidden="true"
+      />
+
 
       {/* 3) Underfill band beneath the bottom timeline axis (outside clip so it stays visible) */}
       <rect
@@ -6928,10 +11912,15 @@ return (
         width={width}
         height={margin.bottom}
         rx={0}
+        style={{ display: showMap ? "none" : undefined }}
       />
 
       {/* Axis is outside the clipped region so it always sits on top */}
-      <g ref={axisRef} className="axis" />
+      <g
+        ref={axisRef}
+        className="axis"
+        style={{ display: showMap ? "none" : undefined }}
+      />
     </svg>
 
     {/* Backdrop for modal; closes on click */}
@@ -6951,10 +11940,13 @@ return (
         onNavigate={handleConnectionNavigate}
         hoveredTimelineTarget={hoveredTimelineTarget}
         onHoverLink={handleCardLinkHover}
+        showMap={showMap}
+        onShowMapChange={handleShowMapChange}
+        mapAvailable={hasMapCoordinates(selectedText)}
         onClose={() => {
           setSelectedText(null);
           setShowMore(false);
-          setHoverPinTarget(null);
+          setCardLinkHoverTarget(null);
         }}
       />
     )}
@@ -6972,15 +11964,19 @@ return (
         onNavigate={handleConnectionNavigate}
         hoveredTimelineTarget={hoveredTimelineTarget}
         onHoverLink={handleCardLinkHover}
+        showMap={showMap}
+        onShowMapChange={handleShowMapChange}
+        mapAvailable={hasMapCoordinates(selectedFather)}
         onClose={() => {
           setSelectedFather(null);
           setShowMore(false);
-          setHoverPinTarget(null);
+          setCardLinkHoverTarget(null);
         }}
       />
     )}
 
-  </div>
+    </div>
+  </>
 );
 
 

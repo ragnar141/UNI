@@ -50,6 +50,9 @@ const FatherCard = forwardRef(function FatherCard(
     connections = [],
     onNavigate,
     onHoverLink,
+    showMap = false,
+    onShowMapChange = () => {},
+    mapAvailable = false,
 
     // NEW: comes from timeline.jsx (hovering nodes on timeline)
     hoveredTimelineTarget,
@@ -66,19 +69,6 @@ const FatherCard = forwardRef(function FatherCard(
   
   // NEW: normalize naming in case some targets are "figure" instead of "father"
   const normType = (t) => (t === "figure" ? "father" : t);
-
-  // Shared tooltip overlay state (fixed, outside scroll area)
-  const [hoverNote, setHoverNote] = useState(null);
-  const showHoverNote = (event, text) => {
-    if (!text) return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    setHoverNote({
-      text,
-      x: rect.right + 8,
-      y: rect.top,
-    });
-  };
-  const hideHoverNote = () => setHoverNote(null);
 
   useImperativeHandle(ref, () => ({
     startClose: () => {
@@ -282,85 +272,113 @@ useEffect(() => {
     });
   }
 
+  const countUniqueConnectionTargets = (entries, expectedType = null) => {
+    const seen = new Set();
+
+    for (const entry of entries || []) {
+      const conn = entry?.conn || entry;
+      const targets = Array.isArray(conn?.targets) ? conn.targets : [];
+
+      for (const target of targets) {
+        const type = normType(target?.type);
+        if (expectedType && type !== expectedType) continue;
+
+        const id = String(target?.id ?? "").trim();
+        const name = String(target?.name ?? "").trim();
+        const key = `${type || "unknown"}:${id || name}`;
+
+        if (id || name) seen.add(key);
+      }
+    }
+
+    return seen.size;
+  };
+
+  const figureConnectionCount = countUniqueConnectionTargets(
+    figureConnections,
+    "father"
+  );
+
+  const textConnectionCount = countUniqueConnectionTargets(
+    textConnections,
+    "text"
+  );
+
+  // Figure connections retain their compact sentence layout. Text targets use
+  // a dedicated vertical column so long titles remain readable and easy to scan.
   const renderConnectionList = (entries, groupKey) =>
     entries.map(({ conn, idx }) => {
       const targets = Array.isArray(conn.targets) ? conn.targets : [];
+      const stackTextTargets = groupKey === "text";
 
-      const hasTargetNotes = targets.some((t) => t && t.note && t.note !== "-");
-      const hasRowNote = !hasTargetNotes && conn.note && conn.note !== "-";
+      const renderTargetButton = (t, i, className) => {
+        const isTimelineHover =
+          hoveredTimelineTarget &&
+          normType(hoveredTimelineTarget.type) === normType(t.type) &&
+          hoveredTimelineTarget.id === t.id;
+
+        return (
+          <span
+            key={`${t.type}-${t.id}-${i}`}
+            className={className}
+          >
+            <button
+              type="button"
+              className={`textCard-connTarget${
+                isTimelineHover ? " isTimelineHover" : ""
+              }`}
+              onClick={() => onNavigate && onNavigate(t.type, t.id)}
+              onMouseEnter={() => onHoverLink && onHoverLink(t.type, t.id)}
+              onMouseLeave={() => onHoverLink && onHoverLink(null, null)}
+            >
+              {t.name}
+            </button>
+          </span>
+        );
+      };
 
       return (
-        <li key={`${groupKey}-${idx}`} className="textCard-connectionItem">
+        <li
+          key={`${groupKey}-${idx}`}
+          className={`textCard-connectionItem${
+            stackTextTargets ? " textCard-connectionItem--stacked" : ""
+          }`}
+        >
           <span className="textCard-connectionIntro">{conn.textBefore}</span>
 
-          {/* Row-level note: i + tooltip, opens on hover */}
-          {hasRowNote && (
-            <span className="textCard-connectionTargetGroup textCard-connectionRowNoteGroup">
-              <button
-                type="button"
-                className="textCard-connNoteToggle"
-                aria-label="Show connection note"
-                onMouseEnter={(e) => showHoverNote(e, conn.note)}
-                onMouseLeave={hideHoverNote}
-              >
-                <span className="connNoteIcon" aria-hidden="true">
-                  i
-                </span>
-              </button>
+          {stackTextTargets ? (
+            <span className="textCard-connectionTargetColumn">
+              {targets.map((t, i) =>
+                renderTargetButton(
+                  t,
+                  i,
+                  "textCard-connectionTargetRow"
+                )
+              )}
             </span>
-          )}
+          ) : (
+            targets.map((t, i) => {
+              const isLast = i === targets.length - 1;
+              const isFirst = i === 0;
+              const needsComma =
+                !isFirst && targets.length > 2 && !isLast;
+              const needsAnd = !isFirst && isLast;
 
-          {targets.map((t, i) => {
-            const isLast = i === targets.length - 1;
-            const isFirst = i === 0;
-            const needsComma = !isFirst && targets.length > 2 && !isLast;
-            const needsAnd = !isFirst && isLast;
-
-            const hasNote = t && t.note && t.note !== "-";
-
-            // NEW: timeline-hover -> highlight the matching link
-            const isTimelineHover =
-              hoveredTimelineTarget &&
-              normType(hoveredTimelineTarget.type) === normType(t.type) &&
-              hoveredTimelineTarget.id === t.id;
-
-            return (
-              <React.Fragment key={`${t.type}-${t.id}-${i}`}>
-                {needsComma && ", "}
-                {needsAnd && !needsComma && " and "}
-                {needsAnd && needsComma && " and "}
-                {!needsComma && !needsAnd && !isFirst && ", "}
-
-                <span className="textCard-connectionTargetGroup">
-                  <button
-                    type="button"
-                    className={`textCard-connTarget${
-                      isTimelineHover ? " isTimelineHover" : ""
-                    }`}
-                    onClick={() => onNavigate && onNavigate(t.type, t.id)}
-                    onMouseEnter={() => onHoverLink && onHoverLink(t.type, t.id)}
-                    onMouseLeave={() => onHoverLink && onHoverLink(null, null)}
-                  >
-                    {t.name}
-                  </button>
-
-                  {hasNote && (
-                    <button
-                      type="button"
-                      className="textCard-connNoteToggle"
-                      aria-label="Show connection note"
-                      onMouseEnter={(e) => showHoverNote(e, t.note)}
-                      onMouseLeave={hideHoverNote}
-                    >
-                      <span className="connNoteIcon" aria-hidden="true">
-                        i
-                      </span>
-                    </button>
+              return (
+                <React.Fragment key={`${t.type}-${t.id}-${i}`}>
+                  {needsComma && ", "}
+                  {needsAnd && !needsComma && " and "}
+                  {needsAnd && needsComma && " and "}
+                  {!needsComma && !needsAnd && !isFirst && ", "}
+                  {renderTargetButton(
+                    t,
+                    i,
+                    "textCard-connectionTargetGroup"
                   )}
-                </span>
-              </React.Fragment>
-            );
-          })}
+                </React.Fragment>
+              );
+            })
+          )}
         </li>
       );
     });
@@ -375,6 +393,33 @@ useEffect(() => {
         aria-label={`Details for ${title}`}
       >
         {indexStr && <span className="textCard-index">{indexStr}</span>}
+
+        <button
+          type="button"
+          className={`mapViewToggle ${showMap ? "is-on" : "is-off"}`}
+          role="switch"
+          aria-checked={showMap}
+          aria-label={`Turn Geographical Map ${showMap ? "off" : "on"}`}
+          title={
+            mapAvailable
+              ? `Geographical Map ${showMap ? "On" : "Off"}`
+              : "Geographic coordinates are not available for this entry"
+          }
+          disabled={!mapAvailable}
+          onClick={() => {
+            if (mapAvailable) {
+              onShowMapChange(!showMap);
+            }
+          }}
+        >
+          <span className="mapViewToggle__label">Geographical Map</span>
+          <span className="mapViewToggle__track" aria-hidden="true">
+            <span className="mapViewToggle__thumb" />
+          </span>
+          <span className="mapViewToggle__state">
+            {showMap ? "On" : "Off"}
+          </span>
+        </button>
 
         <button
           className="textCard-close"
@@ -393,7 +438,7 @@ useEffect(() => {
   <FoldDensityIcon action={isFolded ? "unfold" : "fold"} />
 </button>
 
-        {/* Internal scroll area; tooltip overlay is separate via hoverNote */}
+        {/* Internal scroll area */}
         <div className="textCard-scroll" ref={scrollRef}>
           <div className="textCard-titleCombo">
             <span className="textCard-title">{title}</span>
@@ -453,7 +498,7 @@ useEffect(() => {
               {figureConnections.length > 0 && (
                 <>
                   <div className="textCard-connections-subtitle">
-                    Connections with Mythic/Historic Figures
+                    Connections with Mythic/Historic Figures ({figureConnectionCount})
                   </div>
                   <ul className="textCard-connections-list">
                     {renderConnectionList(figureConnections, "figure")}
@@ -464,9 +509,9 @@ useEffect(() => {
               {textConnections.length > 0 && (
                 <>
                   <div className="textCard-connections-subtitle">
-                    Textual References
+                    Textual References ({textConnectionCount})
                   </div>
-                  <ul className="textCard-connections-list">
+                  <ul className="textCard-connections-list textCard-connections-list--stacked">
                     {renderConnectionList(textConnections, "text")}
                   </ul>
                 </>
@@ -549,21 +594,6 @@ useEffect(() => {
         subjectTitle={title}
       />
 
-      {hoverNote && (
-        <div
-          className="connNoteTooltip connNoteTooltip-fixed"
-          style={{
-            position: "fixed",
-            top: hoverNote.y,
-            left: hoverNote.x - 37,
-            right: "auto",
-            maxWidth: "320px",
-            zIndex: 1300,
-          }}
-        >
-          {hoverNote.text}
-        </div>
-      )}
     </>
   );
 });

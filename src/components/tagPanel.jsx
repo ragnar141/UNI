@@ -437,6 +437,7 @@ if (openKey) {
           />
           <span className="tagPanel__label tagPanel__rowLabel">Connections</span>
         </label>
+
       </div>
     );
   }

@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "sourceFile": "All locations - Sheet1.csv",
+  "totalLocations": 354,
+  "types": {
+    "city": 275,
+    "region": 60,
+    "site": 19
+  },
+  "tiers": {
+    "local": 168,
+    "major": 63,
+    "regional": 107,
+    "detail": 16
+  },
+  "precision": {
+    "site-level": 287,
+    "traditional": 4,
+    "regional-anchor": 51,
+    "approximate": 12
+  },
+  "temporalConfidence": {
+    "unknown": 239,
+    "curated-range": 85,
+    "editorial-range": 30
+  },
+  "notes": [
+    "All source latitude and longitude values are preserved unchanged.",
+    "Rows without curated date ranges remain eligible only at deeper zoom thresholds.",
+    "Canonical place IDs collapse selected aliases that share one historical place.",
+    "Region coordinates are label anchors, not claims that a broad region is a point."
+  ]
+}

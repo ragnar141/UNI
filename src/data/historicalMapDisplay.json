@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "0.2.0",
+  "zoomLevels": {
+    "world": 1.2,
+    "major": 1.8,
+    "regional": 4.0,
+    "local": 7.0,
+    "detail": 10.0,
+    "hidden": null
+  },
+  "layerOrder": [
+    "ocean",
+    "modern-land",
+    "modern-borders",
+    "historical-polity-white-fill",
+    "historical-polity-colored-border",
+    "macro-region-labels",
+    "polity-labels",
+    "historical-place-labels",
+    "selected-object-pins"
+  ],
+  "polityGeometry": {
+    "fill": "#FFFFFF",
+    "borderColorSource": "polity.arcId -> durations.json color",
+    "borderUnderstroke": "#111111",
+    "borderUnderstrokeOpacity": 0.35,
+    "uncertainBorderDash": "6 4",
+    "disputedBorderDash": "2 3"
+  },
+  "placeRendering": {
+    "city": {
+      "marker": "dot",
+      "labelStyle": "normal"
+    },
+    "sanctuary": {
+      "marker": "ring",
+      "labelStyle": "italic"
+    },
+    "site": {
+      "marker": "small-ring",
+      "labelStyle": "italic"
+    },
+    "historical-region": {
+      "marker": "none",
+      "labelStyle": "spaced-small-caps"
+    },
+    "region": {
+      "marker": "none",
+      "labelStyle": "spaced-small-caps"
+    },
+    "uncertain-place": {
+      "marker": "dashed-ring",
+      "labelStyle": "italic-with-question-mark"
+    }
+  },
+  "selectionRule": "The selected text/father location is always visible, even when its phase importance would normally be below the current zoom threshold.",
+  "identityResolution": {
+    "rule": "Resolve source rows through renderingIdentityId/aliasOf before collision detection and background rendering.",
+    "selectedObjectRule": "A selected object may use any source alias, but its background label is rendered once through the canonical visual identity.",
+    "dateNameRule": "Use the active phase displayName rather than the source-row canonicalName."
+  },
+  "temporalRendering": {
+    "phaseRule": "from <= selectedYear < to",
+    "noActivePhase": "Do not render the place in the background. Selected object pins remain visible.",
+    "importanceRule": "Use the active phase importance, not legacyDisplayHint, once a place is preliminary or reviewed.",
+    "unreviewedRule": "Unreviewed locations remain deep-zoom only until researched."
+  }
+}

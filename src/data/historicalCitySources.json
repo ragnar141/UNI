@@ -1,0 +1,39 @@
+{
+  "version": "1.0",
+  "scope": "Curated overview-city layer for 4100 BCE through 450 CE",
+  "method": "Representative archaeological-site or historic-core coordinates; broad display periods; no claim of uninterrupted occupation.",
+  "sources": [
+    {
+      "key": "pleiades",
+      "name": "Pleiades: A Gazetteer of Past Places",
+      "url": "https://pleiades.stoa.org/",
+      "use": "Ancient Mediterranean, Near Eastern, North African, Iranian, and selected South Asian coordinates and chronological checks.",
+      "license": "CC BY 3.0",
+      "note": "Pleiades representative points may be centroids or approximate; individual records should be consulted during later audit."
+    },
+    {
+      "key": "tgaz",
+      "name": "Harvard Temporal Gazetteer / China Historical GIS",
+      "url": "https://maps.cga.harvard.edu/tgaz/",
+      "use": "Chinese historical placename and temporal verification, especially from 221 BCE onward.",
+      "license": "Research use; consult CHGIS terms before redistributing extracted bulk data.",
+      "note": "This project stores only a small editorial set of representative points, not a CHGIS data dump."
+    },
+    {
+      "key": "early-china",
+      "name": "Early China archaeological-site synthesis",
+      "url": "https://chgis.fas.harvard.edu/",
+      "use": "Early urban centers predating the principal CHGIS time-series coverage.",
+      "license": "Editorial coordinates; underlying publications must be cited during final scholarly audit.",
+      "note": "Dates are broad display ranges, not exact foundation or abandonment dates."
+    },
+    {
+      "key": "editorial",
+      "name": "Project editorial synthesis",
+      "url": null,
+      "use": "Representative archaeological-site coordinates and conservative broad periods where no single reusable global gazetteer is sufficient.",
+      "license": "Project-authored data",
+      "note": "These entries are candidates for later city-by-city source expansion and confidence grading."
+    }
+  ]
+}

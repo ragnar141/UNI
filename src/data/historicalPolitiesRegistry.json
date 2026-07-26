@@ -1,0 +1,1557 @@
+{
+  "schemaVersion": "0.2.0",
+  "status": "broad-zoom-preliminary",
+  "colorPolicy": {
+    "source": "durations.json",
+    "rule": "Polity geometry remains white-filled. The controlling polity's arcId supplies only the border color.",
+    "localIdentityRule": "Place localArcIds remain independent from political control; conquest does not automatically replace local civilizational identity."
+  },
+  "polities": [
+    {
+      "id": "athens",
+      "displayName": "Athens",
+      "arcId": "greek",
+      "from": -800,
+      "to": -338,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "pleiades-athens",
+        "durations-greek-archaic",
+        "durations-greek-classical"
+      ]
+    },
+    {
+      "id": "athenian-empire",
+      "displayName": "Athenian Empire",
+      "arcId": "greek",
+      "from": -478,
+      "to": -404,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-greek-early-classical"
+      ]
+    },
+    {
+      "id": "macedonian-hellenistic-greece",
+      "displayName": "Macedonian / Hellenistic Greece",
+      "arcId": "greek",
+      "from": -338,
+      "to": -146,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-greek-late-classical",
+        "durations-greek-hellenistic"
+      ]
+    },
+    {
+      "id": "delphic-amphictyony",
+      "displayName": "Delphic Amphictyony",
+      "arcId": "greek",
+      "from": -800,
+      "to": -146,
+      "labelImportance": "local",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "unesco-delphi"
+      ]
+    },
+    {
+      "id": "sparta",
+      "displayName": "Sparta",
+      "arcId": "greek",
+      "from": -900,
+      "to": -146,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "pleiades-sparta"
+      ]
+    },
+    {
+      "id": "peloponnesian-league",
+      "displayName": "Peloponnesian League",
+      "arcId": "greek",
+      "from": -550,
+      "to": -366,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "pleiades-sparta",
+        "durations-greek-classical"
+      ]
+    },
+    {
+      "id": "minoan-crete",
+      "displayName": "Minoan Crete",
+      "arcId": "greek",
+      "from": -2100,
+      "to": -1450,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "pleiades-knossos",
+        "durations-greek-minoan"
+      ]
+    },
+    {
+      "id": "mycenaean-knossos",
+      "displayName": "Mycenaean Knossos",
+      "arcId": "greek",
+      "from": -1450,
+      "to": -1375,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "pleiades-knossos",
+        "durations-greek-mycenaean"
+      ]
+    },
+    {
+      "id": "post-palatial-crete",
+      "displayName": "Post-palatial Crete",
+      "arcId": "greek",
+      "from": -1375,
+      "to": -700,
+      "labelImportance": "local",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "pleiades-knossos"
+      ]
+    },
+    {
+      "id": "cretan-polities",
+      "displayName": "Cretan Polities",
+      "arcId": "greek",
+      "from": -700,
+      "to": -67,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "pleiades-knossos"
+      ]
+    },
+    {
+      "id": "macedonian-egypt",
+      "displayName": "Macedonian Egypt",
+      "arcId": "greek",
+      "from": -332,
+      "to": -305,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "egypt-ministry-alexandria",
+        "durations-hellenistic-egypt"
+      ]
+    },
+    {
+      "id": "ptolemaic-kingdom",
+      "displayName": "Ptolemaic Kingdom",
+      "arcId": "greek",
+      "from": -305,
+      "to": -30,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "egypt-ministry-alexandria",
+        "durations-hellenistic-egypt"
+      ]
+    },
+    {
+      "id": "roman-empire",
+      "displayName": "Roman Empire",
+      "arcId": "roman",
+      "from": -27,
+      "to": 395,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-roman"
+      ]
+    },
+    {
+      "id": "eastern-roman-empire",
+      "displayName": "Eastern Roman Empire",
+      "arcId": "roman",
+      "from": 395,
+      "to": 650,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "map-late-antique-bridge"
+      ]
+    },
+    {
+      "id": "roman-client-judaea",
+      "displayName": "Roman Client Judaea",
+      "arcId": "roman",
+      "from": -63,
+      "to": -37,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-roman-levant"
+      ]
+    },
+    {
+      "id": "herodian-kingdom",
+      "displayName": "Herodian Kingdom",
+      "arcId": "levantine",
+      "from": -37,
+      "to": 6,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-roman-levant"
+      ]
+    },
+    {
+      "id": "mesopotamian-city-states",
+      "displayName": "Mesopotamian City-States",
+      "arcId": "mesopotamian",
+      "from": -3000,
+      "to": -1894,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-mesopotamian"
+      ]
+    },
+    {
+      "id": "old-babylonian-kingdom",
+      "displayName": "Old Babylonian Kingdom",
+      "arcId": "mesopotamian",
+      "from": -1894,
+      "to": -1595,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-old-babylonian",
+        "unesco-babylon"
+      ]
+    },
+    {
+      "id": "kassite-and-middle-babylonian-polities",
+      "displayName": "Kassite and Middle Babylonian Polities",
+      "arcId": "mesopotamian",
+      "from": -1595,
+      "to": -626,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-middle-babylonian"
+      ]
+    },
+    {
+      "id": "assur-city-state",
+      "displayName": "Assur",
+      "arcId": "mesopotamian",
+      "from": -2600,
+      "to": -1365,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "unesco-assur"
+      ]
+    },
+    {
+      "id": "middle-assyrian-empire",
+      "displayName": "Middle Assyrian Empire",
+      "arcId": "mesopotamian",
+      "from": -1365,
+      "to": -912,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "unesco-assur",
+        "durations-middle-babylonian"
+      ]
+    },
+    {
+      "id": "assyrian-polities",
+      "displayName": "Assyrian Polities",
+      "arcId": "mesopotamian",
+      "from": -2600,
+      "to": -705,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "unesco-nineveh",
+        "unesco-assur"
+      ]
+    },
+    {
+      "id": "neo-assyrian-empire",
+      "displayName": "Neo-Assyrian Empire",
+      "arcId": "mesopotamian",
+      "from": -911,
+      "to": -609,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-neo-assyrian",
+        "unesco-nineveh",
+        "unesco-assur"
+      ]
+    },
+    {
+      "id": "neo-babylonian-empire",
+      "displayName": "Neo-Babylonian Empire",
+      "arcId": "mesopotamian",
+      "from": -626,
+      "to": -539,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-neo-babylonian",
+        "unesco-babylon"
+      ]
+    },
+    {
+      "id": "akkadian-empire",
+      "displayName": "Akkadian Empire",
+      "arcId": "mesopotamian",
+      "from": -2334,
+      "to": -2154,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-akkadian",
+        "wiley-akkad"
+      ]
+    },
+    {
+      "id": "proto-elamite-polities",
+      "displayName": "Proto-Elamite Polities",
+      "arcId": "persian",
+      "from": -3100,
+      "to": -2700,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-persian-iranian",
+        "unesco-susa"
+      ]
+    },
+    {
+      "id": "elamite-polities",
+      "displayName": "Elamite Polities",
+      "arcId": "persian",
+      "from": -2700,
+      "to": -646,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-persian-iranian",
+        "unesco-susa"
+      ]
+    },
+    {
+      "id": "late-elamite-polities",
+      "displayName": "Late Elamite Polities",
+      "arcId": "persian",
+      "from": -646,
+      "to": -550,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-persian-iranian",
+        "unesco-susa"
+      ]
+    },
+    {
+      "id": "achaemenid-empire",
+      "displayName": "Achaemenid Empire",
+      "arcId": "persian",
+      "from": -550,
+      "to": -330,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-achaemenid",
+        "met-achaemenid"
+      ]
+    },
+    {
+      "id": "seleucid-empire",
+      "displayName": "Seleucid Empire",
+      "arcId": "greek",
+      "from": -312,
+      "to": -63,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-hellenistic-mesopotamia",
+        "durations-hellenistic-persia"
+      ]
+    },
+    {
+      "id": "parthian-empire",
+      "displayName": "Parthian Empire",
+      "arcId": "persian",
+      "from": -247,
+      "to": 224,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "map-parthian-bridge"
+      ]
+    },
+    {
+      "id": "sasanian-empire",
+      "displayName": "Sasanian Empire",
+      "arcId": "persian",
+      "from": 224,
+      "to": 651,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "map-sasanian-bridge"
+      ]
+    },
+    {
+      "id": "kingdom-of-judah",
+      "displayName": "Kingdom of Judah",
+      "arcId": "levantine",
+      "from": -930,
+      "to": -586,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-levantine-monarchies"
+      ]
+    },
+    {
+      "id": "yehud-medinata",
+      "displayName": "Yehud Medinata",
+      "arcId": "levantine",
+      "from": -539,
+      "to": -332,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-persian-levant"
+      ]
+    },
+    {
+      "id": "ptolemaic-levant",
+      "displayName": "Ptolemaic Levant",
+      "arcId": "greek",
+      "from": -301,
+      "to": -200,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-hellenistic-levant"
+      ]
+    },
+    {
+      "id": "hasmonean-kingdom",
+      "displayName": "Hasmonean Kingdom",
+      "arcId": "levantine",
+      "from": -140,
+      "to": -37,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-hellenistic-levant"
+      ]
+    },
+    {
+      "id": "magadha-and-nanda",
+      "displayName": "Magadha and Nanda Realms",
+      "arcId": "indian",
+      "from": -490,
+      "to": -321,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-indian-mahajanapada",
+        "iranica-pataliputra"
+      ]
+    },
+    {
+      "id": "maurya-empire",
+      "displayName": "Maurya Empire",
+      "arcId": "indian",
+      "from": -321,
+      "to": -185,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-maurya",
+        "iranica-pataliputra"
+      ]
+    },
+    {
+      "id": "shunga-kanva-magadha",
+      "displayName": "Śuṅga–Kāṇva Magadha",
+      "arcId": "indian",
+      "from": -185,
+      "to": -28,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-post-maurya",
+        "iranica-pataliputra"
+      ]
+    },
+    {
+      "id": "post-mauryan-magadha",
+      "displayName": "Post-Mauryan Magadha",
+      "arcId": "indian",
+      "from": -73,
+      "to": 320,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-post-maurya"
+      ]
+    },
+    {
+      "id": "gupta-empire",
+      "displayName": "Gupta Empire",
+      "arcId": "indian",
+      "from": 320,
+      "to": 550,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-gupta",
+        "iranica-pataliputra"
+      ]
+    },
+    {
+      "id": "gandharan-successor-polities",
+      "displayName": "Gandharan Successor Polities",
+      "arcId": "indian",
+      "from": -100,
+      "to": 50,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "british-museum-purusapura"
+      ]
+    },
+    {
+      "id": "kushan-empire",
+      "displayName": "Kushan Empire",
+      "arcId": "indian",
+      "from": 30,
+      "to": 250,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "british-museum-purusapura",
+        "durations-post-maurya"
+      ]
+    },
+    {
+      "id": "kushan-successor-polities",
+      "displayName": "Kushan Successor Polities",
+      "arcId": "indian",
+      "from": 250,
+      "to": 350,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "british-museum-purusapura"
+      ]
+    },
+    {
+      "id": "northwestern-indian-successor-polities",
+      "displayName": "Northwestern Indian Successor Polities",
+      "arcId": "indian",
+      "from": 350,
+      "to": 650,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "british-museum-purusapura"
+      ]
+    },
+    {
+      "id": "early-kuru-polities",
+      "displayName": "Early Kuru Polities",
+      "arcId": "indian",
+      "from": -1200,
+      "to": -1000,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "witzel-kuru-state",
+        "wiley-vedic-political-history"
+      ]
+    },
+    {
+      "id": "kuru-pancala-polities",
+      "displayName": "Kuru–Pañcāla Polities",
+      "arcId": "indian",
+      "from": -1000,
+      "to": -600,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "witzel-kuru-state",
+        "wiley-vedic-political-history",
+        "cambridge-kuru-pancala"
+      ]
+    },
+    {
+      "id": "late-kuru-pancala-polities",
+      "displayName": "Late Kuru and Pañcāla Polities",
+      "arcId": "indian",
+      "from": -600,
+      "to": -321,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "wiley-vedic-political-history"
+      ]
+    },
+    {
+      "id": "western-han-empire",
+      "displayName": "Western Han Empire",
+      "arcId": "chinese",
+      "from": -206,
+      "to": 9,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-han",
+        "unesco-changan"
+      ]
+    },
+    {
+      "id": "xin-dynasty",
+      "displayName": "Xin Dynasty",
+      "arcId": "chinese",
+      "from": 9,
+      "to": 23,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-han",
+        "unesco-changan"
+      ]
+    },
+    {
+      "id": "eastern-han-empire",
+      "displayName": "Eastern Han Empire",
+      "arcId": "chinese",
+      "from": 25,
+      "to": 220,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-han",
+        "unesco-changan"
+      ]
+    },
+    {
+      "id": "late-han-regime",
+      "displayName": "Late Han Regime",
+      "arcId": "chinese",
+      "from": 190,
+      "to": 220,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-han",
+        "unesco-changan"
+      ]
+    },
+    {
+      "id": "north-china-successor-polities",
+      "displayName": "North China Successor Polities",
+      "arcId": "chinese",
+      "from": 195,
+      "to": 304,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-post-han"
+      ]
+    },
+    {
+      "id": "sixteen-kingdoms-changan-regimes",
+      "displayName": "Chang’an Regimes of the Sixteen Kingdoms",
+      "arcId": "chinese",
+      "from": 304,
+      "to": 417,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-post-han",
+        "unesco-changan"
+      ]
+    },
+    {
+      "id": "northern-and-southern-dynasties",
+      "displayName": "Northern and Southern Dynasties",
+      "arcId": "chinese",
+      "from": 420,
+      "to": 589,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "map-china-late-antique-bridge",
+        "unesco-changan"
+      ]
+    },
+    {
+      "id": "tyre-city-state",
+      "displayName": "Tyre",
+      "arcId": "levantine",
+      "from": -1200,
+      "to": -573,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "carthaginian-state",
+      "displayName": "Carthaginian State",
+      "arcId": "northAfrican",
+      "from": -650,
+      "to": -146,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "roman-kingdom",
+      "displayName": "Roman Kingdom",
+      "arcId": "roman",
+      "from": -753,
+      "to": -509,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "roman-republic",
+      "displayName": "Roman Republic",
+      "arcId": "roman",
+      "from": -509,
+      "to": -27,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "western-roman-empire",
+      "displayName": "Western Roman Empire",
+      "arcId": "roman",
+      "from": 395,
+      "to": 476,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "vandal-kingdom",
+      "displayName": "Vandal Kingdom",
+      "arcId": "northAfrican",
+      "from": 439,
+      "to": 534,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "latial-polities",
+      "displayName": "Latial Polities",
+      "arcId": "roman",
+      "from": -1200,
+      "to": -753,
+      "labelImportance": "local",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "rome-city",
+      "displayName": "Rome",
+      "arcId": "roman",
+      "from": -753,
+      "to": 650,
+      "labelImportance": "local",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "egyptian-kingdoms",
+      "displayName": "Early Egyptian Kingdoms",
+      "arcId": "egyptian",
+      "from": -3200,
+      "to": -2055,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "early-old-kingdom-egypt",
+      "displayName": "Early Dynastic and Old Kingdom Egypt",
+      "arcId": "egyptian",
+      "from": -3100,
+      "to": -2181,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "middle-kingdom-egypt",
+      "displayName": "Middle Kingdom Egypt",
+      "arcId": "egyptian",
+      "from": -2055,
+      "to": -1650,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "theban-kingdom",
+      "displayName": "Theban Kingdom",
+      "arcId": "egyptian",
+      "from": -1650,
+      "to": -1550,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "new-kingdom-egypt",
+      "displayName": "New Kingdom Egypt",
+      "arcId": "egyptian",
+      "from": -1550,
+      "to": -1069,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "late-egyptian-polities",
+      "displayName": "Late Egyptian Polities",
+      "arcId": "egyptian",
+      "from": -1069,
+      "to": -525,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "new-and-late-egypt",
+      "displayName": "New and Late Kingdom Egypt",
+      "arcId": "egyptian",
+      "from": -1550,
+      "to": -525,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "anatolian-principalities",
+      "displayName": "Anatolian Principalities",
+      "arcId": "anatolian",
+      "from": -2000,
+      "to": -1650,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "hittite-old-kingdom",
+      "displayName": "Hittite Old Kingdom",
+      "arcId": "anatolian",
+      "from": -1650,
+      "to": -1500,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "hittite-empire",
+      "displayName": "Hittite Empire",
+      "arcId": "anatolian",
+      "from": -1500,
+      "to": -1200,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "post-hittite-anatolian-polities",
+      "displayName": "Post-Hittite Anatolian Polities",
+      "arcId": "anatolian",
+      "from": -1200,
+      "to": -700,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "trojan-polities",
+      "displayName": "Trojan Polities",
+      "arcId": "anatolian",
+      "from": -3000,
+      "to": -1700,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "late-bronze-trojan-polity",
+      "displayName": "Late Bronze Age Troy",
+      "arcId": "anatolian",
+      "from": -1700,
+      "to": -1180,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "northwest-anatolian-polities",
+      "displayName": "Northwest Anatolian Polities",
+      "arcId": "anatolian",
+      "from": -700,
+      "to": -334,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "hellenistic-anatolia",
+      "displayName": "Hellenistic Anatolian Kingdoms",
+      "arcId": "greek",
+      "from": -334,
+      "to": -133,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "ionian-polities",
+      "displayName": "Ionian Polities",
+      "arcId": "greek",
+      "from": -1050,
+      "to": -334,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "attalid-kingdom",
+      "displayName": "Attalid Kingdom",
+      "arcId": "greek",
+      "from": -281,
+      "to": -133,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "mycenaean-polities",
+      "displayName": "Mycenaean Polities",
+      "arcId": "greek",
+      "from": -1700,
+      "to": -1100,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "argive-polities",
+      "displayName": "Argive Polities",
+      "arcId": "greek",
+      "from": -1100,
+      "to": -468,
+      "labelImportance": "local",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "argos",
+      "displayName": "Argos",
+      "arcId": "greek",
+      "from": -900,
+      "to": -146,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "syracuse-polity",
+      "displayName": "Syracuse",
+      "arcId": "greek",
+      "from": -734,
+      "to": -212,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "rhodian-state",
+      "displayName": "Rhodian State",
+      "arcId": "greek",
+      "from": -408,
+      "to": -43,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "canaanite-city-states",
+      "displayName": "Canaanite City-States",
+      "arcId": "levantine",
+      "from": -2500,
+      "to": -1200,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "byblos-city-state",
+      "displayName": "Byblos",
+      "arcId": "levantine",
+      "from": -1200,
+      "to": -738,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "sidon-city-state",
+      "displayName": "Sidon",
+      "arcId": "levantine",
+      "from": -1200,
+      "to": -677,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "hellenistic-levant",
+      "displayName": "Hellenistic Levant",
+      "arcId": "greek",
+      "from": -332,
+      "to": -64,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "early-bactrian-polities",
+      "displayName": "Early Bactrian Polities",
+      "arcId": "persian",
+      "from": -1500,
+      "to": -550,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "greco-bactrian-kingdom",
+      "displayName": "Greco-Bactrian Kingdom",
+      "arcId": "greek",
+      "from": -250,
+      "to": -125,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "yuezhi-bactria",
+      "displayName": "Yuezhi Bactria",
+      "arcId": "persian",
+      "from": -125,
+      "to": 50,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "late-antique-bactrian-polities",
+      "displayName": "Late Antique Bactrian Polities",
+      "arcId": "persian",
+      "from": 250,
+      "to": 650,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "median-empire",
+      "displayName": "Median Empire",
+      "arcId": "persian",
+      "from": -700,
+      "to": -550,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "ur-iii-state",
+      "displayName": "Ur III State",
+      "arcId": "mesopotamian",
+      "from": -2112,
+      "to": -2004,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "southern-mesopotamian-polities",
+      "displayName": "Southern Mesopotamian Polities",
+      "arcId": "mesopotamian",
+      "from": -2334,
+      "to": -539,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "shang-kingdom",
+      "displayName": "Shang Kingdom",
+      "arcId": "chinese",
+      "from": -1600,
+      "to": -1046,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "western-zhou",
+      "displayName": "Western Zhou",
+      "arcId": "chinese",
+      "from": -1046,
+      "to": -771,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "eastern-zhou",
+      "displayName": "Eastern Zhou",
+      "arcId": "chinese",
+      "from": -770,
+      "to": -256,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "qin-state",
+      "displayName": "Qin State",
+      "arcId": "chinese",
+      "from": -350,
+      "to": -221,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "qin-empire",
+      "displayName": "Qin Empire",
+      "arcId": "chinese",
+      "from": -221,
+      "to": -206,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "qi-state",
+      "displayName": "Qi State",
+      "arcId": "chinese",
+      "from": -859,
+      "to": -221,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "han-empire-general",
+      "displayName": "Han Empire",
+      "arcId": "chinese",
+      "from": -206,
+      "to": 220,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "cao-wei-western-jin",
+      "displayName": "Cao Wei and Western Jin",
+      "arcId": "chinese",
+      "from": 220,
+      "to": 311,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "northern-wei",
+      "displayName": "Northern Wei",
+      "arcId": "chinese",
+      "from": 386,
+      "to": 535,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "kashi-mahajanapada",
+      "displayName": "Kāśī Mahājanapada",
+      "arcId": "indian",
+      "from": -1000,
+      "to": -450,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "kosala-magadha-transition",
+      "displayName": "Kosala–Magadha Transition",
+      "arcId": "indian",
+      "from": -450,
+      "to": -322,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "post-mauryan-north-india",
+      "displayName": "Post-Mauryan North Indian Polities",
+      "arcId": "indian",
+      "from": -185,
+      "to": 320,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "north-indian-successor-polities",
+      "displayName": "North Indian Successor Polities",
+      "arcId": "indian",
+      "from": 550,
+      "to": 650,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "surasena",
+      "displayName": "Śūrasena",
+      "arcId": "indian",
+      "from": -600,
+      "to": -322,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "mathura-regional-polities",
+      "displayName": "Mathurā Regional Polities",
+      "arcId": "indian",
+      "from": -185,
+      "to": 50,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "pandya-polity",
+      "displayName": "Pāṇḍya Polity",
+      "arcId": "indian",
+      "from": -300,
+      "to": 650,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "tamilakam-polities",
+      "displayName": "Tamilakam Polities",
+      "arcId": "indian",
+      "from": -600,
+      "to": 300,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "kalabhra-polities",
+      "displayName": "Kalabhra-period Polities",
+      "arcId": "indian",
+      "from": 300,
+      "to": 550,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "tamilakam-successor-polities",
+      "displayName": "South Indian Successor Polities",
+      "arcId": "indian",
+      "from": 550,
+      "to": 650,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "south-indian-successor-polities",
+      "displayName": "South Indian Successor Polities",
+      "arcId": "indian",
+      "from": 300,
+      "to": 650,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "early-vedic-polities",
+      "displayName": "Early Vedic Polities",
+      "arcId": "indian",
+      "from": -1500,
+      "to": -1000,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "later-vedic-polities",
+      "displayName": "Later Vedic Polities",
+      "arcId": "indian",
+      "from": -1000,
+      "to": -600,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "mahajanapada-polities",
+      "displayName": "Mahājanapada Polities",
+      "arcId": "indian",
+      "from": -600,
+      "to": -322,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "northwestern-early-polities",
+      "displayName": "Northwestern Early Polities",
+      "arcId": "indian",
+      "from": -1500,
+      "to": -550,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "macedonian-empire",
+      "displayName": "Macedonian Empire",
+      "arcId": "greek",
+      "from": -334,
+      "to": -305,
+      "labelImportance": "world",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "indo-greek-saka-parthian-polities",
+      "displayName": "Indo-Greek, Śaka and Indo-Parthian Polities",
+      "arcId": "indian",
+      "from": -185,
+      "to": 50,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "northwestern-indian-medical-traditions",
+      "displayName": "Northwestern Indian Medical Traditions",
+      "arcId": "indian",
+      "from": -500,
+      "to": 250,
+      "labelImportance": "local",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "north-indian-jain-polities",
+      "displayName": "North Indian Jain Networks",
+      "arcId": "indian",
+      "from": -200,
+      "to": 300,
+      "labelImportance": "local",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "central-indian-polities",
+      "displayName": "Central Indian Polities",
+      "arcId": "indian",
+      "from": -200,
+      "to": 320,
+      "labelImportance": "regional",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    },
+    {
+      "id": "gupta-and-successor-polities",
+      "displayName": "Gupta and Successor Polities",
+      "arcId": "indian",
+      "from": 320,
+      "to": 650,
+      "labelImportance": "major",
+      "researchStatus": "preliminary",
+      "sourceRefs": [
+        "durations-json"
+      ]
+    }
+  ]
+}

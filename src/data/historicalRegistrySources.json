@@ -1,0 +1,1220 @@
+{
+  "schemaVersion": "0.2.0",
+  "sources": [
+    {
+      "id": "location-csv",
+      "kind": "project-file",
+      "title": "All locations - Sheet1.csv",
+      "publisher": "Project dataset",
+      "pathHint": "All locations - Sheet1.csv",
+      "usedFor": [
+        "coordinates",
+        "modern equivalents",
+        "project location names"
+      ]
+    },
+    {
+      "id": "durations-json",
+      "kind": "project-file",
+      "title": "durations.json",
+      "publisher": "Project dataset",
+      "pathHint": "durations.json",
+      "usedFor": [
+        "civilizational arcs",
+        "colors",
+        "broad periodization"
+      ]
+    },
+    {
+      "id": "pleiades-conceptual",
+      "kind": "web",
+      "title": "Conceptual Overview",
+      "publisher": "Pleiades",
+      "url": "https://pleiades.stoa.org/help/conceptual-overview",
+      "usedFor": [
+        "place/name/location/connection model"
+      ]
+    },
+    {
+      "id": "pleiades-athens",
+      "kind": "web",
+      "title": "Athenae: a Pleiades place resource",
+      "publisher": "Pleiades",
+      "url": "https://pleiades.stoa.org/places/579885",
+      "usedFor": [
+        "Athens identity",
+        "ancient name range",
+        "capital of Attica"
+      ]
+    },
+    {
+      "id": "pleiades-sparta",
+      "kind": "web",
+      "title": "Sparta: a Pleiades place resource",
+      "publisher": "Pleiades",
+      "url": "https://pleiades.stoa.org/places/570685",
+      "usedFor": [
+        "Sparta identity",
+        "polis classification"
+      ]
+    },
+    {
+      "id": "pleiades-knossos",
+      "kind": "web",
+      "title": "Knosos/Col. Iulia Nobilis Cnosos",
+      "publisher": "Pleiades",
+      "url": "https://pleiades.stoa.org/places/589872",
+      "usedFor": [
+        "Knossos long occupation",
+        "site identity"
+      ]
+    },
+    {
+      "id": "unesco-delphi",
+      "kind": "web",
+      "title": "Archaeological Site of Delphi",
+      "publisher": "UNESCO World Heritage Centre",
+      "url": "https://whc.unesco.org/en/list/393/",
+      "usedFor": [
+        "Delphi sanctuary development",
+        "Pan-Hellenic importance"
+      ]
+    },
+    {
+      "id": "met-archaic-sparta",
+      "kind": "web",
+      "title": "Art and Craft in Archaic Sparta",
+      "publisher": "The Metropolitan Museum of Art",
+      "url": "https://www.metmuseum.org/essays/art-and-craft-in-archaic-sparta",
+      "usedFor": [
+        "Sparta cultural prominence"
+      ]
+    },
+    {
+      "id": "met-achaemenid",
+      "kind": "web",
+      "title": "The Achaemenid Persian Empire (550–330 B.C.)",
+      "publisher": "The Metropolitan Museum of Art",
+      "url": "https://www.metmuseum.org/essays/the-achaemenid-persian-empire-550-330-b-c",
+      "usedFor": [
+        "Achaemenid chronology",
+        "mainland Greek resistance"
+      ]
+    },
+    {
+      "id": "egypt-ministry-alexandria",
+      "kind": "web",
+      "title": "Alexandria",
+      "publisher": "Egypt Ministry of Tourism and Antiquities",
+      "url": "https://egymonuments.gov.eg/archaeological-sites/alexandria/",
+      "usedFor": [
+        "foundation in 331 BCE",
+        "Ptolemaic seat",
+        "long-term prominence"
+      ]
+    },
+    {
+      "id": "met-ptolemaic-egypt",
+      "kind": "web",
+      "title": "Egypt in the Ptolemaic Period",
+      "publisher": "The Metropolitan Museum of Art",
+      "url": "https://www.metmuseum.org/essays/egypt-in-the-ptolemaic-period",
+      "usedFor": [
+        "Ptolemaic cultural context"
+      ]
+    },
+    {
+      "id": "unesco-nineveh",
+      "kind": "web",
+      "title": "The Ancient City of Nineveh",
+      "publisher": "UNESCO World Heritage Centre",
+      "url": "https://whc.unesco.org/en/tentativelists/1465/",
+      "usedFor": [
+        "occupation range",
+        "Assyrian capital phase",
+        "destruction in 612 BCE"
+      ]
+    },
+    {
+      "id": "unesco-assur",
+      "kind": "web",
+      "title": "Ashur (Qal'at Sherqat)",
+      "publisher": "UNESCO World Heritage Centre",
+      "url": "https://whc.unesco.org/en/list/1130/",
+      "usedFor": [
+        "Assur capital and religious roles",
+        "Parthian revival"
+      ]
+    },
+    {
+      "id": "unesco-babylon",
+      "kind": "web",
+      "title": "Babylon",
+      "publisher": "UNESCO World Heritage Centre",
+      "url": "https://whc.unesco.org/en/list/278/",
+      "usedFor": [
+        "Neo-Babylonian capital",
+        "successive imperial roles"
+      ]
+    },
+    {
+      "id": "unesco-susa",
+      "kind": "web",
+      "title": "Susa",
+      "publisher": "UNESCO World Heritage Centre",
+      "url": "https://whc.unesco.org/en/list/1455/",
+      "usedFor": [
+        "long occupation",
+        "Elamite, Achaemenid, Parthian and Sasanian traditions"
+      ]
+    },
+    {
+      "id": "unesco-jerusalem",
+      "kind": "web",
+      "title": "Old City of Jerusalem and its Walls",
+      "publisher": "UNESCO World Heritage Centre",
+      "url": "https://whc.unesco.org/en/list/148/",
+      "usedFor": [
+        "Jerusalem as multi-period sacred city"
+      ]
+    },
+    {
+      "id": "iranica-pataliputra",
+      "kind": "web",
+      "title": "ʿAẒĪMĀBĀD (Patna)",
+      "publisher": "Encyclopaedia Iranica",
+      "url": "https://www.iranicaonline.org/articles/azimabad-patna-ancient-pataliputra-present-capital-of-bihar-state-in-northeast-india/",
+      "usedFor": [
+        "Pataliputra as Maurya and Gupta capital"
+      ]
+    },
+    {
+      "id": "british-museum-purusapura",
+      "kind": "web",
+      "title": "Peshawar / Purusapura",
+      "publisher": "British Museum",
+      "url": "https://www.britishmuseum.org/collection/term/x325797",
+      "usedFor": [
+        "Puruṣapura as Kushan capital under Kanishka"
+      ]
+    },
+    {
+      "id": "unesco-changan",
+      "kind": "web",
+      "title": "Silk Roads: the Routes Network of Chang'an-Tianshan Corridor",
+      "publisher": "UNESCO World Heritage Centre",
+      "url": "https://whc.unesco.org/en/list/1442/",
+      "usedFor": [
+        "Chang’an as Han capital",
+        "Silk Roads role"
+      ]
+    },
+    {
+      "id": "cambridge-kuru-pancala",
+      "kind": "web",
+      "title": "Two worlds and their interactions",
+      "publisher": "Cambridge University Press",
+      "url": "https://www.cambridge.org/core/books/origins-of-yoga-and-tantra/two-worlds-and-their-interactions/80AB1E6BD76FD324692CF2DD830DC0B7",
+      "usedFor": [
+        "Kuru–Pañcāla as Vedic cultural world"
+      ]
+    },
+    {
+      "id": "wiley-vedic-political-history",
+      "kind": "web",
+      "title": "Vedic Period, Political History",
+      "publisher": "The Encyclopedia of Ancient History / Wiley",
+      "url": "https://onlinelibrary.wiley.com/doi/abs/10.1002/9781119399919.eahaa00547",
+      "usedFor": [
+        "Kuru–Pāñcāla dominance in Later Vedic period"
+      ]
+    },
+    {
+      "id": "witzel-kuru-state",
+      "kind": "web",
+      "title": "Early Sanskritization. Origins and Development of the Kuru State",
+      "publisher": "Electronic Journal of Vedic Studies",
+      "url": "https://hasp.ub.uni-heidelberg.de/journals/ejvs/article/view/823",
+      "usedFor": [
+        "Kuru realm formation",
+        "Haryana and western Uttar Pradesh context"
+      ]
+    },
+    {
+      "id": "wiley-akkad",
+      "kind": "web",
+      "title": "Akkad (Agade)",
+      "publisher": "The Encyclopedia of Ancient History / Wiley",
+      "url": "https://onlinelibrary.wiley.com/doi/abs/10.1002/9781444338386.wbeah01005",
+      "usedFor": [
+        "Akkad as capital",
+        "unidentified location"
+      ]
+    },
+    {
+      "id": "durations-greek-archaic",
+      "kind": "project-reference",
+      "title": "Greek archaic segments",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Greek chronology"
+      ]
+    },
+    {
+      "id": "durations-greek-early-classical",
+      "kind": "project-reference",
+      "title": "Greek early classical segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Athens and Sparta chronology"
+      ]
+    },
+    {
+      "id": "durations-greek-late-classical",
+      "kind": "project-reference",
+      "title": "Greek late classical segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Greek chronology"
+      ]
+    },
+    {
+      "id": "durations-greek-classical",
+      "kind": "project-reference",
+      "title": "Greek classical segments",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Greek chronology"
+      ]
+    },
+    {
+      "id": "durations-greek-hellenistic",
+      "kind": "project-reference",
+      "title": "Greek Hellenistic segments",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Hellenistic Greece"
+      ]
+    },
+    {
+      "id": "durations-greek-dark-archaic",
+      "kind": "project-reference",
+      "title": "Greek Dark Age and archaic segments",
+      "publisher": "durations.json",
+      "usedFor": [
+        "early Sparta"
+      ]
+    },
+    {
+      "id": "durations-greek-minoan",
+      "kind": "project-reference",
+      "title": "Minoan segments",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Knossos"
+      ]
+    },
+    {
+      "id": "durations-greek-mycenaean",
+      "kind": "project-reference",
+      "title": "Mycenaean segments",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Knossos"
+      ]
+    },
+    {
+      "id": "durations-greek-archaic-classical",
+      "kind": "project-reference",
+      "title": "Greek archaic and classical segments",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Cretan polis phase"
+      ]
+    },
+    {
+      "id": "durations-hellenistic-egypt",
+      "kind": "project-reference",
+      "title": "Hellenistic Egyptian composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Alexandria"
+      ]
+    },
+    {
+      "id": "durations-roman-egypt",
+      "kind": "project-reference",
+      "title": "Roman Egyptian composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Alexandria"
+      ]
+    },
+    {
+      "id": "durations-roman-greece",
+      "kind": "project-reference",
+      "title": "Roman Greek composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Athens",
+        "Sparta",
+        "Delphi",
+        "Knossos"
+      ]
+    },
+    {
+      "id": "durations-roman",
+      "kind": "project-reference",
+      "title": "Roman composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Roman chronology"
+      ]
+    },
+    {
+      "id": "durations-mesopotamian",
+      "kind": "project-reference",
+      "title": "Mesopotamian composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Mesopotamian chronology"
+      ]
+    },
+    {
+      "id": "durations-neo-assyrian",
+      "kind": "project-reference",
+      "title": "Neo-Assyrian segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Nineveh",
+        "Assur"
+      ]
+    },
+    {
+      "id": "durations-neo-babylonian",
+      "kind": "project-reference",
+      "title": "Neo-Babylonian segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Babylon",
+        "Nineveh",
+        "Assur"
+      ]
+    },
+    {
+      "id": "durations-old-babylonian",
+      "kind": "project-reference",
+      "title": "Old Babylonian segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Babylon"
+      ]
+    },
+    {
+      "id": "durations-middle-babylonian",
+      "kind": "project-reference",
+      "title": "Kassite / Middle Babylonian / Middle Assyrian segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Babylon",
+        "Assur"
+      ]
+    },
+    {
+      "id": "durations-akkadian",
+      "kind": "project-reference",
+      "title": "Akkadian Empire segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Akkad"
+      ]
+    },
+    {
+      "id": "durations-persian-mesopotamia",
+      "kind": "project-reference",
+      "title": "Achaemenid Mesopotamian composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Babylon",
+        "Nineveh",
+        "Assur"
+      ]
+    },
+    {
+      "id": "durations-hellenistic-mesopotamia",
+      "kind": "project-reference",
+      "title": "Hellenistic Mesopotamian composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Babylon",
+        "Nineveh",
+        "Assur"
+      ]
+    },
+    {
+      "id": "durations-persian-iranian",
+      "kind": "project-reference",
+      "title": "Persian/Iranian composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Susa"
+      ]
+    },
+    {
+      "id": "durations-achaemenid",
+      "kind": "project-reference",
+      "title": "Achaemenid Empire segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Susa",
+        "Achaemenid polity"
+      ]
+    },
+    {
+      "id": "durations-hellenistic-persia",
+      "kind": "project-reference",
+      "title": "Hellenistic Persian composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Susa"
+      ]
+    },
+    {
+      "id": "durations-levantine-monarchies",
+      "kind": "project-reference",
+      "title": "Levantine consolidated monarchies segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Jerusalem"
+      ]
+    },
+    {
+      "id": "durations-neo-babylonian-levant",
+      "kind": "project-reference",
+      "title": "Neo-Babylonian Levant segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Jerusalem"
+      ]
+    },
+    {
+      "id": "durations-persian-levant",
+      "kind": "project-reference",
+      "title": "Achaemenid Levant composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Jerusalem"
+      ]
+    },
+    {
+      "id": "durations-hellenistic-levant",
+      "kind": "project-reference",
+      "title": "Hellenistic Levant composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Jerusalem"
+      ]
+    },
+    {
+      "id": "durations-roman-levant",
+      "kind": "project-reference",
+      "title": "Roman Levant composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Jerusalem"
+      ]
+    },
+    {
+      "id": "durations-indian-mahajanapada",
+      "kind": "project-reference",
+      "title": "Mahājanapada and Upanishadic segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Pāṭaliputra"
+      ]
+    },
+    {
+      "id": "durations-maurya",
+      "kind": "project-reference",
+      "title": "Maurya segments",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Pāṭaliputra"
+      ]
+    },
+    {
+      "id": "durations-post-maurya",
+      "kind": "project-reference",
+      "title": "Post-Mauryan segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Pāṭaliputra",
+        "Puruṣapura"
+      ]
+    },
+    {
+      "id": "durations-gupta",
+      "kind": "project-reference",
+      "title": "Gupta segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Pāṭaliputra"
+      ]
+    },
+    {
+      "id": "durations-later-vedic",
+      "kind": "project-reference",
+      "title": "Later Vedic segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Kuru–Pañcāla"
+      ]
+    },
+    {
+      "id": "durations-mahajanapada",
+      "kind": "project-reference",
+      "title": "Mahājanapada segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Kuru–Pañcāla"
+      ]
+    },
+    {
+      "id": "durations-han",
+      "kind": "project-reference",
+      "title": "Han Empire segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Chang’an"
+      ]
+    },
+    {
+      "id": "durations-post-han",
+      "kind": "project-reference",
+      "title": "Post-Han fragmentation segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "Chang’an"
+      ]
+    },
+    {
+      "id": "map-late-antique-bridge",
+      "kind": "project-reference",
+      "title": "Map-only late antique Roman bridge",
+      "publisher": "historicalMapContext.js",
+      "usedFor": [
+        "Eastern Roman continuity"
+      ]
+    },
+    {
+      "id": "map-parthian-bridge",
+      "kind": "project-reference",
+      "title": "Map-only Parthian bridge",
+      "publisher": "historicalMapContext.js",
+      "usedFor": [
+        "Parthian Iran and Mesopotamia"
+      ]
+    },
+    {
+      "id": "map-sasanian-bridge",
+      "kind": "project-reference",
+      "title": "Map-only Sasanian bridge",
+      "publisher": "historicalMapContext.js",
+      "usedFor": [
+        "Sasanian Iran and Mesopotamia"
+      ]
+    },
+    {
+      "id": "map-china-late-antique-bridge",
+      "kind": "project-reference",
+      "title": "Map-only Chinese late antique bridge",
+      "publisher": "historicalMapContext.js",
+      "usedFor": [
+        "Northern and Southern Dynasties"
+      ]
+    },
+    {
+      "id": "unesco-carthage",
+      "kind": "web",
+      "title": "Archaeological Site of Carthage",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/37/"
+    },
+    {
+      "id": "unesco-rome",
+      "kind": "web",
+      "title": "Historic Centre of Rome",
+      "publisher": "UNESCO / Italian Ministry of Culture",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://unesco.cultura.gov.it/en/projects/centro-storico-di-roma-le-proprieta-extraterritoriali-della-santa-sede-nella-citta-e-san-paolo-fuori-le-mura/"
+    },
+    {
+      "id": "project-pallantium",
+      "kind": "project-reference",
+      "title": "Pallantium project location note",
+      "publisher": "Project dataset",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "unesco-thebes",
+      "kind": "web",
+      "title": "Ancient Thebes with its Necropolis",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/87/"
+    },
+    {
+      "id": "unesco-memphis",
+      "kind": "web",
+      "title": "Memphis and its Necropolis",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/86/"
+    },
+    {
+      "id": "iranica-antioch",
+      "kind": "web",
+      "title": "Antioch",
+      "publisher": "Encyclopaedia Iranica",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://www.iranicaonline.org/articles/antioch-1-northern-syria/"
+    },
+    {
+      "id": "constantinople-reference",
+      "kind": "project-reference",
+      "title": "Constantinople historical reference",
+      "publisher": "Encyclopaedia Britannica / historical reference",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "unesco-hattusha",
+      "kind": "web",
+      "title": "Hattusha: the Hittite Capital",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/377/"
+    },
+    {
+      "id": "unesco-troy",
+      "kind": "web",
+      "title": "Archaeological Site of Troy",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/849/"
+    },
+    {
+      "id": "unesco-ephesus",
+      "kind": "web",
+      "title": "Ephesus",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/1018/"
+    },
+    {
+      "id": "unesco-pergamon",
+      "kind": "web",
+      "title": "Pergamon and its Multi-Layered Cultural Landscape",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/1457/"
+    },
+    {
+      "id": "unesco-mycenae",
+      "kind": "web",
+      "title": "Archaeological Sites of Mycenae and Tiryns",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/941/"
+    },
+    {
+      "id": "miletus-reference",
+      "kind": "project-reference",
+      "title": "Miletus historical reference",
+      "publisher": "Encyclopaedia Britannica historical edition",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "unesco-syracuse",
+      "kind": "web",
+      "title": "Syracuse and the Rocky Necropolis of Pantalica",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/1200/"
+    },
+    {
+      "id": "rhodes-reference",
+      "kind": "project-reference",
+      "title": "Rhodes historical reference",
+      "publisher": "Encyclopaedia Britannica historical edition",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "unesco-byblos",
+      "kind": "web",
+      "title": "Byblos",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/295/"
+    },
+    {
+      "id": "unesco-tyre",
+      "kind": "web",
+      "title": "Tyre",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/299/"
+    },
+    {
+      "id": "met-phoenicians",
+      "kind": "web",
+      "title": "The Phoenicians (1500–300 B.C.)",
+      "publisher": "The Metropolitan Museum of Art",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://www.metmuseum.org/essays/the-phoenicians-1500-300-b-c"
+    },
+    {
+      "id": "met-tyre-sidon-roman",
+      "kind": "web",
+      "title": "Tyre and Sidon in the Roman period",
+      "publisher": "The Metropolitan Museum of Art",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://www.metmuseum.org/exhibitions/listings/2019/world-between-empires-art-and-identity-ancient-middle-east/exhibition-galleries"
+    },
+    {
+      "id": "unesco-pasargadae",
+      "kind": "web",
+      "title": "Pasargadae",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/1106/"
+    },
+    {
+      "id": "iranica-pasargadae",
+      "kind": "web",
+      "title": "Pasargadae",
+      "publisher": "Encyclopaedia Iranica",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://www.iranicaonline.org/articles/pasargadae/"
+    },
+    {
+      "id": "unesco-persepolis",
+      "kind": "web",
+      "title": "Persepolis",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/114/"
+    },
+    {
+      "id": "iranica-ecbatana",
+      "kind": "web",
+      "title": "Ecbatana",
+      "publisher": "Encyclopaedia Iranica",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://www.iranicaonline.org/articles/ecbatana/"
+    },
+    {
+      "id": "iranica-capital-cities",
+      "kind": "web",
+      "title": "Capital Cities",
+      "publisher": "Encyclopaedia Iranica",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://www.iranicaonline.org/articles/capital-cities/"
+    },
+    {
+      "id": "iranica-achaemenid-satrapies",
+      "kind": "web",
+      "title": "Achaemenid Satrapies",
+      "publisher": "Encyclopaedia Iranica",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://www.iranicaonline.org/articles/achaemenid-satrapies/"
+    },
+    {
+      "id": "iranica-achaemenid-kingship",
+      "kind": "web",
+      "title": "Kingship in the Achaemenid Empire",
+      "publisher": "Encyclopaedia Iranica",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://www.iranicaonline.org/articles/kingship/kingship-ii-in-the-achaemenid-empire/"
+    },
+    {
+      "id": "unesco-ur-uruk",
+      "kind": "web",
+      "title": "The Ahwar of Southern Iraq: Uruk and Ur",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/1481/"
+    },
+    {
+      "id": "unesco-yinxu",
+      "kind": "web",
+      "title": "Yin Xu",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/1114/"
+    },
+    {
+      "id": "western-zhou-capitals",
+      "kind": "project-reference",
+      "title": "Western Zhou capital complex reference",
+      "publisher": "Project chronology / archaeological synthesis",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "luoyang-reference",
+      "kind": "web",
+      "title": "Luoyang capital sites",
+      "publisher": "UNESCO Silk Roads / historical synthesis",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/1442/"
+    },
+    {
+      "id": "unesco-qin",
+      "kind": "web",
+      "title": "Mausoleum of the First Qin Emperor",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/441/"
+    },
+    {
+      "id": "unesco-silkroads",
+      "kind": "web",
+      "title": "Silk Roads: Chang’an–Tianshan Corridor",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/1442/"
+    },
+    {
+      "id": "linzi-reference",
+      "kind": "project-reference",
+      "title": "Linzi and the state of Qi historical reference",
+      "publisher": "Historical synthesis",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "govt-varanasi",
+      "kind": "web",
+      "title": "History of Varanasi",
+      "publisher": "District Varanasi, Government of Uttar Pradesh",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://varanasi.nic.in/history/"
+    },
+    {
+      "id": "varanasi-reference",
+      "kind": "project-reference",
+      "title": "Varanasi / Kāśī historical synthesis",
+      "publisher": "Government and reference sources",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "ignca-mathura",
+      "kind": "web",
+      "title": "Mathura: A Treasure Trove of Antiquities",
+      "publisher": "Indira Gandhi National Centre for the Arts",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://ignca.gov.in/mathura-a-treasure-trove-of-antiquities/"
+    },
+    {
+      "id": "british-museum-mathura",
+      "kind": "web",
+      "title": "Ancient India: living traditions — Mathura",
+      "publisher": "British Museum",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://www.britishmuseum.org/exhibitions/ancient-india-living-traditions/ancient-india-living-traditions-large-print-guide"
+    },
+    {
+      "id": "govt-madurai",
+      "kind": "web",
+      "title": "History of Madurai",
+      "publisher": "Madurai District, Government of Tamil Nadu",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://madurai.nic.in/history/"
+    },
+    {
+      "id": "inflibnet-sangam",
+      "kind": "web",
+      "title": "The Sangam Age",
+      "publisher": "INFLIBNET Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://ebooks.inflibnet.ac.in/icp01/chapter/the-sangam-age/"
+    },
+    {
+      "id": "tamilakam-reference",
+      "kind": "project-reference",
+      "title": "Tamilakam and Sangam-period chronology",
+      "publisher": "Academic historical synthesis",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "unesco-taxila",
+      "kind": "web",
+      "title": "Taxila",
+      "publisher": "UNESCO World Heritage Centre",
+      "usedFor": [
+        "historical place phase research"
+      ],
+      "url": "https://whc.unesco.org/en/list/139/"
+    },
+    {
+      "id": "taxila-reference",
+      "kind": "project-reference",
+      "title": "Taxila and northwestern South Asia historical synthesis",
+      "publisher": "UNESCO / project chronology",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "project-medical-sphere",
+      "kind": "project-reference",
+      "title": "Northwestern Indian medical sphere",
+      "publisher": "Project interpretive location",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "project-digambara-sphere",
+      "kind": "project-reference",
+      "title": "Northern Digambara sphere",
+      "publisher": "Project interpretive location",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "project-astronomical-sphere",
+      "kind": "project-reference",
+      "title": "Central Indian astronomical sphere",
+      "publisher": "Project interpretive location",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "durations-carthaginian",
+      "kind": "project-reference",
+      "title": "Carthaginian composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "durations-roman-carthage",
+      "kind": "project-reference",
+      "title": "Roman Carthaginian composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "durations-egyptian",
+      "kind": "project-reference",
+      "title": "Egyptian composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "durations-persian-egypt",
+      "kind": "project-reference",
+      "title": "Persian Egyptian composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "durations-anatolian",
+      "kind": "project-reference",
+      "title": "Anatolian composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "durations-persian-anatolia",
+      "kind": "project-reference",
+      "title": "Persian Anatolian composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "durations-hellenistic-anatolia",
+      "kind": "project-reference",
+      "title": "Hellenistic Anatolian composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "durations-roman-anatolia",
+      "kind": "project-reference",
+      "title": "Roman Anatolian composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "durations-chinese",
+      "kind": "project-reference",
+      "title": "Chinese composite",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "durations-indian-early-vedic",
+      "kind": "project-reference",
+      "title": "Indian early Vedic segment",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase research"
+      ]
+    },
+    {
+      "id": "durations-levantine",
+      "kind": "project-reference",
+      "title": "Durations Levantine",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase chronology"
+      ]
+    },
+    {
+      "id": "durations-levantine",
+      "kind": "project-reference",
+      "title": "Durations Levantine",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase chronology"
+      ]
+    },
+    {
+      "id": "durations-levantine",
+      "kind": "project-reference",
+      "title": "Durations Levantine",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase chronology"
+      ]
+    },
+    {
+      "id": "durations-levantine",
+      "kind": "project-reference",
+      "title": "Durations Levantine",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase chronology"
+      ]
+    },
+    {
+      "id": "durations-levantine",
+      "kind": "project-reference",
+      "title": "Durations Levantine",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase chronology"
+      ]
+    },
+    {
+      "id": "durations-levantine",
+      "kind": "project-reference",
+      "title": "Durations Levantine",
+      "publisher": "durations.json",
+      "usedFor": [
+        "historical place phase chronology"
+      ]
+    }
+  ],
+  "status": "broad-zoom-preliminary"
+}

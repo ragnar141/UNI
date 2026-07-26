@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "generatedFor": "timeline.jsx Map View historical layer",
+  "sources": [
+    {
+      "id": "historical-basemaps",
+      "title": "Historical boundaries of world countries and cultural regions",
+      "maintainer": "Alexandre Ourednik and contributors",
+      "repository": "https://github.com/aourednik/historical-basemaps",
+      "geometryRoot": "https://raw.githubusercontent.com/aourednik/historical-basemaps/master/geojson",
+      "license": "GNU GPL v3 repository license",
+      "usedFor": [
+        "historical polygon geometry",
+        "entity names",
+        "PARTOF hierarchy hints",
+        "BORDERPRECISION uncertainty values"
+      ],
+      "cautions": [
+        "The source repository explicitly describes the maps as work in progress.",
+        "Ancient files mix political entities with cultural and ethnographic regions.",
+        "Editorial snapshot years sometimes use the nearest available source geometry rather than an exact-year reconstruction."
+      ]
+    },
+    {
+      "id": "world-atlas",
+      "title": "world-atlas countries-50m",
+      "repository": "https://github.com/topojson/world-atlas",
+      "usedFor": [
+        "modern coastline and faint present-day reference boundaries"
+      ],
+      "cautions": [
+        "Present-day borders are rendered faintly and should not be interpreted as ancient boundaries."
+      ]
+    }
+  ]
+}
