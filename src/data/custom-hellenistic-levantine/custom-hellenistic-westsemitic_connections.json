@@ -1,0 +1,74 @@
+[
+  {
+    "Index": "1",
+    "Primary": "3, text",
+    "Primary Name": "Dead Sea Scrolls (early layer)",
+    "Secondary": "1, text",
+    "Secondary Name": "Book of Enoch",
+    "Connection Category": "partof",
+    "Note": "Aramaic manuscripts of several Enochic works were preserved among the Dead Sea Scrolls at Qumran, confirming the circulation of the Enochic corpus there; the later Book of Parables is not represented."
+  },
+  {
+    "Index": "2",
+    "Primary": "3, text",
+    "Primary Name": "Dead Sea Scrolls (early layer)",
+    "Secondary": "4, text",
+    "Secondary Name": "Book of Jubilees",
+    "Connection Category": "partof",
+    "Note": "Multiple Hebrew manuscripts of Jubilees were preserved at Qumran, where its 364-day calendar, angelic revelation, and rewritten patriarchal history closely align with broader sectarian interests."
+  },
+  {
+    "Index": "3",
+    "Primary": "3, text",
+    "Primary Name": "Dead Sea Scrolls (early layer)",
+    "Secondary": "2, text",
+    "Secondary Name": "Ben Sira",
+    "Connection Category": "partof",
+    "Note": "A Hebrew copy of Ben Sira (2Q18) was found in Qumran Cave 2, demonstrating that the text circulated among the manuscripts preserved at Qumran."
+  },
+  {
+    "Index": "4",
+    "Primary": "1, text",
+    "Primary Name": "Book of Enoch",
+    "Secondary": "4, text",
+    "Secondary Name": "Book of Jubilees",
+    "Connection Category": "indirect connection",
+    "Note": "Jubilees reworks Enochic traditions concerning the Watchers, giants, Flood, demons, and revealed knowledge, while integrating them into a Mosaic and Torah-centered history; both also use a 364-day calendar."
+  },
+  {
+    "Index": "5",
+    "Primary": "1, text",
+    "Primary Name": "Book of Enoch",
+    "Secondary": "7, text",
+    "Secondary Name": "1 Maccabees",
+    "Connection Category": "indirect connection",
+    "Note": "The Animal Apocalypse in 1 Enoch symbolically extends Israelite history into the Maccabean revolt, with the great-horned ram commonly identified as Judas Maccabeus; 1 Maccabees narrates the same crisis directly."
+  },
+  {
+    "Index": "6",
+    "Primary": "1, text",
+    "Primary Name": "Book of Enoch",
+    "Secondary": "6, text",
+    "Secondary Name": "2 Maccabees",
+    "Connection Category": "comparative connection",
+    "Note": "Both interpret the Maccabean crisis through divine intervention: 1 Enoch frames it as an apocalyptic cosmic conflict, while 2 Maccabees emphasizes martyrdom, resurrection, angelic aid, and divine judgment."
+  },
+  {
+    "Index": "7",
+    "Primary": "7, text",
+    "Primary Name": "1 Maccabees",
+    "Secondary": "6, text",
+    "Secondary Name": "2 Maccabees",
+    "Connection Category": "explicit reference",
+    "Note": "Both independently narrate the Maccabean revolt, overlapping on Antiochus IV's persecution, the Temple's desecration and purification, Judas Maccabeus, and Nicanor's defeat; 1 Maccabees is dynastic-political, while 2 Maccabees is Jerusalem-centered and theological."
+  },
+  {
+    "Index": "8",
+    "Primary": "7, text",
+    "Primary Name": "1 Maccabees",
+    "Secondary": "8, text",
+    "Secondary Name": "Psalms of Solomon",
+    "Connection Category": "comparative connection",
+    "Note": "1 Maccabees legitimizes the founding Hasmonean leaders as Israel's liberators, whereas Psalms of Solomon condemns the later Hasmonean rulers as corrupt and anticipates a righteous Davidic king."
+  }
+]

@@ -1,15 +1,15 @@
 [
   {
-    "Index": 1,
+    "Index": "1",
     "Primary": "1, father",
     "Primary Name": "Dagon",
     "Secondary": "21, father",
     "Secondary Name": "Baal",
     "Connection Category": "familial: father/son",
-    "Note": "The Ugaritic tradition uniquely presents Dagon as the father of Baal, whereas outside Ugarit this genealogical relationship is not attested."
+    "Note": "Ugaritic texts repeatedly style Baal as “son of Dagan” (bn dgn). The patronymic establishes Dagan as Baal’s father in this tradition, although the myths do not narrate their relationship and El remains head of the divine council."
   },
   {
-    "Index": 2,
+    "Index": "2",
     "Primary": "1, father",
     "Primary Name": "Dagon",
     "Secondary": "1, text",
@@ -18,25 +18,25 @@
     "Note": "In the Old Babylonian tablets of Mari, Dagon appears as a paramount territorial god—“Dagan of Terqa”—invoked in royal oaths, treaties, and prophetic oracles as a guarantor of kingship and state authority in the Middle Euphrates world."
   },
   {
-    "Index": 3,
+    "Index": "3",
     "Primary": "1, father",
     "Primary Name": "Dagon",
     "Secondary": "2, text",
     "Secondary Name": "Amarna Letters",
     "Connection Category": "explicit reference",
-    "Note": "In the Amarna letters, Dagan appears as the acknowledged patron god of inland Syrian cities (notably Tunip), invoked in diplomatic loyalty formulas to Pharaoh as a local civic deity."
+    "Note": "The Amarna corpus attests Dagan primarily through theophoric personal names, including Dagan-takala, preserving his name in Late Bronze Age Syrian personal nomenclature rather than presenting him as an acting deity in the letters."
   },
   {
-    "Index": 4,
+    "Index": "4",
     "Primary": "1, father",
     "Primary Name": "Dagon",
     "Secondary": "5, text",
     "Secondary Name": "Baal Cycle",
     "Connection Category": "explicit reference",
-    "Note": "In the Ugaritic Baal Cycle, Dagan appears only as the patronymic father of Baal (“bn dgn”), with no narrative role, preserving his memory as an ancestral deity."
+    "Note": "In the Baal Cycle, Dagan has no active narrative role; Baal is repeatedly identified by the patronymic “son of Dagan,” preserving Dagan chiefly as an ancestral designation."
   },
   {
-    "Index": 5,
+    "Index": "5",
     "Primary": "1, father",
     "Primary Name": "Dagon",
     "Secondary": "6, text",
@@ -45,7 +45,7 @@
     "Note": "Ugaritic administrative tablets show Dagan as an actively maintained temple deity receiving offerings, rations, and priestly service."
   },
   {
-    "Index": 6,
+    "Index": "6",
     "Primary": "1, father",
     "Primary Name": "Dagon",
     "Secondary": "7, text",
@@ -54,16 +54,16 @@
     "Note": "Ugaritic ritual texts place Dagon in formal offering sequences and festival rites alongside the major gods, showing him as a recognized participant in the city’s liturgy."
   },
   {
-    "Index": 7,
+    "Index": "7",
     "Primary": "1, father",
     "Primary Name": "Dagon",
     "Secondary": "8, text",
     "Secondary Name": "Ritual Texts from Emar",
     "Connection Category": "explicit reference",
-    "Note": "Ritual tablets from Emar include Dagon as a regular recipient of prescribed sacrifices within festival calendars and god-lists, reflecting continuity of his Euphrates agrarian cult in the city’s liturgical order."
+    "Note": "Ritual texts from Emar place Dagan among the city’s principal cult recipients, including in the zukru festival, demonstrating his central role in Emar’s formal religious calendar."
   },
   {
-    "Index": 8,
+    "Index": "8",
     "Primary": "2, father",
     "Primary Name": "El",
     "Secondary": "5, father",
@@ -72,7 +72,7 @@
     "Note": "In the Ugaritic texts, Athirat (Asherah) is explicitly portrayed as the consort of El and the mother of the gods, forming the core divine household of the pantheon."
   },
   {
-    "Index": 9,
+    "Index": "9",
     "Primary": "2, father",
     "Primary Name": "El",
     "Secondary": "3, text",
@@ -81,7 +81,7 @@
     "Note": "In the Ugaritic Aqhat myth, El acts as a patriarchal, judicial, and fertility-granting figure who answers Danel’s prayers and grants him a son, extending his role as father of the gods into the human realm."
   },
   {
-    "Index": 10,
+    "Index": "10",
     "Primary": "2, father",
     "Primary Name": "El",
     "Secondary": "4, text",
@@ -90,16 +90,16 @@
     "Note": "In the Ugaritic Keret legend, El appears as a dream-revealing, lineage-restoring, and healing patriarch who guides the childless king Keret, blesses his marriage and offspring, and intervenes in his illness as the ultimate divine authority over dynastic fate."
   },
   {
-    "Index": 11,
+    "Index": "11",
     "Primary": "2, father",
     "Primary Name": "El",
     "Secondary": "5, text",
     "Secondary Name": "Baal Cycle",
     "Connection Category": "explicit reference",
-    "Note": "In the Ugaritic Baal Cycle, El presides as the judicial patriarch and head of the divine council whose authorization legitimizes Baal’s kingship, while remaining personally detached from the storm-god conflicts."
+    "Note": "In the Baal Cycle, El is the aged patriarch and head of the divine council. His approval is necessary for Baal’s palace and royal status, even though he usually governs through decree, negotiation, and intermediaries rather than direct combat."
   },
   {
-    "Index": 12,
+    "Index": "12",
     "Primary": "2, father",
     "Primary Name": "El",
     "Secondary": "6, text",
@@ -108,7 +108,7 @@
     "Note": "Ugaritic administrative tablets record El as a maintained cult recipient—named in offering lists, rations, and temple accounts—showing his practical integration into the city’s religious economy."
   },
   {
-    "Index": 13,
+    "Index": "13",
     "Primary": "2, father",
     "Primary Name": "El",
     "Secondary": "7, text",
@@ -117,7 +117,7 @@
     "Note": "Ugaritic ritual texts include El in ordered offering sequences and festival rites, showing him as a structurally required participant in the city’s formal liturgy."
   },
   {
-    "Index": 14,
+    "Index": "14",
     "Primary": "2, father",
     "Primary Name": "El",
     "Secondary": "8, text",
@@ -126,223 +126,160 @@
     "Note": "Ritual tablets from Emar include El in ordered god-lists and sacrifice sequences within festival calendars, showing him as a regular participant in the city’s liturgical order."
   },
   {
-    "Index": 15,
-    "Primary": "2, father",
-    "Primary Name": "El",
-    "Secondary": "9, text",
-    "Secondary Name": "Abibaal Inscription",
-    "Connection Category": "explicit reference",
-    "Note": "In the Abibaal inscription from Byblos, El appears as “El of Byblos” (ʾl gbl), invoked as the city’s patron deity in a royal dedication, reflecting his role as a civic high god in early Phoenician religion."
-  },
-  {
-    "Index": 16,
-    "Primary": "2, father",
-    "Primary Name": "El",
-    "Secondary": "11, text",
-    "Secondary Name": "Ahiram Sarcophagus Inscription",
-    "Connection Category": "explicit reference",
-    "Note": "In the Ahiram sarcophagus inscription, El is invoked as the supreme divine witness and enforcer of the royal curse, functioning as the highest juridical authority in Phoenician funerary religion."
-  },
-  {
-    "Index": 17,
-    "Primary": "2, father",
-    "Primary Name": "El",
-    "Secondary": "12, text",
-    "Secondary Name": "Yehimilk Inscription (c. 10th–9th century BCE)",
-    "Connection Category": "explicit reference",
-    "Note": "In the Yehimilk inscription from Byblos, El is invoked alongside Baalat Gebal in a royal temple dedication, reflecting his role as a principal civic deity in Phoenician cult practice."
-  },
-  {
-    "Index": 18,
+    "Index": "15",
     "Primary": "2, father",
     "Primary Name": "El",
     "Secondary": "17, text",
     "Secondary Name": "Deir Alla Inscription",
     "Connection Category": "explicit reference",
-    "Note": "In the Deir Alla inscription, El appears as the head of a divine council within a prophetic vision, preserving the West Semitic image of El as supreme assembly god centuries after Ugarit."
+    "Note": "The Deir Alla inscription reports Balaam’s vision as occurring according to El’s utterance and describes the gods and Shaddayin assembling in council, directly placing El within its divine-assembly setting."
   },
   {
-    "Index": 19,
+    "Index": "16",
     "Primary": "2, father",
     "Primary Name": "El",
     "Secondary": "20, text",
     "Secondary Name": "Torah / Pentateuch",
     "Connection Category": "explicit reference",
-    "Note": "In the Torah, El survives as ancient divine titles (El Elyon, El Shaddai, El Olam, El Bethel) and theophoric names, reflecting an older West Semitic high-god tradition whose attributes are absorbed into the identity of YHWH."
+    "Note": "In the Torah, ʾEl functions in divine names and titles such as El Elyon, El Shaddai, El Olam, and El Bethel. These usages preserve Northwest Semitic high-god vocabulary while identifying the deity of the patriarchs with YHWH within the Torah’s own theology."
   },
   {
-    "Index": 20,
+    "Index": "17",
     "Primary": "2, father",
     "Primary Name": "El",
     "Secondary": "21, text",
     "Secondary Name": "Sefire Treaties",
     "Connection Category": "explicit reference",
-    "Note": "In the Sefire treaties, El is invoked in the god-lists as a divine witness and enforcer of treaty curses, functioning as a high juridical authority in Aramaean oath formulas."
+    "Note": "The Sefire treaties invoke ʾEl among the divine witnesses who guarantee the oath and enforce its curses, preserving the high god’s juridical role in Iron Age Aramaean treaty practice."
   },
   {
-    "Index": 21,
+    "Index": "18",
     "Primary": "2, father",
     "Primary Name": "El",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "In the Prophets, El appears in divine titles and poetic language as a name of YHWH, preserving the older West Semitic high-god vocabulary within Israelite monotheistic theology."
+    "Note": "In Nevi’im, ʾEl appears in divine titles, theophoric language, and poetry as a designation of Israel’s God. The older Northwest Semitic high-god vocabulary is retained but incorporated into Yahwistic theology."
   },
   {
-    "Index": 22,
+    "Index": "19",
     "Primary": "2, father",
     "Primary Name": "El",
     "Secondary": "26, text",
     "Secondary Name": "Ketuvim (Writings)",
     "Connection Category": "explicit reference",
-    "Note": "In Ketuvim, El appears frequently in poetic and wisdom literature as an archaic divine title for YHWH, preserving older West Semitic high-god vocabulary within Israelite monotheistic worship."
+    "Note": "In Ketuvim, ʾEl frequently appears as a poetic designation for Israel’s God, especially in Psalms and Job, preserving archaic Northwest Semitic divine vocabulary within Israelite worship and wisdom literature."
   },
   {
-    "Index": 23,
+    "Index": "20",
     "Primary": "3, father",
     "Primary Name": "Resheph",
     "Secondary": "10, father",
     "Secondary Name": "Anat/Astarte",
-    "Connection Category": "custom connection",
-    "Note": "Resheph, Anat, and Astarte are linked across Ugaritic, Levantine, and Egyptian evidence as a cultic triad of war, violence, and protective-destruction deities, associated by function and ritual sphere."
+    "Connection Category": "comparative connection",
+    "Note": "Resheph shares martial and protective functions with both Anat and Astarte: all three can embody dangerous divine violence while also serving protective roles. The connection is comparative rather than genealogical."
   },
   {
-    "Index": 24,
+    "Index": "21",
     "Primary": "2, father",
     "Primary Name": "El",
     "Secondary": "10, father",
     "Secondary Name": "Anat/Astarte",
     "Connection Category": "familial: father/daughter",
-    "Note": "-"
+    "Note": "In Ugaritic tradition, Anat is repeatedly called a daughter of El and belongs to his divine household."
   },
   {
-    "Index": 25,
+    "Index": "22",
     "Primary": "10, father",
     "Primary Name": "Anat/Astarte",
     "Secondary": "21, father",
     "Secondary Name": "Baal",
-    "Connection Category": "custom connection",
-    "Note": "Anat and Baal appear as a closely associated divine pair—Anat acting as Baal’s fierce ally, protector, and avenger—without the texts defining them as either siblings or spouses."
+    "Connection Category": "familial: sister/brother",
+    "Note": "In the Baal Cycle, Anat is called Baal’s sister and acts as his closest ally, defending his royal cause and avenging his death."
   },
   {
-    "Index": 26,
-    "Primary": "3, father",
-    "Primary Name": "Resheph",
-    "Secondary": "3, text",
-    "Secondary Name": "Myth of Aqhat",
-    "Connection Category": "explicit reference",
-    "Note": "In the Aqhat myth, Resheph appears briefly as part of the lethal divine sphere associated with plague and sudden death, signaling his role as a god of destructive force rather than as an active character in the narrative."
-  },
-  {
-    "Index": 27,
-    "Primary": "3, father",
-    "Primary Name": "Resheph",
-    "Secondary": "5, text",
-    "Secondary Name": "Baal Cycle",
-    "Connection Category": "explicit reference",
-    "Note": "In the Baal Cycle, Resheph appears in divine god-lists as a recognized member of the pantheon but plays no active narrative role in the myth."
-  },
-  {
-    "Index": 28,
+    "Index": "23",
     "Primary": "3, father",
     "Primary Name": "Resheph",
     "Secondary": "6, text",
     "Secondary Name": "The Ugaritic Tablets (Administrative)",
     "Connection Category": "explicit reference",
-    "Note": "In the administrative tablets of Ugarit, Resheph appears repeatedly in offering and ration lists as a major recipient of regular temple sacrifices, indicating that he was a central, widely venerated cult deity in everyday religion."
+    "Note": "Ugaritic administrative and offering records name Resheph as a cult recipient, confirming his integration into the city’s temple economy beyond his better-known role as a god associated with plague, warfare, and protection."
   },
   {
-    "Index": 29,
+    "Index": "24",
     "Primary": "3, father",
     "Primary Name": "Resheph",
     "Secondary": "7, text",
     "Secondary Name": "The Ugaritic Tablets (Ritual texts)",
     "Connection Category": "explicit reference",
-    "Note": "In the ritual tablets of Ugarit, Resheph is explicitly invoked within protective incantations and sacrificial rites aimed at averting plague and destructive forces, showing him as a feared and actively appeased god in lived ritual practice."
+    "Note": "Ugaritic ritual and offering texts include Resheph among deities receiving sacrifice. His presence reflects both the danger associated with plague and violence and the protective power sought from the same deity."
   },
   {
-    "Index": 30,
-    "Primary": "3, father",
-    "Primary Name": "Resheph",
-    "Secondary": "8, text",
-    "Secondary Name": "Ritual Texts from Emar",
-    "Connection Category": "explicit reference",
-    "Note": "In the ritual texts from Emar, Resheph appears within formal liturgical sequences as a deity invoked in purification and protective rites, confirming his wider regional role as a feared god of plague and harm who was ritually appeased across Late Bronze Age Syria."
-  },
-  {
-    "Index": 31,
-    "Primary": "3, father",
-    "Primary Name": "Resheph",
-    "Secondary": "9, text",
-    "Secondary Name": "Abibaal Inscription",
-    "Connection Category": "explicit reference",
-    "Note": "In the Abibaal inscription Resheph is invoked as a formal divine witness and protector of a royal temple dedication, showing his elevation into Phoenician state cult and royal ideology beyond his earlier ritual and administrative roles."
-  },
-  {
-    "Index": 32,
+    "Index": "26",
     "Primary": "3, father",
     "Primary Name": "Resheph",
     "Secondary": "20, text",
     "Secondary Name": "Torah / Pentateuch",
     "Connection Category": "explicit reference",
-    "Note": "In the Pentateuch and related biblical poetry, Resheph no longer appears as a god but survives as a personified force of pestilence and divine destruction subordinated to Yahweh, preserving the memory of the older Levantine plague deity in transformed theological form."
+    "Note": "In the Torah, the Hebrew word rešep no longer clearly functions as the name of an independently worshipped god. It appears as pestilence, burning heat, or destructive force subordinated to YHWH, preserving the older deity’s semantic sphere in transformed form."
   },
   {
-    "Index": 33,
+    "Index": "27",
     "Primary": "3, father",
     "Primary Name": "Resheph",
     "Secondary": "21, text",
     "Secondary Name": "Sefire Treaties",
     "Connection Category": "explicit reference",
-    "Note": "In the Sefire Treaties, Resheph is invoked among the gods enforcing the oath’s curse clauses, showing him as a recognized divine agent of plague and destruction within Iron Age Aramaean legal-religious practice."
+    "Note": "The Sefire treaties invoke Resheph among the divine powers enforcing covenant curses, fitting his established association with plague, violence, and sudden destruction."
   },
   {
-    "Index": 34,
+    "Index": "28",
     "Primary": "3, father",
     "Primary Name": "Resheph",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "In the Nevi'im, Resheph survives not as a god but as a personified force of pestilence and fiery destruction depicted as an attendant of Yahweh, preserving the older Levantine deity’s function within prophetic poetic theology."
+    "Note": "In Nevi’im, rešep appears as pestilence or burning destruction under YHWH’s command—most vividly in Habakkuk 3:5—rather than as an autonomous deity."
   },
   {
-    "Index": 35,
+    "Index": "29",
     "Primary": "3, father",
     "Primary Name": "Resheph",
     "Secondary": "26, text",
     "Secondary Name": "Ketuvim (Writings)",
     "Connection Category": "explicit reference",
-    "Note": "In the Ketuvim, Resheph survives only as poetic imagery for flame, sparks, and destructive force, preserving traces of the old plague-and-fire god in metaphor rather than theology."
+    "Note": "In Ketuvim, rešep survives chiefly as poetic vocabulary for flame, sparks, fever, or destructive force. The older divine name has become imagery rather than an object of worship."
   },
   {
-    "Index": 36,
+    "Index": "30",
     "Primary": "4, father",
     "Primary Name": "Shapash",
     "Secondary": "3, text",
     "Secondary Name": "Myth of Aqhat",
     "Connection Category": "explicit reference",
-    "Note": "In the Aqhat myth, Shapash acts as the all-seeing solar mediator who locates Aqhat’s remains and enables the restoration of cosmic and social order after Anat’s violent disruption."
+    "Note": "In the Myth of Aqhat, Shapash marks the time of Pugat’s covert approach to Yatpan’s camp as the sun sets."
   },
   {
-    "Index": 37,
+    "Index": "31",
     "Primary": "4, father",
     "Primary Name": "Shapash",
     "Secondary": "4, text",
     "Secondary Name": "Legend of Keret",
-    "Connection Category": "explicit reference",
-    "Note": "In the Legend of Keret, Shapash serves as a solar intercessor who mediates Keret’s divinely caused illness and enables his restoration by bridging the gap between divine judgment and human recovery."
+    "Connection Category": "custom connection",
+    "Note": "In the Legend of Keret, Shapash appears in a time formula marking Keret’s expected arrival at sunset, functioning as the cosmic measure of the journey’s timing."
   },
   {
-    "Index": 38,
+    "Index": "32",
     "Primary": "4, father",
     "Primary Name": "Shapash",
     "Secondary": "5, text",
     "Secondary Name": "Baal Cycle",
     "Connection Category": "explicit reference",
-    "Note": "In the Baal Cycle, Shapash acts as the solar mediator who traverses the boundary between life and death, enabling communication with Mot and making Baal’s return—and thus the restoration of the cosmic cycle—possible."
+    "Note": "In the Baal Cycle, Shapash crosses the boundary between the upper world and Mot’s realm, assists in the search for Baal, and later mediates the final confrontation between Baal and Mot. Her solar movement makes her a natural messenger across cosmic domains."
   },
   {
-    "Index": 39,
+    "Index": "33",
     "Primary": "4, father",
     "Primary Name": "Shapash",
     "Secondary": "6, text",
@@ -351,52 +288,43 @@
     "Note": "In the administrative tablets of Ugarit, Shapash appears as a major institutional cult deity receiving regular temple offerings, demonstrating that her importance extended beyond myth into the routine religious economy of the city."
   },
   {
-    "Index": 40,
+    "Index": "34",
     "Primary": "4, father",
     "Primary Name": "Shapash",
     "Secondary": "7, text",
     "Secondary Name": "The Ugaritic Tablets (Ritual texts)",
     "Connection Category": "explicit reference",
-    "Note": "In the Ugaritic ritual texts, Shapash is invoked within purification and protective liturgies as a stabilizing solar witness whose presence helps restore proper cosmic and ritual order."
+    "Note": "Ugaritic ritual and offering texts name Shapash as a cult recipient and invoke her in protective and incantatory settings, demonstrating a ritual role beyond her appearances in myth."
   },
   {
-    "Index": 41,
+    "Index": "35",
     "Primary": "4, father",
     "Primary Name": "Shapash",
     "Secondary": "8, text",
     "Secondary Name": "Ritual Texts from Emar",
-    "Connection Category": "explicit reference",
-    "Note": "In the ritual texts from Emar, Shapash is invoked within purification and protective liturgies as a solar guarantor of proper ritual and cosmic order, reflecting a regional Syrian understanding of her as a stabilizing divine mediator."
+    "Connection Category": "comparative connection",
+    "Note": "The Emar ritual corpus invokes the cognate Mesopotamian sun deity Šamaš. This provides a regional solar parallel to Ugaritic Shapash, but it should be treated as a comparative connection rather than a straightforward reference to the same gendered deity."
   },
   {
-    "Index": 42,
-    "Primary": "5, father",
-    "Primary Name": "Asherah/Athirat",
-    "Secondary": "3, text",
-    "Secondary Name": "Myth of Aqhat",
-    "Connection Category": "explicit reference",
-    "Note": "In the Myth of Aqhat, Athirat appears as a senior member of the divine council whose presence reflects the established maternal and hierarchical order of the pantheon rather than direct involvement in the narrative action."
-  },
-  {
-    "Index": 43,
+    "Index": "36",
     "Primary": "5, father",
     "Primary Name": "Asherah/Athirat",
     "Secondary": "4, text",
     "Secondary Name": "Legend of Keret",
     "Connection Category": "explicit reference",
-    "Note": "In the Legend of Keret, Athirat appears as a senior maternal presence within the divine council, symbolizing the legitimizing and stabilizing order of the pantheon rather than taking direct narrative action."
+    "Note": "Athirat is central to the Legend of Keret rather than a passive background figure. Keret vows an offering at her shrine, fails to fulfill it, and is struck with illness; the broken vow supplies the narrative cause of his crisis."
   },
   {
-    "Index": 44,
+    "Index": "37",
     "Primary": "5, father",
     "Primary Name": "Asherah/Athirat",
     "Secondary": "5, text",
     "Secondary Name": "Baal Cycle",
     "Connection Category": "explicit reference",
-    "Note": "In the Baal Cycle, Athirat acts as a diplomatic intercessor who persuades El to allow Baal’s palace, thereby transforming Baal’s victory into recognized and legitimate kingship within the divine order."
+    "Note": "In the Baal Cycle, Athirat acts as diplomatic intercessor between Baal’s faction and El. Her successful appeal secures authorization for Baal’s palace and converts military victory into recognized kingship within the divine order."
   },
   {
-    "Index": 45,
+    "Index": "38",
     "Primary": "5, father",
     "Primary Name": "Asherah/Athirat",
     "Secondary": "6, text",
@@ -405,70 +333,61 @@
     "Note": "In the administrative tablets of Ugarit, Athirat appears as a major institutional cult deity receiving regular temple offerings, demonstrating her central place in the routine religious economy alongside the highest gods of the pantheon."
   },
   {
-    "Index": 46,
+    "Index": "39",
     "Primary": "5, father",
     "Primary Name": "Asherah/Athirat",
     "Secondary": "7, text",
     "Secondary Name": "The Ugaritic Tablets (Ritual texts)",
     "Connection Category": "explicit reference",
-    "Note": "In the Ugaritic ritual texts, Athirat is invoked within purification and protective liturgies as a foundational maternal presence whose inclusion affirms the proper cosmic and divine order of the rite."
+    "Note": "Ugaritic ritual texts name Athirat in sacrificial and offering sequences, confirming her established place in the city’s formal cult."
   },
   {
-    "Index": 47,
-    "Primary": "5, father",
-    "Primary Name": "Asherah/Athirat",
-    "Secondary": "8, text",
-    "Secondary Name": "Ritual Texts from Emar",
-    "Connection Category": "explicit reference",
-    "Note": "In the ritual texts from Emar, Athirat is invoked as a principal maternal deity within purification and protective rites, reflecting her broader regional role as a stabilizing and legitimizing presence in ritual and cosmic order."
-  },
-  {
-    "Index": 48,
+    "Index": "40",
     "Primary": "5, father",
     "Primary Name": "Asherah/Athirat",
     "Secondary": "18, text",
     "Secondary Name": "Kuntillet Ajrud Inscriptions",
     "Connection Category": "explicit reference",
-    "Note": "In the Kuntillet Ajrud inscriptions, Asherah appears in blessing formulas as “his Asherah” alongside Yahweh, indicating that she was understood in popular Iron Age religion as a divine consort or sacred counterpart to Yahweh rather than as a suppressed pagan remnant."
+    "Note": "The Kuntillet Ajrud blessing formulas pair YHWH with “his asherah.” Whether the term denotes the goddess Asherah, her cult symbol, or a related sacred object remains debated, so the inscriptions are strong evidence of association but not an uncontested proof of a divine consort."
   },
   {
-    "Index": 49,
+    "Index": "41",
     "Primary": "6, father",
     "Primary Name": "Abraham",
     "Secondary": "7, father",
     "Secondary Name": "Sarah",
     "Connection Category": "familial: consorts",
-    "Note": "-"
+    "Note": "Genesis presents Sarah as Abraham’s wife and covenantal partner. The promised heir is to come through her, making their marriage central to the continuation of the Abrahamic covenant."
   },
   {
-    "Index": 50,
+    "Index": "42",
     "Primary": "6, father",
     "Primary Name": "Abraham",
     "Secondary": "8, father",
     "Secondary Name": "Hagar",
     "Connection Category": "familial: consorts",
-    "Note": "-"
+    "Note": "Genesis presents Hagar as Sarah’s Egyptian slave or maid whom Sarah gives to Abraham so that she may bear a child. The relationship produces Ishmael but is embedded in an unequal household arrangement rather than an equal-status marriage."
   },
   {
-    "Index": 51,
+    "Index": "43",
     "Primary": "6, father",
     "Primary Name": "Abraham",
     "Secondary": "9, father",
     "Secondary Name": "Ishmael",
     "Connection Category": "familial: father/son",
-    "Note": "-"
+    "Note": "Genesis identifies Ishmael as Abraham’s first son, born to Hagar. Although Ishmael is not the covenantal heir through Sarah, God promises to bless him and make him the ancestor of a great nation."
   },
   {
-    "Index": 52,
+    "Index": "44",
     "Primary": "6, father",
     "Primary Name": "Abraham",
     "Secondary": "14, father",
     "Secondary Name": "Isaac",
     "Connection Category": "familial: father/son",
-    "Note": "-"
+    "Note": "Genesis identifies Isaac as the promised son of Abraham and Sarah and the designated heir through whom the covenantal lineage continues."
   },
   {
-    "Index": 53,
+    "Index": "45",
     "Primary": "6, father",
     "Primary Name": "Abraham",
     "Secondary": "20, text",
@@ -477,7 +396,7 @@
     "Note": "In the Pentateuch, Abraham appears in Genesis as the founding recipient of God’s covenant promise and is invoked throughout the later books as the ancestral source of Israel’s identity, land claim, and relationship with God."
   },
   {
-    "Index": 54,
+    "Index": "46",
     "Primary": "6, father",
     "Primary Name": "Abraham",
     "Secondary": "22, text",
@@ -486,7 +405,7 @@
     "Note": "In the Nevi'im, Abraham is invoked as the original solitary recipient of God’s promise, serving as a symbol of covenantal hope and land inheritance when Israel’s political and religious institutions have collapsed."
   },
   {
-    "Index": 55,
+    "Index": "47",
     "Primary": "6, father",
     "Primary Name": "Abraham",
     "Secondary": "26, text",
@@ -495,16 +414,16 @@
     "Note": "In the Ketuvim, Abraham appears mainly in psalms and prayers as the remembered servant to whom God swore the covenant, anchoring Israel’s worship and national memory in its pre-institutional origins."
   },
   {
-    "Index": 56,
+    "Index": "48",
     "Primary": "7, father",
     "Primary Name": "Sarah",
     "Secondary": "14, father",
     "Secondary Name": "Isaac",
     "Connection Category": "familial: mother/son",
-    "Note": "-"
+    "Note": "Sarah is Isaac’s mother in Genesis. His miraculous birth in her old age fulfills the promise that Abraham’s covenantal line will continue specifically through Sarah."
   },
   {
-    "Index": 57,
+    "Index": "49",
     "Primary": "7, father",
     "Primary Name": "Sarah",
     "Secondary": "20, text",
@@ -513,7 +432,7 @@
     "Note": "In the Pentateuch, Sarah appears in Genesis as the barren matriarch whose miraculous motherhood of Isaac makes the covenant promise physically possible and anchors Israel’s lineage and first claim to the land."
   },
   {
-    "Index": 58,
+    "Index": "50",
     "Primary": "7, father",
     "Primary Name": "Sarah",
     "Secondary": "22, text",
@@ -522,16 +441,16 @@
     "Note": "In the Nevi’im, Sarah is invoked in Isaiah as the barren mother whose miraculous fertility serves as a model for Israel’s hope of restoration from smallness and desolation."
   },
   {
-    "Index": 59,
+    "Index": "51",
     "Primary": "8, father",
     "Primary Name": "Hagar",
     "Secondary": "9, father",
     "Secondary Name": "Ishmael",
     "Connection Category": "familial: mother/son",
-    "Note": "-"
+    "Note": "Hagar is Ishmael’s mother in Genesis. She protects him in the wilderness and receives a divine promise that his descendants will become a great nation."
   },
   {
-    "Index": 60,
+    "Index": "52",
     "Primary": "8, father",
     "Primary Name": "Hagar",
     "Secondary": "20, text",
@@ -540,7 +459,7 @@
     "Note": "In the Pentateuch, Hagar appears in Genesis as Sarah’s Egyptian handmaid who bears Ishmael and encounters God in the wilderness, becoming the only figure to name God and demonstrating divine care beyond the covenant line."
   },
   {
-    "Index": 61,
+    "Index": "53",
     "Primary": "9, father",
     "Primary Name": "Ishmael",
     "Secondary": "14, father",
@@ -549,7 +468,7 @@
     "Note": "Ishmael and Isaac, separated in childhood, meet once as adults in Genesis 25:9 to bury Abraham at the Cave of Machpelah, after which their lineages diverge in the biblical account."
   },
   {
-    "Index": 62,
+    "Index": "54",
     "Primary": "9, father",
     "Primary Name": "Ishmael",
     "Secondary": "20, text",
@@ -558,7 +477,7 @@
     "Note": "In the Pentateuch, Ishmael appears in Genesis as Abraham’s firstborn son who, though not the covenant heir, is blessed by God, saved in the wilderness, and established as the ancestor of a great nation alongside Isaac’s line."
   },
   {
-    "Index": 63,
+    "Index": "55",
     "Primary": "9, father",
     "Primary Name": "Ishmael",
     "Secondary": "26, text",
@@ -567,187 +486,169 @@
     "Note": "In the Ketuvim, Ishmael appears only in Chronicles as a brief genealogical entry among Abraham’s sons, with no narrative or theological role beyond lineage record."
   },
   {
-    "Index": 64,
+    "Index": "56",
     "Primary": "10, father",
     "Primary Name": "Anat/Astarte",
     "Secondary": "3, text",
     "Secondary Name": "Myth of Aqhat",
     "Connection Category": "explicit reference",
-    "Note": "In the Myth of Aqhat, Anat is the central divine actor whose desire for Aqhat’s bow leads to his death and cosmic disorder."
+    "Note": "In the Myth of Aqhat, Anat covets Aqhat’s divine bow, offers him wealth and immortality for it, and arranges his killing after he rejects and insults her."
   },
   {
-    "Index": 65,
+    "Index": "57",
     "Primary": "10, father",
     "Primary Name": "Anat/Astarte",
     "Secondary": "4, text",
     "Secondary Name": "Legend of Keret",
-    "Connection Category": "explicit reference",
-    "Note": "In the Legend of Keret, Anat appears only as a background member of the divine assembly, signaling the presence of the full pantheon without taking an active role in the narrative."
+    "Connection Category": "custom connection",
+    "Note": "A damaged passage in the Legend of Keret may identify Anat as the wet nurse of Keret’s son Yaṣṣib, but the goddess’s name is restored in a textual gap and the identification remains uncertain."
   },
   {
-    "Index": 66,
+    "Index": "58",
     "Primary": "10, father",
     "Primary Name": "Anat/Astarte",
     "Secondary": "5, text",
     "Secondary Name": "Baal Cycle",
     "Connection Category": "explicit reference",
-    "Note": "In the Baal Cycle, Anat is Baal’s fierce sister-ally whose violent vengeance against Mot and relentless defense of Baal’s cause drive the restoration of cosmic order after Baal’s death."
+    "Note": "In the Baal Cycle, Anat is Baal’s closest ally: she supports his kingship, mourns and buries him, attacks Mot, and helps bring about Baal’s restoration."
   },
   {
-    "Index": 67,
+    "Index": "59",
     "Primary": "10, father",
     "Primary Name": "Anat/Astarte",
     "Secondary": "6, text",
     "Secondary Name": "The Ugaritic Tablets (Administrative)",
     "Connection Category": "explicit reference",
-    "Note": "In the administrative tablets of Ugarit, Anat and Athtart (Astarte) appear as separate deities with distinct cult provisions, showing that they were still clearly differentiated in everyday temple practice before later traditions merged their identities."
+    "Note": "Ugaritic administrative and offering records list Anat and Athtart separately as cult recipients, showing that each held a distinct place in the city’s temple economy."
   },
   {
-    "Index": 68,
+    "Index": "60",
     "Primary": "10, father",
     "Primary Name": "Anat/Astarte",
     "Secondary": "7, text",
     "Secondary Name": "The Ugaritic Tablets (Ritual texts)",
     "Connection Category": "explicit reference",
-    "Note": "In the Ugaritic ritual texts, Anat and Athtart are invoked as separate deities within liturgical sequences, showing that their identities remained distinct in ritual practice before later traditions merged them."
+    "Note": "Ugaritic ritual texts name Anat and Athtart as distinct goddesses, while some texts pair them closely as Anat-and-Athtart."
   },
   {
-    "Index": 69,
+    "Index": "61",
     "Primary": "10, father",
     "Primary Name": "Anat/Astarte",
     "Secondary": "8, text",
     "Secondary Name": "Ritual Texts from Emar",
     "Connection Category": "explicit reference",
-    "Note": "In the ritual texts from Emar, Anat and Athtart are invoked as distinct deities within purification and protective rites, preserving a pre-syncretic stage where their identities remained separate in Late Bronze Age Syrian religion."
+    "Note": "Ritual texts from Emar attest Aštart/Astarte as a major local goddess, including Aštart of Battle and rites connected with her temple and cult."
   },
   {
-    "Index": 70,
+    "Index": "62",
     "Primary": "10, father",
     "Primary Name": "Anat/Astarte",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "In the Nevi’im, Anat is absent, while Astarte appears as Ashtoreth—the condemned Phoenician fertility goddess repeatedly cited as a rival cult presence opposed by Yahwistic reform."
+    "Note": "In Nevi’im, Astarte appears under the Hebrew form Ashtoreth and in the plural Ashtarot; her worship is condemned as devotion to a foreign deity in competition with YHWH."
   },
   {
-    "Index": 71,
+    "Index": "63",
     "Primary": "11, father",
     "Primary Name": "Yam",
     "Secondary": "2, father",
     "Secondary Name": "El",
     "Connection Category": "familial: son/father",
-    "Note": "-"
+    "Note": "In the Baal Cycle, Yam is presented as El’s favored son and claimant to divine kingship; El supports his elevation before Baal defeats him."
   },
   {
-    "Index": 72,
+    "Index": "64",
     "Primary": "11, father",
     "Primary Name": "Yam",
     "Secondary": "5, text",
     "Secondary Name": "Baal Cycle",
     "Connection Category": "explicit reference",
-    "Note": "In the Baal Cycle, Yam is the El-backed sea god who demands Baal’s submission and is defeated by him in a dynastic struggle that establishes Baal’s kingship over the gods."
+    "Note": "In the Baal Cycle, Yam is the sea power supported by El who demands Baal’s submission. Kothar’s weapons enable Baal to defeat him, and the victory establishes Baal’s claim to kingship."
   },
   {
-    "Index": 73,
+    "Index": "65",
     "Primary": "11, father",
     "Primary Name": "Yam",
     "Secondary": "6, text",
     "Secondary Name": "The Ugaritic Tablets (Administrative)",
     "Connection Category": "explicit reference",
-    "Note": "In the administrative tablets of Ugarit, Yam appears as a regular recipient of offerings within the temple economy, showing that despite his mythic defeat by Baal he remained an acknowledged and ritually appeased deity in everyday cult practice."
+    "Note": "Ugaritic offering records include Yam among deities receiving sacrificial animals. His cultic presence continued independently of his narrative defeat in the Baal Cycle."
   },
   {
-    "Index": 74,
+    "Index": "66",
     "Primary": "11, father",
     "Primary Name": "Yam",
     "Secondary": "7, text",
     "Secondary Name": "The Ugaritic Tablets (Ritual texts)",
     "Connection Category": "explicit reference",
-    "Note": "In the Ugaritic ritual texts, Yam is invoked within sacrificial and protective liturgies as a dangerous sea power that must be ritually acknowledged and appeased despite his mythic defeat by Baal."
+    "Note": "Ugaritic ritual and offering texts include Yam among divine recipients, showing that the sea deity remained ritually acknowledged even though the Baal Cycle casts him as Baal’s defeated rival."
   },
   {
-    "Index": 75,
+    "Index": "67",
     "Primary": "12, father",
     "Primary Name": "Mot",
     "Secondary": "2, father",
     "Secondary Name": "El",
     "Connection Category": "familial: son/father",
-    "Note": "-"
+    "Note": "The Baal Cycle repeatedly identifies Mot as a son of El or member of El’s divine household. His conflict with Baal is therefore represented as a struggle within the wider family of the gods."
   },
   {
-    "Index": 76,
+    "Index": "68",
     "Primary": "12, father",
     "Primary Name": "Mot",
     "Secondary": "5, text",
     "Secondary Name": "Baal Cycle",
     "Connection Category": "explicit reference",
-    "Note": "In the Baal Cycle, Mot is understood as one of El’s sons and a member of the divine household, making his conflict with Baal an internal dynastic struggle."
+    "Note": "In the Baal Cycle, Mot is the voracious power of death who swallows Baal, is attacked by Anat, and later renews his struggle with the restored storm god. His role dramatizes the opposition between death, fertility, and kingship."
   },
   {
-    "Index": 77,
-    "Primary": "12, father",
-    "Primary Name": "Mot",
-    "Secondary": "6, text",
-    "Secondary Name": "The Ugaritic Tablets (Administrative)",
-    "Connection Category": "explicit reference",
-    "Note": "In the administrative tablets of Ugarit, Mot appears as a regular recipient of offerings within the temple economy, showing that the god of death was ritually acknowledged and maintained as part of the divine order despite his mythic conflict with Baal."
-  },
-  {
-    "Index": 78,
-    "Primary": "12, father",
-    "Primary Name": "Mot",
-    "Secondary": "7, text",
-    "Secondary Name": "The Ugaritic Tablets (Ritual texts)",
-    "Connection Category": "explicit reference",
-    "Note": "In the Ugaritic ritual texts, Mot is invoked within sacrificial and protective liturgies as the dangerous power of death and sterility that must be ritually acknowledged and appeased within the divine order."
-  },
-  {
-    "Index": 79,
+    "Index": "69",
     "Primary": "13, father",
     "Primary Name": "Melchizedek",
     "Secondary": "20, text",
     "Secondary Name": "Torah / Pentateuch",
     "Connection Category": "explicit reference",
-    "Note": "In the Pentateuch, Melchizedek appears in Genesis 14 as the priest-king of Salem who blesses Abraham in the name of El Elyon and receives his tithe, indicating an established worship of the Most High God in Canaan prior to Israel’s emergence."
+    "Note": "Genesis 14 portrays Melchizedek as king of Salem and priest of El Elyon; he blesses Abram and receives a tenth from him, combining royal and priestly authority in a non-Israelite setting."
   },
   {
-    "Index": 80,
+    "Index": "70",
     "Primary": "13, father",
     "Primary Name": "Melchizedek",
     "Secondary": "26, text",
     "Secondary Name": "Ketuvim (Writings)",
     "Connection Category": "explicit reference",
-    "Note": "In the Ketuvim, Melchizedek appears in Psalm 110 as the model of an ancient priest-king whose pre-Israelite authority is invoked to describe the enduring priestly legitimacy of the Davidic ruler in Jerusalem."
+    "Note": "Psalm 110 links its royal addressee with Melchizedek in a declaration of enduring priesthood, using Melchizedek to frame the union of royal and priestly authority."
   },
   {
-    "Index": 81,
+    "Index": "71",
     "Primary": "14, father",
     "Primary Name": "Isaac",
     "Secondary": "15, father",
     "Secondary Name": "Rebecca",
     "Connection Category": "familial: consorts",
-    "Note": "-"
+    "Note": "Genesis presents Rebekah as Isaac’s wife. Their marriage continues Abraham’s lineage, while Rebekah’s barrenness and eventual pregnancy repeat the covenantal pattern of promised fertility."
   },
   {
-    "Index": 82,
+    "Index": "72",
     "Primary": "14, father",
     "Primary Name": "Isaac",
     "Secondary": "17, father",
     "Secondary Name": "Jacob (Israel)",
     "Connection Category": "familial: father/son",
-    "Note": "-"
+    "Note": "Isaac is Jacob’s father in Genesis. Although Isaac intends to bless Esau, Jacob receives the principal blessing and becomes the bearer of the Israelite covenantal line."
   },
   {
-    "Index": 83,
+    "Index": "73",
     "Primary": "14, father",
     "Primary Name": "Isaac",
     "Secondary": "18, father",
     "Secondary Name": "Esau",
     "Connection Category": "familial: father/son",
-    "Note": "-"
+    "Note": "Isaac is Esau’s father in Genesis. Esau is his favored elder son, but Jacob’s acquisition of the blessing redirects the primary ancestral line."
   },
   {
-    "Index": 84,
+    "Index": "74",
     "Primary": "14, father",
     "Primary Name": "Isaac",
     "Secondary": "20, text",
@@ -756,16 +657,16 @@
     "Note": "In the Torah, Isaac is a fully narrated patriarch whose life—from miraculous birth and near-sacrifice to marriage, settlement, and fatherhood—serves as the covenantal bridge between Abraham and Jacob."
   },
   {
-    "Index": 85,
+    "Index": "75",
     "Primary": "14, father",
     "Primary Name": "Isaac",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "In the Nevi’im, Isaac appears only in formulaic ancestral references within the Abraham–Isaac–Jacob lineage, serving as a covenantal marker rather than a narrative figure."
+    "Note": "In Nevi’im, Isaac appears both in ancestral formulas and as a poetic name for Israel in Amos 7:9 and 7:16, where the text speaks of the “high places” and “house of Isaac.”"
   },
   {
-    "Index": 86,
+    "Index": "76",
     "Primary": "14, father",
     "Primary Name": "Isaac",
     "Secondary": "26, text",
@@ -774,25 +675,25 @@
     "Note": "In Ketuvim, Isaac appears only in liturgical and genealogical references within the Abraham–Isaac–Jacob lineage, serving as a remembered covenantal ancestor rather than a narrative subject."
   },
   {
-    "Index": 87,
+    "Index": "77",
     "Primary": "15, father",
     "Primary Name": "Rebecca",
     "Secondary": "17, father",
     "Secondary Name": "Jacob (Israel)",
     "Connection Category": "familial: mother/son",
-    "Note": "-"
+    "Note": "Rebekah is Jacob’s mother in Genesis. She favors him, receives the oracle concerning the two brothers, and engineers the deception through which Jacob obtains Isaac’s blessing."
   },
   {
-    "Index": 88,
+    "Index": "78",
     "Primary": "15, father",
     "Primary Name": "Rebecca",
     "Secondary": "18, father",
     "Secondary Name": "Esau",
     "Connection Category": "familial: mother/son",
-    "Note": "-"
+    "Note": "Rebekah is Esau’s mother in Genesis. The prenatal oracle and the later blessing episode place her at the center of the rivalry between Esau and Jacob."
   },
   {
-    "Index": 89,
+    "Index": "79",
     "Primary": "15, father",
     "Primary Name": "Rebecca",
     "Secondary": "20, text",
@@ -801,7 +702,7 @@
     "Note": "In the Torah, Rebekah is a central matriarch who becomes Isaac’s wife, receives a divine oracle about her sons and the future of nations, and decisively shapes the covenantal line through her actions."
   },
   {
-    "Index": 90,
+    "Index": "80",
     "Primary": "16, father",
     "Primary Name": "Kothar-wa-Khasis",
     "Secondary": "5, text",
@@ -810,7 +711,7 @@
     "Note": "In the Baal Cycle, Kothar-wa-Khasis serves as the divine craftsman who forges Baal’s weapons to defeat Yam and later designs and builds Baal’s palace, enabling the storm god’s rise to kingship."
   },
   {
-    "Index": 91,
+    "Index": "81",
     "Primary": "16, father",
     "Primary Name": "Kothar-wa-Khasis",
     "Secondary": "6, text",
@@ -819,7 +720,7 @@
     "Note": "Ugaritic administrative tablets record Kothar-wa-Khasis as a cult recipient named in offering lists, rations, and temple accounts, showing his practical integration into the city’s religious economy beyond his mythic role."
   },
   {
-    "Index": 92,
+    "Index": "82",
     "Primary": "16, father",
     "Primary Name": "Kothar-wa-Khasis",
     "Secondary": "7, text",
@@ -828,34 +729,34 @@
     "Note": "Ugaritic ritual texts include Kothar-wa-Khasis in ordered offering sequences and festival rites, showing him as a regular participant in the city’s formal liturgy."
   },
   {
-    "Index": 93,
+    "Index": "83",
     "Primary": "17, father",
     "Primary Name": "Jacob (Israel)",
     "Secondary": "18, father",
     "Secondary Name": "Esau",
     "Connection Category": "familial: brother/brother",
-    "Note": "-"
+    "Note": "Jacob and Esau are twin brothers whose rivalry begins before birth, intensifies over birthright and blessing, and eventually ends in a tense but peaceful reunion. Their descendants become Israel and Edom."
   },
   {
-    "Index": 94,
+    "Index": "84",
     "Primary": "17, father",
     "Primary Name": "Jacob (Israel)",
     "Secondary": "19, father",
     "Secondary Name": "Leah",
     "Connection Category": "familial: consorts",
-    "Note": "-"
+    "Note": "Leah is Jacob’s first wife, obtained through Laban’s deception. She becomes the mother of six of Jacob’s sons, including Levi and Judah, and therefore a major matriarch of Israel."
   },
   {
-    "Index": 95,
+    "Index": "85",
     "Primary": "17, father",
     "Primary Name": "Jacob (Israel)",
     "Secondary": "20, father",
     "Secondary Name": "Rachel",
     "Connection Category": "familial: consorts",
-    "Note": "-"
+    "Note": "Rachel is Jacob’s beloved wife. Her long barrenness and eventual motherhood of Joseph and Benjamin shape both the household rivalry and the later history of Jacob’s family."
   },
   {
-    "Index": 96,
+    "Index": "86",
     "Primary": "17, father",
     "Primary Name": "Jacob (Israel)",
     "Secondary": "20, text",
@@ -864,7 +765,7 @@
     "Note": "In the Torah, Jacob is a fully narrated patriarch whose life—from rivalry with Esau and the Bethel vision to wrestling with the divine and fathering the twelve tribes—establishes the origins of Israel as a people."
   },
   {
-    "Index": 97,
+    "Index": "87",
     "Primary": "17, father",
     "Primary Name": "Jacob (Israel)",
     "Secondary": "22, text",
@@ -873,7 +774,7 @@
     "Note": "In the Prophets, Jacob appears as an ancestral and symbolic name for Israel, evoking covenantal origins and, at times, his struggle with the divine without retelling his story."
   },
   {
-    "Index": 98,
+    "Index": "88",
     "Primary": "17, father",
     "Primary Name": "Jacob (Israel)",
     "Secondary": "26, text",
@@ -882,7 +783,7 @@
     "Note": "In Ketuvim, Jacob appears in poetic, liturgical, and genealogical references as the covenantal ancestor whose name stands for Israel rather than as a narrative figure."
   },
   {
-    "Index": 99,
+    "Index": "89",
     "Primary": "18, father",
     "Primary Name": "Esau",
     "Secondary": "20, text",
@@ -891,7 +792,7 @@
     "Note": "In the Torah, Esau is a fully narrated patriarch whose rivalry with Jacob, loss of the birthright and blessing, later reconciliation, and detailed genealogy establish him as the ancestor of Edom."
   },
   {
-    "Index": 100,
+    "Index": "90",
     "Primary": "18, father",
     "Primary Name": "Esau",
     "Secondary": "22, text",
@@ -900,7 +801,7 @@
     "Note": "In the Nevi’im, Esau appears as the ancestral symbol of Edom, invoked in oracles of judgment that recall the fraternal conflict between Esau and Jacob as a template for later hostility between the nations."
   },
   {
-    "Index": 101,
+    "Index": "91",
     "Primary": "18, father",
     "Primary Name": "Esau",
     "Secondary": "26, text",
@@ -909,16 +810,16 @@
     "Note": "In Ketuvim, Esau appears primarily in genealogical references identifying him as the ancestor of Edom, serving as a background historical figure rather than a narrative subject."
   },
   {
-    "Index": 102,
+    "Index": "92",
     "Primary": "19, father",
     "Primary Name": "Leah",
     "Secondary": "20, father",
     "Secondary Name": "Rachel",
     "Connection Category": "familial: sister/sister",
-    "Note": "-"
+    "Note": "Leah and Rachel are sisters and co-wives of Jacob. Their rivalry over affection, fertility, and household status structures much of the ancestral narrative and the birth of Israel’s tribes."
   },
   {
-    "Index": 103,
+    "Index": "93",
     "Primary": "19, father",
     "Primary Name": "Leah",
     "Secondary": "20, text",
@@ -927,7 +828,7 @@
     "Note": "In the Torah, Leah is Jacob’s first wife and a central matriarch whose fertility produces six sons—including Levi and Judah—establishing the priestly and royal tribal lines within Israel."
   },
   {
-    "Index": 104,
+    "Index": "94",
     "Primary": "20, father",
     "Primary Name": "Rachel",
     "Secondary": "20, text",
@@ -936,7 +837,7 @@
     "Note": "In the Torah, Rachel is Jacob’s beloved wife whose struggle with barrenness leads to the birth of Joseph and Benjamin, placing her at the origin of two tribes that later become central in Israel’s history."
   },
   {
-    "Index": 105,
+    "Index": "95",
     "Primary": "20, father",
     "Primary Name": "Rachel",
     "Secondary": "22, text",
@@ -945,7 +846,7 @@
     "Note": "In the Prophets, Rachel appears in Jeremiah as the symbolic mother of Israel, poetically depicted as weeping for her exiled children."
   },
   {
-    "Index": 106,
+    "Index": "96",
     "Primary": "21, father",
     "Primary Name": "Baal",
     "Secondary": "5, text",
@@ -954,7 +855,7 @@
     "Note": "In the Baal Cycle, Baal is the central storm-god protagonist whose victories over Yam and Mot, palace-building, and eventual recognition establish him as the reigning divine king."
   },
   {
-    "Index": 107,
+    "Index": "97",
     "Primary": "21, father",
     "Primary Name": "Baal",
     "Secondary": "6, text",
@@ -963,7 +864,7 @@
     "Note": "Ugaritic administrative tablets record Baal as a primary cult recipient named in offering lists, rations, and temple accounts, showing his central role in the city’s religious economy."
   },
   {
-    "Index": 108,
+    "Index": "98",
     "Primary": "21, father",
     "Primary Name": "Baal",
     "Secondary": "7, text",
@@ -972,34 +873,34 @@
     "Note": "Ugaritic ritual texts include Baal in ordered offering sequences and festival rites, showing him as a central participant in the city’s formal liturgy."
   },
   {
-    "Index": 109,
+    "Index": "99",
     "Primary": "21, father",
     "Primary Name": "Baal",
     "Secondary": "20, text",
     "Secondary Name": "Torah / Pentateuch",
     "Connection Category": "explicit reference",
-    "Note": "In the Torah, Baal appears only as a foreign god associated with idolatry—most notably in the Baal Peor episode—serving as a symbol of covenantal betrayal against YHWH."
+    "Note": "The Torah refers specifically to Baal-peor, the local Baal of Peor, rather than unambiguously to the Ugaritic Baal as a single transregional deity. Numbers presents participation in this cult as covenantal apostasy punished by YHWH."
   },
   {
-    "Index": 110,
+    "Index": "100",
     "Primary": "21, father",
     "Primary Name": "Baal",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "In the Prophets, Baal appears as the chief symbol of Israel’s idolatry and the primary rival to YHWH, most vividly in the Elijah narrative and in the condemnations of Baal worship by Hosea and other prophets."
+    "Note": "In Nevi’im, various Baal cults become major symbols of apostasy, especially in Judges, Kings, and Hosea. The Elijah narrative dramatizes YHWH’s superiority over the Baal worshiped under Ahab and Jezebel."
   },
   {
-    "Index": 111,
+    "Index": "101",
     "Primary": "21, father",
     "Primary Name": "Baal",
     "Secondary": "26, text",
     "Secondary Name": "Ketuvim (Writings)",
     "Connection Category": "explicit reference",
-    "Note": "In Ketuvim, Baal appears only in retrospective and polemical references to Israel’s past idolatry, serving as a historical symbol rather than a living religious rival."
+    "Note": "In Ketuvim, references are generally to “the Baals” in retrospective accounts, especially Chronicles and Psalms, treating them collectively as foreign cults and symbols of apostasy rather than as a developed mythic character."
   },
   {
-    "Index": 112,
+    "Index": "102",
     "Primary": "23, father",
     "Primary Name": "Melqart",
     "Secondary": "23, text",
@@ -1008,7 +909,7 @@
     "Note": "In the treaty between Baal I of Tyre and Esarhaddon, Melqart is invoked as Tyre’s chief god in the divine witness and curse section, serving as the primary enforcer of the treaty oath."
   },
   {
-    "Index": 113,
+    "Index": "103",
     "Primary": "25, father",
     "Primary Name": "Samuel",
     "Secondary": "22, text",
@@ -1017,16 +918,16 @@
     "Note": "In Nevi’im, Samuel is the prophetic and judicial leader who anoints Saul and David, guiding Israel through the transition from the period of the Judges to the establishment of the monarchy."
   },
   {
-    "Index": 114,
+    "Index": "104",
     "Primary": "25, father",
     "Primary Name": "Samuel",
     "Secondary": "26, text",
     "Secondary Name": "Ketuvim (Writings)",
     "Connection Category": "explicit reference",
-    "Note": "In Ketuvim, Samuel appears in liturgical and genealogical references as a revered figure who called upon YHWH, preserved in Israel’s sacred memory rather than as a narrative subject."
+    "Note": "In Ketuvim, Samuel appears in liturgical memory—most notably in Psalm 99:6—and in genealogical or institutional notices in Chronicles. These references presuppose his prophetic authority without retelling the Samuel narratives."
   },
   {
-    "Index": 115,
+    "Index": "105",
     "Primary": "26, father",
     "Primary Name": "Samson",
     "Secondary": "22, text",
@@ -1035,16 +936,16 @@
     "Note": "In Nevi’im, Samson appears in Judges as a Nazirite judge of supernatural strength whose flawed life and final act against the Philistines typify the turbulent era before Israel’s monarchy."
   },
   {
-    "Index": 116,
+    "Index": "106",
     "Primary": "27, father",
     "Primary Name": "David",
     "Secondary": "28, father",
     "Secondary Name": "Solomon",
     "Connection Category": "familial: father/son",
-    "Note": "-"
+    "Note": "David is Solomon’s father and dynastic predecessor. The biblical histories present Solomon’s accession, Temple project, and royal legitimacy as the continuation—though not the uncomplicated fulfillment—of David’s kingship and covenant."
   },
   {
-    "Index": 117,
+    "Index": "107",
     "Primary": "27, father",
     "Primary Name": "David",
     "Secondary": "22, text",
@@ -1053,7 +954,7 @@
     "Note": "In Nevi’im, David is the anointed shepherd-king who unites Israel, establishes Jerusalem as the royal center, receives the Davidic covenant, and becomes the enduring model of kingship."
   },
   {
-    "Index": 118,
+    "Index": "108",
     "Primary": "27, father",
     "Primary Name": "David",
     "Secondary": "26, text",
@@ -1062,16 +963,34 @@
     "Note": "In Ketuvim, David appears as the archetypal worshipper and ideal king, remembered through psalm attributions and Chronicles’ focus on his role in preparing temple worship and establishing Israel’s religious order."
   },
   {
-    "Index": 119,
+    "Index": "109",
     "Primary": "27, father",
     "Primary Name": "David",
     "Secondary": "15, text",
     "Secondary Name": "Tel Dan Stele",
     "Connection Category": "explicit reference",
-    "Note": "In the Tel Dan Stele, David is mentioned indirectly through the phrase “House of David,” where an Aramean king claims victory over a ruler of Judah identified by the dynastic name derived from David."
+    "Note": "The Tel Dan Stele is widely read as containing the phrase “House of David,” used as a dynastic designation for Judah’s ruling line. The reading is important evidence for Davidic royal memory, although the stele does not narrate David’s life."
   },
   {
-    "Index": 120,
+    "Index": "110",
+    "Primary": "28, father",
+    "Primary Name": "Solomon",
+    "Secondary": "22, text",
+    "Secondary Name": "Nevi’im (Prophets)",
+    "Connection Category": "explicit reference",
+    "Note": "Nevi’im’s Former Prophets, especially 1 Kings, narrate Solomon’s succession to David, divinely granted wisdom, construction and dedication of the Jerusalem Temple, royal administration, foreign alliances, and later religious apostasy."
+  },
+  {
+    "Index": "111",
+    "Primary": "28, father",
+    "Primary Name": "Solomon",
+    "Secondary": "26, text",
+    "Secondary Name": "Ketuvim (Writings)",
+    "Connection Category": "explicit reference",
+    "Note": "Ketuvim associates Solomon with kingship, Temple building, wisdom, and poetry. Chronicles narrates his reign; Proverbs and Song of Songs name him in superscriptions, while Ecclesiastes presents an unnamed Davidic king in Jerusalem traditionally identified with Solomon."
+  },
+  {
+    "Index": "112",
     "Primary": "29, father",
     "Primary Name": "Hiram I",
     "Secondary": "22, text",
@@ -1080,219 +999,237 @@
     "Note": "In the Nevi’im, Hiram I appears as the Phoenician king of Tyre who supplies cedar, craftsmen, and political alliance to David and Solomon, materially enabling the construction of Israel’s royal palace and the Temple."
   },
   {
-    "Index": 121,
-    "Primary": "29, father",
-    "Primary Name": "Hiram I",
-    "Secondary": "23, text",
-    "Secondary Name": "Treaty Between King Baal I of Tyre and Esarhaddon of Assyria",
-    "Connection Category": "explicit reference",
-    "Note": "In the Esarhaddon–Baal treaty, Hiram I appears as a remembered former king of Tyre cited in Assyrian diplomatic records to establish Tyre’s dynastic antiquity and political precedent, independently confirming his historical place in Phoenician royal memory outside the Bible."
-  },
-  {
-    "Index": 122,
+    "Index": "113",
     "Primary": "30, father",
     "Primary Name": "Queen of Sheba",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "In the Nevi’im, the Queen of Sheba appears as a foreign monarch from the southern trade world who visits Jerusalem to test Solomon’s wisdom, witnesses the splendor of his court and Temple, and departs publicly acknowledging the greatness of his wisdom and of YHWH."
+    "Note": "In 1 Kings 10, the Queen of Sheba comes to test Solomon with difficult questions, witnesses his wisdom and the wealth and order of his court, exchanges lavish gifts with him, and blesses YHWH for establishing Solomon as king."
   },
   {
-    "Index": 123,
+    "Index": "114",
     "Primary": "30, father",
     "Primary Name": "Queen of Sheba",
     "Secondary": "26, text",
     "Secondary Name": "Ketuvim (Writings)",
     "Connection Category": "explicit reference",
-    "Note": "In the Ketuvim, the Queen of Sheba appears in Chronicles as a foreign monarch whose visit highlights that Solomon’s wisdom, royal order, and the Temple’s splendor are visible signs of YHWH’s love for Israel, which she openly acknowledges before returning home."
+    "Note": "In Chronicles, the Queen of Sheba again tests Solomon’s wisdom and marvels at his court, wealth, and ascent to the house of YHWH. Her praise presents Solomon’s ordered kingdom as evidence of YHWH’s love for Israel."
   },
   {
-    "Index": 124,
+    "Index": "115",
     "Primary": "31, father",
     "Primary Name": "Elijah",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "In the Nevi’im, Elijah appears as the wilderness prophet who confronts the Phoenician Baal cult introduced into Israel by Ahab and Jezebel, performs dramatic signs proving YHWH’s supremacy, indicts royal injustice, and finally departs alive in a chariot of fire."
+    "Note": "In Nevi’im, Elijah confronts Ahab, Jezebel, and the cult of Baal, performs signs, defends YHWH’s sovereignty, and condemns royal injustice. A fiery chariot separates him from Elisha, while Elijah himself ascends in a whirlwind."
   },
   {
-    "Index": 125,
+    "Index": "116",
+    "Primary": "31, father",
+    "Primary Name": "Elijah",
+    "Secondary": "26, text",
+    "Secondary Name": "Ketuvim (Writings)",
+    "Connection Category": "explicit reference",
+    "Note": "In 2 Chronicles 21:12–15, King Jehoram receives a written message from the prophet Elijah condemning his apostasy and violence and announcing judgment upon his dynasty and body."
+  },
+  {
+    "Index": "117",
+    "Primary": "32, father",
+    "Primary Name": "Elisha",
+    "Secondary": "22, text",
+    "Secondary Name": "Nevi’im (Prophets)",
+    "Connection Category": "explicit reference",
+    "Note": "Nevi’im explicitly presents Elisha as Elijah’s chosen successor and devotes much of 2 Kings to his prophetic ministry, including healings, acts of provision, resurrection, political counsel, and intervention in Israel’s wars."
+  },
+  {
+    "Index": "118",
+    "Primary": "33, father",
+    "Primary Name": "Job (Ayyub)",
+    "Secondary": "22, text",
+    "Secondary Name": "Nevi’im (Prophets)",
+    "Connection Category": "explicit reference",
+    "Note": "Ezekiel 14:14 and 14:20 name Job alongside Noah and Danel—often rendered Daniel—as exemplary righteous figures whose righteousness could save only themselves. The identification of Ezekiel’s Danel with the Ugaritic figure remains debated."
+  },
+  {
+    "Index": "119",
     "Primary": "33, father",
     "Primary Name": "Job (Ayyub)",
     "Secondary": "26, text",
     "Secondary Name": "Ketuvim (Writings)",
     "Connection Category": "explicit reference",
-    "Note": "In the Ketuvim, Job is portrayed as a righteous non-Israelite who endures undeserved suffering, challenges conventional retribution theology in prolonged debate, and ultimately encounters YHWH in a whirlwind revelation that exposes the limits of human understanding."
+    "Note": "In Ketuvim, Job is introduced as a righteous man from Uz who endures undeserved suffering, disputes conventional retribution theology, and finally encounters YHWH in the whirlwind. The book exposes the limits of human explanations without reducing Job’s protest to simple error."
   },
   {
-    "Index": 126,
+    "Index": "120",
     "Primary": "34, father",
     "Primary Name": "Jonah",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "The reluctant prophet whose mission to Nineveh ends with a foreign empire repenting, revealing YHWH’s mercy as wider than the prophet’s nationalism."
+    "Note": "In Nevi’im, Jonah is the reluctant prophet sent to Nineveh. The city’s repentance and YHWH’s mercy expose Jonah’s resistance to divine compassion extending beyond Israel, and the book ends by confronting rather than resolving that resistance."
   },
   {
-    "Index": 127,
+    "Index": "121",
     "Primary": "35, father",
     "Primary Name": "Isaiah",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "The Jerusalem prophet-statesman who reads the Assyrian crisis as YHWH directing world history and ties Judah’s fate to Zion’s theological destiny."
+    "Note": "In Nevi’im, Isaiah is the Jerusalem prophet whose oracles interpret the Assyrian crisis through YHWH’s sovereignty, condemn injustice and false security, and present Zion as both the site of judgment and a focus of future restoration."
   },
   {
-    "Index": 128,
+    "Index": "122",
     "Primary": "36, father",
     "Primary Name": "Amos",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "The outsider shepherd sent to Bethel who declares that Israel’s injustice voids its privilege and that YHWH judges all nations by the same moral law."
+    "Note": "In Nevi’im, Amos is introduced as a herdsman from Tekoa sent to the northern kingdom. His oracles attack exploitation, corrupt worship, and complacent reliance on election, insisting that covenant privilege increases rather than cancels moral accountability."
   },
   {
-    "Index": 129,
+    "Index": "123",
     "Primary": "37, father",
     "Primary Name": "Hosea",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "The prophet whose marriage drama frames Israel’s idolatry as marital betrayal and YHWH’s judgment as wounded love."
+    "Note": "In Nevi’im, Hosea uses his marriage and children as prophetic signs of Israel’s infidelity, judgment, and possible restoration. The covenant is interpreted through the language of fractured but persistent marital and parental love."
   },
   {
-    "Index": 130,
-    "Primary": "38,father",
+    "Index": "124",
+    "Primary": "38, father",
     "Primary Name": "Micah",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "The rural voice who indicts Jerusalem’s elites, predicts Zion’s fall, and distills covenant duty to justice, mercy, and humility."
+    "Note": "In Nevi’im, Micah condemns land seizure, corrupt leadership, and false prophecy in both Samaria and Jerusalem. He combines threats against Zion with promises of restoration and the demand to practice justice, covenant loyalty, and humility."
   },
   {
-    "Index": 131,
+    "Index": "125",
     "Primary": "39, father",
     "Primary Name": "Jeremiah",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "The doomed prophet of Jerusalem’s last days who announces Babylon’s inevitability while introducing the promise of a “new covenant.”"
+    "Note": "In Nevi’im, Jeremiah warns that Jerusalem’s institutions cannot protect it from Babylonian conquest while also preserving promises of restoration and a “new covenant.” His laments expose the personal cost of bearing a message his society rejects."
   },
   {
-    "Index": 132,
+    "Index": "126",
     "Primary": "40, father",
     "Primary Name": "Nahum",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "The prophet who celebrates Nineveh’s downfall as long-awaited divine justice against Assyria."
+    "Note": "In Nevi’im, Nahum announces Nineveh’s fall as judgment upon Assyrian violence and domination. The book speaks from the perspective of peoples subjected to empire, while its own celebratory violence remains deliberately severe."
   },
   {
-    "Index": 133,
+    "Index": "127",
     "Primary": "41, father",
     "Primary Name": "Zephaniah",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "The prophet who frames the coming “Day of YHWH” as sweeping judgment on Judah and the nations, followed by the purification of a humble remnant."
+    "Note": "In Nevi’im, Zephaniah expands the “Day of YHWH” into judgment upon Judah and the nations, yet also anticipates the purification and restoration of a humble remnant."
   },
   {
-    "Index": 134,
+    "Index": "128",
     "Primary": "42, father",
     "Primary Name": "Habakkuk",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "The questioning prophet who argues with YHWH over injustice and receives the answer that the righteous must live by faith amid Babylon’s rise."
+    "Note": "In Nevi’im, Habakkuk argues with YHWH over injustice and over the use of Babylon as an instrument of judgment. The response calls the righteous to live by faithfulness while awaiting the collapse of violent imperial power."
   },
   {
-    "Index": 135,
+    "Index": "129",
     "Primary": "43, father",
     "Primary Name": "Obadiah",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "The brief oracle focused entirely on Edom, portraying its fall as retribution for betraying Jerusalem."
+    "Note": "In Nevi’im, Obadiah directs a compact oracle against Edom, condemning its pride and its participation in Jerusalem’s disaster and presenting its fall as reciprocal judgment."
   },
   {
-    "Index": 136,
+    "Index": "130",
     "Primary": "44, father",
     "Primary Name": "Haggai",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "The post-exilic prophet who links the community’s renewal and future hope directly to rebuilding the Temple."
+    "Note": "In Nevi’im, Haggai urges the post-exilic community to rebuild the Temple, interpreting economic hardship and political discouragement through neglected worship and tying renewed construction to future divine presence and blessing."
   },
   {
-    "Index": 137,
+    "Index": "131",
     "Primary": "45, father",
     "Primary Name": "Zechariah",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "explicit reference",
-    "Note": "In the Nevi’im, Zechariah appears as the post-exilic visionary who uses symbolic night visions to interpret the rebuilding of the Temple as a divinely guided, cosmic step toward Jerusalem’s restoration and YHWH’s future universal kingship."
+    "Note": "In Nevi’im, Zechariah uses night visions, symbolic actions, and later oracles to interpret the rebuilding of the Temple as part of Jerusalem’s restoration and YHWH’s future kingship over the nations."
   },
   {
-    "Index": 138,
+    "Index": "132",
     "Primary": "4, text",
     "Primary Name": "Legend of Keret",
     "Secondary": "5, text",
     "Secondary Name": "Baal Cycle",
     "Connection Category": "comparative connection",
-    "Note": "The Baal Cycle and the Legend of Keret are indirectly connected as narratives within the same Ugaritic mythic order where El’s authority over divine kingship in the Baal Cycle underlies his decisive role in preserving human royal lineage in Keret."
+    "Note": "The Legend of Keret and the Baal Cycle belong to the same Ugaritic literary and theological world. Both presuppose El’s authority, divine negotiation, and the dependence of kingship and fertility on the gods, but no direct literary dependence between the two works needs to be assumed."
   },
   {
-    "Index": 139,
+    "Index": "133",
     "Primary": "5, text",
     "Primary Name": "Baal Cycle",
     "Secondary": "20, text",
     "Secondary Name": "Torah / Pentateuch",
     "Connection Category": "comparative connection",
-    "Note": "The Baal Cycle and the Torah share precise West Semitic motifs—storm-theophany, sea mastery, fertility control, and divine kingship—where the Torah deliberately reassigns narrative functions found in Baal’s combat myth (storm, sea, order, rain) to YHWH alone, reframing that older mythic grammar into a monotheistic declaration of uncontested sovereignty without divine rivalry."
+    "Note": "The Baal Cycle and the Torah share Northwest Semitic motifs including storm theophany, mastery over the sea, control of rain, and divine kingship. Israelite texts attribute these powers to YHWH alone; whether any passage directly depends on the Baal Cycle is debated, so the connection is comparative rather than a claim of simple borrowing."
   },
   {
-    "Index": 140,
+    "Index": "134",
     "Primary": "5, text",
     "Primary Name": "Baal Cycle",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
     "Connection Category": "comparative connection",
-    "Note": "The Baal Cycle and the Nevi’im are connected through shared storm and fertility imagery, with the Prophets using the same symbolic grammar that underlies Baal’s myth to polemically reassign control of rain, fire, and nature exclusively to YHWH in direct opposition to Baal worship."
+    "Note": "The Baal Cycle and Nevi’im share the symbolic language of storm, rain, fire, sea, and fertility. Prophetic texts repeatedly use that common cultural vocabulary to deny Baal’s effective power and assign sovereignty over nature and history to YHWH."
   },
   {
-    "Index": 141,
+    "Index": "135",
     "Primary": "5, text",
     "Primary Name": "Baal Cycle",
     "Secondary": "8, text",
     "Secondary Name": "Ritual Texts from Emar",
     "Connection Category": "comparative connection",
-    "Note": "The Baal Cycle and the Ritual Texts from Emar are connected as mythic and liturgical witnesses to the same West Semitic storm-god religion, with the epic expressing its theology in narrative form and the Emar texts preserving its seasonal worship in ritual practice."
+    "Note": "The Baal Cycle and the Ritual Texts from Emar are complementary witnesses to Late Bronze Age Syrian religion: one is mythic narrative from Ugarit, the other a local ritual archive from Emar. They share a broader regional world of storm gods, festivals, sacrifice, and kingship, but should not be treated as expressions of one uniform cult."
   },
   {
-    "Index": 142,
+    "Index": "136",
     "Primary": "17, text",
     "Primary Name": "Deir Alla Inscription",
     "Secondary": "20, text",
     "Secondary Name": "Torah / Pentateuch",
     "Connection Category": "direct connection",
-    "Note": "The Deir Alla Inscription and the Torah are directly connected through the shared figure of “Balaam son of Beor,” independently preserving the memory of the same non-Israelite seer known from Numbers."
+    "Note": "The Deir Alla inscription and the Torah both preserve the name “Balaam son of Beor,” demonstrating a shared transregional tradition about a non-Israelite seer. The evidence does not prove that both texts describe the same historical individual or that one directly copied the other."
   },
   {
-    "Index": 143,
+    "Index": "137",
     "Primary": "20, text",
     "Primary Name": "Torah / Pentateuch",
     "Secondary": "22, text",
     "Secondary Name": "Nevi’im (Prophets)",
-    "Connection Category": "explicit reference",
-    "Note": "The Nevi’im repeatedly invoke and interpret the Torah’s covenant, law, and Exodus memory as the standard by which Israel’s history is judged, and together with Ketuvim these layers form the interlinked whole of the Tanakh."
+    "Connection Category": "canonical/intertextual connection",
+    "Note": "Nevi’im repeatedly invokes, applies, and reinterprets the Torah’s covenant, laws, ancestral promises, and Exodus memory as standards for judging Israel’s history. The relationship is canonical and intertextual rather than a single explicit citation."
   },
   {
-    "Index": 144,
+    "Index": "138",
     "Primary": "22, text",
     "Primary Name": "Nevi’im (Prophets)",
     "Secondary": "26, text",
     "Secondary Name": "Ketuvim (Writings)",
-    "Connection Category": "explicit reference",
-    "Note": "Ketuvim: The Ketuvim look back on the prophetic history preserved in Nevi’im through poetry, wisdom, and retelling, while presupposing the Torah’s covenantal foundation, so that all three together comprise the unified literary–theological fabric of the Tanakh."
+    "Connection Category": "canonical/intertextual connection",
+    "Note": "Ketuvim repeatedly looks back to the people, institutions, and crises narrated in Nevi’im through prayer, wisdom, genealogy, and historical retelling. Together with the Torah, the two collections form the interdependent literary and theological structure of the Tanakh."
   }
 ]

@@ -1,0 +1,20 @@
+[
+  {
+    "Index": "1",
+    "Primary": "27, text",
+    "Primary Name": "Almagest",
+    "Secondary": "42, text",
+    "Secondary Name": "Commentary on Ptolemy’s Almagest",
+    "Connection Category": "explicit reference",
+    "Note": "Theon’s work is explicitly a commentary on Ptolemy’s Almagest, explaining and elaborating its astronomical and mathematical procedures and contributing to the later transmission and study of Ptolemaic astronomy."
+  },
+  {
+    "Index": "2",
+    "Primary": "23, text",
+    "Primary Name": "Greek and Demotic Magical Papyri (PGM/PDM)",
+    "Secondary": "49, text",
+    "Secondary Name": "Demotic Magical Papyrus of London and Leiden",
+    "Connection Category": "custom connection",
+    "Note": "The Demotic Magical Papyrus of London and Leiden is incorporated into the modern corpus of Greek and Demotic magical papyri as PDM XIV. Index 49 therefore represents a specific manuscript contained within the broader scholarly corpus represented by index 23."
+  }
+]

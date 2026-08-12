@@ -1,0 +1,119 @@
+[
+  {
+    "Index": "1",
+    "Primary": "10, text",
+    "Primary Name": "Decree of Canopus",
+    "Secondary": "12, text",
+    "Secondary Name": "Raphia Decree",
+    "Connection Category": "indirect",
+    "Note": "The Raphia Decree continues the Ptolemaic synodal-decree tradition represented by the earlier Decree of Canopus. Egyptian priests transform royal military and political achievements into sacred knowledge, temple ritual, and claims of pharaonic legitimacy."
+  },
+  {
+    "Index": "2",
+    "Primary": "12, text",
+    "Primary Name": "Raphia Decree",
+    "Secondary": "17, text",
+    "Secondary Name": "Rosetta Stone (Memphis Decree of Ptolemy V)",
+    "Connection Category": "indirect",
+    "Note": "The Memphis Decree develops the political-theological model represented by the Raphia Decree. Priestly authorities present the king’s victory over enemies and rebels as the restoration of divine order and use this interpretation to justify royal cult honors."
+  },
+  {
+    "Index": "3",
+    "Primary": "4, text",
+    "Primary Name": "Mendes Stela",
+    "Secondary": "10, text",
+    "Secondary Name": "Decree of Canopus",
+    "Connection Category": "indirect",
+    "Note": "The Mendes Stela provides an earlier local example of Egyptian priests constructing Ptolemaic legitimacy through traditional theology. The Decree of Canopus expands this arrangement into a kingdom-wide system of priestly synods, royal cult, and standardized temple honors."
+  },
+  {
+    "Index": "4",
+    "Primary": "17, text",
+    "Primary Name": "Rosetta Stone (Memphis Decree of Ptolemy V)",
+    "Secondary": "20, text",
+    "Secondary Name": "Oracle of the Potter",
+    "Connection Category": "comparative",
+    "Note": "These texts preserve opposing priestly interpretations of Ptolemaic rule. The Memphis Decree incorporates the Greek king into pharaonic and divine order, while the Oracle of the Potter portrays foreign government as disorder and predicts its eventual destruction."
+  },
+  {
+    "Index": "5",
+    "Primary": "6, text",
+    "Primary Name": "Manetho’s Aegyptiaca",
+    "Secondary": "20, text",
+    "Secondary Name": "Oracle of the Potter",
+    "Connection Category": "comparative",
+    "Note": "Both use Egyptian tradition to interpret foreign government but represent different intellectual strategies. Manetho constructs a continuous national history capable of accommodating Ptolemaic kingship, while the Oracle of the Potter uses prophecy to delegitimize Greek rule and anticipate native restoration."
+  },
+  {
+    "Index": "6",
+    "Primary": "18, text",
+    "Primary Name": "Septuagint",
+    "Secondary": "23, text",
+    "Secondary Name": "Letter of Aristeas",
+    "Connection Category": "explicit",
+    "Note": "The Letter of Aristeas presents the Greek translation of the Torah as a royal Alexandrian undertaking. Its narrative connects scriptural translation with Ptolemaic patronage, library culture, diplomatic authority, and the effort to make Jewish law intelligible and prestigious within the Greek-speaking political world."
+  },
+  {
+    "Index": "7",
+    "Primary": "1, text",
+    "Primary Name": "Book of Thoth (Demotic)",
+    "Secondary": "19, text",
+    "Secondary Name": "Book of the Temple",
+    "Connection Category": "indirect",
+    "Note": "Both emerge from the restricted intellectual culture of Egyptian temples and Houses of Life. The Book of Thoth concerns scribal initiation and access to divine knowledge, while the Book of the Temple organizes the priesthood, its hierarchy, ritual responsibilities, and institutional control of sacred learning."
+  },
+  {
+    "Index": "8",
+    "Primary": "19, text",
+    "Primary Name": "Book of the Temple",
+    "Secondary": "22, text",
+    "Secondary Name": "Edfu Temple Hymns",
+    "Connection Category": "indirect",
+    "Note": "The Book of the Temple presents an ideal model of temple organization, while the Edfu inscriptions show priestly knowledge materialized through architecture, ritual calendars, mythology, offerings, and royal ceremonies. Together they reveal the temple as both a religious institution and a producer of political order."
+  },
+  {
+    "Index": "9",
+    "Primary": "8, text",
+    "Primary Name": "Zenon Papyri",
+    "Secondary": "9, text",
+    "Secondary Name": "Hibeh Papyri",
+    "Connection Category": "comparative",
+    "Note": "Both document how Ptolemaic authority depended on the production and circulation of administrative knowledge. Correspondence, accounts, petitions, contracts, and tax records made populations, estates, resources, and obligations legible to officials operating beyond Alexandria."
+  },
+  {
+    "Index": "10",
+    "Primary": "8, text",
+    "Primary Name": "Zenon Papyri",
+    "Secondary": "24, text",
+    "Secondary Name": "Tebtunis Papyri",
+    "Connection Category": "comparative",
+    "Note": "Together these archives reveal different levels of Ptolemaic knowledge production, from elite estate administration and long-distance correspondence to provincial legal, economic, literary, and temple records. They show political authority functioning through documentation rather than royal commands alone."
+  },
+  {
+    "Index": "11",
+    "Primary": "18, text",
+    "Primary Name": "Septuagint",
+    "Secondary": "26, text",
+    "Secondary Name": "Wisdom of Solomon",
+    "Connection Category": "indirect connection",
+    "Note": "The Wisdom of Solomon draws extensively on Jewish scripture in its Greek form, reworking biblical language, themes, and narratives within the intellectual environment of Hellenistic Alexandria. Its scriptural vocabulary and presentation reflect the Greek biblical tradition represented by the Septuagint."
+  },
+  {
+    "Index": "12",
+    "Primary": "13, text",
+    "Primary Name": "Books of Breathing",
+    "Secondary": "15, text",
+    "Secondary Name": "Book of Traversing Eternity",
+    "Connection Category": "indirect connection",
+    "Note": "The Books of Breathing and the Book of Traversing Eternity belong to the related late Egyptian funerary tradition that reformulated older mortuary theology for Ptolemaic and Roman-period religious practice. Both focus on the deceased's continued divine existence, ritual regeneration, and participation in the sacred world after death."
+  },
+  {
+    "Index": "13",
+    "Primary": "1, text",
+    "Primary Name": "Book of Thoth (Demotic)",
+    "Secondary": "25, text",
+    "Secondary Name": "Tale of Setne Khamwas",
+    "Connection Category": "indirect connection",
+    "Note": "Both texts reflect late Egyptian traditions concerning Thoth as the source and guardian of restricted divine and scribal knowledge. The magical book sought by Setne is attributed to Thoth, although it should not be identified directly with the surviving Demotic Book of Thoth."
+  }
+]

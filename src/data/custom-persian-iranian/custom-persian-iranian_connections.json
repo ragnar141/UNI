@@ -1,803 +1,1001 @@
 [
   {
-    "Index":1,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"3, father",
-    "Secondary Name":"Aša Vahišta",
-    "Connection Category":"custom connection",
-    "Note":"Ahura Mazda relates to Asha Vahishta as the embodiment of his own perfect truth and cosmic order (Asha), expressing the lawful structure through which reality is rightly arranged."
-  },
-  {
-    "Index":2,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"4, father",
-    "Secondary Name":"Spenta Mainyu",
-    "Connection Category":"custom connection",
-    "Note":"Ahura Mazda relates to Spenta Mainyu as his active, creative spirit—the dynamic force through which his will manifests and sustains the good creation."
-  },
-  {
-    "Index":3,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"6, father",
-    "Secondary Name":"Vohu Manah",
-    "Connection Category":"custom connection",
-    "Note":"Ahura Mazda relates to Vohu Manah as the expression of divine intelligence and ethical consciousness, enabling humans to perceive and align with his truth."
-  },
-  {
-    "Index":4,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"7, father",
-    "Secondary Name":"Spenta Ārmaiti",
-    "Connection Category":"custom connection",
-    "Note":"Ahura Mazda relates to Spenta Armaiti as the principle of devoted alignment and grounding, through which his order becomes stabilized and embodied in the world."
-  },
-  {
-    "Index":5,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"8, text",
-    "Secondary Name":"Early Avestan Liturgy (Yasna, Haptanghaiti, Visperad fragments)",
-    "Connection Category":"explicit reference",
-    "Note":"Ahura Mazda is addressed directly as the Wise Lord—the source of truth (asha), right mind, and moral order—invoked in both personal dialogue and communal worship."
-  },
-  {
-    "Index":6,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"9, text",
-    "Secondary Name":"The Gathas",
-    "Connection Category":"explicit reference",
-    "Note":"In the Gathas, Ahura Mazda is addressed personally in an inquiry-driven, questioning dialogue."
-  },
-  {
-    "Index":7,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Yashts, Ahura Mazda is invoked in a formal, hymnic style as the supreme creator and source of order, within a broader divine hierarchy. The focus is on praise, authority, and his role as the origin and legitimizing source of other worthy beings."
-  },
-  {
-    "Index":8,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"13, text",
-    "Secondary Name":"Behistun Inscription",
-    "Connection Category":"explicit reference",
-    "Note":"Ahura Mazda legitimizes Darius’ rule by framing his victories as the triumph of truth over the Lie."
-  },
-  {
-    "Index":9,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"14, text",
-    "Secondary Name":"Susa Foundation Inscriptions (Darius I)",
-    "Connection Category":"explicit reference",
-    "Note":"Ahura Mazda is presented as creator and source of order, whose authority underwrites the king’s role as builder and organizer of the world."
-  },
-  {
-    "Index":10,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"16, text",
-    "Secondary Name":"Naqsh-e Rustam Inscriptions (Darius & Xerxes)",
-    "Connection Category":"explicit reference",
-    "Note":"Ahura Mazda is invoked as both the source of royal authority and the standard by which the king’s justice and conduct are measured."
-  },
-  {
-    "Index":11,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"18, text",
-    "Secondary Name":"Xerxes' Gate Inscription (Persepolis)",
-    "Connection Category":"explicit reference",
-    "Note":"Ahura Mazda is invoked in a more formulaic way as the divine source and protector of royal authority."
-  },
-  {
-    "Index":12,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"19, text",
-    "Secondary Name":"The Daiva Inscription (Xerxes I)",
-    "Connection Category":"explicit reference",
-    "Note":"Ahura Mazda is asserted as the sole legitimate object of worship, with rival cults condemned as false and rejected."
-  },
-  {
-    "Index":13,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"20, text",
-    "Secondary Name":"Royal Inscriptions of Artaxerxes I and II",
-    "Connection Category":"explicit reference",
-    "Note":"Ahura Mazda remains the supreme source of kingship and order, but is now invoked within a broader divine framework alongside other deities, signaling a more inclusive royal theology."
-  },
-  {
-    "Index":14,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"explicit reference",
-    "Note":"Here, Ahura Mazda appears as a law-giving authority who instructs Zoroaster through structured dialogue on maintaining purity and order (asha) and resisting contamination and disorder (druj). The focus is practical and regulatory."
-  },
-  {
-    "Index":15,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"8, text",
-    "Secondary Name":"Early Avestan Liturgy (Yasna, Haptanghaiti, Visperad fragments)",
-    "Connection Category":"explicit reference",
-    "Note":"In the Liturgy, Ahura Mazda is invoked directly in a ritual-dialogical context as the source of truth and right mind, with worship functioning as active alignment with cosmic and ethical order."
-  },
-  {
-    "Index":16,
-    "Primary":"2, father",
-    "Primary Name":"Angra Mainyu",
-    "Secondary":"9, text",
-    "Secondary Name":"The Gathas",
-    "Connection Category":"explicit reference",
-    "Note":"In the Gathas, Angra Mainyu is the destructive orientation that emerges from choosing falsehood over truth."
-  },
-  {
-    "Index":17,
-    "Primary":"2, father",
-    "Primary Name":"Angra Mainyu",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"Here, Angra Mainyu is a hostile, disruptive force opposing divine order, increasingly personified but secondary to the main deity being praised."
-  },
-  {
-    "Index":18,
-    "Primary":"2, father",
-    "Primary Name":"Angra Mainyu",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"explicit reference",
-    "Note":"In Venidad, Angra Mainyu is a concrete adversary who actively produces corruption and impurity, requiring constant ritual and ethical resistance."
-  },
-  {
-    "Index":19,
-    "Primary":"3, father",
-    "Primary Name":"Aša Vahišta",
-    "Secondary":"8, text",
-    "Secondary Name":"Early Avestan Liturgy (Yasna, Haptanghaiti, Visperad fragments)",
-    "Connection Category":"explicit reference",
-    "Note":"In the early Avestan liturgy, Asha Vahishta is invoked as the operative principle of ritual correctness—the force that makes sacrifice effective."
-  },
-  {
-    "Index":20,
-    "Primary":"3, father",
-    "Primary Name":"Aša Vahišta",
-    "Secondary":"9, text",
-    "Secondary Name":"The Gathas",
-    "Connection Category":"indirect connection",
-    "Note":"In the Gathas, Aša (proto–Aša Vahišta) functions as the central metaphysical and ethical axis—the truth-structure of reality itself—through which Ahura Mazda is known and which humans must consciously choose against the Lie."
-  },
-  {
-    "Index":21,
-    "Primary":"3, father",
-    "Primary Name":"Aša Vahišta",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Select Yashts, Aša Vahišta is fully personified and cultically active—a radiant divine power identified with sacred fire—who combats the Lie, empowers the righteous, and participates in a more developed pantheon of invoked forces."
-  },
-  {
-    "Index":22,
-    "Primary":"3, father",
-    "Primary Name":"Aša Vahišta",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"explicit reference",
-    "Note":"In the early Vendidad, Aša Vahišta becomes juridical and regulatory—the normative standard encoded into purity law—governing bodily conduct, environmental order, and the continuous exclusion of pollution as manifestations of the Lie."
-  },
-  {
-    "Index":23,
-    "Primary":"4, father",
-    "Primary Name":"Spenta Mainyu",
-    "Secondary":"8, text",
-    "Secondary Name":"Early Avestan Liturgy (Yasna, Haptanghaiti, Visperad fragments)",
-    "Connection Category":"explicit reference",
-    "Note":"In the early Avestan liturgy, Spenta Mainyu appears as the sanctifying and life-generating force within ritual—the active presence that empowers offerings and consecrates the sacrificial space—often embedded in invocations to Ahura Mazda rather than sharply distinguished as an independent figure."
-  },
-  {
-    "Index":24,
-    "Primary":"4, father",
-    "Primary Name":"Spenta Mainyu",
-    "Secondary":"9, text",
-    "Secondary Name":"The Gathas",
-    "Connection Category":"explicit reference",
-    "Note":"In the Gathas, Spenta Mainyu functions as Ahura Mazda’s creative and beneficent spirit—the dynamic principle of good that stands in opposition to the destructive spirit—structuring the moral dualism at the heart of Zarathustra’s vision."
-  },
-  {
-    "Index":25,
-    "Primary":"4, father",
-    "Primary Name":"Spenta Mainyu",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Select Yashts, Spenta Mainyu becomes more explicitly identifiable as a divine force of increase, vitality, and protection—an active, world-sustaining energy associated with Ahura Mazda’s beneficent power—within a more elaborated and populated pantheon."
-  },
-  {
-    "Index":26,
-    "Primary":"4, father",
-    "Primary Name":"Spenta Mainyu",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"explicit reference",
-    "Note":"In the early Vendidad, Spenta Mainyu underlies the cosmic-legal opposition between purity and pollution—the generative principle aligned with life, order, and health—implicitly structuring the laws that combat the works of the destructive spirit."
-  },
-  {
-    "Index":27,
-    "Primary":"5, father",
-    "Primary Name":"Mithra",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"direct reference",
-    "Note":"Here, especially in the Mithra Yasht, Mithra is a fully personified vigilant guardian of contracts, truth, and social order, who sees all, punishes deception, and upholds justice across the world."
-  },
-  {
-    "Index":28,
-    "Primary":"5, father",
-    "Primary Name":"Mithra",
-    "Secondary":"20, text",
-    "Secondary Name":"Royal Inscriptions of Artaxerxes I and II",
-    "Connection Category":"explicit reference",
-    "Note":"-"
-  },
-  {
-    "Index":29,
-    "Primary":"6, father",
-    "Primary Name":"Vohu Manah",
-    "Secondary":"8, text",
-    "Secondary Name":"Early Avestan Liturgy (Yasna, Haptanghaiti, Visperad fragments)",
-    "Connection Category":"explicit reference",
-    "Note":"In the early Avestan liturgy, Vohu Manah is invoked as the cognitive-ritual faculty that enables correct intention, mediating between priest, offering, and deity so that sacrifice is performed with properly aligned thought and awareness."
-  },
-  {
-    "Index":30,
-    "Primary":"6, father",
-    "Primary Name":"Vohu Manah",
-    "Secondary":"9, text",
-    "Secondary Name":"The Gathas",
-    "Connection Category":"explicit reference",
-    "Note":"In the Gathas, Vohu Manah functions as the primary epistemic and ethical interface—the faculty through which Zarathustra encounters Ahura Mazda and by which humans discern and choose Asha over the Lie."
-  },
-  {
-    "Index":31,
-    "Primary":"6, father",
-    "Primary Name":"Vohu Manah",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Select Yashts, Vohu Manah is fully personified and invoked as a beneficent divine power—a guiding and protective intelligence—who supports the righteous, receives worship, and operates within a more developed pantheon of active spiritual beings."
-  },
-  {
-    "Index":32,
-    "Primary":"7, father",
-    "Primary Name":"Spenta Ārmaiti",
-    "Secondary":"8, text",
-    "Secondary Name":"Early Avestan Liturgy (Yasna, Haptanghaiti, Visperad fragments)",
-    "Connection Category":"explicit reference",
-    "Note":"In the early Avestan liturgy, Spenta Ārmaiti is invoked as the ritual disposition of devoted submission—the inner posture that grounds the sacrifice—ensuring that offerings are not only correctly performed but properly received within the order of Asha."
-  },
-  {
-    "Index":33,
-    "Primary":"7, father",
-    "Primary Name":"Spenta Ārmaiti",
-    "Secondary":"9, text",
-    "Secondary Name":"The Gathas",
-    "Connection Category":"explicit reference",
-    "Note":"In the Gathas, Ārmaiti functions as the ethical-existential alignment of the self with truth—a conscious choice of humble devotion through which one enters into right relation with Ahura Mazda and participates in Asha."
-  },
-  {
-    "Index":34,
-    "Primary":"7, father",
-    "Primary Name":"Spenta Ārmaiti",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Select Yashts, Spenta Ārmaiti is fully personified as a nurturing, earth-associated divine power—the sustaining ground of creation—who supports the faithful, stabilizes order, and participates as an active member of the Amesha Spenta framework."
-  },
-  {
-    "Index":35,
-    "Primary":"8, father",
-    "Primary Name":"Mašya",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"explicit reference",
-    "Note":"Mašya appears as a primordial human figure marking the origin of humanity within Ahura Mazda’s ordered world, rather than as an active narrative agent."
-  },
-  {
-    "Index":36,
-    "Primary":"8, father",
-    "Primary Name":"Mašya",
-    "Secondary":"9, father",
-    "Secondary Name":"Mašyānā",
-    "Connection Category":"familial: consorts",
-    "Note":"-"
-  },
-  {
-    "Index":37,
-    "Primary":"9, father",
-    "Primary Name":"Mašyānā",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"explicit reference",
-    "Note":"Mašyānā appears as the primordial female human, paired with Mašya, marking the origin of humanity without individual narrative development."
-  },
-  {
-    "Index":38,
-    "Primary":"10, father",
-    "Primary Name":"Harahvaitī",
-    "Secondary":"13, text",
-    "Secondary Name":"Behistun Inscription",
-    "Connection Category":"explicit reference",
-    "Note":"Harahvaitī (Harauvatiš) is mentioned as an imperial province involved in rebellion and its suppression, functioning as a geographic stage for Darius’ restoration of order."
-  },
-  {
-    "Index":39,
-    "Primary":"10, father",
-    "Primary Name":"Harahvaitī",
-    "Secondary":"14, text",
-    "Secondary Name":"Susa Foundation Inscriptions (Darius I)",
-    "Connection Category":"explicit reference",
-    "Note":"In the Susa Foundation Inscriptions, Harauvatiš (Avestan: Harahvaitī) is mentioned as a source region for materials used in royal construction, integrated into the imperial supply network of Darius I."
-  },
-  {
-    "Index":40,
-    "Primary":"10, father",
-    "Primary Name":"Harahvaitī",
-    "Secondary":"16, text",
-    "Secondary Name":"Naqsh-e Rustam Inscriptions (Darius & Xerxes)",
-    "Connection Category":"explicit reference",
-    "Note":"In the Naqsh-e Rustam inscriptions, Harauvatiš (Harahvaitī) appears as one of the lands listed under the dominion of Darius I and Xerxes I."
-  },
-  {
-    "Index":41,
-    "Primary":"10, father",
-    "Primary Name":"Harahvaitī",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"explicit reference",
-    "Note":"In the early chapters of the Vendidad, Harahvaitī appears as one of the good lands created by Ahura Mazda, later afflicted by corruption introduced by Angra Mainyu."
-  },
-  {
-    "Index":42,
-    "Primary":"11, father",
-    "Primary Name":"Haoma",
-    "Secondary":"8, text",
-    "Secondary Name":"Early Avestan Liturgy (Yasna, Haptanghaiti, Visperad fragments)",
-    "Connection Category":"explicit reference",
-    "Note":"Here, Haoma is a sacred plant-deity central to ritual, prepared, invoked, and consumed as part of liturgical practice."
-  },
-  {
-    "Index":43,
-    "Primary":"11, father",
-    "Primary Name":"Haoma",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In Select Yashts, Haoma appears as a personified divine being who grants strength, vitality, and success to those who honor him."
-  },
-  {
-    "Index":44,
-    "Primary":"11, father",
-    "Primary Name":"Haoma",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"explicit reference",
-    "Note":"In Vendidad (Early Chapters), Haoma appears as a sacred substance used within ritual practices that support purity, health, and resistance to corruption."
-  },
-  {
-    "Index":45,
-    "Primary":"12, father",
-    "Primary Name":"Āθravan",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"explicit reference",
-    "Note":"In the early chapters of the Vendidad, Āθravan appears as the authoritative ritual specialist responsible for knowing, applying, and enforcing purity laws—serving as the mediator who ensures that actions conform to Asha and that pollution is properly identified and removed."
-  },
-  {
-    "Index":46,
-    "Primary":"13, father",
-    "Primary Name":"Ātar",
-    "Secondary":"8, text",
-    "Secondary Name":"Early Avestan Liturgy (Yasna, Haptanghaiti, Visperad fragments)",
-    "Connection Category":"explicit reference",
-    "Note":"In the early liturgy, Ātar is a named and central sacred fire, ritually invoked and maintained, but not yet developed into a fully personified divine agent."
-  },
-  {
-    "Index":47,
-    "Primary":"13, father",
-    "Primary Name":"Ātar",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In Select Yashts, Ātar appears as a powerful, personified divine force that actively upholds order and consumes impurity."
-  },
-  {
-    "Index":48,
-    "Primary":"13, father",
-    "Primary Name":"Ātar",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"explicit reference",
-    "Note":"In Vendidad, Ātar is a sacred element that must be strictly protected from pollution, serving as a core axis of the purity system."
-  },
-  {
-    "Index":49,
-    "Primary":"15, father",
-    "Primary Name":"Jamshid (Yima in Avestan)",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Yashts, Yima appears as a radiant, powerful king endowed with divine glory (khvarenah), who expands the world and embodies ideal kingship."
-  },
-  {
-    "Index":50,
-    "Primary":"15, father",
-    "Primary Name":"Jamshid (Yima in Avestan)",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"explicit reference",
-    "Note":"In the early Vendidad, Yima appears as a primordial ruler instructed by Ahura Mazda to preserve life by constructing the vara, functioning as a mediator of survival rather than a heroic king."
-  },
-  {
-    "Index":51,
-    "Primary":"16, father",
-    "Primary Name":"Zahhāk (Aži Dahāka)",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Yashts, Azi Dahaka appears as a vividly described, monstrous dragon—“three-mouthed, three-headed, six-eyed”—who embodies destructive chaos and is defeated by Thraetaona in a mythic act of restoring order."
-  },
-  {
-    "Index":52,
-    "Primary":"16, father",
-    "Primary Name":"Zahhāk (Aži Dahāka)",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"explicit reference",
-    "Note":"In the early Vendidad, Azi Dahaka is explicitly named as a destructive being subdued by Thraetaona, functioning as a recognized exemplar of evil within the system of cosmic opposition rather than as a narratively developed monster."
-  },
-  {
-    "Index":53,
-    "Primary":"17, father",
-    "Primary Name":"Ferīdūn (Thraētaona)",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Yashts, Thraetaona appears as a heroic, divinely supported figure who defeats Azi Dahaka, embodying the triumph of order over destructive chaos."
-  },
-  {
-    "Index":54,
-    "Primary":"17, father",
-    "Primary Name":"Ferīdūn (Thraētaona)",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"explicit reference",
-    "Note":"In the early Vendidad, Thraetaona appears more as a referenced, exemplary figure who subdued Azi Dahaka, functioning as part of the broader memory of victories over evil rather than as an active narrative agent."
-  },
-  {
-    "Index":55,
-    "Primary":"19, father",
-    "Primary Name":"Anāhitā",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Select Yashts—especially the Aban Yasht—Anāhitā is explicitly invoked as a powerful, life-giving river goddess who grants victory, fertility, and royal glory (khvarenah) to those who properly worship her."
-  },
-  {
-    "Index":56,
-    "Primary":"19, father",
-    "Primary Name":"Anāhitā",
-    "Secondary":"20, text",
-    "Secondary Name":"Royal Inscriptions of Artaxerxes I and II",
-    "Connection Category":"explicit reference",
-    "Note":"-"
-  },
-  {
-    "Index":57,
-    "Primary":"20, father",
-    "Primary Name":"Verethragna (Bahram)",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Select Yashts—most prominently the Verethragna Yasht—Verethragna (later Bahram) is explicitly invoked as the divine embodiment of victory who manifests in multiple powerful forms (wind, bull, stallion, warrior, etc.) to grant strength, triumph in battle, and heroic glory to worshippers."
-  },
-  {
-    "Index":58,
-    "Primary":"21, father",
-    "Primary Name":"Manūčehr",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Select Yashts—particularly within passages of the Farvardin Yasht—Manūčehr is mentioned as a righteous Kayanian king whose fravashi (pre-existent soul) is venerated among the blessed dead, reflecting his role as a divinely favored ruler upholding order and lineage."
-  },
-  {
-    "Index":59,
-    "Primary":"22, father",
-    "Primary Name":"Siyāvaš",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Select Yashts—most clearly in the Farvardin Yasht—Siyāvaš (Siyāvaršan) is mentioned through the veneration of his fravashi, presenting him as a righteous and unjustly slain prince whose soul is honored among the holy dead."
-  },
-  {
-    "Index":60,
-    "Primary":"23, father",
-    "Primary Name":"Kai Khosrow (Haosravah)",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Select Yashts—especially the Zamyad Yasht and Farvardin Yasht—Kai Khosrow (Haosravah) is explicitly presented as a divinely favored Kayanian ruler who possesses khvarenah (royal glory), defeats the forces of deceit (notably avenging Siyavash), and is counted among the righteous whose fravashi is worthy of veneration."
-  },
-  {
-    "Index":61,
-    "Primary":"27, father",
-    "Primary Name":"Goštāsp (Vištāspa)",
-    "Secondary":"9, text",
-    "Secondary Name":"The Gathas",
-    "Connection Category":"explicit reference",
-    "Note":"In the Gathas, Vishtaspa is explicitly presented as the foremost royal supporter of Zarathustra who accepts the Good Religion and aligns himself with Asha, becoming a model of righteous patronage."
-  },
-  {
-    "Index":62,
-    "Primary":"27, father",
-    "Primary Name":"Goštāsp (Vištāspa)",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Select Yashts—especially the Farvardin Yasht—Vishtaspa is mentioned retrospectively as a righteous Kayanian king whose fravashi is venerated among the blessed, emphasizing his established sanctified status rather than his initial conversion."
-  },
-  {
-    "Index":63,
-    "Primary":"28, father",
-    "Primary Name":"Zarathustra",
-    "Secondary":"9, text",
-    "Secondary Name":"The Gathas",
-    "Connection Category":"explicit reference",
-    "Note":"In the Gathas, Zarathustra speaks in the first person as the divinely inspired prophet chosen by Ahura Mazda, presenting himself as the revealer of truth (Asha) and the guide who calls humanity to the Good Religion."
-  },
-  {
-    "Index":64,
-    "Primary":"30, father",
-    "Primary Name":"Achaemenes",
-    "Secondary":"16, text",
-    "Secondary Name":"Naqsh-e Rustam Inscriptions (Darius & Xerxes)",
-    "Connection Category":"explicit reference",
-    "Note":"In the Naqsh-e Rustam inscriptions of Darius I and Xerxes I, Achaemenes (Haxāmaniš) is explicitly invoked as the founding ancestor of the royal line, establishing dynastic legitimacy and continuity."
-  },
-  {
-    "Index":65,
-    "Primary":"31, father",
-    "Primary Name":"Cyrus the Great",
-    "Secondary":"12, text",
-    "Secondary Name":"Pasargadae Inscriptions (CMa, CMb)",
-    "Connection Category":"explicit reference",
-    "Note":"In the Pasargadae inscriptions (CMa, CMb), Cyrus the Great explicitly identifies himself in a brief royal formula as “Cyrus the king, an Achaemenid,” asserting both his sovereignty and dynastic affiliation."
-  },
-  {
-    "Index":66,
-    "Primary":"32, father",
-    "Primary Name":"Cambyses II",
-    "Secondary":"31, father",
-    "Secondary Name":"Cyrus the Great",
-    "Connection Category":"familial: father\/son",
-    "Note":"-"
-  },
-  {
-    "Index":67,
-    "Primary":"33, father",
-    "Primary Name":"Darius I",
-    "Secondary":"13, text",
-    "Secondary Name":"Behistun Inscription",
-    "Connection Category":"explicit reference",
-    "Note":"In the Behistun Inscription, Darius I presents himself as the divinely sanctioned king chosen by Ahura Mazda who rightfully seized the throne and suppressed widespread rebellions to restore order."
-  },
-  {
-    "Index":68,
-    "Primary":"33, father",
-    "Primary Name":"Darius I",
-    "Secondary":"14, text",
-    "Secondary Name":"Susa Foundation Inscriptions (Darius I)",
-    "Connection Category":"explicit reference",
-    "Note":"In the Susa Foundation Inscriptions, Darius I is portrayed as a great builder-king who, by the favor of Ahura Mazda, constructs his palace at Susa using materials and labor drawn from across the empire."
-  },
-  {
-    "Index":69,
-    "Primary":"33, father",
-    "Primary Name":"Darius I",
-    "Secondary":"16, text",
-    "Secondary Name":"Naqsh-e Rustam Inscriptions (Darius & Xerxes)",
-    "Connection Category":"explicit reference",
-    "Note":"In the Naqsh-e Rustam inscriptions, Darius I presents himself as the just, divinely favored “king of kings,” emphasizing his lineage, moral authority, and role as upholder of arta (truth and order)."
-  },
-  {
-    "Index":70,
-    "Primary":"33, father",
-    "Primary Name":"Darius I",
-    "Secondary":"17, text",
-    "Secondary Name":"Persepolis Treasury Tablets",
-    "Connection Category":"indirect connection",
-    "Note":"In the Persepolis Treasury Tablets, Darius I is referenced indirectly as the reigning authority under whose administration economic transactions, labor distributions, and resource allocations are recorded, reflecting the bureaucratic functioning of his empire."
-  },
-  {
-    "Index":71,
-    "Primary":"34, father",
-    "Primary Name":"Xerxes I",
-    "Secondary":"36, father",
-    "Secondary Name":"Artaxerxes II",
-    "Connection Category":"familial: father\/son",
-    "Note":"-"
-  },
-  {
-    "Index":72,
-    "Primary":"34, father",
-    "Primary Name":"Xerxes I",
-    "Secondary":"16, text",
-    "Secondary Name":"Naqsh-e Rustam Inscriptions (Darius & Xerxes)",
-    "Connection Category":"explicit reference",
-    "Note":"In the Naqsh-e Rustam inscriptions, Xerxes I presents himself as the legitimate successor of Darius I, emphasizing his royal lineage, divine favor from Ahura Mazda, and continuity of just kingship."
-  },
-  {
-    "Index":73,
-    "Primary":"34, father",
-    "Primary Name":"Xerxes I",
-    "Secondary":"17, text",
-    "Secondary Name":"Persepolis Treasury Tablets",
-    "Connection Category":"indirect connection",
-    "Note":"In the Persepolis Treasury Tablets, Xerxes I appears indirectly as the reigning authority under whom administrative records of payments, rations, and labor organization continue, reflecting the ongoing imperial bureaucracy after Darius."
-  },
-  {
-    "Index":74,
-    "Primary":"34, father",
-    "Primary Name":"Xerxes I",
-    "Secondary":"18, text",
-    "Secondary Name":"Xerxes' Gate Inscription (Persepolis)",
-    "Connection Category":"explicit reference",
-    "Note":"In the Gate of All Nations Inscription, Xerxes I explicitly proclaims himself as the great king who, by the will of Ahura Mazda, built monumental structures at Persepolis, emphasizing both divine sanction and imperial grandeur."
-  },
-  {
-    "Index":75,
-    "Primary":"36, father",
-    "Primary Name":"Artaxerxes II",
-    "Secondary":"20, text",
-    "Secondary Name":"Royal Inscriptions of Artaxerxes I and II",
-    "Connection Category":"explicit reference",
-    "Note":"In the Royal Inscriptions of Artaxerxes II, Artaxerxes II presents himself as the legitimate great king of the Achaemenid line, ruling by the favor of Ahura Mazda and notably invoking not only Ahura Mazda but also Anahita and Mithra as divine protectors of his kingship."
-  },
-  {
-    "Index":76,
-    "Primary":"8, text",
-    "Primary Name":"Early Avestan Liturgy (Yasna, Haptanghaiti, Visperad fragments)",
-    "Secondary":"9, text",
-    "Secondary Name":"The Gathas",
-    "Connection Category":"explicit reference",
-    "Note":"In the Gathas, elements of the Early Avestan liturgy (Yasna, Haptanghaiti, Visperad fragments) appear as integrated ritual speech, where Zarathustra and his community perform praise, invocation, and offering to Ahura Mazda within an active sacrificial and devotional framework."
-  },
-  {
-    "Index":77,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"38, father",
-    "Secondary Name":"Khshathra Vairya",
-    "Connection Category":"custom connection",
-    "Note":"Ahura Mazda relates to Khshathra Vairya as the expression of ideal sovereignty, representing the rightful exercise of power in accordance with divine order."
-  },
-  {
-    "Index":78,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"39, father",
-    "Secondary Name":"Haurvatat",
-    "Connection Category":"custom connection",
-    "Note":"Ahura Mazda relates to Haurvatat as the realization of completeness and well-being, embodying the perfected state of his creation."
-  },
-  {
-    "Index":79,
-    "Primary":"1, father",
-    "Primary Name":"Ahura Mazda",
-    "Secondary":"40, father",
-    "Secondary Name":"Ameretat",
-    "Connection Category":"custom connection",
-    "Note":"Ahura Mazda relates to Ameretat as the principle of enduring life, ensuring the eternal continuation and preservation of his perfected order."
-  },
-  {
-    "Index":80,
-    "Primary":"38, father",
-    "Primary Name":"Khshathra Vairya",
-    "Secondary":"8, text",
-    "Secondary Name":"Early Avestan Liturgy (Yasna, Haptanghaiti, Visperad fragments)",
-    "Connection Category":"explicit reference",
-    "Note":"In the early Avestan liturgy, Khshathra Vairya is invoked as the ritual projection of divine dominion—the power that establishes sacred order within the ceremonial space—linking correct sacrifice to the realization of Ahura Mazda’s ideal rule."
-  },
-  {
-    "Index":81,
-    "Primary":"38, father",
-    "Primary Name":"Khshathra Vairya",
-    "Secondary":"9, text",
-    "Secondary Name":"The Gathas",
-    "Connection Category":"explicit reference",
-    "Note":"In the Gathas, Khshathra (proto–Khshathra Vairya) functions as the idealized form of power and sovereignty aligned with Asha—a dominion to be consciously chosen and realized through righteousness rather than force."
-  },
-  {
-    "Index":82,
-    "Primary":"38, father",
-    "Primary Name":"Khshathra Vairya",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Select Yashts, Khshathra Vairya becomes a personified divine force of sovereign power—associated with strength, protection, and royal authority—actively supporting rulers and warriors within an expanded pantheon."
-  },
-  {
-    "Index":83,
-    "Primary":"38, father",
-    "Primary Name":"Khshathra Vairya",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"indirect connection",
-    "Note":"In the early Vendidad, Khshathra Vairya underlies the juridical enforcement of order—the authority through which laws of purity and conduct are imposed—translating divine dominion into regulatory control over behavior and space."
-  },
-  {
-    "Index":84,
-    "Primary":"39, father",
-    "Primary Name":"Haurvatat",
-    "Secondary":"8, text",
-    "Secondary Name":"Early Avestan Liturgy (Yasna, Haptanghaiti, Visperad fragments)",
-    "Connection Category":"explicit reference",
-    "Note":"In the early Avestan liturgy, Haurvatat is invoked as the ritual-completion principle—the state of wholeness and perfection that crowns correctly performed sacrifice—often paired with Ameretat and linked to the life-sustaining integrity of the offering."
-  },
-  {
-    "Index":85,
-    "Primary":"39, father",
-    "Primary Name":"Haurvatat",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Select Yashts, Haurvatat is personified as a beneficent divine force of fullness, well-being, and life-sustaining abundance, associated especially with waters and invoked as an active power within the expanded pantheon."
-  },
-  {
-    "Index":86,
-    "Primary":"39, father",
-    "Primary Name":"Haurvatat",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"indirect connection",
-    "Note":"In the early Vendidad, Haurvatat is present as the normative state of health, purity, and intactness that purity laws aim to preserve—its absence marking pollution and disorder rather than being frequently invoked by name."
-  },
-  {
-    "Index":87,
-    "Primary":"40, father",
-    "Primary Name":"Ameretat",
-    "Secondary":"8, text",
-    "Secondary Name":"Early Avestan Liturgy (Yasna, Haptanghaiti, Visperad fragments)",
-    "Connection Category":"explicit reference",
-    "Note":"In the early Avestan liturgy, Ameretat is invoked (typically alongside Haurvatat) as the ritual outcome of enduring life—the immortality secured through correctly performed sacrifice—linking liturgical completeness to the preservation and continuation of life."
-  },
-  {
-    "Index":88,
-    "Primary":"40, father",
-    "Primary Name":"Ameretat",
-    "Secondary":"11, text",
-    "Secondary Name":"Select Yashts",
-    "Connection Category":"explicit reference",
-    "Note":"In the Select Yashts, Ameretat is personified as a life-preserving divine force associated with plants and nourishment, sustaining the continuity of creation and granting enduring vitality within an expanded, fully articulated pantheon."
-  },
-  {
-    "Index":89,
-    "Primary":"40, father",
-    "Primary Name":"Ameretat",
-    "Secondary":"21, text",
-    "Secondary Name":"Vendidad (Early Chapters)",
-    "Connection Category":"indirect connection",
-    "Note":"In the early Vendidad, Ameretat is present as the preservation of life against decay, embedded in purity laws governing plants, food, and bodily integrity, where the avoidance of corruption functions as the practical maintenance of immortality."
+    "Index": "1",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "3, father",
+    "Secondary Name": "Aša Vahišta",
+    "Connection Category": "custom connection",
+    "Note": "Ahura Mazda relates to Asha Vahishta as the embodiment of his own perfect truth and cosmic order (Asha), expressing the lawful structure through which reality is rightly arranged."
+  },
+  {
+    "Index": "2",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "4, father",
+    "Secondary Name": "Spenta Mainyu",
+    "Connection Category": "custom connection",
+    "Note": "In the Old Avestan tradition, Spenta Mainyu is the bounteous or beneficent spirit closely associated with Ahura Mazda’s creative activity. Whether it is simply an aspect of Ahura Mazda or a more distinct hypostasis remains debated."
+  },
+  {
+    "Index": "3",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "6, father",
+    "Secondary Name": "Vohu Manah",
+    "Connection Category": "custom connection",
+    "Note": "Ahura Mazda relates to Vohu Manah as the expression of divine intelligence and ethical consciousness, enabling humans to perceive and align with his truth."
+  },
+  {
+    "Index": "4",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "7, father",
+    "Secondary Name": "Spenta Ārmaiti",
+    "Connection Category": "custom connection",
+    "Note": "Ahura Mazda relates to Spenta Armaiti as the principle of devoted alignment and grounding, through which his order becomes stabilized and embodied in the world."
+  },
+  {
+    "Index": "5",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "8, text",
+    "Secondary Name": "Yasna Haptanghaiti and Old Avestan Liturgy",
+    "Connection Category": "explicit reference",
+    "Note": "Ahura Mazda is addressed directly as the Wise Lord—the source of truth (asha), right mind, and moral order—invoked in both personal dialogue and communal worship."
+  },
+  {
+    "Index": "6",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "9, text",
+    "Secondary Name": "The Gathas",
+    "Connection Category": "explicit reference",
+    "Note": "In the Gathas, Ahura Mazda is addressed personally in an inquiry-driven, questioning dialogue."
+  },
+  {
+    "Index": "7",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "In the selected Yashts, Ahura Mazda remains the supreme creator and source of order, while individual hymns praise a wider body of yazatas and inherited Iranian divine figures whose authority is ultimately situated within Mazda-worship."
+  },
+  {
+    "Index": "8",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "13, text",
+    "Secondary Name": "Behistun Inscription",
+    "Connection Category": "explicit reference",
+    "Note": "Ahura Mazda legitimizes Darius’ rule by framing his victories as the triumph of truth over the Lie."
+  },
+  {
+    "Index": "9",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "14, text",
+    "Secondary Name": "Susa Foundation Inscriptions (Darius I)",
+    "Connection Category": "explicit reference",
+    "Note": "Ahura Mazda is presented as creator and source of order, whose authority underwrites the king’s role as builder and organizer of the world."
+  },
+  {
+    "Index": "10",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "16, text",
+    "Secondary Name": "Naqsh-e Rustam Inscriptions (Darius & Xerxes)",
+    "Connection Category": "explicit reference",
+    "Note": "Ahura Mazda is invoked as both the source of royal authority and the standard by which the king’s justice and conduct are measured."
+  },
+  {
+    "Index": "11",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "18, text",
+    "Secondary Name": "Gate of All Nations Inscription (XPa)",
+    "Connection Category": "explicit reference",
+    "Note": "In XPa, Ahura Mazda is invoked as the divine source of Xerxes’ kingship and as the power by whose favor the Gate of All Nations was built."
+  },
+  {
+    "Index": "12",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "19, text",
+    "Secondary Name": "The Daiva Inscription (Xerxes I)",
+    "Connection Category": "explicit reference",
+    "Note": "Xerxes presents Ahura Mazda as the supreme divine authority and says that he destroyed a place where daiva were worshipped. The inscription condemns daiva worship, but it does not by itself prove exclusive monotheism."
+  },
+  {
+    "Index": "13",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "20, text",
+    "Secondary Name": "Royal Inscriptions of Artaxerxes I and II",
+    "Connection Category": "explicit reference",
+    "Note": "Artaxerxes I continues the conventional invocation of Ahura Mazda. In inscriptions of Artaxerxes II, Ahura Mazda is explicitly invoked together with Anāhitā and Mithra as protector of the king and his works."
+  },
+  {
+    "Index": "14",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "21, text",
+    "Secondary Name": "Vendidad (Vidēvdād)",
+    "Connection Category": "explicit reference",
+    "Note": "Throughout the Vendidad, Ahura Mazda instructs Zarathustra in a sustained question-and-answer framework concerning sacred geography, purity, pollution, ritual practice, offenses, and resistance to demonic corruption."
+  },
+  {
+    "Index": "16",
+    "Primary": "2, father",
+    "Primary Name": "Angra Mainyu",
+    "Secondary": "9, text",
+    "Secondary Name": "The Gathas",
+    "Connection Category": "explicit reference",
+    "Note": "In the Gathas, Angra Mainyu is the destructive orientation that emerges from choosing falsehood over truth."
+  },
+  {
+    "Index": "17",
+    "Primary": "2, father",
+    "Primary Name": "Angra Mainyu",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "In the selected Yashts, Angra Mainyu appears as the hostile power behind destructive beings and opposition to the good creation, within a more fully developed Younger Avestan cosmic conflict."
+  },
+  {
+    "Index": "18",
+    "Primary": "2, father",
+    "Primary Name": "Angra Mainyu",
+    "Secondary": "21, text",
+    "Secondary Name": "Vendidad (Vidēvdād)",
+    "Connection Category": "explicit reference",
+    "Note": "In the Vendidad, Angra Mainyu is a concrete adversary who counter-creates plagues, pollution, disease, and other corruptions against the good lands and creatures of Ahura Mazda."
+  },
+  {
+    "Index": "19",
+    "Primary": "3, father",
+    "Primary Name": "Aša Vahišta",
+    "Secondary": "8, text",
+    "Secondary Name": "Yasna Haptanghaiti and Old Avestan Liturgy",
+    "Connection Category": "explicit reference",
+    "Note": "The Yasna Haptanghaiti explicitly praises Aša, including the formulation Aša Vahišta, as the truth and right order within which worship and communal life are properly conducted."
+  },
+  {
+    "Index": "20",
+    "Primary": "3, father",
+    "Primary Name": "Aša Vahišta",
+    "Secondary": "9, text",
+    "Secondary Name": "The Gathas",
+    "Connection Category": "explicit reference",
+    "Note": "Aša is explicitly and repeatedly named in the Gathas as truth, right order, and the standard opposed to the Lie. The later fixed personality Aša Vahišta develops from this Old Avestan principle."
+  },
+  {
+    "Index": "21",
+    "Primary": "3, father",
+    "Primary Name": "Aša Vahišta",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "Aša Vahišta is explicitly named in the Younger Avestan hymn corpus among the Amesha Spentas and is closely associated with sacred fire in developed Zoroastrian liturgy."
+  },
+  {
+    "Index": "22",
+    "Primary": "3, father",
+    "Primary Name": "Aša Vahišta",
+    "Secondary": "21, text",
+    "Secondary Name": "Vendidad (Vidēvdād)",
+    "Connection Category": "explicit reference",
+    "Note": "The Vendidad explicitly invokes Aša Vahišta and repeatedly frames purity and right ritual as defenses of asha against pollution and the Druj; the text does not reduce Aša Vahišta to the legal code itself."
+  },
+  {
+    "Index": "23",
+    "Primary": "4, father",
+    "Primary Name": "Spenta Mainyu",
+    "Secondary": "8, text",
+    "Secondary Name": "Yasna Haptanghaiti and Old Avestan Liturgy",
+    "Connection Category": "explicit reference",
+    "Note": "The Yasna Haptanghaiti invokes Ahura Mazda’s Spenta Mainyu, his bounteous or beneficent spirit, within communal worship; it is not yet sharply presented as an independent divine personality."
+  },
+  {
+    "Index": "24",
+    "Primary": "4, father",
+    "Primary Name": "Spenta Mainyu",
+    "Secondary": "9, text",
+    "Secondary Name": "The Gathas",
+    "Connection Category": "explicit reference",
+    "Note": "Spenta Mainyu is explicitly present in the Gathas as the bounteous or beneficent spirit associated with good creation and opposed to the destructive spirit. Its precise relation to Ahura Mazda remains debated."
+  },
+  {
+    "Index": "25",
+    "Primary": "4, father",
+    "Primary Name": "Spenta Mainyu",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "In the Younger Avestan hymn corpus, Spenta Mainyu is explicitly associated with the beneficent creation and contrasted with Angra Mainyu’s destructive activity, while its relationship to Ahura Mazda remains theologically layered."
+  },
+  {
+    "Index": "26",
+    "Primary": "4, father",
+    "Primary Name": "Spenta Mainyu",
+    "Secondary": "21, text",
+    "Secondary Name": "Vendidad (Vidēvdād)",
+    "Connection Category": "explicit reference",
+    "Note": "The Vendidad repeatedly contrasts the good lands and creatures associated with Spenta Mainyu and Ahura Mazda with the counter-creations and pollution produced by Angra Mainyu."
+  },
+  {
+    "Index": "27",
+    "Primary": "5, father",
+    "Primary Name": "Mithra",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "Mithra is the central deity of Yasht 10, where he appears as the vigilant guardian of covenants and oaths who observes deception, punishes oath-breakers, and protects social and political order."
+  },
+  {
+    "Index": "28",
+    "Primary": "5, father",
+    "Primary Name": "Mithra",
+    "Secondary": "20, text",
+    "Secondary Name": "Royal Inscriptions of Artaxerxes I and II",
+    "Connection Category": "explicit reference",
+    "Note": "In inscriptions of Artaxerxes II, Mithra is explicitly invoked together with Ahura Mazda and Anāhitā to protect the king and his building. This does not apply to the inscriptions of Artaxerxes I in the same bundled entry."
+  },
+  {
+    "Index": "29",
+    "Primary": "6, father",
+    "Primary Name": "Vohu Manah",
+    "Secondary": "8, text",
+    "Secondary Name": "Yasna Haptanghaiti and Old Avestan Liturgy",
+    "Connection Category": "explicit reference",
+    "Note": "The Yasna Haptanghaiti explicitly invokes Vohu Manah, Good Mind, as a divine principle through which worshippers align thought and action with Ahura Mazda and asha."
+  },
+  {
+    "Index": "30",
+    "Primary": "6, father",
+    "Primary Name": "Vohu Manah",
+    "Secondary": "9, text",
+    "Secondary Name": "The Gathas",
+    "Connection Category": "explicit reference",
+    "Note": "In the Gathas, Vohu Manah functions as the primary epistemic and ethical interface—the faculty through which Zarathustra encounters Ahura Mazda and by which humans discern and choose Asha over the Lie."
+  },
+  {
+    "Index": "31",
+    "Primary": "6, father",
+    "Primary Name": "Vohu Manah",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "Vohu Manah is explicitly named in the Younger Avestan corpus among the Amesha Spentas and in liturgical enumerations. The developed tradition especially associates him with good purpose and the protection of cattle."
+  },
+  {
+    "Index": "32",
+    "Primary": "7, father",
+    "Primary Name": "Spenta Ārmaiti",
+    "Secondary": "8, text",
+    "Secondary Name": "Yasna Haptanghaiti and Old Avestan Liturgy",
+    "Connection Category": "explicit reference",
+    "Note": "The Yasna Haptanghaiti explicitly invokes Spenta Ārmaiti as holy devotion or right-mindedness within the community’s worship of Ahura Mazda."
+  },
+  {
+    "Index": "33",
+    "Primary": "7, father",
+    "Primary Name": "Spenta Ārmaiti",
+    "Secondary": "9, text",
+    "Secondary Name": "The Gathas",
+    "Connection Category": "explicit reference",
+    "Note": "In the Gathas, Ārmaiti functions as the ethical-existential alignment of the self with truth—a conscious choice of humble devotion through which one enters into right relation with Ahura Mazda and participates in Asha."
+  },
+  {
+    "Index": "34",
+    "Primary": "7, father",
+    "Primary Name": "Spenta Ārmaiti",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "Spenta Ārmaiti is explicitly named in the Younger Avestan corpus among the Amesha Spentas as holy devotion or right-mindedness; her strong association with the earth is especially developed in later tradition."
+  },
+  {
+    "Index": "35",
+    "Primary": "8, father",
+    "Primary Name": "Mašya",
+    "Secondary": "9, father",
+    "Secondary Name": "Mašyānā",
+    "Connection Category": "familial: siblings/consorts",
+    "Note": "Mašya and Mašyānā are the primordial human pair in later Zoroastrian cosmogony, represented as siblings who become mates and ancestors of humanity."
+  },
+  {
+    "Index": "36",
+    "Primary": "10, father",
+    "Primary Name": "Harahvaitī",
+    "Secondary": "13, text",
+    "Secondary Name": "Behistun Inscription",
+    "Connection Category": "explicit reference",
+    "Note": "Harahvaitī (Harauvatiš) is mentioned as an imperial province involved in rebellion and its suppression, functioning as a geographic stage for Darius’ restoration of order."
+  },
+  {
+    "Index": "37",
+    "Primary": "10, father",
+    "Primary Name": "Harahvaitī",
+    "Secondary": "14, text",
+    "Secondary Name": "Susa Foundation Inscriptions (Darius I)",
+    "Connection Category": "explicit reference",
+    "Note": "In the Susa Foundation Inscriptions, Harauvatiš (Avestan: Harahvaitī) is mentioned as a source region for materials used in royal construction, integrated into the imperial supply network of Darius I."
+  },
+  {
+    "Index": "38",
+    "Primary": "10, father",
+    "Primary Name": "Harahvaitī",
+    "Secondary": "16, text",
+    "Secondary Name": "Naqsh-e Rustam Inscriptions (Darius & Xerxes)",
+    "Connection Category": "explicit reference",
+    "Note": "In the Naqsh-e Rustam inscriptions, Harauvatiš (Harahvaitī) appears as one of the lands listed under the dominion of Darius I and Xerxes I."
+  },
+  {
+    "Index": "39",
+    "Primary": "11, father",
+    "Primary Name": "Haoma",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "Haoma is explicitly praised in Yasht 20, the short Haoma Yasht, and appears elsewhere in the Yashtic tradition as a divine ritual plant and drink associated with vitality, strength, and sacred offering."
+  },
+  {
+    "Index": "40",
+    "Primary": "13, father",
+    "Primary Name": "Ātar",
+    "Secondary": "8, text",
+    "Secondary Name": "Yasna Haptanghaiti and Old Avestan Liturgy",
+    "Connection Category": "explicit reference",
+    "Note": "In the early liturgy, Ātar is a named and central sacred fire, ritually invoked and maintained, but not yet developed into a fully personified divine agent."
+  },
+  {
+    "Index": "41",
+    "Primary": "13, father",
+    "Primary Name": "Ātar",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "Ātar is explicitly invoked in the Younger Avestan corpus as sacred fire, called the son of Ahura Mazda and closely associated with Aša Vahišta, purity, and divine judgment."
+  },
+  {
+    "Index": "42",
+    "Primary": "13, father",
+    "Primary Name": "Ātar",
+    "Secondary": "9, text",
+    "Secondary Name": "The Gathas",
+    "Connection Category": "explicit reference",
+    "Note": "The Gathas repeatedly invoke Ahura Mazda’s sacred fire as an agent of illumination, ritual power, and final judgment. Here Ātar is primarily fire itself as a divine force, not yet the fully personified yazata found in later Avestan texts."
+  },
+  {
+    "Index": "43",
+    "Primary": "15, father",
+    "Primary Name": "Jamshid (Yima in Avestan)",
+    "Secondary": "9, text",
+    "Secondary Name": "The Gathas",
+    "Connection Category": "explicit reference",
+    "Note": "Yima, son of Vivanghvant, is named in Yasna 32.8 among those whom Zarathustra criticizes, apparently for an act traditionally interpreted as introducing cattle flesh for human consumption. The passage is brief and much less celebratory than later accounts of Yima."
+  },
+  {
+    "Index": "44",
+    "Primary": "15, father",
+    "Primary Name": "Jamshid (Yima in Avestan)",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "In the selected Yashts, Yima appears as the radiant king of good herds who once possessed royal glory. The detailed story of his enlarging the earth and constructing the Vara belongs specifically to Vendidad 2."
+  },
+  {
+    "Index": "45",
+    "Primary": "16, father",
+    "Primary Name": "Zahhāk (Aži Dahāka)",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "In the selected Yashts, Aži Dahāka is explicitly described as a three-mouthed, three-headed, six-eyed destructive monster opposed by Thraētaona; the later human tyrant Zahhāk belongs to subsequent Iranian epic development."
+  },
+  {
+    "Index": "46",
+    "Primary": "17, father",
+    "Primary Name": "Ferīdūn (Thraētaona)",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "In the selected Yashts, Thraētaona is explicitly praised as the heroic conqueror of Aži Dahāka and a possessor or recipient of divine support and royal glory."
+  },
+  {
+    "Index": "47",
+    "Primary": "19, father",
+    "Primary Name": "Anāhitā",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "In Yasht 5, Arədvī Sūrā Anāhitā is explicitly praised as a powerful water divinity who grants fertility, health, victory, and prosperity to qualified worshippers and royal petitioners."
+  },
+  {
+    "Index": "48",
+    "Primary": "19, father",
+    "Primary Name": "Anāhitā",
+    "Secondary": "20, text",
+    "Secondary Name": "Royal Inscriptions of Artaxerxes I and II",
+    "Connection Category": "explicit reference",
+    "Note": "In inscriptions of Artaxerxes II, Anāhitā is explicitly invoked together with Ahura Mazda and Mithra to protect the king and his building. This does not apply to the inscriptions of Artaxerxes I in the same bundled entry."
+  },
+  {
+    "Index": "49",
+    "Primary": "20, father",
+    "Primary Name": "Verethragna (Bahram)",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "Yasht 14 is dedicated to Verethragna, the divine force of victory, who manifests in a sequence of powerful forms and grants strength, martial success, and overcoming power."
+  },
+  {
+    "Index": "50",
+    "Primary": "21, father",
+    "Primary Name": "Manūčehr",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "The Farvardin Yasht explicitly venerates the fravashi of Manuščiθra, the Avestan figure later known as Manūčehr. In later Iranian genealogy he belongs to the Pishdadian or pre-Kayanian line, not the Kayanian dynasty."
+  },
+  {
+    "Index": "51",
+    "Primary": "22, father",
+    "Primary Name": "Siyāvaš",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "The Farvardin Yasht explicitly venerates the fravashi of Syāvaršan, the Avestan figure later known as Siyāvaš. The elaborate account of his unjust death belongs to later epic tradition."
+  },
+  {
+    "Index": "52",
+    "Primary": "23, father",
+    "Primary Name": "Kai Khosrow (Haosravah)",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "The selected Yashts, especially the Zamyad and Farvardin Yashts, explicitly present Haosravah as a divinely favored Kayanian ruler associated with khvarenah, the defeat of hostile powers, and the veneration of his fravashi."
+  },
+  {
+    "Index": "53",
+    "Primary": "27, father",
+    "Primary Name": "Goštāsp (Vištāspa)",
+    "Secondary": "9, text",
+    "Secondary Name": "The Gathas",
+    "Connection Category": "explicit reference",
+    "Note": "Vištāspa is explicitly named in the Gathas as an important supporter and patron of Zarathustra’s cause. The fully developed story of his conversion to the Good Religion belongs to later tradition."
+  },
+  {
+    "Index": "54",
+    "Primary": "27, father",
+    "Primary Name": "Goštāsp (Vištāspa)",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "The Younger Avesta explicitly names Kavi Vištāspa as a supporter of Zarathustra and venerates his fravashi; the detailed dramatic conversion narrative belongs to later Zoroastrian literature."
+  },
+  {
+    "Index": "55",
+    "Primary": "28, father",
+    "Primary Name": "Zarathustra",
+    "Secondary": "9, text",
+    "Secondary Name": "The Gathas",
+    "Connection Category": "explicit reference",
+    "Note": "Zarathustra is explicitly named in the Gathas and frequently speaks in the first person, addressing Ahura Mazda, teaching, petitioning, and confronting opponents. His formal description as a chosen prophet is a traditional interpretation."
+  },
+  {
+    "Index": "56",
+    "Primary": "30, father",
+    "Primary Name": "Achaemenes",
+    "Secondary": "16, text",
+    "Secondary Name": "Naqsh-e Rustam Inscriptions (Darius & Xerxes)",
+    "Connection Category": "indirect connection",
+    "Note": "The Naqsh-e Rustam inscriptions call Darius and Xerxes “Achaemenid,” creating an indirect dynastic link to the eponymous ancestor Achaemenes. They do not name Achaemenes directly; Behistun supplies the explicit genealogy."
+  },
+  {
+    "Index": "57",
+    "Primary": "31, father",
+    "Primary Name": "Cyrus the Great",
+    "Secondary": "12, text",
+    "Secondary Name": "Pasargadae Inscriptions (CMa, CMb)",
+    "Connection Category": "explicit reference",
+    "Note": "CMa and CMb explicitly name Cyrus and call him king and Achaemenid. The Old Persian inscriptions were probably added under Darius I, so the words may not have been commissioned by Cyrus himself."
+  },
+  {
+    "Index": "58",
+    "Primary": "31, father",
+    "Primary Name": "Cyrus the Great",
+    "Secondary": "32, father",
+    "Secondary Name": "Cambyses II",
+    "Connection Category": "familial: father/son",
+    "Note": "Cyrus the Great was the father and royal predecessor of Cambyses II, who succeeded him as king and completed the conquest of Egypt."
+  },
+  {
+    "Index": "59",
+    "Primary": "33, father",
+    "Primary Name": "Darius I",
+    "Secondary": "13, text",
+    "Secondary Name": "Behistun Inscription",
+    "Connection Category": "explicit reference",
+    "Note": "In the Behistun Inscription, Darius I presents himself as the divinely sanctioned king chosen by Ahura Mazda who rightfully seized the throne and suppressed widespread rebellions to restore order."
+  },
+  {
+    "Index": "60",
+    "Primary": "33, father",
+    "Primary Name": "Darius I",
+    "Secondary": "14, text",
+    "Secondary Name": "Susa Foundation Inscriptions (Darius I)",
+    "Connection Category": "explicit reference",
+    "Note": "In the Susa Foundation Inscriptions, Darius I is portrayed as a great builder-king who, by the favor of Ahura Mazda, constructs his palace at Susa using materials and labor drawn from across the empire."
+  },
+  {
+    "Index": "61",
+    "Primary": "33, father",
+    "Primary Name": "Darius I",
+    "Secondary": "16, text",
+    "Secondary Name": "Naqsh-e Rustam Inscriptions (Darius & Xerxes)",
+    "Connection Category": "explicit reference",
+    "Note": "In the Naqsh-e Rustam inscriptions, Darius I presents himself as the just, divinely favored “king of kings,” emphasizing his lineage, moral authority, and role as upholder of arta (truth and order)."
+  },
+  {
+    "Index": "62",
+    "Primary": "33, father",
+    "Primary Name": "Darius I",
+    "Secondary": "17, text",
+    "Secondary Name": "Persepolis Treasury Tablets",
+    "Connection Category": "indirect connection",
+    "Note": "The Persepolis Treasury archive begins in the final years of Darius I and preserves administrative records dated under his reign, including payments and transfers managed through the royal center."
+  },
+  {
+    "Index": "64",
+    "Primary": "34, father",
+    "Primary Name": "Xerxes I",
+    "Secondary": "16, text",
+    "Secondary Name": "Naqsh-e Rustam Inscriptions (Darius & Xerxes)",
+    "Connection Category": "explicit reference",
+    "Note": "In the Naqsh-e Rustam inscriptions, Xerxes I presents himself as the legitimate successor of Darius I, emphasizing his royal lineage, divine favor from Ahura Mazda, and continuity of just kingship."
+  },
+  {
+    "Index": "65",
+    "Primary": "34, father",
+    "Primary Name": "Xerxes I",
+    "Secondary": "17, text",
+    "Secondary Name": "Persepolis Treasury Tablets",
+    "Connection Category": "indirect connection",
+    "Note": "A substantial portion of the Persepolis Treasury archive belongs to the reign of Xerxes I and documents payments, workers, officials, and palace administration under his government."
+  },
+  {
+    "Index": "66",
+    "Primary": "34, father",
+    "Primary Name": "Xerxes I",
+    "Secondary": "18, text",
+    "Secondary Name": "Gate of All Nations Inscription (XPa)",
+    "Connection Category": "explicit reference",
+    "Note": "In XPa, Xerxes explicitly identifies himself as great king and states that, by the favor of Ahura Mazda, he built the Gate of All Nations at Persepolis."
+  },
+  {
+    "Index": "67",
+    "Primary": "36, father",
+    "Primary Name": "Artaxerxes II",
+    "Secondary": "20, text",
+    "Secondary Name": "Royal Inscriptions of Artaxerxes I and II",
+    "Connection Category": "explicit reference",
+    "Note": "In the Royal Inscriptions of Artaxerxes II, Artaxerxes II presents himself as the legitimate great king of the Achaemenid line, ruling by the favor of Ahura Mazda and notably invoking not only Ahura Mazda but also Anahita and Mithra as divine protectors of his kingship."
+  },
+  {
+    "Index": "68",
+    "Primary": "9, text",
+    "Primary Name": "The Gathas",
+    "Secondary": "8, text",
+    "Secondary Name": "Yasna Haptanghaiti and Old Avestan Liturgy",
+    "Connection Category": "indirect connection",
+    "Note": "The Gathas and the Yasna Haptanghaiti are the two principal components of the Old Avestan corpus and were transmitted together within the received Yasna. They share language and ritual setting but neither cites the other as a separate work."
+  },
+  {
+    "Index": "69",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "38, father",
+    "Secondary Name": "Khshathra Vairya",
+    "Connection Category": "custom connection",
+    "Note": "Ahura Mazda relates to Khshathra Vairya as the expression of ideal sovereignty, representing the rightful exercise of power in accordance with divine order."
+  },
+  {
+    "Index": "70",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "39, father",
+    "Secondary Name": "Haurvatat",
+    "Connection Category": "custom connection",
+    "Note": "Ahura Mazda relates to Haurvatat as the realization of completeness and well-being, embodying the perfected state of his creation."
+  },
+  {
+    "Index": "71",
+    "Primary": "1, father",
+    "Primary Name": "Ahura Mazda",
+    "Secondary": "40, father",
+    "Secondary Name": "Ameretat",
+    "Connection Category": "custom connection",
+    "Note": "Ahura Mazda relates to Ameretat as the principle of enduring life, ensuring the eternal continuation and preservation of his perfected order."
+  },
+  {
+    "Index": "72",
+    "Primary": "38, father",
+    "Primary Name": "Khshathra Vairya",
+    "Secondary": "8, text",
+    "Secondary Name": "Yasna Haptanghaiti and Old Avestan Liturgy",
+    "Connection Category": "explicit reference",
+    "Note": "Khshathra is explicitly invoked in the Yasna Haptanghaiti as desirable or good dominion, closely associated with Ahura Mazda, Aša, and Vohu Manah."
+  },
+  {
+    "Index": "73",
+    "Primary": "38, father",
+    "Primary Name": "Khshathra Vairya",
+    "Secondary": "9, text",
+    "Secondary Name": "The Gathas",
+    "Connection Category": "explicit reference",
+    "Note": "In the Gathas, Khshathra (proto–Khshathra Vairya) functions as the idealized form of power and sovereignty aligned with Asha—a dominion to be consciously chosen and realized through righteousness rather than force."
+  },
+  {
+    "Index": "74",
+    "Primary": "38, father",
+    "Primary Name": "Khshathra Vairya",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "Khshathra Vairya is explicitly named in the Younger Avestan corpus among the Amesha Spentas as desirable dominion and divinely ordered power."
+  },
+  {
+    "Index": "75",
+    "Primary": "39, father",
+    "Primary Name": "Haurvatat",
+    "Secondary": "9, text",
+    "Secondary Name": "The Gathas",
+    "Connection Category": "explicit reference",
+    "Note": "In the Gathas, Haurvatat represents wholeness, completeness, and spiritual well-being. It is regularly paired with Ameretat as a blessing associated with Ahura Mazda, Asha, and righteous action."
+  },
+  {
+    "Index": "76",
+    "Primary": "39, father",
+    "Primary Name": "Haurvatat",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "Haurvatat is explicitly named in the Younger Avestan corpus among the Amesha Spentas as wholeness or completeness; developed Zoroastrian tradition especially associates Haurvatat with water."
+  },
+  {
+    "Index": "77",
+    "Primary": "40, father",
+    "Primary Name": "Ameretat",
+    "Secondary": "9, text",
+    "Secondary Name": "The Gathas",
+    "Connection Category": "explicit reference",
+    "Note": "In the Gathas, Ameretat represents immortality or deathless life. Paired with Haurvatat, it describes the enduring life promised through alignment with Ahura Mazda’s truth and Good Mind."
+  },
+  {
+    "Index": "78",
+    "Primary": "40, father",
+    "Primary Name": "Ameretat",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "Ameretat is explicitly named in the Younger Avestan corpus among the Amesha Spentas as immortality; developed Zoroastrian tradition especially associates Ameretat with plants and nourishment."
+  },
+  {
+    "Index": "79",
+    "Primary": "9, text",
+    "Primary Name": "The Gathas",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "indirect connection",
+    "Note": "The selected Younger Avestan Yashts inherit Old Avestan concepts such as Ahura Mazda, asha, sacred speech, and Zarathustra’s authority while greatly expanding the individually praised divine and heroic world."
+  },
+  {
+    "Index": "80",
+    "Primary": "8, text",
+    "Primary Name": "Yasna Haptanghaiti and Old Avestan Liturgy",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "indirect connection",
+    "Note": "The selected Yashts continue Old Avestan patterns of invocation, praise, sacrifice, and devotion to Ahura Mazda, while directing full hymns to a broader body of individual yazatas and heroic figures."
+  },
+  {
+    "Index": "81",
+    "Primary": "9, text",
+    "Primary Name": "The Gathas",
+    "Secondary": "21, text",
+    "Secondary Name": "Vendidad (Vidēvdād)",
+    "Connection Category": "indirect connection",
+    "Note": "The Vendidad belongs to the later Avestan priestly tradition and incorporates inherited Gathic formulas and prayers into purification and protective contexts; it does not cite “The Gathas” as a separately titled book."
+  },
+  {
+    "Index": "82",
+    "Primary": "8, text",
+    "Primary Name": "Yasna Haptanghaiti and Old Avestan Liturgy",
+    "Secondary": "21, text",
+    "Secondary Name": "Vendidad (Vidēvdād)",
+    "Connection Category": "indirect connection",
+    "Note": "The Yasna Haptanghaiti and the Vendidad belong to different layers and functions of the Avestan ritual tradition. They share Mazda-worship, sacred creation, ritual speech, and concern for maintaining ordered relations between worshippers and the divine world."
+  },
+  {
+    "Index": "83",
+    "Primary": "11, text",
+    "Primary Name": "Select Yashts",
+    "Secondary": "21, text",
+    "Secondary Name": "Vendidad (Vidēvdād)",
+    "Connection Category": "indirect connection",
+    "Note": "The selected Yashts and the Vendidad are distinct Younger Avestan corpora that share divine figures, heroic traditions, sacred geography, and cosmic opposition while serving different functions: hymnic praise and myth in the Yashts, and ritual-purity instruction in the Vendidad."
+  },
+  {
+    "Index": "84",
+    "Primary": "30, father",
+    "Primary Name": "Achaemenes",
+    "Secondary": "13, text",
+    "Secondary Name": "Behistun Inscription",
+    "Connection Category": "explicit reference",
+    "Note": "The Behistun Inscription explicitly names Achaemenes at the beginning of Darius’s genealogy as the ancestor from whom the Achaemenid line takes its name. The claim is central to Darius’s dynastic legitimation, although Achaemenes’s independent historicity remains uncertain."
+  },
+  {
+    "Index": "85",
+    "Primary": "30, father",
+    "Primary Name": "Achaemenes",
+    "Secondary": "12, text",
+    "Secondary Name": "Pasargadae Inscriptions (CMa, CMb)",
+    "Connection Category": "indirect connection",
+    "Note": "CMa and CMb call Cyrus an “Achaemenid,” indirectly linking him to the eponymous ancestor Achaemenes. Because the inscriptions were probably added under Darius, this label also participates in later dynastic legitimation."
+  },
+  {
+    "Index": "86",
+    "Primary": "31, father",
+    "Primary Name": "Cyrus the Great",
+    "Secondary": "13, text",
+    "Secondary Name": "Behistun Inscription",
+    "Connection Category": "explicit reference",
+    "Note": "The Behistun Inscription explicitly names Cyrus as the father of Cambyses and places the preceding royal house within the family to which Darius claims to belong."
+  },
+  {
+    "Index": "87",
+    "Primary": "32, father",
+    "Primary Name": "Cambyses II",
+    "Secondary": "13, text",
+    "Secondary Name": "Behistun Inscription",
+    "Connection Category": "explicit reference",
+    "Note": "Cambyses is a major figure in the Behistun narrative: Darius identifies him as Cyrus’s son and predecessor, recounts the killing of Bardiya, his Egyptian campaign, his death, and the succession crisis exploited by Gaumata. The account is Darius’s partisan justification of his accession."
+  },
+  {
+    "Index": "88",
+    "Primary": "33, father",
+    "Primary Name": "Darius I",
+    "Secondary": "12, text",
+    "Secondary Name": "Pasargadae Inscriptions (CMa, CMb)",
+    "Connection Category": "indirect connection",
+    "Note": "The surviving CMa and CMb inscriptions commemorate Cyrus but were probably carved during a second phase of work at Pasargadae under Darius I. Their connection to Darius is therefore one of likely commissioning and dynastic presentation rather than explicit self-reference."
+  },
+  {
+    "Index": "89",
+    "Primary": "33, father",
+    "Primary Name": "Darius I",
+    "Secondary": "15, text",
+    "Secondary Name": "Persepolis Fortification Tablets",
+    "Connection Category": "indirect connection",
+    "Note": "The Persepolis Fortification Tablets are dated to 509–494 BCE, the thirteenth through twenty-eighth regnal years of Darius I, and document the administrative system operating from his royal center."
+  },
+  {
+    "Index": "90",
+    "Primary": "34, father",
+    "Primary Name": "Xerxes I",
+    "Secondary": "19, text",
+    "Secondary Name": "The Daiva Inscription (Xerxes I)",
+    "Connection Category": "explicit reference",
+    "Note": "Xerxes I is the speaker and commissioning king of XPh. He presents his kingship as granted by Ahura Mazda, lists subject lands, and states that he destroyed a place where daiva were worshipped and established proper worship; the place and political context remain disputed."
+  },
+  {
+    "Index": "91",
+    "Primary": "10, father",
+    "Primary Name": "Harahvaitī",
+    "Secondary": "21, text",
+    "Secondary Name": "Vendidad (Vidēvdād)",
+    "Connection Category": "explicit reference",
+    "Note": "Vendidad 1 explicitly names Harahvaitī as one of the good lands created by Ahura Mazda, corresponding to Old Persian Harauvatiš and the region conventionally called Arachosia."
+  },
+  {
+    "Index": "92",
+    "Primary": "14, father",
+    "Primary Name": "Aži Sruvara",
+    "Secondary": "11, text",
+    "Secondary Name": "Select Yashts",
+    "Connection Category": "explicit reference",
+    "Note": "Aži Sruvara is explicitly named in the Avestan heroic material preserved in the selected Yashts as the poisonous, horse- and man-devouring dragon slain by Kərəsāspa."
+  },
+  {
+    "Index": "93",
+    "Primary": "15, father",
+    "Primary Name": "Jamshid (Yima in Avestan)",
+    "Secondary": "21, text",
+    "Secondary Name": "Vendidad (Vidēvdād)",
+    "Connection Category": "explicit reference",
+    "Note": "Vendidad 2 is the principal surviving Avestan narrative of Yima: Ahura Mazda asks him to preserve and enlarge the world and later commands him to construct the Vara that protects chosen humans, animals, and plants from a catastrophic winter."
+  },
+  {
+    "Index": "94",
+    "Primary": "16, father",
+    "Primary Name": "Zahhāk (Aži Dahāka)",
+    "Secondary": "21, text",
+    "Secondary Name": "Vendidad (Vidēvdād)",
+    "Connection Category": "explicit reference",
+    "Note": "Vendidad 1 explicitly refers to Aži Dahāka in connection with Varena, the land in which Thraētaona was born and from which the dragon-slayer tradition is recalled."
+  },
+  {
+    "Index": "95",
+    "Primary": "17, father",
+    "Primary Name": "Ferīdūn (Thraētaona)",
+    "Secondary": "21, text",
+    "Secondary Name": "Vendidad (Vidēvdād)",
+    "Connection Category": "explicit reference",
+    "Note": "Vendidad 1 explicitly names Thraētaona as the hero born in Varena who smote Aži Dahāka; later chapters also invoke his fravashi in protective and healing contexts."
+  },
+  {
+    "Index": "96",
+    "Primary": "28, father",
+    "Primary Name": "Zarathustra",
+    "Secondary": "21, text",
+    "Secondary Name": "Vendidad (Vidēvdād)",
+    "Connection Category": "explicit reference",
+    "Note": "Zarathustra is the human interlocutor throughout the Vendidad. He repeatedly questions Ahura Mazda about lands, purity, pollution, ritual procedure, punishment, medicine, and protection against demonic forces."
+  },
+  {
+    "Index": "97",
+    "Primary": "12, father",
+    "Primary Name": "Āθravan",
+    "Secondary": "21, text",
+    "Secondary Name": "Vendidad (Vidēvdād)",
+    "Connection Category": "explicit reference",
+    "Note": "The Vendidad explicitly uses āθravan as a designation for a Zoroastrian priest and distinguishes legitimate priestly qualification from false claims to the office, especially in its discussion of the unworthy priest."
+  },
+  {
+    "Index": "98",
+    "Primary": "13, father",
+    "Primary Name": "Ātar",
+    "Secondary": "21, text",
+    "Secondary Name": "Vendidad (Vidēvdād)",
+    "Connection Category": "explicit reference",
+    "Note": "Ātar, the fire of Ahura Mazda, is explicitly named throughout the Vendidad. The text regulates protection of fire from corpse pollution, refers to fire in ritual purification, and treats it as a sacred presence that must not be contaminated."
+  },
+  {
+    "Index": "99",
+    "Primary": "38, father",
+    "Primary Name": "Khshathra Vairya",
+    "Secondary": "21, text",
+    "Secondary Name": "Vendidad (Vidēvdād)",
+    "Connection Category": "explicit reference",
+    "Note": "Vendidad 20 explicitly states that the primordial healer Thrita obtained a source of remedies from Khshathra Vairya, linking desirable dominion and its later association with metal to the origin of surgical healing."
+  },
+  {
+    "Index": "100",
+    "Primary": "33, father",
+    "Primary Name": "Darius I",
+    "Secondary": "34, father",
+    "Secondary Name": "Xerxes I",
+    "Connection Category": "familial: father/son",
+    "Note": "Darius I was the father and royal predecessor of Xerxes I. Xerxes repeatedly grounds his legitimacy in descent from Darius and presents his building and imperial rule as a continuation of his father’s kingship."
+  },
+  {
+    "Index": "101",
+    "Primary": "34, father",
+    "Primary Name": "Xerxes I",
+    "Secondary": "35, father",
+    "Secondary Name": "Esther",
+    "Connection Category": "familial: spouses/consorts",
+    "Note": "Within the literary narrative of the Book of Esther, Esther becomes queen and consort of Ahasuerus, conventionally identified with Xerxes I. This is a scriptural-literary relationship and is not independently confirmed by Achaemenid records."
+  },
+  {
+    "Index": "102",
+    "Primary": "16, father",
+    "Primary Name": "Zahhāk (Aži Dahāka)",
+    "Secondary": "17, father",
+    "Secondary Name": "Ferīdūn (Thraētaona)",
+    "Connection Category": "custom connection",
+    "Note": "Thraētaona/Ferīdūn is the canonical conqueror of Aži Dahāka/Zahhāk. In the Avesta the conflict is dragon-slaying; in later Persian epic it becomes the overthrow and imprisonment of a tyrannical king."
+  },
+  {
+    "Index": "103",
+    "Primary": "16, father",
+    "Primary Name": "Zahhāk (Aži Dahāka)",
+    "Secondary": "18, father",
+    "Secondary Name": "Kāveh the Blacksmith",
+    "Connection Category": "custom connection",
+    "Note": "In later Persian epic, Kāveh leads the public revolt against Zahhāk, rejects the tyrant’s declaration of legitimacy, and raises his leather apron as the banner of rebellion."
+  },
+  {
+    "Index": "104",
+    "Primary": "17, father",
+    "Primary Name": "Ferīdūn (Thraētaona)",
+    "Secondary": "18, father",
+    "Secondary Name": "Kāveh the Blacksmith",
+    "Connection Category": "custom connection",
+    "Note": "Ferīdūn and Kāveh are allied in the later epic overthrow of Zahhāk: Kāveh mobilizes resistance and brings popular support to Ferīdūn’s claim, while Ferīdūn defeats and binds the tyrant."
+  },
+  {
+    "Index": "105",
+    "Primary": "17, father",
+    "Primary Name": "Ferīdūn (Thraētaona)",
+    "Secondary": "21, father",
+    "Secondary Name": "Manūčehr",
+    "Connection Category": "familial: ancestor/descendant",
+    "Note": "In later Iranian genealogy, Manūčehr is a descendant of Ferīdūn through Iraj. His accession and vengeance against the lines of Salm and Tur continue the dynastic consequences of Ferīdūn’s division of the world."
+  },
+  {
+    "Index": "106",
+    "Primary": "22, father",
+    "Primary Name": "Siyāvaš",
+    "Secondary": "23, father",
+    "Secondary Name": "Kai Khosrow (Haosravah)",
+    "Connection Category": "familial: father/son",
+    "Note": "Siyāvaš is the father of Kai Khosrow. Kai Khosrow’s return, accession, and campaign against Afrāsiāb are framed in later epic as the vindication and avenging of his murdered father."
+  },
+  {
+    "Index": "107",
+    "Primary": "24, father",
+    "Primary Name": "Rostam",
+    "Secondary": "26, father",
+    "Secondary Name": "Sohrāb",
+    "Connection Category": "familial: father/son",
+    "Note": "Rostam is the father of Sohrāb in the Persian epic tradition. Their fatal encounter turns on concealed identity: Rostam kills the young warrior before recognizing him as his son."
+  },
+  {
+    "Index": "108",
+    "Primary": "27, father",
+    "Primary Name": "Goštāsp (Vištāspa)",
+    "Secondary": "29, father",
+    "Secondary Name": "Esfandiyār",
+    "Connection Category": "familial: father/son",
+    "Note": "Goštāsp is the father and king of Esfandiyār in later Zoroastrian and epic tradition. Esfandiyār’s campaigns and final mission against Rostam are repeatedly shaped by his father’s commands and delayed promise of succession."
+  },
+  {
+    "Index": "109",
+    "Primary": "28, father",
+    "Primary Name": "Zarathustra",
+    "Secondary": "27, father",
+    "Secondary Name": "Goštāsp (Vištāspa)",
+    "Connection Category": "custom connection",
+    "Note": "Zarathustra and Vištāspa are linked as religious teacher and royal patron. The Gathas name Vištāspa among Zarathustra’s supporters, while later tradition expands this into the king’s dramatic conversion and protection of the new religion."
+  },
+  {
+    "Index": "110",
+    "Primary": "24, father",
+    "Primary Name": "Rostam",
+    "Secondary": "29, father",
+    "Secondary Name": "Esfandiyār",
+    "Connection Category": "custom connection",
+    "Note": "Rostam and Esfandiyār are tragic adversaries in later Persian epic. Esfandiyār, compelled by Goštāsp to bind Rostam, is ultimately killed by Rostam with the specially prepared tamarisk arrow revealed through Sīmurgh’s aid."
+  },
+  {
+    "Index": "111",
+    "Primary": "1, text",
+    "Primary Name": "Silver Beaker of Puzur-Sušinak (partially deciphered)",
+    "Secondary": "2, text",
+    "Secondary Name": "Kutik-Inshushinak Inscriptions",
+    "Connection Category": "partof",
+    "Note": "The silver beaker is a specific inscribed object associated with Puzur-Sušinak/Kutik-Inshushinak and belongs within the broader corpus of royal and votive inscriptions attributed to that ruler."
+  },
+  {
+    "Index": "112",
+    "Primary": "1, text",
+    "Primary Name": "Silver Beaker of Puzur-Sušinak (partially deciphered)",
+    "Secondary": "3, text",
+    "Secondary Name": "Linear Elamite Inscriptions from Susa (partially deciphered)",
+    "Connection Category": "partof",
+    "Note": "The silver beaker is one artifact within the wider corpus of Linear Elamite inscriptions from Susa and related contexts. Its proposed reading therefore depends on the still-debated decipherment of that script."
+  },
+  {
+    "Index": "113",
+    "Primary": "15, text",
+    "Primary Name": "Persepolis Fortification Tablets",
+    "Secondary": "17, text",
+    "Secondary Name": "Persepolis Treasury Tablets",
+    "Connection Category": "indirect connection",
+    "Note": "The Fortification and Treasury tablets are successive, partly overlapping administrative archives from Persepolis. Together they document a shift in surviving records from regional commodity movements under Darius toward palace-centered disbursements, including silver payments, under Darius, Xerxes, and Artaxerxes I."
   }
 ]

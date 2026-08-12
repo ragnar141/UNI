@@ -1,0 +1,20 @@
+[
+  {
+    "Index": "1",
+    "Primary": "1, text",
+    "Primary Name": "Dynastic Prophecy",
+    "Secondary": "5, text",
+    "Secondary Name": "Uruk Prophecy",
+    "Connection Category": "indirect connection",
+    "Note": "Both texts belong to the Babylonian genre of retrospective prophecy, presenting sequences of past rulers as though their reigns were being predicted in advance. They contrast destructive or illegitimate kings with an anticipated righteous ruler who restores political and cosmic order. No direct borrowing between the surviving texts can be established, but their literary structure and conception of history are closely related."
+  },
+  {
+    "Index": "2",
+    "Primary": "2, text",
+    "Primary Name": "Saros Canon",
+    "Secondary": "3, text",
+    "Secondary Name": "Planetary Ephemerides",
+    "Connection Category": "indirect connection",
+    "Note": "Both corpora represent the mathematical and predictive branch of late Babylonian astronomy. The Saros Canon organizes recurring eclipse possibilities through long lunar cycles, while the Planetary Ephemerides calculate the expected positions and appearances of planets through numerical schemes. They are distinct genres, but products of the same developing computational astronomical tradition."
+  }
+]

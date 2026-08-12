@@ -1,0 +1,56 @@
+[
+  {
+    "Index": "1",
+    "Primary": "2, text",
+    "Primary Name": "Metamorphoses (The Golden Ass)",
+    "Secondary": "21, text",
+    "Secondary Name": "Against the Valentinians (Adversus Valentinianos)",
+    "Connection Category": "indirect connection",
+    "Note": "Tertullian appears to make a deliberate literary allusion to Apuleius’ Metamorphoses while ridiculing Valentinian cosmology. In discussing one of the Valentinian divine names, he exploits language suggestive of the braying of an ass, using an Apuleian association to sharpen his satire. The connection has been identified as an unusually early instance of the reception of the Metamorphoses."
+  },
+  {
+    "Index": "2",
+    "Primary": "15, text",
+    "Primary Name": "On the Prescription of Heretics (De Praescriptione Haereticorum)",
+    "Secondary": "31, text",
+    "Secondary Name": "On the Unity of the Church (De unitate ecclesiae)",
+    "Connection Category": "indirect connection",
+    "Note": "Tertullian’s On the Prescription of Heretics develops an influential conception of the Church grounded in apostolic tradition, legitimate succession, the rule of faith, and exclusion of heretical claimants from authoritative interpretation. Cyprian’s On the Unity of the Church develops this North African ecclesiological inheritance further, emphasizing the indivisibility of the Church and the episcopate as the visible structure preserving ecclesial communion."
+  },
+  {
+    "Index": "3",
+    "Primary": "8, text",
+    "Primary Name": "On Baptism (De Baptismo)",
+    "Secondary": "34, text",
+    "Secondary Name": "Letters (Epistulae)",
+    "Connection Category": "indirect connection",
+    "Note": "Tertullian’s On Baptism argues that baptism administered outside the true Church cannot simply be treated as equivalent to Christian baptism. Cyprian’s Letters later make the validity of baptism performed by heretics and schismatics a major controversy, repeatedly defending the African practice of baptizing those entering the Church from such groups. Cyprian’s position closely resembles Tertullian’s, although both may also preserve an older North African Christian tradition rather than a simple direct textual dependence."
+  },
+  {
+    "Index": "4",
+    "Primary": "4, text",
+    "Primary Name": "Apology (Apologeticus)",
+    "Secondary": "37, text",
+    "Secondary Name": "Divine Institutes (Divinae Institutiones)",
+    "Connection Category": "explicit reference",
+    "Note": "Lactantius explicitly names Tertullian’s Apology in Book V of the Divine Institutes and recognizes it as an earlier defense of the same Christian cause. He nevertheless distinguishes his own project from Tertullian’s, arguing that the Apology primarily answers accusations whereas the Divine Institutes attempts a more comprehensive philosophical and theological presentation of Christianity."
+  },
+  {
+    "Index": "5",
+    "Primary": "27, text",
+    "Primary Name": "To Scapula (Ad Scapulam)",
+    "Secondary": "38, text",
+    "Secondary Name": "On the Deaths of the Persecutors (De Mortibus Persecutorum)",
+    "Connection Category": "indirect connection",
+    "Note": "To Scapula warns a persecuting Roman governor that those who wage war against Christians and against God can themselves fall under divine judgment, supporting the warning with examples of misfortunes suffered by persecutors. Lactantius’ On the Deaths of the Persecutors develops the same apologetic interpretation on a much larger historical scale, presenting the disastrous ends of persecuting emperors as manifestations of divine retribution."
+  },
+  {
+    "Index": "6",
+    "Primary": "35, text",
+    "Primary Name": "Against the Pagans (Adversus Nationes)",
+    "Secondary": "37, text",
+    "Secondary Name": "Divine Institutes (Divinae Institutiones)",
+    "Connection Category": "indirect connection",
+    "Note": "Arnobius’ Against the Pagans and Lactantius’ Divine Institutes belong to successive stages of North African Latin Christian apologetics during the age of the Great Persecution. Later tradition identifies Lactantius as a pupil of Arnobius, and both works confront educated pagan criticism, traditional religion, and the claim that Christianity threatened Roman society. The Divine Institutes pursues a considerably more systematic philosophical and theological program, so the relationship is best treated as intellectual and apologetic continuity rather than secure direct textual dependence."
+  }
+]

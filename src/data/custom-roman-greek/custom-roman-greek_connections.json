@@ -1,0 +1,65 @@
+[
+  {
+    "Index": "1",
+    "Primary": "1, text",
+    "Primary Name": "Histories",
+    "Secondary": "5, text",
+    "Secondary Name": "Parallel Lives",
+    "Connection Category": "indirect connection",
+    "Note": "Plutarch draws on Polybius for a number of Hellenistic and Roman historical episodes treated in the Parallel Lives, particularly in biographies such as Flamininus, Aemilius Paulus, Cleomenes, and Philopoemen. Plutarch reshapes historiographical material found in Polybius into biographical narratives centered more strongly on character, ethical judgment, and exemplary conduct."
+  },
+  {
+    "Index": "2",
+    "Primary": "1, text",
+    "Primary Name": "Histories",
+    "Secondary": "14, text",
+    "Secondary Name": "Description of Greece",
+    "Connection Category": "explicit reference",
+    "Note": "Pausanias explicitly discusses Polybius at Megalopolis, identifies him as the author of a history concerning Roman expansion and the destruction of Carthage, and records traditions concerning Polybius’ efforts on behalf of Greek communities following Roman conquest."
+  },
+  {
+    "Index": "3",
+    "Primary": "3, text",
+    "Primary Name": "Orations",
+    "Secondary": "22, text",
+    "Secondary Name": "Lives of the Sophists",
+    "Connection Category": "explicit reference",
+    "Note": "Philostratus explicitly discusses Dio Chrysostom in Lives of the Sophists, placing him among philosophers who also acquired a reputation for sophistic eloquence. Dio’s surviving Orations exemplify the combination of philosophy, civic rhetoric, and public performance that Philostratus associates with imperial Greek intellectual culture."
+  },
+  {
+    "Index": "4",
+    "Primary": "16, text",
+    "Primary Name": "Chaldean Oracles",
+    "Secondary": "29, text",
+    "Secondary Name": "On the Mysteries",
+    "Connection Category": "indirect connection",
+    "Note": "The Chaldean Oracles became an important philosophical and religious authority for Iamblichus, who wrote an extensive commentary on them. On the Mysteries reflects closely related Chaldean ideas concerning divine hierarchy, ritual symbols, intermediary beings, theurgy, and the soul’s ascent toward the divine."
+  },
+  {
+    "Index": "5",
+    "Primary": "16, text",
+    "Primary Name": "Chaldean Oracles",
+    "Secondary": "26, text",
+    "Secondary Name": "Orations",
+    "Connection Category": "indirect connection",
+    "Note": "Julian’s religious Orations belong to the late Platonist tradition in which the Chaldean Oracles had become authoritative. His theological writings employ hierarchical cosmology, mediating divine powers, and theurgic conceptions closely associated with the Chaldean and Iamblichean tradition."
+  },
+  {
+    "Index": "6",
+    "Primary": "29, text",
+    "Primary Name": "On the Mysteries",
+    "Secondary": "26, text",
+    "Secondary Name": "Orations",
+    "Connection Category": "indirect connection",
+    "Note": "Julian explicitly regarded Iamblichus as a major philosophical and theological authority, particularly in his Hymn to King Helios. Julian’s religious Orations develop an Iamblichean synthesis of Platonic philosophy, traditional cult, divine hierarchy, ritual practice, and theurgy closely related to the system defended in On the Mysteries."
+  },
+  {
+    "Index": "7",
+    "Primary": "18, text",
+    "Primary Name": "Outlines of Pyrrhonism",
+    "Secondary": "21, text",
+    "Secondary Name": "Lives and Opinions of Eminent Philosophers",
+    "Connection Category": "indirect connection",
+    "Note": "Diogenes Laërtius’ account of the Pyrrhonist tradition includes Sextus Empiricus within its philosophical succession and presents doctrines and arguments closely related to the skeptical tradition systematized in Outlines of Pyrrhonism. The connection is therefore historical and doctrinal, although Diogenes does not clearly identify the Outlines itself as his source."
+  }
+]

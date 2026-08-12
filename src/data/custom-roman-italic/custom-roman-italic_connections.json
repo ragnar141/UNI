@@ -1,0 +1,1154 @@
+[
+  {
+    "Index": "1",
+    "Primary": "1, father",
+    "Primary Name": "Janus (Ianus)",
+    "Secondary": "3, father",
+    "Secondary Name": "Saturn (Saturnus)",
+    "Connection Category": "custom connection",
+    "Note": "Janus hosted Saturn when he arrived as an exile in Latium; ancient tradition makes Janus the primordial king who welcomed Saturn and shared his kingdom with him."
+  },
+  {
+    "Index": "2",
+    "Primary": "1, father",
+    "Primary Name": "Janus (Ianus)",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy presents Janus as guardian of Rome’s passage between war and peace, describing Numa’s Janus shrine and placing the god first in a formal Roman invocation."
+  },
+  {
+    "Index": "3",
+    "Primary": "1, father",
+    "Primary Name": "Janus (Ianus)",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius of Halicarnassus names Janus Curiatius in the purification of Horatius, connecting the god with expiation and ritual passage after bloodshed."
+  },
+  {
+    "Index": "4",
+    "Primary": "1, father",
+    "Primary Name": "Janus (Ianus)",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "Ovid devotes extended passages to Janus in the Fasti's January entries; Janus himself speaks at length in the first person explaining his dual-faced nature, his role as guardian of all beginnings, and his primordial kingship in Latium."
+  },
+  {
+    "Index": "5",
+    "Primary": "1, father",
+    "Primary Name": "Janus (Ianus)",
+    "Secondary": "45, text",
+    "Secondary Name": "Metamorphoses",
+    "Connection Category": "explicit reference",
+    "Note": "Ovid also names Janus as the father of Canens and places the miraculous spring that blocks the Sabines beside his Roman shrine."
+  },
+  {
+    "Index": "6",
+    "Primary": "1, father",
+    "Primary Name": "Janus (Ianus)",
+    "Secondary": "19, text",
+    "Secondary Name": "On the Nature of the Gods (De Natura Deorum)",
+    "Connection Category": "explicit reference",
+    "Note": "Cicero discusses Janus’s theological and ritual function. The Stoic speaker explains that because beginnings and endings are crucial, Janus leads Roman sacrifices. He also connects Janus’s name with movement and explains the related terms for passages."
+  },
+  {
+    "Index": "7",
+    "Primary": "2, father",
+    "Primary Name": "Venus",
+    "Secondary": "11, father",
+    "Secondary Name": "Aeneas",
+    "Connection Category": "familial: mother/son",
+    "Note": "Venus is the divine mother of Aeneas by the mortal Anchises; she protects and guides him throughout the Aeneid and pleads his cause before Jupiter and Neptune."
+  },
+  {
+    "Index": "8",
+    "Primary": "2, father",
+    "Primary Name": "Venus",
+    "Secondary": "15, text",
+    "Secondary Name": "On the Nature of Things (De Rerum Natura)",
+    "Connection Category": "explicit reference",
+    "Note": "Lucretius opens the entire poem with an invocation to Venus. He calls her the mother of the descendants of Aeneas and presents her as the generative power through which living creatures reproduce and nature renews itself. He also asks her to pacify Mars so that Rome may have peace. Venus therefore functions simultaneously as Rome’s ancestral mother, the embodiment of natural generation and the poem’s divine addressee."
+  },
+  {
+    "Index": "9",
+    "Primary": "2, father",
+    "Primary Name": "Venus",
+    "Secondary": "16, text",
+    "Secondary Name": "Poems (Carmina)",
+    "Connection Category": "explicit reference",
+    "Note": "Venus appears repeatedly across Catullus’s collection rather than in one continuous narrative. She receives vows, represents sexual attraction and erotic suffering, assists marriage and embodies beauty or charm. In Poem 36, Catullus directly addresses the sea-born goddess; in the wedding poems she supports lawful desire and fertility; elsewhere “Venus” can mean love, sexuality or irresistible attractiveness."
+  },
+  {
+    "Index": "10",
+    "Primary": "2, father",
+    "Primary Name": "Venus",
+    "Secondary": "35, text",
+    "Secondary Name": "Aeneid",
+    "Connection Category": "explicit reference",
+    "Note": "Venus is the mother of Aeneas and grandmother of Ascanius. She repeatedly protects her son: she appeals to Jupiter concerning his fate, disguises herself to guide him, uses Cupid to influence Dido and persuades Vulcan to forge Aeneas’s armour. Her concern for Aeneas also connects her directly to the destined founding of the Roman people."
+  },
+  {
+    "Index": "11",
+    "Primary": "2, father",
+    "Primary Name": "Venus",
+    "Secondary": "44, text",
+    "Secondary Name": "Ars Amatoria",
+    "Connection Category": "explicit reference",
+    "Note": "Venus is effectively the patron goddess of Ovid’s project. At the beginning, Ovid says that Venus appointed him as instructor to tender Love. Throughout the poem, she represents the sphere of seduction, sexual relationships and erotic expertise that the poet claims to teach."
+  },
+  {
+    "Index": "12",
+    "Primary": "2, father",
+    "Primary Name": "Venus",
+    "Secondary": "45, text",
+    "Secondary Name": "Metamorphoses",
+    "Connection Category": "explicit reference",
+    "Note": "Venus participates in several major stories. She is the lover of Mars and Adonis, answers Pygmalion’s prayer, punishes or transforms those who reject her authority and asks Jupiter to grant divinity to her son Aeneas. She therefore appears as lover, mother, divine benefactor and dangerous power governing desire and transformation."
+  },
+  {
+    "Index": "13",
+    "Primary": "2, father",
+    "Primary Name": "Venus",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "Venus dominates the opening portion of Book 4. Ovid assigns April to her, discusses the proposed connection between her and the month’s name, traces Roman and Julian descent through her son Aeneas and describes festivals and cults including Venus Verticordia and Venus Erycina. She is portrayed as the reproductive force preserving living species and as the ancestral goddess of the Roman people."
+  },
+  {
+    "Index": "14",
+    "Primary": "2, father",
+    "Primary Name": "Venus",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius identifies Venus as the divine mother of Aeneas and records cult traditions established in her honour during the Trojan migration that preceded Rome’s foundation."
+  },
+  {
+    "Index": "15",
+    "Primary": "3, father",
+    "Primary Name": "Saturn (Saturnus)",
+    "Secondary": "4, father",
+    "Secondary Name": "Jupiter (Iuppiter)",
+    "Connection Category": "familial: father/son",
+    "Note": "In the Roman form of the Cronus–Zeus myth, Saturn fathers Jupiter with Ops. Saturn attempts to prevent his children from replacing him, traditionally by swallowing them, but Jupiter survives and eventually defeats and dethrones his father, after which Saturn is driven from heaven and takes refuge in Latium."
+  },
+  {
+    "Index": "16",
+    "Primary": "3, father",
+    "Primary Name": "Saturn (Saturnus)",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "In the surviving Fasti, Ovid presents Saturn as the exiled ruler welcomed by Janus in Latium and recalls myths concerning his overthrow and children."
+  },
+  {
+    "Index": "17",
+    "Primary": "3, father",
+    "Primary Name": "Saturn (Saturnus)",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy records the dedication of Saturn’s temple and the establishment of the Saturnalia as a festival. He later describes sacrifices at the temple, a public banquet and a lectisternium during the crisis of 217 BCE, followed by an order that the festival be observed perpetually."
+  },
+  {
+    "Index": "18",
+    "Primary": "3, father",
+    "Primary Name": "Saturn (Saturnus)",
+    "Secondary": "45, text",
+    "Secondary Name": "Metamorphoses",
+    "Connection Category": "explicit reference",
+    "Note": "Ovid associates Saturn’s reign with the Golden Age, when humanity lived peacefully without laws, warfare, agriculture or private property. Once Saturn is banished and Jupiter assumes control of the world, the inferior Silver Age begins. Saturn therefore represents the lost primordial order displaced by Jupiter’s newer and increasingly difficult world."
+  },
+  {
+    "Index": "19",
+    "Primary": "3, father",
+    "Primary Name": "Saturn (Saturnus)",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius identifies Roman Saturn with Greek Cronus and reports that ancient Italy was regarded as sacred to him because of its fertility and abundance. He discusses the Saturnian Hill, an ancient altar and sacrifices to Saturn, traditions connecting Hercules with the reform of Saturn’s rites, and the belief that Italy had once been called Saturnia."
+  },
+  {
+    "Index": "20",
+    "Primary": "3, father",
+    "Primary Name": "Saturn (Saturnus)",
+    "Secondary": "19, text",
+    "Secondary Name": "On the Nature of the Gods (De Natura Deorum)",
+    "Connection Category": "explicit reference",
+    "Note": "Cicero’s Stoic speaker interprets Saturn allegorically as time. Saturn’s devouring of his children symbolizes time consuming the passing ages, while Jupiter’s binding of Saturn represents the regulation of time through the ordered movements of the stars. Cicero also preserves the traditional genealogy in which Saturn is the father of Jupiter."
+  },
+  {
+    "Index": "21",
+    "Primary": "4, father",
+    "Primary Name": "Jupiter (Iuppiter)",
+    "Secondary": "5, father",
+    "Secondary Name": "Mars",
+    "Connection Category": "familial: father/son",
+    "Note": "Jupiter is traditionally the father and divine superior of Mars, linking Rome’s supreme sovereign god with its god of warfare and military victory; Ovid also preserves an alternative tradition in which Juno conceives Mars without Jupiter."
+  },
+  {
+    "Index": "22",
+    "Primary": "4, father",
+    "Primary Name": "Jupiter (Iuppiter)",
+    "Secondary": "5, text",
+    "Secondary Name": "Iguvine Tablets",
+    "Connection Category": "explicit reference",
+    "Note": "The tablets name Iuve Patre / Iuve Grabovius, the Umbrian counterpart and linguistic cognate of Roman Jupiter, not the Latin form Iuppiter. Iuve Grabovius occupies the highest position in the tablets’ divine triad, alongside Marte Grabovius and Vofionus Grabovius. The rites prescribe sacrifices of oxen to him outside the city gates and prayers asking him to protect the people, territory, men, and livestock of Iguvium."
+  },
+  {
+    "Index": "23",
+    "Primary": "4, father",
+    "Primary Name": "Jupiter (Iuppiter)",
+    "Secondary": "9, text",
+    "Secondary Name": "Comedies",
+    "Connection Category": "explicit reference",
+    "Note": "Jupiter is the central divine character of Plautus’s Amphitryon. He disguises himself as the general Amphitryon in order to sleep with Alcmena, while Mercury impersonates Amphitryon’s servant Sosia. Alcmena consequently bears Hercules as Jupiter’s son."
+  },
+  {
+    "Index": "24",
+    "Primary": "4, father",
+    "Primary Name": "Jupiter (Iuppiter)",
+    "Secondary": "35, text",
+    "Secondary Name": "Aeneid",
+    "Connection Category": "explicit reference",
+    "Note": "Jupiter is the supreme guarantor of fate in the Aeneid. When Venus fears for Aeneas, Jupiter assures her that the Trojan mission will succeed and foretells the rise of Rome and its future dominion. He repeatedly supervises the conflict, sends Mercury to enforce his decisions, restrains or negotiates with Juno and ensures that individual divine interventions cannot ultimately overturn destiny."
+  },
+  {
+    "Index": "25",
+    "Primary": "4, father",
+    "Primary Name": "Jupiter (Iuppiter)",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Jupiter appears throughout Livy as Rome’s supreme public god, especially under the title Jupiter Optimus Maximus. Consuls, generals and kings address him in vows and battlefield prayers; triumphs culminate at his Capitoline temple; treaties and oaths call upon him as divine witness; and lightning, thunder and auspices communicate his approval or displeasure."
+  },
+  {
+    "Index": "26",
+    "Primary": "4, father",
+    "Primary Name": "Jupiter (Iuppiter)",
+    "Secondary": "45, text",
+    "Secondary Name": "Metamorphoses",
+    "Connection Category": "explicit reference",
+    "Note": "Jupiter is one of the poem’s principal recurring gods. He destroys the corrupt human race with the flood, presides over the divine council and appears in numerous transformations undertaken to pursue figures such as Io, Callisto, Europa and others. He is also the father of Apollo, Mercury, Bacchus, Perseus and many additional divine or heroic figures. Ovid presents him simultaneously as cosmic ruler, judge, transformer, adulterous lover and founder of mythic genealogies."
+  },
+  {
+    "Index": "27",
+    "Primary": "4, father",
+    "Primary Name": "Jupiter (Iuppiter)",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "Jupiter appears throughout Ovid’s religious calendar in myths explaining Roman festivals, temples and divine titles. The poem describes Jupiter Elicius being summoned by Numa, Jupiter Victor, the Vinalia dedicated to him, his infancy under Amalthea’s protection, his struggle against the Giants and the legend of Jupiter Pistor saving the Capitol during the Gallic siege."
+  },
+  {
+    "Index": "28",
+    "Primary": "4, father",
+    "Primary Name": "Jupiter (Iuppiter)",
+    "Secondary": "19, text",
+    "Secondary Name": "On the Nature of the Gods (De Natura Deorum)",
+    "Connection Category": "explicit reference",
+    "Note": "Jupiter is central to Cicero’s debate about the gods. The Stoic speaker identifies him as the beneficent “father of gods and men,” associates him with the heavenly aether and cosmic reason, and explains the title Optimus Maximus. The work also examines his traditional relationships as son of Saturn, husband and brother of Juno, and brother of Neptune and Pluto, while the Academic speaker questions whether such anthropomorphic stories can be philosophically defended."
+  },
+  {
+    "Index": "29",
+    "Primary": "4, father",
+    "Primary Name": "Jupiter (Iuppiter)",
+    "Secondary": "17, text",
+    "Secondary Name": "De Republica (On the Republic)",
+    "Connection Category": "explicit reference",
+    "Note": "Scipio proposes beginning the discussion with Jupiter because everyone recognizes him as king of gods and men. Cicero then uses the “good Jupiter” as the divine model for legitimate kingship, contrasting the just king with the tyrant who merely seizes supreme power. Jupiter therefore serves as an analogy for ordered, beneficial and morally justified government."
+  },
+  {
+    "Index": "30",
+    "Primary": "4, father",
+    "Primary Name": "Jupiter (Iuppiter)",
+    "Secondary": "16, text",
+    "Secondary Name": "Poems (Carmina)",
+    "Connection Category": "explicit reference",
+    "Note": "Jupiter appears in several different registers across Catullus’s poems. He is invoked colloquially in the phrase “by Jupiter,” appears as the supreme possible romantic rival whom Lesbia supposedly would reject for Catullus, and functions as divine king and genealogical father in mythological poems. In Poem 64, Jupiter approves the marriage of Peleus and Thetis and attends it as father of the gods; elsewhere Catullus refers to his temple and to Diana as his daughter."
+  },
+  {
+    "Index": "31",
+    "Primary": "5, father",
+    "Primary Name": "Mars",
+    "Secondary": "13, father",
+    "Secondary Name": "Romulus",
+    "Connection Category": "familial: father/son",
+    "Note": "Roman tradition identifies Mars as Romulus’s divine father, although Livy questions whether Rhea Silvia’s claim was literal; Romulus later honoured Mars by placing his month first in the early Roman calendar."
+  },
+  {
+    "Index": "32",
+    "Primary": "5, father",
+    "Primary Name": "Mars",
+    "Secondary": "5, text",
+    "Secondary Name": "Iguvine Tablets",
+    "Connection Category": "explicit reference",
+    "Note": "The tablets explicitly invoke Marte Grabovius, an Umbrian form or close counterpart of Roman Mars. He belongs to the chief Grabovian triad with Iuve Grabovius and Vofionus Grabovius. The rites prescribe sacrifices to him near a city gate and invoke martial divinities during the purification and protection of Iguvium and its armed community."
+  },
+  {
+    "Index": "33",
+    "Primary": "5, father",
+    "Primary Name": "Mars",
+    "Secondary": "9, text",
+    "Secondary Name": "Comedies",
+    "Connection Category": "explicit reference",
+    "Note": "Mars appears in Plautus mainly through prayers, oaths and military language rather than as a developed dramatic character. The Asinaria prologue asks that Mars assist the audience, while a soldier in Bacchides invokes Mars and Bellona as guarantors of his martial courage. Mars can also appear in long comic lists of gods used to exaggerate the solemnity of an oath."
+  },
+  {
+    "Index": "34",
+    "Primary": "5, father",
+    "Primary Name": "Mars",
+    "Secondary": "15, text",
+    "Secondary Name": "On the Nature of Things (De Rerum Natura)",
+    "Connection Category": "explicit reference",
+    "Note": "In the poem’s opening invocation, Mars is the lover of Venus and the divine embodiment of warfare. Lucretius describes him resting in Venus’s embrace, overcome by love, and asks her to persuade him to grant Rome peace. The scene symbolically places love, fertility and natural generation above destructive warfare."
+  },
+  {
+    "Index": "35",
+    "Primary": "5, father",
+    "Primary Name": "Mars",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy begins Rome’s foundation story with Rhea Silvia naming Mars as the father of her twins, though he cautiously observes that she may have used the god’s name to make her pregnancy appear less disgraceful. Elsewhere, Numa establishes a flamen dedicated to Mars, and Roman battlefield prayers invoke Father Mars to grant strength and victory while bringing terror and death upon the enemy."
+  },
+  {
+    "Index": "36",
+    "Primary": "5, father",
+    "Primary Name": "Mars",
+    "Secondary": "35, text",
+    "Secondary Name": "Aeneid",
+    "Connection Category": "explicit reference",
+    "Note": "Virgil makes Mars part of Rome’s destined genealogy: Jupiter foretells that Ilia will bear Mars’s twins, and Romulus will establish the “walls of Mars.” In the underworld, Romulus is again identified as Mars’s son and marked by his father’s martial emblems. Throughout the war in Italy, Mars also acts as the divine force of battle, inspiring warriors, strengthening the Latins and personifying violent combat."
+  },
+  {
+    "Index": "37",
+    "Primary": "5, father",
+    "Primary Name": "Mars",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "Mars is the central god of Book 3, devoted to March. Ovid recounts Mars’s union with Rhea Silvia, the birth of the twins and Romulus’s decision to name the first month of his calendar after his divine father. Mars is described as Latium’s ancestral war god, whose protection and martial power helped Rome obtain empire and glory."
+  },
+  {
+    "Index": "38",
+    "Primary": "5, father",
+    "Primary Name": "Mars",
+    "Secondary": "45, text",
+    "Secondary Name": "Metamorphoses",
+    "Connection Category": "explicit reference",
+    "Note": "Ovid recounts the adulterous affair of Mars and Venus, whom Vulcan traps together in an invisible net. Later, Mars asks Jupiter to fulfil his promise of immortality for Romulus. After Jupiter agrees, Mars descends to the Palatine, seizes his son and carries him into heaven, where Romulus becomes Quirinus."
+  },
+  {
+    "Index": "39",
+    "Primary": "5, father",
+    "Primary Name": "Mars",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius reports that the Romans believed Romulus and Remus to be sons of Mars, while admitting that their paternity could not be established with certainty. He also records the tradition that Mars carried Romulus into heaven and discusses whether the Sabine god Quirinus was Mars himself or a separate martial deity receiving similar honours."
+  },
+  {
+    "Index": "40",
+    "Primary": "6, father",
+    "Primary Name": "Faunus",
+    "Secondary": "7, father",
+    "Secondary Name": "Evander",
+    "Connection Category": "custom connection",
+    "Note": "Faunus, king of the Aborigines, welcomed Evander and his Arcadian settlers to Latium and granted them land on which they founded Pallantium."
+  },
+  {
+    "Index": "41",
+    "Primary": "6, father",
+    "Primary Name": "Faunus",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Faunus does not receive a major mythological narrative in Livy’s surviving books. Livy records the construction and later dedication of a temple to Faunus on the Tiber Island: the building was commissioned from money collected through fines and dedicated in 194 BCE."
+  },
+  {
+    "Index": "42",
+    "Primary": "6, father",
+    "Primary Name": "Faunus",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "Faunus appears repeatedly in Ovid’s calendar. His altar on the Tiber Island receives sacrifice on February 13, while the Lupercalia is presented as the festival of the “two-horned Faunus,” whom Ovid identifies with the Arcadian Pan brought to Italy by Evander. Ovid also tells the comic story explaining the Luperci’s ritual nudity: Faunus attempts to approach Omphale but, deceived by exchanged clothing, climbs into bed with Hercules instead."
+  },
+  {
+    "Index": "43",
+    "Primary": "6, father",
+    "Primary Name": "Faunus",
+    "Secondary": "35, text",
+    "Secondary Name": "Aeneid",
+    "Connection Category": "explicit reference",
+    "Note": "Virgil makes Faunus the divine father and prophetic adviser of Latinus, whose oracle commands that Lavinia marry a foreigner and thereby prepares the union of Trojans and Latins."
+  },
+  {
+    "Index": "44",
+    "Primary": "6, father",
+    "Primary Name": "Faunus",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius discusses Faunus as one of the native Italic deities worshipped by the original inhabitants of Latium before the Trojan arrival; he is placed in the genealogy of Latian kings."
+  },
+  {
+    "Index": "45",
+    "Primary": "7, father",
+    "Primary Name": "Evander",
+    "Secondary": "35, text",
+    "Secondary Name": "Aeneid",
+    "Connection Category": "explicit reference",
+    "Note": "Book 8 makes Evander a major character. He rules the Arcadian settlement of Pallanteum on the future site of Rome, receives Aeneas as a guest and recognizes him as the son of Anchises, whom Evander had known in his youth. Evander accepts Aeneas’s request for alliance, directs him toward the Etruscans, supplies troops and entrusts his son Pallas to Aeneas. He also recounts Hercules’s defeat of Cacus and guides Aeneas through the sacred landscape of future Rome."
+  },
+  {
+    "Index": "46",
+    "Primary": "7, father",
+    "Primary Name": "Evander",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy portrays Evander as the learned Arcadian ruler who recognized Hercules’s destined divinity and helped establish his Greek cult at the Ara Maxima."
+  },
+  {
+    "Index": "47",
+    "Primary": "7, father",
+    "Primary Name": "Evander",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius presents Evander as the exiled Arcadian founder of Pallantium whose settlers introduced Greek religion, letters, music, laws and other civilizing institutions into early Rome."
+  },
+  {
+    "Index": "48",
+    "Primary": "7, father",
+    "Primary Name": "Evander",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "Ovid recounts Evander’s exile from Arcadia and voyage to Latium under the guidance of his prophetic mother Carmenta. She foretells the future greatness of Rome, the arrival of Aeneas and the death of Evander’s son Pallas. Ovid also connects Evander with Hercules and Cacus, the Ara Maxima, the introduction of Arcadian gods such as Pan, and the Greek religious traditions embedded in Roman festivals."
+  },
+  {
+    "Index": "49",
+    "Primary": "8, father",
+    "Primary Name": "Tiberinus",
+    "Secondary": "35, text",
+    "Secondary Name": "Aeneid",
+    "Connection Category": "explicit reference",
+    "Note": "Virgil presents Tiberinus as the divine personification of the Tiber. In Book 8, the river god appears to the sleeping Aeneas, assures him that Latium is his destined home, foretells the sign of the white sow and thirty piglets, and instructs him to seek an alliance with Evander’s Arcadians. Tiberinus then calms his current so Aeneas can sail upstream without difficulty."
+  },
+  {
+    "Index": "50",
+    "Primary": "8, father",
+    "Primary Name": "Tiberinus",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy presents Tiberinus as one of the legendary kings of Alba Longa. He drowns while crossing the river then called the Albula, after which the river receives his name and becomes the Tiber. Livy does not develop him here as an active river god; he is primarily the dead king who explains the river’s name."
+  },
+  {
+    "Index": "51",
+    "Primary": "8, father",
+    "Primary Name": "Tiberinus",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius places Tiberinus in the succession of Alban kings and assigns him an eight-year reign. According to his account, Tiberinus is killed in battle near the Albula and carried away by its current; the river is subsequently renamed after him. Agrippa succeeds him."
+  },
+  {
+    "Index": "52",
+    "Primary": "8, father",
+    "Primary Name": "Tiberinus",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "Ovid places Tiberinus in the Alban dynasty and explains that his drowning gave the Tiber its name; the renamed river later carries the abandoned Romulus and Remus to safety."
+  },
+  {
+    "Index": "53",
+    "Primary": "9, father",
+    "Primary Name": "Hercules",
+    "Secondary": "35, text",
+    "Secondary Name": "Aeneid",
+    "Connection Category": "explicit reference",
+    "Note": "In Book 8, Evander recounts how Hercules arrived in Latium while driving Geryon’s cattle. After Cacus stole part of the herd, Hercules discovered the monster’s cave, killed him and liberated the surrounding population. Evander’s community commemorates the victory with sacrifices and songs celebrating Hercules’s labours at the Ara Maxima."
+  },
+  {
+    "Index": "54",
+    "Primary": "9, father",
+    "Primary Name": "Hercules",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy includes Hercules in his account of Rome’s prehistory. Cacus steals cattle from Hercules and conceals them by dragging them backward into his cave, but their lowing reveals the theft, and Hercules kills him. Evander recognizes Hercules from a prophecy by his mother Carmenta, announces that he will become a god and predicts the future importance of his Roman altar."
+  },
+  {
+    "Index": "55",
+    "Primary": "9, father",
+    "Primary Name": "Hercules",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius recounts Hercules’ passage through Latium, his defeat of Cacus and the establishment of his worship at the Ara Maxima, an ancient altar and cult-site associated with Evander’s community."
+  },
+  {
+    "Index": "56",
+    "Primary": "9, father",
+    "Primary Name": "Hercules",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "Ovid narrates the Hercules-Cacus story and references the Ara Maxima rites in the Fasti; Hercules appears in multiple calendar entries connected to his labors and his establishment of sacrificial worship at Rome."
+  },
+  {
+    "Index": "57",
+    "Primary": "9, father",
+    "Primary Name": "Hercules",
+    "Secondary": "45, text",
+    "Secondary Name": "Metamorphoses",
+    "Connection Category": "explicit reference",
+    "Note": "Ovid narrates Hercules’ death and apotheosis in Book 9: his mortal body is consumed by fire while his divine part is received among the gods."
+  },
+  {
+    "Index": "58",
+    "Primary": "10, father",
+    "Primary Name": "Latinus",
+    "Secondary": "35, text",
+    "Secondary Name": "Aeneid",
+    "Connection Category": "explicit reference",
+    "Note": "Virgil portrays Latinus as the prophetic king of Latium who welcomes Aeneas and offers him Lavinia in accordance with Faunus’s oracle, but cannot prevent the resulting war with Turnus."
+  },
+  {
+    "Index": "59",
+    "Primary": "10, father",
+    "Primary Name": "Latinus",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy records two traditions about Latinus’s first encounter with the Trojans: in one, Aeneas defeats him and then makes peace; in the other, Latinus meets Aeneas before battle and voluntarily establishes an alliance. In either version, Latinus receives Aeneas as a guest and seals the public treaty by giving him his daughter Lavinia in marriage."
+  },
+  {
+    "Index": "60",
+    "Primary": "10, father",
+    "Primary Name": "Latinus",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius gives Latinus a much fuller historical-style role. He rules the Aborigines and is already fighting the Rutulians when Aeneas arrives. After alarming reports of Trojan plundering, Latinus marches against them, but both kings receive dreams advising alliance rather than battle. Latinus grants the Trojans land in return for military aid, joins them against the Rutulians and later gives Lavinia to Aeneas. The united peoples adopt the name Latins after him."
+  },
+  {
+    "Index": "61",
+    "Primary": "11, father",
+    "Primary Name": "Aeneas",
+    "Secondary": "35, text",
+    "Secondary Name": "Aeneid",
+    "Connection Category": "explicit reference",
+    "Note": "Aeneas is the poem’s protagonist. He escapes Troy carrying Anchises and the Trojan household gods, leads the survivors westward, visits the underworld and reaches Latium, where he fights to secure the homeland promised by fate. His mission establishes the Trojan ancestry of the Latins, Alban kings and ultimately Rome. Virgil defines him especially through pietas: obligation to gods, family, followers and historical destiny."
+  },
+  {
+    "Index": "62",
+    "Primary": "11, father",
+    "Primary Name": "Aeneas",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy begins Roman history with Aeneas’s escape from Troy and arrival in Latium. He preserves two versions of Aeneas’s encounter with Latinus—either they fight and then make peace, or negotiate before battle—but both end with alliance and Aeneas’s marriage to Lavinia. Aeneas founds Lavinium, unites the Trojans and Aborigines under the Latin name and succeeds Latinus after the king’s death."
+  },
+  {
+    "Index": "63",
+    "Primary": "11, father",
+    "Primary Name": "Aeneas",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius gives an extensive historical-style reconstruction of Aeneas’s migration from Troy to Italy. After reaching Latium, Aeneas receives land from Latinus, founds Lavinium, allies with the Aborigines and marries Lavinia. Following Latinus’s death, he leads the combined people against their enemies."
+  },
+  {
+    "Index": "64",
+    "Primary": "11, father",
+    "Primary Name": "Aeneas",
+    "Secondary": "45, text",
+    "Secondary Name": "Metamorphoses",
+    "Connection Category": "explicit reference",
+    "Note": "Book 14 follows Aeneas through parts of his Mediterranean journey, including his meeting with the Sibyl, arrival in Latium and war with Turnus. After Aeneas completes his earthly mission, Venus asks Jupiter to make her son divine. The river Numicius washes away his mortal elements, and Aeneas becomes the god Indiges."
+  },
+  {
+    "Index": "65",
+    "Primary": "11, father",
+    "Primary Name": "Aeneas",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "Aeneas appears throughout Ovid’s explanations of Roman ritual and sacred history. Ovid credits him with rescuing Anchises, the Penates, Vesta’s sacred fire and, in Roman tradition, the Palladium from Troy. Through his descent from Venus, Aeneas also connects Rome’s Trojan religious inheritance to Augustus and the Julian household."
+  },
+  {
+    "Index": "66",
+    "Primary": "12, father",
+    "Primary Name": "Quirinus",
+    "Secondary": "13, father",
+    "Secondary Name": "Romulus",
+    "Connection Category": "syncretic",
+    "Note": "Later Roman tradition strongly identifies Romulus after his disappearance and apotheosis with Quirinus. The connection is important but not a simple equation at every historical stage: Quirinus also possessed an older Roman cult identity that was subsequently fused with the deified founder."
+  },
+  {
+    "Index": "67",
+    "Primary": "12, father",
+    "Primary Name": "Quirinus",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy records Romulus’s ascent and worship as a god and presents Quirinus as a major civic deity with an established priesthood, though he does not explicitly name the deified Romulus Quirinus in the disappearance narrative."
+  },
+  {
+    "Index": "68",
+    "Primary": "12, father",
+    "Primary Name": "Quirinus",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius states the identification directly. Julius reports seeing Romulus after his disappearance and hearing him declare that his mortal life was finished and that he was now Quirinus. Numa consequently orders Romulus to be honoured under that name with a temple and annual sacrifices."
+  },
+  {
+    "Index": "69",
+    "Primary": "12, father",
+    "Primary Name": "Quirinus",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "Ovid identifies Quirinus as the deified Romulus, recounting his ascent, appearance to Proculus Julius and establishment as a Roman civic god with his own festival, temple and priesthood."
+  },
+  {
+    "Index": "70",
+    "Primary": "13, father",
+    "Primary Name": "Romulus",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Romulus dominates the opening portion of Livy’s history. Livy recounts the twins’ exposure and rescue, the restoration of Numitor, the foundation of Rome through augury, the death of Remus, the creation of the Senate and asylum, the seizure of the Sabine women, Rome’s early wars and Romulus’s eventual disappearance."
+  },
+  {
+    "Index": "71",
+    "Primary": "13, father",
+    "Primary Name": "Romulus",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius portrays Romulus as Rome’s founder, military leader and constitutional organizer, later syncretically identified and worshipped as the god Quirinus."
+  },
+  {
+    "Index": "72",
+    "Primary": "13, father",
+    "Primary Name": "Romulus",
+    "Secondary": "45, text",
+    "Secondary Name": "Metamorphoses",
+    "Connection Category": "explicit reference",
+    "Note": "Ovid recounts Romulus’s apotheosis, in which Mars carries his son into heaven and transforms Rome’s mortal founder into the god Quirinus."
+  },
+  {
+    "Index": "73",
+    "Primary": "13, father",
+    "Primary Name": "Romulus",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "Romulus appears repeatedly in Ovid’s explanations of the Roman calendar. Ovid recounts his divine conception, infancy, organization of the early ten-month calendar, foundation of Rome through augury and the ritual ploughing of its boundary. Ovid commonly calls him Quirinus, interpreting Romulus’s mortal and divine identities together."
+  },
+  {
+    "Index": "74",
+    "Primary": "13, father",
+    "Primary Name": "Romulus",
+    "Secondary": "35, text",
+    "Secondary Name": "Aeneid",
+    "Connection Category": "explicit reference",
+    "Note": "Virgil presents Romulus as the foretold descendant of Aeneas who will found the walls of Rome, give the Romans their name and fulfil the Trojan line’s imperial destiny."
+  },
+  {
+    "Index": "75",
+    "Primary": "13, father",
+    "Primary Name": "Romulus",
+    "Secondary": "17, text",
+    "Secondary Name": "De Republica (On the Republic)",
+    "Connection Category": "explicit reference",
+    "Note": "Cicero uses Romulus as the starting point for Rome’s constitutional development. Romulus founds the state after taking the auspices and represents the institution of legitimate kingship, though Cicero also examines the dangers of royal government degenerating into tyranny."
+  },
+  {
+    "Index": "76",
+    "Primary": "13, father",
+    "Primary Name": "Romulus",
+    "Secondary": "16, text",
+    "Secondary Name": "Poems (Carmina)",
+    "Connection Category": "explicit reference",
+    "Note": "Catullus invokes Romulus as the ancestral symbol of the Roman people and sarcastically applies his name to Caesar as a corrupted contemporary founder or ruler."
+  },
+  {
+    "Index": "77",
+    "Primary": "14, father",
+    "Primary Name": "Numa Pompilius",
+    "Secondary": "15, father",
+    "Secondary Name": "Egeria",
+    "Connection Category": "familial: consorts",
+    "Note": "Roman literary tradition makes Egeria the divine consort and counsellor of Numa Pompilius. Their relationship links Numa’s religious legislation to the sacred grove and to divine authorization for the institutions attributed to his reign."
+  },
+  {
+    "Index": "78",
+    "Primary": "14, father",
+    "Primary Name": "Numa Pompilius",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy presents Numa as the peaceful Sabine successor to Romulus. Chosen for his justice and piety, Numa receives royal authority through augury and then effectively “refounds” Rome through laws and customs rather than force. He closes the shrine of Janus, reforms the calendar, claims guidance from Egeria and establishes major priesthoods and institutions, including the flamines, Vestal Virgins, Salii and pontifical administration."
+  },
+  {
+    "Index": "79",
+    "Primary": "14, father",
+    "Primary Name": "Numa Pompilius",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius gives Numa an extensive biography. He is invited from Cures because of his reputation for wisdom, reluctantly accepts the throne and reigns without military campaigns. Dionysius rejects the chronologically impossible claim that Numa studied under Pythagoras and preserves both supernatural and rationalized accounts of Egeria."
+  },
+  {
+    "Index": "80",
+    "Primary": "14, father",
+    "Primary Name": "Numa Pompilius",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "Ovid depicts Numa as Egeria’s royal husband and pupil, whose calendar reforms and dealings with Picus, Faunus and Jupiter establish major Roman rites, including the sacred shields of the Salii. Ovid presents him as a king uniquely capable of communicating with the gods while civilizing Rome through law and ritual."
+  },
+  {
+    "Index": "81",
+    "Primary": "14, father",
+    "Primary Name": "Numa Pompilius",
+    "Secondary": "19, text",
+    "Secondary Name": "On the Nature of the Gods (De Natura Deorum)",
+    "Connection Category": "explicit reference",
+    "Note": "Cicero invokes Numa as the founder of Rome’s ritual tradition, whose inherited institutions carry greater religious authority than abstract philosophical theories about the gods."
+  },
+  {
+    "Index": "82",
+    "Primary": "14, father",
+    "Primary Name": "Numa Pompilius",
+    "Secondary": "17, text",
+    "Secondary Name": "De Republica (On the Republic)",
+    "Connection Category": "explicit reference",
+    "Note": "Cicero presents Numa as the virtuous elected king who disciplined Rome through peace, agriculture and religion, establishing institutions essential to the stability of the commonwealth."
+  },
+  {
+    "Index": "83",
+    "Primary": "14, father",
+    "Primary Name": "Numa Pompilius",
+    "Secondary": "18, text",
+    "Secondary Name": "De Legibus (On the Laws)",
+    "Connection Category": "explicit reference",
+    "Note": "Cicero explicitly compares his proposed religious legislation with the laws of Numa and Rome’s ancestral regulations. He credits Numa with the system of calendrical intercalation and treats his religious laws as a model for the sacred order appropriate to an ideal commonwealth."
+  },
+  {
+    "Index": "84",
+    "Primary": "15, father",
+    "Primary Name": "Egeria",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy presents Egeria as Numa’s divine wife and secret counsellor, whose supposed revelations in a sacred grove authorized his religious laws and institutions."
+  },
+  {
+    "Index": "85",
+    "Primary": "15, father",
+    "Primary Name": "Egeria",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius reports the Roman tradition that the nymph Egeria visited Numa and instructed him in the art of ruling; some traditions instead identified her as one of the Muses. He then gives a rationalizing interpretation: Numa may have invented the story so that Romans would regard his laws as divinely authorized and obey them more willingly."
+  },
+  {
+    "Index": "86",
+    "Primary": "15, father",
+    "Primary Name": "Egeria",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "Ovid directly identifies Egeria as Numa’s wife and adviser. When Numa needs protection from Jupiter’s thunderbolts, Egeria instructs him to consult Picus and Faunus, beginning the chain of events through which Jupiter is summoned and the correct rite of expiation is established. She also advises Numa during the agricultural crisis described in Book 4."
+  },
+  {
+    "Index": "87",
+    "Primary": "16, father",
+    "Primary Name": "Tullus Hostilius",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy narrates the Horatii-Curiatii combat, Mettius Fufetius’s betrayal and execution by dismemberment, the destruction and absorption of Alba Longa and Tullus’s death by lightning after he performs religious rites incorrectly."
+  },
+  {
+    "Index": "88",
+    "Primary": "16, father",
+    "Primary Name": "Tullus Hostilius",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius gives Tullus an extensive reign. After his election and confirmation by favourable omens, Tullus distributes royal land among poor Romans and expands settlement on the Caelian Hill. Dionysius praises him for courage and prudence in war, though he preserves competing accounts of his death—either divine punishment by lightning or political assassination disguised as a household fire."
+  },
+  {
+    "Index": "89",
+    "Primary": "17, father",
+    "Primary Name": "Ancus Marcius",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy portrays Ancus as Rome’s warrior-priest king, restoring Numa’s religious discipline while expanding Roman power. His narrative credits Ancus with formalizing fetial procedures, settling conquered Latins, bridging the Tiber, establishing saltworks and founding Ostia; these are traditional royal attributions rather than securely datable achievements of a single reign."
+  },
+  {
+    "Index": "90",
+    "Primary": "17, father",
+    "Primary Name": "Ancus Marcius",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius treats Ancus Marcius as the grandson of Numa who combines his grandfather’s piety with the military vigor of Tullus. He likewise credits Ancus with major civic works, including a bridge across the Tiber and the foundation of Ostia, within the traditional narrative of Rome’s kings."
+  },
+  {
+    "Index": "91",
+    "Primary": "17, father",
+    "Primary Name": "Ancus Marcius",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "Ancus does not receive a narrative of his reign in the surviving Fasti. Near the end of Book 6, Ovid praises Marcia and identifies her name and lineage with the sacrificial or priestly King Ancus. The passage reflects the historical Marcian family’s claim to descend from Ancus Marcius, but it says little about the king’s own actions."
+  },
+  {
+    "Index": "92",
+    "Primary": "18, father",
+    "Primary Name": "Tarquinius Priscus",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy describes Tarquinius Priscus’s origins at Tarquinii, his migration to Rome with Tanaquil and his rise to the kingship. The narrative attributes to his reign major public works associated with the Circus Maximus, drainage of the Forum and the beginnings of the Capitoline temple, before his assassination by the sons of Ancus Marcius."
+  },
+  {
+    "Index": "93",
+    "Primary": "18, father",
+    "Primary Name": "Tarquinius Priscus",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius gives an extensive account of Tarquinius Priscus as Rome’s first king of Etruscan background, covering his Corinthian-Etruscan ancestry, migration to Rome, political and military activity, public works and place in the traditional Roman king-list."
+  },
+  {
+    "Index": "94",
+    "Primary": "19, father",
+    "Primary Name": "Servius Tullius",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy presents Servius Tullius as Rome’s sixth king, raised in the household of Tarquinius Priscus and secured in power through Tanaquil’s strategy. The narrative attributes to him the census and centuriate organization, territorial and civic expansion, and ends with his violent overthrow by Tarquinius Superbus and Tullia."
+  },
+  {
+    "Index": "95",
+    "Primary": "19, father",
+    "Primary Name": "Servius Tullius",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius portrays Servius as a reforming king who distributes public land, enlarges Rome, organizes the citizens through tribes, census and centuries, extends civic rights to freedmen and attempts to limit royal power before his violent overthrow."
+  },
+  {
+    "Index": "96",
+    "Primary": "20, father",
+    "Primary Name": "Lucius Junius Brutus",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy makes Brutus a central figure in the transition from monarchy to republic: he leads the revolt after Lucretia’s death, becomes one of the first consuls and later condemns his own sons when they join a conspiracy to restore the Tarquins."
+  },
+  {
+    "Index": "97",
+    "Primary": "20, father",
+    "Primary Name": "Lucius Junius Brutus",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius describes Brutus’s feigned stupidity at the Tarquin court, his leadership in expelling the kings and his role in establishing the new consular order. The narrative makes him one of the principal founders of the Roman Republic."
+  },
+  {
+    "Index": "98",
+    "Primary": "20, father",
+    "Primary Name": "Lucius Junius Brutus",
+    "Secondary": "17, text",
+    "Secondary Name": "De Republica (On the Republic)",
+    "Connection Category": "explicit reference",
+    "Note": "Cicero invokes Brutus as an exemplary defender of the commonwealth, especially through the tradition that he placed the Republic above family ties by condemning his own sons for conspiring to restore the monarchy."
+  },
+  {
+    "Index": "99",
+    "Primary": "21, father",
+    "Primary Name": "Tarquinius Superbus",
+    "Secondary": "22, father",
+    "Secondary Name": "Sextus Tarquinius",
+    "Connection Category": "familial: father/son",
+    "Note": "Sextus was Tarquinius Superbus’s son and political agent, helping him seize Gabii through deception; his rape of Lucretia later provoked the revolt that overthrew his father and ended the Roman monarchy."
+  },
+  {
+    "Index": "100",
+    "Primary": "21, father",
+    "Primary Name": "Tarquinius Superbus",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy presents Tarquinius Superbus as Rome’s tyrannical final king, who murders Servius Tullius, weakens the Senate, imposes compulsory public labor on the plebeians and is expelled after Sextus Tarquinius’s assault on Lucretia."
+  },
+  {
+    "Index": "101",
+    "Primary": "21, father",
+    "Primary Name": "Tarquinius Superbus",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius gives a full account of Tarquinius Superbus’s violent usurpation and murder of Servius Tullius, oppressive government, Latin diplomacy and eventual expulsion during the founding of the Republic."
+  },
+  {
+    "Index": "102",
+    "Primary": "22, father",
+    "Primary Name": "Sextus Tarquinius",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy narrates Sextus Tarquinius’s assault on Lucretia in Book 1 and makes the episode the immediate catalyst for the revolt against the Tarquins and the end of the monarchy."
+  },
+  {
+    "Index": "103",
+    "Primary": "22, father",
+    "Primary Name": "Sextus Tarquinius",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius likewise presents Sextus Tarquinius’s assault on Lucretia as the event that transforms private outrage into a broader political revolt against the royal house."
+  },
+  {
+    "Index": "104",
+    "Primary": "23, father",
+    "Primary Name": "Lucretia",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy presents Lucretia as the virtuous wife whose assault by Sextus Tarquinius, suicide and demand for vengeance provoke Brutus’s revolt and the overthrow of Roman monarchy."
+  },
+  {
+    "Index": "105",
+    "Primary": "23, father",
+    "Primary Name": "Lucretia",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius gives a detailed account of Lucretia’s reputation for chastity, her assault by Sextus, her disclosure of what happened and her suicide. Her death becomes the moral and political catalyst for the expulsion of the Tarquins."
+  },
+  {
+    "Index": "106",
+    "Primary": "23, father",
+    "Primary Name": "Lucretia",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "explicit reference",
+    "Note": "Ovid retells Lucretia’s chastity, coercion, disclosure and suicide in Book 2; Brutus transforms her death into the oath and uprising that expel the Tarquins."
+  },
+  {
+    "Index": "107",
+    "Primary": "24, father",
+    "Primary Name": "Mucius Scaevola (Gaius Mucius)",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy presents Mucius as the Roman youth who failed to assassinate Porsenna but terrified him through his fearless self-mutilation and warning that hundreds of Romans were prepared to continue the attempt."
+  },
+  {
+    "Index": "108",
+    "Primary": "24, father",
+    "Primary Name": "Mucius Scaevola (Gaius Mucius)",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius portrays Mucius as a failed assassin who deliberately frightens Porsenna by claiming that three hundred Roman youths are prepared to make further attempts on the king’s life, helping move the narrative toward negotiations."
+  },
+  {
+    "Index": "109",
+    "Primary": "25, father",
+    "Primary Name": "Horatius Cocles",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy narrates Horatius Cocles’s defense of the Sublician Bridge during Lars Porsenna’s attack on Rome in Book 2, presenting the episode as an exemplary act of courage and self-sacrifice in the early Republic."
+  },
+  {
+    "Index": "110",
+    "Primary": "25, father",
+    "Primary Name": "Horatius Cocles",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "explicit reference",
+    "Note": "Dionysius also gives a detailed account of Horatius Cocles defending the bridge during the Porsenna crisis, using the episode as an example of extraordinary Roman courage in the generation after the expulsion of the kings."
+  },
+  {
+    "Index": "111",
+    "Primary": "26, father",
+    "Primary Name": "Camillus (Marcus Furius Camillus)",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy makes Camillus the commander who brings the long siege of Veii to its conclusion and later gives him a dramatic role in Rome’s recovery from the Gallic sack. Within Livy’s narrative he emerges as the figure later remembered as a second founder of Rome."
+  },
+  {
+    "Index": "112",
+    "Primary": "26, father",
+    "Primary Name": "Camillus (Marcus Furius Camillus)",
+    "Secondary": "17, text",
+    "Secondary Name": "De Republica (On the Republic)",
+    "Connection Category": "explicit reference",
+    "Note": "Cicero briefly invokes Camillus’s exile as an example of a great statesman unjustly treated by his own citizens, illustrating the dangers that accompany service to the Republic."
+  },
+  {
+    "Index": "113",
+    "Primary": "27, father",
+    "Primary Name": "Marcus Curtius",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "explicit reference",
+    "Note": "Livy narrates the Marcus Curtius legend in Book 7: a great chasm opened in the Forum, an oracle declared Rome must offer its greatest treasure, and Curtius declared that Rome's strength lay in armed valor before leaping fully armed on horseback into the abyss. The Lacus Curtius in the Forum was pointed to as the permanent monument of his sacrifice."
+  },
+  {
+    "Index": "114",
+    "Primary": "28, father",
+    "Primary Name": "Peter the Apostle",
+    "Secondary": "98, text",
+    "Secondary Name": "De Officiis Ministrorum",
+    "Connection Category": "explicit reference",
+    "Note": "Ambrose repeatedly presents Peter as an authoritative apostle and clerical model, drawing on his preaching, leadership and New Testament episodes to illustrate humility, spiritual responsibility and faithful service."
+  },
+  {
+    "Index": "115",
+    "Primary": "29, father",
+    "Primary Name": "Paul the Apostle",
+    "Secondary": "98, text",
+    "Secondary Name": "De Officiis Ministrorum",
+    "Connection Category": "explicit reference",
+    "Note": "Ambrose repeatedly presents Paul as an authoritative apostle and model for the clergy, drawing on his letters, missionary endurance, humility and pastoral teaching as examples of Christian duty."
+  },
+  {
+    "Index": "116",
+    "Primary": "30, father",
+    "Primary Name": "Celsus",
+    "Secondary": "90, text",
+    "Secondary Name": "Against the Christians",
+    "Connection Category": "indirect connection",
+    "Note": "Celsus and Porphyry belong to the broader tradition of pagan philosophical criticism of Christianity. Their surviving arguments overlap in objections to Christian exclusivity, scriptural interpretation and rejection of inherited cult, but Porphyry’s work survives only in fragments and direct literary dependence on Celsus cannot be demonstrated."
+  },
+  {
+    "Index": "117",
+    "Primary": "35, text",
+    "Primary Name": "Aeneid",
+    "Secondary": "45, text",
+    "Secondary Name": "Metamorphoses",
+    "Connection Category": "indirect connection",
+    "Note": "Ovid’s Metamorphoses, especially Books 13–14, extensively rewrites the Aeneid, compressing Aeneas’s journey while expanding peripheral characters and episodes and transforming Virgil’s national epic into a narrative centered on instability and metamorphosis."
+  },
+  {
+    "Index": "118",
+    "Primary": "42, text",
+    "Primary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Secondary": "43, text",
+    "Secondary Name": "Roman Antiquities",
+    "Connection Category": "indirect connection",
+    "Note": "Livy and Dionysius provide closely parallel but independently shaped histories of Rome’s origins, monarchy and early Republic, drawing largely upon shared annalistic traditions while differing in detail, scale and interpretation."
+  },
+  {
+    "Index": "119",
+    "Primary": "42, text",
+    "Primary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Secondary": "46, text",
+    "Secondary Name": "Fasti",
+    "Connection Category": "indirect connection",
+    "Note": "Livy and Ovid preserve several parallel narratives about early Rome, including Numa, Gabii and Lucretia. The Fasti reshapes such material for an elegiac calendar of Roman festivals and sacred places; literary interaction with Livian historiography is plausible, but many parallels also derive from the wider annalistic and antiquarian tradition."
+  },
+  {
+    "Index": "120",
+    "Primary": "87, text",
+    "Primary Name": "The Enneads",
+    "Secondary": "88, text",
+    "Secondary Name": "On the Cave of the Nymphs",
+    "Connection Category": "indirect connection",
+    "Note": "Porphyry’s On the Cave of the Nymphs interprets Homer’s cave through a Neoplatonic framework of embodiment, generation, purification and the soul’s ascent. These themes closely overlap with Plotinian philosophy, though the allegory should not be reduced to dependence on a single passage of the Enneads."
+  },
+  {
+    "Index": "121",
+    "Primary": "87, text",
+    "Primary Name": "The Enneads",
+    "Secondary": "91, text",
+    "Secondary Name": "On the Return of the Soul (De regressu animae)",
+    "Connection Category": "indirect connection",
+    "Note": "Porphyry’s lost work, known mainly through Augustine’s quotations and paraphrases, concerns purification and the soul’s return toward the divine. Its surviving traces broadly continue questions central to Plotinian soteriology, but detailed dependence on particular Enneads cannot be reconstructed."
+  },
+  {
+    "Index": "122",
+    "Primary": "87, text",
+    "Primary Name": "The Enneads",
+    "Secondary": "96, text",
+    "Secondary Name": "Life of Plotinus (Vita Plotini)",
+    "Connection Category": "explicit reference",
+    "Note": "Porphyry’s Life of Plotinus introduces his edition of Plotinus’s writings and explains how he edited and arranged fifty-four treatises into six groups of nine, creating the structure known as the Enneads."
+  },
+  {
+    "Index": "123",
+    "Primary": "31, father",
+    "Primary Name": "Ennius",
+    "Secondary": "74, text",
+    "Secondary Name": "Attic Nights (Noctes Atticae)",
+    "Connection Category": "explicit reference",
+    "Note": "Aulus Gellius repeatedly quotes and discusses Ennius in the Attic Nights, preserving lines from otherwise fragmentary works and treating Ennian vocabulary, style and learning as material for antiquarian and philological analysis."
+  },
+  {
+    "Index": "124",
+    "Primary": "31, father",
+    "Primary Name": "Ennius",
+    "Secondary": "35, text",
+    "Secondary Name": "Aeneid",
+    "Connection Category": "indirect connection",
+    "Note": "Virgil’s Aeneid succeeds Ennius’s Annales as Rome’s major national epic while repeatedly echoing Ennian language and cadence. Virgil transforms the earlier annalistic epic tradition into a Homerically structured narrative of Aeneas and Roman destiny."
+  },
+  {
+    "Index": "125",
+    "Primary": "31, father",
+    "Primary Name": "Ennius",
+    "Secondary": "42, text",
+    "Secondary Name": "From the Founding of the City (Ab Urbe Condita)",
+    "Connection Category": "indirect connection",
+    "Note": "Livy participates in a historiographical tradition already shaped by Ennius’s Annales and at points adapts Ennian material, including remembered speeches and formulations, within his prose history of Rome. The relationship is one of literary and historical reception rather than simple source-copying."
+  },
+  {
+    "Index": "126",
+    "Primary": "15, text",
+    "Primary Name": "On the Nature of Things (De Rerum Natura)",
+    "Secondary": "32, text",
+    "Secondary Name": "Georgics",
+    "Connection Category": "indirect connection",
+    "Note": "Virgil’s Georgics engages closely with Lucretius’s De Rerum Natura as a major Latin predecessor in didactic hexameter. Virgil reworks Lucretian language, conceptions of nature and the teacher-poet stance while often redirecting them toward agricultural, religious and civic concerns."
+  },
+  {
+    "Index": "127",
+    "Primary": "21, text",
+    "Primary Name": "On Duties (De Officiis)",
+    "Secondary": "98, text",
+    "Secondary Name": "De Officiis Ministrorum",
+    "Connection Category": "indirect connection",
+    "Note": "Ambrose’s De Officiis deliberately reworks the Ciceronian tradition of De Officiis for a Christian clerical audience. The shared title, three-book ethical structure and recurring questions of duty and virtue make Cicero a central literary and philosophical predecessor even as Ambrose replaces the Roman statesman’s framework with Christian scripture and pastoral ethics."
+  },
+  {
+    "Index": "128",
+    "Primary": "87, text",
+    "Primary Name": "The Enneads",
+    "Secondary": "92, text",
+    "Secondary Name": "Sentences on the Intelligibles (Sententiae)",
+    "Connection Category": "indirect connection",
+    "Note": "Porphyry’s Sentences presents concise starting-points for ascent to the intelligible realm and systematizes doctrines closely associated with Plotinus, including the hierarchy of reality, the soul’s relation to body and return toward intellect. It is strongly Plotinian in orientation without being a simple epitome of the Enneads."
+  }
+]

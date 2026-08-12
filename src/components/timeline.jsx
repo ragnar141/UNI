@@ -1428,43 +1428,65 @@ function useDiscoveredFatherSets() {
 
 /* ===== CONNECTIONS: discovery for *_connections.json ===== */
 function useDiscoveredConnectionSets() {
-const modulesA =
-  import.meta.glob("../data/**/*_connections.json", { eager: true, import: "default" }) || {};
+  const nestedModules =
+    import.meta.glob("../data/**/*_connections.json", {
+      eager: true,
+      import: "default",
+    }) || {};
 
-const modulesB =
-  import.meta.glob("../data/**/supraclusteral_connections.json", { eager: true, import: "default" }) || {};
+  /*
+   * A root-level supraclusteral_connections.json has no folder for folderOf()
+   * to recover. Load that exact path as well; object spread de-duplicates it
+   * if the broader glob already matched it.
+   */
+  const rootSupraclusteralModules =
+    import.meta.glob("../data/supraclusteral_connections.json", {
+      eager: true,
+      import: "default",
+    }) || {};
 
-const modules = { ...modulesA, ...modulesB };
+  const modules = {
+    ...nestedModules,
+    ...rootSupraclusteralModules,
+  };
 
   const folderOf = (p) => {
     const m = p.match(/\/data\/([^/]+)\//);
     return m ? m[1] : null;
   };
 
-  // folder → array of *row objects*
-  const registryMap = new Map();
+  const registry = [];
 
   for (const [path, data] of Object.entries(modules)) {
+    const rows = Array.isArray(data) ? data : [];
+    if (!rows.length) continue;
+
+    const isSupraclusteral =
+      /\/supraclusteral_connections\.json$/i.test(path);
+
     const folder = folderOf(path);
-    if (!folder) continue;
 
-    const arr = Array.isArray(data) ? data : [];
-    if (!registryMap.has(folder)) registryMap.set(folder, []);
+    // Ordinary local connection files still require their containing folder.
+    if (!isSupraclusteral && !folder) continue;
 
-    // IMPORTANT: flatten all rows from this file into the bucket
-    registryMap.get(folder).push(...arr);
-  }
-
-  const registry = [];
-  for (const [folder, rows] of registryMap.entries()) {
     registry.push({
-      folder,
-      durationId: `${folder}-composite`,
+      folder: folder || "__supraclusteral__",
+
+      /*
+       * Supraclusteral rows carry their own Primary/Secondary Duration fields,
+       * so they do not need (and should not inherit) a fallback band.
+       */
+      durationId:
+        isSupraclusteral || !folder
+          ? null
+          : `${folder}-composite`,
+
       connections: rows,
+      isSupraclusteral,
+      sourcePath: path,
     });
   }
 
-  
   return registry;
 }
 
@@ -1584,6 +1606,34 @@ function normalizeTagStringToArray(raw, groupKey) {
 
 // === Connections → structured items for cards ===
 
+/*
+ * Connection datasets have accumulated a few shorthand category values.
+ * Normalize them once so rendering, cards, line styles, and Info Windows all
+ * interpret the same relationship vocabulary.
+ */
+function normalizeConnectionCategory(rawCategory) {
+  const category = String(rawCategory || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[–—]/g, "-")
+    .replace(/\s+/g, " ");
+
+  const aliases = {
+    explicit: "explicit reference",
+    "direct reference": "explicit reference",
+    indirect: "indirect connection",
+    comparative: "comparative connection",
+    speculative: "speculative connection",
+    custom: "custom connection",
+    cognate: "cognate connection",
+    "part of": "partof",
+    "part-of": "partof",
+    part_of: "partof",
+  };
+
+  return aliases[category] || category;
+}
+
 function joinNamesList(names) {
   const uniq = Array.from(new Set((names || []).filter(Boolean)));
   if (!uniq.length) return [];
@@ -1603,12 +1653,16 @@ function buildFatherConnectionItems(subject, allConnections) {
   const subjectName = subject.name || "";
 
   // Only connections where this father is one of the sides.
+  // Direction must not exclude text-primary / father-secondary rows: those
+  // still belong on the secondary father's card (for example, Malachi).
   const relevant = allConnections.filter((c) => {
-    const isSubjectA = c.aId === subjectId && c.aType === "father";
-    const isSubjectB = c.bId === subjectId && c.bType === "father";
+    const isSubjectA =
+      c.aId === subjectId &&
+      c.aType === "father";
 
-    // Drop text-primary / father-secondary rows to avoid duplicates
-    if (c.aType === "text" && c.bType === "father") return false;
+    const isSubjectB =
+      c.bId === subjectId &&
+      c.bType === "father";
 
     return isSubjectA || isSubjectB;
   });
@@ -1635,7 +1689,7 @@ function buildFatherConnectionItems(subject, allConnections) {
 
   for (const c of relevant) {
     const rawCat = c.category || "";
-    const category = String(rawCat).toLowerCase().trim();
+    const category = normalizeConnectionCategory(rawCat);
     const rawNote = (c.note || "").trim();
     const hasNote = !!rawNote && rawNote !== "-";
 
@@ -1975,7 +2029,7 @@ function buildTextConnectionItems(subject, allConnections) {
   // ===== Scan all connections =====
   for (const c of allConnections) {
     const rawCat = c.category || "";
-    const category = String(rawCat).toLowerCase().trim();
+    const category = normalizeConnectionCategory(rawCat);
 
     const rawNote = String(c.note || "").trim();
     const hasNote = rawNote !== "" && rawNote !== "-";
@@ -2471,9 +2525,9 @@ function buildConnectionRelationshipSentence(
     ? connection.bName
     : connection.aName;
 
-  const category = String(connection.category || "")
-    .trim()
-    .toLowerCase();
+  const category = normalizeConnectionCategory(
+    connection.category
+  );
 
   const bothFathers =
     subjectType === "father" &&
@@ -4981,7 +5035,7 @@ useEffect(() => {
   }, [modalOpen]);
 
 function styleForConnection(category, typeA, typeB, rowA, rowB) {
-  const cat = String(category || "").trim().toLowerCase();
+  const cat = normalizeConnectionCategory(category);
   const aIsFather = typeA === "father";
   const bIsFather = typeB === "father";
 
@@ -5347,17 +5401,39 @@ useEffect(() => {
       const index = Number(m[1]);
       const typeRaw = String(m[2] ?? "").toLowerCase();
 
-      // In your legacy data it’s basically father vs text.
-      // If the token isn't "father", treat as text.
+      // Endpoint tokens are expected to be explicit: "father" or "text".
+      // Unknown values are rejected and reported by the caller.
       if (typeRaw === "father") {
-        const row = fatherByBandByIndex.get(bandId)?.get(index) || null;
+        const row =
+          fatherByBandByIndex
+            .get(bandId)
+            ?.get(index) || null;
+
         if (!row) return null;
-        return { type: "father", row, bandId };
-      } else {
-        const row = textByBandByIndex.get(bandId)?.get(index) || null;
-        if (!row) return null;
-        return { type: "text", row, bandId };
+
+        return {
+          type: "father",
+          row,
+          bandId,
+        };
       }
+
+      if (typeRaw === "text") {
+        const row =
+          textByBandByIndex
+            .get(bandId)
+            ?.get(index) || null;
+
+        if (!row) return null;
+
+        return {
+          type: "text",
+          row,
+          bandId,
+        };
+      }
+
+      return null;
     };
 
   const parseEnd = parseEndFactory(fatherByBandByIndex, textByBandByIndex);
@@ -5371,37 +5447,117 @@ useEffect(() => {
     return s.endsWith("-composite") ? s : `${s}-composite`;
   };
 
+  const skippedConnections = [];
+
   for (const ds of connectionRegistry) {
-    const fallbackBandId = ds.durationId; // legacy datasets (per folder)
-    if (!fallbackBandId) continue;
+    const fallbackBandId = ds.durationId || null; // legacy datasets (per folder)
 
     for (const row of ds.connections) {
       // For supraclusteral rows:
       //   Primary Duration / Secondary Duration are present and may differ.
       // For legacy rows:
       //   they're missing -> we fall back to ds.durationId for both ends.
-      const aBandId = toCompositeBandId(row["Primary Duration"]) ?? fallbackBandId;
-      const bBandId = toCompositeBandId(row["Secondary Duration"]) ?? fallbackBandId;
+      const aBandId =
+        toCompositeBandId(row["Primary Duration"]) ??
+        fallbackBandId;
 
-      const A = parseEnd(row.Primary, row["Primary Name"], aBandId);
-      const B = parseEnd(row.Secondary, row["Secondary Name"], bBandId);
+      const bBandId =
+        toCompositeBandId(row["Secondary Duration"]) ??
+        fallbackBandId;
 
-      if (!A || !B) continue;
+      if (!aBandId || !bBandId) {
+        skippedConnections.push({
+          index: row.Index ?? row.id ?? null,
+          reason: "missing duration/band",
+          primaryDuration: row["Primary Duration"] ?? null,
+          secondaryDuration: row["Secondary Duration"] ?? null,
+          sourcePath: ds.sourcePath || null,
+        });
+        continue;
+      }
+
+      const A = parseEnd(
+        row.Primary,
+        row["Primary Name"],
+        aBandId
+      );
+
+      const B = parseEnd(
+        row.Secondary,
+        row["Secondary Name"],
+        bBandId
+      );
+
+      if (!A || !B) {
+        skippedConnections.push({
+          index: row.Index ?? row.id ?? null,
+          reason: !A && !B
+            ? "both endpoints unresolved"
+            : !A
+              ? "primary endpoint unresolved"
+              : "secondary endpoint unresolved",
+          primary: row.Primary ?? null,
+          primaryName: row["Primary Name"] ?? null,
+          primaryBandId: aBandId,
+          secondary: row.Secondary ?? null,
+          secondaryName: row["Secondary Name"] ?? null,
+          secondaryBandId: bBandId,
+          sourcePath: ds.sourcePath || null,
+        });
+        continue;
+      }
 
       const ax = Number(A.row.when ?? NaN);
       const bx = Number(B.row.when ?? NaN);
-      if (!Number.isFinite(ax) || !Number.isFinite(bx)) continue;
+
+      if (!Number.isFinite(ax) || !Number.isFinite(bx)) {
+        skippedConnections.push({
+          index: row.Index ?? row.id ?? null,
+          reason: "endpoint date unresolved",
+          primaryName: row["Primary Name"] ?? null,
+          primaryWhen: A.row.when ?? null,
+          secondaryName: row["Secondary Name"] ?? null,
+          secondaryWhen: B.row.when ?? null,
+          sourcePath: ds.sourcePath || null,
+        });
+        continue;
+      }
 
       const aYmap = A.type === "father" ? fatherYMap : textYMap;
       const bYmap = B.type === "father" ? fatherYMap : textYMap;
 
       // IMPORTANT: use each endpoint's own band id
-      const ay = aYmap.get(aBandId)?.get(A.row.id);
-      const by = bYmap.get(bBandId)?.get(B.row.id);
-      if (!Number.isFinite(ay) || !Number.isFinite(by)) continue;
+      const ay =
+        aYmap.get(aBandId)?.get(A.row.id);
+
+      const by =
+        bYmap.get(bBandId)?.get(B.row.id);
+
+      if (!Number.isFinite(ay) || !Number.isFinite(by)) {
+        skippedConnections.push({
+          index: row.Index ?? row.id ?? null,
+          reason: "endpoint layout position unresolved",
+          primaryName: row["Primary Name"] ?? null,
+          primaryBandId: aBandId,
+          primaryId: A.row.id,
+          primaryY: ay ?? null,
+          secondaryName: row["Secondary Name"] ?? null,
+          secondaryBandId: bBandId,
+          secondaryId: B.row.id,
+          secondaryY: by ?? null,
+          sourcePath: ds.sourcePath || null,
+        });
+        continue;
+      }
+
+      const rawCategory =
+        row["Connection Category"] ?? "";
+
+      const category =
+        normalizeConnectionCategory(rawCategory);
 
       const style = styleForConnection(
-        row["Connection Category"],
+        category,
         A.type,
         B.type,
         A.row,
@@ -5437,12 +5593,20 @@ useEffect(() => {
         style,
         color,
         note: row.Note || "",
-        category: row["Connection Category"] ?? "",
+        category,
+        rawCategory,
       });
     }
   }
 
   allConnectionRowsRef.current = out;
+
+  if (DEBUG_TL && skippedConnections.length) {
+    console.warn(
+      `[Timeline] Skipped ${skippedConnections.length} connection row(s)`,
+      skippedConnections
+    );
+  }
 
   const t = lastTransformRef.current ?? d3.zoomIdentity;
   scheduleRenderConnections(t.rescaleX(x), t.rescaleY(y0), t.k);

@@ -1,0 +1,254 @@
+[
+  {
+    "Index": "1",
+    "Primary": "1, text",
+    "Primary Name": "4 Maccabees",
+    "Secondary": "12, text",
+    "Secondary Name": "Ecclesiastical History",
+    "Connection Category": "explicit reference",
+    "Note": "Ecclesiastical History explicitly mentions the work as On the Supremacy of Reason or Maccabaicum and incorrectly attributes it to Josephus, preserving an important stage in the reception of 4 Maccabees."
+  },
+  {
+    "Index": "2",
+    "Primary": "2, text",
+    "Primary Name": "The Jewish War",
+    "Secondary": "12, text",
+    "Secondary Name": "Ecclesiastical History",
+    "Connection Category": "explicit reference",
+    "Note": "Eusebius quotes The Jewish War extensively for the siege, famine, omens, factional violence, and destruction of Jerusalem, interpreting Josephus’s history as evidence of fulfilled Christian prophecy and divine judgment."
+  },
+  {
+    "Index": "3",
+    "Primary": "3, text",
+    "Primary Name": "Antiquities of the Jews",
+    "Secondary": "12, text",
+    "Secondary Name": "Ecclesiastical History",
+    "Connection Category": "explicit reference",
+    "Note": "Eusebius repeatedly cites Antiquities for Herodian and Roman Judean history, including Herod, Pilate, John the Baptist, James, and conflicts within the Jerusalem priesthood."
+  },
+  {
+    "Index": "4",
+    "Primary": "3, text",
+    "Primary Name": "Antiquities of the Jews",
+    "Secondary": "6, text",
+    "Secondary Name": "Chronicle",
+    "Connection Category": "explicit reference",
+    "Note": "The Chronicle identifies Antiquities as a principal source for Hebrew chronology and uses Josephus for the Temple, Phoenician synchronisms, Jewish rulers, and post-biblical history."
+  },
+  {
+    "Index": "5",
+    "Primary": "3, text",
+    "Primary Name": "Antiquities of the Jews",
+    "Secondary": "10, text",
+    "Secondary Name": "Preparation for the Gospel",
+    "Connection Category": "explicit reference",
+    "Note": "Eusebius quotes Antiquities while comparing Hebrew history with Chaldean, Phoenician, Egyptian, and Greek traditions, using Josephus to establish the antiquity of Hebrew records."
+  },
+  {
+    "Index": "6",
+    "Primary": "3, text",
+    "Primary Name": "Antiquities of the Jews",
+    "Secondary": "11, text",
+    "Secondary Name": "Proof of the Gospel",
+    "Connection Category": "explicit reference",
+    "Note": "Eusebius uses Antiquities as external historical testimony concerning Roman Judea and reproduces its disputed passage about Jesus, now called the Testimonium Flavianum, in support of his Christian argument. (Tertullian Project)"
+  },
+  {
+    "Index": "7",
+    "Primary": "2, text",
+    "Primary Name": "The Jewish War",
+    "Secondary": "11, text",
+    "Secondary Name": "Proof of the Gospel",
+    "Connection Category": "explicit reference",
+    "Note": "Eusebius directs readers to Josephus for an accurate account of Jerusalem’s Roman siege and presents the destruction of the city and Temple as the historical fulfillment of biblical prophecy."
+  },
+  {
+    "Index": "8",
+    "Primary": "5, text",
+    "Primary Name": "Address to the Greeks",
+    "Secondary": "12, text",
+    "Secondary Name": "Ecclesiastical History",
+    "Connection Category": "explicit reference",
+    "Note": "Eusebius quotes Address to the Greeks, discusses Tatian and his writings, and highlights its argument that Moses and the Hebrew prophets were older than the celebrated figures of Greek culture."
+  },
+  {
+    "Index": "9",
+    "Primary": "5, text",
+    "Primary Name": "Address to the Greeks",
+    "Secondary": "10, text",
+    "Secondary Name": "Preparation for the Gospel",
+    "Connection Category": "explicit reference",
+    "Note": "Book 10 of Preparation for the Gospel directly incorporates material from Address to the Greeks in arguing that Moses predates Troy and that Greek philosophy borrowed from older Hebrew and non-Greek traditions."
+  },
+  {
+    "Index": "10",
+    "Primary": "5, text",
+    "Primary Name": "Address to the Greeks",
+    "Secondary": "6, text",
+    "Secondary Name": "Chronicle",
+    "Connection Category": "explicit reference",
+    "Note": "The Chronicle places Tatian among earlier Christian chronographers and continues his synchronizing argument that Moses lived centuries before the Trojan War and the earliest Greek sages."
+  },
+  {
+    "Index": "11",
+    "Primary": "1, father",
+    "Primary Name": "Mary (Theotokos, Maryam)",
+    "Secondary": "4, text",
+    "Secondary Name": "Odes of Solomon",
+    "Connection Category": "custom connection",
+    "Note": "Ode 19 describes a virgin who conceives and bears a son through divine action, providing an unnamed but probable reference to Mary and the birth of Jesus."
+  },
+  {
+    "Index": "12",
+    "Primary": "1, father",
+    "Primary Name": "Mary (Theotokos, Maryam)",
+    "Secondary": "11, text",
+    "Secondary Name": "Proof of the Gospel",
+    "Connection Category": "explicit reference",
+    "Note": "Eusebius names Mary while discussing the prophetic and Gospel traditions concerning Jesus’s virginal conception and birth."
+  },
+  {
+    "Index": "13",
+    "Primary": "1, father",
+    "Primary Name": "Mary (Theotokos, Maryam)",
+    "Secondary": "12, text",
+    "Secondary Name": "Ecclesiastical History",
+    "Connection Category": "explicit reference",
+    "Note": "Eusebius identifies Mary as the mother of Jesus while discussing his birth, genealogy, and human family."
+  },
+  {
+    "Index": "14",
+    "Primary": "2, father",
+    "Primary Name": "John The Baptist",
+    "Secondary": "3, text",
+    "Secondary Name": "Antiquities of the Jews",
+    "Connection Category": "explicit reference",
+    "Note": "Josephus describes John the Baptist as a righteous teacher who practiced baptism and was executed by Herod Antipas because of his influence over the population."
+  },
+  {
+    "Index": "15",
+    "Primary": "2, father",
+    "Primary Name": "John The Baptist",
+    "Secondary": "6, text",
+    "Secondary Name": "Chronicle",
+    "Connection Category": "explicit reference",
+    "Note": "Eusebius identifies John, son of Zechariah, as preaching beside the Jordan and announcing the appearance of Christ at the beginning of Jesus’s ministry."
+  },
+  {
+    "Index": "16",
+    "Primary": "2, father",
+    "Primary Name": "John The Baptist",
+    "Secondary": "11, text",
+    "Secondary Name": "Proof of the Gospel",
+    "Connection Category": "explicit reference",
+    "Note": "Eusebius presents John the Baptist as Jesus’s prophetic forerunner and cites Josephus’s independent account of his teaching, baptism, and death."
+  },
+  {
+    "Index": "17",
+    "Primary": "2, father",
+    "Primary Name": "John The Baptist",
+    "Secondary": "12, text",
+    "Secondary Name": "Ecclesiastical History",
+    "Connection Category": "explicit reference",
+    "Note": "Eusebius discusses John the Baptist’s ministry and execution while synchronizing Gospel history with the reign of Herod Antipas."
+  },
+  {
+    "Index": "18",
+    "Primary": "3, father",
+    "Primary Name": "Jesus",
+    "Secondary": "3, text",
+    "Secondary Name": "Antiquities of the Jews",
+    "Connection Category": "explicit reference",
+    "Note": "Jesus appears in the transmitted Testimonium Flavianum and more securely in the reference to James as “the brother of Jesus, who was called Christ.”"
+  },
+  {
+    "Index": "19",
+    "Primary": "3, father",
+    "Primary Name": "Jesus",
+    "Secondary": "6, text",
+    "Secondary Name": "Chronicle",
+    "Connection Category": "explicit reference",
+    "Note": "Records Jesus’s birth at Bethlehem, public ministry, miracles and crucifixion."
+  },
+  {
+    "Index": "20",
+    "Primary": "3, father",
+    "Primary Name": "Jesus",
+    "Secondary": "8, text",
+    "Secondary Name": "Against Hierocles",
+    "Connection Category": "explicit reference",
+    "Note": "Repeatedly contrasts Jesus Christ with Apollonius of Tyana."
+  },
+  {
+    "Index": "21",
+    "Primary": "3, father",
+    "Primary Name": "Jesus",
+    "Secondary": "9, text",
+    "Secondary Name": "On the Martyrs of Palestine",
+    "Connection Category": "explicit reference",
+    "Note": "Jesus is repeatedly invoked as Christ, Lord and Savior within the martyr narratives."
+  },
+  {
+    "Index": "22",
+    "Primary": "3, father",
+    "Primary Name": "Jesus",
+    "Secondary": "10, text",
+    "Secondary Name": "Preparation for the Gospel",
+    "Connection Category": "explicit reference",
+    "Note": "Eusebius names Jesus Christ while defining and defending Christianity."
+  },
+  {
+    "Index": "23",
+    "Primary": "3, father",
+    "Primary Name": "Jesus",
+    "Secondary": "11, text",
+    "Secondary Name": "Proof of the Gospel",
+    "Connection Category": "explicit reference",
+    "Note": "Jesus is the central subject of the work’s prophetic and historical argument."
+  },
+  {
+    "Index": "24",
+    "Primary": "3, father",
+    "Primary Name": "Jesus",
+    "Secondary": "12, text",
+    "Secondary Name": "Ecclesiastical History",
+    "Connection Category": "explicit reference",
+    "Note": "Jesus is repeatedly discussed as a historical and theological figure."
+  },
+  {
+    "Index": "25",
+    "Primary": "3, father",
+    "Primary Name": "Jesus",
+    "Secondary": "13, text",
+    "Secondary Name": "Life of Constantine",
+    "Connection Category": "explicit reference",
+    "Note": "Refers repeatedly to the same figure as Christ, the Savior and the Son of God, even where the personal name “Jesus” is not used."
+  },
+  {
+    "Index": "26",
+    "Primary": "3, father",
+    "Primary Name": "Jesus",
+    "Secondary": "4, text",
+    "Secondary Name": "Odes of Solomon",
+    "Connection Category": "custom connection",
+    "Note": "The divinely born son in Ode 19 is very probably Jesus, but he is not named."
+  },
+  {
+    "Index": "27",
+    "Primary": "3, father",
+    "Primary Name": "Jesus",
+    "Secondary": "5, text",
+    "Secondary Name": "Address to the Greeks",
+    "Connection Category": "custom connection",
+    "Note": "Tatian declares that Christians teach that God was born in human form, clearly referring to the incarnation of Jesus without naming him."
+  },
+  {
+  "Index": "28",
+  "Primary": "1, father",
+  "Primary Name": "Mary (Theotokos, Maryam)",
+  "Secondary": "3, father",
+  "Secondary Name": "Jesus",
+  "Connection Category": "familial: mother/son",
+  "Note": "-"
+}
+]

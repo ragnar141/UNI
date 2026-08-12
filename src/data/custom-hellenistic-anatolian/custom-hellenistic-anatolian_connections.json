@@ -1,0 +1,47 @@
+[
+  {
+    "Index": "1",
+    "Primary": "4, text",
+    "Primary Name": "Teos Grants Land to the Dionysiac Artists",
+    "Secondary": "6, text",
+    "Secondary Name": "Parian Decree Accepting the Games of Artemis Leukophryene",
+    "Connection Category": "indirect connection",
+    "Note": "The Dionysiac Artists of Ionia and the Hellespont, the association established at Teos and represented in the Teian grant, also participated directly in Magnesia’s campaign for recognition of the Leukophryeneia. Around 206/5 BCE the same association issued its own decree accepting the festival established by Magnesia. The Parian decree belongs to this wider network of responses to the Magnesian initiative."
+  },
+  {
+    "Index": "2",
+    "Primary": "5, text",
+    "Primary Name": "Antiochus III Letter to Sardis",
+    "Secondary": "6, text",
+    "Secondary Name": "Parian Decree Accepting the Games of Artemis Leukophryene",
+    "Connection Category": "indirect connection",
+    "Note": "Antiochus III, the author of the Sardis letter, was also approached by Magnesian envoys during the campaign to secure recognition for the games of Artemis Leukophryene. A surviving royal response records his acceptance of the games and support for the honors granted to the goddess, placing his kingship and the Parian decree within the same diplomatic campaign organized by Magnesia."
+  },
+  {
+    "Index": "3",
+    "Primary": "6, text",
+    "Primary Name": "Parian Decree Accepting the Games of Artemis Leukophryene",
+    "Secondary": "9, text",
+    "Secondary Name": "Decree on the Festival of Zeus Sosipolis",
+    "Connection Category": "indirect connection",
+    "Note": "Both texts belong to the civic and religious institutions of Magnesia on the Maeander in the late third and early second centuries BCE. The Parian decree records external recognition of Magnesia’s festival of Artemis Leukophryene, while the Zeus Sosipolis decree regulates one of Magnesia’s own major civic festivals. Together they show the city using formally organized cult, sacrifice, processions, and festivals both internally and in relations with other Greek communities."
+  },
+  {
+    "Index": "4",
+    "Primary": "3, text",
+    "Primary Name": "Dedication to Attalos I at Herakleia near Latmos",
+    "Secondary": "7, text",
+    "Secondary Name": "Regulations for the Cult of Athena Nikephoros at Pergamon",
+    "Connection Category": "indirect connection",
+    "Note": "The dedication reflects the extension of Attalos I’s royal presence beyond Pergamon, while the later regulations concern Athena Nikephoros, a cult closely connected with Attalid kingship. Attalos I was associated with the development of Athena’s Nikephoros aspect at Pergamon following his victories, and the cult was subsequently expanded under Eumenes II and remained institutionally important after the end of the Attalid dynasty."
+  },
+  {
+    "Index": "5",
+    "Primary": "5, text",
+    "Primary Name": "Antiochus III Letter to Sardis",
+    "Secondary": "11, text",
+    "Secondary Name": "Nemrut Dağ Cult Inscriptions",
+    "Connection Category": "indirect connection",
+    "Note": "The Sardis letter represents Seleucid kingship under Antiochus III, while Antiochus I of Commagene later made Seleucid ancestry a central element of the dynastic program expressed at Nemrut Dağ. The Commagenian king emphasized his maternal descent from the Seleucid royal house and combined that heritage with claimed Iranian ancestry, transforming the legacy of the earlier Seleucid monarchy into a new late-Hellenistic ideology of kingship."
+  }
+]

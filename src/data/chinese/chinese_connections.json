@@ -1,0 +1,1127 @@
+[
+  {
+    "Index": "1",
+    "Primary": "1, father",
+    "Primary Name": "Fuxi",
+    "Secondary": "2, father",
+    "Secondary Name": "Nuwa",
+    "Connection Category": "familial: brother/sister, consorts",
+    "Note": "In later Chinese mythic traditions, Nüwa and Fuxi are presented as a primordial paired couple and, in some narratives, as siblings who become spouses. Together they are associated with human origins, marriage, and the ordering or restoration of the world."
+  },
+  {
+    "Index": "2",
+    "Primary": "1, father",
+    "Primary Name": "Fuxi",
+    "Secondary": "4, text",
+    "Secondary Name": "I Ching (Yijing)",
+    "Connection Category": "explicit reference",
+    "Note": "The Yijing’s “Appended Statements II” (Xici Xia), one of the Ten Wings, explicitly names Fuxi as Baoxi. It says that he observed patterns in heaven and earth, birds and beasts, and the human body, and then created the eight trigrams."
+  },
+  {
+    "Index": "3",
+    "Primary": "1, father",
+    "Primary Name": "Fuxi",
+    "Secondary": "5, text",
+    "Secondary Name": "Book of Documents (Shujing)",
+    "Connection Category": "custom connection",
+    "Note": "The traditional preface attached to the Book of Documents says that Fuxi first drew the eight trigrams and created written records, and that the writings of Fuxi, Shennong, and Huangdi were called the lost Sanfen. Fuxi is not narrated in the surviving core Documents."
+  },
+  {
+    "Index": "4",
+    "Primary": "1, father",
+    "Primary Name": "Fuxi",
+    "Secondary": "18, text",
+    "Secondary Name": "Huainanzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Huainanzi explicitly names Fuxi as an ancient sage-ruler and pairs him with Nüwa as figures whose virtue ordered the world without coercive law. It incorporates him into broader accounts of primordial government and civilizational beginnings without presenting a single continuous biography."
+  },
+  {
+    "Index": "5",
+    "Primary": "1, father",
+    "Primary Name": "Fuxi",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji identifies Fuxi as the creator of the eight trigrams and remembers him as an ancient sovereign associated with the Feng and Shan sacrifices. The extensive biography commonly printed with the Shiji is a later supplement rather than part of Sima Qian’s original work."
+  },
+  {
+    "Index": "6",
+    "Primary": "2, father",
+    "Primary Name": "Nuwa",
+    "Secondary": "18, text",
+    "Secondary Name": "Huainanzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Huainanzi presents Nüwa as the cosmic savior who repairs the broken sky with five-colored stones, restores the supports of the world, defeats destructive forces, and ends the primordial flood."
+  },
+  {
+    "Index": "7",
+    "Primary": "3, father",
+    "Primary Name": "Shennong",
+    "Secondary": "11, text",
+    "Secondary Name": "Mencius (Mengzi)",
+    "Connection Category": "explicit reference",
+    "Note": "The Mencius connects Shennong with Xu Xing’s agrarian movement, whose followers claimed that rulers should farm alongside the people. Mencius rejects this interpretation of Shennong and defends political and economic specialization."
+  },
+  {
+    "Index": "8",
+    "Primary": "3, father",
+    "Primary Name": "Shennong",
+    "Secondary": "13, text",
+    "Secondary Name": "Zhuangzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Zhuangzi invokes Shennong in several accounts of primordial society. He is portrayed variously as a ruler of a simple and nonviolent agricultural age, an unselfish sovereign, and a philosophical seeker, although some passages also place his reign within the gradual decline from original natural virtue."
+  },
+  {
+    "Index": "9",
+    "Primary": "3, father",
+    "Primary Name": "Shennong",
+    "Secondary": "16, text",
+    "Secondary Name": "Han Feizi",
+    "Connection Category": "explicit reference",
+    "Note": "The Han Feizi presents Shennong as the exceptional person who continued productive labor even when his material needs were satisfied. Han Fei uses this example to argue that government cannot expect ordinary people to possess Shennong’s extraordinary discipline and must instead rely on enforceable institutions."
+  },
+  {
+    "Index": "10",
+    "Primary": "3, father",
+    "Primary Name": "Shennong",
+    "Secondary": "18, text",
+    "Secondary Name": "Huainanzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Huainanzi portrays Shennong as the culture hero who taught grain cultivation, evaluated agricultural land, and tasted herbs and water to protect humanity from disease and poison. It also presents his reign as an age of government without coercive laws, while warning that his methods could not be mechanically applied to later societies."
+  },
+  {
+    "Index": "11",
+    "Primary": "3, father",
+    "Primary Name": "Shennong",
+    "Secondary": "19, text",
+    "Secondary Name": "Luxuriant Dew of the Spring and Autumn Annals (Chūnqiū Fánlù)",
+    "Connection Category": "explicit reference",
+    "Note": "The received Chunqiu Fanlu treats Shennong as an ancient sovereign within schemes of legitimate conquest, dynastic succession, and changing classifications of sacred kingship. It identifies him with the Red Emperor in one such scheme; the received collection is textually composite."
+  },
+  {
+    "Index": "12",
+    "Primary": "3, father",
+    "Primary Name": "Shennong",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The core Shiji presents the Shennong clan as the ancient ruling order whose decline preceded the rise of the Yellow Emperor. Shennong also functions as a boundary marker for remote antiquity, although the extensive culture-hero biography associated with him belongs to a later supplement."
+  },
+  {
+    "Index": "13",
+    "Primary": "4, father",
+    "Primary Name": "Huangdi (Yellow Emperor)",
+    "Secondary": "4, text",
+    "Secondary Name": "I Ching (Yijing)",
+    "Connection Category": "explicit reference",
+    "Note": "The Yijing’s “Appended Statements” places Huangdi after Shennong among the sage-rulers who adapted civilization to changing conditions. Together with Yao and Shun, he established ordered government symbolized by formal clothing and modeled on the cosmic relationship between Qian and Kun."
+  },
+  {
+    "Index": "14",
+    "Primary": "4, father",
+    "Primary Name": "Huangdi (Yellow Emperor)",
+    "Secondary": "5, text",
+    "Secondary Name": "Book of Documents (Shujing)",
+    "Connection Category": "custom connection",
+    "Note": "The traditional preface attached to the Book of Documents associates Huangdi with one of the lost Sanfen, primordial writings said to communicate the Great Way. Huangdi is not securely named or narrated in the surviving core Documents."
+  },
+  {
+    "Index": "15",
+    "Primary": "4, father",
+    "Primary Name": "Huangdi (Yellow Emperor)",
+    "Secondary": "18, text",
+    "Secondary Name": "Huainanzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Huainanzi presents Huangdi as an ideal ancient ruler who regulated the calendar, social order, agriculture, law, and government with the aid of wise ministers. It also portrays him as a warrior who used force to suppress disorder, quotes teachings attributed to him, and identifies him cosmologically as the central thearch associated with earth and the color yellow."
+  },
+  {
+    "Index": "16",
+    "Primary": "4, father",
+    "Primary Name": "Huangdi (Yellow Emperor)",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji opens its historical narrative with Huangdi, personally named Xuanyuan. It recounts his victories over the Yan Emperor and Chiyou, his recognition as Son of Heaven, his territorial and governmental activity, calendrical and ritual organization, descendants, death, and succession by Zhuanxu."
+  },
+  {
+    "Index": "17",
+    "Primary": "5, father",
+    "Primary Name": "Yao",
+    "Secondary": "5, text",
+    "Secondary Name": "Book of Documents (Shujing)",
+    "Connection Category": "explicit reference",
+    "Note": "The Book of Documents’ “Canon of Yao” presents Yao as an ideal sage-ruler who orders the calendar and seasons, confronts the great flood, consults his ministers, rejects hereditary succession through his unworthy son, and selects and tests Shun as his successor."
+  },
+  {
+    "Index": "18",
+    "Primary": "5, father",
+    "Primary Name": "Yao",
+    "Secondary": "7, text",
+    "Secondary Name": "Analects (Lunyu)",
+    "Connection Category": "explicit reference",
+    "Note": "The Analects praises Yao as a sage-ruler whose government corresponded to the greatness of Heaven. It also preserves Yao’s formal charge transferring Heaven’s ordained responsibility for the realm to Shun."
+  },
+  {
+    "Index": "19",
+    "Primary": "5, father",
+    "Primary Name": "Yao",
+    "Secondary": "11, text",
+    "Secondary Name": "Mencius (Mengzi)",
+    "Connection Category": "explicit reference",
+    "Note": "The Mencius presents Yao as the paradigmatic benevolent ruler who discovered, tested, and recommended Shun. It argues that Yao did not personally give the realm to Shun; rather, Heaven confirmed Shun through his successful government and acceptance by the people."
+  },
+  {
+    "Index": "20",
+    "Primary": "5, father",
+    "Primary Name": "Yao",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji provides an extensive biography of Yao as one of the Five Emperors. It portrays him as a virtuous ruler who regulates the calendar, confronts the great flood, rejects his own son as unworthy, discovers and tests Shun, associates him with government, and prepares his eventual succession."
+  },
+  {
+    "Index": "21",
+    "Primary": "6, father",
+    "Primary Name": "Shun",
+    "Secondary": "5, text",
+    "Secondary Name": "Book of Documents (Shujing)",
+    "Connection Category": "explicit reference",
+    "Note": "The Book of Documents presents Shun as an exemplary sage-ruler chosen and tested by Yao. Shun orders ritual, administration, music, law, and territorial government, appoints capable ministers, suppresses destructive officials, directs the response to the great flood, and ultimately prepares Yu to succeed him."
+  },
+  {
+    "Index": "22",
+    "Primary": "6, father",
+    "Primary Name": "Shun",
+    "Secondary": "7, text",
+    "Secondary Name": "Analects (Lunyu)",
+    "Connection Category": "explicit reference",
+    "Note": "The Analects presents Shun as an ideal sage-ruler who possessed political authority without exploiting it for himself. He governed through personal reverence, non-coercive leadership, and the appointment of capable ministers, and received Heaven’s ordained responsibility for the realm from Yao."
+  },
+  {
+    "Index": "23",
+    "Primary": "6, father",
+    "Primary Name": "Shun",
+    "Secondary": "11, text",
+    "Secondary Name": "Mencius (Mengzi)",
+    "Connection Category": "explicit reference",
+    "Note": "The Mencius portrays Shun as the paradigmatic filial sage who rose from humble agricultural life despite persecution by his family. Yao tested and recommended him, but Heaven and the people ultimately confirmed his succession. Shun exemplifies moral self-cultivation, endurance through hardship, benevolent government, and legitimate rule based on virtue rather than heredity."
+  },
+  {
+    "Index": "24",
+    "Primary": "6, father",
+    "Primary Name": "Shun",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji provides an extensive biography of Shun as one of the Five Emperors. It recounts his humble ancestry, exceptional filial conduct under family persecution, testing and promotion by Yao, acceptance by officials and the people, administrative reforms, appointment of Yu and other ministers, punishment of destructive figures, succession to Yao, and eventual transmission of authority to Yu."
+  },
+  {
+    "Index": "25",
+    "Primary": "7, father",
+    "Primary Name": "Yu the Great",
+    "Secondary": "5, text",
+    "Secondary Name": "Book of Documents (Shujing)",
+    "Connection Category": "explicit reference",
+    "Note": "The Book of Documents presents Yu as Shun’s minister and successor, the engineer who brings the great flood under control, regulates rivers and land, organizes the Nine Provinces and their tribute, and participates in the moral and political counsels of the sage rulers."
+  },
+  {
+    "Index": "26",
+    "Primary": "7, father",
+    "Primary Name": "Yu the Great",
+    "Secondary": "7, text",
+    "Secondary Name": "Analects (Lunyu)",
+    "Connection Category": "explicit reference",
+    "Note": "The Analects praises Yu as a nearly faultless sage-ruler who lived frugally, devoted his strength to irrigation and flood-control works, used political authority without seeking personal advantage, and inherited Heaven’s charge from Shun."
+  },
+  {
+    "Index": "27",
+    "Primary": "7, father",
+    "Primary Name": "Yu the Great",
+    "Secondary": "11, text",
+    "Secondary Name": "Mencius (Mengzi)",
+    "Connection Category": "explicit reference",
+    "Note": "The Mencius presents Yu as the sage who controlled the flood by guiding water according to its natural course. He exemplifies tireless public responsibility, treating every drowning person as his own concern, and his succession to Shun supports Mencius’s theory that legitimate rulership is confirmed by Heaven and the people rather than privately bestowed."
+  },
+  {
+    "Index": "28",
+    "Primary": "7, father",
+    "Primary Name": "Yu the Great",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji’s “Basic Annals of the Xia” provides Yu’s foundational biography: his descent from Gun and the Yellow Emperor, appointment by Shun, completion of the great flood-control project, organization of the Nine Provinces and tribute system, succession to Shun, establishment of Xia rule, death at Kuaiji, and eventual succession by his son Qi."
+  },
+  {
+    "Index": "29",
+    "Primary": "8, father",
+    "Primary Name": "Shangdi",
+    "Secondary": "5, text",
+    "Secondary Name": "Book of Documents (Shujing)",
+    "Connection Category": "explicit reference",
+    "Note": "The Book of Documents presents Shangdi as the supreme divine authority who receives royal sacrifice, issues or confirms political mandates, judges rulers according to their conduct, withdraws protection from corrupt dynasties, and legitimizes the succession from Xia to Shang and from Shang to Zhou."
+  },
+  {
+    "Index": "30",
+    "Primary": "8, father",
+    "Primary Name": "Shangdi",
+    "Secondary": "18, text",
+    "Secondary Name": "Huainanzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Huainanzi explicitly uses Shangdi in inherited ritual, classical, and cosmological formulations, including references to sacrifice and supreme celestial authority. Shangdi appears in several contexts, but the work does not develop the deity as a sustained mythological character."
+  },
+  {
+    "Index": "31",
+    "Primary": "8, father",
+    "Primary Name": "Shangdi",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji presents Shangdi as the supreme divine authority addressed through royal and imperial sacrifice, capable of issuing commands in dreams, granting blessings and omens, imposing moral prohibitions, and legitimizing—or exposing the illegitimacy of—political and ritual claims. Shangdi is especially prominent in the work’s history of Qin and Han state religion."
+  },
+  {
+    "Index": "32",
+    "Primary": "9, father",
+    "Primary Name": "Tian",
+    "Secondary": "5, text",
+    "Secondary Name": "Book of Documents (Shujing)",
+    "Connection Category": "explicit reference",
+    "Note": "The Book of Documents presents Tian as both the ordered celestial cosmos and the supreme moral-political authority. Heaven grants and withdraws rulership according to virtue, communicates its judgment through events and the people’s response, and supplies the celestial patterns by which rulers regulate the calendar and government."
+  },
+  {
+    "Index": "33",
+    "Primary": "9, father",
+    "Primary Name": "Tian",
+    "Secondary": "7, text",
+    "Secondary Name": "Analects (Lunyu)",
+    "Connection Category": "explicit reference",
+    "Note": "The Analects presents Tian as the silent but ultimate source of moral vocation, personal endowment, destiny, and the continuity of civilization. Confucius believes his virtue and cultural mission are authorized by Heaven, although Heaven operates through natural order and circumstance rather than direct verbal revelation."
+  },
+  {
+    "Index": "34",
+    "Primary": "9, father",
+    "Primary Name": "Tian",
+    "Secondary": "11, text",
+    "Secondary Name": "Mencius (Mengzi)",
+    "Connection Category": "explicit reference",
+    "Note": "The Mencius explicitly links Tian with political legitimacy, personal destiny, moral cultivation, and human nature. Heaven’s political judgment is manifested through successful government and the people’s acceptance, while understanding one’s moral nature is presented as a path toward knowing and serving Heaven."
+  },
+  {
+    "Index": "35",
+    "Primary": "9, father",
+    "Primary Name": "Tian",
+    "Secondary": "13, text",
+    "Secondary Name": "Zhuangzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Zhuangzi presents Tian as the spontaneous, uncontrived dimension of reality and the larger transformative process of Heaven and Earth. Tian contrasts with artificial human distinctions and deliberate interference; harmony with Heaven means accepting change, following natural capacities, and participating in cosmic transformation without forced control."
+  },
+  {
+    "Index": "36",
+    "Primary": "9, father",
+    "Primary Name": "Tian",
+    "Secondary": "18, text",
+    "Secondary Name": "Huainanzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Huainanzi presents Tian as the celestial and cosmic dimension produced from clear yang qi, governing seasons, time, astronomical patterns, and the transformations of living things. Heaven participates in an interconnected Heaven–Earth–human order and also supplies the historical circumstances through which political virtue can become effective."
+  },
+  {
+    "Index": "37",
+    "Primary": "9, father",
+    "Primary Name": "Tian",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji presents Tian as a multidimensional celestial authority governing mandate, historical opportunity, fate, omens, and imperial legitimacy. Tian is also the observable heavens studied through astronomy and the recipient of royal sacrifice, linking cosmic patterns with political and human history."
+  },
+  {
+    "Index": "38",
+    "Primary": "4, text",
+    "Primary Name": "I Ching (Yijing)",
+    "Secondary": "10, father",
+    "Secondary Name": "Yin",
+    "Connection Category": "explicit reference",
+    "Note": "The received Yijing, especially the Ten Wings, presents Yin as one of the complementary powers through which Heaven’s Way and the process of change operate. Divided lines are classified as yin, and yin alternates with yang through the patterns represented by the trigrams and hexagrams."
+  },
+  {
+    "Index": "39",
+    "Primary": "9, text",
+    "Primary Name": "Dao De Jing",
+    "Secondary": "10, father",
+    "Secondary Name": "Yin",
+    "Connection Category": "explicit reference",
+    "Note": "The Dao De Jing states that all things carry Yin and embrace Yang, while their interacting qi produces harmony. Yin is an indispensable complementary tendency within generated existence rather than an independent deity or a purely negative force."
+  },
+  {
+    "Index": "40",
+    "Primary": "10, father",
+    "Primary Name": "Yin",
+    "Secondary": "13, text",
+    "Secondary Name": "Zhuangzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Zhuangzi presents Yin as one of the complementary cosmic powers whose interaction with Yang produces seasons, living beings, bodily conditions, and continuous transformation. Yin is associated with cold, stillness, concealment, and contraction, but is not morally evil or absolutely subordinate; it is an unavoidable dimension of the transformations of Heaven and Earth."
+  },
+  {
+    "Index": "41",
+    "Primary": "10, father",
+    "Primary Name": "Yin",
+    "Secondary": "15, text",
+    "Secondary Name": "Xunzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Xunzi treats Yin as one of the regular natural processes whose interaction with Yang produces physical change and living things. Yin–Yang transformations are predictable features of nature rather than moral messages or supernatural interventions, while properly ordered human society depends on ritual and deliberate institutions."
+  },
+  {
+    "Index": "42",
+    "Primary": "10, father",
+    "Primary Name": "Yin",
+    "Secondary": "18, text",
+    "Secondary Name": "Huainanzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Huainanzi presents Yin as one of the two mutually generating cosmic forms of qi. Heavy and turbid Yin condenses into Earth and is associated with stillness, cold, darkness, contraction, winter, bodily closure, and material formation. Through its continual interaction with Yang, Yin structures the cosmos, seasons, living beings, government, and human physiology."
+  },
+  {
+    "Index": "43",
+    "Primary": "10, father",
+    "Primary Name": "Yin",
+    "Secondary": "19, text",
+    "Secondary Name": "Luxuriant Dew of the Spring and Autumn Annals (Chūnqiū Fánlù)",
+    "Connection Category": "explicit reference",
+    "Note": "The received Chunqiu Fanlu develops Yin as a seasonal, cosmological, ethical, and political principle. Yin is associated with cold, winter, concealment, punishment, and subordinate roles; although necessary to the cosmic cycle, it is ranked beneath Yang in the collection’s strongly hierarchical scheme."
+  },
+  {
+    "Index": "44",
+    "Primary": "10, father",
+    "Primary Name": "Yin",
+    "Secondary": "24, text",
+    "Secondary Name": "Book of Han (Hanshu)",
+    "Connection Category": "explicit reference",
+    "Note": "The Hanshu presents Yin as a cosmic, seasonal, political, and historical force operating with Yang through astronomy, calendars, music, omens, and dynastic events. Its Dong Zhongshu-related material particularly associates Yin with winter, concealment, punishment, and killing; the bibliographical treatise also records the Yin–Yang school."
+  },
+  {
+    "Index": "45",
+    "Primary": "4, text",
+    "Primary Name": "I Ching (Yijing)",
+    "Secondary": "11, father",
+    "Secondary Name": "Yang",
+    "Connection Category": "explicit reference",
+    "Note": "The received Yijing, especially the Ten Wings, presents Yang as the firm and active member of the complementary Yin–Yang polarity through which change operates. Undivided lines are classified as yang, while Qian is strongly associated with Heaven, activity, strength, and generation."
+  },
+  {
+    "Index": "46",
+    "Primary": "9, text",
+    "Primary Name": "Dao De Jing",
+    "Secondary": "11, father",
+    "Secondary Name": "Yang",
+    "Connection Category": "explicit reference",
+    "Note": "The Dao De Jing states that all things embrace Yang while carrying Yin and that their mingling qi produces harmony. Yang is an active and generative tendency within formed existence, but it remains inseparable from Yin and is not treated as inherently superior."
+  },
+  {
+    "Index": "47",
+    "Primary": "11, father",
+    "Primary Name": "Yang",
+    "Secondary": "13, text",
+    "Secondary Name": "Zhuangzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Zhuangzi presents Yang as the moving, bright, warm, and expansive cosmic tendency whose interaction with Yin produces living things, seasonal cycles, bodily change, and continuous transformation. Yang is powerful but not morally superior; harmony and life arise through the mutual regulation of Yin and Yang."
+  },
+  {
+    "Index": "48",
+    "Primary": "11, father",
+    "Primary Name": "Yang",
+    "Secondary": "18, text",
+    "Secondary Name": "Huainanzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Huainanzi presents Yang as the light and clear form of qi that rises and disperses to form Heaven. Associated with movement, warmth, light, opening, growth, and the active seasons, Yang continually interacts with and emerges alongside Yin to structure the cosmos, living beings, time, government, and human physiology."
+  },
+  {
+    "Index": "49",
+    "Primary": "11, father",
+    "Primary Name": "Yang",
+    "Secondary": "19, text",
+    "Secondary Name": "Luxuriant Dew of the Spring and Autumn Annals (Chūnqiū Fánlù)",
+    "Connection Category": "explicit reference",
+    "Note": "The received Chunqiu Fanlu presents Yang as the honored, active, generative, and morally preferred cosmic principle, associating it with Heaven, spring and summer, warmth, rulers, virtue, and life. Although it ranks Yang above Yin, it also recognizes that generation requires their interaction."
+  },
+  {
+    "Index": "50",
+    "Primary": "11, father",
+    "Primary Name": "Yang",
+    "Secondary": "24, text",
+    "Secondary Name": "Book of Han (Hanshu)",
+    "Connection Category": "explicit reference",
+    "Note": "The Hanshu presents Yang as a cosmic, seasonal, political, and historical force associated with movement, spring, light, generation, virtue, and life. It applies Yin–Yang analysis to calendars, astronomy, music, omens, and government, especially in material influenced by Dong Zhongshu."
+  },
+  {
+    "Index": "51",
+    "Primary": "9, text",
+    "Primary Name": "Dao De Jing",
+    "Secondary": "12, father",
+    "Secondary Name": "Dao",
+    "Connection Category": "explicit reference",
+    "Note": "The Dao De Jing presents Dao as the nameless and inexhaustible source of Heaven, Earth, and the myriad things. Dao operates spontaneously and without coercive action, nourishes beings without possessing them, and supplies a model for conduct and government through simplicity, non-contention, and wuwei."
+  },
+  {
+    "Index": "52",
+    "Primary": "12, father",
+    "Primary Name": "Dao",
+    "Secondary": "13, text",
+    "Secondary Name": "Zhuangzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Zhuangzi presents Dao as the formless and comprehensive process through which Heaven, Earth, life, death, and the transformations of all beings occur. To follow Dao is to relinquish rigid distinctions, respond freely to changing circumstances, and allow beings to develop according to their particular capacities."
+  },
+  {
+    "Index": "53",
+    "Primary": "12, father",
+    "Primary Name": "Dao",
+    "Secondary": "15, text",
+    "Secondary Name": "Xunzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Xunzi presents Dao as the comprehensive and correct standard for moral judgment, social order, and political government. The sages embody Dao by establishing ritual, righteousness, correct names, education, and institutions that transform unruly human tendencies into an ordered civilization."
+  },
+  {
+    "Index": "54",
+    "Primary": "12, father",
+    "Primary Name": "Dao",
+    "Secondary": "16, text",
+    "Secondary Name": "Han Feizi",
+    "Connection Category": "explicit reference",
+    "Note": "The Han Feizi presents Dao as the formless and adaptable Way underlying the distinct patterns of things. Politically, the ruler imitates Dao by remaining concealed and outwardly inactive while controlling ministers through standards, administrative technique, and the matching of claims with performance."
+  },
+  {
+    "Index": "55",
+    "Primary": "12, father",
+    "Primary Name": "Dao",
+    "Secondary": "18, text",
+    "Secondary Name": "Huainanzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Huainanzi presents Dao as the formless, immeasurable, and all-encompassing ground of Heaven, Earth, and the myriad transformations. Sages and rulers align with Dao through inner emptiness, responsiveness, non-coercive action, and careful adaptation to the natural patterns of things."
+  },
+  {
+    "Index": "56",
+    "Primary": "12, father",
+    "Primary Name": "Dao",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji records Dao as the central teaching of Laozi and as the intellectual source from which the approaches of Zhuangzi, Shen Buhai, and Han Fei developed in different directions. Sima Qian associates Dao with emptiness, responsiveness to change, naturalness, and non-action, while also using dao more broadly for moral paths, political methods, and practical principles."
+  },
+  {
+    "Index": "57",
+    "Primary": "13, father",
+    "Primary Name": "Laozi",
+    "Secondary": "9, text",
+    "Secondary Name": "Dao De Jing",
+    "Connection Category": "custom connection",
+    "Note": "The Dao De Jing, also known as the Laozi, is traditionally associated with Laozi and became the foundational textual expression of teachings linked to him concerning Dao, De, non-action, simplicity, softness, and non-coercive government. The received work is composite, and its formation cannot be reduced securely to a single historical author."
+  },
+  {
+    "Index": "58",
+    "Primary": "13, father",
+    "Primary Name": "Laozi",
+    "Secondary": "13, text",
+    "Secondary Name": "Zhuangzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Zhuangzi portrays Laozi, usually called Lao Dan, as a master of Dao who instructs Confucius and other seekers. He criticizes artificial morality, intellectual striving, forced government, and attachment to fixed distinctions, advocating natural transformation, emptiness, non-interference, and freedom from deliberate contrivance."
+  },
+  {
+    "Index": "59",
+    "Primary": "13, father",
+    "Primary Name": "Laozi",
+    "Secondary": "15, text",
+    "Secondary Name": "Xunzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Xunzi criticizes Laozi as a partial thinker who understood yielding, contraction, and withdrawal but failed to recognize the complementary need for assertion and active human order. Laozi’s insight is treated as genuine but incomplete."
+  },
+  {
+    "Index": "60",
+    "Primary": "13, father",
+    "Primary Name": "Laozi",
+    "Secondary": "16, text",
+    "Secondary Name": "Han Feizi",
+    "Connection Category": "explicit reference",
+    "Note": "The Han Feizi engages Laozi through the chapters “Explaining Laozi” and “Illustrating Laozi,” which interpret sayings from the Dao De Jing through political administration, strategy, self-preservation, and rulership. Laozi’s ideas of emptiness, non-action, flexibility, and subtle beginnings are adapted into techniques for maintaining sovereign control."
+  },
+  {
+    "Index": "61",
+    "Primary": "13, father",
+    "Primary Name": "Laozi",
+    "Secondary": "18, text",
+    "Secondary Name": "Huainanzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Huainanzi presents Laozi, usually called Lao Dan, as an authoritative sage of Dao. It quotes teachings attributed to him concerning softness, emptiness, non-action, and the formless, and recounts Confucius receiving transformative instruction from him. Laozi’s sayings serve as important precedents for the work’s own cosmological and political philosophy."
+  },
+  {
+    "Index": "62",
+    "Primary": "13, father",
+    "Primary Name": "Laozi",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji provides Laozi’s foundational biography, identifying him as a Zhou archivist named Li Er or Lao Dan, teacher of Confucius, cultivator of Dao and De, and traditional author of a five-thousand-character work composed for Yin Xi before his disappearance into the west. Sima Qian also preserves competing identifications and openly acknowledges uncertainty about Laozi’s historical identity."
+  },
+  {
+    "Index": "63",
+    "Primary": "4, text",
+    "Primary Name": "I Ching (Yijing)",
+    "Secondary": "14, father",
+    "Secondary Name": "Confucius",
+    "Connection Category": "custom connection",
+    "Note": "The Yijing does not name Confucius in its core or commentarial text, but later tradition closely associated him with its study and transmission. The Shiji portrays Confucius as an intensive late-life student of the Changes and links him with commentarial materials, although modern scholarship does not generally accept his authorship of the Ten Wings."
+  },
+  {
+    "Index": "64",
+    "Primary": "3, text",
+    "Primary Name": "Book of Songs (Shijing)",
+    "Secondary": "14, father",
+    "Secondary Name": "Confucius",
+    "Connection Category": "custom connection",
+    "Note": "The poems of the Book of Songs do not mention Confucius, but later tradition credits him with selecting, arranging, musically ordering, teaching, and transmitting the received collection. His direct editorial responsibility for the 305 poems cannot be historically established."
+  },
+  {
+    "Index": "65",
+    "Primary": "5, text",
+    "Primary Name": "Book of Documents (Shujing)",
+    "Secondary": "14, father",
+    "Secondary Name": "Confucius",
+    "Connection Category": "custom connection",
+    "Note": "The Book of Documents does not mention Confucius, but later accounts associate him and his school with preserving, organizing, teaching, and transmitting the collection as a record of ancient sage government. His precise editorial role cannot be historically established."
+  },
+  {
+    "Index": "66",
+    "Primary": "14, father",
+    "Primary Name": "Confucius",
+    "Secondary": "7, text",
+    "Secondary Name": "Analects (Lunyu)",
+    "Connection Category": "custom connection",
+    "Note": "The Analects presents Confucius as its central teacher and philosophical authority. Through sayings, dialogues, and accounts of his conduct, he teaches moral cultivation, learning, ritual propriety, benevolent government, correct social relationships, and the recovery of the ancient Zhou Way. The collection was compiled by disciples and later followers rather than authored directly by Confucius."
+  },
+  {
+    "Index": "67",
+    "Primary": "14, father",
+    "Primary Name": "Confucius",
+    "Secondary": "11, text",
+    "Secondary Name": "Mencius (Mengzi)",
+    "Connection Category": "explicit reference",
+    "Note": "The Mencius presents Confucius as the uniquely complete and timely sage whom Mencius seeks to emulate. It quotes his teachings, interprets his political decisions, and credits him with completing the Spring and Autumn Annals as a moral judgment upon rulers, ministers, and historical conduct."
+  },
+  {
+    "Index": "68",
+    "Primary": "14, father",
+    "Primary Name": "Confucius",
+    "Secondary": "15, text",
+    "Secondary Name": "Xunzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Xunzi presents Confucius, frequently called Zhongni, as the exemplary sage-scholar who understood and transmitted ritual, righteousness, correct distinctions, and the political institutions of the ancient kings despite lacking sovereign authority. Numerous dialogues use Confucius as the authoritative spokesman for Xunzi’s ethical and political philosophy."
+  },
+  {
+    "Index": "69",
+    "Primary": "14, father",
+    "Primary Name": "Confucius",
+    "Secondary": "19, text",
+    "Secondary Name": "Luxuriant Dew of the Spring and Autumn Annals (Chūnqiū Fánlù)",
+    "Connection Category": "explicit reference",
+    "Note": "The received Chunqiu Fanlu presents Confucius as the authoritative sage who compiled the Spring and Autumn Annals to reveal Heaven’s principles and judge political history. It interprets his chronicle as a coded guide to legitimate rulership, ritual hierarchy, correct names, moral government, and the detection of disorder in its earliest stages."
+  },
+  {
+    "Index": "70",
+    "Primary": "14, father",
+    "Primary Name": "Confucius",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji’s “Hereditary House of Confucius” provides the foundational biography of Confucius, recounting his ancestry, education, government service, political failures, interstate travels, disciples, teaching of the classical texts, final years, death, descendants, and posthumous veneration. It portrays him as politically unsuccessful in life but ultimately authoritative as the transmitter of the ancient cultural and moral tradition."
+  },
+  {
+    "Index": "71",
+    "Primary": "15, father",
+    "Primary Name": "Sun Tzu",
+    "Secondary": "8, text",
+    "Secondary Name": "Art of War (Sūnzǐ Bīngfǎ)",
+    "Connection Category": "custom connection",
+    "Note": "The Art of War repeatedly presents “Master Sun” as its authoritative speaker and offers systematic teachings on calculation, deception, command, terrain, logistics, intelligence, and efficient victory. The work is traditionally attributed to Sun Wu, although the received text does not identify Master Sun by his personal name."
+  },
+  {
+    "Index": "72",
+    "Primary": "15, father",
+    "Primary Name": "Sun Tzu",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji provides the foundational biography of Sun Tzu, identifying him as Sun Wu of Qi, author of thirteen chapters of military teaching, and general under King Helü of Wu. It recounts his severe demonstration of military discipline using the palace women, credits him with contributing to Wu’s victories and expansion, and identifies the later strategist Sun Bin as his descendant."
+  },
+  {
+    "Index": "73",
+    "Primary": "5, text",
+    "Primary Name": "Book of Documents (Shujing)",
+    "Secondary": "16, father",
+    "Secondary Name": "Wu Xing",
+    "Connection Category": "explicit reference",
+    "Note": "The Book of Documents gives one of the foundational accounts later incorporated into Five-Phase theory. The “Great Plan” lists water, fire, wood, metal, and earth and describes their characteristic operations, while the “Speech at Gan” connects respect for the Five Phases with correct cosmic and political order."
+  },
+  {
+    "Index": "74",
+    "Primary": "16, father",
+    "Primary Name": "Wu Xing",
+    "Secondary": "18, text",
+    "Secondary Name": "Huainanzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Huainanzi develops the Five Phases into a comprehensive cosmological system linking wood, fire, earth, metal, and water with directions, seasons, planets, colors, sounds, tastes, divine rulers, animals, bodily organs, political order, and cycles of generation and control."
+  },
+  {
+    "Index": "75",
+    "Primary": "16, father",
+    "Primary Name": "Wu Xing",
+    "Secondary": "19, text",
+    "Secondary Name": "Luxuriant Dew of the Spring and Autumn Annals (Chūnqiū Fánlù)",
+    "Connection Category": "explicit reference",
+    "Note": "The received Chunqiu Fanlu develops the Five Phases as a systematic cosmological, seasonal, moral, and political order. It explains cycles of generation and control, associates the phases with seasons and governmental functions, and interprets anomalies as responses to political disorder; the collection is textually composite."
+  },
+  {
+    "Index": "76",
+    "Primary": "16, father",
+    "Primary Name": "Wu Xing",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji uses Five-Phase and Five-Virtue theories in astronomy, calendrics, ritual, and dynastic ideology. It notably records Qin Shi Huang’s claim that Qin’s Water Virtue had succeeded or overcome Zhou’s Fire Virtue."
+  },
+  {
+    "Index": "77",
+    "Primary": "16, father",
+    "Primary Name": "Wu Xing",
+    "Secondary": "24, text",
+    "Secondary Name": "Book of Han (Hanshu)",
+    "Connection Category": "explicit reference",
+    "Note": "The Hanshu presents the Five Phases as an encyclopedic framework for interpreting astronomy, calendars, music, government, dynastic history, bodily conduct, and natural anomalies. Its “Treatise on the Five Phases” classifies disasters and omens as cosmic responses to political and moral disorder."
+  },
+  {
+    "Index": "78",
+    "Primary": "17, father",
+    "Primary Name": "Sun Bin",
+    "Secondary": "14, text",
+    "Secondary Name": "Sun Bin’s Art of War (Sūn Bìn Bīngfǎ)",
+    "Connection Category": "custom connection",
+    "Note": "Sun Bin’s Art of War presents Sun Bin, normally titled “Master Sun,” as its central military teacher. Through dialogues with King Wei, Tian Ji, and his disciples, he explains formations, command, terrain, deception, unequal forces, strategic initiative, and methods for attacking an enemy’s vulnerabilities. The work is traditionally attributed to Sun Bin, although its surviving bamboo-slip form may include material compiled by his followers."
+  },
+  {
+    "Index": "79",
+    "Primary": "17, father",
+    "Primary Name": "Sun Bin",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji provides Sun Bin’s foundational biography as Sun Wu’s descendant and a military strategist of Qi. It recounts his betrayal and mutilation by Pang Juan, escape from Wei, service under Tian Ji and King Wei, strategic intervention in the campaigns of Guiling and Maling, use of deception to manipulate enemy expectations, and ultimate defeat of Pang Juan."
+  },
+  {
+    "Index": "80",
+    "Primary": "18, father",
+    "Primary Name": "Mencius",
+    "Secondary": "11, text",
+    "Secondary Name": "Mencius (Mengzi)",
+    "Connection Category": "explicit reference",
+    "Note": "The Mencius presents Mencius, or Meng Ke, as its central teacher and philosophical authority. Through debates and dialogues, it develops theories of moral potential, benevolence and righteousness, government for the people’s welfare, Heaven, and the continuation of Confucius’s Way. The received collection was probably compiled within his school."
+  },
+  {
+    "Index": "81",
+    "Primary": "18, father",
+    "Primary Name": "Mencius",
+    "Secondary": "15, text",
+    "Secondary Name": "Xunzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Xunzi treats Mencius as a major Confucian opponent. It directly rejects his doctrine that human nature is good, arguing instead that moral goodness is produced through conscious effort, education, ritual, and institutional discipline. It also criticizes Mencius and Zisi for transmitting an obscure doctrine while claiming to represent Confucius’s authentic tradition."
+  },
+  {
+    "Index": "82",
+    "Primary": "18, father",
+    "Primary Name": "Mencius",
+    "Secondary": "19, text",
+    "Secondary Name": "Luxuriant Dew of the Spring and Autumn Annals (Chūnqiū Fánlù)",
+    "Connection Category": "explicit reference",
+    "Note": "The received Chunqiu Fanlu explicitly engages Mencius as an important but disputable authority. It criticizes the claim that ordinary human nature is already good while also invoking his teaching about nourishing expansive or “flood-like” qi; the collection is textually composite."
+  },
+  {
+    "Index": "83",
+    "Primary": "18, father",
+    "Primary Name": "Mencius",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji provides the foundational biography of Mencius, identifying him as Meng Ke of Zou, a student within Zisi’s intellectual lineage who advised the rulers of Qi and Liang but found his teachings rejected as impractical for the violent politics of his age. It states that he then worked with Wan Zhang and other followers to interpret the Songs and Documents, transmit Confucius’s intentions, and compose the seven sections of the Mencius."
+  },
+  {
+    "Index": "84",
+    "Primary": "19, father",
+    "Primary Name": "Zhuangzi",
+    "Secondary": "13, text",
+    "Secondary Name": "Zhuangzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Zhuangzi presents Zhuang Zhou as a central sage, conversational figure, and eponymous authority. Through dialogues and parables—including the butterfly dream and his response to his wife’s death—the collection explores perspective, usefulness, spontaneity, freedom, and transformation. The received text includes multiple layers and later followers’ material."
+  },
+  {
+    "Index": "85",
+    "Primary": "19, father",
+    "Primary Name": "Zhuangzi",
+    "Secondary": "15, text",
+    "Secondary Name": "Xunzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Xunzi criticizes Zhuangzi as a partial thinker who understood the natural or Heaven-derived dimension of Dao but failed to understand the human dimension. Xunzi argues that Zhuangzi’s emphasis on spontaneous nature neglects ritual, moral distinctions, education, and deliberately created social institutions."
+  },
+  {
+    "Index": "86",
+    "Primary": "19, father",
+    "Primary Name": "Zhuangzi",
+    "Secondary": "18, text",
+    "Secondary Name": "Huainanzi",
+    "Connection Category": "custom connection",
+    "Note": "The Huainanzi incorporates numerous close parallels and adapted passages from the Zhuangzi tradition, including material on limited perspectives, unequal forms of knowledge, spontaneous transformation, and adaptation to natural capacities. The literary dependence is strong, but it is better described as reuse of a textual tradition than as a simple named quotation of Zhuangzi."
+  },
+  {
+    "Index": "87",
+    "Primary": "19, father",
+    "Primary Name": "Zhuangzi",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji provides Zhuangzi’s foundational biography, identifying him as Zhuang Zhou of Meng, a former lacquer-garden official and contemporary of the rulers of Liang and Qi. It portrays him as a broadly learned follower of Laozi who composed an extensive body of allegorical writing criticizing Confucian and Mohist doctrines through imaginative and unrestrained argument."
+  },
+  {
+    "Index": "88",
+    "Primary": "20, father",
+    "Primary Name": "Shang Yang",
+    "Secondary": "12, text",
+    "Secondary Name": "Shang Jun Shu (Book of Lord Shang)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shang Jun Shu contains passages that explicitly present Gongsun Yang, later Lord Shang, as an advocate of institutional reform and publicly defined standards. Across the collection, his school emphasizes uniform laws, rewards and punishments, agricultural and military mobilization, and centralized power. The received work is composite."
+  },
+  {
+    "Index": "89",
+    "Primary": "20, father",
+    "Primary Name": "Shang Yang",
+    "Secondary": "16, text",
+    "Secondary Name": "Han Feizi",
+    "Connection Category": "explicit reference",
+    "Note": "The Han Feizi explicitly presents Shang Yang, called Gongsun Yang, as the great theorist and practitioner of fa: clear laws, standards, rewards, and punishments for ordering the state. Han Fei respects the durability of Shang Yang’s system but criticizes him for neglecting the administrative techniques needed to control ministers, combining his legal reforms with Shen Buhai’s methods of bureaucratic supervision."
+  },
+  {
+    "Index": "90",
+    "Primary": "20, father",
+    "Primary Name": "Shang Yang",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji’s “Biography of Lord Shang” explicitly provides the foundational account of Shang Yang as Gongsun Yang of Wei, the reforming minister who transformed Qin through standardized laws, collective responsibility, agricultural and military incentives, administrative centralization, and severe rewards and punishments. It also recounts his political rise, military achievements, enfeoffment as Lord Shang, and ironic destruction under the harsh legal order he had created."
+  },
+  {
+    "Index": "91",
+    "Primary": "21, father",
+    "Primary Name": "Xunzi",
+    "Secondary": "15, text",
+    "Secondary Name": "Xunzi",
+    "Connection Category": "custom connection",
+    "Note": "The Xunzi is the eponymous collection associated with Xun Kuang and the foundational expression of his philosophy. The received thirty-two-chapter text was arranged after his lifetime and probably contains material from Xunzi and members of his school."
+  },
+  {
+    "Index": "92",
+    "Primary": "21, father",
+    "Primary Name": "Xunzi",
+    "Secondary": "16, text",
+    "Secondary Name": "Han Feizi",
+    "Connection Category": "explicit reference",
+    "Note": "The Han Feizi explicitly mentions Xunzi under the name Sun Qing, presenting him as a worthy adviser rejected by King Kuai of Yan in favor of the disastrous minister Zizhi. The reference is direct but brief and does not discuss Xunzi’s philosophy; the tradition that Han Fei was Xunzi’s student is supplied by the Shiji."
+  },
+  {
+    "Index": "93",
+    "Primary": "21, father",
+    "Primary Name": "Xunzi",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji explicitly provides Xunzi’s foundational biography, identifying him as Xun Qing of Zhao, a senior scholar and three-time leader of the intellectual establishment in Qi, later magistrate of Lanling in Chu. It presents him as the teacher of Li Si and Han Fei and as an author who responded to the political and intellectual disorder of his age by critically examining the major philosophical traditions."
+  },
+  {
+    "Index": "94",
+    "Primary": "22, father",
+    "Primary Name": "Han Fei",
+    "Secondary": "16, text",
+    "Secondary Name": "Han Feizi",
+    "Connection Category": "custom connection",
+    "Note": "The Han Feizi is the eponymous collection associated with Han Fei and the foundational expression of his political philosophy. Its received chapters synthesize law and standards, administrative technique, and positional authority, although the authorship of every chapter cannot be established with certainty."
+  },
+  {
+    "Index": "95",
+    "Primary": "22, father",
+    "Primary Name": "Han Fei",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji provides Han Fei’s foundational biography, identifying him as a prince of Han, a student of Xunzi alongside Li Si, a gifted writer hindered by a speech impediment, and a theorist of law, administrative control, and Huang-Lao statecraft. It recounts his unsuccessful attempts to reform Han, the admiration his writings inspired in the king of Qin, his imprisonment through the accusations of Li Si and Yao Jia, and his forced suicide by poison."
+  },
+  {
+    "Index": "96",
+    "Primary": "23, father",
+    "Primary Name": "Dong Zhongshu",
+    "Secondary": "19, text",
+    "Secondary Name": "Luxuriant Dew of the Spring and Autumn Annals (Chūnqiū Fánlù)",
+    "Connection Category": "custom connection",
+    "Note": "The Chunqiu Fanlu is traditionally associated with Dong Zhongshu and includes passages that present Zhongshu answering questions about political virtue and imperial sacrifice. The received collection is composite; some sections may preserve his ideas, but the work as a whole cannot confidently be treated as Dong’s direct authorship."
+  },
+  {
+    "Index": "97",
+    "Primary": "23, father",
+    "Primary Name": "Dong Zhongshu",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Shiji’s “Biographies of Confucian Scholars” presents Dong Zhongshu as a scholar of Guangchuan, a leading authority on the Gongyang interpretation of the Spring and Autumn Annals, a dedicated teacher, court scholar, and writer on disasters and anomalies. It contrasts his learning and moral integrity with the greater political success of Gongsun Hong."
+  },
+  {
+    "Index": "98",
+    "Primary": "6, text",
+    "Primary Name": "Spring and Autumn Annals (Chunqiu)",
+    "Secondary": "24, father",
+    "Secondary Name": "Sima Qian",
+    "Connection Category": "custom connection",
+    "Note": "The Spring and Autumn Annals predates Sima Qian, but he treated its historical and interpretive traditions as a major precedent for his own work. In the Shiji, he presents Confucius’s chronicle as a model of history capable of preserving judgment through selection, arrangement, and morally significant narration."
+  },
+  {
+    "Index": "99",
+    "Primary": "24, father",
+    "Primary Name": "Sima Qian",
+    "Secondary": "21, text",
+    "Secondary Name": "Records of the Grand Historian (Shiji)",
+    "Connection Category": "custom connection",
+    "Note": "The Records of the Grand Historian explicitly presents Sima Qian as its principal historian, compiler, and autobiographical voice. In the “Self-Preface,” he recounts his family background, travels, succession to his father Sima Tan’s historical office and unfinished project, examination of archival sources, and organization of the work into 130 chapters. His evaluative judgments appear throughout the collection under the voice of the Grand Historian, although the received text also incorporates his father’s work and some later additions."
+  },
+  {
+    "Index": "100",
+    "Primary": "4, text",
+    "Primary Name": "I Ching (Yijing)",
+    "Secondary": "5, text",
+    "Secondary Name": "Book of Documents (Shujing)",
+    "Connection Category": "indirect connection",
+    "Note": "The Book of Documents does not explicitly name the I Ching, but it describes royal consultation of turtle-shell and milfoil divination as part of political decision-making. The two texts belong to the same early ritual and governmental environment, with the Documents recording divinatory practice and the Yijing preserving a developed divination system."
+  },
+  {
+    "Index": "101",
+    "Primary": "4, text",
+    "Primary Name": "I Ching (Yijing)",
+    "Secondary": "7, text",
+    "Secondary Name": "Analects (Lunyu)",
+    "Connection Category": "explicit reference",
+    "Note": "The Analects explicitly engages the Yi tradition. In the received reading of Analects 7.17—whose wording is textually disputed—Confucius speaks of studying the Yi; more securely, Analects 13.22 quotes a line from Hexagram 32, Heng, and applies it to constancy in virtue."
+  },
+  {
+    "Index": "102",
+    "Primary": "4, text",
+    "Primary Name": "I Ching (Yijing)",
+    "Secondary": "9, text",
+    "Secondary Name": "Dao De Jing",
+    "Connection Category": "indirect connection",
+    "Note": "The Dao De Jing does not explicitly cite the I Ching, but the two works share an emphasis on Dao, complementary polarity, Yin and Yang, reversal, return, and continuous transformation. The relationship is conceptual and comparative."
+  },
+  {
+    "Index": "103",
+    "Primary": "5, text",
+    "Primary Name": "Book of Documents (Shujing)",
+    "Secondary": "7, text",
+    "Secondary Name": "Analects (Lunyu)",
+    "Connection Category": "explicit reference",
+    "Note": "The Analects explicitly cites the Book of Documents as an authority on moral government and ancient royal practice. Confucius quotes it to connect filial and fraternal conduct with political order, while Zizhang invokes its account of King Gaozong’s three-year mourning. The two works also preserve overlapping traditions concerning Yao, Shun, and the transmission of legitimate rule."
+  },
+  {
+    "Index": "104",
+    "Primary": "5, text",
+    "Primary Name": "Book of Documents (Shujing)",
+    "Secondary": "11, text",
+    "Secondary Name": "Mencius (Mengzi)",
+    "Connection Category": "explicit reference",
+    "Note": "The Mencius explicitly and repeatedly quotes the Book of Documents in its discussions of Yao, Shun, Heaven’s mandate, popular acceptance, filial conduct, and legitimate political succession. Mencius treats the collection as a major historical and moral authority but refuses blind textual obedience, famously rejecting parts of the Wucheng that conflict with the principles of benevolent government."
+  },
+  {
+    "Index": "105",
+    "Primary": "7, text",
+    "Primary Name": "Analects (Lunyu)",
+    "Secondary": "9, text",
+    "Secondary Name": "Dao De Jing",
+    "Connection Category": "indirect connection",
+    "Note": "The Analects and the Dao De Jing both describe ideal government as minimally coercive. The Analects presents Shun’s non-action as rule through cultivated virtue and proper position, while the Dao De Jing develops non-action as alignment with Dao, simplicity, and spontaneous self-transformation."
+  },
+  {
+    "Index": "106",
+    "Primary": "7, text",
+    "Primary Name": "Analects (Lunyu)",
+    "Secondary": "11, text",
+    "Secondary Name": "Mencius (Mengzi)",
+    "Connection Category": "custom connection",
+    "Note": "The Mencius repeatedly draws on sayings and traditions associated with Confucius that are also preserved in the Analects. It develops these materials into more systematic arguments about moral cultivation, human nature, benevolent government, Heaven, and legitimate rule, although direct dependence on the received Analects cannot always be demonstrated."
+  },
+  {
+    "Index": "107",
+    "Primary": "7, text",
+    "Primary Name": "Analects (Lunyu)",
+    "Secondary": "13, text",
+    "Secondary Name": "Zhuangzi",
+    "Connection Category": "indirect connection",
+    "Note": "The Zhuangzi does not cite the Analects by title, but it reuses Confucius, Yan Hui, and other figures prominent in the Analects tradition. Invented dialogues such as the fasting of the mind and sitting in forgetfulness transform those figures for Zhuangzian philosophical purposes."
+  },
+  {
+    "Index": "108",
+    "Primary": "8, text",
+    "Primary Name": "Art of War (Sūnzǐ Bīngfǎ)",
+    "Secondary": "14, text",
+    "Secondary Name": "Sun Bin’s Art of War (Sūn Bìn Bīngfǎ)",
+    "Connection Category": "custom connection",
+    "Note": "Sun Bin’s Art of War directly reuses and develops strategic language found in the earlier Art of War, including the maxim “attack where the enemy is unprepared; emerge where he does not expect you.” It expands the shared tradition through discussions of formations, unequal forces, fortifications, and Warring States campaigns."
+  },
+  {
+    "Index": "109",
+    "Primary": "9, text",
+    "Primary Name": "Dao De Jing",
+    "Secondary": "13, text",
+    "Secondary Name": "Zhuangzi",
+    "Connection Category": "custom connection",
+    "Note": "The Zhuangzi does not cite a book titled Dao De Jing, but it repeatedly presents Lao Dan as an authority and preserves formulations closely parallel to the Laozi tradition. It develops themes of softness, emptiness, humility, non-action, perspective, skilled action, and the transformations of life and death."
+  },
+  {
+    "Index": "110",
+    "Primary": "11, text",
+    "Primary Name": "Mencius (Mengzi)",
+    "Secondary": "15, text",
+    "Secondary Name": "Xunzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Xunzi criticizes the Mencius, especially its doctrine that human nature is good. Mencius presents moral cultivation as the development of innate ethical tendencies, while Xunzi argues that untrained human dispositions produce disorder and that goodness must be constructed through conscious effort, teachers, ritual, and social institutions. The Xunzi also attacks Mencius as a rival interpreter of Confucius, making the relationship a direct internal debate within the Confucian tradition."
+  },
+  {
+    "Index": "111",
+    "Primary": "13, text",
+    "Primary Name": "Zhuangzi",
+    "Secondary": "15, text",
+    "Secondary Name": "Xunzi",
+    "Connection Category": "explicit reference",
+    "Note": "The Xunzi criticizes the Zhuangzi as understanding the spontaneous and Heaven-derived dimension of Dao while neglecting the distinctively human realm of ritual, morality, education, political institutions, and deliberate social order. Xunzi treats Zhuangzi’s insight as genuine but partial, arguing that the complete Way must encompass both natural processes and consciously constructed human civilization."
+  },
+  {
+    "Index": "112",
+    "Primary": "8, father",
+    "Primary Name": "Shangdi",
+    "Secondary": "1, text",
+    "Secondary Name": "Oracle Bone Inscriptions",
+    "Connection Category": "explicit reference",
+    "Note": "Oracle bone inscriptions repeatedly address Di, conventionally identified with Shangdi, as the highest power in the Shang royal religious order. Divinations ask whether Di will send rain, harvests, military aid, disaster, or approval, usually within a ritual system mediated by the king and royal ancestors."
+  },
+  {
+    "Index": "113",
+    "Primary": "9, father",
+    "Primary Name": "Tian",
+    "Secondary": "2, text",
+    "Secondary Name": "Bronze Inscriptions",
+    "Connection Category": "explicit reference",
+    "Note": "Western Zhou bronze inscriptions explicitly invoke Tian, Heaven, in accounts of royal conquest, appointments, lineage authority, and political legitimacy. Several inscriptions connect Zhou rule with authorization from Heaven and present royal service as participation in a larger celestial and ancestral order."
+  },
+  {
+    "Index": "114",
+    "Primary": "4, father",
+    "Primary Name": "Huangdi (Yellow Emperor)",
+    "Secondary": "23, text",
+    "Secondary Name": "Huangdi Neijing (Inner Canon of the Yellow Emperor)",
+    "Connection Category": "explicit reference",
+    "Note": "The Huangdi Neijing presents Huangdi as its central dialogical authority. The Yellow Emperor asks Qibo and other specialists about physiology, diagnosis, acupuncture, cosmology, and methods of preserving life; he is a framing sage and interlocutor rather than the historical author of the composite medical corpus."
+  },
+  {
+    "Index": "115",
+    "Primary": "10, father",
+    "Primary Name": "Yin",
+    "Secondary": "23, text",
+    "Secondary Name": "Huangdi Neijing (Inner Canon of the Yellow Emperor)",
+    "Connection Category": "explicit reference",
+    "Note": "The Huangdi Neijing systematically applies Yin to physiology, illness, diagnosis, seasons, organs, channels, and treatment. Health depends on changing balances and interactions between Yin and Yang rather than on either principle acting alone."
+  },
+  {
+    "Index": "116",
+    "Primary": "11, father",
+    "Primary Name": "Yang",
+    "Secondary": "23, text",
+    "Secondary Name": "Huangdi Neijing (Inner Canon of the Yellow Emperor)",
+    "Connection Category": "explicit reference",
+    "Note": "The Huangdi Neijing systematically applies Yang to physiology, illness, diagnosis, seasons, organs, channels, and treatment. Yang is associated with activity, warmth, exteriority, and transformation, but health depends on its regulated interaction with Yin."
+  },
+  {
+    "Index": "117",
+    "Primary": "16, father",
+    "Primary Name": "Wu Xing",
+    "Secondary": "23, text",
+    "Secondary Name": "Huangdi Neijing (Inner Canon of the Yellow Emperor)",
+    "Connection Category": "explicit reference",
+    "Note": "The Huangdi Neijing uses the Five Phases—wood, fire, earth, metal, and water—to organize correspondences among organs, tissues, colors, tastes, seasons, directions, climates, emotions, and therapeutic relationships. The system links the body to larger cyclical patterns of the cosmos."
+  },
+  {
+    "Index": "118",
+    "Primary": "12, father",
+    "Primary Name": "Dao",
+    "Secondary": "23, text",
+    "Secondary Name": "Huangdi Neijing (Inner Canon of the Yellow Emperor)",
+    "Connection Category": "explicit reference",
+    "Note": "The Huangdi Neijing repeatedly uses Dao for the correct way of preserving life, understanding natural regularities, diagnosing illness, and practicing medicine. Its medical Dao joins bodily cultivation with seasonal timing, disciplined technique, and alignment with the transformations of Heaven and Earth."
+  },
+  {
+    "Index": "119",
+    "Primary": "14, father",
+    "Primary Name": "Confucius",
+    "Secondary": "20, text",
+    "Secondary Name": "Book of Rites (Liji)",
+    "Connection Category": "explicit reference",
+    "Note": "The Book of Rites repeatedly presents Confucius as a speaker, teacher, ritual authority, and interpreter of ancient institutions. Dialogues involving Confucius and his disciples use his voice to explain mourning, sacrifice, education, music, social roles, government, and the ethical meaning of ritual practice."
+  },
+  {
+    "Index": "120",
+    "Primary": "20, father",
+    "Primary Name": "Shang Yang",
+    "Secondary": "17, text",
+    "Secondary Name": "Qin Legal Texts",
+    "Connection Category": "custom connection",
+    "Note": "Excavated Qin legal and administrative manuscripts document the mature bureaucratic order produced by the state-building process associated with Shang Yang’s reforms. The texts do not present themselves as his writings and many postdate him, but their statutes, ranks, accountability procedures, and administrative discipline belong to the institutional system his reforms helped establish."
+  },
+  {
+    "Index": "121",
+    "Primary": "23, father",
+    "Primary Name": "Dong Zhongshu",
+    "Secondary": "24, text",
+    "Secondary Name": "Book of Han (Hanshu)",
+    "Connection Category": "explicit reference",
+    "Note": "The Book of Han contains a dedicated biography of Dong Zhongshu and preserves major evidence for his career, Gongyang learning, political proposals, writings, and theories concerning Heaven, rulership, and anomalies. It is a central source for both his historical life and later intellectual reputation."
+  },
+  {
+    "Index": "122",
+    "Primary": "24, father",
+    "Primary Name": "Sima Qian",
+    "Secondary": "24, text",
+    "Secondary Name": "Book of Han (Hanshu)",
+    "Connection Category": "explicit reference",
+    "Note": "The Book of Han contains a dedicated biography of Sima Qian that draws on his own writings and later historical traditions. It recounts his family background, historical vocation, defense of Li Ling, punishment, court service, and authorship of the Shiji, making it a principal later source for his life."
+  },
+  {
+    "Index": "123",
+    "Primary": "25, text",
+    "Primary Name": "Prajnaparamita Sutras (Bōrě Bōluómìduō Jīng)",
+    "Secondary": "25, father",
+    "Secondary Name": "Kumarajiva",
+    "Connection Category": "custom connection",
+    "Note": "Kumārajīva and his Chang’an translation assemblies produced influential Chinese versions of major Prajñāpāramitā scriptures, including texts associated with the twenty-five-thousand-line and eight-thousand-line traditions. The connection concerns his translation and transmission of members of the broader sutra family, not authorship of the Indian scriptures."
+  },
+  {
+    "Index": "124",
+    "Primary": "27, text",
+    "Primary Name": "Vimalakirti Sutra (Wéimójié Jīng)",
+    "Secondary": "25, father",
+    "Secondary Name": "Kumarajiva",
+    "Connection Category": "custom connection",
+    "Note": "Kumārajīva and his translation team produced the influential Chinese Vimalakirti Sutra in 406 CE. Their version became the best-known East Asian form of the scripture and strongly shaped later interpretation of nonduality, skillful means, and the spiritually accomplished lay practitioner."
+  },
+  {
+    "Index": "125",
+    "Primary": "26, text",
+    "Primary Name": "Lotus Sutra (early Chinese translations, Fǎhuá Jīng)",
+    "Secondary": "25, father",
+    "Secondary Name": "Kumarajiva",
+    "Connection Category": "custom connection",
+    "Note": "Kumārajīva and his translation team produced the Miaofa lianhua jing in 406 CE. Although earlier Chinese translations existed, his version became the dominant East Asian Lotus Sutra and profoundly shaped Tiantai, devotional practice, commentary, and later literary and artistic reception."
+  }
+]

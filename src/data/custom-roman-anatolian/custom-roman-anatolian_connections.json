@@ -1,0 +1,29 @@
+[
+  {
+    "Index": "1",
+    "Primary": "8, text",
+    "Primary Name": "Sacred Tales",
+    "Secondary": "10, text",
+    "Secondary Name": "Oneirocritica (Interpretation of Dreams)",
+    "Connection Category": "comparative connection",
+    "Note": "Aelius Aristides and Artemidorus provide two unusually rich Roman-period Greek approaches to dreams. Aristides presents dreams, especially those associated with Asclepius, within an autobiographical religious and therapeutic narrative, while Artemidorus systematizes dream interpretation as a technical practice sensitive to the dreamer’s social position, occupation, circumstances, and experience."
+  },
+  {
+    "Index": "2",
+    "Primary": "13, text",
+    "Primary Name": "Medical Collections (Collectiones Medicae)",
+    "Secondary": "14, text",
+    "Secondary Name": "Orations of Libanius",
+    "Connection Category": "indirect connection",
+    "Note": "Oribasius and Libanius were both closely connected with Emperor Julian. Oribasius served as Julian’s physician and compiled the Medical Collections at his request, while Libanius became one of Julian’s major literary supporters and commemorators. The works therefore belong to the same late-fourth-century intellectual and imperial network."
+  },
+  {
+    "Index": "3",
+    "Primary": "14, text",
+    "Primary Name": "Orations of Libanius",
+    "Secondary": "16, text",
+    "Secondary Name": "Orations of Gregory of Nazianzus",
+    "Connection Category": "comparative connection",
+    "Note": "Libanius and Gregory present sharply opposed rhetorical interpretations of Emperor Julian. Libanius praises and defends Julian and his religious program, whereas Gregory’s Invectives Against Julian attack the emperor’s religious and cultural policies. Together the corpora preserve competing pagan and Christian constructions of the same ruler and the struggle over Hellenic and Christian identity."
+  }
+]

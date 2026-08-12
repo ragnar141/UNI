@@ -1,227 +1,209 @@
 [
   {
-    "Index": 1,
+    "Index": "1",
     "Primary": "1, father",
     "Primary Name": "Cybele",
     "Secondary": "13, father",
     "Secondary Name": "Attis",
-    "Connection Category": "familial: mother/son, consorts",
-    "Note": "Attis is Cybele’s consecrated male—variously conceived as her son or generated from her primal substance, bound to her as a non-reproductive consort, and ritually annihilated through castration and death as a sacrificial embodiment of fertility returned to the earth."
+    "Connection Category": "familial: consorts",
+    "Note": "In the developed Greek and Roman tradition, Attis is Cybele’s youthful consort and the mythic model for her eunuch devotees. Accounts vary in their genealogy and do not consistently make him her son. His madness, castration, and death or preservation became central to later ritual mourning and regeneration symbolism."
   },
   {
-    "Index": 2,
-    "Primary": "1, father",
-    "Primary Name": "Cybele",
-    "Secondary": "4, text",
-    "Secondary Name": "Purulli Ritual Instructions",
-    "Connection Category": "explicit reference",
-    "Note": "Although Cybele is not named in the Purulli Ritual Instructions, the rites preserve an early Anatolian Mother-goddess complex—centered on maternal authority, seasonal renewal, and earth-bound sovereignty—that later crystallizes in Cybele’s cult."
-  },
-  {
-    "Index": 3,
-    "Primary": "2, father",
-    "Primary Name": "Hannahannah",
-    "Secondary": "5, text",
-    "Secondary Name": "The Song of Kumarbi",
-    "Connection Category": "explicit reference",
-    "Note": "In the Song of Kumarbi, Hannahanna functions as a primordial maternal authority who stabilizes the cosmic order amid violent male succession struggles, anticipating later Anatolian mother-goddess forms such as Cybele."
-  },
-  {
-    "Index": 4,
-    "Primary": "2, father",
-    "Primary Name": "Hannahannah",
-    "Secondary": "10, text",
-    "Secondary Name": "The Song of Ullikummi",
-    "Connection Category": "explicit reference",
-    "Note": "Here Hannahanna appears as the primordial maternal authority consulted when divine succession and violence fail, preserving ancient cosmological knowledge that enables the restoration of order."
-  },
-  {
-    "Index": 5,
+    "Index": "2",
     "Primary": "3, father",
     "Primary Name": "Kumarbi",
     "Secondary": "4, father",
     "Secondary Name": "Tarḫunna/Teshub",
     "Connection Category": "familial: father/son",
-    "Note": "-"
+    "Note": "The Song of Kumarbi makes Teshub one of the gods generated after Kumarbi attacks Anu and receives Anu’s seed within his body. Kumarbi is therefore Teshub’s paradoxical father or gestational parent as well as the displaced ruler who repeatedly attempts to overthrow him."
   },
   {
-    "Index": 6,
-    "Primary": "3, father",
-    "Primary Name": "Kumarbi",
-    "Secondary": "5, text",
-    "Secondary Name": "The Song of Kumarbi",
-    "Connection Category": "explicit reference",
-    "Note": "In the Song of Kumarbi, Kumarbi functions as a transitional deity who violently overthrows the sky-god Anu but fails to establish stable kingship, instead becoming the generative conduit through which the Storm God Teshub is born."
-  },
-  {
-    "Index": 7,
-    "Primary": "3, father",
-    "Primary Name": "Kumarbi",
-    "Secondary": "10, text",
-    "Secondary Name": "The Song of Ullikummi",
-    "Connection Category": "explicit reference",
-    "Note": "Here Kumarbi functions as a strategic saboteur who weaponizes primordial inertia against divine sovereignty rather than seeking rule himself."
-  },
-  {
-    "Index": 9,
+    "Index": "3",
     "Primary": "4, father",
     "Primary Name": "Tarḫunna/Teshub",
-    "Secondary": "1, text",
-    "Secondary Name": "Anitta Text",
-    "Connection Category": "explicit reference",
-    "Note": "In the Anitta Text, the Storm God of Hatti appears as the divine guarantor of royal authority, invoked to legitimize conquest and enforce curses."
+    "Secondary": "5, father",
+    "Secondary Name": "Illuyanka",
+    "Connection Category": "indirect connection",
+    "Note": "The Hattian-Hittite Storm God and Illuyanka are the central divine adversaries of the serpent myth. The Storm God is first defeated and later overcomes Illuyanka through Inara and Hupasiya in one version and through the recovery of his heart and eyes in the other."
   },
   {
-    "Index": 10,
-    "Primary": "4, father",
-    "Primary Name": "Tarḫunna/Teshub",
-    "Secondary": "2, text",
-    "Secondary Name": "Edicts of Telepinu",
-    "Connection Category": "explicit reference",
-    "Note": "In the Edict of Telipinu, Tarḫunna/Teshub appears as the divine guarantor of lawful kingship, invoked to end cycles of dynastic violence and to legitimize a stable, rule-bound succession."
-  },
-  {
-    "Index": 11,
-    "Primary": "4, father",
-    "Primary Name": "Tarḫunna/Teshub",
-    "Secondary": "3, text",
-    "Secondary Name": "Hittite Laws",
-    "Connection Category": "explicit reference",
-    "Note": "The Hittite Laws reflect Tarḫunna/Teshub as a silent guarantor of justice, whose mythic sovereignty has been fully absorbed into legal practice."
-  },
-  {
-    "Index": 12,
-    "Primary": "4, father",
-    "Primary Name": "Tarḫunna/Teshub",
-    "Secondary": "4, text",
-    "Secondary Name": "Purulli Ritual Instructions",
-    "Connection Category": "explicit reference",
-    "Note": "Here Tarḫunna/Teshub appears as the victorious Storm God whose triumph over chaos is ritually reenacted each spring to restore fertility and reaffirm cosmic order."
-  },
-  {
-    "Index": 13,
-    "Primary": "4, father",
-    "Primary Name": "Tarḫunna/Teshub",
-    "Secondary": "5, text",
-    "Secondary Name": "The Song of Kumarbi",
-    "Connection Category": "explicit reference",
-    "Note": "The text presents Tarḫunna/Teshub as an emergent sovereign, born through rupture rather than lineage and positioned as the inevitable replacement of Kumarbi’s failed rule."
-  },
-  {
-    "Index": 14,
-    "Primary": "4, father",
-    "Primary Name": "Tarḫunna/Teshub",
-    "Secondary": "6, text",
-    "Secondary Name": "Treaty of Kadesh",
-    "Connection Category": "explicit reference",
-    "Note": "The Treaty of Kadesh presents Tarḫunna/Teshub as an \"international\" legal authority, invoked to enforce interstate peace through divine sanction"
-  },
-  {
-    "Index": 15,
-    "Primary": "4, father",
-    "Primary Name": "Tarḫunna/Teshub",
-    "Secondary": "7, text",
-    "Secondary Name": "Apology of Hattusili III",
-    "Connection Category": "explicit reference",
-    "Note": "Here Tarḫunna/Teshub is presented as a god of personal election, whose favor justifies kingship beyond formal succession rules."
-  },
-  {
-    "Index": 16,
-    "Primary": "4, father",
-    "Primary Name": "Tarḫunna/Teshub",
-    "Secondary": "8, text",
-    "Secondary Name": "The Myth of Illuyanka",
-    "Connection Category": "explicit reference",
-    "Note": "The Myth presents Tarḫunna/Teshub as a vulnerable but recoverable sovereign, whose rule depends on continual containment of chaos rather than permanent victory."
-  },
-  {
-    "Index": 17,
-    "Primary": "4, father",
-    "Primary Name": "Tarḫunna/Teshub",
-    "Secondary": "9, text",
-    "Secondary Name": "Instructions to Priests and Temple Officials",
-    "Connection Category": "explicit reference",
-    "Note": "Here Tarḫunna/Teshub is portrayed as an institutionalized sovereign whose presence is maintained through correct cultic administration."
-  },
-  {
-    "Index": 18,
-    "Primary": "4, father",
-    "Primary Name": "Tarḫunna/Teshub",
-    "Secondary": "10, text",
-    "Secondary Name": "The Song of Ullikummi",
-    "Connection Category": "explicit reference",
-    "Note": "In the Song of Ullikummi, Tarḫunna/Teshub appears as an established king of the gods whose storm power proves insufficient against primordial inertia, forcing him to rely on ancestral cosmological knowledge to preserve divine order."
-  },
-  {
-    "Index": 19,
-    "Primary": "5, father",
-    "Primary Name": "Illuyanka",
-    "Secondary": "4, text",
-    "Secondary Name": "Purulli Ritual Instructions",
-    "Connection Category": "explicit reference",
-    "Note": "The Purulli Ritual Instructions transform Illuyanka from a mythic adversary into a ritualized chaos-force that must be periodically restrained rather than destroyed."
-  },
-  {
-    "Index": 20,
-    "Primary": "5, father",
-    "Primary Name": "Illuyanka",
-    "Secondary": "8, text",
-    "Secondary Name": "The Myth of Illuyanka",
-    "Connection Category": "explicit reference",
-    "Note": "The Myth presents Illuyanka as undefeated chaos in principle, temporarily restrained but never eliminated."
-  },
-  {
-    "Index": 21,
+    "Index": "4",
     "Primary": "6, father",
     "Primary Name": "Aphrodite",
     "Secondary": "10, father",
     "Secondary Name": "Aeneas",
     "Connection Category": "familial: mother/son",
-    "Note": "-"
+    "Note": "Aeneas is the son of Aphrodite and Anchises. In the Iliad and later tradition, Aphrodite repeatedly protects him, while his divine maternity helps explain his survival of Troy and his later role as a carrier of Trojan lineage."
   },
   {
-    "Index": 22,
+    "Index": "5",
+    "Primary": "6, father",
+    "Primary Name": "Aphrodite",
+    "Secondary": "12, father",
+    "Secondary Name": "Helen",
+    "Connection Category": "indirect connection",
+    "Note": "In the broader Judgment of Paris tradition, Aphrodite promises Helen to Paris in return for his verdict and later supports their union. The connection makes divine desire an immediate mythic cause of the conflict that brings Helen to Troy."
+  },
+  {
+    "Index": "6",
     "Primary": "8, father",
     "Primary Name": "Priam",
     "Secondary": "9, father",
     "Secondary Name": "Hector",
     "Connection Category": "familial: father/son",
-    "Note": "-"
+    "Note": "Hector is the eldest and foremost warrior among Priam’s sons. Their relationship culminates after Hector’s death, when the aged Priam enters Achilles’ camp to ransom his son’s body and secure the funeral rites owed to Troy’s defender."
   },
   {
-    "Index": 23,
+    "Index": "7",
+    "Primary": "8, father",
+    "Primary Name": "Priam",
+    "Secondary": "12, father",
+    "Secondary Name": "Helen",
+    "Connection Category": "familial: father/daughter",
+    "Note": "Through her marriage to Paris, Helen becomes Priam’s daughter-in-law. In the Iliad, Priam addresses her with unusual kindness and does not personally blame her for the war, creating a compassionate relationship within the doomed Trojan household."
+  },
+  {
+    "Index": "8",
     "Primary": "14, father",
     "Primary Name": "Gordias",
     "Secondary": "15, father",
     "Secondary Name": "Midas",
     "Connection Category": "familial: father/son",
-    "Note": "-"
+    "Note": "Greek legendary genealogy commonly presents Midas as the son or successor of Gordias, linking the humble, oracle-chosen founder with Phrygia’s fabulously wealthy king. The relationship belongs to dynastic legend and should not be treated as a securely documented historical genealogy."
   },
   {
-    "Index": 24,
-    "Primary": "16, father ",
+    "Index": "9",
+    "Primary": "16, father",
     "Primary Name": "Alyattes",
     "Secondary": "17, father",
     "Secondary Name": "Croesus",
     "Connection Category": "familial: father/son",
-    "Note": "-"
+    "Note": "Croesus succeeded his father Alyattes as king of Lydia around 560 BCE. Their successive reigns mark the height of Mermnad power, from Alyattes’s consolidation of the kingdom to Croesus’s expansion and eventual defeat by Persia."
   },
   {
-    "Index": 25,
+    "Index": "10",
+    "Primary": "3, father",
+    "Primary Name": "Kumarbi",
+    "Secondary": "5, text",
+    "Secondary Name": "The Song of Kumarbi",
+    "Connection Category": "explicit reference",
+    "Note": "Kumarbi is the central transitional ruler of the poem. He overthrows Anu, receives the seeds of a new divine generation through his violent attack, and becomes both the progenitor and future opponent of Teshub."
+  },
+  {
+    "Index": "11",
+    "Primary": "3, father",
+    "Primary Name": "Kumarbi",
+    "Secondary": "10, text",
+    "Secondary Name": "The Song of Ullikummi",
+    "Connection Category": "explicit reference",
+    "Note": "Kumarbi initiates the plot by generating Ullikummi as a new challenger to Teshub. The text presents him as a calculating displaced sovereign who uses a primordial stone being in another attempt to overturn the established divine order."
+  },
+  {
+    "Index": "12",
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "1, text",
+    "Secondary Name": "Anitta Text",
+    "Connection Category": "explicit reference",
+    "Note": "The Anitta Text explicitly invokes the Storm God of Heaven. Pithana is described as dear to the Storm God, and Anitta’s curse calls upon the deity to strike any future ruler who resettles Hattusa."
+  },
+  {
+    "Index": "13",
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "4, text",
+    "Secondary Name": "Purulli Festival Ritual",
+    "Connection Category": "explicit reference",
+    "Note": "The Purulli festival tradition includes the Storm God’s struggle with Illuyanka as part of its ritual program. His defeat and recovery connect royal and priestly performance with the renewal, protection, and prosperity of the land."
+  },
+  {
+    "Index": "14",
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "5, text",
+    "Secondary Name": "The Song of Kumarbi",
+    "Connection Category": "explicit reference",
+    "Note": "The poem presents Teshub as a member of the new divine generation produced through Kumarbi’s attack on Anu. Although the text is fragmentary, Teshub emerges as the coming rival to Kumarbi’s claim to heavenly kingship."
+  },
+  {
+    "Index": "15",
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "6, text",
+    "Secondary Name": "Treaty of Kadesh",
+    "Connection Category": "explicit reference",
+    "Note": "The treaty invokes the Hittite Storm God or God of the Tempest as a divine sponsor of the peace established between Egypt and Hatti. The storm-god complex also belongs among the divine powers whose authority sacralizes and enforces the agreement."
+  },
+  {
+    "Index": "16",
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "8, text",
+    "Secondary Name": "The Myth of Illuyanka",
+    "Connection Category": "explicit reference",
+    "Note": "The Storm God is the myth’s central divine protagonist. He is defeated by Illuyanka, regains the ability to fight through different forms of assistance in the two versions, and ultimately destroys the serpent at significant human cost."
+  },
+  {
+    "Index": "17",
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary": "10, text",
+    "Secondary Name": "The Song of Ullikummi",
+    "Connection Category": "explicit reference",
+    "Note": "Teshub appears as the established king challenged by Ullikummi. His storm weapons initially fail against the stone giant, and the gods must turn to Ea and the primordial cutting tool before resistance can continue."
+  },
+  {
+    "Index": "18",
+    "Primary": "5, father",
+    "Primary Name": "Illuyanka",
+    "Secondary": "4, text",
+    "Secondary Name": "Purulli Festival Ritual",
+    "Connection Category": "explicit reference",
+    "Note": "The Purulli festival text preserves the recital of the Storm God’s confrontation with Illuyanka. The serpent’s defeat is incorporated into a spring ritual setting concerned with divine protection and the renewed well-being of the land."
+  },
+  {
+    "Index": "19",
+    "Primary": "5, father",
+    "Primary Name": "Illuyanka",
+    "Secondary": "8, text",
+    "Secondary Name": "The Myth of Illuyanka",
+    "Connection Category": "explicit reference",
+    "Note": "Illuyanka is the serpent adversary named in both surviving versions. He defeats the Storm God at the beginning but is eventually killed—after being trapped at a feast in one account and after surrendering the god’s stolen heart and eyes in the other."
+  },
+  {
+    "Index": "20",
+    "Primary": "2, text",
+    "Primary Name": "Edict of Telipinu",
+    "Secondary": "3, text",
+    "Secondary Name": "Hittite Laws",
+    "Connection Category": "indirect connection",
+    "Note": "Both texts use the antiyant institution, in which a son-in-law can enter a household as heir. The laws attest the arrangement in family property practice, while the Edict of Telipinu adapts a comparable mechanism to royal succession when no male prince is available."
+  },
+  {
+    "Index": "21",
     "Primary": "5, text",
     "Primary Name": "The Song of Kumarbi",
     "Secondary": "10, text",
     "Secondary Name": "The Song of Ullikummi",
-    "Connection Category": "indirect connection",
-    "Note": "The Song of Ullikummi functions as a sequel to The Song of Kumarbi, shifting mythic focus from succession to the containment of chaos through the stabilization of cosmic order."
+    "Connection Category": "partof",
+    "Note": "Both works belong to the scholarly grouping known as the Kumarbi Cycle. The Song of Kumarbi establishes the conflict between Kumarbi and the new generation led by Teshub, while the Song of Ullikummi presents a later attempt by Kumarbi to defeat that order."
   },
   {
-    "Index": 26,
+    "Index": "22",
     "Primary": "8, text",
     "Primary Name": "The Myth of Illuyanka",
     "Secondary": "4, text",
-    "Secondary Name": "Purulli Ritual Instructions",
+    "Secondary Name": "Purulli Festival Ritual",
+    "Connection Category": "partof",
+    "Note": "The Illuyanka narrative is transmitted as the mythic component of a Purulli festival text. These entries therefore represent a contained narrative and its wider ritual framework rather than two unrelated traditions."
+  },
+  {
+    "Index": "23",
+    "Primary": "7, text",
+    "Primary Name": "Apology of Hattusili III",
+    "Secondary": "6, text",
+    "Secondary Name": "Treaty of Kadesh",
     "Connection Category": "indirect connection",
-    "Note": "The Myth of Illuyanka provides the narrative foundation for the Purulli festival, whose ritual instructions formalize the recurring restoration of cosmic order."
+    "Note": "The Apology defends Hattusili III’s contested seizure of the Hittite throne, while the treaty recognizes him as Egypt’s equal royal partner and includes support for the succession of his son. Together they show domestic and international strategies for stabilizing his dynasty."
   }
 ]

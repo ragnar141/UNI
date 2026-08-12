@@ -1,56 +1,47 @@
 [
   {
-    "Index": 1,
+    "Index": "1",
     "Primary": "1, father",
     "Primary Name": "Ammon",
     "Secondary": "2, father",
     "Secondary Name": "Gurzil",
-    "Connection Category": "custom connection",
-    "Note": "Although Corippus explicitly calls Gurzil the son of Ammon, the pairing most plausibly reflects a Roman attempt to genealogize two manifestations of the same older Libyan horned high-god tradition rather than a preserved indigenous father–son myth."
+    "Connection Category": "familial: father/son",
+    "Note": "Corippus explicitly describes Gurzil as the son of Ammon and a cow. This provides a direct familial connection in the surviving late-antique account, although it does not establish how early or widely this genealogy was accepted in indigenous Libyan religion."
   },
   {
-    "Index": 2,
-    "Primary": "6, father",
-    "Primary Name": "Tanit",
-    "Secondary": "2, text",
-    "Secondary Name": "Kition Inscriptions",
-    "Connection Category": "explicit reference",
-    "Note": "The appearance of Tanit in the Phoenician temple inscriptions at Kition (Cyprus) shows that this once-primarily Carthaginian goddess was already part of the shared Phoenician religious world, likely carried along ordinary networks of trade."
-  },
-  {
-    "Index": 3,
+    "Index": "3",
     "Primary": "6, father",
     "Primary Name": "Tanit",
     "Secondary": "3, text",
     "Secondary Name": "Tophet Inscriptions",
     "Connection Category": "explicit reference",
-    "Note": "In the Tophet stelae of Carthage, Tanit is repeatedly invoked alongside Baal Hammon in the standard votive formula, making this corpus the clearest and strongest evidence of her central role in Carthaginian religion."
+    "Note": "The Carthaginian tophet inscriptions repeatedly invoke Tanit, commonly alongside Baal Hammon, in votive formulas recording that an offering was made in fulfillment of a vow and that the deity heard and blessed the dedicator. This corpus provides the strongest direct epigraphic evidence for Tanit’s central place in Punic ritual."
   },
   {
-    "Index": 4,
-    "Primary": "6, father",
-    "Primary Name": "Tanit",
-    "Secondary": "4, text",
-    "Secondary Name": "Punic Curse Tablets",
-    "Connection Category": "explicit reference",
-    "Note": "In Punic curse tablets, Tanit is invoked as an active enforcer of personal spells and bindings, revealing that her authority extended from formal state cult into the intimate, feared sphere of everyday magical practice."
-  },
-  {
-    "Index": 5,
+    "Index": "5",
     "Primary": "7, father",
     "Primary Name": "Mago the Farmer",
     "Secondary": "5, text",
     "Secondary Name": "Carthaginian Agricultural Treatise",
     "Connection Category": "custom connection",
-    "Note": "Mago’s 28-book agricultural treatise was so authoritative that Rome translated and preserved it after destroying Carthage."
+    "Note": "The twenty-eight-book Carthaginian Agricultural Treatise is attributed to Mago. After the fall of Carthage, the Roman Senate ordered it translated into Latin, and later Greek and Roman agricultural writers preserved fragments and adaptations of its contents."
   },
   {
-    "Index": 6,
+    "Index": "6",
     "Primary": "9, father",
     "Primary Name": "Masinissa",
     "Secondary": "10, father",
     "Secondary Name": "Jugurtha",
     "Connection Category": "custom connection",
-    "Note": "Jugurtha was politically treated as an adopted heir, but by blood he was Masinissa’s grandson via Mastanabal."
+    "Note": "Jugurtha was Masinissa’s biological grandson through Masinissa’s son Mastanabal. He was subsequently raised and adopted by his uncle Micipsa, which placed him within the ruling household alongside Micipsa’s sons Adherbal and Hiempsal."
+  },
+  {
+    "Index": "7",
+    "Primary": "8, father",
+    "Primary Name": "Hannibal Barca",
+    "Secondary": "9, father",
+    "Secondary Name": "Masinissa",
+    "Connection Category": "custom connection",
+    "Note": "Masinissa began the Second Punic War aligned with Carthage but later joined Scipio. At the Battle of Zama in 202 BCE, his Numidian cavalry fought against Hannibal’s army, drove off the Carthaginian cavalry, and returned to strike Hannibal’s infantry from the rear, contributing decisively to the Roman victory."
   }
 ]

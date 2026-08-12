@@ -1,0 +1,20 @@
+[
+  {
+    "Index": "1",
+    "Primary": "1, text",
+    "Primary Name": "Babylonian Verse Account of Nabonidus",
+    "Secondary": "2, text",
+    "Secondary Name": "Weidner Chronicle",
+    "Connection Category": "indirect connection",
+    "Note": "The Weidner Chronicle presents a theology of kingship in which rulers prosper or fall according to their treatment of Marduk and Esagila. The Verse Account applies a closely related ideological pattern to Nabonidus, portraying his religious misconduct as justification for his fall and Cyrus’s accession as the restoration of legitimate order. No direct quotation or textual borrowing can be demonstrated. This is an ideological connection."
+  },
+  {
+    "Index": "2",
+    "Primary": "4, text",
+    "Primary Name": "Achaemenid Administrative Texts from Babylon",
+    "Secondary": "5, text",
+    "Secondary Name": "Murašû Archive",
+    "Connection Category": "partof",
+    "Note": "The Murašû Archive is a major collection of legal and administrative tablets belonging to the broader corpus of documentation from Achaemenid-ruled Babylonia. It records the activities of a private firm operating within imperial systems of landholding, taxation, agricultural management, and credit."
+  }
+]
