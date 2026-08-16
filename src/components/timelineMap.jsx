@@ -38,16 +38,26 @@ const DEFAULT_WIDTH = 1200;
 const DEFAULT_HEIGHT = 600;
 const MAP_PADDING = 18;
 
-/* Map camera controls. */
+/*
+ * Map camera controls.
+ *
+ * Opening zoom and maximum zoom are intentionally separate:
+ * - Geographical View still opens at the familiar camera scale of 40.
+ * - The user may continue zooming inward to 80.
+ *
+ * Timeline marker sizing remains referenced/capped at camera zoom 40 inside
+ * timeline.jsx, so the map gains geographic magnification without making
+ * selected or connected objects grow beyond their existing maximum size.
+ */
 const MIN_MAP_SCALE = 1;
-const MAX_MAP_SCALE = 40;
+const INITIAL_MAP_SCALE = 40;
+const MAX_MAP_SCALE = 80;
 
 /*
- * Map View opens at its maximum camera zoom. The selected geographic point is
- * translated back under the exact browser pixel occupied by the chronological
- * pin, so changing views does not move the selected object.
+ * The selected geographic point is translated back under the exact browser
+ * pixel occupied by the chronological pin when Geographical View opens.
+ * Keeping INITIAL_MAP_SCALE at 40 preserves the current activation framing.
  */
-const INITIAL_MAP_SCALE = MAX_MAP_SCALE;
 
 /*
  * Continuous duration-linked civilization fill controls.
@@ -63,6 +73,52 @@ const CIVILIZATION_FILL = {
   outerOpacity: 0.10,
   middleOpacity: 0.055,
   deepOpacity: 0.008,
+};
+
+
+/*
+ * Selected-object Map View background focus.
+ *
+ * The interactive selected/connected objects are drawn by timeline.jsx above
+ * this map. At outer map zooms, background geography can visually compete with
+ * those markers, so the map progressively quiets itself as the user zooms out.
+ *
+ * IMPORTANT:
+ * - At deep zoom (>= deepEnd), every layer returns to opacity 1, so the normal
+ *   opening Map View remains exactly as strong as before.
+ * - At outer zoom (<= outerHoldUntil), the values in `outer` are used.
+ * - Between the thresholds, values interpolate smoothly with no class switch.
+ *
+ * TWEAK THE `outer` VALUES FIRST if you want more/less visual separation.
+ */
+const MAP_BACKGROUND_FOCUS = {
+  outerHoldUntil: 5.5,
+  middleEnd: 12,
+  deepEnd: 20,
+
+  outer: {
+    modernBorders: 0.42,
+    historicalRegions: 0.58,
+    historicalLabels: 0.52,
+    geographicLabels: 0.44,
+    historicalLocations: 0.52,
+  },
+
+  middle: {
+    modernBorders: 0.66,
+    historicalRegions: 0.74,
+    historicalLabels: 0.70,
+    geographicLabels: 0.62,
+    historicalLocations: 0.70,
+  },
+
+  deep: {
+    modernBorders: 1,
+    historicalRegions: 1,
+    historicalLabels: 1,
+    geographicLabels: 1,
+    historicalLocations: 1,
+  },
 };
 
 /*
@@ -285,6 +341,63 @@ function getCivilizationFillOpacity(zoom) {
   }
 
   return CIVILIZATION_FILL.deepOpacity;
+}
+
+
+function getMapBackgroundFocusVariables(zoom) {
+  const z = Number.isFinite(zoom) ? zoom : INITIAL_MAP_SCALE;
+  const cfg = MAP_BACKGROUND_FOCUS;
+
+  const mixStage = (key, from, to, start, end) =>
+    interpolateLinear(
+      z,
+      start,
+      end,
+      from[key],
+      to[key]
+    );
+
+  let values;
+
+  if (z <= cfg.outerHoldUntil) {
+    values = cfg.outer;
+  } else if (z <= cfg.middleEnd) {
+    values = Object.fromEntries(
+      Object.keys(cfg.outer).map((key) => [
+        key,
+        mixStage(
+          key,
+          cfg.outer,
+          cfg.middle,
+          cfg.outerHoldUntil,
+          cfg.middleEnd
+        ),
+      ])
+    );
+  } else if (z <= cfg.deepEnd) {
+    values = Object.fromEntries(
+      Object.keys(cfg.middle).map((key) => [
+        key,
+        mixStage(
+          key,
+          cfg.middle,
+          cfg.deep,
+          cfg.middleEnd,
+          cfg.deepEnd
+        ),
+      ])
+    );
+  } else {
+    values = cfg.deep;
+  }
+
+  return {
+    "--map-modern-border-layer-opacity": values.modernBorders,
+    "--map-historical-region-layer-opacity": values.historicalRegions,
+    "--map-historical-label-layer-opacity": values.historicalLabels,
+    "--map-geographic-label-layer-opacity": values.geographicLabels,
+    "--map-historical-location-layer-opacity": values.historicalLocations,
+  };
 }
 
 function getCivilizationBorderVariables(zoom) {
@@ -1653,6 +1766,8 @@ const TimelineMap = forwardRef(function TimelineMap(
 
   const civilizationFillOpacity = getCivilizationFillOpacity(viewportScale);
   const civilizationBorderVariables = getCivilizationBorderVariables(viewportScale);
+  const mapBackgroundFocusVariables =
+    getMapBackgroundFocusVariables(viewportScale);
 
   return (
     <div
@@ -1675,6 +1790,7 @@ const TimelineMap = forwardRef(function TimelineMap(
       style={{
         "--civilization-fill-opacity": civilizationFillOpacity,
         ...civilizationBorderVariables,
+        ...mapBackgroundFocusVariables,
       }}
     >
       <svg

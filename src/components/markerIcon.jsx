@@ -1,4 +1,20 @@
 // components/MarkerIcon.jsx
+
+/*
+ * TWEAK THIS ONE VALUE to resize ALL father icons everywhere MarkerIcon is used:
+ * - triangles
+ * - concept squares
+ * - founding and non-founding figures
+ *
+ * Text circles are NOT affected.
+ *
+ * 1.00 = original size
+ * 1.10 = 10% larger
+ * 1.15 = 15% larger
+ * 1.20 = 20% larger
+ */
+const FATHER_ICON_SCALE = 1.3;
+
 export default function MarkerIcon({
   type,
   color,
@@ -8,13 +24,16 @@ export default function MarkerIcon({
   concept = false,          // NEW
   size = 16,
   midlineOffset = 0.22,     // slight left shift of the historic midline
+  separatorWidth = 0.5,     // thin white divider between multiple colors
   className,
 }) {
   const vb = "0 0 16 16";
 
   // ===== Fathers: triangle by default; Concept => square with horizontal bands =====
   if (type === "father") {
-    const r = founding ? 5.5 : 4.0;
+    // Base geometry stays the same; FATHER_ICON_SCALE is the single global knob.
+    const baseR = founding ? 5.5 : 4.0;
+    const r = baseR * FATHER_ICON_SCALE;
     const cx = 8, cy = 8;
 
     const xL = cx - r, xR = cx + r, yT = cy - r, yB = cy + r, yM = cy;
@@ -49,6 +68,24 @@ export default function MarkerIcon({
               // Horizontal block spanning full width
               const d = `M ${xL} ${y0} H ${xR} V ${y1} H ${xL} Z`;
               return <path key={i} d={d} fill={c} />;
+            })}
+
+            {/* Hairline separators between color blocks; no outer white border. */}
+            {Array.from({ length: n - 1 }, (_, i) => {
+              const y = yT + (yB - yT) * ((i + 1) / n);
+              return (
+                <line
+                  key={`sep-${i}`}
+                  x1={xL}
+                  x2={xR}
+                  y1={y}
+                  y2={y}
+                  stroke="#fff"
+                  strokeWidth={separatorWidth}
+                  vectorEffect="non-scaling-stroke"
+                  shapeRendering="geometricPrecision"
+                />
+              );
             })}
 
             {/* no historic midline for concept squares (matches timeline logic) */}
@@ -100,6 +137,24 @@ export default function MarkerIcon({
             // left-top -> left-bottom of the slice -> right vertex
             const d = `M ${xL} ${y0} L ${xL} ${y1} L ${xR} ${yM} Z`;
             return <path key={i} d={d} fill={c} />;
+          })}
+
+          {/* Hairline separators from each internal left-edge split to the tip. */}
+          {Array.from({ length: n - 1 }, (_, i) => {
+            const y = yT + (yB - yT) * ((i + 1) / n);
+            return (
+              <line
+                key={`sep-${i}`}
+                x1={xL}
+                y1={y}
+                x2={xR}
+                y2={yM}
+                stroke="#fff"
+                strokeWidth={separatorWidth}
+                vectorEffect="non-scaling-stroke"
+                shapeRendering="geometricPrecision"
+              />
+            );
           })}
 
           {historic && (
@@ -175,6 +230,29 @@ export default function MarkerIcon({
         {arcs.map((d, i) => (
           <path key={i} d={d} fill={palette[i]} />
         ))}
+
+        {/* Hairline radial separators only at internal color boundaries. */}
+        {Array.from({ length: n }, (_, i) => {
+          const angle =
+            n === 2
+              ? i * Math.PI
+              : (i / n) * 2 * Math.PI - Math.PI / 2;
+
+          return (
+            <line
+              key={`sep-${i}`}
+              x1={cx}
+              y1={cy}
+              x2={cx + r * Math.cos(angle)}
+              y2={cy + r * Math.sin(angle)}
+              stroke="#fff"
+              strokeWidth={separatorWidth}
+              strokeLinecap="round"
+              vectorEffect="non-scaling-stroke"
+              shapeRendering="geometricPrecision"
+            />
+          );
+        })}
       </svg>
     );
   }

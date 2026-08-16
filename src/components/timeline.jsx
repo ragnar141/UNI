@@ -8,6 +8,7 @@ import FatherCard from "./fatherCard";
 import SearchBar from "./searchBar";
 import TagPanel from "./tagPanel";
 import TimelineMap from "./timelineMap";
+import MarkerIcon from "./markerIcon";
 
 /* ===== Timeline debug helpers (safe) =====
    Toggle DEBUG_TL to enable/disable logs without breaking runtime.
@@ -186,31 +187,51 @@ const LOCATION_CLUSTER_BRANCH_MIN_SCALE = 0.5;
 const LOCATION_CLUSTER_BRANCH_MAX_SCALE = 2.25;
 
 /*
- * Unified object-size controls.
+ * Ordinary/no-selection object-size controls.
  *
- * Default View and Map View use different camera zoom ranges, so Map View's
- * camera zoom is converted to the same visual zoom scale as Default View.
- * At maximum zoom, ordinary, selected-neighborhood, and Map View objects now
- * receive exactly the same effective zoom value.
- *
- * TWEAK OBJECT_SIZE_MAX_VISUAL_ZOOM only if Default View's maximum zoom changes.
- * TWEAK OBJECT_SIZE_MAP_MAX_CAMERA_ZOOM only if TimelineMap's maximum changes.
- * Actual text/father sizes remain controlled in one place by TEXT_BASE_R,
- * CIV_TEXT_SCALE, FATHER_R_FOUNDING, FATHER_R_NONFOUND, and FATHER_SIZE_SCALE.
+ * IMPORTANT: the ordinary Default View sizing path remains unchanged.
+ * Selected mode gets its own normalized visual zoom below.
  */
 const OBJECT_SIZE_MAX_VISUAL_ZOOM = 22;
 const OBJECT_SIZE_MAP_MAX_CAMERA_ZOOM = 40;
 const FATHER_SIZE_SCALE = 2.2;
 
-/* Selected pin size at maximum visual zoom. Both views now match at max zoom. */
-const SELECTED_PIN_HEAD_RADIUS_AT_MAX_ZOOM = 14;
-const SELECTED_PIN_HEAD_RADIUS_MIN = 10;
+/*
+ * Unified SELECTED-state zoom range.
+ *
+ * Default chronological camera:
+ *   1  -> 22
+ *
+ * Geographical camera:
+ *   1  -> 40
+ *
+ * Both are normalized to exactly:
+ *   1  -> 22
+ *
+ * Every selected-state object-size rule consumes this one normalized value.
+ * This makes selected/connected objects shrink monotonically as either view is
+ * zoomed out and guarantees identical sizes at both endpoints.
+ */
+const SELECTED_SIZE_MIN_VISUAL_ZOOM = 7;
+const SELECTED_SIZE_MAX_VISUAL_ZOOM = 22;
+const SELECTED_SIZE_MAP_MIN_CAMERA_ZOOM = 1;
+const SELECTED_SIZE_MAP_MAX_CAMERA_ZOOM = 40;
 
 /*
- * Connected objects use the same gentle hover enlargement in both views.
- * The branch CSS also uses 1.18.
+ * Selected pin endpoint sizes.
+ *
+ * Current selected-pin endpoints are 15px at deepest zoom and 8px at the
+ * outer selected-size floor. These remain easy to tune independently.
  */
-const CONNECTED_OBJECT_HOVER_SCALE = 1.18;
+const SELECTED_PIN_HEAD_RADIUS_AT_MAX_ZOOM = 15;
+const SELECTED_PIN_HEAD_RADIUS_AT_MIN_ZOOM = 8;
+
+/*
+ * Connected objects use the SAME transient hover enlargement as ordinary
+ * objects. Selected-mode zoom still determines each object's BASE size; hover
+ * simply multiplies that current size by the familiar 1.6 factor.
+ */
+const CONNECTED_OBJECT_HOVER_SCALE = HOVER_SCALE_DOT;
 
 const LOCATION_CLUSTER_HIT_RADIUS = 13;
 
@@ -308,14 +329,16 @@ const fmtRange = (s, e) => `${formatYear(s)} – ${formatYear(e)}`;
 
 /*
  * Selected-tooltip placement controls.
- * Chronological View always places the main tooltip directly above the pin.
- * Map View retains the collision-aware placement scorer for later tuning.
+ *
+ * The main selected-object tooltip is deterministic in BOTH views:
+ * it is always centered directly above the selected pin.
+ *
+ * The two views may still use different vertical gaps if desired.
+ * Connected-object mini-tooltips retain their separate collision-aware
+ * placement system.
  */
 const SELECTED_TOOLTIP_GAP = 12;
 const SELECTED_TOOLTIP_CHRONOLOGICAL_GAP = 6;
-const SELECTED_TOOLTIP_VIEWPORT_PADDING = 6;
-const SELECTED_TOOLTIP_OBJECT_CLEARANCE = 44;
-const SELECTED_TOOLTIP_LINE_CLEARANCE = 64;
 
 /* Tooltip border hierarchy.
  * These values feed CSS custom properties, including the visible hover frame.
@@ -336,9 +359,16 @@ const SELECTED_CHRONOLOGY_GUIDE_COLOR = "#94a3b8";
 /* Selected chronological date is slightly larger than connected dates. */
 const SELECTED_AXIS_PRIMARY_DATE_FONT_SIZE = "1.22em";
 
-/* Info Window relationship-name emphasis. */
+/*
+ * Selected-connection Info Window hierarchy.
+ *
+ * The selected endpoint is deliberately more prominent than the connected
+ * endpoint being inspected. These values affect only the Info Window.
+ */
 const CONNECTION_INFO_SELECTED_NAME_FONT_SIZE = "1.1em";
 const CONNECTION_INFO_CONNECTED_NAME_FONT_SIZE = "1em";
+const CONNECTION_INFO_SELECTED_MARKER_SIZE = 18;
+const CONNECTION_INFO_CONNECTED_MARKER_SIZE = 13;
 
 /*
  * Persistent connected-object mini-label controls.
@@ -363,7 +393,17 @@ const MINI_TOOLTIP_OBJECTS_FOR_MAX = 10;
  * Hovering one connected object keeps its own line/object bright and dims the
  * rest of the selected one-hop neighborhood.
  */
-const CONNECTION_SELECTED_DIM_OPACITY = 0.08;
+/*
+ * Selected-connection opacity hierarchy.
+ *
+ * TWEAK THESE TWO VALUES:
+ * - IDLE = all direct connection lines immediately after selecting an object
+ * - DIM  = non-hovered direct connections while one connected object is hovered
+ *
+ * The hovered connection itself still uses CONNECTION_HIGHLIGHT_OPACITY below.
+ */
+const CONNECTION_SELECTED_IDLE_OPACITY = 0.08;
+const CONNECTION_SELECTED_DIM_OPACITY = 0.1;
 
 /*
  * Selected pins and connected objects now respond to the active view's zoom.
@@ -412,7 +452,7 @@ const objectTipHTML = (title, dateLineHTML, location) => {
     }
     ${
       hasTooltipValue(locationText)
-        ? `<div class="tl-tip-meta tl-tip-location" style="font-weight: 600;">${locationText}</div>`
+        ? `<div class="tl-tip-meta tl-tip-location" style="font-weight: 600;"><span class="tl-tip-locationText">${locationText}</span></div>`
         : ""
     }
   `;
@@ -1677,9 +1717,11 @@ function buildFatherConnectionItems(subject, allConnections) {
   const syncreticEntries = [];       // "was syncretized with A, B, C"
   const customConnectionGroups = {}; // "relates to A, B, C"
   const explicitTextRefs = [];       // "is mentioned in Text1, Text2, Text3"
+  const indirectTextRefs = [];       // "is indirectly referenced in Text1, Text2, Text3"
   const looseItems = [];
   const cognateEntries = [];         // "is cognate with A, B, C"
   const comparativeEntries = [];     // "shares a comparative framework with A, B, C"
+  const speculativeFatherEntries = []; // "shares structural similarities with A, B, C"
 
 
   const ensureGroup = (obj, key) => {
@@ -1806,6 +1848,17 @@ function buildFatherConnectionItems(subject, allConnections) {
       continue;
     }
 
+    // --- Father ↔ father speculative connection ---
+    // Rendered cautiously as a structural similarity, not as asserted lineage,
+    // influence, identity, or transmission.
+    if (
+      category === "speculative connection" &&
+      otherType === "father"
+    ) {
+      speculativeFatherEntries.push(entry);
+      continue;
+    }
+
     // --- Father ↔ text explicit reference (grouped) ---
     if (
       category === "explicit reference" &&
@@ -1814,6 +1867,15 @@ function buildFatherConnectionItems(subject, allConnections) {
     ) {
       // We only care about the text side as the "other"
       explicitTextRefs.push(entry);
+      continue;
+    }
+
+    // --- Father ↔ text indirect connection (grouped) ---
+    if (
+      category === "indirect connection" &&
+      otherType === "text"
+    ) {
+      indirectTextRefs.push(entry);
       continue;
     }
 
@@ -1934,9 +1996,22 @@ for (const role of Object.keys(childGroups)) {
     makeGroupedItem(`shares a comparative framework with `, comparativeEntries);
   }
 
+  // Speculative father ↔ father: "shares structural similarities with ..."
+  if (speculativeFatherEntries.length) {
+    makeGroupedItem(
+      `shares structural similarities with `,
+      speculativeFatherEntries
+    );
+  }
+
   // Explicit text references: "is mentioned in Text1, Text2, Text3"
   if (explicitTextRefs.length) {
     makeGroupedItem(`is mentioned in `, explicitTextRefs);
+  }
+
+  // Indirect text references: "is indirectly referenced in Text1, Text2, Text3"
+  if (indirectTextRefs.length) {
+    makeGroupedItem(`is indirectly referenced in `, indirectTextRefs);
   }
 
   // Syncretic: "was syncretized with A, B, C"
@@ -2001,11 +2076,19 @@ function buildTextConnectionItems(subject, allConnections) {
   const containedWithinTargets = []; // subject is secondary
   const containsTargets = [];        // subject is primary
 
+  // Symmetric custom text ↔ text relationships.
+  const customTextTargets = [];
+
+  // Symmetric speculative text ↔ text relationships.
+  const speculativeTextTargets = [];
+
   const textualOther = [];
 
-  // Father → text connections
+  // Father ↔ text connections
   const fatherRefs = [];
+  const fatherIndirect = [];
   const fatherRelates = [];
+  const fatherComparative = [];
 
   const normX = (raw) => {
     const v = Number(raw ?? NaN);
@@ -2145,6 +2228,21 @@ function buildTextConnectionItems(subject, allConnections) {
           continue;
         }
 
+        // --- Custom text ↔ text connection ---
+        // Symmetric on both TextCards: "relates to ..."
+        if (category === "custom connection") {
+          customTextTargets.push(target);
+          continue;
+        }
+
+        // --- Speculative text ↔ text connection ---
+        // Symmetric on both TextCards. This wording describes resemblance
+        // without asserting direct influence or transmission.
+        if (category === "speculative connection") {
+          speculativeTextTargets.push(target);
+          continue;
+        }
+
         // --- Part-of relationship ---
         //
         // Primary/A = containing text or collection
@@ -2169,10 +2267,18 @@ function buildTextConnectionItems(subject, allConnections) {
 
     // ===== 2) FATHER ↔ TEXT =====
     const isExplicit = category === "explicit reference";
+    const isIndirect = category === "indirect connection";
     const isCustom = category === "custom connection";
+    const isComparative = category === "comparative connection";
 
-    if (isExplicit || isCustom) {
-      const bucket = isExplicit ? fatherRefs : fatherRelates;
+    if (isExplicit || isIndirect || isCustom || isComparative) {
+      const bucket = isExplicit
+        ? fatherRefs
+        : isIndirect
+          ? fatherIndirect
+          : isCustom
+            ? fatherRelates
+            : fatherComparative;
 
       // Father on A, text on B
       if (aIsFather && bIsText && c.bId === subjectId) {
@@ -2294,6 +2400,20 @@ function buildTextConnectionItems(subject, allConnections) {
     );
   }
 
+  if (customTextTargets.length) {
+    makeTextualRow(
+      "relates to ",
+      customTextTargets
+    );
+  }
+
+  if (speculativeTextTargets.length) {
+    makeTextualRow(
+      "shares structural similarities with ",
+      speculativeTextTargets
+    );
+  }
+
   if (containsTargets.length) {
     makeTextualRow(
       "contains ",
@@ -2364,6 +2484,25 @@ function buildTextConnectionItems(subject, allConnections) {
     });
   }
 
+  // Indirect connection: "indirectly references ..."
+  if (fatherIndirect.length) {
+    const sortedFathers = uniqByOtherId(fatherIndirect).sort(compareByX);
+
+    const targets = sortedFathers.map((entry) => ({
+      type: entry.otherType,
+      id: entry.otherId,
+      name: entry.otherName,
+      note: entry.note || "",
+    }));
+
+    finalItems.push({
+      section: "mythic",
+      textBefore: "indirectly references ",
+      targets,
+      note: "",
+    });
+  }
+
   // Custom connection: "relates to ..."
   if (fatherRelates.length) {
     const sortedFathers = uniqByOtherId(fatherRelates).sort(compareByX);
@@ -2378,6 +2517,25 @@ function buildTextConnectionItems(subject, allConnections) {
     finalItems.push({
       section: "mythic",
       textBefore: "relates to ",
+      targets,
+      note: "",
+    });
+  }
+
+  // Comparative connection: symmetric for father ↔ text.
+  if (fatherComparative.length) {
+    const sortedFathers = uniqByOtherId(fatherComparative).sort(compareByX);
+
+    const targets = sortedFathers.map((entry) => ({
+      type: entry.otherType,
+      id: entry.otherId,
+      name: entry.otherName,
+      note: entry.note || "",
+    }));
+
+    finalItems.push({
+      section: "mythic",
+      textBefore: "shares a comparative framework with ",
       targets,
       note: "",
     });
@@ -2595,7 +2753,7 @@ function buildConnectionRelationshipSentence(
     }
 
     if (isSpeculative) {
-      return `${subjectName} has a speculative connection to ${objectName}`;
+      return `${subjectName} shares structural similarities with ${objectName}`;
     }
 
     return `${subjectName} is related to ${objectName}`;
@@ -2670,7 +2828,7 @@ function buildConnectionRelationshipSentence(
     }
 
     if (isSpeculative) {
-      return `${subjectName} has a speculative connection to ${objectName}`;
+      return `${subjectName} shares structural similarities with ${objectName}`;
     }
 
     return `${subjectName} is related to ${objectName}`;
@@ -2736,6 +2894,14 @@ function buildConnectionInfoWindowEntries({
           selectedType,
           selectedId
         ),
+        selectedType,
+        selectedId,
+        connectedType: selectedIsA
+          ? connection.bType
+          : connection.aType,
+        connectedId: selectedIsA
+          ? connection.bId
+          : connection.aId,
         selectedName: selectedIsA
           ? connection.aName || ""
           : connection.bName || "",
@@ -2842,13 +3008,16 @@ export default function Timeline() {
 
   /*
    * renderConnections runs outside the D3 setup effect. This ref lets it ask
-   * the selected tooltip to rescore after connection-line geometry changes.
+   * the persistent selected/mini tooltip layer to refresh after connection or
+   * map geometry changes. The main selected tooltip itself no longer rescored:
+   * it always stays directly above the selected pin.
    */
   const renderSelectedTooltipRef = useRef(() => {});
 
   /*
-   * Placement is chosen only once for each selected object in each view.
-   * During drag/zoom, only the anchor coordinates change.
+   * The selected tooltip always uses the "top" placement. We still cache its
+   * measured width/height so D3 can reposition it cheaply as the selected pin
+   * moves during zoom/pan without repeatedly measuring the DOM.
    */
   const selectedTooltipPlacementRef = useRef({
     layoutKey: null,
@@ -3207,7 +3376,7 @@ const [size, setSize] = useState({ width: 0, height: 0 });
 
           segments.attr("stroke-opacity", (_entry, index) => {
             if (!activeTarget) {
-              return CONNECTION_HIGHLIGHT_OPACITY;
+              return CONNECTION_SELECTED_IDLE_OPACITY;
             }
 
             if (activeBranchIndex < 0) {
@@ -3470,8 +3639,10 @@ useEffect(() => {
   }, [selectedText?.id, selectedFather?.id, showMap]);
 
   /*
-   * Connected objects and the selected pin use the active view's zoom scale.
-   * Default View reads the timeline zoom; Map View reads TimelineMap's camera.
+   * Active camera zoom.
+   *
+   * This helper itself does not decide marker size. It simply reports whichever
+   * camera is active so selected-state sizing can normalize it in one place.
    */
   function getActiveViewZoomK(timelineZoomK = kRef.current) {
     if (showMapRef.current) {
@@ -3489,9 +3660,10 @@ useEffect(() => {
   }
 
   /*
-   * Single visual zoom used by every timeline object in every mode.
-   * Default View already uses the visual scale directly. Map View is normalized
-   * so its maximum camera zoom maps to Default View's maximum visual zoom.
+   * EXISTING ORDINARY / NO-SELECTION sizing path.
+   *
+   * Leave this behavior alone: the user already likes how ordinary objects
+   * respond to zoom when nothing is selected.
    */
   function getObjectSizingZoomK(timelineZoomK = kRef.current) {
     const activeZoom = getActiveViewZoomK(timelineZoomK);
@@ -3508,19 +3680,86 @@ useEffect(() => {
     return clamp(activeZoom, 0, OBJECT_SIZE_MAX_VISUAL_ZOOM);
   }
 
+  /*
+   * ONE selected-state zoom normalizer for BOTH views.
+   *
+   * Default View already spans 1..22 and therefore passes straight through.
+   * Geographical View spans 1..40 and is linearly remapped onto 1..22.
+   *
+   * Crucially, both minima map to 1 and both maxima map to 22. There is no
+   * outer-zoom reversal, compensation, secondary branch, or minimum-size phase.
+   */
+  function getSelectedStateVisualZoomK(timelineZoomK = kRef.current) {
+    const activeZoom = getActiveViewZoomK(timelineZoomK);
+
+    if (showMapRef.current) {
+      const cameraRange =
+        SELECTED_SIZE_MAP_MAX_CAMERA_ZOOM -
+        SELECTED_SIZE_MAP_MIN_CAMERA_ZOOM;
+
+      const cameraProgress = clamp(
+        (activeZoom - SELECTED_SIZE_MAP_MIN_CAMERA_ZOOM) /
+          Math.max(0.001, cameraRange),
+        0,
+        1
+      );
+
+      return (
+        SELECTED_SIZE_MIN_VISUAL_ZOOM +
+        cameraProgress *
+          (SELECTED_SIZE_MAX_VISUAL_ZOOM -
+            SELECTED_SIZE_MIN_VISUAL_ZOOM)
+      );
+    }
+
+    return clamp(
+      activeZoom,
+      SELECTED_SIZE_MIN_VISUAL_ZOOM,
+      SELECTED_SIZE_MAX_VISUAL_ZOOM
+    );
+  }
+
+  /*
+   * Shared 0..1 selected-state size progress.
+   * 0 = absolute outermost zoom
+   * 1 = absolute deepest zoom
+   */
+  function getSelectedStateSizeProgress(timelineZoomK = kRef.current) {
+    const visualZoom = getSelectedStateVisualZoomK(timelineZoomK);
+    const range =
+      SELECTED_SIZE_MAX_VISUAL_ZOOM -
+      SELECTED_SIZE_MIN_VISUAL_ZOOM;
+
+    return clamp(
+      (visualZoom - SELECTED_SIZE_MIN_VISUAL_ZOOM) /
+        Math.max(0.001, range),
+      0,
+      1
+    );
+  }
+
+  /*
+   * The selected pin uses the same normalized selected-state progress as its
+   * connected objects and interpolates smoothly between the current 15px/8px
+   * endpoint values.
+   */
   function getSelectedPinHeadRadius(timelineZoomK = kRef.current) {
-    const visualZoom = getObjectSizingZoomK(timelineZoomK);
-    return Math.max(
-      SELECTED_PIN_HEAD_RADIUS_MIN,
-      SELECTED_PIN_HEAD_RADIUS_AT_MAX_ZOOM *
-        (visualZoom / OBJECT_SIZE_MAX_VISUAL_ZOOM)
+    const progress =
+      getSelectedStateSizeProgress(timelineZoomK);
+
+    return (
+      SELECTED_PIN_HEAD_RADIUS_AT_MIN_ZOOM +
+      progress *
+        (SELECTED_PIN_HEAD_RADIUS_AT_MAX_ZOOM -
+          SELECTED_PIN_HEAD_RADIUS_AT_MIN_ZOOM)
     );
   }
 
 
   /*
-   * A directly connected object remains visually emphasized, but now scales
-   * with the active Default/Map View zoom instead of staying fixed-size.
+   * A directly connected object remains visually emphasized, but its SIZE now
+   * follows the single selected-state zoom curve above.
+   *
    * The selected object itself is excluded because it is represented by the
    * larger selected pin.
    */
@@ -3536,11 +3775,38 @@ useEffect(() => {
     return relevantFatherIdsRef.current.has(row.id);
   };
 
-  const getTextObjectRadius = (row, zoomK) =>
-    textBaseR(row) * getObjectSizingZoomK(zoomK);
+  /*
+   * Connected objects consume the SAME normalized selected visual zoom in both
+   * chronological and geographical modes.
+   *
+   * 22 at maximum zoom -> existing approved deep size.
+   *  1 at minimum zoom -> tiny, close-to-invisible outer size.
+   *
+   * No inverse outer-zoom growth remains.
+   */
+  function getConnectedObjectSizingZoomK(timelineZoomK = kRef.current) {
+    return getSelectedStateVisualZoomK(timelineZoomK);
+  }
 
-  const getFatherObjectRadius = (row, zoomK) =>
-    getFatherBaseR(row) * getObjectSizingZoomK(zoomK) * FATHER_SIZE_SCALE;
+  const getTextObjectRadius = (row, zoomK) => {
+    const sizingZoom = isConnectedTextObject(row)
+      ? getConnectedObjectSizingZoomK(zoomK)
+      : getObjectSizingZoomK(zoomK);
+
+    return textBaseR(row) * sizingZoom;
+  };
+
+  const getFatherObjectRadius = (row, zoomK) => {
+    const sizingZoom = isConnectedFatherObject(row)
+      ? getConnectedObjectSizingZoomK(zoomK)
+      : getObjectSizingZoomK(zoomK);
+
+    return (
+      getFatherBaseR(row) *
+      sizingZoom *
+      FATHER_SIZE_SCALE
+    );
+  };
 
   const getTextObjectHoverScale = (row) =>
     isConnectedTextObject(row)
@@ -3925,6 +4191,21 @@ const lastTransformRef = useRef(null);
  */
 const pendingSelectionCameraRef = useRef(null);
 
+/*
+ * Closing selected mode changes the chart height in the opposite direction:
+ * the 3-row selected axis collapses back to the normal 1-row axis.
+ *
+ * Capture the selected object's browser anchor immediately before the card
+ * clears its selection state, then compensate the Default View camera after
+ * the normal chart height has been restored. This is the exact inverse of the
+ * pendingSelectionCameraRef behavior above and prevents the timeline/map from
+ * making a small vertical jump when a card closes.
+ *
+ * If the card is closed while Geographical View is active, this anchor waits
+ * until Default View is visible again before being consumed.
+ */
+const pendingDeselectionCameraRef = useRef(null);
+
 /* Close an open Filters drawer before the whole control slides offscreen. */
 useEffect(() => {
   if (!modalOpen) return;
@@ -4006,6 +4287,38 @@ function alignDefaultViewPinToClient(anchorClient) {
   kRef.current = nextTransform.k;
 
   return true;
+}
+
+/*
+ * Remember the selected object's exact browser position immediately before
+ * its TextCard/FatherCard clears selection state.
+ *
+ * readSelectedPinTipClient() returns the bottom tip of the selected pin, which
+ * is geometrically the object's actual timeline/map anchor.
+ */
+function prepareDeselectionCameraAnchor(type, row) {
+  if (!row) {
+    pendingDeselectionCameraRef.current = null;
+    return;
+  }
+
+  const anchor = readSelectedPinTipClient();
+
+  if (
+    !anchor ||
+    !Number.isFinite(anchor.clientX) ||
+    !Number.isFinite(anchor.clientY)
+  ) {
+    pendingDeselectionCameraRef.current = null;
+    return;
+  }
+
+  pendingDeselectionCameraRef.current = {
+    type,
+    id: row.id,
+    clientX: anchor.clientX,
+    clientY: anchor.clientY,
+  };
 }
 
 /*
@@ -5111,7 +5424,7 @@ function styleForConnection(category, typeA, typeB, rowA, rowB) {
 
 
 const CONNECTION_BASE_OPACITY = 0.015;   // faint default
-const CONNECTION_HIGHLIGHT_OPACITY = 0.9; // bright when linked
+const CONNECTION_HIGHLIGHT_OPACITY = 1; // hovered selected connection
 
 
 
@@ -5296,10 +5609,12 @@ if (DEBUG_HOVER) {
           )
         );
 
-// Selection keeps every direct line bright in both Default and Map View.
+// Selection reveals every direct line softly in both Default and Map View.
 // Hovering one connected object spotlights only its line and dims the rest.
 if (hasSelection) {
-  if (!selectedHoverTarget) return highlightOpacity;
+  if (!selectedHoverTarget) {
+    return CONNECTION_SELECTED_IDLE_OPACITY;
+  }
 
   return connectsSelectedToHovered
     ? highlightOpacity
@@ -6421,8 +6736,10 @@ clearActiveDurationRef.current = clearActiveDuration;
 
       /*
        * Co-located markers exist only as branch icons while the branch is
-       * expanded. Their labels use the same collision-aware placement scorer
-       * as ordinary connected objects, so they may appear on either side.
+       * expanded. In Geographical Map mode their mini-tooltips intentionally
+       * sit BELOW the branch icon. This keeps the labels away from the
+       * disclosure button / branch origin and gives every shared-location
+       * object one stable directional rule.
        */
       if (
         showMapRef.current &&
@@ -6437,7 +6754,8 @@ clearActiveDurationRef.current = clearActiveDuration;
 
             registerMarker(
               node,
-              datum?.type || "text"
+              datum?.type || "text",
+              "bottom"
             );
           });
       }
@@ -6446,9 +6764,9 @@ clearActiveDurationRef.current = clearActiveDuration;
         Array.from(markerByKey.values());
 
       /*
-       * The selected tooltip chooses its side from connected-object geometry
-       * only. Cards, SearchBar, and connection lines must not influence that
-       * initial decision. Mini-tooltips may still avoid the interface chrome.
+       * Connected-object geometry is used only by the mini-tooltip collision
+       * system. The selected object's main tooltip is always placed directly
+       * above its pin and does not participate in obstacle scoring.
        */
       const connectedObjectObstacles = markerEntries.map(
         (entry) =>
@@ -6646,6 +6964,11 @@ clearActiveDurationRef.current = clearActiveDuration;
       const selectedAccent =
         objectTooltipAccent(selectedRow);
 
+      /*
+       * Selected-view styling now lives on the stable React timelineWrap.
+       * This avoids losing Map View emphasis when D3 refreshes tooltip classes
+       * during repeated geographic zoom/layout updates.
+       */
       const selectedTooltipGap = showMapRef.current
         ? SELECTED_TOOLTIP_GAP
         : SELECTED_TOOLTIP_CHRONOLOGICAL_GAP;
@@ -6671,61 +6994,20 @@ clearActiveDurationRef.current = clearActiveDuration;
           tipNode?.offsetHeight || 0;
 
         if (width > 0 && height > 0) {
-          if (!showMapRef.current) {
-            /*
-             * Chronological View intentionally has no placement scoring:
-             * the main tooltip is always centered immediately above the pin.
-             */
-            selectedTooltipPlacementRef.current = {
-              layoutKey,
-              placement: "top",
-              width,
-              height,
-            };
-          } else {
-            const best = allPlacements.reduce(
-              (winner, placement, priority) => {
-                const candidate = placementRect(
-                  pinRect,
-                  placement,
-                  width,
-                  height,
-                  selectedTooltipGap
-                );
-
-                const score =
-                  scoreRectangle(candidate, {
-                    obstacles: connectedObjectObstacles,
-                    viewportPadding:
-                      SELECTED_TOOLTIP_VIEWPORT_PADDING,
-                    objectClearance:
-                      SELECTED_TOOLTIP_OBJECT_CLEARANCE,
-                    lineClearance:
-                      SELECTED_TOOLTIP_LINE_CLEARANCE,
-                    considerConnectionLines: false,
-                  }) + priority * 0.01;
-
-                return (
-                  !winner ||
-                  score < winner.score
-                )
-                  ? {
-                      placement,
-                      score,
-                    }
-                  : winner;
-              },
-              null
-            );
-
-            selectedTooltipPlacementRef.current = {
-              layoutKey,
-              placement:
-                best?.placement || "top",
-              width,
-              height,
-            };
-          }
+          /*
+           * One rule in both selected views:
+           * center the main tooltip directly above the selected pin.
+           *
+           * Map zoom/pan therefore changes only the pin anchor coordinates;
+           * it can no longer cause the tooltip to switch sides because nearby
+           * connected objects or branch geometry changed.
+           */
+          selectedTooltipPlacementRef.current = {
+            layoutKey,
+            placement: "top",
+            width,
+            height,
+          };
         }
       }
 
@@ -6897,6 +7179,61 @@ clearActiveDurationRef.current = clearActiveDuration;
           currentRect.height > 0 &&
           intersectsViewport(currentRect);
 
+        /*
+         * Direct selected-object hover enlarges ordinary timeline/map markers
+         * over HOVER_ANIM_MS. getBoundingClientRect() therefore changes for a
+         * few frames even though the marker's center does not move. If the
+         * mini-tooltip follows that live rectangle, its top edge is pulled
+         * upward while the icon grows, producing the small visible "jerk".
+         *
+         * Anchor direct-hover mini-tooltips to the marker's FINAL hovered
+         * footprint immediately instead. The center still comes from the live
+         * DOM rectangle, so map/timeline pan and zoom continue to track
+         * correctly; only the transient hover-size animation is removed from
+         * tooltip positioning.
+         */
+        const directHoverAnchorRect = () => {
+          const liveAnchorRect = addRectDimensions(
+            toLocalRect(currentRect)
+          );
+
+          if (
+            !directSelectionHoverMini ||
+            !isIconHovered ||
+            !entry.node.matches?.(
+              "circle.textDot, g.dotSlices, g.fatherMark"
+            )
+          ) {
+            return liveAnchorRect;
+          }
+
+          const baseRadius =
+            entry.type === "father"
+              ? getFatherObjectRadius(entry.row, kRef.current)
+              : getTextObjectRadius(entry.row, kRef.current);
+
+          const hoverScale =
+            entry.type === "father"
+              ? getFatherObjectHoverScale(entry.row)
+              : getTextObjectHoverScale(entry.row);
+
+          const hoveredRadius =
+            Math.max(0, baseRadius * hoverScale);
+
+          if (!Number.isFinite(hoveredRadius)) {
+            return liveAnchorRect;
+          }
+
+          return addRectDimensions({
+            left: liveAnchorRect.cx - hoveredRadius,
+            top: liveAnchorRect.cy - hoveredRadius,
+            right: liveAnchorRect.cx + hoveredRadius,
+            bottom: liveAnchorRect.cy + hoveredRadius,
+            width: hoveredRadius * 2,
+            height: hoveredRadius * 2,
+          });
+        };
+
         const placementKey =
           `${layoutKey}:${entry.key}`;
 
@@ -6925,9 +7262,7 @@ clearActiveDurationRef.current = clearActiveDuration;
 
           if (width > 0 && height > 0) {
             const anchorRect =
-              addRectDimensions(
-                toLocalRect(currentRect)
-              );
+              directHoverAnchorRect();
 
             const radialVector = {
               x:
@@ -6939,9 +7274,10 @@ clearActiveDurationRef.current = clearActiveDuration;
             };
 
             let placement =
-              directSelectionHoverMini
+              entry.forcePlacement ||
+              (directSelectionHoverMini
                 ? "top"
-                : entry.forcePlacement;
+                : null);
 
             if (!placement) {
               const occupied = [
@@ -7029,9 +7365,7 @@ clearActiveDurationRef.current = clearActiveDuration;
         }
 
         const anchorRect =
-          addRectDimensions(
-            toLocalRect(currentRect)
-          );
+          directHoverAnchorRect();
 
         const labelRect = placementRect(
           anchorRect,
@@ -7966,19 +8300,42 @@ if (DEBUG_HOVER) {
 
   const circleSel = d3.select(el);
   const pieSel = gTexts.selectAll("g.dotSlices").filter(p => p.id === d.id);
+  const hasSelectionHere = !!(selectedText || selectedFather);
 
-  // One shared transition instance so circle + pie scale in the same wave.
+  // One shared transition instance so circle + visible pie scale in the same wave.
   const t = d3.transition("tlHover").duration(HOVER_ANIM_MS).ease(d3.easeCubicOut);
 
   circleSel.interrupt("tlHover")
     .transition(t)
     .attr("transform", s === 1 ? "" : `translate(${c.cx},${c.cy}) scale(${s}) translate(${-c.cx},${-c.cy})`);
 
-  pieSel.interrupt("tlHover")
-    .transition(t)
-    .attr("transform", s === 1
-      ? `translate(${c.cx},${c.cy})`
-      : `translate(${c.cx},${c.cy}) scale(${s})`);
+  if (hasSelectionHere) {
+    /*
+     * SELECTED MODE — split transform ownership.
+     *
+     * g.dotSlices is continuously owned by layout/zoom and is responsible only
+     * for translate(cx, cy). Hover must therefore NOT animate that same
+     * transform attribute. Instead scale the local pie artwork, whose geometry
+     * is centered at (0, 0). Layout refreshes can now reposition the outer group
+     * without cancelling or snapping the hover enlargement.
+     */
+    pieSel
+      .selectAll("path.slice, g.separators")
+      .interrupt("tlHover")
+      .transition(t)
+      .attr("transform", s === 1 ? null : `scale(${s})`);
+  } else {
+    /*
+     * NO-SELECTION MODE — preserve the existing behavior exactly.
+     * The user already likes this interaction and hoveredTextIdRef/layout agree
+     * with the same 1.6 scale here.
+     */
+    pieSel.interrupt("tlHover")
+      .transition(t)
+      .attr("transform", s === 1
+        ? `translate(${c.cx},${c.cy})`
+        : `translate(${c.cx},${c.cy}) scale(${s})`);
+  }
 }
 
 function animateFatherHover(el, d, hovering) {
@@ -8060,8 +8417,19 @@ if (DEBUG_HOVER) {
     lastHoverTextElRef.current = this;
     
     const hasSelectionHere = !!(selectedText || selectedFather);
-    const isPieHere = Array.isArray(d.colors) && d.colors.length > 1;
-    if (!hasSelectionHere || isPieHere) {
+
+    /*
+     * Ordinary/no-selection mode keeps the existing hoveredTextIdRef behavior.
+     *
+     * Selected mode deliberately does NOT write any text (including multi-color
+     * pie texts) into hoveredTextIdRef. The selected-layout reapply path also
+     * reads that ref and would otherwise apply HOVER_SCALE_DOT before
+     * animateTextHover() runs, giving pie texts two competing hover owners.
+     *
+     * With selection active, animateTextHover() alone owns transient scaling
+     * for circles and pies, just as animateFatherHover() does for fathers.
+     */
+    if (!hasSelectionHere) {
       hoveredTextIdRef.current = d.id;
     } else {
       hoveredTextIdRef.current = null;
@@ -8286,12 +8654,17 @@ function hardResetTextHover(el) {
     sel.interrupt("tlHover").attr("transform", "");
     const id = el.__data__ && el.__data__.id;
     if (id != null) {
-      gTexts
+      const pie = gTexts
         .selectAll("g.dotSlices")
-        .filter(p => p.id === id)
-        .select("g.pieInner")
-        .interrupt("tlHover")
-        .attr("transform", "");
+        .filter(p => p.id === id);
+
+      if (selectedText || selectedFather) {
+        // Selected-mode hover scale lives on the local pie artwork.
+        pie
+          .selectAll("path.slice, g.separators")
+          .interrupt("tlHover")
+          .attr("transform", null);
+      }
     }
   } catch (_e) {}
 }
@@ -8366,11 +8739,28 @@ const fathersSel = gFathers
   // Re-apply selected-neighborhood focus AFTER joins.
   syncSelectedNeighborhoodFocus();
 
+  /*
+   * Father hover policy.
+   *
+   * No selection:
+   *   preserve the existing behavior — father hover activates only at the
+   *   ordinary deepest zoom threshold.
+   *
+   * Selected mode:
+   *   connected fathers are already filtered by pointer-events elsewhere, so
+   *   any father that can receive the pointer should also be allowed to run
+   *   its hover handler at EVERY zoom level. This mirrors connected texts and
+   *   ensures hoveredTimelineTarget is set, which is what drives the selected
+   *   mini-tooltip.
+   */
   const allowFatherHover = () => {
-  const k = getActiveViewZoomK(kRef.current);
-  const hasSel = !!(selectedText || selectedFather);
-  return (k >= ZOOM_THRESHOLD) || (hasSel && k >= ZOOM_SEGMENT_THRESHOLD);
-};
+    const k = getActiveViewZoomK(kRef.current);
+    const hasSel = !!(selectedText || selectedFather);
+
+    if (hasSel) return true;
+
+    return k >= ZOOM_THRESHOLD;
+  };
 
 
     // Lightweight hover tooltip for fathers (zoomed-in like texts)
@@ -9702,7 +10092,7 @@ function renderLocationClusterBranch() {
         )
         .attr("stroke-opacity", (entry, index) => {
           if (!activeBranchTarget) {
-            return CONNECTION_HIGHLIGHT_OPACITY;
+            return CONNECTION_SELECTED_IDLE_OPACITY;
           }
 
           if (activeBranchIndex < 0) {
@@ -10414,11 +10804,24 @@ gTexts.selectAll("g.dotSlices").each(function (d) {
   const rDraw = isSelected ? (rBase * HOVER_SCALE_DOT) : rBase;
 
   const g = d3.select(this);
+  const hasSelectionHere = !!(selectedText || selectedFather);
+  const activeTimelineHover = hoveredTimelineTargetRef.current;
+  const isSelectedModeHover =
+    hasSelectionHere &&
+    activeTimelineHover?.type === "text" &&
+    activeTimelineHover?.id === d.id;
 
   if (!isSelected && isHovered) {
     g.attr("transform", `translate(${cx},${cy}) scale(${HOVER_SCALE_DOT})`);
   } else {
+    // Outer pie group owns POSITION only in selected mode.
     g.attr("transform", `translate(${cx},${cy})`);
+  }
+
+  if (hasSelectionHere && !isSelectedModeHover) {
+    g.selectAll("path.slice, g.separators")
+      .interrupt("tlHover")
+      .attr("transform", null);
   }
 
   drawSlicesAtRadius(g, rDraw);
@@ -11057,19 +11460,20 @@ function updateInteractivity(k) {
 // - If there is a selection, gate to only relevant nodes (same as normal selection behavior)
 // - Otherwise keep the existing zoom-tier rule
 if (hasSelection) {
-  const nodesHot = (zoomMode === "deepest"); // in selection mode, zoomMode is outest/deepest only
-
+  /*
+   * Selected mode: direct one-hop neighbors remain interactive at EVERY
+   * Default View zoom level, including OUTEST. This matches Geographical View.
+   * Unrelated objects remain inert.
+   */
   gTexts.selectAll("circle.textDot")
-    .style("pointer-events", d => {
-      if (!nodesHot) return "none";
-      return relevantTextIdsRef.current.has(d.id) ? "all" : "none";
-    });
+    .style("pointer-events", d =>
+      relevantTextIdsRef.current.has(d.id) ? "all" : "none"
+    );
 
   gFathers.selectAll("g.fatherMark")
-    .style("pointer-events", d => {
-      if (!nodesHot) return "none";
-      return relevantFatherIdsRef.current.has(d.id) ? "all" : "none";
-    });
+    .style("pointer-events", d =>
+      relevantFatherIdsRef.current.has(d.id) ? "all" : "none"
+    );
 } else {
   if (zoomMode === "deepest") {
     gTexts.selectAll("circle.textDot").style("pointer-events", "all");
@@ -11130,8 +11534,6 @@ const showPassiveOutlines =
   // === Selection override: once a text/father is selected,
   //     durations/segments become inert; texts/fathers stay clickable
   if (hasSelection) {
-    const nodesHot = (zoomMode !== "outest"); // <-- key rule
-
     gOut.selectAll("rect.outlineRect")
       .style("pointer-events", "none");
     gSeg.selectAll("rect.segmentHit")
@@ -11139,17 +11541,20 @@ const showPassiveOutlines =
     gCustom.selectAll("path.customGroup")
       .style("pointer-events", "none");
 
-gTexts.selectAll("circle.textDot")
-  .style("pointer-events", d => {
-    if (!nodesHot) return "none";
-    return relevantTextIdsRef.current.has(d.id) ? "all" : "none";
-  });
+    /*
+     * Selected mode: direct connected nodes remain hot at every zoom level.
+     * This lets OUTEST Default View use the same hover/Info Window/connection
+     * highlighting behavior as Geographical View.
+     */
+    gTexts.selectAll("circle.textDot")
+      .style("pointer-events", d =>
+        relevantTextIdsRef.current.has(d.id) ? "all" : "none"
+      );
 
-gFathers.selectAll("g.fatherMark")
-  .style("pointer-events", d => {
-    if (!nodesHot) return "none";
-    return relevantFatherIdsRef.current.has(d.id) ? "all" : "none";
-  });
+    gFathers.selectAll("g.fatherMark")
+      .style("pointer-events", d =>
+        relevantFatherIdsRef.current.has(d.id) ? "all" : "none"
+      );
 
     clearActiveSegment();
     clearActiveDuration();
@@ -11658,6 +12063,58 @@ flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
   let appliedThroughZoom = false;
   let recenterTarget = null;
 
+  /*
+   * Symmetric close compensation:
+   * once selection is gone and Default View is active again, preserve the
+   * former selected object's browser position while the chart regains the
+   * 56px previously reserved by the expanded selected axis.
+   */
+  const pendingDeselection = pendingDeselectionCameraRef.current;
+
+  if (
+    pendingDeselection &&
+    !selectedText &&
+    !selectedFather &&
+    !showMap
+  ) {
+    const deselectedRow =
+      pendingDeselection.type === "text"
+        ? (textRows || []).find(
+            (row) => row.id === pendingDeselection.id
+          )
+        : (fatherRows || []).find(
+            (row) => row.id === pendingDeselection.id
+          );
+
+    if (deselectedRow) {
+      const xAstro = toAstronomical(deselectedRow.when);
+      const yU =
+        pendingDeselection.type === "text"
+          ? laneYUForText(deselectedRow)
+          : laneYUForFather(deselectedRow);
+      const kTarget = t.k ?? kRef.current ?? 1;
+
+      const preserved = computeTransformForClientPoint(
+        xAstro,
+        yU,
+        kTarget,
+        pendingDeselection.clientX,
+        pendingDeselection.clientY
+      );
+
+      if (preserved) {
+        t = preserved;
+        lastTransformRef.current = t;
+        kRef.current = t.k;
+        svgSel.call(zoom.transform, t);
+        appliedThroughZoom = true;
+      }
+    }
+
+    // One-shot: never let a stale close anchor affect later navigation.
+    pendingDeselectionCameraRef.current = null;
+  }
+
   const pendingSelection = pendingSelectionCameraRef.current;
   const selectedType = selectedText ? "text" : selectedFather ? "father" : null;
   const selectedRow = selectedText
@@ -11862,6 +12319,54 @@ flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
     cardHoveredTarget?.id,
   ]);
 
+  /*
+   * Shared MarkerIcon metadata for the two endpoints in the Info Window.
+   * This intentionally uses the same timeline rows as the Timeline itself, so
+   * the icon shape/colors match cards and SearchBar without duplicating a
+   * separate symbolic-system lookup table here.
+   */
+  const connectionInfoTextById = useMemo(
+    () => new Map((textRows || []).map((row) => [row.id, row])),
+    [textRows]
+  );
+
+  const connectionInfoFatherById = useMemo(
+    () => new Map((fatherRows || []).map((row) => [row.id, row])),
+    [fatherRows]
+  );
+
+  const getConnectionInfoMarkerProps = useCallback(
+    (type, id) => {
+      if (type === "text") {
+        const row = connectionInfoTextById.get(id);
+        if (!row) return null;
+
+        return {
+          type: "text",
+          color: row.color || row.colors?.[0] || "#666",
+          colors: row.colors || null,
+        };
+      }
+
+      if (type === "father") {
+        const row = connectionInfoFatherById.get(id);
+        if (!row) return null;
+
+        return {
+          type: "father",
+          color: row.color || row.colors?.[0] || "#666",
+          colors: row.colors || null,
+          founding: isYesish(row.foundingFigure),
+          historic: hasHistoricTag(row.historicMythicStatusTags),
+          concept: hasConceptTag(row.historicMythicStatusTags),
+        };
+      }
+
+      return null;
+    },
+    [connectionInfoTextById, connectionInfoFatherById]
+  );
+
   const connectionInfoAccent =
     connectionInfoEntries[0]?.color ||
     "#777777";
@@ -11892,9 +12397,19 @@ return (
 
     <div
       ref={wrapRef}
-      className={`timelineWrap ${
-        modalOpen ? "has-object-selection" : ""
-      }`}
+      className={[
+        "timelineWrap",
+        modalOpen ? "has-object-selection" : "",
+        modalOpen
+          ? (
+              showMap && selectedMapAvailable
+                ? "timelineWrap--selected-map"
+                : "timelineWrap--selected-chronological"
+            )
+          : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
       style={{ width: "100%", height: "100%", position: "relative" }}
     >
     {modalOpen && (
@@ -11922,6 +12437,10 @@ return (
                 CONNECTION_INFO_SELECTED_NAME_FONT_SIZE,
               "--connection-info-connected-name-font-size":
                 CONNECTION_INFO_CONNECTED_NAME_FONT_SIZE,
+              "--connection-info-selected-marker-size":
+                `${CONNECTION_INFO_SELECTED_MARKER_SIZE}px`,
+              "--connection-info-connected-marker-size":
+                `${CONNECTION_INFO_CONNECTED_MARKER_SIZE}px`,
             }}
           >
             {connectionInfoEntries.map(
@@ -11942,6 +12461,18 @@ return (
                   selectedStartsStatement &&
                   connectedNameIndex >= selectedName.length;
 
+                const selectedMarkerProps =
+                  getConnectionInfoMarkerProps(
+                    entry.selectedType,
+                    entry.selectedId
+                  );
+
+                const connectedMarkerProps =
+                  getConnectionInfoMarkerProps(
+                    entry.connectedType,
+                    entry.connectedId
+                  );
+
                 return (
                   <div
                     className="timelineConnectionInfo__entry"
@@ -11953,23 +12484,45 @@ return (
                     <div className="timelineConnectionInfo__statement">
                       {canStyleNames ? (
                         <>
-                          <span className="timelineConnectionInfo__selectedName">
-                            {selectedName}
+                          <span className="timelineConnectionInfo__entity timelineConnectionInfo__entity--selected">
+                            {selectedMarkerProps && (
+                              <MarkerIcon
+                                {...selectedMarkerProps}
+                                size={CONNECTION_INFO_SELECTED_MARKER_SIZE}
+                                className="timelineConnectionInfo__marker timelineConnectionInfo__marker--selected"
+                              />
+                            )}
+                            <span className="timelineConnectionInfo__selectedName">
+                              {selectedName}
+                            </span>
                           </span>
-                          {statement.slice(
-                            selectedName.length,
-                            connectedNameIndex
-                          )}
-                          <span className="timelineConnectionInfo__connectedName">
-                            {connectedName}
+
+                          <span className="timelineConnectionInfo__relationshipText">
+                            {statement.slice(
+                              selectedName.length,
+                              connectedNameIndex
+                            )}
                           </span>
+
+                          <span className="timelineConnectionInfo__entity timelineConnectionInfo__entity--connected">
+                            {connectedMarkerProps && (
+                              <MarkerIcon
+                                {...connectedMarkerProps}
+                                size={CONNECTION_INFO_CONNECTED_MARKER_SIZE}
+                                className="timelineConnectionInfo__marker timelineConnectionInfo__marker--connected"
+                              />
+                            )}
+                            <span className="timelineConnectionInfo__connectedName">
+                              {connectedName}
+                            </span>
+                          </span>
+
                           {statement.slice(
                             connectedNameIndex + connectedName.length
                           )}
-                          :
                         </>
                       ) : (
-                        <>{statement}:</>
+                        <>{statement}</>
                       )}
                     </div>
 
@@ -12108,6 +12661,7 @@ return (
         onShowMapChange={handleShowMapChange}
         mapAvailable={hasMapCoordinates(selectedText)}
         onClose={() => {
+          prepareDeselectionCameraAnchor("text", selectedText);
           setSelectedText(null);
           setShowMore(false);
           setCardLinkHoverTarget(null);
@@ -12132,6 +12686,7 @@ return (
         onShowMapChange={handleShowMapChange}
         mapAvailable={hasMapCoordinates(selectedFather)}
         onClose={() => {
+          prepareDeselectionCameraAnchor("father", selectedFather);
           setSelectedFather(null);
           setShowMore(false);
           setCardLinkHoverTarget(null);

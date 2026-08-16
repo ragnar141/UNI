@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya:wght@600;700&family=Crimson+Pro:wght@600;700&family=EB+Garamond:wght@600;700&family=Lora:wght@600;700&family=Noto+Serif+SC:wght@600;700&family=Source+Serif+4:wght@600;700&family=Spectral:wght@600;700&display=swap");
+
 :root {
   --bg: #ffffff;
   --text: #111827;
@@ -100,6 +102,13 @@ body {
 /* Axis & grid */
 .axis text { fill: var(--muted); font-size: 11px; }
 .axis path, .axis line { stroke: #3a4a64; }
+
+/* Strong structural boundary between the visualization field and timeline rail. */
+.axis .domain {
+  stroke: #111111;
+  stroke-width: 2px;
+  shape-rendering: geometricPrecision;
+}
 .grid .tick line {
   stroke: #e5e7eb;
   opacity: 1;
@@ -115,11 +124,11 @@ body {
   fill: var(--muted);
 }
 
-/* soft fill under the axis */
+/* Bottom timeline surface: white UI chrome, invariant across zoom. */
 .timelineSvg .axisUnderfill,
 .axisUnderfill {
-  fill: #fff7d6;           /* warm light yellow */
-  opacity: 0.9;
+  fill: #ffffff;
+  opacity: 1;
   pointer-events: none;
 }
 
@@ -129,15 +138,15 @@ body {
 
 /* 1) Underlay strength per zoom tier */
 .timelineSvg.zoom-outest .axisUnderfill {
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .timelineSvg.zoom-middle .axisUnderfill {
-  opacity: 0.65;
+  opacity: 1;
 }
 
 .timelineSvg.zoom-deepest .axisUnderfill {
-  opacity: 0;  /* dissolve into pure white background */
+  opacity: 1;  /* keep UI chrome invariant across zoom tiers */
 }
 
 
@@ -263,6 +272,102 @@ body {
   font-size: 14px;
 }
 
+/*
+ * Main selected tooltip layout.
+ *
+ * Ordinary hover tooltips intentionally keep their compact max-content sizing.
+ * The persistent selected tooltip needs more flexibility because long object
+ * names, author/date metadata, and locations otherwise create an oddly wide
+ * first line with much shorter lines below it.
+ */
+.tl-selected.tl-text {
+  width: max-content;
+  min-width: 0;
+  max-width: min(340px, calc(100% - 16px));
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.tl-selected .tl-tip-title {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+  line-height: 1.25;
+}
+
+.tl-selected .tl-tip-meta {
+  max-width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  white-space: normal;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.tl-selected .tl-tip-dateLine {
+  row-gap: 2px;
+}
+
+.tl-selected .tl-tip-location {
+  max-width: 100%;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  justify-content: center;
+  text-align: center;
+}
+
+.tl-selected .tl-tip-locationText {
+  display: inline;
+  max-width: 100%;
+}
+
+/*
+ * Selected-mode tooltip emphasis is owned by the stable timelineWrap view
+ * class, not by a D3-mutated tooltip class. This keeps the styling intact
+ * throughout Map View zoom/pan refreshes.
+ *
+ * The SAME rule applies to:
+ *   1) the persistent selected-object tooltip
+ *   2) connected-object mini-tooltips shown on hover
+ *
+ * Ordinary no-selection hover tooltips are unaffected because these wrapper
+ * classes exist only while an object is selected.
+ */
+
+/* Default chronological selected mode: emphasize Approx. Date. */
+.timelineWrap--selected-chronological
+  .tl-selected
+  .tl-tip-date,
+.timelineWrap--selected-chronological
+  .tl-mini-tooltip
+  .tl-tip-date {
+  font-size: 13px;
+  font-weight: 650;
+  opacity: 1;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-skip-ink: auto;
+}
+
+/* Geographical selected mode: emphasize historical/original location. */
+.timelineWrap--selected-map
+  .tl-selected
+  .tl-tip-locationText,
+.timelineWrap--selected-map
+  .tl-mini-tooltip
+  .tl-tip-locationText {
+  font-size: 13px;
+  font-weight: 650;
+  opacity: 1;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-skip-ink: auto;
+}
+
 .tl-text .tl-tip-meta {
   display: flex;
   align-items: baseline;
@@ -285,6 +390,106 @@ body {
   max-width: 220px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* FINAL selected-tooltip overrides                                           */
+/* -------------------------------------------------------------------------- */
+/*
+ * IMPORTANT:
+ * These rules intentionally come AFTER the generic `.tl-text` rules above.
+ *
+ * The persistent selected tooltip shares the `.tl-text` class with ordinary
+ * hover tooltips. The generic rules therefore used to re-apply nowrap,
+ * max-width: 220px, and overflow:hidden after the selected-specific rules.
+ *
+ * That caused two problems:
+ * 1) the geographical location underline could be clipped at some fractional
+ *    tooltip positions during map zoom;
+ * 2) long selected-tooltip content could not actually wrap/balance as intended.
+ *
+ * Ordinary no-selection hover tooltips still keep the generic behavior above.
+ */
+.tl-text.tl-selected {
+  width: fit-content;
+  min-width: 0;
+  max-width: min(340px, calc(100% - 16px));
+  box-sizing: border-box;
+  white-space: normal;
+  text-align: center;
+}
+
+.tl-text.tl-selected .tl-tip-title {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+  line-height: 1.25;
+}
+
+.tl-text.tl-selected .tl-tip-meta {
+  max-width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  white-space: normal;
+  text-align: center;
+}
+
+.tl-text.tl-selected .tl-tip-dateLine {
+  row-gap: 2px;
+}
+
+.tl-text.tl-selected .tl-tip-location {
+  max-width: 100%;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  justify-content: center;
+  text-align: center;
+}
+
+.tl-text.tl-selected .tl-tip-locationText {
+  display: inline;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/*
+ * Keep the view-specific emphasis at the END of the selected-tooltip cascade
+ * as well, so no later generic tooltip rule can remove or clip it.
+ */
+.timelineWrap--selected-chronological
+  .tl-text.tl-selected
+  .tl-tip-date,
+.timelineWrap--selected-chronological
+  .tl-mini-tooltip
+  .tl-tip-date {
+  font-size: 13px;
+  font-weight: 650;
+  opacity: 1;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-skip-ink: auto;
+}
+
+.timelineWrap--selected-map
+  .tl-text.tl-selected
+  .tl-tip-locationText,
+.timelineWrap--selected-map
+  .tl-mini-tooltip
+  .tl-tip-locationText {
+  font-size: 13px;
+  font-weight: 650;
+  opacity: 1;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-skip-ink: auto;
 }
 .tl-seg {
   --bgc: #ffffff;
@@ -443,7 +648,7 @@ body {
   display: block;
   margin-bottom: 3px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.35;
 }
 
@@ -452,21 +657,55 @@ body {
   content: ":";
 }
 
-.textCard-connectionTargetColumn {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 3px;
-  min-width: 0;
-  margin-left: 3px;
-  padding-left: 10px;
-  border-left: 1px solid rgba(17, 24, 39, 0.18);
+.textCard-connectionTargetList {
+  list-style: none;
+  margin: 4px 0 0 0;
+  padding-left: 13px;
 }
 
+/*
+ * Connected objects use the same semantic MarkerIcon language as the timeline
+ * instead of generic bullets. The icon is a fixed column so text stays aligned
+ * even when a long title wraps to a second line.
+ */
 .textCard-connectionTargetRow {
-  display: block;
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
   min-width: 0;
   max-width: 100%;
+  padding-left: 0;
+}
+
+.textCard-connectionTargetRow + .textCard-connectionTargetRow {
+  margin-top: 3px;
+}
+
+/*
+ * Very faint interaction field behind the active target row.
+ * box-shadow adds breathing room without changing row geometry.
+ */
+.textCard-connectionTargetRow {
+  border-radius: 3px;
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.textCard-connectionTargetRow:has(.textCard-connectionLink:hover),
+.textCard-connectionTargetRow:has(.textCard-connTarget:hover),
+.textCard-connectionTargetRow:focus-within {
+  background: rgba(37, 99, 235, 0.035);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.035);
+}
+
+.textCard-connectionMarker {
+  display: block;
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  overflow: visible;
 }
 
 .textCard-connectionTargetRow
@@ -474,7 +713,9 @@ body {
 .textCard-connectionTargetRow
   .textCard-connTarget {
   display: block;
-  max-width: 100%;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: calc(100% - 21px);
   text-align: left;
   white-space: normal;
   overflow-wrap: anywhere;
@@ -523,7 +764,7 @@ body {
 }
 
 .textCard-connections-subtitle {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   margin-top: 6px;
   margin-bottom: 2px;
@@ -535,20 +776,33 @@ body {
   opacity: 0.9;
 }
 
-/* Shared link-style buttons for connections in TextCard & FatherCard */
+/*
+ * Connected-object links.
+ *
+ * At rest they read as historical object names rather than generic web links:
+ * dark ink + a quiet dotted underline. Interaction restores conventional blue
+ * and turns the underline solid.
+ */
 .textCard-connectionLink,
 .textCard-connTarget {
   border: none;
   padding: 0;
   background: none;
   cursor: pointer;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
   font: inherit;
-  color: inherit;                  /* stays same as surrounding text */
 
-  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+  color: #252525;
+
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(17, 24, 39, 0.30);
+  text-underline-offset: 2.5px;
+  text-decoration-skip-ink: auto;
+
+  transition:
+    color 0.15s ease,
+    text-decoration-color 0.15s ease;
 }
 
 /* Keep the target name and its "i" button on the same line, and anchor tooltips here */
@@ -560,11 +814,15 @@ body {
   gap: 2px;
 }
 
-/* Make father/text names turn blue on hover */
+/* Hover/focus: conventional link-blue + a clean solid underline. */
 .textCard-connectionLink:hover,
-.textCard-connTarget:hover {
-  color: #2563eb;         /* nice crisp blue */
-  text-decoration: underline;   /* optional but makes interaction clearer */
+.textCard-connTarget:hover,
+.textCard-connectionLink:focus-visible,
+.textCard-connTarget:focus-visible {
+  color: #1d4ed8;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-color: currentColor;
   cursor: pointer;
 }
 
@@ -573,11 +831,13 @@ body {
   margin-left: 4px;
 }
 
-/* Link highlight driven by timeline hover */
+/* Timeline-driven hover uses the exact same active-link treatment. */
 .textCard-connectionLink.isTimelineHover,
 .textCard-connTarget.isTimelineHover {
-  color: #1a73e8;
-  text-decoration: underline;
+  color: #1d4ed8;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-color: currentColor;
 }
 
 /* Speech-bubble tooltip for connection notes in TextCard & FatherCard */
@@ -641,7 +901,7 @@ body {
 }
 
 .textCard-connectionItem {
-  font-size: 13px;      /* smaller than the body text */
+  font-size: 14px;      /* primary interactive connection content */
   line-height: 1.4;
 }
 
@@ -794,7 +1054,7 @@ body {
 
 .mapViewToggle__label {
   white-space: nowrap;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 /* Keep the switch visual only; aria-label still announces On/Off state. */
@@ -1312,7 +1572,7 @@ body {
   border: 1px solid var(--btn-brown-border);
   border-radius: 10px;
   padding: 8px 12px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 1px 0 rgba(0,0,0,0.03);
@@ -1750,6 +2010,13 @@ body {
   font-weight: 600;
 }
 
+.tl-mini-tooltip .tl-tip-locationText {
+  display: inline;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 /*
  * The prior 2px hover box-shadow visually overrode the border-width constant.
  * The ring now uses its own JSX-controlled variable and defaults to zero.
@@ -1960,13 +2227,13 @@ body {
 }
 
 /*
- * Occupies the workspace where SearchBar normally lives. The left inset keeps
- * the window out of the open TextCard/FatherCard; the right inset avoids the
- * Filters edge and browser scrollbar.
+ * Occupies the same top workspace as SearchBar, but sits slightly lower once
+ * an object is selected so it reads as a contextual relationship inspector
+ * rather than as a replacement input field.
  */
 .timelineConnectionInfoHost {
   position: absolute;
-  top: 8px;
+  top: 14px;
   left: clamp(286px, 23vw, 430px);
   right: 88px;
   z-index: 1165;
@@ -1976,7 +2243,7 @@ body {
   align-items: flex-start;
 
   opacity: 0;
-  transform: translateY(-12px);
+  transform: translateY(-10px);
   pointer-events: none;
 
   transition:
@@ -1989,72 +2256,36 @@ body {
   transform: translateY(0);
 }
 
+/*
+ * Compact relationship inspector.
+ *
+ * The strong alert-like 2px frame and ornamental "i" emblem are intentionally
+ * gone. Relationship color survives as a restrained 1px frame, while marker
+ * icons now communicate the actual endpoint types and symbolic systems.
+ */
 .timelineConnectionInfo {
   position: relative;
-  width: min(760px, 100%);
+  width: min(720px, 100%);
   box-sizing: border-box;
 
-  background: rgba(255, 255, 255, 0.985);
+  padding: 10px 14px 11px;
+
+  background: rgba(255, 255, 255, 0.975);
   color: #111827;
 
-  border: 2px solid
-    var(--connection-info-accent, #777777);
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--connection-info-accent, #777777) 76%,
+      #ffffff
+    );
   border-radius: 8px;
-
-  /* Extra left space for the information emblem. */
-  padding: 9px 14px 10px 52px;
 
   font-family: var(--font-ui);
   text-align: left;
 
   box-shadow:
-    0 6px 18px rgba(15, 23, 42, 0.14);
-}
-
-/*
- * Information emblem.
- * It inherits the active relationship color through --connection-info-accent.
- */
-.timelineConnectionInfo::before {
-  content: "i";
-
-  position: absolute;
-  left: 15px;
-  top: 11px;
-
-  width: 23px;
-  height: 23px;
-  box-sizing: border-box;
-
-  display: grid;
-  place-items: center;
-
-  border: 1.6px solid
-    var(--connection-info-accent, #777777);
-  border-radius: 50%;
-
-  background:
-    color-mix(
-      in srgb,
-      var(--connection-info-accent, #777777) 8%,
-      white
-    );
-
-  color: var(--connection-info-accent, #777777);
-
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 15px;
-  line-height: 1;
-  font-style: italic;
-  font-weight: 700;
-
-  text-indent: -0.5px;
-  user-select: none;
-  pointer-events: none;
-
-  box-shadow:
-    inset 0 0 0 2px rgba(255, 255, 255, 0.82),
-    0 2px 7px rgba(15, 23, 42, 0.12);
+    0 4px 12px rgba(15, 23, 42, 0.10);
 }
 
 .timelineConnectionInfo__entry +
@@ -2064,27 +2295,73 @@ body {
   border-top: 1px solid
     color-mix(
       in srgb,
-      var(--connection-info-accent, #777777) 34%,
+      var(--connection-info-accent, #777777) 24%,
       transparent
     );
 }
 
 .timelineConnectionInfo__statement {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 3px;
+  row-gap: 2px;
+
   font-size: 13px;
   line-height: 1.3;
-  font-weight: 700;
+  font-weight: 650;
   color: #111111;
 }
 
 /*
- * Relationship names inside the Info Window.
- * Font sizes are supplied by timeline.jsx so they remain one-place controls.
+ * Each endpoint is an inline semantic unit: MarkerIcon + object name.
+ * Selected endpoint is deliberately larger than the connected endpoint.
+ */
+.timelineConnectionInfo__entity {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  white-space: nowrap;
+  line-height: 1.15;
+}
+
+.timelineConnectionInfo__entity--selected {
+  gap: 5px;
+}
+
+.timelineConnectionInfo__entity--connected {
+  gap: 4px;
+}
+
+.timelineConnectionInfo__marker {
+  display: block;
+  flex: 0 0 auto;
+  overflow: visible;
+  transform: translateY(0.25px);
+}
+
+.timelineConnectionInfo__marker--selected {
+  width: var(--connection-info-selected-marker-size, 18px);
+  height: var(--connection-info-selected-marker-size, 18px);
+  margin-right: 0;
+}
+
+.timelineConnectionInfo__marker--connected {
+  width: var(--connection-info-connected-marker-size, 13px);
+  height: var(--connection-info-connected-marker-size, 13px);
+}
+
+/*
+ * Both relationship endpoints are underlined so the sentence reads as
+ * object — relationship — object at a glance.
  */
 .timelineConnectionInfo__selectedName,
 .timelineConnectionInfo__connectedName {
+  color: #111111;
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
+  text-underline-offset: 2.5px;
+  text-decoration-skip-ink: auto;
 }
 
 .timelineConnectionInfo__selectedName {
@@ -2092,6 +2369,7 @@ body {
     --connection-info-selected-name-font-size,
     1.1em
   );
+  font-weight: 750;
 }
 
 .timelineConnectionInfo__connectedName {
@@ -2099,23 +2377,32 @@ body {
     --connection-info-connected-name-font-size,
     1em
   );
+  font-weight: 700;
+}
+
+.timelineConnectionInfo__relationshipText {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  white-space: pre-wrap;
+  line-height: 1.25;
 }
 
 .timelineConnectionInfo__note {
-  margin-top: 3px;
+  margin-top: 6px;
 
-  font-size: 12px;
-  line-height: 1.38;
+  font-size: 13px;
+  line-height: 1.4;
   font-weight: 400;
 
-  color: #374151;
+  color: #4b5563;
 }
 
 @media (max-width: 760px) {
   .timelineConnectionInfoHost {
     left: 12px;
     right: 12px;
-    top: 8px;
+    top: 14px;
   }
 
   .timelineConnectionInfo {
@@ -2130,4 +2417,122 @@ body {
   .timelineConnectionInfoHost {
     transition: none !important;
   }
+}
+
+/* ============================
+   Symbolic-system object typography
+   ============================
+
+   The card remains a modern Inter-based information interface. Only names of
+   historical objects use these families: the selected title and connected
+   text/figure names.
+
+   The JSX helper chooses ONE family from the first recognized symbolic-system
+   tag, matching the existing "first symbolic color is primary" convention.
+*/
+.objectFont {
+  font-family: var(--object-font-family, var(--font-heading));
+}
+
+/* Greek / Hellenistic / Roman / Italic.
+ * Crimson Pro keeps the literary/classical character but has much healthier
+ * small-size metrics than Cormorant Garamond, so names remain legible and do
+ * not need an exaggerated size correction. */
+.objectFont--classical {
+  --object-font-family: "Crimson Pro", Georgia, "Times New Roman", serif;
+}
+
+/* Sumerian / Akkadian / Babylonian / Assyrian: denser, firmer book serif. */
+.objectFont--mesopotamian {
+  --object-font-family: "Spectral", Cambria, Georgia, "Times New Roman", serif;
+}
+
+/* Levantine / Egyptian / North African: warm, slightly calligraphic literary serif. */
+.objectFont--levantine {
+  --object-font-family: "Alegreya", Georgia, "Times New Roman", serif;
+}
+
+/* Persian / Iranian / Zoroastrian / Islamic: elegant and restrained. */
+.objectFont--iranian {
+  --object-font-family: "Lora", Constantia, Georgia, "Times New Roman", serif;
+}
+
+/* Hittite / Hurrian / Luwian / Phrygian / Lydian: sturdy Anatolian register. */
+.objectFont--anatolian {
+  --object-font-family: "Spectral", Cambria, Georgia, "Times New Roman", serif;
+}
+
+/* Indian / Vedic / Buddhist / related systems: broad, calm reading serif. */
+.objectFont--indic {
+  --object-font-family: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+}
+
+/* Chinese systems: CJK-capable serif whose Latin forms stay restrained. */
+.objectFont--chinese {
+  --object-font-family: "Noto Serif SC", "Songti SC", SimSun, Georgia, serif;
+}
+
+/* Hermetic / Gnostic / Christian: late-antique / manuscript register. */
+.objectFont--lateAntique {
+  --object-font-family: "EB Garamond", Garamond, Georgia, "Times New Roman", serif;
+}
+
+/* Unknown / unclassified system: preserve the site's existing Literata identity. */
+.objectFont--literary {
+  --object-font-family: var(--font-heading);
+}
+
+/*
+ * Optical normalization
+ * ---------------------
+ * All historical object names now use ONE nominal size.
+ *
+ * font-size-adjust then compensates for each family's x-height so a font with
+ * naturally large lowercase forms (such as Lora) does not look larger than a
+ * font with smaller metrics (such as Crimson Pro).
+ *
+ * TWEAKABLE:
+ *   --object-link-size        = all connected text/figure names
+ *   --object-title-size       = selected card title
+ *   --object-font-size-adjust = optical normalization strength
+ *
+ * 0.50 is the current shared target x-height ratio.
+ */
+.objectFont {
+  --object-title-size: 20px;
+  --object-link-size: 14px;
+  --object-name-weight: 600;
+  --object-font-size-adjust: 0.50;
+}
+
+/*
+ * Do NOT give individual symbolic-system families different sizes here.
+ * Their family classes choose typeface only; visual size is normalized by
+ * font-size-adjust above.
+ */
+
+/* Mobile keeps the same system with a smaller shared title size. */
+@media (max-width: 640px) {
+  .objectFont {
+    --object-title-size: 18px;
+  }
+}
+
+/* Selected text/figure name: historical object layer. */
+.textCard-title.objectFont {
+  font-family: var(--object-font-family, var(--font-heading));
+  font-size: var(--object-title-size, 20px);
+  font-size-adjust: var(--object-font-size-adjust, 0.50);
+  font-weight: 700;
+  letter-spacing: 0.002em;
+}
+
+/* Connected object names: same object's own family. */
+.textCard-connectionLink.objectFont,
+.textCard-connTarget.objectFont {
+  font-family: var(--object-font-family, var(--font-heading));
+  font-size: var(--object-link-size, 14px);
+  font-size-adjust: var(--object-font-size-adjust, 0.50);
+  font-weight: var(--object-name-weight, 600);
+  letter-spacing: 0;
 }

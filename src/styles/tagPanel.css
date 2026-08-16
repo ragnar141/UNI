@@ -5,7 +5,7 @@
 /* Full-height vertical strip on the right */
 .tagPanelWrap {
   --tab-w: 30px;                 /* width of the FILTERS tab that sticks out */
-  --panel-bg: #fdf5d8;           /* warm panel background */
+  --panel-bg: #ffffff;           /* white structural UI surface */
   --tag-font-family: var(--font-ui, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
   --tag-font-size: 12px;
   --tag-font-weight: 600;
@@ -26,7 +26,7 @@
   backdrop-filter: blur(4px);
 
   /* Only the left border is visible */
-  border-left: 1px solid rgba(0, 0, 0, 0.18);
+  border-left: 2px solid #111111;
   border-top: none;
   border-right: none;
   border-bottom: none;
@@ -57,7 +57,7 @@
   overflow: auto;                /* scroll if content is tall */
 }
 
-/* Scrollbars on warm panel/dropdown bg – match TextCard/FatherCard */
+/* Scrollbars on white panel/dropdown background */
 .tagPanel__content,
 .tagPanel__scrollBody {
   --scroll-thumb: rgba(0,0,0,0.28);
@@ -118,9 +118,9 @@
   writing-mode: vertical-rl;
   text-orientation: mixed;
 
-  background: #fdf5d8;
-  color: #111;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #111111;
+  color: #ffffff;
+  border: 1px solid #111111;
   border-right: none;            /* merges visually with panel left border */
   border-radius: 10px 0 0 10px;
 
@@ -130,7 +130,7 @@
 
   will-change: transform, opacity;
 }
-.tagPanel__tab:hover { background:#F5E4BD; }
+.tagPanel__tab:hover { background:#2a2a2a; }
 
 /* Simple slide-under animation (no rotation) */
 .tagPanelWrap--open .tagPanel__tab {
@@ -314,7 +314,7 @@
    ========================= */
 /* Portaled menu uses these styles, plus inline fixed positioning from JSX */
 .tagPanel__dropdown {
-  --menu-bg: #fdf5d8;           /* warm dropdown background */
+  --menu-bg: #ffffff;            /* white floating filter surface */
   --menu-offset-x: 11px;        /* used by JSX positioning */
 
   position: absolute;           /* overridden by inline `position: fixed` */
@@ -333,7 +333,7 @@
 
   /* tucked-under look */
   background: var(--menu-bg);
-  border: 1px solid rgba(0, 0, 0, 0.18);
+  border: 1px solid #111111;
 
   border-radius: 0;
   box-shadow:
@@ -664,5 +664,179 @@
 @media (min-width: 1200px) {
   .tagPanel__dropdown .tagCloud {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ========================================================================== */
+/* SINGLE-DRAWER DRILL-DOWN OVERRIDES                                         */
+/* ========================================================================== */
+/*
+ * One 230px drawer now owns both filter tiers. Opening a tag group slides the
+ * detail view into this same footprint instead of opening another panel to the
+ * left.
+ */
+
+.tagPanelWrap {
+  --panel-w: 230px;
+  width: var(--panel-w);
+  background: #ffffff;
+  backdrop-filter: none;
+  overflow: visible;
+}
+
+/* Move the complete panel offscreen while leaving the attached 30px tab flush. */
+.tagPanelWrap--closed {
+  transform: translateX(100%);
+}
+
+.tagPanelWrap--open {
+  transform: translateX(0);
+}
+
+
+/* The viewport clips the two internal panels during the horizontal drill-down. */
+.tagPanel__viewport {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.tagPanel__views {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  transform: translateX(0);
+  transition: transform 210ms cubic-bezier(.22, .61, .36, 1);
+  will-change: transform;
+}
+
+.tagPanel__views--detail {
+  transform: translateX(-50%);
+}
+
+.tagPanel__view {
+  flex: 0 0 50%;
+  width: 50%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+/* Existing content styling remains in charge of Tier 1 scrolling. */
+.tagPanel__view > .tagPanel__content {
+  box-sizing: border-box;
+}
+
+/* Amazon-like back affordance at the top of Tier 2. */
+.tagPanel__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+
+  width: fit-content;
+  margin: 0 40px 6px -2px;
+  padding: 5px 8px;
+
+  border: 1px solid rgba(17, 17, 17, 0.28);
+  border-radius: 5px;
+  background: #ffffff;
+  color: #111111;
+  font-family: var(--tag-font-family);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease;
+}
+
+.tagPanel__back:hover {
+  background: #f3f4f6;
+  border-color: #111111;
+  text-decoration: none;
+}
+
+.tagPanel__back:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 2px;
+}
+
+.tagPanel__backArrow {
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 500;
+  transform: translateY(-0.5px);
+}
+
+.tagPanel__detailContent {
+  gap: 0;
+  overflow: hidden;
+  padding-top: 12px;
+}
+
+.tagPanel__detailHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  flex: 0 0 auto;
+
+  padding: 7px 0 8px;
+  margin: 0 0 4px;
+  border-top: none;
+  border-bottom: 2px solid #111111;
+}
+
+.tagPanel__detailHeader .tagPanel__menuTitle {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.tagPanel__detailCount {
+  flex: 0 0 auto;
+  font-family: var(--tag-font-family);
+  font-size: 11px;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.tagPanel__detailToolbar {
+  flex: 0 0 auto;
+  padding: 4px 0 6px;
+  background: #ffffff;
+}
+
+.tagPanel__detailScrollBody {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.tagPanel__detailScrollBody .tagPanel__menuList {
+  padding-left: 0;
+  padding-right: 2px;
+}
+
+/* Keep detail content readable at the shared 230px width. */
+.tagPanel__detailScrollBody .tagPanel__row {
+  line-height: 1.25;
+}
+
+/* The old portaled fly-out is intentionally no longer used by the JSX. */
+.tagPanel__dropdown {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tagPanel__views {
+    transition: none !important;
   }
 }

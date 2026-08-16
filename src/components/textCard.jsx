@@ -9,6 +9,12 @@ import React, {
 } from "react";
 import "../styles/timeline.css";
 import ContributionModal from "./contributionModal";
+import MarkerIcon from "./markerIcon";
+import {
+  getTypographyClassForSystems,
+  getTypographyClassForTarget,
+  getMarkerPropsForTarget,
+} from "./symbolicTypography";
 
 function FoldDensityIcon({ action }) {
   // action: "fold" | "unfold"
@@ -253,80 +259,58 @@ useEffect(() => {
   };
 
   // Both card connection sections use the same relationship-group layout:
-  // a muted relationship label followed by one connected object per line.
+  // a muted relationship label followed by one connected object per bullet.
   const renderConnectionList = (entries, groupKey) =>
     entries.map((conn, idx) => {
       const targets = Array.isArray(conn.targets) ? conn.targets : [];
-      const stackTargets = groupKey === "textual" || groupKey === "mythic";
 
-      const renderTargetButton = (t, i, className) => {
+      const renderTargetButton = (t, i) => {
         const isTimelineHover =
           hoveredTimelineTarget &&
           normType(hoveredTimelineTarget.type) === normType(t.type) &&
           hoveredTimelineTarget.id === t.id;
 
         return (
-          <span
-            key={`${t.type}-${t.id}-${i}`}
-            className={className}
+          <button
+            type="button"
+            className={[
+              "textCard-connectionLink",
+              getTypographyClassForTarget(t),
+              isTimelineHover ? "isTimelineHover" : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            onClick={() => onNavigate && onNavigate(t.type, t.id)}
+            onMouseEnter={() => onHoverLink && onHoverLink(t.type, t.id)}
+            onMouseLeave={() => onHoverLink && onHoverLink(null, null)}
           >
-            <button
-              type="button"
-              className={`textCard-connectionLink${
-                isTimelineHover ? " isTimelineHover" : ""
-              }`}
-              onClick={() => onNavigate && onNavigate(t.type, t.id)}
-              onMouseEnter={() => onHoverLink && onHoverLink(t.type, t.id)}
-              onMouseLeave={() => onHoverLink && onHoverLink(null, null)}
-            >
-              {t.name}
-            </button>
-          </span>
+            {t.name}
+          </button>
         );
       };
 
       return (
         <li
           key={`${groupKey}-${idx}`}
-          className={`textCard-connectionItem${
-            stackTargets ? " textCard-connectionItem--stacked" : ""
-          }`}
+          className="textCard-connectionItem textCard-connectionItem--stacked"
         >
           <span className="textCard-connectionIntro">{conn.textBefore}</span>
 
-          {stackTargets ? (
-            <span className="textCard-connectionTargetColumn">
-              {targets.map((t, i) =>
-                renderTargetButton(
-                  t,
-                  i,
-                  "textCard-connectionTargetRow"
-                )
-              )}
-            </span>
-          ) : (
-            targets.map((t, i) => {
-              const isLast = i === targets.length - 1;
-              const isFirst = i === 0;
-              const needsComma =
-                !isFirst && targets.length > 2 && !isLast;
-              const needsAnd = !isFirst && isLast;
-
-              return (
-                <React.Fragment key={`${t.type}-${t.id}-${i}`}>
-                  {needsComma && ", "}
-                  {needsAnd && !needsComma && " and "}
-                  {needsAnd && needsComma && " and "}
-                  {!needsComma && !needsAnd && !isFirst && ", "}
-                  {renderTargetButton(
-                    t,
-                    i,
-                    "textCard-connectionTargetGroup"
-                  )}
-                </React.Fragment>
-              );
-            })
-          )}
+          <ul className="textCard-connectionTargetList">
+            {targets.map((t, i) => (
+              <li
+                key={`${t.type}-${t.id}-${i}`}
+                className="textCard-connectionTargetRow"
+              >
+                <MarkerIcon
+                  {...getMarkerPropsForTarget(t)}
+                  size={16}
+                  className="textCard-connectionMarker"
+                />
+                {renderTargetButton(t, i)}
+              </li>
+            ))}
+          </ul>
         </li>
       );
     });
@@ -437,7 +421,7 @@ useEffect(() => {
         {/* Internal scroll area */}
         <div className="textCard-scroll" ref={scrollRef}>
           <div className="textCard-titleCombo">
-            <span className="textCard-title">{titleOnly}</span>
+            <span className={`textCard-title ${getTypographyClassForSystems(d.symbolicSystemTags)}`}>{titleOnly}</span>
             {d.category && <span className="textCard-sep"> - </span>}
             {d.category && (
               <span className="textCard-category">{d.category}</span>
