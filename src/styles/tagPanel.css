@@ -9,6 +9,7 @@
   --tag-font-family: var(--font-ui, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
   --tag-font-size: 12px;
   --tag-font-weight: 600;
+  --detail-back-gap: 15px;       /* Tier 2: space below ← FILTERS before group label */
 
   position: absolute;
   top: 0;
@@ -135,7 +136,7 @@
 /* Simple slide-under animation (no rotation) */
 .tagPanelWrap--open .tagPanel__tab {
   pointer-events: none;                 /* not interactive while open */
-  animation: tab-slide-in 220ms ease forwards;
+  animation: tab-fade-out 140ms ease-out forwards;
 }
 .tagPanelWrap--closed .tagPanel__tab {
   opacity: 1;
@@ -143,10 +144,10 @@
   animation: tab-slide-out 220ms ease both;
 }
 
-/* --- Keyframes (no spin, just slide right under the panel) --- */
-@keyframes tab-slide-in {
-  0%   { opacity: 1; transform: translateY(-50%) translateX(0); }
-  100% { opacity: 0; transform: translateY(-50%) translateX(48px); }
+/* Opening: the tab itself never moves; it only fades. */
+@keyframes tab-fade-out {
+  0%   { opacity: 1; transform: translateY(-50%); }
+  100% { opacity: 0; transform: translateY(-50%); }
 }
 @keyframes tab-slide-out {
   0%   { opacity: 0; transform: translateY(-50%) translateX(48px); }
@@ -691,6 +692,13 @@
 
 .tagPanelWrap--open {
   transform: translateX(0);
+
+  /*
+   * Opening only: let the attached FILTERS tab finish fading while the
+   * drawer is still stationary. Once the tab is fully invisible, the normal
+   * drawer slide begins. This guarantees zero visible tab movement.
+   */
+  transition-delay: 140ms;
 }
 
 
@@ -739,7 +747,7 @@
   flex: 0 0 auto;
 
   width: fit-content;
-  margin: 0 40px 6px -2px;
+  margin: 0 40px var(--detail-back-gap) -2px;
   padding: 5px 8px;
 
   border: 1px solid rgba(17, 17, 17, 0.28);

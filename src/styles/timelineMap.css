@@ -295,6 +295,7 @@
 }
 
 .timelineMap__snapshotBadge {
+  display: none;
   pointer-events: none;
 }
 

@@ -1,35 +1,328 @@
-/* Root container: fixed at the very top center */
+@import url("https://fonts.googleapis.com/css2?family=Alegreya:wght@600;700&family=Crimson+Pro:wght@600;700&family=EB+Garamond:wght@600;700&family=Lora:wght@600;700&family=Noto+Serif+SC:wght@600;700&family=Source+Serif+4:wght@600;700&family=Spectral:wght@600;700&display=swap");
+
+/* Root container: fixed at the very top center.
+ * At the global/outermost tier only Search + Key are visible. Once regional
+ * context becomes meaningful, this same shell expands and reveals Context on
+ * the left. The core search width is kept as stable as the viewport allows. */
 .sb-wrap {
   position: fixed;
   top: 8px;
   left: 50%;
   transform: translateX(calc(-50% + 10px));
-  width: min(600px, 92vw);
-  z-index: 3000;                 /* above backdrop; below nothing else important */
-  pointer-events: none;          /* only inner controls receive events */
+
+  /* TWEAKABLE reveal geometry. */
+  --sb-core-width: 680px;
+  --sb-context-width: min(375px, 38vw);
+  --sb-full-width: min(1050px, 96vw);
+  --sb-collapsed-width: min(
+    var(--sb-core-width),
+    calc(96vw - var(--sb-context-width))
+  );
+  --sb-context-reveal-ms: 320ms;
+  --sb-context-fade-ms: 180ms;
+
+  width: var(--sb-collapsed-width);
+  z-index: 3000;
+  pointer-events: none;
   --pop-gap: 0px;
+  --sb-context-accent: #6b7280;
+
+  transition: width var(--sb-context-reveal-ms) cubic-bezier(.18, .72, .24, 1);
+}
+
+.sb-wrap.has-context {
+  width: var(--sb-full-width);
 }
 
 /* Inherit the app's font everywhere in the search UI */
-.sb-wrap, .sb-box, .sb-input, .sb-popover, .sb-item, .sb-empty,
-.sb-title, .sb-sub, .sb-desc, .sb-line {
+.sb-wrap, .sb-shell, .sb-contextField, .sb-box, .sb-input, .sb-keyToggle,
+.sb-popover, .sb-item, .sb-empty, .sb-title, .sb-sub, .sb-desc, .sb-line,
+.sb-keyPanel {
   font-family: inherit;
 }
 
-/* === Search pill === */
+/* One continuous horizontal control surface.
+ * The first grid track animates from 0 -> context width. Search + Key remain
+ * the same logical core while the complete shell grows around them. */
+.sb-shell {
+  display: grid;
+  grid-template-columns: 0px minmax(0, 1fr) 74px;
+  align-items: stretch;
+  height: 44px;
+  min-height: 44px;
+  background: rgba(252, 252, 252, 0.985);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 13px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+  pointer-events: auto;
+  position: relative;
+  z-index: 3010;
+
+  /* IMPORTANT: keep overflow visible. The search results popover is
+   * absolutely positioned inside .sb-searchCell and extends below this shell.
+   * Clipping the shell also clips the entire results list. The collapsing
+   * context field already owns its own overflow:hidden, so the shell does not
+   * need to clip descendants. */
+  overflow: visible;
+
+  transition: grid-template-columns var(--sb-context-reveal-ms) cubic-bezier(.18, .72, .24, 1);
+}
+
+.sb-wrap.has-context .sb-shell {
+  grid-template-columns: var(--sb-context-width) minmax(0, 1fr) 74px;
+}
+
+/*
+ * Left: contextual breadcrumb. At the outermost/global tier this grid cell is
+ * truly collapsed: no empty label, no divider, no reserved visual space.
+ * Crossing into the macro-region tier grows the cell and reveals its contents.
+ */
+.sb-contextField {
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-right: 1px solid transparent;
+  border-radius: 13px 0 0 13px;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+
+  transition:
+    padding var(--sb-context-reveal-ms) cubic-bezier(.18, .72, .24, 1),
+    border-color var(--sb-context-fade-ms) ease,
+    opacity var(--sb-context-fade-ms) ease;
+}
+
+.sb-wrap.has-context .sb-contextField {
+  padding: 0 14px;
+  border-right-color: rgba(0, 0, 0, 0.07);
+  opacity: 1;
+  transition-delay: 0ms, 90ms, 45ms;
+}
+
+/*
+ * The complete context statement is centered as ONE geometric unit. Different
+ * font metrics can no longer change its anchor point when the context updates.
+ */
+.sb-contextContent {
+  display: inline-flex;
+
+  /* TWEAK: baseline alignment keeps every font on one horizontal line. */
+  align-items: baseline;
+  justify-content: center;
+
+  /* Spacing is controlled explicitly by the pieces below. */
+  gap: 0;
+
+  width: max-content;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0 auto;
+  white-space: nowrap;
+
+  opacity: 0;
+  transform: translateX(7px);
+
+  /*
+   * Exit is intentionally quick and immediate: the words disappear first,
+   * while the surrounding field continues its slightly slower collapse.
+   */
+  transition:
+    opacity 135ms ease 0ms,
+    transform 190ms cubic-bezier(.4, 0, .6, 1) 0ms;
+}
+
+.sb-wrap.has-context .sb-contextContent {
+  opacity: 1;
+  transform: translateX(0);
+
+  /*
+   * On reveal, let the new space begin opening before the typography arrives.
+   * This removes the abrupt "text pop" at the zoom threshold.
+   */
+  transition:
+    opacity var(--sb-context-fade-ms) ease 85ms,
+    transform 270ms cubic-bezier(.18, .72, .24, 1) 55ms;
+}
+
+/* UI breadcrumb scaffolding stays neutral and compact. */
+.sb-contextPrefix {
+  display: inline-block;
+  flex: 0 0 auto;
+
+  /* TWEAK: space after “Context:” before the macro-region. */
+  margin-right: 5px;
+
+  color: #7a8391;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: 0.015em;
+}
+
+.sb-contextGlobal,
+.sb-contextMacro {
+  display: inline-block;
+  flex: 0 0 auto;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1;
+}
+
+.sb-contextGlobal {
+  color: #667085;
+}
+
+/* Optical normalization keeps the five macro fonts sitting on one visual line. */
+.sb-contextMacroFont {
+  font-size-adjust: 0.50;
+}
+
+.sb-contextMacroFont--global {
+  font-family: "EB Garamond", Garamond, Georgia, "Times New Roman", serif;
+  color: #667085; /* Global — neutral graphite/slate */
+}
+
+.sb-contextMacroFont--mediterranean {
+  font-family: "Crimson Pro", Georgia, "Times New Roman", serif;
+  color: #3F6F9F; /* Mediterranean — muted sea blue */
+}
+
+.sb-contextMacroFont--westAsia {
+  font-family: "Spectral", Cambria, Georgia, "Times New Roman", serif;
+  color: #9A6944; /* West Asia — muted earth/ochre */
+}
+
+.sb-contextMacroFont--southAsia {
+  font-family: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+  color: #5D5188; /* South Asia — restrained indigo */
+}
+
+.sb-contextMacroFont--eastAsia {
+  font-family: "Noto Serif SC", "Songti SC", SimSun, Georgia, serif;
+  color: #47705F; /* East Asia — muted jade */
+}
+
+.sb-contextDelimiter {
+  display: inline-block;
+  flex: 0 0 auto;
+
+  /* TWEAK THESE TWO VALUES independently:
+   * left  = macro-region → comma
+   * right = comma → historical leaf
+   */
+  margin-left: 0px;
+  margin-right: 4px;
+
+  color: #8f97a3;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/*
+ * The most specific historical/geographic leaf keeps the existing symbolic
+ * typography and duration color: Persian Levant, Roman Greece, Anatolia, etc.
+ */
+.sb-contextLabel {
+  display: inline-block;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  color: var(--sb-context-accent, #374151);
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Context names mirror the timeline's historical-object typography mapping,
+ * but are self-contained here rather than depending on timeline.css variables.
+ * This prevents the SearchBar from silently falling back to one shared font. */
+.sb-contextFont {
+  font-size-adjust: 0.50;
+}
+
+/* Greek / Hellenistic / Roman / Italic */
+.sb-contextFont--classical {
+  font-family: "Crimson Pro", Georgia, "Times New Roman", serif;
+}
+
+/* Sumerian / Akkadian / Babylonian / Assyrian */
+.sb-contextFont--mesopotamian {
+  font-family: "Spectral", Cambria, Georgia, "Times New Roman", serif;
+}
+
+/* Levantine / Egyptian / North African */
+.sb-contextFont--levantine {
+  font-family: "Alegreya", Georgia, "Times New Roman", serif;
+}
+
+/* Persian / Iranian */
+.sb-contextFont--iranian {
+  font-family: "Lora", Constantia, Georgia, "Times New Roman", serif;
+}
+
+/* Hittite / Hurrian / Luwian / Phrygian / Lydian */
+.sb-contextFont--anatolian {
+  font-family: "Spectral", Cambria, Georgia, "Times New Roman", serif;
+}
+
+/* Indian / Vedic / Buddhist */
+.sb-contextFont--indic {
+  font-family: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif;
+}
+
+/* Chinese */
+.sb-contextFont--chinese {
+  font-family: "Noto Serif SC", "Songti SC", SimSun, Georgia, serif;
+}
+
+/* Unknown / fallback */
+.sb-contextFont--literary {
+  font-family: var(--font-heading, Georgia, "Times New Roman", serif);
+}
+
+
+/* Center: SearchBar retains ownership of its input + result popover. */
+.sb-searchCell {
+  position: relative;
+  min-width: 0;
+  display: flex;
+  align-items: stretch;
+}
+
 .sb-box {
+  width: 100%;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 14px;
-  background: rgb(252, 252, 252);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(0,0,0,0.08);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
-  border-radius: 9999px;          /* pill shape */
-  padding: 8px 8px 8px 12px;
-  pointer-events: auto;           /* re-enable events for the pill */
-  position: relative;             /* keeps popover anchored visually below */
-  z-index: 3010;                  /* above backdrop */
+  padding: 8px 12px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  pointer-events: auto;
+  position: relative;
+  z-index: 3010;
+  transition: background-color 120ms ease;
+}
+
+.sb-box:focus-within {
+  background: rgba(37, 99, 235, 0.025);
 }
 
 .sb-icon {
@@ -40,7 +333,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .sb-input {
@@ -53,6 +346,51 @@
   line-height: 1.4;
   color: #111;
   padding: 1px 2px;
+}
+
+/* Right: Key is the only button in the collapsed shell. */
+.sb-keyToggle {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 0;
+  border-left: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 0 14px 14px 0;
+  background: transparent;
+  color: #5f6876;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.sb-keyToggle:hover,
+.sb-keyToggle.is-active {
+  background: rgba(17, 24, 39, 0.035);
+  color: #111827;
+}
+
+.sb-keyToggle:focus-visible {
+  outline: 2px solid rgba(37, 99, 235, 0.55);
+  outline-offset: -3px;
+}
+
+.sb-keyToggleIcon {
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+}
+
+.sb-keyToggleIcon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 /* Optional "go" button (if you add it) */
@@ -74,8 +412,8 @@
 .sb-go:active { background: #d1d5db; }
 .sb-go:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
 
-/* Focus ring on the whole pill when input is focused */
-.sb-box:focus-within { border-color: rgba(37,99,235,0.35); }
+/* Focus treatment now belongs to the center cell inside the shared shell. */
+.sb-box:focus-within { background: rgba(37, 99, 235, 0.025); }
 
 /* === Popover (same width as the bar; never full-screen) === */
 .sb-popover {
@@ -321,6 +659,204 @@
   background-clip: padding-box;
 }
 .sb-popover::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.28); }
+
+
+/* ============================
+   Expandable timeline Key
+   ============================ */
+.sb-keyPanel {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 6px;
+  padding: 12px 14px 13px;
+  background: rgba(255, 255, 255, 0.985);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 5px 14px rgba(15, 23, 42, 0.12);
+  color: #374151;
+  pointer-events: auto;
+  z-index: 3010;
+}
+
+.sb-key-content {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.85fr) minmax(320px, 1.15fr);
+  gap: 18px;
+}
+
+.sb-key-section {
+  min-width: 0;
+}
+
+.sb-key-section--connections {
+  padding-left: 18px;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.sb-key-heading {
+  margin-bottom: 8px;
+  color: #111827;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sb-key-symbolGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px 12px;
+}
+
+.sb-key-item,
+.sb-key-connectionItem {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.sb-key-symbol {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  display: grid;
+  place-items: center;
+  color: #4b5563;
+}
+
+.sb-key-symbol svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.sb-key-connectionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px 14px;
+}
+
+.sb-key-lineSample {
+  width: 54px;
+  height: 14px;
+  flex: 0 0 54px;
+  color: #4b5563;
+  overflow: visible;
+}
+
+@media (max-width: 760px) {
+  .sb-wrap {
+    --sb-core-width: 460px;
+    --sb-context-width: min(280px, 40vw);
+    --sb-full-width: min(94vw, 720px);
+    --sb-collapsed-width: min(
+      var(--sb-core-width),
+      calc(94vw - var(--sb-context-width))
+    );
+  }
+
+  .sb-shell {
+    grid-template-columns: 0px minmax(0, 1fr) 64px;
+  }
+
+  .sb-wrap.has-context .sb-shell {
+    grid-template-columns: var(--sb-context-width) minmax(0, 1fr) 64px;
+  }
+
+  .sb-wrap.has-context .sb-contextField {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .sb-contextPrefix {
+    font-size: 10px;
+  }
+
+  .sb-contextGlobal,
+  .sb-contextMacro {
+    font-size: 11px;
+  }
+
+  .sb-contextLabel {
+    font-size: 13px;
+  }
+
+  .sb-keyToggle {
+    gap: 4px;
+    padding: 0 7px;
+  }
+
+  .sb-key-content {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .sb-key-section--connections {
+    padding-left: 0;
+    padding-top: 12px;
+    border-left: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+}
+
+@media (max-width: 520px) {
+  .sb-wrap {
+    --sb-core-width: 330px;
+    --sb-context-width: min(165px, 38vw);
+    --sb-full-width: 94vw;
+    --sb-collapsed-width: min(
+      var(--sb-core-width),
+      calc(94vw - var(--sb-context-width))
+    );
+  }
+
+  .sb-shell {
+    grid-template-columns: 0px minmax(0, 1fr) 54px;
+  }
+
+  .sb-wrap.has-context .sb-shell {
+    grid-template-columns: var(--sb-context-width) minmax(0, 1fr) 54px;
+  }
+
+  .sb-wrap.has-context .sb-contextField {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .sb-contextPrefix {
+    display: none;
+  }
+
+  .sb-contextMacro {
+    font-size: 10px;
+  }
+
+  .sb-contextLabel {
+    font-size: 11px;
+  }
+
+  .sb-keyToggleIcon {
+    display: none;
+  }
+
+  .sb-key-symbolGrid,
+  .sb-key-connectionGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sb-wrap,
+  .sb-shell,
+  .sb-contextField,
+  .sb-contextContent {
+    transition: none !important;
+  }
+}
 
 /* --- Backdrop (via portal) --- */
 .sb-backdrop {

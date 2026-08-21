@@ -508,6 +508,19 @@ body {
   border-left-width: 2px;
   border-bottom-width: 2px;
 }
+
+/*
+ * Deep Borders Only period inspector.
+ * The JSX adds this class only for the track-synchronized structural view.
+ * A wider reading measure reduces vertical obstruction, while viewport-relative
+ * width keeps it usable on narrower windows.
+ */
+.tl-seg.tl-seg--borders-only {
+  box-sizing: border-box;
+  width: min(720px, calc(100% - 16px));
+  max-width: 720px;
+  margin-top: 0;
+}
 .tl-seg.below::after {
   border-right-width: 2px;
   border-top-width: 2px;
@@ -2535,4 +2548,35 @@ body {
   font-size-adjust: var(--object-font-size-adjust, 0.50);
   font-weight: var(--object-name-weight, 600);
   letter-spacing: 0;
+}
+
+/* ============================
+   Selected tooltip teardown guard
+   ============================ */
+/*
+ * A persistent selected tooltip must never remain visible after Selected Mode
+ * has ended. The selected-mode wrapper class is removed synchronously when the
+ * TextCard/FatherCard closes, so this prevents the existing D3 tooltip element
+ * from briefly falling back to ordinary .tl-text styling before JS removes it.
+ */
+.timelineWrap:not(.timelineWrap--selected-chronological):not(.timelineWrap--selected-map)
+  .tl-selected {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+/* ============================
+   Selected mini-tooltip teardown guard
+   ============================ */
+/*
+ * Connected-object mini-tooltips are selected-mode-only UI. Their D3 overlay
+ * layer is intentionally persistent, so on Map View teardown it can outlive
+ * the selection for a paint frame while its geographic anchors disappear.
+ * Hide the complete layer as soon as selection state is gone; reopening a
+ * selection removes this rule automatically because .has-object-selection
+ * returns on .timelineWrap.
+ */
+.timelineWrap:not(.has-object-selection)
+  .tl-mini-tooltip-layer {
+  display: none !important;
 }

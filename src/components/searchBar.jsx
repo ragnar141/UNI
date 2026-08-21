@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import "../styles/searchbar.css";
 import MarkerIcon from "./markerIcon";
+import { getTypographyClassForSystems } from "./symbolicTypography";
 
 /* === Utils === */
 function escapeRegExp(s) {
@@ -174,6 +175,176 @@ function deriveSymbolColorsFromItem(r) {
   return {};
 }
 
+
+const DEFAULT_CONNECTION_LEGEND = [
+  { id: "explicit", label: "Explicit reference", strokeWidth: 1.4, dasharray: null },
+  { id: "indirect", label: "Indirect connection", strokeWidth: 1.4, dasharray: "6 4" },
+  { id: "comparative", label: "Comparative connection", strokeWidth: 1.4, dasharray: "1 6" },
+  { id: "speculative", label: "Speculative connection", strokeWidth: 1.6, dasharray: "6 3 1.5 3" },
+];
+
+/*
+ * Stable geographic vocabulary for the Context field. These are places, not
+ * political owners: Rome -> Italian Peninsula, Persia -> Iranian Plateau,
+ * India -> Indian Subcontinent, etc. Historical regime identity is added
+ * separately when the source duration represents an imperial overlay.
+ */
+const TRACK_CONTEXT_NAME_BY_ID = {
+  indian: "Indian Subcontinent",
+  chinese: "China",
+  iranian: "Iranian Plateau",
+  mesopotamian: "Mesopotamia",
+  levantine: "Levant",
+  egyptian: "Egypt",
+  anatolian: "Anatolia",
+  greek: "Greece",
+  "north-african": "North African Coast",
+  italic: "Italian Peninsula",
+};
+
+/*
+ * Level-2 macro geography. Some historical regions straddle modern academic
+ * macro-regions; this table chooses one stable UI parent so the breadcrumb does
+ * not flicker as the camera moves along a single horizontal track.
+ */
+const TRACK_MACRO_CONTEXT_BY_ID = {
+  italic: "Mediterranean",
+  greek: "Mediterranean",
+  egyptian: "Mediterranean",
+  "north-african": "Mediterranean",
+  anatolian: "West Asia",
+  levantine: "West Asia",
+  mesopotamian: "West Asia",
+  iranian: "West Asia",
+  indian: "South Asia",
+  chinese: "East Asia",
+};
+
+/*
+ * Macro-geographic typography is deliberately separate from the historical
+ * leaf typography below. Each large-scale context has its own cartographic
+ * voice while remaining optically normalized inside the same fixed line box.
+ */
+const CONTEXT_MACRO_TYPOGRAPHY_CLASS = {
+  Global: "sb-contextMacroFont--global",
+  Mediterranean: "sb-contextMacroFont--mediterranean",
+  "West Asia": "sb-contextMacroFont--westAsia",
+  "South Asia": "sb-contextMacroFont--southAsia",
+  "East Asia": "sb-contextMacroFont--eastAsia",
+};
+
+/*
+ * Context labels are not text/father records, but they should use the exact
+ * same symbolic-system typography resolver as TextCard / FatherCard.
+ *
+ * We therefore translate the currently occupied historical field to one
+ * representative symbolic-system tag.  Regime identity takes precedence:
+ * Roman Greece -> Roman, Persian Levant -> Persian, Hellenistic Anatolia ->
+ * Hellenistic. Native fields fall back to a representative system belonging
+ * to that regional typography group.
+ */
+const CONTEXT_SYMBOLIC_SYSTEM_BY_REGIME = {
+  roman: "Roman",
+  hellenistic: "Hellenistic",
+  persian: "Persian",
+};
+
+const CONTEXT_SYMBOLIC_SYSTEM_BY_TRACK = {
+  italic: "Roman",
+  greek: "Hellenic",
+  iranian: "Persian",
+  mesopotamian: "Akkadian",
+  levantine: "Canaanite",
+  egyptian: "Egyptian",
+  anatolian: "Hittite",
+  indian: "Indian",
+  chinese: "Shang–Zhou",
+  "north-african": "Berber",
+};
+
+function getContextTypographyClass(trackId, regimeLabel) {
+  const regimeKey = String(regimeLabel || "")
+    .trim()
+    .toLowerCase();
+
+  const symbolicSystem =
+    CONTEXT_SYMBOLIC_SYSTEM_BY_REGIME[regimeKey] ||
+    CONTEXT_SYMBOLIC_SYSTEM_BY_TRACK[trackId] ||
+    "";
+
+  return getTypographyClassForSystems(symbolicSystem);
+}
+
+function KeyCueIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="6" cy="7" r="1.55" fill="currentColor" />
+      <path d="M10 7h8M10 12h8M10 17h8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M4.25 13.4 6 10.45l1.75 2.95h-3.5Z" fill="currentColor" />
+      <rect x="4.55" y="15.55" width="2.9" height="2.9" rx="0.35" fill="currentColor" />
+    </svg>
+  );
+}
+
+function LegendMarker({ type }) {
+  const props =
+    type === "text"
+      ? { type: "text", founding: false, historic: false, concept: false }
+      : type === "historic"
+        ? { type: "father", founding: false, historic: true, concept: false }
+        : type === "concept"
+          ? { type: "father", founding: false, historic: false, concept: true }
+          : { type: "father", founding: false, historic: false, concept: false };
+
+  return <MarkerIcon {...props} color="#4b5563" />;
+}
+
+function ConnectionLegendSample({ strokeWidth, dasharray }) {
+  return (
+    <svg className="sb-key-lineSample" viewBox="0 0 68 14" aria-hidden="true">
+      <line
+        x1="3"
+        y1="7"
+        x2="65"
+        y2="7"
+        stroke="currentColor"
+        strokeWidth={strokeWidth}
+        strokeDasharray={dasharray || undefined}
+        strokeLinecap="round"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  );
+}
+
+function TimelineKey() {
+  return (
+    <div className="sb-key-content" aria-label="Timeline symbol key">
+      <section className="sb-key-section">
+        <div className="sb-key-heading">Objects</div>
+        <div className="sb-key-symbolGrid">
+          <div className="sb-key-item"><span className="sb-key-symbol"><LegendMarker type="text" /></span><span>Text</span></div>
+          <div className="sb-key-item"><span className="sb-key-symbol"><LegendMarker type="figure" /></span><span>Mythic Figure</span></div>
+          <div className="sb-key-item"><span className="sb-key-symbol"><LegendMarker type="historic" /></span><span>Historic Figure</span></div>
+          <div className="sb-key-item"><span className="sb-key-symbol"><LegendMarker type="concept" /></span><span>Concept</span></div>
+        </div>
+      </section>
+
+      <section className="sb-key-section sb-key-section--connections">
+        <div className="sb-key-heading">Connections</div>
+        <div className="sb-key-connectionGrid">
+          {DEFAULT_CONNECTION_LEGEND.map((item) => (
+            <div className="sb-key-connectionItem" key={item.id}>
+              <ConnectionLegendSample strokeWidth={item.strokeWidth} dasharray={item.dasharray} />
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
 /**
  * Props:
  * - items: Array<...>
@@ -190,10 +361,12 @@ export default function SearchBar({
   maxResults = 12,
   onInteract = () => {},
   visibleIds,
+  context = null,
 }) {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const [hoverIdx, setHoverIdx] = useState(0);
+  const [keyOpen, setKeyOpen] = useState(false);
   const wrapRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -663,41 +836,179 @@ export default function SearchBar({
     return () => document.body.classList.remove("sb-open");
   }, [listVisible]);
 
-  return (
-    <div ref={wrapRef} className="sb-wrap">
-      <div
-        className="sb-box"
-        onMouseDown={() => {
-          onInteract();
-        }}
-      >
-        <svg className="sb-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path
-            d="M21 21l-4.3-4.3m1.3-4.2a7 7 0 11-14 0 7 7 0 0114 0z"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+  const liveContextLevel = context?.level || "global";
+  const contextVisible = liveContextLevel !== "global";
 
-        <input
-          ref={inputRef}
-          className="sb-input"
-          type="text"
-          value={q}
-          placeholder={placeholder}
-          onFocus={() => {
-            setOpen(true);
-            onInteract();
-          }}
-          onChange={(e) => {
-            setQ(e.target.value);
-          }}
-          onKeyDown={onKeyDown}
-          aria-label="Search"
-        />
+  /*
+   * Keep the last meaningful context in the DOM while the field collapses.
+   * This is deliberately a ref rather than state: it adds no animation loop,
+   * timer, or extra render. The wrapper can therefore fade/slide the existing
+   * text out instead of React removing it in the same frame that zoom crosses
+   * back into the global tier.
+   */
+  const lastVisibleContextRef = useRef(null);
+  if (contextVisible && context) {
+    lastVisibleContextRef.current = context;
+  }
+
+  const displayContext = contextVisible
+    ? context
+    : lastVisibleContextRef.current;
+
+  const contextLevel = displayContext?.level || liveContextLevel;
+  const contextTrackId = displayContext?.trackId || null;
+  const contextMacroLabel = contextTrackId
+    ? TRACK_MACRO_CONTEXT_BY_ID[contextTrackId] || null
+    : null;
+  const contextRegionLabel = contextTrackId
+    ? TRACK_CONTEXT_NAME_BY_ID[contextTrackId] ||
+      displayContext?.trackLabel ||
+      contextTrackId
+    : null;
+  const contextLeafLabel =
+    contextLevel === "region" || contextLevel === "regime"
+      ? contextRegionLabel
+        ? displayContext?.regimeLabel
+          ? `${displayContext.regimeLabel} ${contextRegionLabel}`
+          : contextRegionLabel
+        : null
+      : null;
+  const contextAccent = displayContext?.color || "#6b7280";
+  const contextTypographyClass = contextTrackId && contextLeafLabel
+    ? getContextTypographyClass(contextTrackId, displayContext?.regimeLabel)
+    : "";
+  const contextMacroTypographyClass =
+    CONTEXT_MACRO_TYPOGRAPHY_CLASS[
+      contextLevel === "global" ? "Global" : contextMacroLabel
+    ] || "";
+  const toggleKey = () => {
+    onInteract();
+    closeAndReset();
+    setKeyOpen((value) => !value);
+  };
+
+  return (
+    <div
+      ref={wrapRef}
+      className={`sb-wrap ${keyOpen ? "is-key-open" : ""} ${
+        contextVisible ? "has-context" : "is-context-hidden"
+      }`}
+      style={{ "--sb-context-accent": contextAccent }}
+    >
+      <div className="sb-shell">
+        <div
+          className={`sb-contextField is-${contextLevel}`}
+          aria-live={contextVisible ? "polite" : undefined}
+          aria-hidden={!contextVisible}
+          aria-label={
+            contextVisible
+              ? contextLeafLabel
+                ? `Context: ${contextMacroLabel || ""}, ${contextLeafLabel}`
+                : `Context: ${contextMacroLabel || contextRegionLabel || ""}`
+              : undefined
+          }
+        >
+          <div className="sb-contextContent">
+            <span className="sb-contextPrefix">Context:</span>
+
+            {contextMacroLabel ? (
+              <span
+                className={`sb-contextMacro sb-contextMacroFont ${contextMacroTypographyClass}`}
+              >
+                {contextMacroLabel}
+              </span>
+            ) : null}
+
+            {contextLeafLabel ? (
+              <>
+                <span className="sb-contextDelimiter" aria-hidden="true">,</span>
+                <span className={`sb-contextLabel ${contextTypographyClass}`}>
+                  {contextLeafLabel}
+                </span>
+              </>
+            ) : null}
+          </div>
+        </div>
+
+        <div className="sb-searchCell">
+          <div
+            className="sb-box"
+            onMouseDown={() => {
+              onInteract();
+            }}
+          >
+            <svg className="sb-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M21 21l-4.3-4.3m1.3-4.2a7 7 0 11-14 0 7 7 0 0114 0z"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+
+            <input
+              ref={inputRef}
+              className="sb-input"
+              type="text"
+              value={q}
+              placeholder={placeholder}
+              onFocus={() => {
+                setKeyOpen(false);
+                setOpen(true);
+                onInteract();
+              }}
+              onChange={(e) => {
+                setQ(e.target.value);
+              }}
+              onKeyDown={onKeyDown}
+              aria-label="Search"
+            />
+          </div>
+
+          {open && q.trim() && results.length > 0 && (
+            <div
+              ref={popoverRef}
+              className="sb-popover"
+              role="listbox"
+              onMouseDown={() => {
+                onInteract();
+              }}
+              onMouseMove={onPopoverMouseMove}
+            >
+              {results.map((r, idx) => {
+                const isHover = idx === hoverIdx;
+                return r.type === "father"
+                  ? renderFatherItem(r, idx, isHover)
+                  : renderTextItem(r, idx, isHover);
+              })}
+            </div>
+          )}
+
+          {open && q.trim() && results.length === 0 && (
+            <div
+              className="sb-popover sb-empty"
+              onMouseDown={() => {
+                onInteract();
+              }}
+            >
+              No results
+            </div>
+          )}
+        </div>
+
+        <button
+          type="button"
+          className={`sb-keyToggle ${keyOpen ? "is-active" : ""}`}
+          aria-expanded={keyOpen}
+          aria-controls="timeline-search-key"
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={toggleKey}
+        >
+          <span className="sb-keyToggleIcon" aria-hidden="true"><KeyCueIcon /></span>
+          <span>Key</span>
+        </button>
       </div>
 
       {listVisible &&
@@ -712,35 +1023,11 @@ export default function SearchBar({
           document.body
         )}
 
-      {open && q.trim() && results.length > 0 && (
-        <div
-          ref={popoverRef}
-          className="sb-popover"
-          role="listbox"
-          onMouseDown={() => {
-            onInteract();
-          }}
-          onMouseMove={onPopoverMouseMove}
-        >
-          {results.map((r, idx) => {
-            const isHover = idx === hoverIdx;
-            return r.type === "father"
-              ? renderFatherItem(r, idx, isHover)
-              : renderTextItem(r, idx, isHover);
-          })}
+      {keyOpen ? (
+        <div id="timeline-search-key" className="sb-keyPanel">
+          <TimelineKey />
         </div>
-      )}
-
-      {open && q.trim() && results.length === 0 && (
-        <div
-          className="sb-popover sb-empty"
-          onMouseDown={() => {
-            onInteract();
-          }}
-        >
-          No results
-        </div>
-      )}
+      ) : null}
     </div>
   );
 }

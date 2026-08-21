@@ -1,6 +1,7 @@
 [
   {
     "id": "egyptian-composite",
+    "track": "egyptian",
     "name": "Egyptian",
     "expanded name": "Egyptian (Ancient Egyptian)",
     "color": "#E53935",
@@ -67,6 +68,7 @@
   },
   {
     "id": "mesopotamian-composite",
+    "track": "mesopotamian",
     "name": "Mesopo-\ntamian",
     "expanded name": "Mesopotamian (Sumero-Akkadian)",
     "color": "#1E5BFF",
@@ -145,6 +147,7 @@
   },
   {
     "id": "anatolian-composite",
+    "track": "anatolian",
     "name": "Anatolian",
     "expanded name": "Anatolian (Hittite/Luwian/Phrygian/Lydian)",
     "color": "#E86A0C",
@@ -205,6 +208,7 @@
   },
   {
     "id": "levantine-composite",
+    "track": "levantine",
     "name": "Levantine",
     "expanded name": "Levantine (Akkadian/Canaanite/Phoenician/Hebrew/Aramaic)",
     "color": "#7C4DFF",
@@ -271,6 +275,7 @@
   },
   {
     "id": "custom-persian-iranian-composite",
+    "track": "iranian",
     "name": "Persian",
     "expanded name": "Persian (Elamite/Zoroastrian/Indo-Iranian)",
     "color": "#00BFA6",
@@ -331,6 +336,7 @@
   },
   {
     "id": "custom-persian-egyptian-composite",
+    "track": "egyptian",
     "name": "Persian",
     "expanded name": "Persian (Elamite/Zoroastrian/Indo-Iranian)",
     "color": "#00BFA6",
@@ -361,6 +367,7 @@
   },
   {
     "id": "custom-persian-mesopotamian-composite",
+    "track": "mesopotamian",
     "name": "Persian",
     "expanded name": "Persian (Elamite/Zoroastrian/Indo-Iranian)",
     "color": "#00BFA6",
@@ -379,6 +386,7 @@
   },
   {
     "id": "custom-persian-anatolian-composite",
+    "track": "anatolian",
     "name": "Persian",
     "expanded name": "Persian (Elamite/Zoroastrian/Indo-Iranian)",
     "color": "#00BFA6",
@@ -409,6 +417,7 @@
   },
   {
     "id": "custom-persian-levantine-composite",
+    "track": "levantine",
     "name": "Persian",
     "expanded name": "Persian (Elamite/Zoroastrian/Indo-Iranian)",
     "color": "#00BFA6",
@@ -427,6 +436,7 @@
   },
   {
     "id": "custom-hellenistic-greek-composite",
+    "track": "greek",
     "name": "Greek",
     "expanded name": "Greek (Minoan/Mycenaean/Hellenic/Hellenistic)",
     "color": "#0095FF",
@@ -571,6 +581,7 @@
   },
   {
     "id": "custom-hellenistic-anatolian-composite",
+    "track": "anatolian",
     "name": "Greek",
     "expanded name": "Greek (Minoan/Mycenaean/Hellenic/Hellenistic)",
     "color": "#0095FF",
@@ -601,6 +612,7 @@
   },
   {
     "id": "custom-hellenistic-egyptian-composite",
+    "track": "egyptian",
     "name": "Greek",
     "expanded name": "Greek (Minoan/Mycenaean/Hellenic/Hellenistic)",
     "color": "#0095FF",
@@ -631,6 +643,7 @@
   },
   {
     "id": "custom-hellenistic-levantine-composite",
+    "track": "levantine",
     "name": "Greek",
     "expanded name": "Greek (Minoan/Mycenaean/Hellenic/Hellenistic)",
     "color": "#0095FF",
@@ -661,6 +674,7 @@
   },
   {
     "id": "custom-hellenistic-mesopotamian-composite",
+    "track": "mesopotamian",
     "name": "Greek",
     "expanded name": "Greek (Minoan/Mycenaean/Hellenic/Hellenistic)",
     "color": "#0095FF",
@@ -691,6 +705,7 @@
   },
   {
     "id": "custom-hellenistic-persian-composite",
+    "track": "iranian",
     "name": "Greek",
     "expanded name": "Greek (Minoan/Mycenaean/Hellenic/Hellenistic)",
     "color": "#0095FF",
@@ -721,6 +736,7 @@
   },
   {
     "id": "carthaginian-composite",
+    "track": "north-african",
     "name": "North-African",
     "expanded name": "North-African (Libyan/Berber/Punic/Carthaginian)",
     "color": "#8E2BC0",
@@ -781,6 +797,7 @@
   },
   {
     "id": "custom-roman-italic-composite",
+    "track": "italic",
     "name": "Roman",
     "expanded name": "Roman (Italic/Etruscan/Latin/Roman)",
     "color": "#C4002F",
@@ -895,6 +912,7 @@
   },
   {
     "id": "custom-roman-carthaginian-composite",
+    "track": "north-african",
     "name": "Roman",
     "expanded name": "Roman (Italic/Etruscan/Latin/Roman)",
     "color": "#C4002F",
@@ -937,6 +955,7 @@
   },
   {
     "id": "custom-roman-greek-composite",
+    "track": "greek",
     "name": "Roman",
     "expanded name": "Roman (Italic/Etruscan/Latin/Roman)",
     "color": "#C4002F",
@@ -979,6 +998,7 @@
   },
   {
     "id": "custom-roman-anatolian-composite",
+    "track": "anatolian",
     "name": "Roman",
     "expanded name": "Roman (Italic/Etruscan/Latin/Roman)",
     "color": "#C4002F",
@@ -1021,6 +1041,7 @@
   },
   {
     "id": "custom-roman-egyptian-composite",
+    "track": "egyptian",
     "name": "Roman",
     "expanded name": "Roman (Italic/Etruscan/Latin/Roman)",
     "color": "#C4002F",
@@ -1057,6 +1078,7 @@
   },
   {
     "id": "custom-roman-levantine-composite",
+    "track": "levantine",
     "name": "Roman",
     "expanded name": "Roman (Italic/Etruscan/Latin/Roman)",
     "color": "#C4002F",
@@ -1099,6 +1121,7 @@
   },
   {
     "id": "indian-composite",
+    "track": "indian",
     "name": "Indian",
     "expanded name": "Indian (South Asian Civilization)",
     "color": "#2F2A6D",
@@ -1183,6 +1206,7 @@
   },
   {
     "id": "chinese-composite",
+    "track": "chinese",
     "name": "Chinese",
     "expanded name": "Chinese (Yellow River & Imperial Civilization)",
     "color": "#A33A2B",

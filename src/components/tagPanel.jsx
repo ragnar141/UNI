@@ -15,7 +15,7 @@ export default function TagPanel({
   groups,
   selectedByGroup,
   onChange,
-  layerMode = "durations",
+  layerMode = "noborders",
   onLayerModeChange = () => {},
 
   showTexts = true,
@@ -276,22 +276,11 @@ export default function TagPanel({
           <input
             type="radio"
             name="layerMode"
-            value="durations"
-            checked={layerMode === "durations"}
-            onChange={() => onLayerModeChange("durations")}
-          />
-          <span className="tagPanel__label">Civilizational Arcs</span>
-        </label>
-
-        <label className="tagPanel__radio">
-          <input
-            type="radio"
-            name="layerMode"
             value="segments"
             checked={layerMode === "segments"}
             onChange={() => onLayerModeChange("segments")}
           />
-          <span className="tagPanel__label">Historical Periods</span>
+          <span className="tagPanel__label">Civilizations &amp; Periods</span>
         </label>
 
         <label className="tagPanel__radio">
