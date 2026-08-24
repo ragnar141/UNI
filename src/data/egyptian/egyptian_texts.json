@@ -24,8 +24,8 @@
     "Literary Themes Tags": "Didactic / Ethical",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
-    "Article/post": "-",
+    "Original text": "(https://archive.org/download/ancientegyptianl00lich_210/ancientegyptianl00lich_210.pdf, Instruction of Hardjedef translation PDF, Miriam Lichtheim English translation of the surviving fragments in Ancient Egyptian Literature Volume I, first published 1973)",
+    "Article/post": "(https://www.jstage.jst.go.jp/browse/jorient/30/2/_contents/-char/en, Text and Interpretation of the Instruction of Hardjedef, Masato Koyama scholarly study published 1987 with free PDF access)",
     "Image/museum": "-",
     "Video": "-",
     "Other": "-"
@@ -55,7 +55,7 @@
     "Literary Themes Tags": "Didactic / Ethical, Introspective",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/instructionofpta00ptah_0/instructionofpta00ptah_0.pdf, Instruction of Kagemni PDF, Battiscombe Gunn English translation published 1906, alongside Ptahhotep and an appendix containing Amenemhat)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -86,11 +86,11 @@
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Cosmological, Adventure / Heroic Journey, Prophetic / Revelation",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://www.yhwh.pro/wp-content/uploads/2024/03/Pyramid-Texts.pdf, Pyramid Texts PDF, Samuel A. B. Mercer complete English translation published 1952)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.sacred-texts.com/egy/pyt/index.htm, Pyramid Texts online, Complete Samuel A. B. Mercer 1952 English translation in searchable HTML)"
   },
   {
     "Index": "4",
@@ -117,7 +117,7 @@
     "Literary Themes Tags": "Didactic / Ethical, Introspective",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/instructionofpta00ptah_0/instructionofpta00ptah_0.pdf, Instruction of Ptahhotep PDF, Battiscombe Gunn English translation first published 1906)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -148,11 +148,11 @@
     "Literary Themes Tags": "-",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://oi.uchicago.edu/sites/oi.uchicago.edu/files/uploads/shared/docs/oip3.pdf, Edwin Smith Surgical Papyrus PDF, James Henry Breasted hieroglyphic transliteration and complete English translation published 1930)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://isac.uchicago.edu/research/publications/oip/edwin-smith-surgical-papyrus-volume-1-hieroglyphic-transliteration, Edwin Smith Surgical Papyrus ISAC edition, University of Chicago institutional record for Breasted's 1930 translation edition)"
   },
   {
     "Index": "6",
@@ -179,11 +179,11 @@
     "Literary Themes Tags": "Didactic / Ethical, Political, Introspective",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://e-edu.nbu.bg/pluginfile.php/753301/mod_resource/content/1/AncientNearEasternTexts_Pritchard1969.pdf, Instruction of Merikare translation PDF, English translation in James B. Pritchard's Ancient Near Eastern Texts, 3rd edition published 1969)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://maat.sofiatopia.org/merikare.htm, Instruction of Merikare online, Wim van den Dungen English translation from Egyptian originals, web edition 2016)"
   },
   {
     "Index": "7",
@@ -210,7 +210,7 @@
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Cosmological, Mystical / Initiatory",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-80",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/literatureofanci00budguoft/literatureofanci00budguoft.pdf, Liturgy of Funerary Offerings PDF, E. A. Wallis Budge English translation in The Literature of the Ancient Egyptians, published 1914)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -241,11 +241,11 @@
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Cosmological, Adventure / Heroic Journey, Mystical / Initiatory",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "100",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/ancientegyptianl00lich_210/ancientegyptianl00lich_210.pdf, Book of Two Ways selections PDF, Miriam Lichtheim English translations and discussion of Middle Kingdom mortuary literature, first published 1973; selected material rather than a complete standalone Book of Two Ways edition)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://wellcomecollection.org/works/n2gmuqtp, Faulkner Coffin Texts edition, Catalogue record for R. O. Faulkner's authoritative 1973–1978 English translation of the Coffin Texts, within which the Book of Two Ways is preserved)"
   },
   {
     "Index": "9",
@@ -272,7 +272,7 @@
     "Literary Themes Tags": "Apocalyptic / Eschatological, Political, Prophetic / Revelation, Historical Reflection, Didactic / Ethical",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://e-edu.nbu.bg/pluginfile.php/753301/mod_resource/content/1/AncientNearEasternTexts_Pritchard1969.pdf, Prophecy of Neferti translation PDF, English translation in Ancient Near Eastern Texts, 3rd edition published 1969)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -303,7 +303,7 @@
     "Literary Themes Tags": "Political, Didactic / Ethical, Introspective, Tragic / Lamentation, Historical Reflection",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/instructionofpta00ptah_0/instructionofpta00ptah_0.pdf, Teaching of King Amenemhat I PDF, Battiscombe Gunn English translation in the appendix to his 1906 Instructions volume)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -334,7 +334,7 @@
     "Literary Themes Tags": "Ritual / Devotional, Cosmological, Didactic / Ethical, Metaphysical",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://upload.wikimedia.org/wikipedia/commons/5/53/Records_of_the_past-_being_English_translations_of_the_ancient_monuments_of_Egypt_and_western_Asia_%28IA_cu31924088047455%29.pdf, Hymn to the Nile PDF, Public-domain English translation in Records of the Past, nineteenth-century translation series)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -365,7 +365,7 @@
     "Literary Themes Tags": "Adventure / Heroic Journey, Didactic / Ethical, Ritual / Devotional, Existential, Metaphysical, Cosmological",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "100",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/literatureofanci00budguoft/literatureofanci00budguoft.pdf, Shipwrecked Sailor PDF, E. A. Wallis Budge English translation in The Literature of the Ancient Egyptians, published 1914)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -396,11 +396,11 @@
     "Literary Themes Tags": "Apocalyptic / Eschatological, Political, Tragic / Lamentation, Didactic / Ethical, Prophetic / Revelation, Existential, Historical Reflection",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/literatureofanci00budguoft/literatureofanci00budguoft.pdf, Admonitions of Ipuwer PDF, E. A. Wallis Budge English rendering of the Lament of Apuur/Ipuwer in The Literature of the Ancient Egyptians, published 1914)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://e-edu.nbu.bg/pluginfile.php/753301/mod_resource/content/1/AncientNearEasternTexts_Pritchard1969.pdf, Admonitions of Ipuwer in ANET, Later scholarly English translation in Ancient Near Eastern Texts, 3rd edition published 1969)"
   },
   {
     "Index": "14",
@@ -427,11 +427,11 @@
     "Literary Themes Tags": "Adventure / Heroic Journey, Existential, Didactic / Ethical, Political, Introspective, Ritual / Devotional, Feminine",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/literatureofanci00budguoft/literatureofanci00budguoft.pdf, Tale of Sinuhe PDF, E. A. Wallis Budge English translation of the Story of Sanehat/Sinuhe, published 1914)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://archive.org/download/ancientegyptianl00lich_210/ancientegyptianl00lich_210.pdf, Tale of Sinuhe in Lichtheim, Miriam Lichtheim scholarly English translation, first published 1973)"
   },
   {
     "Index": "15",
@@ -462,7 +462,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://wellcomecollection.org/works/n2gmuqtp, Ancient Egyptian Coffin Texts, R. O. Faulkner authoritative English translation in three volumes, published 1973–1978; no clean openly downloadable full translation PDF was located)"
   },
   {
     "Index": "16",
@@ -489,7 +489,7 @@
     "Literary Themes Tags": "Metaphysical, Existential, Introspective, Didactic / Ethical, Tragic / Lamentation, Absurd, Epistemological / Hermeneutics",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/literatureofanci00budguoft/literatureofanci00budguoft.pdf, Dialogue of a Man with His Ba PDF, E. A. Wallis Budge English translation under the title Talk of a Man Who Was Tired of Life with His Soul, published 1914)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -520,8 +520,8 @@
     "Literary Themes Tags": "Didactic / Ethical, Political, Ritual / Devotional",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-100",
-    "Original text": "-",
-    "Article/post": "-",
+    "Original text": "(http://fs2.american.edu/dfagel/www/LoyalistInstruction.pdf, Loyalist Instruction PDF, English translation of the Loyalist Instruction/Instruction of Sehetepibre hosted by American University)",
+    "Article/post": "(https://shedet.journals.ekb.eg/article_205866_a31ec6e2c28c593d330e753c0690d97d.pdf, Loyalist Instruction authorship study PDF, Modern scholarly discussion of the text and its attribution, published 2021)",
     "Image/museum": "-",
     "Video": "-",
     "Other": "-"
@@ -551,7 +551,7 @@
     "Literary Themes Tags": "Comic / Satirical, Didactic / Ethical",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "70",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/ancientegyptianl00lich_210/ancientegyptianl00lich_210.pdf, Satire of the Trades PDF, Miriam Lichtheim English translation of the Teaching of Dua-Khety, first published 1973)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -582,11 +582,11 @@
     "Literary Themes Tags": "Political, Didactic / Ethical, Epistemological / Hermeneutics, Existential",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/literatureofanci00budguoft/literatureofanci00budguoft.pdf, Eloquent Peasant PDF, E. A. Wallis Budge English translation of the Eloquent/Educated Peasant, published 1914)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://archive.org/download/ancientegyptianl00lich_210/ancientegyptianl00lich_210.pdf, Eloquent Peasant in Lichtheim, Miriam Lichtheim scholarly English translation, first published 1973)"
   },
   {
     "Index": "20",
@@ -613,8 +613,8 @@
     "Literary Themes Tags": "-",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "100",
-    "Original text": "-",
-    "Article/post": "-",
+    "Original text": "(https://wikisource.org/wiki/Moscow_Mathematical_Papyrus, Moscow Mathematical Papyrus, English presentation of the papyrus problems with a built-in Download PDF option)",
+    "Article/post": "(https://journals.sagepub.com/doi/pdf/10.1177/030751333301900103, Moscow Papyrus Problem 14 PDF, Quido Vetter study and translation of the famous truncated-pyramid problem, published 1933)",
     "Image/museum": "-",
     "Video": "-",
     "Other": "-"
@@ -644,11 +644,11 @@
     "Literary Themes Tags": "Feminine",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/hieraticpapyrifr00grifuoft/hieraticpapyrifr00grifuoft.pdf, Kahun/Lahun Papyri PDF, F. Ll. Griffith's Hieratic Papyri from Kahun and Gurob, published 1898, containing English translations and editions of the medical and related papyri)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.ucl.ac.uk/museums-static/digitalegypt/lahun/mathintro.html, UCL Lahun Papyri, University College London Digital Egypt guide to the Lahun mathematical fragments with linked PDF transcriptions)"
   },
   {
     "Index": "22",
@@ -675,7 +675,7 @@
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Didactic / Ethical, Cosmological, Adventure / Heroic Journey",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://indi.ca/content/files/2024/12/Miriam-Lichtheim---Ancient-Egyptian-Literature_-Volume-II_-The-New-Kingdom-Near-Eastern-Center-UCLA-II-University-of-California-Press-1978.pdf, Great Hymn to Osiris PDF, Miriam Lichtheim English translation of the Great Hymn to Osiris on the Stela of Amenmose, first published 1976)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -706,11 +706,11 @@
     "Literary Themes Tags": "-",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://www.rombergintegrali.org/gizapiramitleri/g1/g1_piramitinin_saftlari_geometrisi/Mathematics_In_The_Time_of_The_Pharoahs.pdf, Berlin Papyrus 6619 translation PDF, Richard J. Gillings, Mathematics in the Time of the Pharaohs, published 1972, includes translation and analysis of the Berlin mathematical problems)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://wikisource.org/wiki/Berlin_Papyrus_6619, Berlin Papyrus 6619 online, Wikisource presentation with print/export tools where available)"
   },
   {
     "Index": "24",
@@ -737,7 +737,7 @@
     "Literary Themes Tags": "Ritual / Devotional, Comic / Satirical, Adventure / Heroic Journey, Didactic / Ethical, Prophetic / Revelation, Metaphysical, Historical Reflection",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-50",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/literatureofanci00budguoft/literatureofanci00budguoft.pdf, Westcar Papyrus tales PDF, E. A. Wallis Budge English translations of the Westcar wonder tales, published 1914)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -768,7 +768,7 @@
     "Literary Themes Tags": "-",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://upload.wikimedia.org/wikipedia/commons/7/7b/The_Rhind_Mathematical_Papyrus%2C_Volume_I.pdf, Rhind Mathematical Papyrus PDF, Arnold Buffum Chace free translation and commentary, Volume I published 1927)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -803,7 +803,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://books.google.com/books/about/The_Papyrus_Ebers.html?id=BV0PAQAAMAAJ, Ebers Papyrus English translation, Bendix Ebbell's English translation The Papyrus Ebers, published 1937; bibliographic/preview access, with no dependable open full-translation PDF located)"
   },
   {
     "Index": "27",
@@ -830,7 +830,7 @@
     "Literary Themes Tags": "Political, Prophetic / Revelation, Historical Reflection, Adventure / Heroic Journey, Didactic / Ethical",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-60",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/ancientrecordsof01brea_0/ancientrecordsof01brea_0.pdf, Kamose Stela translation PDF, J. H. Breasted English translation in Ancient Records of Egypt Volume I, published 1906)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -861,7 +861,7 @@
     "Literary Themes Tags": "Ritual / Devotional, Apocalyptic / Eschatological, Historical Reflection, Metaphysical, Adventure / Heroic Journey, Didactic / Ethical, Prophetic / Revelation, Existential, Cosmological, Epistemological / Hermeneutics",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/theegyptianheave01budgiala/theegyptianheave01budgiala.pdf, Book of Amduat PDF, E. A. Wallis Budge translation in The Egyptian Heaven and Hell Volume I, published 1905)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -894,9 +894,9 @@
     "Y-pos": "-",
     "Original text": "-",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://commons.wikimedia.org/wiki/File:Litany_of_Re_(shroud_of_Thutmose_III).png, Litany of Re on the shroud of Thutmose III, Public-domain reproduction from Piankoff's 1964 edition)",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://archive.org/details/litanyofre0004unse, Litany of Re translation, Alexandre Piankoff, The Litany of Re: Texts Translated with Commentary, published 1964; Internet Archive borrow/preview edition)"
   },
   {
     "Index": "30",
@@ -923,8 +923,8 @@
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Didactic / Ethical, Cosmological",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
-    "Article/post": "-",
+    "Original text": "(https://www.maat.sofiatopia.org/amun.htm, Leiden I 350 Hymns to Amun, Free English translation of selected hymns from Papyrus Leiden I 350 by Wim van den Dungen, web edition 2016)",
+    "Article/post": "(https://www.ull.es/revistas/index.php/trabajos-egiptologia/article/download/5087/3465, Papyrus Leiden I 350 study PDF, Scholarly discussion containing translated passages and publication history, published 2021)",
     "Image/museum": "-",
     "Video": "-",
     "Other": "-"
@@ -954,11 +954,11 @@
     "Literary Themes Tags": "Ritual / Devotional, Apocalyptic / Eschatological, Cosmological, Metaphysical, Prophetic / Revelation, Didactic / Ethical, Existential",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://upload.wikimedia.org/wikipedia/commons/2/26/Legends_of_the_Gods.pdf, Book of the Heavenly Cow PDF, E. A. Wallis Budge English translation of The Destruction of Mankind/Heavenly Cow material in Legends of the Gods, published 1912)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://archive.org/details/shrinesoftutankh0002unse, Book of the Heavenly Cow in Piankoff, Alexandre Piankoff translation in The Shrines of Tut-Ankh-Amon, published 1955; Internet Archive access)"
   },
   {
     "Index": "32",
@@ -985,7 +985,7 @@
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Cosmological, Political, Prophetic / Revelation, Didactic / Ethical",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://indi.ca/content/files/2024/12/Miriam-Lichtheim---Ancient-Egyptian-Literature_-Volume-II_-The-New-Kingdom-Near-Eastern-Center-UCLA-II-University-of-California-Press-1978.pdf, Great Hymn to the Aten PDF, Miriam Lichtheim English translation, first published 1976)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -1016,11 +1016,11 @@
     "Literary Themes Tags": "Ritual / Devotional, Apocalyptic / Eschatological, Cosmological, Metaphysical, Adventure / Heroic Journey, Didactic / Ethical, Prophetic / Revelation, Existential",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/egyptianheavenhe0002budg/egyptianheavenhe0002budg.pdf, Book of Gates PDF, E. A. Wallis Budge translation in The Egyptian Heaven and Hell Volume II, published 1905)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://archive.sacred-texts.com/egy/gate/index.htm, Book of Gates online, Searchable online version of Budge's public-domain English translation)"
   },
   {
     "Index": "34",
@@ -1047,7 +1047,7 @@
     "Literary Themes Tags": "Political, Didactic / Ethical, Ritual / Devotional, Historical Reflection, Prophetic / Revelation",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/ancientrecordsof02brea_0/ancientrecordsof02brea_0.pdf, Decree of Horemheb PDF, J. H. Breasted English translation in Ancient Records of Egypt Volume II, published 1906)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -1078,11 +1078,11 @@
     "Literary Themes Tags": "Adventure / Heroic Journey, Ritual / Devotional, Political, Prophetic / Revelation, Didactic / Ethical, Historical Reflection",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://indi.ca/content/files/2024/12/Miriam-Lichtheim---Ancient-Egyptian-Literature_-Volume-II_-The-New-Kingdom-Near-Eastern-Center-UCLA-II-University-of-California-Press-1978.pdf, Kadesh Battle Inscriptions PDF, Miriam Lichtheim English translation of the Kadesh inscriptions including the poetic account, first published 1976)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://archive.org/download/ancientrecordsof03brea_0/ancientrecordsof03brea_0.pdf, Battle of Kadesh in Ancient Records, J. H. Breasted public-domain English translation in Ancient Records of Egypt Volume III, published 1906)"
   },
   {
     "Index": "36",
@@ -1111,9 +1111,9 @@
     "Y-pos": "-",
     "Original text": "-",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://collezioni.museoegizio.it/en-GB/material/Cat_1874, Turin King List - Museo Egizio, Official Museo Egizio collection record and images for Papyrus Cat. 1874)",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://collezionepapiri.museoegizio.it/en-GB/section/Papyrus-Collection/What-s-on/The-Egyptologists-Corner/, Turin King List research guide, Official Museo Egizio history, restoration and research overview; a new full publication is in preparation for 2027)"
   },
   {
     "Index": "37",
@@ -1144,7 +1144,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://archive.org/details/tomboframessesvi0001unse, Book of the Earth translation source, Alexandre Piankoff, The Tomb of Ramesses VI, published 1954, with English translations of underworld compositions; borrow/preview rather than a clean open PDF)"
   },
   {
     "Index": "38",
@@ -1171,11 +1171,11 @@
     "Literary Themes Tags": "Political, Historical Reflection, Didactic / Ethical",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://indi.ca/content/files/2024/12/Miriam-Lichtheim---Ancient-Egyptian-Literature_-Volume-II_-The-New-Kingdom-Near-Eastern-Center-UCLA-II-University-of-California-Press-1978.pdf, Merneptah Israel Stela PDF, Miriam Lichtheim English translation of the Poetical Stela of Merneptah, first published 1976)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://archive.org/download/ancientrecordsof03brea_0/ancientrecordsof03brea_0.pdf, Merneptah Stela in Ancient Records, J. H. Breasted public-domain English translation in Ancient Records of Egypt Volume III, published 1906)"
   },
   {
     "Index": "39",
@@ -1202,7 +1202,7 @@
     "Literary Themes Tags": "Ritual / Devotional, Comic / Satirical, Adventure / Heroic Journey, Political, Didactic / Ethical, Absurd, Feminine, Cosmological",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://chesterbeatty.ie/assets/uploads/2018/11/The-Library-of-A.-Chestera-Beatty-Description-of-a-Hieratic-Papyrus-with-a-Mythological-Story-Love-Songs-and-Other-Miscellaneous-Texts.pdf, Contendings of Horus and Seth PDF, Alan H. Gardiner edition with English translation of Chester Beatty Papyrus I, published 1931)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -1233,11 +1233,11 @@
     "Literary Themes Tags": "Romantic / Erotic, Feminine, Introspective, Comic / Satirical",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://chesterbeatty.ie/assets/uploads/2018/11/The-Library-of-A.-Chestera-Beatty-Description-of-a-Hieratic-Papyrus-with-a-Mythological-Story-Love-Songs-and-Other-Miscellaneous-Texts.pdf, Chester Beatty Love Songs PDF, Alan H. Gardiner edition with English translations of the love songs in Chester Beatty Papyrus I, published 1931)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://indi.ca/content/files/2024/12/Miriam-Lichtheim---Ancient-Egyptian-Literature_-Volume-II_-The-New-Kingdom-Near-Eastern-Center-UCLA-II-University-of-California-Press-1978.pdf, New Kingdom Love Poems PDF, Miriam Lichtheim English translations of New Kingdom love poetry, first published 1976)"
   },
   {
     "Index": "41",
@@ -1264,11 +1264,11 @@
     "Literary Themes Tags": "Adventure / Heroic Journey, Romantic / Erotic, Tragic / Lamentation, Metaphysical, Didactic / Ethical, Feminine, Existential",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/literatureofanci00budguoft/literatureofanci00budguoft.pdf, Tale of the Two Brothers PDF, E. A. Wallis Budge English translation, published 1914)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://indi.ca/content/files/2024/12/Miriam-Lichtheim---Ancient-Egyptian-Literature_-Volume-II_-The-New-Kingdom-Near-Eastern-Center-UCLA-II-University-of-California-Press-1978.pdf, Two Brothers in Lichtheim PDF, Miriam Lichtheim scholarly English translation, first published 1976)"
   },
   {
     "Index": "42",
@@ -1299,7 +1299,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://archive.org/details/tomboframessesvi0001unse, Book of Caverns translation source, Alexandre Piankoff, The Tomb of Ramesses VI, published 1954, contains English translations of the cavern/underworld compositions; borrow/preview rather than a clean open PDF)"
   },
   {
     "Index": "43",
@@ -1326,11 +1326,11 @@
     "Literary Themes Tags": "Didactic / Ethical, Ritual / Devotional, Existential, Introspective, Epistemological / Hermeneutics",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/teachingofamenem0000eawa/teachingofamenem0000eawa.pdf, Instruction of Amenemope PDF, E. A. Wallis Budge English translation The Teaching of Amen-em-apt, Son of Kanekht, published 1924)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(http://www.maat.sofiatopia.org/amen_em_apt.htm, Instruction of Amenemope online, Free modern English translation and commentary)"
   },
   {
     "Index": "44",
@@ -1357,9 +1357,9 @@
     "Literary Themes Tags": "Political, Didactic / Ethical, Existential, Historical Reflection",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/ancientrecordsof04brea/ancientrecordsof04brea.pdf, Deir el-Medina Strike Papyrus PDF, J. H. Breasted English translation of Ramesside labor records in Ancient Records of Egypt Volume IV, published 1906)",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://collezionepapiri.museoegizio.it/en-GB/section/Papyrus-Collection/History-and-content/History/, Turin Strike Papyrus - Museo Egizio, Official Museo Egizio papyrus-collection overview identifying the Turin Strike Papyrus)",
     "Video": "-",
     "Other": "-"
   },
@@ -1388,9 +1388,9 @@
     "Literary Themes Tags": "Political, Didactic / Ethical, Tragic / Lamentation, Historical Reflection",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/ancientrecordsof04brea/ancientrecordsof04brea.pdf, Turin Judicial Papyrus PDF, J. H. Breasted English translation of the Harem Conspiracy judicial records in Ancient Records of Egypt Volume IV, published 1906)",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://collezionepapiri.museoegizio.it/en-GB/section/Papyrus-Collection/History-and-content/History/, Turin Judicial Papyrus - Museo Egizio, Official Museo Egizio papyrus-collection overview identifying the Harem Conspiracy/Judicial Papyrus)",
     "Video": "-",
     "Other": "-"
   },
@@ -1419,11 +1419,11 @@
     "Literary Themes Tags": "Ritual / Devotional, Cosmological, Didactic / Ethical, Prophetic / Revelation",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://books.google.com/books?id=AYdSAAAAcAAJ, Papyrus Sallier IV complete translation, François-Joseph Chabas complete French translation of the Calendar of Lucky and Unlucky Days, published 1870; no equally complete open English translation PDF was located)",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://www.britishmuseum.org/collection/object/Y_EA10184-1, Papyrus Sallier IV - British Museum, Official British Museum collection record and image for the calendar of lucky and unlucky days)",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://sacred-texts.com/egy/ema/ema09.htm, Lucky and Unlucky Days English excerpts, E. A. Wallis Budge English translations of passages from Papyrus Sallier IV in Egyptian Magic, 1901)"
   },
   {
     "Index": "47",
@@ -1450,7 +1450,7 @@
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Didactic / Ethical, Cosmological, Prophetic / Revelation, Epistemological / Hermeneutics",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://indi.ca/content/files/2024/12/Miriam-Lichtheim---Ancient-Egyptian-Literature_-Volume-II_-The-New-Kingdom-Near-Eastern-Center-UCLA-II-University-of-California-Press-1978.pdf, Prayer and Hymn to Thoth PDF, Miriam Lichtheim English translation of New Kingdom scribal prayers including the hymn/prayer to Thoth, first published 1976)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -1481,11 +1481,11 @@
     "Literary Themes Tags": "Political, Historical Reflection, Comic / Satirical, Tragic / Lamentation, Existential, Adventure / Heroic Journey, Didactic / Ethical",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/literatureofanci00budguoft/literatureofanci00budguoft.pdf, Story of Wenamun PDF, E. A. Wallis Budge English translation of the Journey of Unu-Amen/Wenamun, published 1914)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://indi.ca/content/files/2024/12/Miriam-Lichtheim---Ancient-Egyptian-Literature_-Volume-II_-The-New-Kingdom-Near-Eastern-Center-UCLA-II-University-of-California-Press-1978.pdf, Report of Wenamun PDF, Miriam Lichtheim scholarly English translation, first published 1976)"
   },
   {
     "Index": "49",
@@ -1512,7 +1512,7 @@
     "Literary Themes Tags": "Didactic / Ethical, Ritual / Devotional, Existential",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/literatureofanci00budguoft/literatureofanci00budguoft.pdf, Maxims of Ani PDF, E. A. Wallis Budge English translation of the Maxims of Ani, published 1914)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -1543,11 +1543,11 @@
     "Literary Themes Tags": "Ritual / Devotional, Apocalyptic / Eschatological, Metaphysical, Didactic / Ethical, Prophetic / Revelation, Cosmological",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/papyrusofanirepr02budg/papyrusofanirepr02budg.pdf, Book of the Dead - Papyrus of Ani PDF, E. A. Wallis Budge complete transcript and English translation, Volume II of the 1913 edition)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://en.wikisource.org/wiki/The_Papyrus_of_Ani_(1913), Papyrus of Ani online, Searchable Wikisource edition of Budge's 1913 translation)"
   },
   {
     "Index": "51",
@@ -1574,9 +1574,9 @@
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Political, Didactic / Ethical, Cosmological, Epistemological / Hermeneutics",
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/ancientegyptianl00lich_210/ancientegyptianl00lich_210.pdf, Shabaka Stone / Memphite Theology PDF, Miriam Lichtheim English translation, first published 1973)",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://www.britishmuseum.org/collection/object/Y_EA498, Shabaka Stone - British Museum, Official British Museum record and images for EA498, dated about 710 BCE)",
     "Video": "-",
     "Other": "-"
   },
@@ -1606,10 +1606,10 @@
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
     "Original text": "-",
-    "Article/post": "-",
+    "Article/post": "(https://www.ifao.egnet.net/bases/cachette/ck11?ident=11, Psamtik I at Karnak bibliography, IFAO Karnak Cachette research record pointing to translations and studies of Saite-period Karnak material)",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://archive.org/download/ancientrecordsof04brea/ancientrecordsof04brea.pdf, Psamtik I records PDF, J. H. Breasted Ancient Records of Egypt Volume IV, published 1906, contains Twenty-Sixth Dynasty material; retained as a broad source because a clean open English PDF of this exact Karnak foundation text was not confidently isolated)"
   },
   {
     "Index": "53",
@@ -1637,9 +1637,9 @@
     "Symbolic System Tags": "Egyptian",
     "Y-pos": "-",
     "Original text": "-",
-    "Article/post": "-",
+    "Article/post": "(https://escholarship.org/content/qt0cc615kx/qt0cc615kx_noSplash_e919e699dea79c907a29092f4b4429b7.pdf, Late Period land donations PDF, Modern scholarly overview of Egyptian land-donation texts with bibliography for Necho II donation stelae)",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://archive.org/download/ancientrecordsof04brea/ancientrecordsof04brea.pdf, Necho II records PDF, J. H. Breasted Ancient Records of Egypt Volume IV, published 1906, provides Twenty-Sixth Dynasty records; the exact Kusae decree was not confidently isolated in an open English translation)"
   }
 ]

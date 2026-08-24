@@ -15,7 +15,7 @@
     "Latitude": "36.8528",
     "Longitude": "10.3233",
     "Original Language": "Punic (lost), Greek",
-    "Name.1": "Hanno’s Periplus",
+    "Name 2": "Hanno’s Periplus",
     "Civlizational code?": "NO",
     "Author": "Hanno",
     "Comtean framework": "Positive / Empirical",
@@ -26,11 +26,11 @@
     "Literary Themes Tags": "Adventure / Heroic Journey, Historical Reflection",
     "Symbolic System Tags": "Canaanite",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/cu31924031441847/cu31924031441847.pdf, Hanno Periplus PDF, Schoff Greek text with English translation and commentary)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://en.wikisource.org/wiki/The_Periplus_of_Hanno, Hanno Periplus online, Complete Schoff Greek text and English translation)"
   },
   {
     "index": "2",
@@ -48,7 +48,7 @@
     "Latitude": "34.9182",
     "Longitude": "33.629",
     "Original Language": "Phoenician, Greek",
-    "Name.1": "Kition Inscriptions",
+    "Name 2": "Kition Inscriptions",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Theological/Mythological",
@@ -59,9 +59,9 @@
     "Literary Themes Tags": "Ritual / Devotional, Political, Historical Reflection",
     "Symbolic System Tags": "Canaanite",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/textbookofnorths00cook/textbookofnorths00cook.pdf, Kition inscriptions PDF, Cooke corpus with Phoenician texts English translations and commentary)",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://www.britishmuseum.org/collection/object/W_1880-0710-44, Kition Temple of Astarte accounts, British Museum original Phoenician temple account plaque from Kition)",
     "Video": "-",
     "Other": "-"
   },
@@ -81,7 +81,7 @@
     "Latitude": "36.8528",
     "Longitude": "10.3233",
     "Original Language": "Punic",
-    "Name.1": "Tophet Inscriptions",
+    "Name 2": "Tophet Inscriptions",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Theological/Mythological",
@@ -92,9 +92,9 @@
     "Literary Themes Tags": "Ritual / Devotional, Didactic / Ethical, Prophetic / Revelation, Cosmological",
     "Symbolic System Tags": "Canaanite",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://www.columbia.edu/cu/lweb/digital/collections/cul/texts/ldpd_10273450_000/ldpd_10273450_000.pdf, Carthage inscriptions PDF, British Museum corpus of ninety Carthaginian inscriptions with facsimiles and Latin translations)",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://collections.louvre.fr/en/ark%3A/53355/cl010152447, Carthage votive stela, Louvre Punic stela with inscription and translation dedicated to Tanit and Baal Hammon)",
     "Video": "-",
     "Other": "-"
   },
@@ -114,7 +114,7 @@
     "Latitude": "36.8528",
     "Longitude": "10.3233",
     "Original Language": "Punic",
-    "Name.1": "Punic Curse Tablets",
+    "Name 2": "Punic Curse Tablets",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Theological/Mythological",
@@ -126,7 +126,7 @@
     "Symbolic System Tags": "Canaanite",
     "Y-pos": "-",
     "Original text": "-",
-    "Article/post": "-",
+    "Article/post": "(https://www.journals.uchicago.edu/doi/10.1086/491573, KAI 89 curse study, University of Chicago study with text translation and analysis of the Carthage curse tablet)",
     "Image/museum": "-",
     "Video": "-",
     "Other": "-"
@@ -147,7 +147,7 @@
     "Latitude": "36.8528",
     "Longitude": "10.3233",
     "Original Language": "Punic",
-    "Name.1": "Carthaginian Agricultural Treatise",
+    "Name 2": "Carthaginian Agricultural Treatise",
     "Civlizational code?": "NO",
     "Author": "Mago",
     "Comtean framework": "Positive / Empirical",
@@ -162,7 +162,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Columella/de_Re_Rustica/3%2A.html, Mago fragments in Columella, English translation preserving agricultural instructions explicitly attributed to Mago)"
   },
   {
     "index": "6",
@@ -180,7 +180,7 @@
     "Latitude": "36.8528",
     "Longitude": "10.3233",
     "Original Language": "Punic",
-    "Name.1": "Marseille Tariff",
+    "Name 2": "Marseille Tariff",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Positive / Empirical",
@@ -191,11 +191,11 @@
     "Literary Themes Tags": "Ritual / Devotional, Political",
     "Symbolic System Tags": "Canaanite",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/textbookofnorths00cook/textbookofnorths00cook.pdf, Marseille Tariff PDF, Cooke Phoenician text and English translation of the Marseille sacrificial tariff)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.attalus.org/docs/other/inscr_254.html, Marseille Tariff online, Modern English translation of the Phoenician sacrificial tariff)"
   },
   {
     "index": "7",
@@ -213,7 +213,7 @@
     "Latitude": "35.8989",
     "Longitude": "14.5146",
     "Original Language": "Phoenician, Greek",
-    "Name.1": "Cippi of Melqart",
+    "Name 2": "Cippi of Melqart",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Theological/Mythological",
@@ -224,10 +224,10 @@
     "Literary Themes Tags": "Ritual / Devotional, Metaphysical, Didactic / Ethical, Political",
     "Symbolic System Tags": "Canaanite, Hellenistic",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/textbookofnorths00cook/textbookofnorths00cook.pdf, Melqart Cippus PDF, Cooke Phoenician text and English translation of the Malta bilingual cippus)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://collections.louvre.fr/ark:/53355/cl010165603, Melqart Cippus at the Louvre, Official Louvre page with bilingual inscription translations and object images)"
   }
 ]

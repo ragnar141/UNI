@@ -154,12 +154,20 @@ const SEGMENT_STRUCTURE_BOUNDARY_HOVER_WIDTH = 1.5;
  * below-axis ticks are reprogrammed in place, and the ordinary adaptive
  * chronology returns on mouse-leave.
  */
-const CONTEXTUAL_CHRONOLOGY_MIN_ZOOM = 6;
+const CONTEXTUAL_CHRONOLOGY_MIN_ZOOM = 5;
 const CONTEXTUAL_CHRONOLOGY_GUIDE_OPACITY = 0.38;
 const CONTEXTUAL_CHRONOLOGY_GUIDE_WIDTH = 1;
 const CONTEXTUAL_CHRONOLOGY_GUIDE_DASH = "6 6";
 const CONTEXTUAL_CHRONOLOGY_TICK_LENGTH = 5;
 const CONTEXTUAL_CHRONOLOGY_LABEL_MIN_GAP_PX = 48;
+
+/*
+ * Native browsers may emit a click immediately after a completed pan. Keep
+ * that release-click from being mistaken for the Segment inspector's ordinary
+ * "click elsewhere to close" gesture. This is a short post-drag guard only;
+ * later genuine clicks keep the existing one-shot close behavior.
+ */
+const SEGMENT_DRAG_RELEASE_CLICK_GUARD_MS = 320;
 
 /* ===== Render + hover constants ===== */
 const BASE_OPACITY = 1;
@@ -3348,8 +3356,23 @@ export default function Timeline() {
   
   const zoomDraggingRef = useRef(false);
 
+  /*
+   * Once a real pan begins, freeze the deep historical focus to the track that
+   * owned the pointer at drag start. apply() uses this ref on every pan frame,
+   * so no other track's period labels/borders can flash into view mid-gesture.
+   */
+  const dragDeepStructureFocusSourceIdRef = useRef(null);
+
+  /* Timestamp of the most recent completed real pan. */
+  const lastTimelineDragEndAtRef = useRef(Number.NEGATIVE_INFINITY);
+
   const relevantTextIdsRef = useRef(new Set());
   const relevantFatherIdsRef = useRef(new Set());
+
+  // Historical periods occupied by the selected object + its direct neighbors.
+  // This is recomputed only when the selected neighborhood changes, never on
+  // drag/zoom frames.
+  const selectedRelevantSegmentIdsRef = useRef(new Set());
 
   /*
    * Map View positions, stored in the chart group's local SVG coordinates.
@@ -3433,6 +3456,12 @@ function logRenderedCounts(reason = "") {
 
   // NEW: single source of truth for hovered segment
   const hoveredSegIdRef = useRef(null);
+
+  // Selected mode distinguishes direct interaction with the period UI from
+  // object-derived period preview. Only direct segment UI hover should brighten
+  // labels/borders.
+  const hoveredSegSourceRef = useRef(null); // "segment-ui" | "object" | null
+
   const clearActiveSegmentRef = useRef(() => {});
   const clearActiveDurationRef = useRef(() => {});
 
@@ -3471,7 +3500,7 @@ function logRenderedCounts(reason = "") {
   
 
   const [visibleIds, setVisibleIds] = useState(() => new Set());
-  const [layerMode, setLayerMode] = useState("noborders");
+  const [layerMode, setLayerMode] = useState("none");
   const [isReady, setIsReady] = useState(false);
 
   
@@ -3601,6 +3630,7 @@ const [size, setSize] = useState({ width: 0, height: 0 });
   function getDeepHistoricalStructureFocusSourceId() {
     const sourceDurationId =
       activeSegmentStructureFocusSourceIdRef.current ||
+      dragDeepStructureFocusSourceIdRef.current ||
       hoveredChronologyDurationIdRef.current;
     const k = kRef.current ?? 1;
     const mode = layerModeRef.current;
@@ -3620,6 +3650,22 @@ const [size, setSize] = useState({ width: 0, height: 0 });
   function getDeepHistoricalStructureFocusTrackId() {
     const sourceDurationId = getDeepHistoricalStructureFocusSourceId();
     return sourceDurationId ? durationTrackForId(sourceDurationId) : null;
+  }
+
+  /*
+   * Selected mode exposes only the periods occupied by the selected one-hop
+   * neighborhood. It is intentionally independent of the ordinary deep
+   * hover-focus system: several tracks/periods may be visible at once.
+   */
+  function isSelectedNeighborhoodSegmentStructureMode(
+    mode = layerModeRef.current
+  ) {
+    return (
+      !!(selectedText || selectedFather) &&
+      !showMapRef.current &&
+      (mode === "none" || mode === "segments") &&
+      selectedRelevantSegmentIdsRef.current.size > 0
+    );
   }
 
   function selectedNeighborhoodOpacity(type, id, row = null) {
@@ -5985,8 +6031,12 @@ function renderConnections(zx, zy, k) {
   // Current selection / hover state
   const selText       = selectedText;
   const selFather     = selectedFather;
-  // Selection mode renders only connections touching the selected node.
-  // The TagPanel Connections checkbox remains the global visibility gate.
+  // Connection visibility policy:
+  // - selection always renders only the selected node's direct connections;
+  // - with the checkbox ON, render the normal ambient connection field;
+  // - with the checkbox OFF, hover still renders only the hovered node's
+  //   direct connections;
+  // - otherwise keep the connection layer completely empty.
   const hasSelection = !!(selText || selFather);
   const connectionsVisible = showConnectionsRef.current;
   const hoveredTextId   = hasSelection ? null : hoveredTextIdRef.current;
@@ -6044,26 +6094,42 @@ const endpointPosition = (type, id) => {
   return bucket.get(id) || null;
 };
 
-let data = !connectionsVisible
-  ? []
-  : hasSelection
-    ? allData.filter((d) => (
-        (selText && (
-          (d.aType === "text" && d.aId === selText.id) ||
-          (d.bType === "text" && d.bId === selText.id)
-        )) ||
-        (selFather && (
-          (d.aType === "father" && d.aId === selFather.id) ||
-          (d.bType === "father" && d.bId === selFather.id)
-        ))
-      ))
-    : allData;
+const touchesNode = (d, type, id) =>
+  !!type &&
+  !!id &&
+  (
+    (d.aType === type && d.aId === id) ||
+    (d.bType === type && d.bId === id)
+  );
+
+const selectedConnectionData = hasSelection
+  ? allData.filter((d) => touchesNode(d, selectedType, selectedId))
+  : null;
+
+const hoveredType = hoveredTextId
+  ? "text"
+  : hoveredFatherId
+    ? "father"
+    : null;
+
+const hoveredId =
+  hoveredTextId ??
+  hoveredFatherId ??
+  null;
+
+let data = hasSelection
+  ? selectedConnectionData
+  : connectionsVisible
+    ? allData
+    : hoveredType && hoveredId
+      ? allData.filter((d) => touchesNode(d, hoveredType, hoveredId))
+      : [];
 
 /*
- * Deep Borders Only track focus no longer filters the connection dataset.
- * Connections remain a global contextual layer controlled solely by the
- * Connections checkbox (and by the established selected-object rules).
- * The focused track owns only period structure + synchronized chronology.
+ * Deep Borders Only track focus does not filter the connection dataset.
+ * Connection visibility follows the policy above: ambient when enabled,
+ * contextual on hover/selection when disabled. The focused track owns only
+ * period structure + synchronized chronology.
  */
 
 if (mapModeActive) {
@@ -6551,6 +6617,40 @@ useEffect(() => {
   y0,
 ]);
 
+function computeSelectedRelevantSegmentIds(relTexts, relFathers) {
+  const segmentIds = new Set();
+
+  const addRowSegment = (row) => {
+    if (!row || !row.durationId || !Number.isFinite(Number(row.when))) return;
+
+    const sourceSegments = segmentsBySourceDurationId.get(row.durationId);
+    if (!sourceSegments?.length) return;
+
+    const when = Number(row.when);
+
+    // A period boundary can technically contain the same exact year on both
+    // sides. Prefer the first matching dataset period, matching the established
+    // source ordering, and expose only one contextual label per object.
+    const seg = sourceSegments.find((candidate) => {
+      const start = Math.min(Number(candidate.start), Number(candidate.end));
+      const end = Math.max(Number(candidate.start), Number(candidate.end));
+      return Number.isFinite(start) && Number.isFinite(end) && when >= start && when <= end;
+    });
+
+    if (seg?.id) segmentIds.add(seg.id);
+  };
+
+  for (const row of textRows || []) {
+    if (relTexts.has(row.id)) addRowSegment(row);
+  }
+
+  for (const row of fatherRows || []) {
+    if (relFathers.has(row.id)) addRowSegment(row);
+  }
+
+  return segmentIds;
+}
+
 function computeRelevantIdSets() {
   const relTexts = new Set();
   const relFathers = new Set();
@@ -6593,12 +6693,24 @@ useEffect(() => {
   const { relTexts, relFathers } = computeRelevantIdSets();
   relevantTextIdsRef.current = relTexts;
   relevantFatherIdsRef.current = relFathers;
+  selectedRelevantSegmentIdsRef.current = computeSelectedRelevantSegmentIds(
+    relTexts,
+    relFathers
+  );
 
   // Apply dimming immediately (apply() only runs on zoom/pan otherwise)
   if (!textsRef.current || !fathersRef.current) return;
 
   syncSelectedNeighborhoodFocus();
-}, [selectedText, selectedFather, visTextRows, visFatherRows]);
+}, [
+  selectedText,
+  selectedFather,
+  visTextRows,
+  visFatherRows,
+  textRows,
+  fatherRows,
+  segmentsBySourceDurationId,
+]);
 
 
 
@@ -6753,6 +6865,7 @@ function clearActiveSegment() {
   activeSegmentStructureFocusSourceIdRef.current = null;
   activeSegIdRef.current = null;
   hoveredSegIdRef.current = null;
+  hoveredSegSourceRef.current = null;
   hoveredSegParentIdRef.current = null;
   awaitingCloseClickSegRef.current = false;
   hideTipSel(tipSeg);
@@ -8436,6 +8549,8 @@ const setHoveredSegmentId = () => {};
 function updateSegmentPreview() {
   const activeId  = activeSegIdRef.current;
   const hoveredId = hoveredSegIdRef.current;
+  const hoveredBySegmentUI =
+    !!hoveredId && hoveredSegSourceRef.current === "segment-ui";
 
   const activeDurationId = activeDurationIdRef.current;
   const hoveredDurationId = activeDurationId
@@ -8458,6 +8573,15 @@ function updateSegmentPreview() {
   const inDeepHistoricalStructureMode =
     !hasSelection &&
     isDeepHistoricalStructureMode(layerModeRef.current, k);
+
+  // Selected chronological mode reuses the existing segment rectangles as a
+  // lightweight frame/fill layer for only the cached one-hop neighborhood.
+  // This gives relevant periods complete top/bottom/side edges without adding
+  // another SVG geometry pass.
+  const inSelectedNeighborhoodStructureMode =
+    isSelectedNeighborhoodSegmentStructureMode(layerModeRef.current);
+  const selectedNeighborhoodSegmentIds =
+    selectedRelevantSegmentIdsRef.current;
 
   const inStructureOnlyMode = inDeepHistoricalStructureMode;
 
@@ -8486,7 +8610,9 @@ function updateSegmentPreview() {
     .selectAll("rect.segmentHit")
     .style("fill", (d) => {
       if (
-        inDeepHistoricalStructureMode &&
+        (inDeepHistoricalStructureMode ||
+          (inSelectedNeighborhoodStructureMode &&
+            selectedNeighborhoodSegmentIds.has(d.id))) &&
         activeId &&
         d.id === activeId
       ) {
@@ -8496,6 +8622,13 @@ function updateSegmentPreview() {
       return null;
     })
     .style("fill-opacity", (d) => {
+      if (inSelectedNeighborhoodStructureMode) {
+        const relevant = selectedNeighborhoodSegmentIds.has(d.id);
+        return relevant && activeId && d.id === activeId
+          ? DEEP_STRUCTURE_ACTIVE_SEGMENT_FILL_OPACITY
+          : 0;
+      }
+
       if (inDeepHistoricalStructureMode) {
         return activeId && d.id === activeId
           ? DEEP_STRUCTURE_ACTIVE_SEGMENT_FILL_OPACITY
@@ -8522,6 +8655,12 @@ function updateSegmentPreview() {
     })
     .style("stroke", (d) => {
       if (
+        inSelectedNeighborhoodStructureMode &&
+        selectedNeighborhoodSegmentIds.has(d.id)
+      ) {
+        return d.parentColor || "#64748b";
+      }
+      if (
         inDeepHistoricalStructureMode &&
         activeId &&
         d.id === activeId
@@ -8532,6 +8671,19 @@ function updateSegmentPreview() {
       return null;
     })
     .style("stroke-opacity", (d) => {
+      if (inSelectedNeighborhoodStructureMode) {
+        if (!selectedNeighborhoodSegmentIds.has(d.id)) return 0;
+        if (activeId && d.id === activeId) {
+          return DEEP_STRUCTURE_ACTIVE_SEGMENT_STROKE_OPACITY;
+        }
+        if (hoveredBySegmentUI && d.id === hoveredId) {
+          return SEGMENT_STRUCTURE_BOUNDARY_HOVER_OPACITY;
+        }
+
+        // Object-derived period preview stays visually neutral.
+        return SEGMENT_STRUCTURE_BOUNDARY_OPACITY;
+      }
+
       if (inDeepHistoricalStructureMode) {
         return activeId && d.id === activeId
           ? DEEP_STRUCTURE_ACTIVE_SEGMENT_STROKE_OPACITY
@@ -8556,6 +8708,20 @@ function updateSegmentPreview() {
       return null;
     })
     .style("stroke-width", (d) => {
+      if (inSelectedNeighborhoodStructureMode) {
+        if (!selectedNeighborhoodSegmentIds.has(d.id)) return null;
+        if (activeId && d.id === activeId) {
+          return `${DEEP_STRUCTURE_ACTIVE_SEGMENT_STROKE_WIDTH}px`;
+        }
+        if (hoveredBySegmentUI && d.id === hoveredId) {
+          return `${SEGMENT_STRUCTURE_BOUNDARY_HOVER_WIDTH}px`;
+        }
+
+        // Do not thicken a relevant period merely because the pointer is over
+        // a connected object sitting inside it.
+        return `${SEGMENT_STRUCTURE_BOUNDARY_WIDTH}px`;
+      }
+
       if (inDeepHistoricalStructureMode) {
         return activeId && d.id === activeId
           ? `${DEEP_STRUCTURE_ACTIVE_SEGMENT_STROKE_WIDTH}px`
@@ -8572,18 +8738,60 @@ function updateSegmentStructureVisuals() {
   const root = d3.select(segmentsRef.current);
   const activeId = activeSegIdRef.current;
   const hoveredId = activeId ? null : hoveredSegIdRef.current;
-  const isFocused = (d) => d.id === activeId || d.id === hoveredId;
+  const hoveredBySegmentUI =
+    !!hoveredId && hoveredSegSourceRef.current === "segment-ui";
+  const selectedNeighborhoodStructureMode =
+    isSelectedNeighborhoodSegmentStructureMode();
+
+  // Direct segment-label hover keeps the established reaction in selected
+  // mode; object-derived period preview does not promote the segment.
+  const isFocused = (d) =>
+    d.id === activeId ||
+    (
+      d.id === hoveredId &&
+      (!selectedNeighborhoodStructureMode || hoveredBySegmentUI)
+    );
+  const selectedRelevantSegmentIds = selectedRelevantSegmentIdsRef.current;
   const deepHistoricalStructureMode = isDeepHistoricalStructureMode();
   const deepStructureFocusTrackId = deepHistoricalStructureMode
     ? getDeepHistoricalStructureFocusTrackId()
     : null;
+
+  if (selectedNeighborhoodStructureMode) {
+    root.selectAll("line.segmentStructureBoundary")
+      .style("display", (d) =>
+        d?.segmentIds?.some((id) => selectedRelevantSegmentIds.has(id))
+          ? null
+          : "none"
+      );
+
+    root.selectAll("g.segmentStructureLabel")
+      .style("display", function (d) {
+        const fits = this.getAttribute("data-structure-fits") === "1";
+        return selectedRelevantSegmentIds.has(d?.id) &&
+          d?.structureLane === "top" &&
+          fits
+            ? null
+            : "none";
+      });
+
+    root.selectAll("rect.segmentStructureHit")
+      .style("pointer-events", function (d) {
+        const fits = this.parentNode?.getAttribute("data-structure-fits") === "1";
+        return selectedRelevantSegmentIds.has(d?.id) &&
+          d?.structureLane === "top" &&
+          fits
+            ? "all"
+            : "none";
+      });
+  }
 
   /*
    * At the shared deep threshold, BOTH information-bearing modes are quiet at
    * rest and reveal period structure only for the horizontal track currently
    * owning chronology focus. This is the canonical deep implementation.
    */
-  if (deepHistoricalStructureMode) {
+  else if (deepHistoricalStructureMode) {
     root.selectAll("line.segmentStructureBoundary")
       .style("display", (d) =>
         deepStructureFocusTrackId &&
@@ -8652,12 +8860,16 @@ function updateSegmentStructureVisuals() {
   root.selectAll("text.segmentStructurePeriodText")
     .style("font-weight", (d) => isFocused(d) ? 750 : 600)
     .style("text-decoration", (d) =>
-      deepHistoricalStructureMode && activeId && d.id === activeId
+      (deepHistoricalStructureMode || selectedNeighborhoodStructureMode) &&
+      activeId &&
+      d.id === activeId
         ? "underline"
         : null
     )
     .style("text-underline-offset", (d) =>
-      deepHistoricalStructureMode && activeId && d.id === activeId
+      (deepHistoricalStructureMode || selectedNeighborhoodStructureMode) &&
+      activeId &&
+      d.id === activeId
         ? "2px"
         : null
     );
@@ -8670,7 +8882,11 @@ function updateSegmentStructureVisuals() {
     .attr("stroke-opacity", (d) => {
       const focused =
         (activeId && d.segmentIds?.includes(activeId)) ||
-        (hoveredId && d.segmentIds?.includes(hoveredId));
+        (
+          hoveredId &&
+          (!selectedNeighborhoodStructureMode || hoveredBySegmentUI) &&
+          d.segmentIds?.includes(hoveredId)
+        );
       return focused
         ? SEGMENT_STRUCTURE_BOUNDARY_HOVER_OPACITY
         : SEGMENT_STRUCTURE_BOUNDARY_OPACITY;
@@ -8678,7 +8894,11 @@ function updateSegmentStructureVisuals() {
     .attr("stroke-width", (d) => {
       const focused =
         (activeId && d.segmentIds?.includes(activeId)) ||
-        (hoveredId && d.segmentIds?.includes(hoveredId));
+        (
+          hoveredId &&
+          (!selectedNeighborhoodStructureMode || hoveredBySegmentUI) &&
+          d.segmentIds?.includes(hoveredId)
+        );
       return focused
         ? SEGMENT_STRUCTURE_BOUNDARY_HOVER_WIDTH
         : SEGMENT_STRUCTURE_BOUNDARY_WIDTH;
@@ -8905,7 +9125,27 @@ function onAnyClickClose(ev) {
 
   // --- Segment box one-shot close ---
   if (activeSegIdRef.current && awaitingCloseClickSegRef.current) {
-    // Always clear the segment box
+    const now =
+      typeof performance !== "undefined" && typeof performance.now === "function"
+        ? performance.now()
+        : Date.now();
+    const justFinishedTimelineDrag =
+      zoomDraggingRef.current ||
+      now - lastTimelineDragEndAtRef.current <= SEGMENT_DRAG_RELEASE_CLICK_GUARD_MS;
+
+    /*
+     * A completed pan is navigation, not an outside-click dismissal. Preserve
+     * both the Segment inspector and its one-shot close arm; the next genuine
+     * click elsewhere still closes it exactly as before. Swallow the release
+     * click so it cannot accidentally activate a marker/label under the pointer.
+     */
+    if (justFinishedTimelineDrag) {
+      ev.preventDefault?.();
+      ev.stopPropagation();
+      return;
+    }
+
+    // Ordinary later click: keep the existing one-shot close behavior.
     clearActiveSegment();
     awaitingCloseClickSegRef.current = false;
 
@@ -8955,6 +9195,7 @@ window.addEventListener("click", onAnyClickClose, { capture: true });
   refreshDeepHistoricalStructureFocus();
   activeSegIdRef.current = seg.id;
   hoveredSegIdRef.current = null;
+  hoveredSegSourceRef.current = null;
   hoveredSegParentIdRef.current = seg.parentId;
   updateSegmentPreview();
   if (showCard) {
@@ -9158,6 +9399,7 @@ if (
 
       if (hoveredSegIdRef.current !== newId) {
         hoveredSegIdRef.current = newId;
+        hoveredSegSourceRef.current = newId ? "segment-ui" : null;
         hoveredSegParentIdRef.current = newParentId;
         updateSegmentPreview();
         updateHoverVisuals();
@@ -9235,13 +9477,20 @@ function syncContextPanelFromPointer(se) {
   }
 
   /*
-   * Level 1: k < 2  -> SearchBar renders Context: Global from null context.
-   * Level 2: 2–6    -> macro-region follows the centered historical track.
-   * Levels 3/4: 6+  -> exact region/regime comes from the source duration.
+   * Level 1: k < 2 -> no specific regional context.
+   * Level 2: 2–threshold -> macro-region follows the centered historical track.
+   * Levels 3/4: threshold+ -> exact region/regime comes from the source duration.
    */
   if (k < CONTEXTUAL_CHRONOLOGY_MIN_ZOOM) {
     if (k < ZOOM_SEGMENT_THRESHOLD) clearTimelineContext();
     else publishViewportMacroContext();
+    return;
+  }
+
+  // During a real pan, keep Context synchronized with the same frozen track
+  // whose period structure remains visible until the gesture ends.
+  if (dragDeepStructureFocusSourceIdRef.current) {
+    publishTimelineContextSource(dragDeepStructureFocusSourceIdRef.current);
     return;
   }
 
@@ -10001,6 +10250,7 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
     const seg = findSegForText(d);
     if (seg) {
       hoveredSegIdRef.current = seg.id;
+      hoveredSegSourceRef.current = "object";
       hoveredSegParentIdRef.current = seg.parentId;
       updateSegmentPreview();
       updateHoverVisuals();
@@ -10069,6 +10319,7 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
         const seg = findSegForText(d);
         if (seg && hoveredSegIdRef.current === seg.id) {
           hoveredSegIdRef.current = null;
+          hoveredSegSourceRef.current = null;
           hoveredSegParentIdRef.current = null;
           updateSegmentPreview();
           updateHoverVisuals();
@@ -11477,7 +11728,21 @@ labelSel.each(function (d) {
   // only the period name, truncates as needed, and keeps the full usable segment
   // width as its invisible hit strip. Below the shared threshold this branch is
   // inactive and Civilizations & Periods keeps its filled-period presentation.
-  if (isDeepHistoricalStructureMode()) {
+  const selectedNeighborhoodStructureModeForFrame =
+    isSelectedNeighborhoodSegmentStructureMode();
+  const deepHistoricalStructureModeForFrame = isDeepHistoricalStructureMode();
+
+  if (deepHistoricalStructureModeForFrame || selectedNeighborhoodStructureModeForFrame) {
+    /*
+     * IMPORTANT: apply() runs on every drag/zoom frame. Free mode preserves the
+     * focused-track visibility contract; selected mode instead exposes only the
+     * cached one-hop neighborhood periods across whichever tracks they occupy.
+     */
+    const dragFrameStructureFocusTrackId = deepHistoricalStructureModeForFrame
+      ? getDeepHistoricalStructureFocusTrackId()
+      : null;
+    const selectedSegmentIdsForFrame = selectedRelevantSegmentIdsRef.current;
+
     const measureStructureLabel = (selection, value) => {
       const textValue = String(value || "");
       const cache = segmentStructureTextWidthCacheRef.current;
@@ -11611,9 +11876,20 @@ labelSel.each(function (d) {
       const fitted = fitPeriodLabel(periodText, d.label, textMaxWidth);
       const renderedLabel = fitted.text;
       const fits = !!renderedLabel && hitWidth > 0;
+      const belongsToFocusedTrack =
+        !!dragFrameStructureFocusTrackId &&
+        d?.trackId === dragFrameStructureFocusTrackId;
+      const belongsToSelectedNeighborhood =
+        selectedNeighborhoodStructureModeForFrame &&
+        selectedSegmentIdsForFrame.has(d?.id);
+      const visibleInStructure =
+        fits &&
+        (selectedNeighborhoodStructureModeForFrame
+          ? belongsToSelectedNeighborhood
+          : belongsToFocusedTrack);
 
       g.attr("data-structure-fits", fits ? "1" : "0")
-        .style("display", fits ? null : "none");
+        .style("display", visibleInStructure ? null : "none");
 
       // Shared deep structure no longer repeats the duration/composite name in every
       // segment annotation. These elements remain in the DOM solely so the
@@ -11893,15 +12169,45 @@ labelSel.each(function (d) {
     }
   }
 
+  const dragFrameSelectedNeighborhoodStructureMode =
+    isSelectedNeighborhoodSegmentStructureMode();
+  const dragFrameDeepStructureMode = isDeepHistoricalStructureMode();
+  const dragFrameStructureFocusTrackId = dragFrameDeepStructureMode
+    ? getDeepHistoricalStructureFocusTrackId()
+    : null;
+  const dragFrameSelectedSegmentIds = selectedRelevantSegmentIdsRef.current;
+
   gSeg.selectAll("line.segmentStructureBoundary").each(function (d) {
     const xBoundary = zx(toAstronomical(d.when));
     const yA = zy(d.y);
     const yB = zy(d.y + d.h);
-    d3.select(this)
+    const boundary = d3.select(this)
       .attr("x1", xBoundary)
       .attr("x2", xBoundary)
       .attr("y1", Math.min(yA, yB))
       .attr("y2", Math.max(yA, yB));
+
+    /*
+     * Keep the focused-track gate inside the per-frame geometry pass. This
+     * prevents a pan frame from exposing every track before the later hover
+     * styling pass has a chance to run.
+     */
+    if (dragFrameSelectedNeighborhoodStructureMode) {
+      boundary.style(
+        "display",
+        d?.segmentIds?.some((id) => dragFrameSelectedSegmentIds.has(id))
+          ? null
+          : "none"
+      );
+    } else if (dragFrameDeepStructureMode) {
+      boundary.style(
+        "display",
+        dragFrameStructureFocusTrackId &&
+          d?.trackId === dragFrameStructureFocusTrackId
+          ? null
+          : "none"
+      );
+    }
   });
 
   // Draw/update custom group polygons (rectilinear envelope, no diagonals)
@@ -13662,9 +13968,16 @@ if (hasSelection) {
    * hover-gated: at rest it is quiet; a focused track reveals its boundaries
    * and top labels.
    */
-  const showSegmentStructure =
+  const showDeepSegmentStructure =
     !hasSelection &&
     isDeepHistoricalStructureMode(layerMode, k);
+
+  const showSelectedNeighborhoodSegmentStructure =
+    hasSelection &&
+    isSelectedNeighborhoodSegmentStructureMode(layerMode);
+
+  const showSegmentStructure =
+    showDeepSegmentStructure || showSelectedNeighborhoodSegmentStructure;
 
   // Civilization metadata remains reachable through the padded civilization
   // label in both information-bearing modes, including deep zoom.
@@ -13725,9 +14038,12 @@ if (hasSelection) {
   if (!showDurationsLayer && !showDurationLabelInteraction) clearActiveDuration();
   if (!showSegmentsLayer && !showSegmentStructure) clearActiveSegment();
 
-  // === Selection override: once a text/father is selected,
-  //     durations/segments become inert; texts/fathers stay clickable
+  // === Selection override: the ordinary duration/segment surfaces stay inert,
+  //     but the selected one-hop neighborhood may expose its own compact set
+  //     of clickable historical-period labels.
   if (hasSelection) {
+    const selectedSegmentIds = selectedRelevantSegmentIdsRef.current;
+
     gOut.selectAll("rect.outlineRect")
       .style("pointer-events", "none");
     gOut.selectAll("rect.durationLabelHit")
@@ -13735,7 +14051,15 @@ if (hasSelection) {
     gSeg.selectAll("rect.segmentHit")
       .style("pointer-events", "none");
     gSeg.selectAll("rect.segmentStructureHit")
-      .style("pointer-events", "none");
+      .style("pointer-events", function (d) {
+        const fits = this.parentNode?.getAttribute("data-structure-fits") === "1";
+        return showSelectedNeighborhoodSegmentStructure &&
+          selectedSegmentIds.has(d?.id) &&
+          d?.structureLane === "top" &&
+          fits
+            ? "all"
+            : "none";
+      });
     gCustom.selectAll("path.customGroup")
       .style("pointer-events", "none");
     gDurationChronologyHover
@@ -13757,7 +14081,7 @@ if (hasSelection) {
         relevantFatherIdsRef.current.has(d.id) ? "all" : "none"
       );
 
-    clearActiveSegment();
+    if (!showSelectedNeighborhoodSegmentStructure) clearActiveSegment();
     clearActiveDuration();
     updateHoverVisuals();
     return;
@@ -13923,6 +14247,7 @@ gSeg
 
         if (activeSegIdRef.current === seg.id) return;
         hoveredSegIdRef.current = seg.id;
+        hoveredSegSourceRef.current = "segment-ui";
         hoveredSegParentIdRef.current = seg.parentId;
         updateSegmentPreview();
         updateHoverVisuals();
@@ -13934,6 +14259,7 @@ gSeg
 
         if (activeSegIdRef.current === seg.id) return;
         hoveredSegIdRef.current = null;
+        hoveredSegSourceRef.current = null;
         hoveredSegParentIdRef.current = null;
         updateSegmentPreview();
         updateHoverVisuals();
@@ -14046,6 +14372,7 @@ structureLabelSel.select("rect.segmentStructureHit")
     if (activeSegIdRef.current === seg.id) return;
 
     hoveredSegIdRef.current = seg.id;
+    hoveredSegSourceRef.current = "segment-ui";
     hoveredSegParentIdRef.current = seg.parentId;
     updateSegmentPreview();
     updateHoverVisuals();
@@ -14056,6 +14383,7 @@ structureLabelSel.select("rect.segmentStructureHit")
     if (activeSegIdRef.current === seg.id) return;
 
     hoveredSegIdRef.current = null;
+    hoveredSegSourceRef.current = null;
     hoveredSegParentIdRef.current = null;
     updateSegmentPreview();
     updateHoverVisuals();
@@ -14226,6 +14554,7 @@ const zoom = (zoomRef.current ?? d3.zoom())
     // On gesture start, we do NOT yet assume this is a drag.
     // We only flip to "dragging" after we see enough pointer movement in the zoom handler.
     zoomDraggingRef.current = false;
+    dragDeepStructureFocusSourceIdRef.current = null;
 
     // Remember where the pointer was when this gesture began (for non-wheel only)
     if (!isWheel && event.sourceEvent && "clientX" in event.sourceEvent) {
@@ -14264,6 +14593,13 @@ const zoom = (zoomRef.current ?? d3.zoom())
 
         if (distSq > DRAG_THRESHOLD_SQ) {
           zoomDraggingRef.current = true;
+
+          if (isDeepHistoricalStructureMode()) {
+            dragDeepStructureFocusSourceIdRef.current =
+              activeSegmentStructureFocusSourceIdRef.current ||
+              hoveredChronologyDurationIdRef.current ||
+              null;
+          }
 
           if (svgRef.current) {
             d3.select(svgRef.current).classed("is-panning", true);
@@ -14377,8 +14713,18 @@ if (hasSelection) {
   })
 
   .on("end", (event) => {
-    // Always clear dragging state
+    const endedFromRealDrag = zoomDraggingRef.current;
+
+    if (endedFromRealDrag) {
+      lastTimelineDragEndAtRef.current =
+        typeof performance !== "undefined" && typeof performance.now === "function"
+          ? performance.now()
+          : Date.now();
+    }
+
+    // Always clear dragging state and release the drag-only track lock.
     zoomDraggingRef.current = false;
+    dragDeepStructureFocusSourceIdRef.current = null;
 
     // Remove grabbing cursor if it was set
     if (svgRef.current) {

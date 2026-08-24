@@ -547,18 +547,26 @@ export default function SearchBar({
     itemRefs.current = [];
   }, [results]);
 
-  // Close on outside click
+  // Close Search results and/or Key on outside click.
+  // Clicks anywhere inside the SearchBar wrapper (including the Key panel)
+  // are ignored, so only a genuine outside interaction dismisses them.
   useEffect(() => {
     const handleOutside = (e) => {
-      if (!(open && q.trim())) return;
       if (!wrapRef.current) return;
-      if (!wrapRef.current.contains(e.target)) {
+      if (wrapRef.current.contains(e.target)) return;
+
+      if (keyOpen) {
+        setKeyOpen(false);
+      }
+
+      if (open && q.trim()) {
         closeAndReset();
       }
     };
+
     document.addEventListener("pointerdown", handleOutside, true);
     return () => document.removeEventListener("pointerdown", handleOutside, true);
-  }, [open, q]);
+  }, [open, q, keyOpen]);
 
   // Notify when list first becomes visible
   useEffect(() => {

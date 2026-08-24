@@ -15,7 +15,7 @@ export default function TagPanel({
   groups,
   selectedByGroup,
   onChange,
-  layerMode = "noborders",
+  layerMode = "none",
   onLayerModeChange = () => {},
 
   showTexts = true,
@@ -265,11 +265,11 @@ export default function TagPanel({
           <input
             type="radio"
             name="layerMode"
-            value="noborders"
-            checked={layerMode === "noborders"}
-            onChange={() => onLayerModeChange("noborders")}
+            value="none"
+            checked={layerMode === "none"}
+            onChange={() => onLayerModeChange("none")}
           />
-          <span className="tagPanel__label">None</span>
+          <span className="tagPanel__label">Interactive Borders</span>
         </label>
 
         <label className="tagPanel__radio">
@@ -287,11 +287,11 @@ export default function TagPanel({
           <input
             type="radio"
             name="layerMode"
-            value="none"
-            checked={layerMode === "none"}
-            onChange={() => onLayerModeChange("none")}
+            value="noborders"
+            checked={layerMode === "noborders"}
+            onChange={() => onLayerModeChange("noborders")}
           />
-          <span className="tagPanel__label">Borders Only</span>
+          <span className="tagPanel__label">None</span>
         </label>
       </div>
     );

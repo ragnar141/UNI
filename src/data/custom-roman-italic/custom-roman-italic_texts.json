@@ -15,7 +15,7 @@
     "Latitude": "42.02413",
     "Longitude": "11.94834",
     "Original Language": "Phoenician, Etruscan",
-    "Name.1": "The Pyrgi Tablets",
+    "Name 2": "The Pyrgi Tablets",
     "Civlizational code?": "NO",
     "Author": "Thefarie Velianas",
     "Comtean framework": "Theological/Mythological",
@@ -27,9 +27,9 @@
     "Y-pos": "-",
     "Original text": "-",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://www.museoetru.it/masterpieces/lamine-doro-da-pyrgi, ETRU Museum Pyrgi Tablets, Official museum object page for the three gold tablets)",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://mnamon.sns.it/index.php?id=23&lang=en&page=Esempi, Pyrgi Phoenician text and translation, Mnamon transcription and English translation of the Phoenician gold plaque)"
   },
   {
     "Index": "2",
@@ -47,7 +47,7 @@
     "Latitude": "41.0817",
     "Longitude": "14.2533",
     "Original Language": "Etruscan",
-    "Name.1": "The Capua Tile",
+    "Name 2": "The Capua Tile",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Theological/Mythological",
@@ -79,7 +79,7 @@
     "Latitude": "40.7427",
     "Longitude": "14.6741",
     "Original Language": "Oscan",
-    "Name.1": "Nuvkrinum Alafaternum Inscription",
+    "Name 2": "Nuvkrinum Alafaternum Inscription",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Theological/Mythological",
@@ -111,7 +111,7 @@
     "Latitude": "43.1107",
     "Longitude": "12.3908",
     "Original Language": "Etruscan",
-    "Name.1": "Cippus Perusinus",
+    "Name 2": "Cippus Perusinus",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Positive/Empirical",
@@ -143,7 +143,7 @@
     "Latitude": "43.3513",
     "Longitude": "12.5771",
     "Original Language": "Old Umbrian",
-    "Name.1": "Iguvine Tablets",
+    "Name 2": "Iguvine Tablets",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Theological/Mythological",
@@ -157,7 +157,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(http://attalus.org/docs/iguvium.html, Poultney Iguvine Tablets translation, English translation by J W Poultney)"
   },
   {
     "Index": "6",
@@ -175,7 +175,7 @@
     "Latitude": "42.2542",
     "Longitude": "11.7566",
     "Original Language": "Etruscan",
-    "Name.1": "Laris Pulena Sarcophagus Inscription",
+    "Name 2": "Laris Pulena Sarcophagus Inscription",
     "Civlizational code?": "NO",
     "Author": "Laris Pulena",
     "Comtean framework": "Theological/Mythological",
@@ -207,7 +207,7 @@
     "Latitude": "43.3068",
     "Longitude": "11.987",
     "Original Language": "Etruscan",
-    "Name.1": "Tabula Cortonensis",
+    "Name 2": "Tabula Cortonensis",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Positive/Empirical",
@@ -219,7 +219,7 @@
     "Y-pos": "-20",
     "Original text": "-",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://cortonamaec.org/en/museum-masterpieces/tabula-cortonensis/, MAEC Tabula Cortonensis, Official museum page with object history and inscription context)",
     "Video": "-",
     "Other": "-"
   },
@@ -239,7 +239,7 @@
     "Latitude": "43.1278",
     "Longitude": "12.1067",
     "Original Language": "Etruscan",
-    "Name.1": "The Zagreb Mummy Wrapping (Liber Linteus)",
+    "Name 2": "The Zagreb Mummy Wrapping (Liber Linteus)",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Theological/Mythological",
@@ -271,7 +271,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Comedies",
+    "Name 2": "Comedies",
     "Civlizational code?": "NO",
     "Author": "Titus Maccius Plautus",
     "Comtean framework": "Synthetic Literature",
@@ -285,7 +285,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://en.wikisource.org/wiki/The_Comedies_of_Plautus_%281894%29/Volume_1, Plautus comedies volume I, Riley English translation of the first volume) (https://en.wikisource.org/wiki/The_Comedies_of_Plautus_%281890%29/Volume_2, Plautus comedies volume II, Riley English translation of the second volume)"
   },
   {
     "Index": "10",
@@ -303,7 +303,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Comedies",
+    "Name 2": "Comedies",
     "Civlizational code?": "NO",
     "Author": "Publius Terentius Afer",
     "Comtean framework": "Synthetic Literature",
@@ -317,7 +317,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/cache/epub/22188/pg22188-images.html, Terence comedies, Complete Riley English translation at Project Gutenberg)"
   },
   {
     "Index": "11",
@@ -335,7 +335,7 @@
     "Latitude": "42.2542",
     "Longitude": "11.7566",
     "Original Language": "Latin",
-    "Name.1": "Elogia of the Forum (Elogia Tarquinia)",
+    "Name 2": "Elogia of the Forum (Elogia Tarquinia)",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Positive/Empirical",
@@ -367,7 +367,7 @@
     "Latitude": "40.8605",
     "Longitude": "16.0097",
     "Original Language": "Latin, Oscan",
-    "Name.1": "Tabula Bantina",
+    "Name 2": "Tabula Bantina",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Positive/Empirical",
@@ -378,7 +378,7 @@
     "Symbolic System Tags": "Roman, Oscan-Italic",
     "Y-pos": "-",
     "Original text": "-",
-    "Article/post": "-",
+    "Article/post": "(https://www.repository.cam.ac.uk/items/002d0dc6-0fbe-4122-9fb8-54c9e973b294, Decorte on the Tabula Bantina, Cambridge repository study of Oscan legal language and Latin influence)",
     "Image/museum": "-",
     "Video": "-",
     "Other": "-"
@@ -399,7 +399,7 @@
     "Latitude": "42.8536",
     "Longitude": "13.5749",
     "Original Language": "Latin",
-    "Name.1": "Bronze of Ascoli (Lex Asculana)",
+    "Name 2": "Bronze of Ascoli (Lex Asculana)",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Positive/Empirical",
@@ -431,7 +431,7 @@
     "Latitude": "40.806",
     "Longitude": "14.3478",
     "Original Language": "Koine Greek",
-    "Name.1": "Herculaneum Papyri",
+    "Name 2": "Herculaneum Papyri",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -463,7 +463,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "On the Nature of Things (De Rerum Natura)",
+    "Name 2": "On the Nature of Things (De Rerum Natura)",
     "Civlizational code?": "NO",
     "Author": "Titus Lucretius Carus",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -477,7 +477,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://classics.mit.edu/Carus/nature_things.html, On the Nature of Things, Complete Leonard English translation)"
   },
   {
     "Index": "16",
@@ -495,7 +495,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Poems (Carmina)",
+    "Name 2": "Poems (Carmina)",
     "Civlizational code?": "NO",
     "Author": "Gaius Valerius Catullus",
     "Comtean framework": "Synthetic Literature",
@@ -509,7 +509,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/files/18867/18867-h/18867-h.htm, Catullus poems, Robinson Ellis English translation at Project Gutenberg)"
   },
   {
     "Index": "17",
@@ -527,7 +527,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "De Republica (On the Republic)",
+    "Name 2": "De Republica (On the Republic)",
     "Civlizational code?": "NO",
     "Author": "Marcus Tullius Cicero",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -541,7 +541,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://gutenberg.org/cache/epub/54161/pg54161-images.html, Cicero On the Republic, Public domain English translation at Project Gutenberg)"
   },
   {
     "Index": "18",
@@ -559,7 +559,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "De Legibus (On the Laws)",
+    "Name 2": "De Legibus (On the Laws)",
     "Civlizational code?": "NO",
     "Author": "Marcus Tullius Cicero",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -573,7 +573,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://topostext.org/work/752, Cicero On the Laws, Francis Barham English translation)"
   },
   {
     "Index": "19",
@@ -591,7 +591,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "On the Nature of the Gods (De Natura Deorum)",
+    "Name 2": "On the Nature of the Gods (De Natura Deorum)",
     "Civlizational code?": "NO",
     "Author": "Marcus Tullius Cicero",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -601,7 +601,7 @@
     "Literary Themes Tags": "Metaphysical, Epistemological / Hermeneutics, Political, Ritual / Devotional, Didactic / Ethical, Existential",
     "Symbolic System Tags": "Roman, Hellenic",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://s3.amazonaws.com/loebolus/L268.pdf, Cicero On the Nature of the Gods PDF, H Rackham Loeb English translation)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -623,7 +623,7 @@
     "Latitude": "41.7986",
     "Longitude": "12.7102",
     "Original Language": "Latin",
-    "Name.1": "Tusculan Disputations",
+    "Name 2": "Tusculan Disputations",
     "Civlizational code?": "NO",
     "Author": "Marcus Tullius Cicero",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -633,7 +633,7 @@
     "Literary Themes Tags": "Metaphysical, Epistemological / Hermeneutics, Didactic / Ethical, Existential, Introspective, Tragic / Lamentation",
     "Symbolic System Tags": "Roman, Hellenic",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://upload.wikimedia.org/wikipedia/commons/9/93/Cicero%2C_Tusculan_Disputations%2C_translated_by_J_E_King%2C_Loeb_Classical_Library.pdf, Tusculan Disputations PDF, J E King Loeb English translation)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -655,7 +655,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "On Duties (De Officiis)",
+    "Name 2": "On Duties (De Officiis)",
     "Civlizational code?": "NO",
     "Author": "Marcus Tullius Cicero",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -665,7 +665,7 @@
     "Literary Themes Tags": "Political, Didactic / Ethical, Historical Reflection, Epistemological / Hermeneutics, Introspective",
     "Symbolic System Tags": "Roman, Hellenic",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://upload.wikimedia.org/wikipedia/commons/5/5d/De_Officiis.pdf, Cicero On Duties PDF, Walter Miller Loeb English translation)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -687,7 +687,7 @@
     "Latitude": "41.7986",
     "Longitude": "12.7102",
     "Original Language": "Latin",
-    "Name.1": "On Divination (De Divinatione)",
+    "Name 2": "On Divination (De Divinatione)",
     "Civlizational code?": "NO",
     "Author": "Marcus Tullius Cicero",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -701,7 +701,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Cicero/de_Divinatione/home.html, Cicero On Divination, Public domain English translation at LacusCurtius)"
   },
   {
     "Index": "23",
@@ -719,7 +719,7 @@
     "Latitude": "40.823",
     "Longitude": "14.121",
     "Original Language": "Latin",
-    "Name.1": "On Fate (De Fato)",
+    "Name 2": "On Fate (De Fato)",
     "Civlizational code?": "NO",
     "Author": "Marcus Tullius Cicero",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -751,7 +751,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "On Friendship (De Amicitia)",
+    "Name 2": "On Friendship (De Amicitia)",
     "Civlizational code?": "NO",
     "Author": "Marcus Tullius Cicero",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -761,7 +761,7 @@
     "Literary Themes Tags": "Didactic / Ethical, Introspective, Epistemological / Hermeneutics, Political",
     "Symbolic System Tags": "Roman, Hellenic",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://oll-resources.s3.us-east-2.amazonaws.com/oll3/store/titles/544/Cicero_0041-03_EBk_v6.0.pdf, Cicero On Friendship PDF, Andrew Peabody English translation from Liberty Fund)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -783,7 +783,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "On Old Age (De Senectute)",
+    "Name 2": "On Old Age (De Senectute)",
     "Civlizational code?": "NO",
     "Author": "Marcus Tullius Cicero",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -797,7 +797,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Cicero/Cato_Maior_de_Senectute/home.html, Cicero On Old Age, Falconer English translation at LacusCurtius)"
   },
   {
     "Index": "26",
@@ -815,7 +815,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Catiline’s Conspiracy (Bellum Catilinae)",
+    "Name 2": "Catiline’s Conspiracy (Bellum Catilinae)",
     "Civlizational code?": "NO",
     "Author": "Gaius Sallustius Crispus (Sallust)",
     "Comtean framework": "Synthetic Literature",
@@ -829,7 +829,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/cache/epub/7990/pg7990-images.html, Sallust Catiline, J S Watson English translation of Catiline)"
   },
   {
     "Index": "27",
@@ -847,7 +847,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Jugurthine War (Bellum Jugurthinum)",
+    "Name 2": "Jugurthine War (Bellum Jugurthinum)",
     "Civlizational code?": "NO",
     "Author": "Gaius Sallustius Crispus (Sallust)",
     "Comtean framework": "Synthetic Literature",
@@ -861,7 +861,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/cache/epub/7990/pg7990-images.html, Sallust Jugurtha, J S Watson English translation of Jugurtha)"
   },
   {
     "Index": "28",
@@ -879,7 +879,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Eclogues (Bucolics)",
+    "Name 2": "Eclogues (Bucolics)",
     "Civlizational code?": "NO",
     "Author": "Publius Vergilius Maro (Virgil)",
     "Comtean framework": "Synthetic Literature",
@@ -893,7 +893,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/cache/epub/230/pg230-images.html, Virgil Eclogues, Public domain English translation at Project Gutenberg)"
   },
   {
     "Index": "29",
@@ -911,7 +911,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Three Books on Agriculture (Rerum Rusticarum Libri Tres)",
+    "Name 2": "Three Books on Agriculture (Rerum Rusticarum Libri Tres)",
     "Civlizational code?": "NO",
     "Author": "Marcus Terentius Varro",
     "Comtean framework": "Positive/Empirical",
@@ -925,7 +925,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Varro/de_Re_Rustica/home.html, Varro On Agriculture, Complete Hooper and Ash English translation)"
   },
   {
     "Index": "30",
@@ -943,7 +943,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Satires",
+    "Name 2": "Satires",
     "Civlizational code?": "NO",
     "Author": "Quintus Horatius Flaccus (Horace)",
     "Comtean framework": "Synthetic Literature",
@@ -957,7 +957,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/cache/epub/5419/pg5419.html, Horace Satires, John Conington English translation)"
   },
   {
     "Index": "31",
@@ -975,7 +975,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "Library of History (Bibliotheca historica)",
+    "Name 2": "Library of History (Bibliotheca historica)",
     "Civlizational code?": "NO",
     "Author": "Diodorus Siculus",
     "Comtean framework": "Synthetic Literature",
@@ -989,7 +989,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Diodorus_Siculus/home.html, Diodorus Library of History, Public domain Loeb English translation at LacusCurtius)"
   },
   {
     "Index": "32",
@@ -1007,7 +1007,7 @@
     "Latitude": "40.8518",
     "Longitude": "14.2681",
     "Original Language": "Latin",
-    "Name.1": "Georgics",
+    "Name 2": "Georgics",
     "Civlizational code?": "NO",
     "Author": "Publius Vergilius Maro (Virgil)",
     "Comtean framework": "Synthetic Literature",
@@ -1021,7 +1021,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/cache/epub/232/pg232-images.html, Virgil Georgics, Public domain English translation at Project Gutenberg)"
   },
   {
     "Index": "33",
@@ -1039,7 +1039,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Elegies",
+    "Name 2": "Elegies",
     "Civlizational code?": "NO",
     "Author": "Albius Tibullus",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -1053,7 +1053,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/files/9610/9610-h/9610-h.htm, Tibullus Elegies, Theodore Williams English verse translation)"
   },
   {
     "Index": "34",
@@ -1071,7 +1071,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Amores",
+    "Name 2": "Amores",
     "Civlizational code?": "NO",
     "Author": "Publius Ovidius Naso (Ovid)",
     "Comtean framework": "Synthetic Literature",
@@ -1085,7 +1085,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.poetryintranslation.com/PITBR/Latin/Amoreshome.php, Ovid Amores, Complete A S Kline English translation)"
   },
   {
     "Index": "35",
@@ -1103,7 +1103,7 @@
     "Latitude": "40.8518",
     "Longitude": "14.2681",
     "Original Language": "Latin",
-    "Name.1": "Aeneid",
+    "Name 2": "Aeneid",
     "Civlizational code?": "NO",
     "Author": "Publius Vergilius Maro (Virgil)",
     "Comtean framework": "Synthetic Literature",
@@ -1117,7 +1117,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://classics.mit.edu/Virgil/aeneid.html, Virgil Aeneid, Complete Dryden English translation)"
   },
   {
     "Index": "36",
@@ -1135,7 +1135,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Epistle to the Pisones (Ars Poetica)",
+    "Name 2": "Epistle to the Pisones (Ars Poetica)",
     "Civlizational code?": "NO",
     "Author": "Quintus Horatius Flaccus (Horace)",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -1149,7 +1149,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/cache/epub/5419/pg5419.html, Horace Ars Poetica, John Conington English translation)"
   },
   {
     "Index": "37",
@@ -1167,7 +1167,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Elegies",
+    "Name 2": "Elegies",
     "Civlizational code?": "NO",
     "Author": "Sextus Propertius",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -1181,7 +1181,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.poetryintranslation.com/PITBR/Latin/Prophome.php, Propertius Elegies, Complete A S Kline English translation)"
   },
   {
     "Index": "38",
@@ -1199,7 +1199,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "De Architectura",
+    "Name 2": "De Architectura",
     "Civlizational code?": "NO",
     "Author": "Marcus Vitruvius Pollio",
     "Comtean framework": "Positive/Empirical",
@@ -1213,7 +1213,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/cache/epub/20239/pg20239-images.html, Vitruvius Ten Books on Architecture, Morris Hicky Morgan English translation)"
   },
   {
     "Index": "39",
@@ -1231,7 +1231,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Epistles",
+    "Name 2": "Epistles",
     "Civlizational code?": "NO",
     "Author": "Quintus Horatius Flaccus (Horace)",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -1245,7 +1245,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/cache/epub/5419/pg5419.html, Horace Epistles, John Conington English translation)"
   },
   {
     "Index": "40",
@@ -1263,7 +1263,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Odes (Carmina)",
+    "Name 2": "Odes (Carmina)",
     "Civlizational code?": "NO",
     "Author": "Quintus Horatius Flaccus (Horace)",
     "Comtean framework": "Synthetic Literature",
@@ -1277,7 +1277,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/cache/epub/5432/pg5432-images.html, Horace Odes, John Conington English verse translation)"
   },
   {
     "Index": "41",
@@ -1295,7 +1295,7 @@
     "Latitude": "40.7497",
     "Longitude": "14.4869",
     "Original Language": "Oscan",
-    "Name.1": "Pompeii Oscan Graffiti",
+    "Name 2": "Pompeii Oscan Graffiti",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Positive/Empirical",
@@ -1327,7 +1327,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "From the Founding of the City (Ab Urbe Condita)",
+    "Name 2": "From the Founding of the City (Ab Urbe Condita)",
     "Civlizational code?": "NO",
     "Author": "Titus Livius",
     "Comtean framework": "Synthetic Literature",
@@ -1341,7 +1341,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.02.0026, Livy History of Rome, Roberts English translation at Perseus)"
   },
   {
     "Index": "43",
@@ -1359,7 +1359,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "Roman Antiquities",
+    "Name 2": "Roman Antiquities",
     "Civlizational code?": "NO",
     "Author": "Dionysius of Halicarnassus",
     "Comtean framework": "Synthetic Literature",
@@ -1373,7 +1373,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Dionysius_of_Halicarnassus/home.html, Dionysius Roman Antiquities, Earnest Cary public domain English translation)"
   },
   {
     "Index": "44",
@@ -1391,7 +1391,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Ars Amatoria",
+    "Name 2": "Ars Amatoria",
     "Civlizational code?": "NO",
     "Author": "Publius Ovidius Naso (Ovid)",
     "Comtean framework": "Synthetic Literature",
@@ -1405,7 +1405,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.poetryintranslation.com/PITBR/Latin/Lovepoemshome.php, Ovid Ars Amatoria, Complete A S Kline English translation)"
   },
   {
     "Index": "45",
@@ -1423,7 +1423,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Metamorphoses",
+    "Name 2": "Metamorphoses",
     "Civlizational code?": "NO",
     "Author": "Publius Ovidius Naso (Ovid)",
     "Comtean framework": "Theological/Mythological",
@@ -1437,7 +1437,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.poetryintranslation.com/PITBR/Latin/Ovhome.php, Ovid Metamorphoses, Complete A S Kline English translation)"
   },
   {
     "Index": "46",
@@ -1455,7 +1455,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Fasti",
+    "Name 2": "Fasti",
     "Civlizational code?": "NO",
     "Author": "Publius Ovidius Naso (Ovid)",
     "Comtean framework": "Synthetic Literature",
@@ -1469,7 +1469,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.poetryintranslation.com/PITBR/Latin/Fastihome.php, Ovid Fasti, Complete A S Kline English translation)"
   },
   {
     "Index": "47",
@@ -1487,7 +1487,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "On Anger (De Ira)",
+    "Name 2": "On Anger (De Ira)",
     "Civlizational code?": "NO",
     "Author": "Lucius Annaeus Seneca",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -1501,7 +1501,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://en.wikisource.org/wiki/Of_Anger, Seneca On Anger, Complete public domain English translation)"
   },
   {
     "Index": "48",
@@ -1519,7 +1519,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "On the Shortness of Life (De Brevitate Vitae)",
+    "Name 2": "On the Shortness of Life (De Brevitate Vitae)",
     "Civlizational code?": "NO",
     "Author": "Lucius Annaeus Seneca",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -1533,7 +1533,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://en.wikisource.org/wiki/On_the_shortness_of_life, Seneca On the Shortness of Life, Complete public domain English translation)"
   },
   {
     "Index": "49",
@@ -1551,7 +1551,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "The Pumpkinification of Claudius (Apocolocyntosis)",
+    "Name 2": "The Pumpkinification of Claudius (Apocolocyntosis)",
     "Civlizational code?": "NO",
     "Author": "Lucius Annaeus Seneca",
     "Comtean framework": "Synthetic Literature",
@@ -1565,7 +1565,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/files/10001/10001-h/10001-h.htm, Seneca Apocolocyntosis, W H D Rouse English translation)"
   },
   {
     "Index": "50",
@@ -1583,7 +1583,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "On the Constancy of the Wise Man (De Constantia Sapientis)",
+    "Name 2": "On the Constancy of the Wise Man (De Constantia Sapientis)",
     "Civlizational code?": "NO",
     "Author": "Lucius Annaeus Seneca",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -1597,7 +1597,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://en.wikisource.org/wiki/On_the_Firmness_of_the_Wise_Man, Seneca On the Firmness of the Wise Man, Complete public domain English translation)"
   },
   {
     "Index": "51",
@@ -1615,7 +1615,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "On the Happy Life (De Vita Beata)",
+    "Name 2": "On the Happy Life (De Vita Beata)",
     "Civlizational code?": "NO",
     "Author": "Lucius Annaeus Seneca",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -1629,7 +1629,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://en.wikisource.org/wiki/Of_a_Happy_Life, Seneca On a Happy Life, Complete public domain English translation)"
   },
   {
     "Index": "52",
@@ -1647,7 +1647,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "On the Tranquility of Mind (De Tranquillitate Animi)",
+    "Name 2": "On the Tranquility of Mind (De Tranquillitate Animi)",
     "Civlizational code?": "NO",
     "Author": "Lucius Annaeus Seneca",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -1661,7 +1661,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://en.wikisource.org/wiki/Of_Peace_of_Mind, Seneca On Peace of Mind, Complete public domain English translation)"
   },
   {
     "Index": "53",
@@ -1679,7 +1679,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Satires",
+    "Name 2": "Satires",
     "Civlizational code?": "NO",
     "Author": "Aulus Persius Flaccus",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -1693,7 +1693,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://gutenberg.org/cache/epub/50657/pg50657-images.html, Persius Satires, Lewis Evans English prose translation)"
   },
   {
     "Index": "54",
@@ -1711,7 +1711,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Natural Questions",
+    "Name 2": "Natural Questions",
     "Civlizational code?": "NO",
     "Author": "Lucius Annaeus Seneca",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -1725,7 +1725,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://topostext.org/work/737, Seneca Natural Questions, John Clarke public domain English translation)"
   },
   {
     "Index": "55",
@@ -1743,7 +1743,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Letters to Lucilius (Epistulae Morales ad Lucilium)",
+    "Name 2": "Letters to Lucilius (Epistulae Morales ad Lucilium)",
     "Civlizational code?": "NO",
     "Author": "Lucius Annaeus Seneca",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -1757,7 +1757,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://en.wikisource.org/wiki/Moral_letters_to_Lucilius, Seneca Moral Letters, Richard Gummere Loeb English translation)"
   },
   {
     "Index": "56",
@@ -1775,7 +1775,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "On Agriculture (De Re Rustica)",
+    "Name 2": "On Agriculture (De Re Rustica)",
     "Civlizational code?": "NO",
     "Author": "Columella",
     "Comtean framework": "Positive/Empirical",
@@ -1807,7 +1807,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Natural History (Naturalis Historia)",
+    "Name 2": "Natural History (Naturalis Historia)",
     "Civlizational code?": "NO",
     "Author": "Pliny the Elder",
     "Comtean framework": "Positive/Empirical",
@@ -1821,7 +1821,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.02.0137, Pliny Natural History, Complete Bostock and Riley English translation at Perseus)"
   },
   {
     "Index": "58",
@@ -1839,7 +1839,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Institutio Oratoria",
+    "Name 2": "Institutio Oratoria",
     "Civlizational code?": "NO",
     "Author": "Marcus Fabius Quintilianus (Quintilian)",
     "Comtean framework": "Positive/Empirical",
@@ -1853,7 +1853,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Quintilian/Institutio_Oratoria/home.html, Quintilian Institutio Oratoria, H E Butler public domain English translation)"
   },
   {
     "Index": "59",
@@ -1871,7 +1871,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "The Life of Josephus (Vita)",
+    "Name 2": "The Life of Josephus (Vita)",
     "Civlizational code?": "NO",
     "Author": "Flavius Josephus",
     "Comtean framework": "Positive/Empirical",
@@ -1881,7 +1881,7 @@
     "Literary Themes Tags": "Historical Reflection, Political, Didactic / Ethical, Introspective",
     "Symbolic System Tags": "Yahwistic, Roman, Hellenic",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://www.ccel.org/ccel/j/josephus/complete/cache/complete.pdf, Josephus Complete Works PDF, Public domain English volume containing the Life)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -1903,7 +1903,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Agricola",
+    "Name 2": "Agricola",
     "Civlizational code?": "NO",
     "Author": "Publius Cornelius Tacitus",
     "Comtean framework": "Positive/Empirical",
@@ -1917,7 +1917,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/files/7959/7959-h/7959-h.htm, Tacitus Agricola, Public domain English translation)"
   },
   {
     "Index": "61",
@@ -1935,7 +1935,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Germania",
+    "Name 2": "Germania",
     "Civlizational code?": "NO",
     "Author": "Publius Cornelius Tacitus",
     "Comtean framework": "Positive/Empirical",
@@ -1949,7 +1949,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/files/7959/7959-h/7959-h.htm, Tacitus Germania, Public domain English translation)"
   },
   {
     "Index": "62",
@@ -1967,7 +1967,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Greek, Latin",
-    "Name.1": "Corpus of Mime and Pantomime Fragments",
+    "Name 2": "Corpus of Mime and Pantomime Fragments",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Synthetic Literature",
@@ -1999,7 +1999,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "De Aquis (On Aqueducts)",
+    "Name 2": "De Aquis (On Aqueducts)",
     "Civlizational code?": "NO",
     "Author": "Sextus Julius Frontinus",
     "Comtean framework": "Positive/Empirical",
@@ -2013,7 +2013,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Frontinus/De_Aquis/home.html, Frontinus On the Aqueducts, English translation at LacusCurtius)"
   },
   {
     "Index": "64",
@@ -2031,7 +2031,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Strategemata",
+    "Name 2": "Strategemata",
     "Civlizational code?": "NO",
     "Author": "Sextus Julius Frontinus",
     "Comtean framework": "Positive/Empirical",
@@ -2045,7 +2045,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Frontinus/Strategemata/home.html, Frontinus Strategemata, English translation at LacusCurtius)"
   },
   {
     "Index": "65",
@@ -2063,7 +2063,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "Against Apion (Contra Apionem)",
+    "Name 2": "Against Apion (Contra Apionem)",
     "Civlizational code?": "NO",
     "Author": "Flavius Josephus",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -2073,7 +2073,7 @@
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Didactic / Ethical, Political, Epistemological / Hermeneutics",
     "Symbolic System Tags": "Yahwistic, Roman, Hellenic",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://www.ccel.org/ccel/j/josephus/complete/cache/complete.pdf, Josephus Complete Works PDF, Public domain English volume containing Against Apion)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -2095,7 +2095,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Epigrams",
+    "Name 2": "Epigrams",
     "Civlizational code?": "NO",
     "Author": "Marcus Valerius Martialis (Martial)",
     "Comtean framework": "Synthetic Literature",
@@ -2105,7 +2105,7 @@
     "Literary Themes Tags": "Comic / Satirical, Political, Romantic / Erotic, Didactic / Ethical, Introspective, Absurd",
     "Symbolic System Tags": "Roman",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://archive.org/download/martialepigrams01martiala/martialepigrams01martiala.pdf, Martial Epigrams volume I PDF, Walter C A Ker English translation volume I) (https://archive.org/download/martialepigrams02martiala/martialepigrams02martiala.pdf, Martial Epigrams volume II PDF, Walter C A Ker English translation volume II)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -2127,7 +2127,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Histories (Historiae)",
+    "Name 2": "Histories (Historiae)",
     "Civlizational code?": "NO",
     "Author": "Publius Cornelius Tacitus",
     "Comtean framework": "Positive/Empirical",
@@ -2141,7 +2141,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Tacitus/home.html, Tacitus Histories, Public domain English translation at LacusCurtius)"
   },
   {
     "Index": "68",
@@ -2159,7 +2159,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Annals (Annales)",
+    "Name 2": "Annals (Annales)",
     "Civlizational code?": "NO",
     "Author": "Publius Cornelius Tacitus",
     "Comtean framework": "Positive/Empirical",
@@ -2173,7 +2173,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Tacitus/home.html, Tacitus Annals, Public domain English translation at LacusCurtius)"
   },
   {
     "Index": "69",
@@ -2191,7 +2191,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Lives of the Caesars (De Vita Caesarum)",
+    "Name 2": "Lives of the Caesars (De Vita Caesarum)",
     "Civlizational code?": "NO",
     "Author": "Gaius Suetonius Tranquillus",
     "Comtean framework": "Positive/Empirical",
@@ -2205,7 +2205,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Suetonius/12Caesars/home.html, Suetonius Lives of the Caesars, J C Rolfe public domain English translation)"
   },
   {
     "Index": "70",
@@ -2223,7 +2223,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Satires",
+    "Name 2": "Satires",
     "Civlizational code?": "NO",
     "Author": "Decimus Iunius Iuvenalis (Juvenal)",
     "Comtean framework": "Synthetic Literature",
@@ -2237,7 +2237,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://gutenberg.org/cache/epub/50657/pg50657-images.html, Juvenal Satires, Lewis Evans English prose translation)"
   },
   {
     "Index": "71",
@@ -2255,7 +2255,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "On the Doctrines of Hippocrates and Plato",
+    "Name 2": "On the Doctrines of Hippocrates and Plato",
     "Civlizational code?": "NO",
     "Author": "Galen (Claudius Galenus)",
     "Comtean framework": "Synthetic Literature",
@@ -2287,7 +2287,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "The Capacities of the Soul Depend on the Mixtures of the Body",
+    "Name 2": "The Capacities of the Soul Depend on the Mixtures of the Body",
     "Civlizational code?": "NO",
     "Author": "Galen (Claudius Galenus)",
     "Comtean framework": "Synthetic Literature",
@@ -2319,7 +2319,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "On Demonstration (De Demonstratione)",
+    "Name 2": "On Demonstration (De Demonstratione)",
     "Civlizational code?": "NO",
     "Author": "Galen (Claudius Galenus)",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -2351,7 +2351,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Latin",
-    "Name.1": "Attic Nights (Noctes Atticae)",
+    "Name 2": "Attic Nights (Noctes Atticae)",
     "Civlizational code?": "NO",
     "Author": "Aulus Gellius",
     "Comtean framework": "Synthetic Literature",
@@ -2365,7 +2365,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A2007.01.0072, Aulus Gellius Attic Nights, J C Rolfe English translation at Perseus)"
   },
   {
     "Index": "75",
@@ -2383,7 +2383,7 @@
     "Latitude": "48.1129",
     "Longitude": "16.8652",
     "Original Language": "Koine Greek",
-    "Name.1": "Meditations",
+    "Name 2": "Meditations",
     "Civlizational code?": "NO",
     "Author": "Marcus Aurelius Antoninus",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -2397,7 +2397,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.gutenberg.org/cache/epub/2680/pg2680-images.html, Marcus Aurelius Meditations, Public domain English translation at Project Gutenberg)"
   },
   {
     "Index": "76",
@@ -2415,7 +2415,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "On the Usefulness of the Parts of the Body (De Usu Partium)",
+    "Name 2": "On the Usefulness of the Parts of the Body (De Usu Partium)",
     "Civlizational code?": "NO",
     "Author": "Galen (Claudius Galenus)",
     "Comtean framework": "Synthetic Literature",
@@ -2447,7 +2447,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "That the Best Physician is also a Philosopher",
+    "Name 2": "That the Best Physician is also a Philosopher",
     "Civlizational code?": "NO",
     "Author": "Galen (Claudius Galenus)",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -2479,7 +2479,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "On the Natural Faculties (De Naturalibus Facultatibus)",
+    "Name 2": "On the Natural Faculties (De Naturalibus Facultatibus)",
     "Civlizational code?": "NO",
     "Author": "Galen (Claudius Galenus)",
     "Comtean framework": "Synthetic Literature",
@@ -2511,7 +2511,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "Method of Medicine (Methodus Medendi)",
+    "Name 2": "Method of Medicine (Methodus Medendi)",
     "Civlizational code?": "NO",
     "Author": "Galen (Claudius Galenus)",
     "Comtean framework": "Synthetic Literature",
@@ -2543,7 +2543,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "On Anatomical Procedures",
+    "Name 2": "On Anatomical Procedures",
     "Civlizational code?": "NO",
     "Author": "Galen (Claudius Galenus)",
     "Comtean framework": "Positive/Empirical",
@@ -2575,7 +2575,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "On the Elements According to Hippocrates",
+    "Name 2": "On the Elements According to Hippocrates",
     "Civlizational code?": "NO",
     "Author": "Galen (Claudius Galenus)",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -2607,7 +2607,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "The Diagnosis and Treatment of the Affections and Errors of the Soul",
+    "Name 2": "The Diagnosis and Treatment of the Affections and Errors of the Soul",
     "Civlizational code?": "NO",
     "Author": "Galen (Claudius Galenus)",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -2639,7 +2639,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "Character Traits (De Moribus)",
+    "Name 2": "Character Traits (De Moribus)",
     "Civlizational code?": "NO",
     "Author": "Galen (Claudius Galenus)",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -2671,7 +2671,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "On My Own Books",
+    "Name 2": "On My Own Books",
     "Civlizational code?": "NO",
     "Author": "Galen (Claudius Galenus)",
     "Comtean framework": "Positive/Empirical",
@@ -2703,7 +2703,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "On the Order of My Own Books",
+    "Name 2": "On the Order of My Own Books",
     "Civlizational code?": "NO",
     "Author": "Galen (Claudius Galenus)",
     "Comtean framework": "Positive/Empirical",
@@ -2735,7 +2735,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "Avoiding Distress (Peri Alypias)",
+    "Name 2": "Avoiding Distress (Peri Alypias)",
     "Civlizational code?": "NO",
     "Author": "Galen (Claudius Galenus)",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -2767,7 +2767,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "The Enneads",
+    "Name 2": "The Enneads",
     "Civlizational code?": "NO",
     "Author": "Plotinus",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -2777,7 +2777,7 @@
     "Literary Themes Tags": "Metaphysical, Epistemological / Hermeneutics, Didactic / Ethical, Introspective, Cosmological",
     "Symbolic System Tags": "Hellenic",
     "Y-pos": "-30",
-    "Original text": "(https://www.dropbox.com/scl/fi/ul3iozlwrwnxlsyueaejg/The-Enneads-Plotinus.pdf?rlkey=a9r4wkke4omzaostnod1ki25j&st=38q9vsjf&dl=0, Original PDF, Translated by Cambridge University Press 2018)",
+    "Original text": "(https://www.dropbox.com/scl/fi/ul3iozlwrwnxlsyueaejg/The-Enneads-Plotinus.pdf?rlkey=a9r4wkke4omzaostnod1ki25j&st=38q9vsjf&dl=0, Original PDF, Translated by Cambridge University Press 2018) (https://ccel.org/ccel/p/plotinus/enneads/cache/enneads.pdf, Plotinus Six Enneads PDF, Stephen MacKenna and B S Page English translation)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -2799,7 +2799,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "On the Cave of the Nymphs",
+    "Name 2": "On the Cave of the Nymphs",
     "Civlizational code?": "NO",
     "Author": "Porphyry of Tyre",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -2809,7 +2809,7 @@
     "Literary Themes Tags": "Metaphysical, Epistemological / Hermeneutics, Didactic / Ethical, Introspective, Ritual / Devotional, Cosmological",
     "Symbolic System Tags": "Hellenic",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://iiif.wellcomecollection.org/pdf/b28747197, Porphyry Select Works PDF, Thomas Taylor translation containing Cave of the Nymphs)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -2831,7 +2831,7 @@
     "Latitude": "37.7981",
     "Longitude": "12.4342",
     "Original Language": "Koine Greek",
-    "Name.1": "Isagoge (Introduction to Aristotle’s Categories)",
+    "Name 2": "Isagoge (Introduction to Aristotle’s Categories)",
     "Civlizational code?": "NO",
     "Author": "Porphyry of Tyre",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -2845,7 +2845,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.tertullian.org/fathers/porphyry_isagogue_02_translation.htm, Porphyry Isagoge, Public domain Bohn English translation)"
   },
   {
     "Index": "90",
@@ -2863,7 +2863,7 @@
     "Latitude": "37.7981",
     "Longitude": "12.4342",
     "Original Language": "Koine Greek",
-    "Name.1": "Against the Christians",
+    "Name 2": "Against the Christians",
     "Civlizational code?": "NO",
     "Author": "Porphyry of Tyre",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -2877,7 +2877,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.tertullian.org/fathers/porphyry_against_christians_02_fragments.htm, Porphyry Against the Christians fragments, English collection of surviving fragments)"
   },
   {
     "Index": "91",
@@ -2895,7 +2895,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "On the Return of the Soul (De regressu animae)",
+    "Name 2": "On the Return of the Soul (De regressu animae)",
     "Civlizational code?": "NO",
     "Author": "Porphyry of Tyre",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -2927,7 +2927,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "Sentences on the Intelligibles (Sententiae)",
+    "Name 2": "Sentences on the Intelligibles (Sententiae)",
     "Civlizational code?": "NO",
     "Author": "Porphyry of Tyre",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -2937,7 +2937,7 @@
     "Literary Themes Tags": "Metaphysical, Didactic / Ethical, Introspective, Ritual / Devotional, Cosmological",
     "Symbolic System Tags": "Hellenic",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://iiif.wellcomecollection.org/pdf/b28747197, Porphyry Select Works PDF, Thomas Taylor translation containing the Sentences on intelligible natures)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -2959,7 +2959,7 @@
     "Latitude": "37.7981",
     "Longitude": "12.4342",
     "Original Language": "Koine Greek",
-    "Name.1": "On Abstinence from Animal Food (De Abstinentia)",
+    "Name 2": "On Abstinence from Animal Food (De Abstinentia)",
     "Civlizational code?": "NO",
     "Author": "Porphyry of Tyre",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -2969,7 +2969,7 @@
     "Literary Themes Tags": "Ritual / Devotional, Historical Reflection, Metaphysical, Epistemological / Hermeneutics, Political, Didactic / Ethical, Cosmological",
     "Symbolic System Tags": "Hellenic",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://iiif.wellcomecollection.org/pdf/b28747197, Porphyry Select Works PDF, Thomas Taylor translation containing all four books On Abstinence)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -2991,7 +2991,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "Letter to Anebo (Epistula ad Anebonem)",
+    "Name 2": "Letter to Anebo (Epistula ad Anebonem)",
     "Civlizational code?": "NO",
     "Author": "Porphyry of Tyre",
     "Comtean framework": "Philosophical/Metaphysical",
@@ -3005,7 +3005,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.tertullian.org/fathers/porphyry_anebo_02_text.htm, Porphyry Letter to Anebo, Thomas Taylor English translation)"
   },
   {
     "Index": "95",
@@ -3023,7 +3023,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "Life of Pythagoras",
+    "Name 2": "Life of Pythagoras",
     "Civlizational code?": "NO",
     "Author": "Porphyry of Tyre",
     "Comtean framework": "Synthetic Literature",
@@ -3037,7 +3037,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.tertullian.org/fathers/porphyry_life_of_pythagoras_02_text.htm, Porphyry Life of Pythagoras, Kenneth Guthrie English translation)"
   },
   {
     "Index": "96",
@@ -3055,7 +3055,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "Life of Plotinus (Vita Plotini)",
+    "Name 2": "Life of Plotinus (Vita Plotini)",
     "Civlizational code?": "NO",
     "Author": "Porphyry of Tyre",
     "Comtean framework": "Synthetic Literature",
@@ -3065,7 +3065,7 @@
     "Literary Themes Tags": "Historical Reflection, Metaphysical, Epistemological / Hermeneutics, Political, Didactic / Ethical, Introspective, Cosmological",
     "Symbolic System Tags": "Hellenic, Roman",
     "Y-pos": "-",
-    "Original text": "-",
+    "Original text": "(https://upload.wikimedia.org/wikipedia/commons/a/a5/Life_of_plotinus_by_porphyry.pdf, Porphyry Life of Plotinus PDF, Stephen MacKenna English translation)",
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
@@ -3087,7 +3087,7 @@
     "Latitude": "42.3051",
     "Longitude": "-1.9652",
     "Original Language": "Latin",
-    "Name.1": "Psychomachia",
+    "Name 2": "Psychomachia",
     "Civlizational code?": "NO",
     "Author": "Aurelius Prudentius Clemens",
     "Comtean framework": "Theological/Mythological",
@@ -3101,7 +3101,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://digitalcommons.providence.edu/english_fac/17/, Prudentius Psychomachia translation, University repository page for Peter Johnson complete literal English translation)"
   },
   {
     "Index": "98",
@@ -3119,7 +3119,7 @@
     "Latitude": "45.4642",
     "Longitude": "9.19",
     "Original Language": "Latin",
-    "Name.1": "De Officiis Ministrorum",
+    "Name 2": "De Officiis Ministrorum",
     "Civlizational code?": "NO",
     "Author": "Ambrose of Milan",
     "Comtean framework": "Theological/Mythological",
@@ -3133,7 +3133,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.newadvent.org/fathers/3401.htm, Ambrose On the Duties of the Clergy, Public domain English translation of Books I to III)"
   },
   {
     "Index": "99",
@@ -3151,7 +3151,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "Roman History",
+    "Name 2": "Roman History",
     "Civlizational code?": "NO",
     "Author": "Appian of Alexandria",
     "Comtean framework": "Positive/Empirical",
@@ -3165,7 +3165,7 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Appian/home.html, Appian Roman History, Horace White public domain English translation)"
   },
   {
     "Index": "100",
@@ -3183,7 +3183,7 @@
     "Latitude": "41.8931",
     "Longitude": "12.4828",
     "Original Language": "Koine Greek",
-    "Name.1": "The Philosophers’ Banquet (Deipnosophistae)",
+    "Name 2": "The Philosophers’ Banquet (Deipnosophistae)",
     "Civlizational code?": "NO",
     "Author": "Athenaeus of Naucratis",
     "Comtean framework": "Synthetic Literature",
@@ -3197,6 +3197,6 @@
     "Article/post": "-",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Athenaeus/home.html, Athenaeus Deipnosophistae, C B Gulick public domain English translation)"
   }
 ]
