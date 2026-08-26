@@ -457,6 +457,31 @@ body {
 }
 
 /*
+ * Network context belongs on its own quiet final line in the MAIN selected
+ * tooltip. Ordinary hover and connected-object mini-tooltips do not receive
+ * this row.
+ */
+.tl-text.tl-selected .tl-tip-connections {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 3px;
+  width: 100%;
+  margin-top: 3px;
+  color: #111111;
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: 500;
+  opacity: 0.72;
+  white-space: nowrap;
+}
+
+.tl-text.tl-selected .tl-tip-connectionsCount {
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+/*
  * Keep the view-specific emphasis at the END of the selected-tooltip cascade
  * as well, so no later generic tooltip rule can remove or clip it.
  */
@@ -973,41 +998,111 @@ body {
 }
 .textCard-close:hover { background: #f3f4f6; border-color: #e5e7eb; color: black;}
 
-/* Fold / Unfold button (makes the card thinner) */
-.textCard-fold {
-  position: absolute;
-  top: 8px;
-  right: calc(max(4px, calc(var(--card-pad-right) - 10px)) + 34px);
-  width: 32px;
-  height: 32px;
-  display: grid;
-  place-items: center;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  color: var(--muted);
-  cursor: pointer;
-
-  /* REMOVE these (SVG now) */
-  /* font-size: 16px; */
-  /* line-height: 1; */
-}
-
+/* Fold / Unfold glyph. The button itself now lives in the shared left utility cluster. */
 .textCard-fold svg {
   display: block;
   opacity: 0.75;
   transition: opacity 120ms ease-out;
 }
 
+.textCard-fold:hover svg {
+  opacity: 1;
+}
+
+
+
+/* ============================
+   Card header: history + compact display utilities
+   ============================ */
+.textCard-historyNav {
+  position: absolute;
+  top: 8px;
+  left: 24px;
+  z-index: 5;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  height: 32px;
+}
+
+/* Deliberate visual break: navigation first, then local display utilities. */
+.textCard-historyUtilityGap {
+  width: 10px;
+  height: 1px;
+  flex: 0 0 10px;
+  pointer-events: none;
+}
+
+.textCard-historyButton,
+.selectedTooltipToggle,
+.textCard-fold {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  box-sizing: border-box;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    opacity 120ms ease;
+}
+
+.textCard-historyButton:hover:not(:disabled),
+.selectedTooltipToggle:hover,
 .textCard-fold:hover {
   background: #f3f4f6;
   border-color: #e5e7eb;
-  color: black;
+  color: #111827;
 }
 
-.textCard-fold:hover svg { opacity: 1; }
+.textCard-historyButton:focus-visible,
+.selectedTooltipToggle:focus-visible,
+.textCard-fold:focus-visible {
+  outline: 2px solid rgba(47, 106, 161, 0.48);
+  outline-offset: 1px;
+}
 
+.textCard-historyButton:disabled {
+  opacity: 0.26;
+  cursor: default;
+}
 
+.textCard-historyButton svg,
+.selectedTooltipToggle svg,
+.textCard-fold svg {
+  display: block;
+}
+
+.selectedTooltipToggle.is-on svg {
+  opacity: 0.76;
+}
+
+.selectedTooltipToggle.is-off svg {
+  opacity: 0.42;
+}
+
+@media (max-width: 640px) {
+  .textCard-historyNav {
+    top: 7px;
+    left: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .textCard-historyButton,
+  .selectedTooltipToggle,
+  .textCard-fold {
+    transition: none;
+  }
+}
 
 /* ============================
    Geographical Map switch — TextCard / FatherCard
@@ -1018,10 +1113,9 @@ body {
 
   /*
    * Close occupies the far-right 32px slot.
-   * Fold occupies the next 32px slot.
-   * The Geographical Map control sits immediately to their left.
+   * Geographical Map is the primary view control and sits directly to its left.
    */
-  right: calc(max(4px, calc(var(--card-pad-right) - 10px)) + 68px);
+  right: calc(max(4px, calc(var(--card-pad-right) - 10px)) + 34px);
   z-index: 4;
 
   display: inline-flex;
@@ -1111,11 +1205,17 @@ body {
   transform: translateX(12px);
 }
 
+/* Folded cards keep the map switch but drop its long label so the new
+   history controls and right-side controls never collide. */
+.textCard.isFolded .mapViewToggle__label,
+.fatherCard.isFolded .mapViewToggle__label {
+  display: none;
+}
 
 @media (max-width: 640px) {
   .mapViewToggle {
     top: 7px;
-    right: calc(max(4px, calc(var(--card-pad-right) - 10px)) + 68px);
+    right: calc(max(4px, calc(var(--card-pad-right) - 10px)) + 34px);
     padding: 0;
   }
 }
@@ -1196,6 +1296,7 @@ body {
 
 /* Subtle left-aligned index for TextCard & FatherCard */
 .textCard-index {
+  display: none; /* retained for possible future reactivation */
   position: absolute;
   top: 10px;
   left: 27px;

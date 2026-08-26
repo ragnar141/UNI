@@ -1,9 +1,9 @@
 [
   {
-    "Index": 1,
+    "Index": "1",
     "Name": "Arsacid / Early Parthian Royal Inscriptions",
     "Approx. Date": "c. 250–140 BCE",
-    "Dataviz date": -195,
+    "Dataviz date": "-195",
     "Metaphysical Tags": "Monism (Single Principle), Grid (Systematic Structuralism), Dialectics (Conflict), Becoming (Process Ontology)",
     "Arts and Sciences Tags": "Political Science / Law, History, Public Relations",
     "Access Level": "Ceremonial",
@@ -12,10 +12,10 @@
     "Neumann Stages Tags": "Battle with the Dragon, Divine Intervention, Mythic Ordering of Reality, Coronation of the King",
     "Original Geographical Location": "Nisa",
     "Current Geographical Location": "Ashgabat, Turkmenistan",
-    "Latitude": 37.951147,
-    "Longitude": 58.212408,
+    "Latitude": "37.951147",
+    "Longitude": "58.212408",
     "Original Language": "Parthian, Greek, Aramaic",
-    "Name.1": "Arsacid / Early Parthian Royal Inscriptions",
+    "Name_2": "Arsacid / Early Parthian Royal Inscriptions",
     "Civlizational code?": "NO",
     "Author": "-",
     "Comtean framework": "Positive/Empirical",
@@ -25,9 +25,9 @@
     "Literary Themes Tags": "Ritual / Devotional, Political, Historical Reflection, Didactic / Ethical",
     "Symbolic System Tags": "Hellenistic, Zoroastrian, Akkadian",
     "Y-pos": "-",
-    "Article/post": "-",
-    "Image/museum": "-",
+    "Article/post": "(https://www.parthia.com/parthia_inscriptions.htm, Parthian Coin Inscriptions, Web corpus of Greek and Parthian Arsacid coin legends with translations; includes Arsaces I legends such as ΑΡΣΑΚΟΥ ΑΥΤΟΚΡΑΤΟΡΟΣ and later royal titulature. For the early Arsacid period, coin legends are much better-attested than long royal proclamations) ; (https://www.iranicaonline.org/articles/epigraphy-i/, Old Persian and Middle Iranian Epigraphy, Encyclopaedia Iranica scholarly overview of Parthian epigraphy; explains that early Arsacid coin legends are chiefly Greek and that the large Nisa ostraca corpus mostly dates to the 1st century BCE)",
+    "Image/museum": "(https://www.metmuseum.org/art/collection/search/322350, Silver drachm of Mithridates I, Metropolitan Museum of Art; Parthian, ca. 171–138 BCE; Public Domain. The reverse inscription names Arsaces I as the dynastic founder, illustrating the royal titulary actually used in the early Arsacid period)",
     "Video": "-",
-    "Other": "-"
+    "Other": "(https://www.iranicaonline.org/articles/arsacids-iii/, Arsacid Coinage, Encyclopaedia Iranica scholarly overview of Arsacid royal legends and titles; notes that early legends were Greek and that 'King of Kings' becomes characteristic from Mithradates II onward) ; (https://en.numista.com/72840, Arsaces I drachm from Nisa, Numismatic catalogue record for an early Arsaces I issue from Nisa, ca. 3rd century BCE, with Greek legend ΑΡΣΑΚΟΥ ΑΥΤΟΚΡΑΤΟΡΟΣ and English translation)"
   }
 ]

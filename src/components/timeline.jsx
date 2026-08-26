@@ -3980,6 +3980,70 @@ useEffect(() => {
   const [fatherCardPos, setFatherCardPos] = useState({ left: 16, top: 16 });
 
   /*
+   * In-session selected-object navigation history.
+   *
+   * Only lightweight { type, id } references are stored; the actual text/father
+   * rows continue to live in the discovered datasets. Nothing is persisted, so
+   * a normal page refresh intentionally starts with a clean history.
+   */
+  const SELECTION_HISTORY_LIMIT = 200;
+  const [selectionHistory, setSelectionHistory] = useState([]);
+  const [selectionHistoryIndex, setSelectionHistoryIndex] = useState(-1);
+  const selectionHistoryRef = useRef([]);
+  const selectionHistoryIndexRef = useRef(-1);
+
+  const recordSelectionHistory = useCallback((rawType, id) => {
+    const type = rawType === "figure" ? "father" : rawType;
+    if ((type !== "text" && type !== "father") || id == null) return;
+
+    const history = selectionHistoryRef.current;
+    const currentIndex = selectionHistoryIndexRef.current;
+    const current = history[currentIndex];
+
+    if (
+      current &&
+      current.type === type &&
+      String(current.id) === String(id)
+    ) {
+      return;
+    }
+
+    // Browser-style branching: selecting something new after Back discards
+    // the old Forward branch before appending the new destination.
+    let nextHistory = history
+      .slice(0, Math.max(0, currentIndex + 1))
+      .concat({ type, id });
+
+    if (nextHistory.length > SELECTION_HISTORY_LIMIT) {
+      nextHistory = nextHistory.slice(-SELECTION_HISTORY_LIMIT);
+    }
+
+    const nextIndex = nextHistory.length - 1;
+    selectionHistoryRef.current = nextHistory;
+    selectionHistoryIndexRef.current = nextIndex;
+    setSelectionHistory(nextHistory);
+    setSelectionHistoryIndex(nextIndex);
+  }, []);
+
+  /*
+   * Selected tooltip visibility is a view preference, not history state.
+   * It therefore survives Back/Forward navigation but resets on page refresh.
+   * D3 reads the ref directly so toggling it does not rebuild the full timeline.
+   */
+  const [selectedTooltipVisible, setSelectedTooltipVisible] = useState(true);
+  const selectedTooltipVisibleRef = useRef(true);
+
+  const handleSelectedTooltipVisibilityChange = useCallback((nextValue) => {
+    const next = Boolean(nextValue);
+    selectedTooltipVisibleRef.current = next;
+    setSelectedTooltipVisible(next);
+
+    requestAnimationFrame(() => {
+      renderSelectedTooltipRef.current?.(true);
+    });
+  }, []);
+
+  /*
    * Keep the sequence infrastructure ready for later use, but for now:
    * - the selected object's main tooltip is controlled by the zoom tier;
    * - mini-tooltips never enter an automatic or hover-visible phase;
@@ -4283,7 +4347,6 @@ useEffect(() => {
   const selectedPinScreenPositionRef = useRef(null);
   const selectedPinPositionRafRef = useRef(0);
   const selectedPinSettleTimerRef = useRef(0);
-  const mapProjectionRafRef = useRef(0);
   const reapplyCurrentLayoutRef = useRef(() => {});
 
   /*
@@ -4315,6 +4378,38 @@ useEffect(() => {
         : geographicNodePositionsRef.current.text;
 
     return bucket.get(id) || null;
+  }
+
+  /*
+   * Count unique one-hop OBJECTS rather than raw connection rows. Multiple
+   * relationship rows to the same text/figure still represent one connected
+   * object in the selected tooltip.
+   */
+  function countUniqueDirectConnectionTargets(type, id) {
+    if (!type || id == null) return 0;
+
+    const seen = new Set();
+
+    for (const connection of allConnectionRowsRef.current || []) {
+      const aHit =
+        connection.aType === type && connection.aId === id;
+      const bHit =
+        connection.bType === type && connection.bId === id;
+
+      if (!aHit && !bHit) continue;
+
+      const otherType = aHit ? connection.bType : connection.aType;
+      const otherId = aHit ? connection.bId : connection.aId;
+      const otherName = aHit ? connection.bName : connection.aName;
+
+      const key = `${otherType || "unknown"}:${
+        otherId ?? otherName ?? ""
+      }`;
+
+      if (otherId != null || otherName) seen.add(key);
+    }
+
+    return seen.size;
   }
 
   function readSelectedPinTipClient() {
@@ -4470,12 +4565,13 @@ useEffect(() => {
   ]);
 
   const handleMapProjectionChange = useCallback(() => {
-    if (mapProjectionRafRef.current) return;
-
-    mapProjectionRafRef.current = requestAnimationFrame(() => {
-      mapProjectionRafRef.current = 0;
-      reapplyCurrentLayoutRef.current?.();
-    });
+    /*
+     * TimelineMap has already applied its camera transform before invoking
+     * this callback. Reapply the projected SVG overlays immediately so the
+     * selected pin and its tooltip reach the same browser paint as the map.
+     * An extra requestAnimationFrame here makes the overlay trail by one frame.
+     */
+    reapplyCurrentLayoutRef.current?.();
   }, []);
 
   function clearSelectedPinScreenPosition() {
@@ -4596,9 +4692,6 @@ useEffect(() => {
       }
       if (selectedPinSettleTimerRef.current) {
         clearTimeout(selectedPinSettleTimerRef.current);
-      }
-      if (mapProjectionRafRef.current) {
-        cancelAnimationFrame(mapProjectionRafRef.current);
       }
       if (viewSwitchAlignmentRafRef.current) {
         cancelAnimationFrame(
@@ -5790,6 +5883,7 @@ const handleSearchSelect = (item) => {
    
     if (payload) {
       setCardPos({ left, top });
+      recordSelectionHistory("text", payload.id);
       setSelectedText(payload);
       setSelectedFather(null);
       setShowMore(false);
@@ -5800,6 +5894,7 @@ const handleSearchSelect = (item) => {
   
     if (payload) {
       setFatherCardPos({ left, top });
+      recordSelectionHistory("father", payload.id);
       setSelectedFather(payload);
       setSelectedText(null);
       setShowMore(false);
@@ -5808,6 +5903,54 @@ const handleSearchSelect = (item) => {
 
        
     }
+  }
+};
+
+const navigateSelectionHistory = (direction) => {
+  const history = selectionHistoryRef.current;
+  const currentIndex = selectionHistoryIndexRef.current;
+  const targetIndex = currentIndex + direction;
+
+  if (targetIndex < 0 || targetIndex >= history.length) return;
+
+  const entry = history[targetIndex];
+  const payload =
+    entry.type === "text"
+      ? textRows.find((row) => String(row.id) === String(entry.id))
+      : fatherRows.find((row) => String(row.id) === String(entry.id));
+
+  if (!payload) return;
+
+  selectionHistoryIndexRef.current = targetIndex;
+  setSelectionHistoryIndex(targetIndex);
+
+  setCardLinkHoverTarget(null);
+  setHoveredTimelineTarget(null);
+  setShowMore(false);
+  pendingSelectionCameraRef.current = null;
+
+  d3.select(wrapRef.current)
+    .selectAll(".tl-tooltip")
+    .style("opacity", 0)
+    .style("display", "none");
+
+  const wrapRect = wrapRef.current?.getBoundingClientRect();
+  const CARD_W = 430;
+  const left = wrapRect
+    ? Math.round((wrapRect.width - CARD_W) / 2)
+    : 24;
+  const top = wrapRect ? Math.max(8, Math.round(72)) : 24;
+
+  if (entry.type === "text") {
+    setCardPos({ left, top });
+    setSelectedText(payload);
+    setSelectedFather(null);
+    flyToRef.current?.(payload, "text");
+  } else {
+    setFatherCardPos({ left, top });
+    setSelectedFather(payload);
+    setSelectedText(null);
+    flyToRef.current?.(payload, "father");
   }
 };
 
@@ -5828,6 +5971,7 @@ const handleConnectionNavigate = (targetType, targetId) => {
     const payload = textRows.find((t) => t.id === targetId);
     if (payload) {
       setCardPos({ left, top });
+      recordSelectionHistory("text", payload.id);
       setSelectedText(payload);
       setSelectedFather(null);
       setShowMore(false);
@@ -5837,6 +5981,7 @@ const handleConnectionNavigate = (targetType, targetId) => {
     const payload = fatherRows.find((f) => f.id === targetId);
     if (payload) {
       setFatherCardPos({ left, top });
+      recordSelectionHistory("father", payload.id);
       setSelectedFather(payload);
       setSelectedText(null);
       setShowMore(false);
@@ -6965,6 +7110,7 @@ clearActiveDurationRef.current = clearActiveDuration;
        * deepest zoom tiers. It disappears only in the outest tier.
        */
       const showSelectedPersistent =
+        selectedTooltipVisibleRef.current &&
         getActiveViewZoomK(kRef.current) >=
         ZOOM_SEGMENT_THRESHOLD;
 
@@ -7015,8 +7161,14 @@ clearActiveDurationRef.current = clearActiveDuration;
         ? "map"
         : "default";
 
+      const selectedConnectionCount =
+        countUniqueDirectConnectionTargets(
+          selectedType,
+          selectedId
+        );
+
       const layoutKey =
-        `${viewName}:${selectedType}:${selectedId}`;
+        `${viewName}:${selectedType}:${selectedId}:connections:${selectedConnectionCount}`;
 
       if (
         selectedTooltipPlacementRef.current
@@ -7037,14 +7189,48 @@ clearActiveDurationRef.current = clearActiveDuration;
           .style("opacity", 0);
       }
 
-      const selector = selectedText
-        ? "g.textPin path.tl-pin-body"
-        : "g.fatherPin path.tl-pin-body";
+      const wrapRect =
+        wrapEl.getBoundingClientRect();
 
-      const pinBody =
-        pinsRef.current?.querySelector(selector);
+      /*
+       * Connected-object marker rectangles below still come from
+       * getBoundingClientRect(), so they are expressed in CLIENT coordinates.
+       * Keep this helper in client coordinates as well. The selected pin uses
+       * its own chart-local visibility test and does not depend on this helper.
+       */
+      const intersectsViewport = (rect) =>
+        (
+          rect.right >= wrapRect.left &&
+          rect.left <= wrapRect.right &&
+          rect.bottom >= wrapRect.top &&
+          rect.top <= wrapRect.bottom
+        );
 
-      if (!pinBody) {
+      /*
+       * The main selected tooltip and the selected SVG pin now consume the
+       * exact same chart-local anchor in BOTH views. This deliberately avoids
+       * reading a just-mutated SVG path through getBoundingClientRect(): that
+       * layout read can land on a different rendering phase from the D3 update
+       * and is the common source of the visible tooltip catch-up/jump in the
+       * chronological view.
+       *
+       * Map View already stores projected points in chart-local x/y, so the
+       * same path also removes the prior client-coordinate special case.
+       */
+      const currentTransform =
+        lastTransformRef.current ?? d3.zoomIdentity;
+      const tooltipZx = currentTransform.rescaleX(x);
+      const tooltipZy = currentTransform.rescaleY(y0);
+
+      const selectedAnchorPoint = selectedText
+        ? placedPointForText(selectedText, tooltipZx, tooltipZy)
+        : placedPointForFather(selectedFather, tooltipZx, tooltipZy);
+
+      if (
+        !selectedAnchorPoint ||
+        !Number.isFinite(selectedAnchorPoint.x) ||
+        !Number.isFinite(selectedAnchorPoint.y)
+      ) {
         hideTipSel(tipSelected);
 
         miniTooltipLayer
@@ -7054,24 +7240,30 @@ clearActiveDurationRef.current = clearActiveDuration;
         return;
       }
 
-      const wrapRect =
-        wrapEl.getBoundingClientRect();
+      const pinRadius = getSelectedPinHeadRadius(kRef.current);
+      const pinCenterX = margin.left + selectedAnchorPoint.x;
+      const pinBottomY = margin.top + selectedAnchorPoint.y;
+      const pinHalfWidth = pinRadius * 0.9;
+      const pinHeight = pinRadius * 2.8;
 
-      const pinClientRect =
-        pinBody.getBoundingClientRect();
-
-      const intersectsViewport = (rect) =>
-        (
-          rect.right >= wrapRect.left &&
-          rect.left <= wrapRect.right &&
-          rect.bottom >= wrapRect.top &&
-          rect.top <= wrapRect.bottom
-        );
+      const selectedPinRect = {
+        left: pinCenterX - pinHalfWidth,
+        top: pinBottomY - pinHeight,
+        right: pinCenterX + pinHalfWidth,
+        bottom: pinBottomY,
+        width: pinHalfWidth * 2,
+        height: pinHeight,
+        cx: pinCenterX,
+        cy: pinBottomY - pinHeight / 2,
+      };
 
       const pinIsVisible =
-        pinClientRect.width > 0 &&
-        pinClientRect.height > 0 &&
-        intersectsViewport(pinClientRect);
+        selectedPinRect.width > 0 &&
+        selectedPinRect.height > 0 &&
+        selectedPinRect.right >= 0 &&
+        selectedPinRect.left <= wrapRect.width &&
+        selectedPinRect.bottom >= 0 &&
+        selectedPinRect.top <= wrapRect.height;
 
       const toLocalRect = (
         clientRect,
@@ -7703,18 +7895,27 @@ clearActiveDurationRef.current = clearActiveDuration;
         "top-left",
       ];
 
-      const pinRect = addRectDimensions(
-        toLocalRect(pinClientRect)
-      );
+      const pinRect = selectedPinRect;
 
       let selectedTooltipRect = null;
 
       const selectedPlacementCache =
         selectedTooltipPlacementRef.current;
 
-      const selectedHTML = selectedText
+      const selectedBaseHTML = selectedText
         ? textObjectTipHTML(selectedText)
         : fatherObjectTipHTML(selectedFather);
+
+      const selectedConnectionLabel =
+        selectedConnectionCount === 1
+          ? "connection"
+          : "connections";
+
+      const selectedHTML = `${selectedBaseHTML}
+        <div class="tl-tip-meta tl-tip-connections">
+          <span class="tl-tip-connectionsCount">${selectedConnectionCount}</span>
+          <span>${selectedConnectionLabel}</span>
+        </div>`;
 
       const selectedAccent =
         objectTooltipAccent(selectedRow);
@@ -7782,19 +7983,23 @@ clearActiveDurationRef.current = clearActiveDuration;
           selectedTooltipGap
         );
 
+        /*
+         * Movement frames must only move the existing tooltip layer. Rewriting
+         * innerHTML and changing left/top on every zoom event forces layout and
+         * can visibly decouple this HTML overlay from the SVG pin. Keep the DOM
+         * stable and move the promoted layer with one compositor transform.
+         */
         tipSelected
-          .html(selectedHTML)
           .style("--accent", selectedAccent)
           .style("display", "block")
           .style("visibility", "visible")
           .style("opacity", 1)
+          .style("left", "0px")
+          .style("top", "0px")
+          .style("will-change", "transform")
           .style(
-            "left",
-            `${selectedTooltipRect.left}px`
-          )
-          .style(
-            "top",
-            `${selectedTooltipRect.top}px`
+            "transform",
+            `translate3d(${selectedTooltipRect.left}px, ${selectedTooltipRect.top}px, 0)`
           )
           .attr(
             "data-placement",
@@ -10340,6 +10545,7 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
 
           hideTipSel(tipText);
           setCardPos({ left, top });
+          recordSelectionHistory("text", d.id);
           setSelectedText(d);
           setSelectedFather(null);
           setShowMore(false);
@@ -10395,6 +10601,7 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
           setCardPos({ left, top });
         }
 
+        recordSelectionHistory("text", d.id);
         setSelectedText(d);
         setSelectedFather(null);
         setShowMore(false);
@@ -10674,6 +10881,7 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
 
       hideTipSel(tipText);
       setFatherCardPos({ left, top });
+      recordSelectionHistory("father", d.id);
       setSelectedFather(d);
       setSelectedText(null);
       setShowMore(false);
@@ -10728,6 +10936,7 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
       setFatherCardPos({ left, top });
     }
 
+    recordSelectionHistory("father", d.id);
     setSelectedFather(d);
     setSelectedText(null);
     setShowMore(false);
@@ -12532,6 +12741,8 @@ function renderLocationClusterBranch() {
         setCardLinkHoverTarget(null);
         setHoveredTimelineTargetSafe(null);
         setShowMore(false);
+
+        recordSelectionHistory(entry.type, entry.id);
 
         if (entry.type === "text") {
           setSelectedText(entry.row);
@@ -15450,6 +15661,15 @@ return (
         showMap={showMap}
         onShowMapChange={handleShowMapChange}
         mapAvailable={hasMapCoordinates(selectedText)}
+        canGoBack={selectionHistoryIndex > 0}
+        canGoForward={
+          selectionHistoryIndex >= 0 &&
+          selectionHistoryIndex < selectionHistory.length - 1
+        }
+        onGoBack={() => navigateSelectionHistory(-1)}
+        onGoForward={() => navigateSelectionHistory(1)}
+        selectedTooltipVisible={selectedTooltipVisible}
+        onSelectedTooltipVisibleChange={handleSelectedTooltipVisibilityChange}
         onClose={() => {
           prepareDeselectionCameraAnchor("text", selectedText);
           setSelectedText(null);
@@ -15475,6 +15695,15 @@ return (
         showMap={showMap}
         onShowMapChange={handleShowMapChange}
         mapAvailable={hasMapCoordinates(selectedFather)}
+        canGoBack={selectionHistoryIndex > 0}
+        canGoForward={
+          selectionHistoryIndex >= 0 &&
+          selectionHistoryIndex < selectionHistory.length - 1
+        }
+        onGoBack={() => navigateSelectionHistory(-1)}
+        onGoForward={() => navigateSelectionHistory(1)}
+        selectedTooltipVisible={selectedTooltipVisible}
+        onSelectedTooltipVisibleChange={handleSelectedTooltipVisibilityChange}
         onClose={() => {
           prepareDeselectionCameraAnchor("father", selectedFather);
           setSelectedFather(null);

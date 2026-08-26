@@ -14,14 +14,15 @@
     "Description": "Adam is the primordial human ancestor of Jewish, Christian, and Islamic tradition. Genesis describes him as formed from the earth and animated by divine breath, while the Qur’an emphasizes his creation from clay and God’s teaching him the names. Adam and Eve transgress a divine command and leave the garden, making Adam a figure of human dignity, knowledge, responsibility, and mortality. Traditional biblical chronologies place him in the fourth millennium BCE, but these dates belong to sacred genealogy rather than historical chronology.",
     "Historic-Mythic Status Tags": "Legendary, Mythical, Symbolic, Allegorical, Composite, Bridge, Doctrinal/Canonical, Archetypal, Contested, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "Adam",
     "Jungian Archetypes Tags": "Father Archetype, Initiator, Hero, Self, Shadow",
     "Neumann Stages Tags": "Uroboric Stage, Initiation, Divine Intervention, Death, Mythic Ordering of Reality, Coronation of the King, Separation from World Parents, Isolation, Return to the Community",
     "Category": "First Human of the Abrahamic Tradition",
     "Y-pos": "50",
     "Article/post": "-",
-    "Image/museum": "(https://www.italianrenaissance.org/michelangelo-creation-of-adam/, The Creation of Adam, Fresco painting by Michelangelo), (https://artuk.org/discover/artworks/adam-naming-the-beasts-83208, Adam Naming the Beasts, Relief etching with watercolor by William Blake)",
-    "Video": "(https://www.youtube.com/watch?v=8OHorPTHyDA, Q&A: Was Adam the First Man? Reconciling Creation with the Theory of Evolution | Dr. Shabir Ally)",
-    "Other": "Sources: https://www.biblegateway.com/passage/?search=Genesis%202-5&version=NRSVUE; https://quran.com/2/30-39"
+    "Image/museum": "(https://www.metmuseum.org/art/collection/search/197197, The Creation of Adam, Metropolitan Museum of Art; British stained glass, mid-17th century; exact Adam subject, Public Domain)",
+    "Video": "-",
+    "Other": "(https://www.metmuseum.org/art/collection/search/363929, Adam and Eve, Metropolitan Museum of Art; Albrecht Dürer, 1504, engraving; exact Adam and Eve subject, Public Domain)"
   },
   {
     "Index": "2",
@@ -38,14 +39,15 @@
     "Description": "Eve, Hebrew Ḥawwāh, is the first woman in Genesis and is called “mother of all living.” She is formed from Adam’s side as his corresponding partner. In Genesis she eats from the forbidden tree and gives the fruit to Adam; in the Qur’anic account the woman is unnamed and both members of the pair share responsibility for the transgression. Eve therefore became an archetype of human kinship, life, desire, knowledge, and exile from primordial innocence. Her assigned chronology derives from traditional biblical calculations rather than historical evidence.",
     "Historic-Mythic Status Tags": "Legendary, Mythical, Symbolic, Allegorical, Composite, Bridge, Doctrinal/Canonical, Archetypal, Contested, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "Eve",
     "Jungian Archetypes Tags": "Mother Archetype, Initiator, Anima, Persona, Shadow",
     "Neumann Stages Tags": "Uroboric Stage, Initiation, Divine Intervention, Separation from World Parents, Death, Isolation, Return to the Community, Mythic Ordering of Reality, Battle with the Dragon",
     "Category": "First Woman of the Abrahamic Tradition",
     "Y-pos": "-40",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://www.metmuseum.org/art/collection/search/428295, The Creation of Eve, from The Story of Adam and Eve, Metropolitan Museum of Art; Heinrich Aldegrever, 1540, engraving; exact Eve subject, Public Domain)",
     "Video": "-",
-    "Other": "Sources: https://www.biblegateway.com/passage/?search=Genesis%202-4&version=NRSVUE; https://quran.com/7/19-25"
+    "Other": "(https://www.metmuseum.org/art/collection/search/464019, Panel from an Ivory Casket with the Story of Adam and Eve, Metropolitan Museum of Art; Byzantine, 10th–11th century, ivory; early medieval Adam and Eve narrative, Public Domain)"
   },
   {
     "Index": "4",
@@ -62,14 +64,15 @@
     "Description": "Cain is the elder son of Adam and Eve in Genesis and a cultivator of the soil. After God favors Abel’s offering over his own for reasons the text does not fully explain, Cain kills his brother in the field. God condemns him to wandering but also places a protective mark upon him; Cain later builds a city named after his son Enoch, and his descendants are linked with pastoralism, music, and metalworking. Islamic tradition identifies the unnamed murderous brother in the Qur’an as Qābīl. His story became the canonical model of envy, fratricide, guilt, punishment, and restrained vengeance.",
     "Historic-Mythic Status Tags": "Mythical, Legendary, Symbolic, Allegorical, Archetypal, Composite, Doctrinal/Canonical, Bridge, Contested",
     "Founding Figure?": "NO",
+    "Name_2": "Cain",
     "Jungian Archetypes Tags": "Shadow, Trickster, Persona, Initiator",
     "Neumann Stages Tags": "Battle with the Dragon, Divine Intervention, Separation from World Parents, Isolation, Initiation, Magical Empowerment, Mythic Ordering of Reality, Ego Collapse",
     "Category": "First Fratricide and City-Building Ancestor",
     "Y-pos": "30",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://www.metmuseum.org/art/collection/search/817124, Cain Slaying Abel, Metropolitan Museum of Art; Pier Francesco Mola, ca. 1650–52, oil on canvas; exact Cain subject, Public Domain)",
     "Video": "-",
-    "Other": "Sources: https://www.biblegateway.com/passage/?search=Genesis%204&version=NRSVUE; https://quran.com/5/27-31"
+    "Other": "(https://www.metmuseum.org/art/collection/search/210077, Cain and Abel, Metropolitan Museum of Art; Adolf von Hildebrand, 1890, limestone and tufa sculpture; exact Cain and Abel subject)"
   },
   {
     "Index": "5",
@@ -86,14 +89,15 @@
     "Description": "Abel is the younger son of Adam and Eve in Genesis and a keeper of sheep. God regards Abel and his offering favorably, after which Cain kills him in the field. His blood is said to cry out from the ground, making him the scriptural image of innocent blood demanding justice. Later Jewish and Christian traditions developed Abel as an archetype of righteous innocence, and Christian interpretation often identifies him as the first martyr. Islamic tradition identifies the unnamed slain brother in the Qur’an as Hābīl.",
     "Historic-Mythic Status Tags": "Mythical, Legendary, Symbolic, Allegorical, Archetypal, Doctrinal/Canonical, Bridge, Devotional, Contested",
     "Founding Figure?": "NO",
+    "Name_2": "Abel",
     "Jungian Archetypes Tags": "Hero, Initiator",
     "Neumann Stages Tags": "Isolation, Divine Intervention, Death, Return to the Community, Mythic Ordering of Reality",
     "Category": "Righteous Victim of the First Fratricide",
     "Y-pos": "-14",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://www.metmuseum.org/art/collection/search/700567, The Sacrifice of Abel, Metropolitan Museum of Art; Johann Sadeler I, 1576, engraving; exact Abel subject)",
     "Video": "-",
-    "Other": "Sources: https://www.biblegateway.com/passage/?search=Genesis%204%3A1-16&version=NRSVUE; https://quran.com/5/27-31"
+    "Other": "(https://www.metmuseum.org/art/collection/search/700566, Cain Murdering Abel, Metropolitan Museum of Art; Johann Sadeler I, 1576, engraving; Abel appears in the Genesis narrative, Public Domain)"
   },
   {
     "Index": "6",
@@ -110,14 +114,15 @@
     "Description": "Enoch is an antediluvian patriarch in Genesis who lives 365 years, “walks with God,” and is taken by God rather than receiving an ordinary death notice. Later Jewish Enochic literature transforms him into a visionary traveler, heavenly scribe, and revealer of cosmic secrets. Islamic tradition commonly identifies him with the prophet Idrīs, whom the Qur’an praises and says was raised to a high station, although the Qur’an itself does not explicitly equate Idrīs with Enoch. His placement within antediluvian chronology and Babylonia belongs to later sacred and interpretive tradition rather than verifiable biography.",
     "Historic-Mythic Status Tags": "Legendary, Mythical, Symbolic, Allegorical, Composite, Bridge, Doctrinal/Canonical, Archetypal, Contested, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "Enoch (Idris)",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Hero, Father Archetype",
     "Neumann Stages Tags": "Divine Intervention, Initiation, Magical Empowerment, Ego Transcendence, Rebirth, Mythic Ordering of Reality, Isolation, Battle with the Dragon",
     "Category": "Antediluvian Patriarch and Visionary Sage",
     "Y-pos": "-",
-    "Article/post": "-",
-    "Image/museum": "-",
+    "Article/post": "(https://www.britishmuseum.org/sites/default/files/2022-10/Hieroglyphs_unlocking_ancient_Egypt_large_print_guide_The_British_Museum_2.pdf, Hieroglyphs: Unlocking Ancient Egypt — exhibition guide PDF, British Museum guide, 2022; notes the medieval Arabic tradition identifying the prophet Idris with Enoch and with Hermes as an inventor of writing)",
+    "Image/museum": "(https://www.metmuseum.org/art/collection/search/426771, Enoch, Metropolitan Museum of Art; William Blake, 1806–7, modified lithograph; exact Enoch subject, Public Domain)",
     "Video": "-",
-    "Other": "Sources: https://www.biblegateway.com/passage/?search=Genesis%205%3A18-24&version=NRSVUE; https://quran.com/19/56-57"
+    "Other": "(https://www.metmuseum.org/art/collection/search/399690, Enoch and his Family, Metropolitan Museum of Art; Theodor de Bry, ca. 1580–1623, engraving; exact Enoch reception image, Public Domain)"
   },
   {
     "Index": "7",
@@ -134,14 +139,15 @@
     "Description": "Inanna, known in Akkadian as Ištar, was one of Mesopotamia’s most important deities. She governed sexual love, warfare, political power, and the planet Venus, and her principal cult center was the Eanna precinct at Uruk. In the Sumerian tale Inanna and Enki she obtains the me, the powers and institutions of civilized life, from Enki and brings them to Uruk. In her descent myth she passes through the gates of the netherworld, is killed, restored, and ultimately makes Dumuzi her substitute. Her traditions emphasize unstable power, reversal, desire, violence, and royal legitimacy rather than a simple fertility cycle.",
     "Historic-Mythic Status Tags": "Mythical, Symbolic, Allegorical, Composite, Archetypal, Doctrinal/Canonical, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "Inanna/Ishtar",
     "Jungian Archetypes Tags": "Anima, Mother Archetype, Terrible Mother, Trickster, Initiator, Hero",
     "Neumann Stages Tags": "Descent into the Underworld, Death, Divine Intervention, Rebirth, Return to the Community, Magical Empowerment, Mythic Ordering of Reality, Coronation of the King, Battle with the Dragon, Isolation",
     "Category": "Goddess of Love, War, and Sovereignty",
     "Y-pos": "-",
-    "Article/post": "-",
-    "Image/museum": "-",
+    "Article/post": "(https://oracc.museum.upenn.edu/amgg/listofdeities/inanaitar/, Inana/Ishtar, ORACC Ancient Mesopotamian Gods and Goddesses scholarly profile; includes iconography, functions, cult centers and references)",
+    "Image/museum": "(https://www.metmuseum.org/art/collection/search/327617, Cylinder seal: worshipper approaching Ishtar, Metropolitan Museum of Art; Old Babylonian, early 2nd millennium BCE; Ishtar is explicitly identified in the cult scene, Public Domain)",
     "Video": "-",
-    "Other": "Source: https://oracc.museum.upenn.edu/amgg/listofdeities/inanaitar/"
+    "Other": "(https://www.britishmuseum.org/collection/object/W_1891-0509-2553, The Adda Seal, British Museum; Akkadian, ca. 2300 BCE; exact ancient representation of Ishtar carrying weapons, alongside Ea and other deities)"
   },
   {
     "Index": "8",
@@ -158,14 +164,15 @@
     "Description": "Noah is the righteous flood survivor of Genesis and the prophet Nūḥ of the Qur’an. In Genesis he preserves his household and representative animals in an ark, offers sacrifice after the flood, and receives a covenant symbolized by the rainbow. The Qur’an emphasizes his preaching, rejection by much of his people, and rescue with the believers. The earlier Mesopotamian flood traditions of Ziusudra, Atrahasis, and Utnapishtim provide a regional narrative background for comparison with Noah. His assigned chronology follows traditional biblical calculation rather than historical dating.",
     "Historic-Mythic Status Tags": "Legendary, Mythical, Symbolic, Allegorical, Composite, Bridge, Doctrinal/Canonical, Archetypal, Contested, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "Noah",
     "Jungian Archetypes Tags": "Father Archetype, Hero, Wise Old Man, Initiator, Shadow",
     "Neumann Stages Tags": "Divine Intervention, Initiation, Death, Rebirth, Mythic Ordering of Reality, Battle with the Dragon, Isolation, Return to the Community",
     "Category": "Flood Survivor and Covenant Patriarch",
     "Y-pos": "-",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://www.metmuseum.org/art/collection/search/436914, Noah, Metropolitan Museum of Art; Lorenzo Monaco, ca. 1408–10, tempera and gold on wood; exact Noah subject, Public Domain)",
     "Video": "-",
-    "Other": "Sources: https://www.biblegateway.com/passage/?search=Genesis%206-9&version=NRSVUE; https://quran.com/11/25-49"
+    "Other": "(https://www.metmuseum.org/art/collection/search/629452, Prayer Book with Noah's Ark, Metropolitan Museum of Art; Ottoman, dated 1766 CE; illustrated devotional manuscript containing a representation of Noah's Ark)"
   },
   {
     "Index": "9",
@@ -182,14 +189,15 @@
     "Description": "An, Akkadian Anu, was the god of heaven and one of the oldest senior deities of Mesopotamia. He was associated especially with Uruk, where he shared the Eanna precinct with Inanna and later received a renewed cult with Antu. Anu often functions as a remote source of divine rank, legitimacy, and authority rather than as the most active god in a narrative. Mesopotamian genealogies were variable: many gods could be called his children in different texts, and no single family tree applies across all periods. His high position endured even as Enlil, Marduk, and Aššur became the dominant gods of particular political traditions.",
     "Historic-Mythic Status Tags": "Mythical, Symbolic, Archetypal, Doctrinal/Canonical, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "An/Anu",
     "Jungian Archetypes Tags": "Father Archetype, Wise Old Man, Self, Terrible Father",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Coronation of the King, Divine Intervention, Magical Empowerment, Separation from World Parents",
     "Category": "High God of Heaven",
     "Y-pos": "-",
-    "Article/post": "-",
-    "Image/museum": "-",
+    "Article/post": "(https://oracc.museum.upenn.edu/amgg/Listofdeities/An/index.html, An/Anu, ORACC Ancient Mesopotamian Gods and Goddesses scholarly profile; An/Anu is the Mesopotamian sky god and father of the gods)",
+    "Image/museum": "(https://www.metmuseum.org/art/collection/search/327048, Kudurru fragment with divine symbols, Metropolitan Museum of Art; ca. 1156–1025 BCE; horned crown is explicitly identified as a symbol associated with Anu and Enlil; symbolic representation rather than a portrait, Public Domain)",
     "Video": "-",
-    "Other": "Source: https://oracc.museum.upenn.edu/amgg/Listofdeities/An/index.html"
+    "Other": "(https://www.britishmuseum.org/collection/object/W_1863-0619-2, Kurkh Stela of Shalmaneser III, British Museum; Neo-Assyrian, 9th century BCE; divine-symbol register includes the horned crown of the sky-god Anu)"
   },
   {
     "Index": "10",
@@ -206,14 +214,15 @@
     "Description": "Ki is the Sumerian word for “earth” and is sometimes treated as a personified earth goddess paired with An, heaven. The evidence for Ki as a fully independent deity with a developed cult is limited, and the expression an-ki can also denote the totality of heaven and earth. Some literary traditions describe the separation of heaven and earth and connect Enlil with that cosmic division. Ki is therefore best understood as a partly personified earth principle whose identity and genealogical role vary across literary and theological traditions.",
     "Historic-Mythic Status Tags": "Mythical, Symbolic, Archetypal, Contested",
     "Founding Figure?": "NO",
+    "Name_2": "Ki",
     "Jungian Archetypes Tags": "Mother Archetype, Terrible Mother, Wise Old Woman, Initiator",
     "Neumann Stages Tags": "Uroboric Stage, Separation from World Parents, Mythic Ordering of Reality, Magical Empowerment, Death, Rebirth, Descent into the Underworld, Coronation of the King",
     "Category": "Personified Earth and Cosmic Principle",
     "Y-pos": "-",
-    "Article/post": "-",
+    "Article/post": "(https://oracc.museum.upenn.edu/amgg/Listofdeities/An/index.html, Ki as the personification of earth, ORACC An/Anu profile notes that Ki, the personification of earth, became An's consort in later Sumerian tradition; Ki has no securely established iconography)",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "Comparative source: https://oracc.museum.upenn.edu/amgg/Listofdeities/An/index.html"
+    "Other": "(https://www.penn.museum/sites/bulletin/4043/, Tales of Sumer, Penn Museum scholarly museum article describing An and Ki as heaven and earth and the Sumerian cosmological tradition; no secure ancient portrait of Ki is claimed)"
   },
   {
     "Index": "11",
@@ -230,14 +239,15 @@
     "Description": "Gilgamesh was remembered as an early king of Uruk and was later deified, although his historical existence cannot be independently demonstrated with certainty. The Sumerian King List and later tradition place him in the Early Dynastic age. Separate Sumerian poems portray his conflicts, journeys, and death; Old Babylonian and later Akkadian scribes combined related traditions into the Epic of Gilgamesh. In the later Akkadian epic tradition, Gilgamesh is described as two-thirds divine, further separating the literary hero from any possible historical ruler. His friendship with Enkidu and failed search for lasting life made him Mesopotamia’s central reflection on kingship, fame, grief, and mortality.",
     "Historic-Mythic Status Tags": "Legendary, Historic, Historically Plausible, Symbolic, Allegorical, Composite, Bridge, Archetypal, Contested, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "Gilgamesh",
     "Jungian Archetypes Tags": "Hero, Shadow, Persona, Initiator, Self",
     "Neumann Stages Tags": "Battle with the Dragon, Isolation, Divine Intervention, Descent into the Underworld, Initiation, Magical Empowerment, Ego Collapse, Rebirth, Return to the Community, Mythic Ordering of Reality",
     "Category": "Deified Hero-King of Uruk",
     "Y-pos": "-",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://www.britishmuseum.org/collection/object/W_1853-0822-6, Cylinder seal with Gilgamesh, Enkidu, the Bull of Heaven and Ishtar, British Museum; Late Babylonian, ca. 800–700 BCE; museum description explicitly identifies Gilgamesh and Enkidu killing the Bull of Heaven while Ishtar intervenes)",
     "Video": "-",
-    "Other": "Sources: https://etcsl.orinst.ox.ac.uk/section1/tr1811.htm; https://oracc.museum.upenn.edu/cams/gkab/"
+    "Other": "(https://www.metmuseum.org/art/collection/search/891675, Gilgamesh, King of Erech, Metropolitan Museum of Art; 1948, later artistic reception of Gilgamesh)"
   },
   {
     "Index": "12",
@@ -254,14 +264,15 @@
     "Description": "Enlil was the god of wind, atmosphere, divine command, and political authority. His Ekur sanctuary at Nippur became a major source of kingship and legitimacy for rulers across Mesopotamia, even when Nippur itself was not an imperial capital. Literary traditions often make him a son of An, but other scholarly genealogies differ. Enlil decrees destinies, grants kingship, and can act with destructive severity; in Atrahasis he supports the decision to reduce or destroy noisy humanity, while other texts praise him as the guarantor of abundance and order. Marduk later absorbed much of his supreme status in Babylonian theology.",
     "Historic-Mythic Status Tags": "Mythical, Symbolic, Archetypal, Doctrinal/Canonical, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "Enlil",
     "Jungian Archetypes Tags": "Father Archetype, Wise Old Man, Terrible Father, Persona",
     "Neumann Stages Tags": "Separation from World Parents, Mythic Ordering of Reality, Coronation of the King, Divine Intervention, Magical Empowerment, Return to the Community",
     "Category": "God of Wind, Authority, and Kingship",
     "Y-pos": "40",
-    "Article/post": "-",
-    "Image/museum": "-",
+    "Article/post": "(https://oracc.museum.upenn.edu/amgg/listofdeities/enlil/index.html, Enlil/Ellil, ORACC Ancient Mesopotamian Gods and Goddesses scholarly profile of the major Mesopotamian wind and authority deity)",
+    "Image/museum": "(https://www.metmuseum.org/art/collection/search/327048, Kudurru fragment with divine symbols, Metropolitan Museum of Art; ca. 1156–1025 BCE; horned crown is explicitly associated with Anu and Enlil; symbolic rather than anthropomorphic representation, Public Domain)",
     "Video": "-",
-    "Other": "Source: https://oracc.museum.upenn.edu/amgg/Listofdeities/Enlil/index.html"
+    "Other": "(https://www.metmuseum.org/art/collection/search/324915, Stamped brick of Ur-Nammu from the Ekur of Enlil, Metropolitan Museum of Art; ca. 2112–2095 BCE; inscribed building brick from Enlil's great temple at Nippur, cult-context object, Public Domain)"
   },
   {
     "Index": "13",
@@ -278,14 +289,15 @@
     "Description": "Enki, Akkadian Ea, was the god of wisdom, freshwater, ritual purification, incantation, and skilled craft. His cult center was Eridu, and his domain was the abzu, the subterranean freshwater source beneath the earth. Mesopotamian myths portray him as an inventive problem-solver who participates in human creation and repeatedly protects life through intelligence rather than force. He administers the me, the powers and institutions of civilization, and in one tale loses them to Inanna after a drinking feast. In the Babylonian Enūma Eliš, Ea kills the personified Apsu and establishes his dwelling over the subdued abyss.",
     "Historic-Mythic Status Tags": "Mythical, Symbolic, Allegorical, Composite, Archetypal, Doctrinal/Canonical, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "Enki (Ea)",
     "Jungian Archetypes Tags": "Wise Old Man, Trickster, Initiator, Father Archetype",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Divine Intervention, Magical Empowerment, Battle with the Dragon, Descent into the Underworld, Coronation of the King, Return to the Community",
     "Category": "God of Wisdom, Freshwater, and Ritual Skill",
     "Y-pos": "-",
-    "Article/post": "-",
-    "Image/museum": "-",
+    "Article/post": "(https://oracc.museum.upenn.edu/amgg/listofdeities/enki/index.html, Enki/Ea, ORACC Ancient Mesopotamian Gods and Goddesses scholarly profile of Enki/Ea)",
+    "Image/museum": "(https://www.britishmuseum.org/collection/object/W_1891-0509-2553, The Adda Seal — Ea, British Museum; Akkadian, ca. 2300 BCE; exact ancient representation of Ea with streams of water and fish flowing from his shoulders)",
     "Video": "-",
-    "Other": "Source: https://oracc.museum.upenn.edu/amgg/listofdeities/enki/"
+    "Other": "(https://www.metmuseum.org/art/collection/search/327048, Kudurru fragment with goat-fish symbol of Ea, Metropolitan Museum of Art; ca. 1156–1025 BCE; museum identifies the goat-fish as the divine symbol of Ea, Public Domain)"
   },
   {
     "Index": "14",
@@ -302,14 +314,15 @@
     "Description": "Ninhursag, “Lady of the Mountain,” was a major Sumerian mother and birth goddess associated with gestation, childbirth, rulers, and the generative earth. She appears prominently in Enki and Ninhursag, where she gives birth to deities and heals Enki’s afflicted body. Ninhursag was connected and sometimes equated with mother-goddess figures such as Ninmah and Nintur, while Akkadian Mami and Bēlet-ilī could occupy similar roles. These figures overlap in function and were sometimes identified with one another, although their identities and relationships vary by text and period. Her important sanctuary at Keš was probably in the Adab region, although its exact location remains uncertain.",
     "Historic-Mythic Status Tags": "Mythical, Symbolic, Allegorical, Composite, Archetypal, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "Ninhursag",
     "Jungian Archetypes Tags": "Mother Archetype, Wise Old Woman, Terrible Mother, Initiator",
     "Neumann Stages Tags": "Uroboric Stage, Mythic Ordering of Reality, Divine Intervention, Magical Empowerment, Death, Rebirth, Return to the Community, Coronation of the King",
     "Category": "Mother and Birth Goddess",
     "Y-pos": "-",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://www.britishmuseum.org/collection/object/W_1924-0920-245, Tablet naming Ninhursag, British Museum; Early Dynastic III, ca. 2500 BCE, Tell al-'Ubaid; inscription explicitly names Ninhursag; cult inscription rather than a portrait)",
     "Video": "-",
-    "Other": "Source: https://oracc.museum.upenn.edu/amgg/Listofdeities/MotherGoddess/index.html"
+    "Other": "(https://www.britishmuseum.org/collection/object/W_1924-0920-1, Bull from the Temple of Ninhursag, British Museum; Early Dynastic III, ca. 2500 BCE, copper alloy; excavated from Ninhursag's temple at Tell al-'Ubaid)"
   },
   {
     "Index": "15",
@@ -326,14 +339,15 @@
     "Description": "Nisaba, also written Nidaba, was the Sumerian goddess of grain, writing, accounting, and scribal knowledge. Her agricultural and intellectual functions were closely connected in a society where the earliest writing served temple and household administration. She was patron deity of Ereš, a city whose archaeological identification remains uncertain, and scribal compositions invoke her as a divine keeper of tablets, calculations, and learned order. In later Babylonian and Assyrian scholarship the god Nabu became the more prominent patron of writing, but Nisaba remained an ancestral model of the scribal arts.",
     "Historic-Mythic Status Tags": "Mythical, Symbolic, Allegorical, Composite, Archetypal, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "Nisaba",
     "Jungian Archetypes Tags": "Wise Old Woman, Mother Archetype, Initiator",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Magical Empowerment, Return to the Community, Coronation of the King, Initiation",
     "Category": "Goddess of Grain, Writing, and Scribal Knowledge",
     "Y-pos": "15",
-    "Article/post": "-",
+    "Article/post": "(https://oracc.museum.upenn.edu/amgg/listofdeities/nidaba/, Nidaba/Nisaba, ORACC Ancient Mesopotamian Gods and Goddesses scholarly profile; goddess of grain and writing and patron deity of scribes)",
     "Image/museum": "-",
     "Video": "-",
-    "Other": "Source: https://oracc.museum.upenn.edu/amgg/listofdeities/nidaba/"
+    "Other": "(https://oracc.museum.upenn.edu/obmc/P229720/html, Old Babylonian literary text praising Nisaba, ORACC primary-text page preserving a doxology to Nisaba; useful textual witness because no securely identified museum portrait was found)"
   },
   {
     "Index": "16",
@@ -350,14 +364,15 @@
     "Description": "Kubaba is the only woman listed as a sovereign in the Sumerian King List. The text describes her as a tavern keeper who “made firm the foundations of Kish” and assigns her a legendary reign of one hundred years. Later tradition treats her as the founder of a dynasty, but no contemporary inscription securely confirms her reign, so she belongs between possible history and literary memory. Her unusual rise from an occupational identity to kingship made her a powerful image of reversed status and dynastic legitimacy. The king-list figure is distinct from, though sometimes compared with, the later goddess Kubaba worshipped at Carchemish.",
     "Historic-Mythic Status Tags": "Legendary, Historically Plausible, Symbolic, Allegorical, Composite, Bridge, Archetypal, Contested",
     "Founding Figure?": "NO",
+    "Name_2": "Kubaba",
     "Jungian Archetypes Tags": "Mother Archetype, Wise Old Woman, Persona, Initiator",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Coronation of the King, Return to the Community, Rebirth, Magical Empowerment",
     "Category": "Legendary Queen and Dynastic Founder of Kish",
     "Y-pos": "-",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://www.britishmuseum.org/collection/object/W_1881-1210-1, Relief of the goddess Kubaba, British Museum; Neo-Hittite/Carchemish, ca. 760 BCE, basalt; exact ancient relief of Kubaba holding a mirror, associated with her temple)",
     "Video": "-",
-    "Other": "Source: https://etcsl.orinst.ox.ac.uk/section2/tr211.htm"
+    "Other": "(https://www.britishmuseum.org/collection/object/W_1879-0819-1, Door-jamb inscription of Katuwa mentioning Kubaba, British Museum; Carchemish, 10th–9th century BCE; inscription states that Katuwa re-established Kubaba as Queen of Carchemish)"
   },
   {
     "Index": "17",
@@ -374,14 +389,15 @@
     "Description": "Ashur, more precisely Aššur, was both the divine embodiment of the city of Aššur and the supreme god of the Assyrian state. Early Assyrian rulers described themselves as his vice-regents rather than as independent divine kings, and imperial expansion was represented as the extension of his ordered domain. Because Aššur had little independent mythology, Assyrian theologians associated him with older high gods such as Enlil and Anšar and adapted attributes of Marduk to him. Aššur may sometimes have been represented through the winged disk, although the identification remains uncertain. After the empire’s fall in 612 BCE, his cult and city survived in diminished forms into later periods.",
     "Historic-Mythic Status Tags": "Mythical, Symbolic, Allegorical, Composite, Bridge, Doctrinal/Canonical, Archetypal, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "Ashur",
     "Jungian Archetypes Tags": "Father Archetype, Terrible Father, Wise Old Man, Hero, Persona, Self",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Coronation of the King, Battle with the Dragon, Divine Intervention, Magical Empowerment, Return to the Community",
     "Category": "National God of Assyria and Divine Sovereign",
     "Y-pos": "-40",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://www.britishmuseum.org/collection/object/W_1849-1222-16, Ashurnasirpal II battle relief with the god Ashur, British Museum; Neo-Assyrian, ca. 865–860 BCE; Ashur appears above the king's horses in his winged emblem, shooting arrows)",
     "Video": "-",
-    "Other": "Comparative sources: https://oracc.museum.upenn.edu/amgg/Listofdeities/AnsharandKishar/index.html; https://oracc.museum.upenn.edu/riao/"
+    "Other": "(https://www.britishmuseum.org/collection/object/W_1849-1222-6, Ashurnasirpal II relief with Ashur in the winged disc, British Museum; Neo-Assyrian, 9th century BCE; king accompanied by the god Ashur in a winged disc)"
   },
   {
     "Index": "18",
@@ -398,14 +414,15 @@
     "Description": "Sargon of Akkad founded the Akkadian dynasty and created the first securely documented territorial empire to unite much of southern and northern Mesopotamia. The conventional reign dates c. 2334–2279 BCE follow the Middle Chronology and remain approximate. Contemporary royal inscriptions attest his conquests and the political centrality of Agade, whose location is still unknown. Stories of humble birth, service as cupbearer to Ur-Zababa, and infancy in a river basket belong mainly to later literary legend. Sargon’s reign nevertheless established a durable model of imperial kingship, military expansion, and rule across Sumerian- and Akkadian-speaking regions.",
     "Historic-Mythic Status Tags": "Historic, Legendary, Historically Plausible, Symbolic, Allegorical, Composite, Bridge, Archetypal, Contested",
     "Founding Figure?": "NO",
+    "Name_2": "Sargon",
     "Jungian Archetypes Tags": "Hero, Initiator, Persona, Father Archetype, Trickster",
     "Neumann Stages Tags": "Separation from World Parents, Initiation, Divine Intervention, Battle with the Dragon, Coronation of the King, Magical Empowerment, Return to the Community, Mythic Ordering of Reality, Rebirth",
     "Category": "Founder of the Akkadian Empire",
     "Y-pos": "-",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://collections.louvre.fr/en/ark:/53355/cl010123451, Stele of Sargon of Akkad, Musée du Louvre SB 1; Akkadian, ca. 2300 BCE; victory stele fragment in which Sargon is explicitly identified by an inscription before his face)",
     "Video": "-",
-    "Other": "Sources: https://oracc.museum.upenn.edu/etcsri/; https://www.britannica.com/biography/Sargon"
+    "Other": "(https://www.britishmuseum.org/collection/object/W_N-1208, Cylinder seal associated with Sargon of Akkad, British Museum; Akkadian, ca. 2300 BCE; ancient seal associated in the museum catalogue with Sargon I)"
   },
   {
     "Index": "19",
@@ -422,14 +439,15 @@
     "Description": "Enheduanna was a daughter of Sargon of Akkad and the entu high priestess of the moon god Nanna at Ur. Her appointment joined Akkadian dynastic power to an established Sumerian religious office, and the inscribed Disk of Enheduanna confirms her historical identity and position. Several major Sumerian compositions, including the Temple Hymns and poems to Inanna, were attributed to her in antiquity. She is therefore often called the earliest named author known to history, although modern scholars debate how much of the surviving Old Babylonian textual form can be assigned directly to the historical Enheduanna.",
     "Historic-Mythic Status Tags": "Historic, Historically Plausible, Symbolic, Bridge, Doctrinal/Canonical, Archetypal, Contested, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "Enheduanna",
     "Jungian Archetypes Tags": "Wise Old Woman, Initiator, Persona, Hero, Anima, Mother Archetype",
     "Neumann Stages Tags": "Isolation, Divine Intervention, Rebirth, Return to the Community, Magical Empowerment, Mythic Ordering of Reality, Coronation of the King, Initiation",
     "Category": "High Priestess and Attributed Poet of Ur",
     "Y-pos": "-",
-    "Article/post": "-",
-    "Image/museum": "-",
+    "Article/post": "(https://www.themorgan.org/exhibitions/online/she-who-wrote/disk-enheduanna, The Disk of Enheduanna, Morgan Library & Museum exhibition page; notes that the disk is the only surviving artwork recording both Enheduanna's name and image)",
+    "Image/museum": "(https://www.penn.museum/collections/object/293415, Disk of Enheduanna, Penn Museum B16665; Akkadian, ca. 2300 BCE, calcite/limestone; exact ancient depiction of Enheduanna with inscription naming her)",
     "Video": "-",
-    "Other": "Sources: https://enheduana.org/authorship/; https://www.penn.museum/collections/object/293415"
+    "Other": "(https://www.penn.museum/sites/expedition/goddesses-mothers-rulers/, Goddesses, Mothers, Rulers, Penn Museum article discussing Enheduanna and the disk's imagery and inscription)"
   },
   {
     "Index": "20",
@@ -446,14 +464,15 @@
     "Description": "Hammurabi was the sixth king of Babylon and reigned approximately 1792–1750 BCE under the Middle Chronology. During the later part of his reign he defeated rival kingdoms and made Babylon the leading power of southern Mesopotamia. The monument conventionally called the Code of Hammurabi preserves 282 legal judgments framed by a royal prologue and epilogue. Its relief shows Hammurabi standing before Shamash and receiving the symbols of divinely authorized royal authority. The collection functioned as a monumental statement of justice, kingship, and learned legal tradition, while its precise relationship to everyday adjudication remains debated.",
     "Historic-Mythic Status Tags": "Historic, Historically Plausible, Symbolic, Allegorical, Archetypal, Doctrinal/Canonical",
     "Founding Figure?": "NO",
+    "Name_2": "Hammurabi",
     "Jungian Archetypes Tags": "Father Archetype, Wise Old Man, Persona, Initiator, Hero, Terrible Father",
     "Neumann Stages Tags": "Mythic Ordering of Reality, Coronation of the King, Divine Intervention, Magical Empowerment, Return to the Community, Battle with the Dragon, Initiation, Rebirth",
     "Category": "King and Royal Lawgiver of Babylon",
     "Y-pos": "0",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://collections.louvre.fr/en/ark:/53355/cl010174436, Code of Hammurabi stele, Musée du Louvre SB 8; Old Babylonian, reign of Hammurabi ca. 1792–1750 BCE; relief depicts Hammurabi standing before the sun god Shamash)",
     "Video": "-",
-    "Other": "Sources: https://www.louvre.fr/en/oeuvre-notices/law-code-hammurabi-king-babylon; https://www.britannica.com/biography/Hammurabi"
+    "Other": "(https://collections.louvre.fr/en/ark:/53355/cl010134970, Old Babylonian tablet with the prologue of Hammurabi's laws, Musée du Louvre; Old Babylonian clay tablet preserving part of Hammurabi's law-code tradition)"
   },
   {
     "Index": "21",
@@ -470,14 +489,15 @@
     "Description": "Tiamat is the deified primordial sea in the Babylonian creation epic Enūma Eliš. She and Apsu mingle their waters and generate the first gods. After Ea kills Apsu, Tiamat raises an army, creates monstrous allies, and appoints Kingu as commander before being defeated by Marduk. Marduk divides her body to construct the ordered cosmos. Her fully developed role as Marduk’s primordial opponent belongs to later Babylonian theology, although it draws on older Mesopotamian conceptions of cosmic waters.",
     "Historic-Mythic Status Tags": "Mythical, Symbolic, Allegorical, Archetypal, Doctrinal/Canonical",
     "Founding Figure?": "NO",
+    "Name_2": "Tiamat",
     "Jungian Archetypes Tags": "Terrible Mother, Mother Archetype, Shadow, Trickster",
     "Neumann Stages Tags": "Uroboric Stage, Separation from World Parents, Battle with the Dragon, Death, Mythic Ordering of Reality, Coronation of the King",
     "Category": "Primordial Sea and Chaos Goddess",
     "Y-pos": "-60",
-    "Article/post": "-",
-    "Image/museum": "-",
+    "Article/post": "(https://www.metmuseum.org/ko/essays/epic-of-creation-mesopotamia, Mesopotamian Creation Myths, Metropolitan Museum of Art Heilbrunn Timeline essay discussing Tiamat, Apsu, Ea and Marduk in Enuma Elish)",
+    "Image/museum": "(https://www.britishmuseum.org/collection/object/W_1896-0619-1, Cylinder seal with possible Tiamat dragon, British Museum; Neo-Assyrian, ca. 900–750 BCE; museum tentatively identifies the horned reptile as 'Tiamat as a dragon?'; identification is explicitly uncertain)",
     "Video": "-",
-    "Other": "Source: https://oracc.museum.upenn.edu/amgg/Listofdeities/Tiamat/index.html"
+    "Other": "(https://www.britishmuseum.org/collection/object/W_1909-0511-3, Cylinder seal with possible Tiamat and Marduk/Ninurta, British Museum; 9th–early 8th century BCE; possible creation-epic scene, with both deity and dragon identifications marked uncertain by the museum)"
   },
   {
     "Index": "22",
@@ -494,14 +514,15 @@
     "Description": "Apsu, from Sumerian abzu and Akkadian apsû, denotes the subterranean freshwater deep believed to feed springs, rivers, and wells. The abzu was closely associated with Enki’s sanctuary at Eridu and could also refer to a cultic basin or sacred watery domain. In the later Babylonian Enūma Eliš, Apsu is personified as the male primordial partner of Tiamat. Disturbed by the younger gods, he plans their destruction but is killed by Ea, who establishes his dwelling over the subdued deep. The ancient freshwater concept is therefore much older than the fully personified character in the epic.",
     "Historic-Mythic Status Tags": "Mythical, Symbolic, Allegorical, Archetypal, Doctrinal/Canonical",
     "Founding Figure?": "NO",
+    "Name_2": "Apsu",
     "Jungian Archetypes Tags": "Father Archetype, Terrible Father, Wise Old Man, Shadow",
     "Neumann Stages Tags": "Uroboric Stage, Separation from World Parents, Battle with the Dragon, Death, Mythic Ordering of Reality, Descent into the Underworld, Magical Empowerment",
     "Category": "Primordial Freshwater Abyss and Deity",
     "Y-pos": "-",
-    "Article/post": "-",
-    "Image/museum": "-",
+    "Article/post": "(https://www.metmuseum.org/ko/essays/epic-of-creation-mesopotamia, Mesopotamian Creation Myths, Metropolitan Museum of Art Heilbrunn Timeline essay describing Apsu as the primordial freshwater being in Enuma Elish)",
+    "Image/museum": "(https://www.britishmuseum.org/collection/object/W_1891-0509-2553, The Adda Seal — Ea and the watery domain, British Museum; Akkadian, ca. 2300 BCE; depicts Ea with flowing waters; useful ancient iconographic context for the god who rules the Apsu, but this is not a portrait of Apsu personified)",
     "Video": "-",
-    "Other": "Comparative source: https://oracc.museum.upenn.edu/amgg/listofdeities/enki/"
+    "Other": "(https://resources.metmuseum.org/resources/metpublications/pdf/Assyrian_Origins_Discoveries_at_Ashur_on_the_Tigris_Antiquities_in_the_Vorderasiatisches_Museum_Be.pdf, Assyrian Origins PDF, Metropolitan Museum publication discussing the goat-fish as the symbol of Ea, lord of the freshwater ocean Apsu; iconographic context rather than a direct depiction of Apsu)"
   },
   {
     "Index": "23",
@@ -518,14 +539,15 @@
     "Description": "Marduk began as the city god of Babylon and rose with the city’s political power during the second millennium BCE. Babylonian theology made him the son of Ea and associated him with Asalluhi, a god of incantation. In Enūma Eliš he defeats Tiamat, constructs the cosmos from her body, and orders the creation of humanity from Kingu’s blood. The gods then grant him fifty names and supreme rank, transferring to him many functions formerly associated with Enlil. His principal temple was Esagila in Babylon, and the creation epic was recited during the Akītu festival, linking cosmic order with Babylonian kingship.",
     "Historic-Mythic Status Tags": "Mythical, Symbolic, Allegorical, Composite, Bridge, Doctrinal/Canonical, Archetypal, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "Marduk",
     "Jungian Archetypes Tags": "Hero, Initiator, Father Archetype, Persona, Self",
     "Neumann Stages Tags": "Battle with the Dragon, Coronation of the King, Mythic Ordering of Reality, Magical Empowerment, Divine Intervention, Separation from World Parents, Return to the Community, Rebirth",
     "Category": "Chief God of Babylon and Divine King",
     "Y-pos": "-",
-    "Article/post": "-",
-    "Image/museum": "-",
+    "Article/post": "(https://www.metmuseum.org/de/essays/babylon, Babylon, Metropolitan Museum of Art Heilbrunn Timeline essay discussing Marduk, the Akitu festival, and the Babylonian creation epic)",
+    "Image/museum": "(https://www.metmuseum.org/art/collection/search/327048, Kudurru fragment with the spade of Marduk, Metropolitan Museum of Art; ca. 1156–1025 BCE; museum explicitly identifies the spade as Marduk's divine symbol, Public Domain)",
     "Video": "-",
-    "Other": "Source: https://oracc.museum.upenn.edu/amgg/listofdeities/marduk/index.html"
+    "Other": "(https://www.metmuseum.org/art/collection/search/321937, Cuneiform tablet with a hymn to Marduk, Metropolitan Museum of Art; 1st millennium BCE; ancient textual object containing a hymn to Marduk, Public Domain)"
   },
   {
     "Index": "24",
@@ -542,14 +564,15 @@
     "Description": "Ezekiel was a Judean priest and prophet active among the exiles in Babylonia after the deportation of King Jehoiachin and other Judeans in 597 BCE. The book places his community at Tel Abib on the Chebar Canal near Nippur and dates his prophetic call to 593 BCE. Through visions, oracles, and symbolic performances he warned that Jerusalem would fall, interpreted the catastrophe as divine judgment, and envisioned national, cultic, and spiritual restoration. His throne-chariot vision, departure and return of divine glory, and valley of dry bones became foundational images of mobile divine presence and renewed communal life.",
     "Historic-Mythic Status Tags": "Historic, Historically Plausible, Symbolic, Allegorical, Bridge, Doctrinal/Canonical, Archetypal, Contested, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "Ezekiel",
     "Jungian Archetypes Tags": "Wise Old Man, Initiator, Persona, Trickster, Shadow, Self",
     "Neumann Stages Tags": "Divine Intervention, Initiation, Isolation, Battle with the Dragon, Descent into the Underworld, Rebirth, Mythic Ordering of Reality, Return to the Community, Magical Empowerment",
     "Category": "Judean Exilic Priest-Prophet",
     "Y-pos": "0",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://www.metmuseum.org/art/collection/search/625971, The Prophet Ezekiel, from Prophets and Sibyls, Metropolitan Museum of Art; Francesco Rosselli, 1480–90, engraving; exact Ezekiel subject, Public Domain)",
     "Video": "-",
-    "Other": "Source: https://www.biblegateway.com/resources/encyclopedia-of-the-bible/Ezekiel"
+    "Other": "(https://www.metmuseum.org/art/collection/search/360376, The Prophet Ezekiel, Metropolitan Museum of Art; Giorgio Ghisi after Michelangelo, 1570–75, engraving; exact Ezekiel subject, Public Domain)"
   },
   {
     "Index": "25",
@@ -566,13 +589,14 @@
     "Description": "Daniel is the exemplary Judean court sage and visionary at the center of the Book of Daniel. Its narratives place him in the Babylonian and early Persian courts, where he interprets royal dreams and survives the lions’ den, while his companions resist royal demands and survive the fiery furnace. Chapters 7–12 present apocalyptic visions of successive empires and divine judgment. Mainstream scholarship regards the book’s final form as a product of the crisis under Antiochus IV in the 160s BCE, though the court tales may preserve older material. Daniel’s independent historical existence is not securely established.",
     "Historic-Mythic Status Tags": "Legendary, Symbolic, Allegorical, Composite, Bridge, Doctrinal/Canonical, Archetypal, Contested, Devotional",
     "Founding Figure?": "NO",
+    "Name_2": "Daniel",
     "Jungian Archetypes Tags": "Wise Old Man, Persona, Hero, Initiator, Trickster, Self",
     "Neumann Stages Tags": "Separation from World Parents, Initiation, Divine Intervention, Battle with the Dragon, Mythic Ordering of Reality, Isolation, Ego Collapse, Magical Empowerment, Return to the Community, Rebirth, Ego Transcendence",
     "Category": "Legendary Exilic Court Sage and Apocalyptic Seer",
     "Y-pos": "-",
     "Article/post": "-",
-    "Image/museum": "-",
+    "Image/museum": "(https://www.metmuseum.org/art/collection/search/368602, The Prophet Daniel, from Prophets and Sibyls, Metropolitan Museum of Art; Francesco Rosselli, 1480–90, engraving; exact Daniel subject, Public Domain)",
     "Video": "-",
-    "Other": "Source: https://academic.oup.com/edited-volume/62249/chapter-abstract/551358644"
+    "Other": "(https://www.metmuseum.org/art/collection/search/466155, Two-Sided Pendant with the Archangel Michael and Daniel in the Lion's Den, Metropolitan Museum of Art; Byzantine, 1200 or later, serpentine; exact Daniel subject and medieval devotional object, Public Domain)"
   }
 ]

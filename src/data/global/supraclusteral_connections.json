@@ -19,7 +19,7 @@
     "Secondary": "3, father",
     "Secondary Name": "Asha Vahishta",
     "Connection Category": "cognate connection",
-    "Note": "Ṛta and Asha derive from a shared Indo-Iranian concept of cosmic order and truth."
+    "Note": "Ṛta and Asha derive from a shared Indo-Iranian concept of cosmic order and truth. "
   },
   {
     "Index": 3,
@@ -2692,7 +2692,7 @@
     "Secondary": "5, text",
     "Secondary Name": "Parallel Lives",
     "Connection Category": "explicit reference",
-    "Note": "Numa is the subject of Plutarch’s Life of Numa, paired with Lycurgus. Plutarch presents him as Rome’s peaceful religious lawgiver and discusses traditions concerning his priestly institutions, ritual reforms, and relationship with Egeria."
+    "Note": "Numa is the subject of Plutarch’s Life of Numa, paired with Lycurgus. Plutarch presents him as Rome’s peaceful religious lawgiver and discusses traditions concerning his priestly institutions, ritual reforms, and relationship with Egeria. "
   },
   {
     "Index": 246,
@@ -3627,7 +3627,7 @@
     "Secondary": "4, father",
     "Secondary Name": "Tarḫunna/Teshub",
     "Connection Category": "syncretic connection",
-    "Note": "During the New Kingdom, Egyptian Sutekh/Seth was used to represent or identify foreign storm gods, including the Hittite-Hurrian Storm God associated with Teshub. The Egypto-Hittite diplomatic environment therefore produced a genuine interpretatio between Seth and the Hittite storm-god tradition rather than merely a modern comparison based on their shared storm functions."
+    "Note": "During the New Kingdom, Egyptian Sutekh/Seth was used to represent or identify foreign storm gods, including the Hittite-Hurrian Storm God associated with Teshub. The Egypto-Hittite diplomatic environment therefore produced a genuine interpretatio between Seth and the Hittite storm-god tradition rather than merely a modern comparison based on their shared storm functions. "
   },
   {
     "Index": 331,
@@ -5255,7 +5255,7 @@
     "Secondary": "1, text",
     "Secondary Name": "Apologia (Pro se de magia)",
     "Connection Category": "indirect connection",
-    "Note": "Apuleius explicitly presents the Platonic doctrine of two Aphrodites or Venuses—one associated with lower desire and the other with elevated love. The passage closely reproduces the distinction developed in Plato’s Symposium."
+    "Note": "Apuleius explicitly presents the Platonic doctrine of two Aphrodites or Venuses—one associated with lower desire and the other with elevated love. The passage closely reproduces the distinction developed in Plato’s Symposium. "
   },
   {
     "Index": 479,
@@ -6135,7 +6135,7 @@
     "Secondary": "4, text",
     "Secondary Name": "Moralia",
     "Connection Category": "indirect connection",
-    "Note": "In On Superstition, Plutarch explicitly uses Jewish observance of the Sabbath as an example of religious fear overriding practical action, describing Jews who refuse to defend their walls because it is the Sabbath. The practice derives from Mosaic law, although Plutarch does not present himself as directly quoting the Pentateuch."
+    "Note": "In On Superstition, Plutarch explicitly uses Jewish observance of the Sabbath as an example of religious fear overriding practical action, describing Jews who refuse to defend their walls because it is the Sabbath. The practice derives from Mosaic law, although Plutarch does not present himself as directly quoting the Pentateuch. "
   },
   {
     "Index": 559,
@@ -6685,7 +6685,7 @@
     "Secondary": "1, text",
     "Secondary Name": "Book of Enoch",
     "Connection Category": "explicit reference",
-    "Note": "The later sections of 1 Enoch preserve an extended tradition concerning the extraordinary birth of Noah. Enoch explains the significance of the newborn Noah and foretells the destruction and renewal associated with the Flood."
+    "Note": "The later sections of 1 Enoch preserve an extended tradition concerning the extraordinary birth of Noah. Enoch explains the significance of the newborn Noah and foretells the destruction and renewal associated with the Flood. "
   },
   {
     "Index": 609,
@@ -6784,7 +6784,7 @@
     "Secondary": "4, text",
     "Secondary Name": "Book of Jubilees",
     "Connection Category": "explicit reference",
-    "Note": "Jubilees significantly expands Enoch’s role, presenting him as a recipient of angelic instruction who learns heavenly phenomena and records what is revealed to him in writing. This connection applies specifically to Enoch."
+    "Note": "Jubilees significantly expands Enoch’s role, presenting him as a recipient of angelic instruction who learns heavenly phenomena and records what is revealed to him in writing. This connection applies specifically to Enoch. "
   },
   {
     "Index": 618,
@@ -7269,5 +7269,60 @@
     "Secondary Name": "Manetho’s Aegyptiaca",
     "Connection Category": "speculative connection",
     "Note": "The Manethonian tradition preserved by Josephus contains an Egyptian counter-narrative in which a priest called Osarseph eventually takes the name Moses and leads a polluted population opposed to traditional Egyptian cult. This creates a striking inverse counterpart to the Exodus tradition of the Torah. Because Manetho’s work survives only through later quotation and scholars dispute how much of the Osarseph material belongs to Manetho himself or to later anti-Jewish elaboration, the relationship should remain explicitly speculative."
+  },
+  {
+    "Index": 662,
+    "Primary Duration": "levantine",
+    "Primary": "2, father",
+    "Primary Name": "El",
+    "Secondary Duration": "anatolian",
+    "Secondary": "3, father",
+    "Secondary Name": "Kumarbi",
+    "Connection Category": "syncretic connection",
+    "Note": "At Ugarit, the trilingual Weidner god list aligns the Mesopotamian Enlil, Hurrian Kumarbi, and Ugaritic El as corresponding high or ancestral gods within their respective pantheons. Since the existing network already records Enlil–Kumarbi, this connection restores the Ugaritic side of the same ancient scholarly equivalence. It reflects Bronze Age theological 'translation of gods,' not a claim that El and Kumarbi were universally identical or that one deity simply derived from the other."
+  },
+  {
+    "Index": 663,
+    "Primary Duration": "anatolian",
+    "Primary": "3, father",
+    "Primary Name": "Kumarbi",
+    "Secondary Duration": "custom-hellenistic-greek",
+    "Secondary": "3, father",
+    "Secondary Name": "Cronus",
+    "Connection Category": "comparative connection",
+    "Note": "Kumarbi and Cronus occupy corresponding intermediate positions in closely related divine-succession narratives. Kumarbi violently attacks Anu's genitals and becomes pregnant with the younger generation that includes Teshub; Cronus castrates Uranus and later attempts to suppress the generation that includes Zeus by swallowing his children. The Hurrian-Hittite Song of Emergence is widely regarded as a major source for the Hesiodic succession pattern, making influence from the Near Eastern narrative toward Greece highly plausible. This is a correspondence of transmitted mythic roles, not evidence that Greeks simply renamed Kumarbi as Cronus."
+  },
+  {
+    "Index": 664,
+    "Primary Duration": "anatolian",
+    "Primary": "4, father",
+    "Primary Name": "Tarḫunna/Teshub",
+    "Secondary Duration": "custom-hellenistic-greek",
+    "Secondary": "5, father",
+    "Secondary Name": "Zeus",
+    "Connection Category": "comparative connection",
+    "Note": "Teshub and Zeus are the younger storm gods who emerge as the victorious sovereigns at the end of the Hurrian-Hittite and Hesiodic succession complexes. Scholarship on the Song of Emergence treats the Near Eastern Storm-God narrative as an important source for the Greek succession story, so the direction of narrative influence is most plausibly from the Hurrian-Anatolian and north-Syrian milieu toward Greece. The connection concerns Zeus's mythic role and succession narrative, not the ultimate origin of Zeus as a deity, whose name and important features belong to an Indo-European sky-god tradition."
+  },
+  {
+    "Index": 665,
+    "Primary Duration": "mesopotamian",
+    "Primary": "13, father",
+    "Primary Name": "Enki (Ea)",
+    "Secondary Duration": "levantine",
+    "Secondary": "16, father",
+    "Secondary Name": "Kothar-wa-Khasis",
+    "Connection Category": "syncretic connection",
+    "Note": "Ugaritic bilingual and trilingual scholarly god lists explicitly align Mesopotamian Ea with the local craftsman and wisdom god Kothar-wa-Khasis, alongside the Hurrian form Eyan. The equation reflects ancient cross-cultural 'translation of gods' based on their overlapping associations with wisdom, skilled craft, magic, and technical knowledge. It is strong evidence of Bronze Age theological correspondence, while not implying that Ea and Kothar were identical in every cultic or narrative context."
+  },
+  {
+    "Index": 666,
+    "Primary Duration": "egyptian",
+    "Primary": "4, father",
+    "Primary Name": "Ptah",
+    "Secondary Duration": "levantine",
+    "Secondary": "16, father",
+    "Secondary Name": "Kothar-wa-Khasis",
+    "Connection Category": "speculative connection",
+    "Note": "Ugaritic tradition places the divine craftsman Kothar-wa-Khasis at Memphis, expressed through a name derived from Egyptian Hut-ka-Ptah, the 'House of the ka of Ptah,' while Memphis was the principal cult center of the Egyptian craftsman god Ptah. The shared craftsman role and the deliberate Memphis setting point to meaningful Egyptian-Levantine religious and artisanal contact. The evidence supports association and probable cultural borrowing around craftsman theology, but it does not securely establish that Kothar was simply an Ugaritic form of Ptah."
   }
 ]

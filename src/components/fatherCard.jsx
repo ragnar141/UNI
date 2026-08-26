@@ -34,11 +34,71 @@ function FoldDensityIcon({ action }) {
   ) : (
     <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false">
       <g fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="1.5">
-<path d="M5 2H10" />
-<path d="M5 6.67H10" />
-<path d="M5 11.33H10" />
-<path d="M5 16H10" />
+<path d="M6.75 2H11.25" />
+<path d="M6.75 6.67H11.25" />
+<path d="M6.75 11.33H11.25" />
+<path d="M6.75 16H11.25" />
       </g>
+    </svg>
+  );
+}
+
+
+function HistoryArrowIcon({ direction }) {
+  const isBack = direction === "back";
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 18 18"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d={isBack ? "M11.25 3.5 5.75 9l5.5 5.5" : "M6.75 3.5 12.25 9l-5.5 5.5"}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function TooltipVisibilityIcon({ visible }) {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 20 20"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d="M2.2 10s2.8-4.6 7.8-4.6 7.8 4.6 7.8 4.6-2.8 4.6-7.8 4.6S2.2 10 2.2 10Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.45"
+        strokeLinejoin="round"
+      />
+      <circle
+        cx="10"
+        cy="10"
+        r="2.35"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.45"
+      />
+      {!visible && (
+        <path
+          d="M4 4 16 16"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.65"
+          strokeLinecap="round"
+        />
+      )}
     </svg>
   );
 }
@@ -59,6 +119,12 @@ const FatherCard = forwardRef(function FatherCard(
     showMap = false,
     onShowMapChange = () => {},
     mapAvailable = false,
+    canGoBack = false,
+    canGoForward = false,
+    onGoBack = () => {},
+    onGoForward = () => {},
+    selectedTooltipVisible = true,
+    onSelectedTooltipVisibleChange = () => {},
 
     // NEW: comes from timeline.jsx (hovering nodes on timeline)
     hoveredTimelineTarget,
@@ -270,11 +336,30 @@ useEffect(() => {
   if (Array.isArray(connections)) {
     connections.forEach((conn, idx) => {
       const targets = Array.isArray(conn.targets) ? conn.targets : [];
-      const hasFigure = targets.some((t) => t.type === "father");
-      const hasText = targets.some((t) => t.type === "text");
 
-      if (hasFigure) figureConnections.push({ conn, idx });
-      if (hasText) textConnections.push({ conn, idx });
+      // A relationship group can contain both figures and texts.
+      // Give each section a filtered copy so mixed groups do not
+      // render every target under both headings.
+      const figureTargets = targets.filter(
+        (t) => normType(t?.type) === "father"
+      );
+      const textTargets = targets.filter(
+        (t) => normType(t?.type) === "text"
+      );
+
+      if (figureTargets.length > 0) {
+        figureConnections.push({
+          conn: { ...conn, targets: figureTargets },
+          idx,
+        });
+      }
+
+      if (textTargets.length > 0) {
+        textConnections.push({
+          conn: { ...conn, targets: textTargets },
+          idx,
+        });
+      }
     });
   }
 
@@ -376,7 +461,73 @@ useEffect(() => {
         role="dialog"
         aria-label={`Details for ${title}`}
       >
-        {indexStr && <span className="textCard-index">{indexStr}</span>}
+        {indexStr && (
+          <span className="textCard-index" aria-hidden="true">
+            {indexStr}
+          </span>
+        )}
+
+        <div
+          className="textCard-historyNav"
+          role="group"
+          aria-label="Selection history navigation"
+        >
+          <button
+            type="button"
+            className="textCard-historyButton"
+            onClick={onGoBack}
+            disabled={!canGoBack}
+            aria-label="Go back to previous selected object"
+            title="Back"
+          >
+            <HistoryArrowIcon direction="back" />
+          </button>
+          <button
+            type="button"
+            className="textCard-historyButton"
+            onClick={onGoForward}
+            disabled={!canGoForward}
+            aria-label="Go forward to next selected object"
+            title="Forward"
+          >
+            <HistoryArrowIcon direction="forward" />
+          </button>
+
+          <span className="textCard-historyUtilityGap" aria-hidden="true" />
+
+          <button
+            type="button"
+            className={`selectedTooltipToggle ${
+              selectedTooltipVisible ? "is-on" : "is-off"
+            }`}
+            aria-pressed={selectedTooltipVisible}
+            aria-label={
+              selectedTooltipVisible
+                ? "Hide selected-object timeline tooltip"
+                : "Show selected-object timeline tooltip"
+            }
+            title={
+              selectedTooltipVisible
+                ? "Hide timeline tooltip"
+                : "Show timeline tooltip"
+            }
+            onClick={() =>
+              onSelectedTooltipVisibleChange(!selectedTooltipVisible)
+            }
+          >
+            <TooltipVisibilityIcon visible={selectedTooltipVisible} />
+          </button>
+
+          <button
+            type="button"
+            className="textCard-fold"
+            onClick={() => setIsFolded((v) => !v)}
+            aria-label={isFolded ? "Unfold" : "Fold"}
+            title={isFolded ? "Unfold" : "Fold"}
+          >
+            <FoldDensityIcon action={isFolded ? "unfold" : "fold"} />
+          </button>
+        </div>
 
         <button
           type="button"
@@ -405,6 +556,7 @@ useEffect(() => {
           </span>
         </button>
 
+
         <button
           className="textCard-close"
           onClick={() => setIsClosing(true)}
@@ -413,14 +565,6 @@ useEffect(() => {
           ×
         </button>
 
-<button
-  className="textCard-fold"
-  onClick={() => setIsFolded((v) => !v)}
-  aria-label={isFolded ? "Unfold" : "Fold"}
-  title={isFolded ? "Unfold" : "Fold"}
->
-  <FoldDensityIcon action={isFolded ? "unfold" : "fold"} />
-</button>
 
         {/* Internal scroll area */}
         <div className="textCard-scroll" ref={scrollRef}>
