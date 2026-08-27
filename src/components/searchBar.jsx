@@ -672,7 +672,7 @@ export default function SearchBar({
         key={r.id}
         className={`sb-item ${isHover ? "is-hover" : ""}`}
         onMouseEnter={() => maybeHoverByMouse(idx)}
-        onMouseDown={(e) => {
+        onPointerDown={(e) => {
           e.preventDefault();
           e.stopPropagation();
           activate(idx);
@@ -764,7 +764,7 @@ export default function SearchBar({
         key={r.id}
         className={`sb-item ${isHover ? "is-hover" : ""}`}
         onMouseEnter={() => maybeHoverByMouse(idx)}
-        onMouseDown={(e) => {
+        onPointerDown={(e) => {
           e.preventDefault();
           e.stopPropagation();
           activate(idx);
@@ -941,7 +941,7 @@ export default function SearchBar({
         <div className="sb-searchCell">
           <div
             className="sb-box"
-            onMouseDown={() => {
+            onPointerDown={() => {
               onInteract();
             }}
           >
@@ -980,7 +980,7 @@ export default function SearchBar({
               ref={popoverRef}
               className="sb-popover"
               role="listbox"
-              onMouseDown={() => {
+              onPointerDown={() => {
                 onInteract();
               }}
               onMouseMove={onPopoverMouseMove}
@@ -997,7 +997,7 @@ export default function SearchBar({
           {open && q.trim() && results.length === 0 && (
             <div
               className="sb-popover sb-empty"
-              onMouseDown={() => {
+              onPointerDown={() => {
                 onInteract();
               }}
             >
@@ -1011,7 +1011,7 @@ export default function SearchBar({
           className={`sb-keyToggle ${keyOpen ? "is-active" : ""}`}
           aria-expanded={keyOpen}
           aria-controls="timeline-search-key"
-          onMouseDown={(e) => e.stopPropagation()}
+          onPointerDown={(e) => e.stopPropagation()}
           onClick={toggleKey}
         >
           <span className="sb-keyToggleIcon" aria-hidden="true"><KeyCueIcon /></span>
@@ -1023,7 +1023,7 @@ export default function SearchBar({
         createPortal(
           <div
             className="sb-backdrop"
-            onMouseDown={() => {
+            onPointerDown={() => {
               closeAndReset();
             }}
             aria-hidden="true"

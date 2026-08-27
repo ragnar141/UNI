@@ -737,6 +737,8 @@ const TimelineMap = forwardRef(function TimelineMap(
     selectedEntry = null,
     debug = false,
     onProjectionChange = null,
+    onViewportInteractionStart = null,
+    onBackgroundTouchTap = null,
   },
   ref
 ) {
@@ -750,6 +752,16 @@ const TimelineMap = forwardRef(function TimelineMap(
   const visibleRef = useRef(visible);
   const debugRef = useRef(debug);
   const onProjectionChangeRef = useRef(onProjectionChange);
+  const onViewportInteractionStartRef = useRef(onViewportInteractionStart);
+  const onBackgroundTouchTapRef = useRef(onBackgroundTouchTap);
+  const backgroundTouchDownRef = useRef(null);
+
+  // This bookkeeping is deliberately separate from projection/layout state.
+  // It only reports the first real touch movement in a map gesture so Timeline
+  // can dismiss a locked connected-object preview before the camera continues.
+  const viewportGestureStartTransformRef = useRef(d3.zoomIdentity);
+  const viewportGestureIsTouchRef = useRef(false);
+  const viewportInteractionNotifiedRef = useRef(false);
 
   /* Persistent geographic camera for the entire Map View session. */
   const viewportTransformRef = useRef(d3.zoomIdentity);
@@ -838,6 +850,8 @@ const TimelineMap = forwardRef(function TimelineMap(
   debugRef.current = debug;
   locationRef.current = location;
   onProjectionChangeRef.current = onProjectionChange;
+  onViewportInteractionStartRef.current = onViewportInteractionStart;
+  onBackgroundTouchTapRef.current = onBackgroundTouchTap;
 
   useEffect(() => {
     if (!shouldMount) return undefined;
@@ -1674,13 +1688,47 @@ const TimelineMap = forwardRef(function TimelineMap(
         if (event?.sourceEvent) {
           viewportUserMovedRef.current = true;
         }
+
+        const sourceType = String(event?.sourceEvent?.type || "");
+        viewportGestureIsTouchRef.current =
+          event?.sourceEvent?.pointerType === "touch" ||
+          sourceType.startsWith("touch");
+        viewportGestureStartTransformRef.current =
+          event?.transform || viewportTransformRef.current || d3.zoomIdentity;
+        viewportInteractionNotifiedRef.current = false;
+
         containerRef.current?.classList.add("is-panning");
       })
       .on("zoom", (event) => {
+        // Do not dismiss on finger-down. Wait until the map camera has actually
+        // moved enough to constitute a drag/pinch, then notify exactly once.
+        if (
+          viewportGestureIsTouchRef.current &&
+          !viewportInteractionNotifiedRef.current &&
+          event?.sourceEvent
+        ) {
+          const start =
+            viewportGestureStartTransformRef.current || d3.zoomIdentity;
+          const next = event.transform;
+          const dx = next.x - start.x;
+          const dy = next.y - start.y;
+          const panDistSq = dx * dx + dy * dy;
+          const startK = Math.max(0.0001, Number(start.k) || 1);
+          const nextK = Math.max(0.0001, Number(next.k) || 1);
+          const scaleDelta = Math.abs(Math.log(nextK / startK));
+
+          if (panDistSq > 9 || scaleDelta > 0.003) {
+            viewportInteractionNotifiedRef.current = true;
+            onViewportInteractionStartRef.current?.();
+          }
+        }
+
         viewportInitializedRef.current = true;
         applyViewportTransform(event.transform, { notify: true });
       })
       .on("end", () => {
+        viewportGestureIsTouchRef.current = false;
+        viewportInteractionNotifiedRef.current = false;
         containerRef.current?.classList.remove("is-panning");
       });
 
@@ -2051,6 +2099,33 @@ const TimelineMap = forwardRef(function TimelineMap(
           y="0"
           width={width}
           height={height}
+          onPointerDown={(event) => {
+            if (event.pointerType !== "touch") return;
+            backgroundTouchDownRef.current = {
+              pointerId: event.pointerId,
+              clientX: event.clientX,
+              clientY: event.clientY,
+            };
+          }}
+          onPointerUp={(event) => {
+            if (event.pointerType !== "touch") return;
+
+            const down = backgroundTouchDownRef.current;
+            backgroundTouchDownRef.current = null;
+            if (!down || down.pointerId !== event.pointerId) return;
+
+            const dx = event.clientX - down.clientX;
+            const dy = event.clientY - down.clientY;
+
+            // A stationary/near-stationary touch is an empty-map tap. A real
+            // drag is handled separately by the D3 viewport callback above.
+            if (dx * dx + dy * dy <= 81) {
+              onBackgroundTouchTapRef.current?.();
+            }
+          }}
+          onPointerCancel={() => {
+            backgroundTouchDownRef.current = null;
+          }}
         />
       </svg>
     </div>

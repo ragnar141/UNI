@@ -174,6 +174,78 @@ const BASE_OPACITY = 1;
 const TEXT_BASE_R = 0.4;       // at k=1
 const HOVER_SCALE_DOT = 1.6;   // how much bigger a dot gets on hover
 const HOVER_SCALE_FATHER = 1.6; 
+
+/*
+ * Touch-only object hit geometry.
+ *
+ * The visible text/father marks keep their existing sizes. On coarse-pointer
+ * devices we layer an invisible ~30px target over each interactive object so
+ * a fingertip does not have to land on a 3–15px glyph. Desktop/mouse hit
+ * testing remains on the original visible marks.
+ */
+const TOUCH_OBJECT_HIT_RADIUS = 15;
+
+/*
+ * Screen-size responsive visual object sizing.
+ *
+ * Use BOTH measured container dimensions instead of only the short side.
+ * The geometric mean (sqrt(width * height)) is rotation-invariant, so an iPad
+ * keeps essentially the same object size when rotated, while a wide laptop is
+ * correctly recognized as having substantially more visual room than a tablet
+ * with a similar short side.
+ *
+ * Approximate reference points:
+ *   compact tablet / small canvas      -> ~0.90x
+ *   iPad Air (1180 x 820)              -> ~0.94x
+ *   laptop browser (~1920 x 900)       -> ~1.00x
+ *   full-HD canvas (1920 x 1080)       -> ~1.05x
+ *   large 2560 x 1440 display          -> ~1.18x
+ *   very large canvas                  -> cap at 1.24x
+ *
+ * This remains visual-only. Touch hit geometry, selected-pin sizing,
+ * duration/composite/segment interaction, hover behavior, and all tap/drag
+ * state machines are intentionally unchanged.
+ */
+const OBJECT_VISUAL_SCALE_STOPS = [
+  { effectiveSize: 900, scale: 0.90 },
+  { effectiveSize: 1000, scale: 0.94 },
+  { effectiveSize: 1300, scale: 1.00 },
+  { effectiveSize: 1450, scale: 1.05 },
+  { effectiveSize: 1900, scale: 1.18 },
+  { effectiveSize: 2200, scale: 1.24 },
+];
+
+function getResponsiveObjectVisualScale(width, height) {
+  const w = Number(width);
+  const h = Number(height);
+
+  if (!Number.isFinite(w) || w <= 0 || !Number.isFinite(h) || h <= 0) {
+    return 1;
+  }
+
+  // Rotation-invariant measure of overall available drawing area.
+  const effectiveSize = Math.sqrt(w * h);
+  const first = OBJECT_VISUAL_SCALE_STOPS[0];
+  const last =
+    OBJECT_VISUAL_SCALE_STOPS[OBJECT_VISUAL_SCALE_STOPS.length - 1];
+
+  if (effectiveSize <= first.effectiveSize) return first.scale;
+  if (effectiveSize >= last.effectiveSize) return last.scale;
+
+  for (let i = 1; i < OBJECT_VISUAL_SCALE_STOPS.length; i += 1) {
+    const upper = OBJECT_VISUAL_SCALE_STOPS[i];
+    if (effectiveSize > upper.effectiveSize) continue;
+
+    const lower = OBJECT_VISUAL_SCALE_STOPS[i - 1];
+    const span = Math.max(1, upper.effectiveSize - lower.effectiveSize);
+    const progress = (effectiveSize - lower.effectiveSize) / span;
+
+    return lower.scale + progress * (upper.scale - lower.scale);
+  }
+
+  return last.scale;
+}
+
 const ZOOM_THRESHOLD = 4.0;
 
 /*
@@ -295,6 +367,21 @@ const SELECTED_PIN_HEAD_RADIUS_AT_MIN_ZOOM = 8;
 const CONNECTED_OBJECT_HOVER_SCALE = HOVER_SCALE_DOT;
 
 const LOCATION_CLUSTER_HIT_RADIUS = 13;
+
+/*
+ * Touch-only hit radius for Map View disclosure triangles. The visible arrow
+ * remains exactly the same size; this transparent circle simply makes the
+ * arrow + tucked-object count comfortable to tap on a coarse pointer.
+ */
+const LOCATION_CLUSTER_BUTTON_TOUCH_HIT_RADIUS = 18;
+
+function hasCoarsePointer() {
+  return (
+    typeof window !== "undefined" &&
+    !!window.matchMedia &&
+    window.matchMedia("(any-pointer: coarse)").matches
+  );
+}
 
 const DIM_NODE_OPACITY = 0.12;            // texts/fathers that are NOT relevant during selection
 
@@ -3339,6 +3426,29 @@ export default function Timeline() {
   const hoveredTextIdRef = useRef(null);
   const hoveredFatherIdRef = useRef(null);
 
+  /*
+   * Touch-object preview state.
+   *
+   * Mouse keeps its existing hover/click contract. On a real touch pointer:
+   *   1st tap = lock the exact existing hover preview in place
+   *   2nd tap on the same object = run the existing click/selection path
+   *   tap on empty timeline space = release the locked preview
+   *
+   * The preview itself is not reimplemented; we dispatch the same enter/leave
+   * handlers already used by desktop so tooltips, segment context, connection
+   * emphasis, and selected-neighborhood focus stay perfectly synchronized.
+   */
+  const touchObjectPreviewRef = useRef(null);
+  const touchObjectPointerDownRef = useRef(null);
+  const touchObjectSuppressClickRef = useRef(null);
+
+  // One React-visible touch preview identity shared by timeline/map objects and
+  // connected-object links inside TextCard/FatherCard. Gesture bookkeeping
+  // remains local to each surface, but the tapped object itself has one owner.
+  const [touchPreviewTarget, setTouchPreviewTarget] = useState(null);
+  const sharedTouchTargetTapRef = useRef(() => {});
+  const clearSharedTouchPreviewRef = useRef(() => {});
+
 
   // Track last hovered elements so we can forcibly un-hover them on the next enter.
   // This prevents "stuck enlarged" when mouseleave is missed due to DOM updates.
@@ -3744,11 +3854,18 @@ const [size, setSize] = useState({ width: 0, height: 0 });
        * treatment as ordinary connected objects. While one object is hovered,
        * keep only the triangle belonging to that object's location prominent.
        */
+      const coarsePointer = hasCoarsePointer();
+
       pinsRoot
         .selectAll("g.connectedLocationClusterControl")
         .each(function (cluster) {
+          // Mouse hover may still dim unrelated disclosure controls. On touch,
+          // however, the preview is persistent, so dimming + disabling these
+          // controls would make the map branch effectively untappable.
           const keepProminent =
-            !activeTarget || clusterContainsTarget(cluster);
+            coarsePointer ||
+            !activeTarget ||
+            clusterContainsTarget(cluster);
           const control = d3.select(this);
 
           control.style(
@@ -3762,11 +3879,20 @@ const [size, setSize] = useState({ width: 0, height: 0 });
               "pointer-events",
               keepProminent ? "all" : "none"
             );
+
+          control
+            .select("circle.tl-pin-cluster-touch-hit")
+            .style(
+              "pointer-events",
+              coarsePointer && keepProminent ? "all" : "none"
+            );
         });
 
       const selectedCluster = selectedLocationClusterRef.current;
       const keepSelectedClusterControl =
-        !activeTarget || clusterContainsTarget(selectedCluster);
+        coarsePointer ||
+        !activeTarget ||
+        clusterContainsTarget(selectedCluster);
 
       pinsRoot
         .selectAll("g.textPin, g.fatherPin")
@@ -3787,6 +3913,14 @@ const [size, setSize] = useState({ width: 0, height: 0 });
           pin
             .select("text.tl-pin-cluster-count")
             .style("opacity", controlOpacity);
+
+          pin
+            .select("circle.tl-pin-cluster-touch-hit")
+            .style("opacity", BASE_OPACITY)
+            .style(
+              "pointer-events",
+              coarsePointer && keepSelectedClusterControl ? "all" : "none"
+            );
         });
     }
 
@@ -4294,12 +4428,19 @@ useEffect(() => {
     return getSelectedStateVisualZoomK(timelineZoomK);
   }
 
+  const getObjectResponsiveVisualScale = () =>
+    getResponsiveObjectVisualScale(size.width, size.height);
+
   const getTextObjectRadius = (row, zoomK) => {
     const sizingZoom = isConnectedTextObject(row)
       ? getConnectedObjectSizingZoomK(zoomK)
       : getObjectSizingZoomK(zoomK);
 
-    return textBaseR(row) * sizingZoom;
+    return (
+      textBaseR(row) *
+      sizingZoom *
+      getObjectResponsiveVisualScale()
+    );
   };
 
   const getFatherObjectRadius = (row, zoomK) => {
@@ -4310,7 +4451,8 @@ useEffect(() => {
     return (
       getFatherBaseR(row) *
       sizingZoom *
-      FATHER_SIZE_SCALE
+      FATHER_SIZE_SCALE *
+      getObjectResponsiveVisualScale()
     );
   };
 
@@ -6005,6 +6147,19 @@ const handleCardLinkHover = (targetType, targetId) => {
   });
 };
 
+// Touch connection links do not own a second preview state. They delegate into
+// the same timeline/map-object tap state above. Clear any transient mouse-link
+// focus first so the shared touch target is the only active touch owner.
+const handleSharedTouchTargetTap = (targetType, targetId) => {
+  setCardLinkHoverTarget(null);
+  sharedTouchTargetTapRef.current?.(targetType, targetId);
+};
+
+const clearSharedTouchTargetPreview = (options) => {
+  setCardLinkHoverTarget(null);
+  clearSharedTouchPreviewRef.current?.(options);
+};
+
 
 const handleSearchInteract = () => {
   // Do NOT close cards when interacting with the search bar.
@@ -6452,15 +6607,23 @@ function refreshDeepHistoricalStructureFocus() {
     isDeepHistoricalStructureMode(layerModeRef.current, k);
 
   if (textsRef.current && deepStructureActive) {
-    d3.select(textsRef.current)
+    const textRoot = d3.select(textsRef.current);
+    textRoot
       .selectAll("circle.textDot")
       .style("pointer-events", "all");
+    textRoot
+      .selectAll("circle.textTouchHit")
+      .classed("is-touch-interactive", true);
   }
 
   if (fathersRef.current && deepStructureActive) {
-    d3.select(fathersRef.current)
+    const fatherRoot = d3.select(fathersRef.current);
+    fatherRoot
       .selectAll("g.fatherMark")
       .style("pointer-events", "all");
+    fatherRoot
+      .selectAll("circle.fatherTouchHit")
+      .classed("is-touch-interactive", true);
   }
 
   /*
@@ -6883,6 +7046,44 @@ useEffect(() => {
     const gTexts = d3.select(textsRef.current);
     const gFathers = d3.select(fathersRef.current);   // FATHERS: layer
     const gPins = d3.select(pinsRef.current);
+
+    /*
+     * Keep coarse-pointer hit areas perfectly aligned with the timeline's
+     * existing interactivity gates. The visible marks still receive the same
+     * pointer-events values as before; the invisible hit circles merely mirror
+     * whether that object is currently actionable.
+     */
+    const pointerSettingIsInteractive = (setting, node, row) => {
+      const value =
+        typeof setting === "function"
+          ? setting.call(node, row)
+          : setting;
+      return String(value ?? "").toLowerCase() !== "none";
+    };
+
+    const setTextObjectInteractivity = (setting) => {
+      gTexts
+        .selectAll("circle.textDot")
+        .style("pointer-events", setting);
+
+      gTexts
+        .selectAll("circle.textTouchHit")
+        .classed("is-touch-interactive", function (row) {
+          return pointerSettingIsInteractive(setting, this, row);
+        });
+    };
+
+    const setFatherObjectInteractivity = (setting) => {
+      gFathers
+        .selectAll("g.fatherMark")
+        .style("pointer-events", setting);
+
+      gFathers
+        .selectAll("circle.fatherTouchHit")
+        .classed("is-touch-interactive", function (row) {
+          return pointerSettingIsInteractive(setting, this, row);
+        });
+    };
 
     /*
      * Selection performance mode:
@@ -10201,6 +10402,72 @@ piesSel
       .selectAll("g.dotSlices")
       .sort((a, b) => (a.when - b.when) || a.durationId.localeCompare(b.durationId));
 
+    /*
+     * Invisible coarse-pointer hit circles for text objects.
+     *
+     * These circles never receive pointer events on a normal mouse. On a
+     * coarse pointer they become active only when the corresponding textDot is
+     * already allowed to be interactive by the current zoom/selection policy.
+     * A tap forwards the existing click behavior to the real textDot, so the
+     * selection/card code has one owner and stays unchanged.
+     */
+    const textTouchHitSel = gTexts
+      .selectAll("circle.textTouchHit")
+      .data(renderTextRows, (d) => d.id)
+      .join(
+        (enter) =>
+          enter
+            .append("circle")
+            .attr("class", "textTouchHit timelineObjectTouchHit")
+            .attr("fill", "transparent")
+            .attr("stroke", "none")
+            .attr("r", TOUCH_OBJECT_HIT_RADIUS)
+            .attr("aria-hidden", "true")
+            .style("pointer-events", "none")
+            .style("cursor", "pointer"),
+        (update) => update,
+        (exit) => exit.remove()
+      );
+
+    textTouchHitSel
+      .on("pointerdown.touchPreview", function (ev, d) {
+        rememberTouchObjectPointerDown(ev, "text", d.id);
+      })
+      .on("pointerup.touchPreview", function (ev, d) {
+        const visibleTextNode = gTexts
+          .selectAll("circle.textDot")
+          .filter((row) => row.id === d.id)
+          .node();
+
+        if (!visibleTextNode) return;
+        finishTouchObjectPointerUp(ev, "text", d, visibleTextNode);
+      })
+      .on("pointercancel.touchPreview", function (ev, d) {
+        cancelTouchObjectPointer(ev, "text", d.id);
+      })
+      .on("click", function (ev, d) {
+        if (shouldSuppressTouchObjectClick("text", d.id)) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          return;
+        }
+
+        const visibleTextNode = gTexts
+          .selectAll("circle.textDot")
+          .filter((row) => row.id === d.id)
+          .node();
+
+        if (!visibleTextNode) return;
+
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        d3.select(visibleTextNode).dispatch("click", {
+          bubbles: true,
+          cancelable: true,
+        });
+      });
+
 
     const within = (v, a, b) => v >= Math.min(a, b) && v <= Math.max(a, b);
 
@@ -10402,7 +10669,236 @@ if (DEBUG_HOVER) {
 }
 
 
+/* -------------------------------------------------------------------------- */
+/* Touch object preview — first tap previews, second tap selects               */
+/* -------------------------------------------------------------------------- */
+const TOUCH_OBJECT_TAP_MOVE_PX = 9;
+const TOUCH_OBJECT_SYNTHETIC_CLICK_GUARD_MS = 700;
+
+function isTouchPointerEvent(ev) {
+  return ev?.pointerType === "touch";
+}
+
+function getTimelineObjectNode(type, id) {
+  if (!id) return null;
+
+  if (type === "text") {
+    return gTexts
+      .selectAll("circle.textDot")
+      .filter((row) => row.id === id)
+      .node();
+  }
+
+  if (type === "father") {
+    return gFathers
+      .selectAll("g.fatherMark")
+      .filter((row) => row.id === id)
+      .node();
+  }
+
+  return null;
+}
+
+function dispatchTimelineObjectHover(type, id, entering) {
+  const node = getTimelineObjectNode(type, id);
+  if (!node) return;
+
+  d3.select(node).dispatch(entering ? "mouseenter" : "mouseleave", {
+    bubbles: false,
+    cancelable: true,
+  });
+}
+
+/*
+ * Tucked Map View objects are rendered in the disclosure branch instead of at
+ * their ordinary geographic point. Keep that visible branch icon synchronized
+ * with the ONE shared touch-preview target used everywhere else.
+ */
+function syncLocationClusterBranchTouchPreviewVisual(activeTarget) {
+  if (!locationClusterBranchRef.current) return;
+
+  d3.select(locationClusterBranchRef.current)
+    .selectAll("g.locationClusterBranch__item")
+    .classed("is-hovered", (entry) =>
+      !!activeTarget &&
+      entry?.type === activeTarget.type &&
+      entry?.id === activeTarget.id
+    );
+}
+
+function clearTouchObjectPreview({ immediate = false } = {}) {
+  const active = touchObjectPreviewRef.current;
+  if (!active) return;
+
+  const activeNode = getTimelineObjectNode(active.type, active.id);
+
+  touchObjectPreviewRef.current = null;
+  setTouchPreviewTarget(null);
+  syncLocationClusterBranchTouchPreviewVisual(null);
+
+  // Release the exact desktop-hover machinery used to create the preview.
+  // This resets enlargement/segment context and hides the object tooltip.
+  dispatchTimelineObjectHover(active.type, active.id, false);
+
+  /*
+   * A chronological touch-pan must not leave the hover transform animating
+   * around the object's pre-pan center. Mouseleave normally eases that scale
+   * away over ~70ms; during a live D3 pan that brief transform is enough to
+   * make the object/mini-tooltip appear detached. For a real drag, cancel the
+   * transition and snap the hovered glyph back to its layout-owned geometry.
+   */
+  if (immediate && activeNode) {
+    if (active.type === "text") {
+      hoveredTextIdRef.current = null;
+      hardResetTextHover(activeNode);
+      if (lastHoverTextElRef.current === activeNode) {
+        lastHoverTextElRef.current = null;
+      }
+    } else if (active.type === "father") {
+      hoveredFatherIdRef.current = null;
+      hardResetFatherHover(activeNode);
+      if (lastHoverFatherElRef.current === activeNode) {
+        lastHoverFatherElRef.current = null;
+      }
+    }
+
+    hideTipSel(tipText);
+  }
+
+  // In Selected Mode the top Info Window and mini-tooltip are driven by this
+  // target. Clear it immediately on touch-preview release instead of waiting
+  // for the ordinary mouseleave debounce.
+  if (
+    hoveredTimelineTargetRef.current?.type === active.type &&
+    hoveredTimelineTargetRef.current?.id === active.id
+  ) {
+    setHoveredTimelineTargetSafe(null);
+  }
+}
+
+function rememberTouchObjectPointerDown(ev, type, id) {
+  if (!isTouchPointerEvent(ev)) return;
+
+  touchObjectPointerDownRef.current = {
+    pointerId: ev.pointerId,
+    type,
+    id,
+    clientX: ev.clientX,
+    clientY: ev.clientY,
+  };
+}
+
+function cancelTouchObjectPointer(ev, type, id) {
+  const down = touchObjectPointerDownRef.current;
+  if (!down) return;
+  if (down.type !== type || down.id !== id) return;
+  if (ev?.pointerId != null && down.pointerId !== ev.pointerId) return;
+  touchObjectPointerDownRef.current = null;
+}
+
+function shouldSuppressTouchObjectClick(type, id) {
+  const guard = touchObjectSuppressClickRef.current;
+  if (!guard) return false;
+
+  if (performance.now() > guard.until) {
+    touchObjectSuppressClickRef.current = null;
+    return false;
+  }
+
+  if (guard.type !== type || guard.id !== id) return false;
+
+  touchObjectSuppressClickRef.current = null;
+  return true;
+}
+
+function runExistingTimelineObjectClick(type, id) {
+  const node = getTimelineObjectNode(type, id);
+  if (!node) return;
+
+  touchObjectSuppressClickRef.current = null;
+  d3.select(node).dispatch("click", {
+    bubbles: true,
+    cancelable: true,
+  });
+}
+
+function handleTouchObjectTap(type, d) {
+  const id = d?.id;
+  if (!id) return;
+
+  const active = touchObjectPreviewRef.current;
+  const sameObject = active?.type === type && active?.id === id;
+
+  if (sameObject) {
+    clearTouchObjectPreview();
+    runExistingTimelineObjectClick(type, id);
+    return;
+  }
+
+  clearTouchObjectPreview();
+  touchObjectPreviewRef.current = { type, id };
+  setTouchPreviewTarget({ type, id });
+  syncLocationClusterBranchTouchPreviewVisual({ type, id });
+  dispatchTimelineObjectHover(type, id, true);
+}
+
+function finishTouchObjectPointerUp(ev, type, d, _visibleNode) {
+  if (!isTouchPointerEvent(ev)) return;
+
+  const down = touchObjectPointerDownRef.current;
+  touchObjectPointerDownRef.current = null;
+
+  if (!down) return;
+  if (down.pointerId !== ev.pointerId || down.type !== type || down.id !== d?.id) {
+    return;
+  }
+
+  const dx = ev.clientX - down.clientX;
+  const dy = ev.clientY - down.clientY;
+  if ((dx * dx + dy * dy) > TOUCH_OBJECT_TAP_MOVE_PX * TOUCH_OBJECT_TAP_MOVE_PX) {
+    return;
+  }
+
+  ev.preventDefault();
+  ev.stopPropagation();
+
+  handleTouchObjectTap(type, d);
+
+  touchObjectSuppressClickRef.current = {
+    type,
+    id: d.id,
+    until: performance.now() + TOUCH_OBJECT_SYNTHETIC_CLICK_GUARD_MS,
+  };
+}
+
+
+// Cards delegate their touch taps into this exact object-preview path. This is
+// what makes "tap link -> tap map object" (and the reverse) behave as two
+// taps on one historical object rather than two unrelated UI controls.
+sharedTouchTargetTapRef.current = (rawType, targetId) => {
+  const type = rawType === "figure" ? "father" : rawType;
+  if (type !== "text" && type !== "father") return;
+
+  const datum =
+    type === "text"
+      ? textRows.find((row) => row.id === targetId)
+      : fatherRows.find((row) => row.id === targetId);
+
+  if (datum) handleTouchObjectTap(type, datum);
+};
+clearSharedTouchPreviewRef.current = (options) =>
+  clearTouchObjectPreview(options);
+
 textSel
+  .on("pointerdown.touchPreview", function (ev, d) {
+    rememberTouchObjectPointerDown(ev, "text", d.id);
+  })
+  .on("pointerup.touchPreview", function (ev, d) {
+    finishTouchObjectPointerUp(ev, "text", d, this);
+  })
+  .on("pointercancel.touchPreview", function (ev, d) {
+    cancelTouchObjectPointer(ev, "text", d.id);
+  })
   .on("mouseenter", function (_ev, d) {
 if (DEBUG_HOVER) {
   const hasSel = !!(selectedText || selectedFather);
@@ -10500,6 +10996,10 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
     }
   })
 .on("mouseleave", function (_ev, d) {
+  const touchPreview = touchObjectPreviewRef.current;
+  if (touchPreview?.type === "text" && touchPreview?.id === d.id) {
+    return;
+  }
 if (DEBUG_HOVER) {
   const hasSel = !!(selectedText || selectedFather);
   const isRel = relevantTextIdsRef?.current?.has?.(d.id);
@@ -10531,6 +11031,12 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
         }
       })
                 .on("click", function (ev, d) {
+        if (shouldSuppressTouchObjectClick("text", d.id)) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          return;
+        }
+
         // Keep any open segment box visible
 
         const wrapRect = wrapRef.current?.getBoundingClientRect();
@@ -10736,6 +11242,13 @@ const fathersSel = gFathers
         .attr("class", "fatherMark")
         .attr("opacity", BASE_OPACITY)
         .style("transition", "opacity 120ms ease");
+      g.append("circle")
+        .attr("class", "fatherTouchHit timelineObjectTouchHit")
+        .attr("fill", "transparent")
+        .attr("stroke", "none")
+        .attr("r", TOUCH_OBJECT_HIT_RADIUS)
+        .attr("aria-hidden", "true")
+        .style("pointer-events", "none");
       g.append("g").attr("class", "slices");    // colored triangles
       g.append("g").attr("class", "overlays");  // ALL white lines live here
       return g;
@@ -10773,6 +11286,15 @@ const fathersSel = gFathers
 
     // Lightweight hover tooltip for fathers (zoomed-in like texts)
 fathersSel
+  .on("pointerdown.touchPreview", function (ev, d) {
+    rememberTouchObjectPointerDown(ev, "father", d.id);
+  })
+  .on("pointerup.touchPreview", function (ev, d) {
+    finishTouchObjectPointerUp(ev, "father", d, this);
+  })
+  .on("pointercancel.touchPreview", function (ev, d) {
+    cancelTouchObjectPointer(ev, "father", d.id);
+  })
 .on("mouseenter", function (_ev, d) {
 if (DEBUG_HOVER) {
   const hasSel = !!(selectedText || selectedFather);
@@ -10841,6 +11363,10 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
     );
   })
   .on("mouseleave", function (_ev, d) {
+  const touchPreview = touchObjectPreviewRef.current;
+  if (touchPreview?.type === "father" && touchPreview?.id === d.id) {
+    return;
+  }
 if (DEBUG_HOVER) {
   const hasSel = !!(selectedText || selectedFather);
   const isRel = relevantFatherIdsRef?.current?.has?.(d.id);
@@ -10866,6 +11392,12 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
   hideTipSel(tipText);
 })
      .on("click", function (ev, d) {
+    if (shouldSuppressTouchObjectClick("father", d.id)) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      return;
+    }
+
     // Keep any open segment box visible
     // Do NOT clear active segment or duration; do NOT close all
 
@@ -10943,6 +11475,55 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
 
     ev.stopPropagation();
   })
+
+  /* Empty-space touch tap releases a locked object preview. */
+  svg
+    .on("pointerdown.touchObjectPreviewBackground", function (ev) {
+      if (!isTouchPointerEvent(ev)) return;
+
+      const target = ev.target;
+      if (
+        target?.closest?.(
+          "circle.textDot, circle.textTouchHit, g.fatherMark, .tl-pin-cluster-button, .locationClusterBranch"
+        )
+      ) {
+        return;
+      }
+
+      touchObjectPointerDownRef.current = {
+        pointerId: ev.pointerId,
+        type: "__background__",
+        id: "__background__",
+        clientX: ev.clientX,
+        clientY: ev.clientY,
+      };
+    })
+    .on("pointerup.touchObjectPreviewBackground", function (ev) {
+      if (!isTouchPointerEvent(ev)) return;
+
+      const target = ev.target;
+      if (
+        target?.closest?.(
+          "circle.textDot, circle.textTouchHit, g.fatherMark, .tl-pin-cluster-button, .locationClusterBranch"
+        )
+      ) {
+        return;
+      }
+
+      const down = touchObjectPointerDownRef.current;
+      touchObjectPointerDownRef.current = null;
+      if (!down || down.type !== "__background__" || down.pointerId !== ev.pointerId) {
+        return;
+      }
+
+      const dx = ev.clientX - down.clientX;
+      const dy = ev.clientY - down.clientY;
+      if ((dx * dx + dy * dy) > TOUCH_OBJECT_TAP_MOVE_PX * TOUCH_OBJECT_TAP_MOVE_PX) {
+        return;
+      }
+
+      clearTouchObjectPreview();
+    });
 
 
 
@@ -12472,6 +13053,19 @@ const shouldHide =
 circle.classed("hidden-icon", shouldHide);
 });
 
+// Keep the touch-only text targets in the same screen-space positions.
+gTexts.selectAll("circle.textTouchHit").each(function (d) {
+  const point = placedPointForText(d, zx, zy);
+  const rBase = getTextObjectRadius(d, k);
+  const shouldHide = !!selectedText && selectedText.id === d.id;
+
+  d3.select(this)
+    .attr("cx", point.x)
+    .attr("cy", point.y)
+    .attr("r", Math.max(TOUCH_OBJECT_HIT_RADIUS, rBase))
+    .style("display", shouldHide ? "none" : null);
+});
+
 // Also hide/show the multi-color pie for the selected text when pinned.
 gTexts
   .selectAll("g.dotSlices")
@@ -12785,8 +13379,15 @@ function renderLocationClusterBranch() {
           (entry) => `translate(0,${entry.branchY})`
         )
         .attr("aria-label", (entry) => entry.label)
-        .on("pointerdown.locationCluster", (event) => {
+        .on("pointerdown.locationCluster", function (event, entry) {
           event.stopPropagation();
+          rememberTouchObjectPointerDown(event, entry.type, entry.id);
+        })
+        .on("pointerup.locationCluster", function (event, entry) {
+          finishTouchObjectPointerUp(event, entry.type, entry.row, this);
+        })
+        .on("pointercancel.locationCluster", function (event, entry) {
+          cancelTouchObjectPointer(event, entry.type, entry.id);
         })
         .on("mouseenter.locationCluster", function (event, entry) {
           cancelHoverTLClear();
@@ -12808,7 +13409,14 @@ function renderLocationClusterBranch() {
           clearHoveredTimelineTargetSoon(60);
           hideTipSel(tipText);
         })
-        .on("click.locationCluster", activateEntry)
+        .on("click.locationCluster", function (event, entry) {
+          if (shouldSuppressTouchObjectClick(entry.type, entry.id)) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
+          activateEntry(event, entry);
+        })
         .on(
           "keydown.locationCluster",
           (event, entry) => {
@@ -12841,7 +13449,9 @@ function renderLocationClusterBranch() {
           "r",
           (entry) =>
             Math.max(
-              LOCATION_CLUSTER_HIT_RADIUS,
+              hasCoarsePointer()
+                ? TOUCH_OBJECT_HIT_RADIUS
+                : LOCATION_CLUSTER_HIT_RADIUS,
               branchIconRadiusForEntry(entry) + 7
             )
         );
@@ -13060,6 +13670,17 @@ function toggleLocationClusterBranch(
           : null
     );
 
+  gTexts
+    .selectAll("circle.textTouchHit")
+    .style(
+      "display",
+      (d) =>
+        clusteredKeys.has(`text:${d.id}`) ||
+        (selectedText && selectedText.id === d.id)
+          ? "none"
+          : null
+    );
+
   gFathers
     .selectAll("g.fatherMark")
     .style(
@@ -13092,6 +13713,14 @@ const connectedClusterControls = gPins
           "class",
           "connectedLocationClusterControl"
         );
+
+      control
+        .append("circle")
+        .attr("class", "tl-pin-cluster-touch-hit")
+        .attr("aria-hidden", "true")
+        .style("fill", "transparent")
+        .style("stroke", "none")
+        .style("pointer-events", "none");
 
       control
         .append("path")
@@ -13147,6 +13776,14 @@ connectedClusterControls.each(function (cluster) {
     .attr("aria-expanded", isOpen ? "true" : "false")
     .classed("is-open", isOpen);
 
+  const clusterTouchHit = control
+    .select("circle.tl-pin-cluster-touch-hit")
+    .attr("cx", cx)
+    .attr("cy", cy)
+    .attr("r", LOCATION_CLUSTER_BUTTON_TOUCH_HIT_RADIUS)
+    .style("display", null)
+    .style("pointer-events", hasCoarsePointer() ? "all" : "none");
+
   control
     .select("text.tl-pin-cluster-count")
     .style("display", isOpen ? "none" : null)
@@ -13170,6 +13807,9 @@ connectedClusterControls.each(function (cluster) {
       cx,
       cy
     );
+
+  clusterTouchHit
+    .on("click.locationClusterTouch", activate);
 
   button
     .on("click.locationCluster", activate)
@@ -13207,6 +13847,15 @@ textPinSel
       // Circle icon in the pin head
       g.append("g")
         .attr("class", "tl-pin-icon")
+        .style("pointer-events", "none");
+
+      // Touch-only hit area for the disclosure triangle/count.
+      g.append("circle")
+        .attr("class", "tl-pin-cluster-touch-hit")
+        .attr("aria-hidden", "true")
+        .style("fill", "transparent")
+        .style("stroke", "none")
+        .style("display", "none")
         .style("pointer-events", "none");
 
       // Visible only when connected objects share the selected map location.
@@ -13323,6 +13972,20 @@ iconG.selectAll("path.slice")
       hasLocationCluster &&
       openLocationClusterKeysRef.current.has(cluster.key);
 
+    const clusterTouchHit = g
+      .select("circle.tl-pin-cluster-touch-hit")
+      .style(
+        "display",
+        hasLocationCluster ? null : "none"
+      )
+      .attr("cx", cx)
+      .attr("cy", cy + 1)
+      .attr("r", LOCATION_CLUSTER_BUTTON_TOUCH_HIT_RADIUS)
+      .style(
+        "pointer-events",
+        hasLocationCluster && hasCoarsePointer() ? "all" : "none"
+      );
+
     const clusterButton = g
       .select("path.tl-pin-cluster-button")
       .style(
@@ -13397,6 +14060,12 @@ iconG.selectAll("path.slice")
         cy + 1
       );
     };
+
+    clusterTouchHit
+      .on(
+        "click.locationClusterTouch",
+        toggleClusterBranch
+      );
 
     clusterButton
       .on(
@@ -13475,6 +14144,14 @@ const isHovered  = hoveredFatherIdRef.current === d.id;
 
 const rBase = getFatherObjectRadius(d, k);
 const r = isSelected ? rBase * HOVER_SCALE_FATHER : rBase;
+
+// Invisible touch target stays centered on the visible father glyph.
+d3.select(this)
+  .select("circle.fatherTouchHit")
+  .attr("cx", cx)
+  .attr("cy", cy)
+  .attr("r", Math.max(TOUCH_OBJECT_HIT_RADIUS, rBase))
+  .style("display", isSelected ? "none" : null);
 
 const isConcept = hasConceptTag(d.historicMythicStatusTags);
 
@@ -13590,6 +14267,15 @@ fatherPinSel
       // Triangle icon in the pin head
       g.append("g")
         .attr("class", "tl-pin-icon")
+        .style("pointer-events", "none");
+
+      // Touch-only hit area for the disclosure triangle/count.
+      g.append("circle")
+        .attr("class", "tl-pin-cluster-touch-hit")
+        .attr("aria-hidden", "true")
+        .style("fill", "transparent")
+        .style("stroke", "none")
+        .style("display", "none")
         .style("pointer-events", "none");
 
       // Visible only when connected objects share the selected map location.
@@ -13738,6 +14424,20 @@ fatherPinSel
       hasLocationCluster &&
       openLocationClusterKeysRef.current.has(cluster.key);
 
+    const clusterTouchHit = g
+      .select("circle.tl-pin-cluster-touch-hit")
+      .style(
+        "display",
+        hasLocationCluster ? null : "none"
+      )
+      .attr("cx", cx)
+      .attr("cy", cy + 1)
+      .attr("r", LOCATION_CLUSTER_BUTTON_TOUCH_HIT_RADIUS)
+      .style(
+        "pointer-events",
+        hasLocationCluster && hasCoarsePointer() ? "all" : "none"
+      );
+
     const clusterButton = g
       .select("path.tl-pin-cluster-button")
       .style(
@@ -13812,6 +14512,12 @@ fatherPinSel
         cy + 1
       );
     };
+
+    clusterTouchHit
+      .on(
+        "click.locationClusterTouch",
+        toggleClusterBranch
+      );
 
     clusterButton
       .on(
@@ -14053,11 +14759,9 @@ function updateInteractivity(k) {
     refreshDeepHistoricalStructureFocus();
     renderContextualChronology();
 
-    gTexts.selectAll("circle.textDot")
-      .style("pointer-events", "all");
+    setTextObjectInteractivity("all");
 
-    gFathers.selectAll("g.fatherMark")
-      .style("pointer-events", "all");
+    setFatherObjectInteractivity("all");
 
     clearActiveDuration();
     clearActiveSegment();
@@ -14125,22 +14829,20 @@ if (hasSelection) {
    * Default View zoom level, including OUTEST. This matches Geographical View.
    * Unrelated objects remain inert.
    */
-  gTexts.selectAll("circle.textDot")
-    .style("pointer-events", d =>
-      relevantTextIdsRef.current.has(d.id) ? "all" : "none"
-    );
+  setTextObjectInteractivity((d) =>
+    relevantTextIdsRef.current.has(d.id) ? "all" : "none"
+  );
 
-  gFathers.selectAll("g.fatherMark")
-    .style("pointer-events", d =>
-      relevantFatherIdsRef.current.has(d.id) ? "all" : "none"
-    );
+  setFatherObjectInteractivity((d) =>
+    relevantFatherIdsRef.current.has(d.id) ? "all" : "none"
+  );
 } else {
   if (zoomMode === "deepest") {
-    gTexts.selectAll("circle.textDot").style("pointer-events", "all");
-    gFathers.selectAll("g.fatherMark").style("pointer-events", "all");
+    setTextObjectInteractivity("all");
+    setFatherObjectInteractivity("all");
   } else {
-    gTexts.selectAll("circle.textDot").style("pointer-events", "none");
-    gFathers.selectAll("g.fatherMark").style("pointer-events", "none");
+    setTextObjectInteractivity("none");
+    setFatherObjectInteractivity("none");
   }
 }
 
@@ -14282,15 +14984,13 @@ if (hasSelection) {
     refreshDeepHistoricalStructureFocus();
     renderContextualChronology();
 
-    gTexts.selectAll("circle.textDot")
-      .style("pointer-events", d =>
-        relevantTextIdsRef.current.has(d.id) ? "all" : "none"
-      );
+    setTextObjectInteractivity((d) =>
+      relevantTextIdsRef.current.has(d.id) ? "all" : "none"
+    );
 
-    gFathers.selectAll("g.fatherMark")
-      .style("pointer-events", d =>
-        relevantFatherIdsRef.current.has(d.id) ? "all" : "none"
-      );
+    setFatherObjectInteractivity((d) =>
+      relevantFatherIdsRef.current.has(d.id) ? "all" : "none"
+    );
 
     if (!showSelectedNeighborhoodSegmentStructure) clearActiveSegment();
     clearActiveDuration();
@@ -14333,10 +15033,8 @@ if (hasSelection) {
     gSeg.selectAll("rect.segmentStructureHit")
       .style("pointer-events", "none");
 
-    gTexts.selectAll("circle.textDot")
-      .style("pointer-events", "none");
-    gFathers.selectAll("g.fatherMark")
-      .style("pointer-events", "none");
+    setTextObjectInteractivity("none");
+    setFatherObjectInteractivity("none");
 
     gCustom.selectAll("path.customGroup")
       .style("pointer-events", showDurationsLayer ? "all" : "none");
@@ -14361,10 +15059,8 @@ if (hasSelection) {
       .style("pointer-events", showSegmentsLayer ? "all" : "none");
     setStructureHitPointerEvents();
 
-    gTexts.selectAll("circle.textDot")
-      .style("pointer-events", deepHistoricalStructureMode ? "all" : "none");
-    gFathers.selectAll("g.fatherMark")
-      .style("pointer-events", deepHistoricalStructureMode ? "all" : "none");
+    setTextObjectInteractivity(deepHistoricalStructureMode ? "all" : "none");
+    setFatherObjectInteractivity(deepHistoricalStructureMode ? "all" : "none");
 
     gCustom.selectAll("path.customGroup")
       .style("pointer-events", "none");
@@ -14388,10 +15084,8 @@ if (hasSelection) {
       .style("pointer-events", showSegmentsLayer ? "all" : "none");
     setStructureHitPointerEvents();
 
-    gTexts.selectAll("circle.textDot")
-      .style("pointer-events", "all");
-    gFathers.selectAll("g.fatherMark")
-      .style("pointer-events", "all");
+    setTextObjectInteractivity("all");
+    setFatherObjectInteractivity("all");
 
     gCustom.selectAll("path.customGroup")
       .style("pointer-events", "none");
@@ -14723,6 +15417,38 @@ let dragStartY = null;
 // Squared pixel threshold before we treat it as a drag (≈2px)
 const DRAG_THRESHOLD_SQ = 4;
 
+/*
+ * D3 mouse/pointer zoom events expose clientX/clientY directly, while its
+ * touch path supplies a TouchEvent whose coordinates live on touches[0] (or
+ * changedTouches[0] at the end of a gesture). Normalize both so the existing
+ * drag threshold works identically for mouse and touchscreen panning.
+ */
+const sourceEventClientPoint = (sourceEvent) => {
+  if (!sourceEvent) return null;
+
+  if (
+    Number.isFinite(sourceEvent.clientX) &&
+    Number.isFinite(sourceEvent.clientY)
+  ) {
+    return { x: sourceEvent.clientX, y: sourceEvent.clientY };
+  }
+
+  const touch =
+    sourceEvent.touches?.[0] ||
+    sourceEvent.changedTouches?.[0] ||
+    null;
+
+  if (
+    touch &&
+    Number.isFinite(touch.clientX) &&
+    Number.isFinite(touch.clientY)
+  ) {
+    return { x: touch.clientX, y: touch.clientY };
+  }
+
+  return null;
+};
+
 
 const zoom = (zoomRef.current ?? d3.zoom())
   .scaleExtent([MIN_ZOOM, MAX_ZOOM])
@@ -14737,7 +15463,7 @@ const zoom = (zoomRef.current ?? d3.zoom())
 
     // If the event started on an interactive mark (text dot or father),
     // we want clicks, but NOT drag-panning.
-    const onText = t.closest("circle.textDot");
+    const onText = t.closest("circle.textDot, circle.textTouchHit");
     const onFather = t.closest("g.fatherMark");
     const onLocationClusterControl =
       t.closest(".tl-pin-cluster-button") ||
@@ -14767,10 +15493,14 @@ const zoom = (zoomRef.current ?? d3.zoom())
     zoomDraggingRef.current = false;
     dragDeepStructureFocusSourceIdRef.current = null;
 
-    // Remember where the pointer was when this gesture began (for non-wheel only)
-    if (!isWheel && event.sourceEvent && "clientX" in event.sourceEvent) {
-      dragStartX = event.sourceEvent.clientX;
-      dragStartY = event.sourceEvent.clientY;
+    // Remember where the gesture began for mouse OR touch.
+    const startPoint = !isWheel
+      ? sourceEventClientPoint(event.sourceEvent)
+      : null;
+
+    if (startPoint) {
+      dragStartX = startPoint.x;
+      dragStartY = startPoint.y;
     } else {
       dragStartX = null;
       dragStartY = null;
@@ -14795,15 +15525,24 @@ const zoom = (zoomRef.current ?? d3.zoom())
     const srcType = event.sourceEvent?.type;
     const isWheel = srcType === "wheel";
 
-    if (!isWheel && event.sourceEvent && "clientX" in event.sourceEvent) {
+    const currentGesturePoint = !isWheel
+      ? sourceEventClientPoint(event.sourceEvent)
+      : null;
+
+    if (currentGesturePoint) {
       // If we haven't yet decided it's a drag, check how far we've moved
       if (!zoomDraggingRef.current && dragStartX != null && dragStartY != null) {
-        const dx = event.sourceEvent.clientX - dragStartX;
-        const dy = event.sourceEvent.clientY - dragStartY;
+        const dx = currentGesturePoint.x - dragStartX;
+        const dy = currentGesturePoint.y - dragStartY;
         const distSq = dx * dx + dy * dy;
 
         if (distSq > DRAG_THRESHOLD_SQ) {
           zoomDraggingRef.current = true;
+
+          // Chronological pan only: a real drag releases any locked touch
+          // preview immediately. Map View keeps its preview and relies on the
+          // existing projection-sync path, which already follows map dragging.
+          clearSharedTouchTargetPreview({ immediate: true });
 
           if (isDeepHistoricalStructureMode()) {
             dragDeepStructureFocusSourceIdRef.current =
@@ -15555,6 +16294,12 @@ return (
       selectedEntry={selectedMapEntry}
       debug={DEBUG_MAP_SYNC}
       onProjectionChange={handleMapProjectionChange}
+      onViewportInteractionStart={() =>
+        clearSharedTouchTargetPreview({ immediate: true })
+      }
+      onBackgroundTouchTap={() =>
+        clearSharedTouchTargetPreview({ immediate: true })
+      }
     />
 
     <svg
@@ -15658,6 +16403,8 @@ return (
         onNavigate={handleConnectionNavigate}
         hoveredTimelineTarget={hoveredTimelineTarget}
         onHoverLink={handleCardLinkHover}
+        touchPreviewTarget={touchPreviewTarget}
+        onTouchTargetTap={handleSharedTouchTargetTap}
         showMap={showMap}
         onShowMapChange={handleShowMapChange}
         mapAvailable={hasMapCoordinates(selectedText)}
@@ -15692,6 +16439,8 @@ return (
         onNavigate={handleConnectionNavigate}
         hoveredTimelineTarget={hoveredTimelineTarget}
         onHoverLink={handleCardLinkHover}
+        touchPreviewTarget={touchPreviewTarget}
+        onTouchTargetTap={handleSharedTouchTargetTap}
         showMap={showMap}
         onShowMapChange={handleShowMapChange}
         mapAvailable={hasMapCoordinates(selectedFather)}

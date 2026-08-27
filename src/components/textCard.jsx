@@ -116,6 +116,8 @@ const TextCard = forwardRef(function TextCard(
     connections = [],
     onNavigate,
     onHoverLink,
+    touchPreviewTarget = null,
+    onTouchTargetTap = () => {},
     showMap = false,
     onShowMapChange = () => {},
     mapAvailable = false,
@@ -138,10 +140,95 @@ const TextCard = forwardRef(function TextCard(
   const [isClosing, setIsClosing] = useState(false);
   const closedOnceRef = useRef(false);
   const [isContribOpen, setIsContribOpen] = useState(false);
-  
+
+  // Touch connection-link gesture tracking only. The identity of the currently
+  // previewed object lives in Timeline so card links and map/timeline objects
+  // share one touch state.
+  const touchConnectionPointerDownRef = useRef(null);
+  const touchConnectionSuppressClickRef = useRef(null);
 
   // NEW: normalize naming in case some targets are "figure" instead of "father"
   const normType = (t) => (t === "figure" ? "father" : t);
+
+  const touchConnectionKey = (target) =>
+    `${normType(target?.type)}:${String(target?.id ?? "")}`;
+
+  const rememberTouchConnectionPointerDown = (event, target) => {
+    if (event?.pointerType !== "touch") return;
+
+    touchConnectionPointerDownRef.current = {
+      pointerId: event.pointerId,
+      key: touchConnectionKey(target),
+      clientX: event.clientX,
+      clientY: event.clientY,
+    };
+  };
+
+  const cancelTouchConnectionPointer = (event, target) => {
+    const down = touchConnectionPointerDownRef.current;
+    if (!down) return;
+    if (down.key !== touchConnectionKey(target)) return;
+    if (event?.pointerId != null && down.pointerId !== event.pointerId) return;
+    touchConnectionPointerDownRef.current = null;
+  };
+
+  const suppressTouchConnectionClick = (target) => {
+    const guard = touchConnectionSuppressClickRef.current;
+    if (!guard) return false;
+
+    const now =
+      typeof performance !== "undefined" && typeof performance.now === "function"
+        ? performance.now()
+        : Date.now();
+
+    if (now > guard.until) {
+      touchConnectionSuppressClickRef.current = null;
+      return false;
+    }
+
+    if (guard.key !== touchConnectionKey(target)) return false;
+
+    touchConnectionSuppressClickRef.current = null;
+    return true;
+  };
+
+  const finishTouchConnectionPointerUp = (event, target) => {
+    if (event?.pointerType !== "touch") return;
+
+    const down = touchConnectionPointerDownRef.current;
+    touchConnectionPointerDownRef.current = null;
+
+    if (!down || down.pointerId !== event.pointerId) return;
+
+    const key = touchConnectionKey(target);
+    if (down.key !== key) return;
+
+    const dx = event.clientX - down.clientX;
+    const dy = event.clientY - down.clientY;
+    if (dx * dx + dy * dy > 81) return; // ~9px movement = scroll/drag, not tap
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    // Timeline decides whether this is the first tap (preview) or the second
+    // tap on the same object (navigate/select).
+    onTouchTargetTap?.(target.type, target.id);
+
+    const now =
+      typeof performance !== "undefined" && typeof performance.now === "function"
+        ? performance.now()
+        : Date.now();
+
+    touchConnectionSuppressClickRef.current = {
+      key,
+      until: now + 700,
+    };
+  };
+
+  useEffect(() => {
+    touchConnectionPointerDownRef.current = null;
+    touchConnectionSuppressClickRef.current = null;
+  }, [d?.id]);
 
 useEffect(() => {
     if (scrollRef.current) {
@@ -335,6 +422,11 @@ useEffect(() => {
           hoveredTimelineTarget &&
           normType(hoveredTimelineTarget.type) === normType(t.type) &&
           hoveredTimelineTarget.id === t.id;
+        const targetKey = touchConnectionKey(t);
+        const isTouchPreview =
+          !!touchPreviewTarget &&
+          normType(touchPreviewTarget.type) === normType(t.type) &&
+          touchPreviewTarget.id === t.id;
 
         return (
           <button
@@ -343,12 +435,29 @@ useEffect(() => {
               "textCard-connectionLink",
               getTypographyClassForTarget(t),
               isTimelineHover ? "isTimelineHover" : "",
+              isTouchPreview ? "isTouchPreview" : "",
             ]
               .filter(Boolean)
               .join(" ")}
-            onClick={() => onNavigate && onNavigate(t.type, t.id)}
-            onMouseEnter={() => onHoverLink && onHoverLink(t.type, t.id)}
-            onMouseLeave={() => onHoverLink && onHoverLink(null, null)}
+            onPointerDown={(event) =>
+              rememberTouchConnectionPointerDown(event, t)
+            }
+            onPointerUp={(event) =>
+              finishTouchConnectionPointerUp(event, t)
+            }
+            onPointerCancel={(event) =>
+              cancelTouchConnectionPointer(event, t)
+            }
+            onClick={(event) => {
+              if (suppressTouchConnectionClick(t)) {
+                event.preventDefault();
+                event.stopPropagation();
+                return;
+              }
+              onNavigate?.(t.type, t.id);
+            }}
+            onMouseEnter={() => onHoverLink?.(t.type, t.id)}
+            onMouseLeave={() => onHoverLink?.(null, null)}
           >
             {t.name}
           </button>

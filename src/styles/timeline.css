@@ -22,6 +22,15 @@
   --card-pad-left: 34px;  /* desktop/tablet default */
   --card-pad-right: 16px; /* tighter right edge */
 
+  /* Selected-mode widths */
+  --selected-card-width: min(400px, 92vw);
+  --selected-card-left: -12px;
+  --selected-card-gap: 24px;
+  --connection-info-max-width: 720px;
+  --connection-info-right: 88px;
+  --segment-box-max-width: 400px;
+  --segment-structure-box-max-width: 720px;
+
   /* Buttons (Show/Hide Tags) */
   --btn-brown:        #f4e0b3;
   --btn-brown-hover:  #d9a85e;  /* slightly darker */
@@ -36,6 +45,27 @@
   /* Map View location-cluster disclosure buttons.
      Tweak this one value to recolor every folded/unfolded triangle. */
   --location-cluster-button-color: #3f3f46;
+}
+
+
+@media (max-width: 1280px) {
+  :root {
+    --selected-card-width: min(352px, 42vw);
+    --connection-info-max-width: 560px;
+    --connection-info-right: 64px;
+    --segment-box-max-width: 360px;
+    --segment-structure-box-max-width: 560px;
+  }
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --selected-card-width: min(336px, 44vw);
+    --connection-info-max-width: 500px;
+    --connection-info-right: 48px;
+    --segment-box-max-width: 336px;
+    --segment-structure-box-max-width: 500px;
+  }
 }
 
 /* Fill the viewport */
@@ -523,7 +553,7 @@ body {
   border: 2px solid var(--accent, #888);
   box-shadow: 0 12px 28px rgba(0,0,0,0.18);
   white-space: normal;
-  max-width: 400px;
+  max-width: var(--segment-box-max-width);
   margin-top: 8px;
   text-align: left;
 }
@@ -542,8 +572,8 @@ body {
  */
 .tl-seg.tl-seg--borders-only {
   box-sizing: border-box;
-  width: min(720px, calc(100% - 16px));
-  max-width: 720px;
+  width: min(var(--segment-structure-box-max-width), calc(100% - 16px));
+  max-width: var(--segment-structure-box-max-width);
   margin-top: 0;
 }
 .tl-seg.below::after {
@@ -576,7 +606,7 @@ body {
   position: fixed !important;
 
   /* crop a bit on the left, but keep fully visible vertically */
-  left: -12px !important;
+  left: var(--selected-card-left) !important;
   top: 0 !important;
   bottom: 0 !important;
   right: auto !important;
@@ -584,7 +614,7 @@ body {
   translate: 0;                   /* we animate this property for slide-in/out */
 
   /* sidebar sizing */
-  width: min(400px, 92vw);
+  width: var(--selected-card-width);
   max-width: 92vw;
   height: 100%;
   max-height: 95%;
@@ -871,7 +901,9 @@ body {
 
 /* Timeline-driven hover uses the exact same active-link treatment. */
 .textCard-connectionLink.isTimelineHover,
-.textCard-connTarget.isTimelineHover {
+.textCard-connTarget.isTimelineHover,
+.textCard-connectionLink.isTouchPreview,
+.textCard-connTarget.isTouchPreview {
   color: #1d4ed8;
   text-decoration-line: underline;
   text-decoration-style: solid;
@@ -1557,14 +1589,14 @@ body {
 .fatherCard {
   position: fixed !important;
 
-  left: -12px !important;
+  left: var(--selected-card-left) !important;
   top: 0 !important;
   bottom: 0 !important;
   right: auto !important;
   transform: none !important;     /* keep base transform neutral */
   translate: 0;                   /* animate this for slide-in/out */
 
-  width: min(400px, 92vw);
+  width: var(--selected-card-width);
   max-width: 92vw;
   height: 100%;
   max-height: 95%;
@@ -2181,6 +2213,13 @@ body {
   stroke-width: 2.2px;
 }
 
+/* Invisible coarse-pointer hit area around the disclosure triangle/count. */
+.tl-pin-cluster-touch-hit {
+  fill: transparent;
+  stroke: none;
+  pointer-events: none;
+}
+
 /* Number of hidden objects underneath every location-cluster triangle. */
 .tl-pin-cluster-count {
   fill: var(--location-cluster-button-color, #3f3f46);
@@ -2274,6 +2313,25 @@ body {
 .timelineSvg.is-map-view .locationClusterBranch__item {
   pointer-events: all;
 }
+
+/*
+ * A persistent touch preview should never dim or disable the disclosure
+ * triangle/count. Mouse selected-neighbour focus keeps its existing behavior;
+ * coarse pointers retain a stable, fully visible control plus the larger
+ * transparent hit area created by timeline.jsx.
+ */
+@media (pointer: coarse), (any-pointer: coarse) {
+  .timelineSvg.is-map-view .connectedLocationClusterControl,
+  .timelineSvg.is-map-view .tl-pin-cluster-button,
+  .timelineSvg.is-map-view .tl-pin-cluster-count {
+    opacity: 1 !important;
+  }
+
+  .timelineSvg.is-map-view .tl-pin-cluster-button,
+  .timelineSvg.is-map-view .tl-pin-cluster-touch-hit {
+    pointer-events: all !important;
+  }
+}
 /* ============================
    Filters while an object is selected
    ============================ */
@@ -2348,8 +2406,8 @@ body {
 .timelineConnectionInfoHost {
   position: absolute;
   top: 14px;
-  left: clamp(286px, 23vw, 430px);
-  right: 88px;
+  left: calc(var(--selected-card-width) + var(--selected-card-left) + var(--selected-card-gap));
+  right: var(--connection-info-right);
   z-index: 1165;
 
   display: flex;
@@ -2379,7 +2437,7 @@ body {
  */
 .timelineConnectionInfo {
   position: relative;
-  width: min(720px, 100%);
+  width: min(var(--connection-info-max-width), 100%);
   box-sizing: border-box;
 
   padding: 10px 14px 11px;
@@ -2680,4 +2738,60 @@ body {
 .timelineWrap:not(.has-object-selection)
   .tl-mini-tooltip-layer {
   display: none !important;
+}
+/* ========================================================================== */
+/* TOUCH / COARSE-POINTER PASS 1 — HTML controls only                         */
+/* ========================================================================== */
+/*
+ * Keep the desktop/mouse layout unchanged. On tablets and hybrid touch
+ * devices, modestly enlarge the effective hit area of card controls without
+ * enlarging their icons or changing the card's overall composition.
+ */
+@media (pointer: coarse), (any-pointer: coarse) {
+  .textCard-historyButton,
+  .selectedTooltipToggle,
+  .textCard-fold {
+    position: relative;
+    width: 32px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Vertical expansion reaches ~40px while preserving the compact header row. */
+  .textCard-historyButton::before,
+  .selectedTooltipToggle::before,
+  .textCard-fold::before {
+    content: "";
+    position: absolute;
+    inset: -4px 0;
+  }
+
+  .textCard-close {
+    position: absolute;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .textCard-close::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+  }
+
+  .mapViewToggle {
+    position: absolute;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mapViewToggle::before {
+    content: "";
+    position: absolute;
+    inset: -4px 0;
+  }
+
+  /* Body actions such as Show tags / Share relevant media get a comfortable
+     finger-height while keeping their existing width and typography. */
+  .textCard-button,
+  .tl-card-btn {
+    min-height: 40px;
+    -webkit-tap-highlight-color: transparent;
+  }
 }

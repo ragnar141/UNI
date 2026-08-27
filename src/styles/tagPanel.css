@@ -848,3 +848,78 @@
     transition: none !important;
   }
 }
+/* ========================================================================== */
+/* TOUCH / COARSE-POINTER PASS 1                                              */
+/* ========================================================================== */
+/*
+ * Tablet/hybrid-device hit areas. Desktop geometry is untouched because these
+ * rules only apply when the browser reports a coarse pointer.
+ */
+@media (pointer: coarse), (any-pointer: coarse) {
+  .tagPanel__btn {
+    height: 38px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .tagPanel__radioRow,
+  .tagPanel__radio,
+  .tagPanel__row {
+    min-height: 32px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .tagPanel__miniBtn {
+    min-height: 34px;
+    padding: 6px 10px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .tagPanel__back {
+    min-height: 36px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .tagPanel__close {
+    width: 40px;
+    height: 40px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Keep the visible reset indicator at 8px, but give it a real finger target. */
+  .tagPanel__btnRow:has(.tagPanel__resetDot) .tagPanel__btn {
+    width: calc(100% - 34px);
+  }
+
+  .tagPanel__resetDot {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    background: transparent;
+    transform: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .tagPanel__resetDot::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #000;
+    transform: translate(-50%, -50%);
+  }
+
+  .tagPanel__resetDot:hover {
+    transform: none;
+  }
+
+  .tagPanel__resetDot--inactive::before,
+  .tagPanel__resetDot:disabled::before {
+    opacity: 0.45;
+  }
+}
