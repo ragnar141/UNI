@@ -617,7 +617,7 @@ body {
   width: var(--selected-card-width);
   max-width: 92vw;
   height: 100%;
-  max-height: 95%;
+  max-height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-gutter: stable;
@@ -1599,7 +1599,7 @@ body {
   width: var(--selected-card-width);
   max-width: 92vw;
   height: 100%;
-  max-height: 95%;
+  max-height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-gutter: stable;
@@ -2793,5 +2793,884 @@ body {
   .tl-card-btn {
     min-height: 40px;
     -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ========================================================================== */
+/* iPhone SE compact visualization chrome — Pass 22                           */
+/* ========================================================================== */
+/*
+ * Presentation-only compact profile. The viewport gate is deliberately narrow
+ * so approved tablet / laptop / desktop layouts remain untouched.
+ */
+@media (max-width: 430px) and (max-height: 750px) {
+  /* Bottom chronology rail. Actual rail depth is reduced in timeline.jsx. */
+  .axis text,
+  .axis .tick text {
+    font-size: 8px;
+    font-weight: 540;
+    letter-spacing: 0;
+  }
+
+  .axis .domain {
+    stroke-width: 1px;
+  }
+
+  .axis path,
+  .axis line {
+    stroke-width: 0.75px;
+  }
+
+  .grid .tick line {
+    stroke-width: 0.7px;
+    stroke-dasharray: 4 5;
+  }
+
+  /* Ordinary object tooltip + shared tooltip base. */
+  .tl-tooltip {
+    max-width: 164px;
+    padding: 5px 6px;
+    border-radius: 5px;
+    font-size: 9px;
+    line-height: 1.16;
+    margin-top: -6px;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.18);
+  }
+
+  .tl-tooltip .tl-tip-title {
+    margin-bottom: 2px;
+    line-height: 1.15;
+  }
+
+  .tl-tooltip .tl-tip-sub {
+    line-height: 1.15;
+  }
+
+  .tl-tooltip .tl-tip-note {
+    margin-top: 2px;
+    font-size: 8px;
+    line-height: 1.22;
+  }
+
+  .tl-text {
+    min-width: 0;
+    max-width: 164px;
+    padding: 5px 6px;
+    border-width: 1px;
+    white-space: normal;
+  }
+
+  .tl-text .tl-tip-title {
+    margin-bottom: 2px;
+  }
+
+  .tl-text .tl-tip-meta {
+    gap: 3px;
+    font-size: 8px;
+    line-height: 1.15;
+    white-space: normal;
+    flex-wrap: wrap;
+  }
+
+  .tl-text .tl-tip-location {
+    max-width: 148px;
+    white-space: normal;
+  }
+
+  /* Persistent selected tooltip: same information, much smaller footprint. */
+  .tl-selected.tl-text,
+  .tl-text.tl-selected {
+    width: fit-content;
+    min-width: 0;
+    max-width: 172px;
+    padding: 5px 6px;
+    border-width: 1px;
+  }
+
+  .tl-selected .tl-tip-title,
+  .tl-text.tl-selected .tl-tip-title {
+    font-size: 10px;
+    line-height: 1.15;
+    margin-bottom: 2px;
+  }
+
+  .tl-text.tl-selected .tl-tip-connections {
+    margin-top: 2px;
+    gap: 2px;
+    font-size: 8px;
+    line-height: 1.1;
+  }
+
+  /* Connected-object mini-tooltip. */
+  .tl-mini-tooltip {
+    max-width: 150px;
+    padding: 3px 5px;
+    border-radius: 5px;
+    font-size: 9px;
+    line-height: 1.15;
+    --tl-mini-tooltip-shadow: 0 2px 7px rgba(15, 23, 42, 0.12);
+  }
+
+  .tl-mini-tooltip .tl-tip-title {
+    margin-bottom: 2px;
+  }
+
+  .tl-mini-tooltip .tl-tip-meta {
+    gap: 2px;
+    font-size: 8px;
+    line-height: 1.1;
+  }
+
+  /* Civilization / period inspector. */
+  .tl-seg {
+    max-width: 172px;
+    margin-top: 4px;
+    padding: 5px 6px;
+    border-width: 1px;
+    border-radius: 5px;
+    font-size: 9px;
+    line-height: 1.18;
+    box-shadow: 0 4px 11px rgba(0, 0, 0, 0.15);
+  }
+
+  .tl-seg.tl-seg--borders-only {
+    width: min(208px, calc(100% - 8px));
+    max-width: 208px;
+  }
+
+  .tl-seg::after {
+    width: 7px;
+    height: 7px;
+    border-left-width: 1px;
+    border-bottom-width: 1px;
+  }
+
+  .tl-seg.below::after {
+    border-right-width: 1px;
+    border-top-width: 1px;
+  }
+
+  .tl-seg .tl-tip-title {
+    margin-bottom: 2px;
+    font-size: 10px;
+    line-height: 1.15;
+  }
+
+  .tl-seg .tl-tip-sub {
+    margin-bottom: 2px;
+    font-size: 8px;
+    line-height: 1.15;
+  }
+
+  .tl-seg .tl-tip-note {
+    margin-top: 2px;
+    font-size: 8px;
+    line-height: 1.22;
+  }
+
+  /* Duration/composite inspector uses the same compact reading measure. */
+  .tl-duration {
+    max-width: 172px;
+    padding: 5px 6px;
+    margin-top: 4px;
+    border-width: 1px;
+    border-radius: 5px;
+    font-size: 9px;
+    line-height: 1.18;
+    box-shadow: 0 4px 11px rgba(0, 0, 0, 0.15);
+  }
+
+  .tl-duration .tl-tip-title,
+  .tl-duration .tl-tip-sub {
+    margin-bottom: 3px;
+  }
+}
+
+
+/* ========================================================================== */
+/* iPhone SE compact selected cards — Pass 23                                 */
+/* ========================================================================== */
+/*
+ * Card-only density pass.  This intentionally does NOT touch tooltip,
+ * segment-inspector, information-window, map, or interaction behavior.
+ */
+@media (max-width: 430px) and (max-height: 750px) {
+  :root {
+    --iphone-se-card-width: 180px;
+    --card-pad-left: 14px;
+    --card-pad-right: 8px;
+  }
+
+  .textCard,
+  .fatherCard {
+    left: -4px !important;
+    right: auto !important;
+    width: var(--iphone-se-card-width) !important;
+    max-width: var(--iphone-se-card-width) !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    padding: 8px var(--card-pad-right) 10px var(--card-pad-left) !important;
+    box-sizing: border-box;
+    scrollbar-gutter: auto;
+    box-shadow: none !important;
+  }
+
+  .textCard.isFolded,
+  .fatherCard.isFolded {
+    width: 146px !important;
+    max-width: 146px !important;
+  }
+
+  /* Header / title density. */
+  .textCard-titleCombo {
+    gap: 2px;
+    margin-top: 24px;
+    margin-bottom: 5px;
+  }
+
+  .objectFont {
+    --object-title-size: 12px;
+    --object-link-size: 9px;
+  }
+
+  .textCard-title,
+  .textCard-title.objectFont,
+  .tl-card-title {
+    font-size: 12px;
+    line-height: 1.12;
+  }
+
+  .tl-card-title {
+    padding: 0 20px;
+  }
+
+  .textCard-category {
+    font-size: 8px;
+    line-height: 1.15;
+  }
+
+  .textCard-meta {
+    margin: 3px 0 5px;
+    font-size: 8px;
+    line-height: 1.22;
+  }
+
+  /* General rows. */
+  .textCard-row,
+  .tl-card-row {
+    gap: 2px;
+    padding: 2px 0;
+    margin-bottom: 0;
+  }
+
+  .textCard-label,
+  .tl-card-label {
+    flex: 0 0 62px;
+    font-size: 7.5px;
+    line-height: 1.18;
+  }
+
+  .textCard-value,
+  .tl-card-value {
+    font-size: 8.5px;
+    line-height: 1.25;
+  }
+
+  /* Tags. */
+  .textCard-tags {
+    gap: 2px;
+  }
+
+  .textCard-tag {
+    padding: 3px 5px;
+    font-size: 7.5px;
+    line-height: 1;
+  }
+
+  .textCard-moreToggle {
+    margin-top: 5px;
+  }
+
+  .textCard-more {
+    margin-top: 4px;
+    padding-top: 4px;
+  }
+
+  .textCard .textCard-more .textCard-row.is-tags,
+  .fatherCard .textCard-more .textCard-row.is-tags {
+    padding-top: 4px;
+    margin-top: 4px;
+  }
+
+  /* Links + connection sections. */
+  .textCard-links,
+  .textCard-connections {
+    margin-top: 5px;
+    padding-top: 4px;
+    font-size: 8.5px;
+    line-height: 1.24;
+  }
+
+  .textCard-connections-title,
+  .textCard-connections-subtitle {
+    font-size: 8px;
+    line-height: 1.15;
+    margin-bottom: 2px;
+  }
+
+  .textCard-connections-list {
+    padding-left: 10px;
+  }
+
+  .textCard-connections-list--stacked {
+    padding-left: 3px;
+  }
+
+  .textCard-connectionItem,
+  .textCard-connectionItem--stacked {
+    font-size: 8.5px;
+    line-height: 1.24;
+  }
+
+  .textCard-connectionItem--stacked {
+    padding: 2px 0 3px;
+  }
+
+  .textCard-connectionItem--stacked + .textCard-connectionItem--stacked {
+    margin-top: 2px;
+  }
+
+  .textCard-connectionItem--stacked > .textCard-connectionIntro {
+    margin-bottom: 1px;
+    font-size: 8px;
+    line-height: 1.2;
+  }
+
+  .textCard-connectionTargetList {
+    margin-top: 2px;
+    padding-left: 7px;
+  }
+
+  .textCard-connectionTargetRow {
+    gap: 3px;
+  }
+
+  .textCard-connectionTargetRow + .textCard-connectionTargetRow {
+    margin-top: 1px;
+  }
+
+  .textCard-connectionMarker {
+    width: 11px;
+    height: 11px;
+    flex: 0 0 11px;
+  }
+
+  .textCard-connectionLink,
+  .textCard-connTarget,
+  .textCard-link,
+  .textCard-linkDesc,
+  .textCard-linksEmpty {
+    font-size: 8.5px;
+    line-height: 1.22;
+  }
+
+  .textCard-connections-list + .textCard-connections-subtitle {
+    margin-top: 5px;
+  }
+
+  /* Contribution / body buttons. */
+  .textCard-contrib {
+    margin-top: 6px;
+    padding-top: 5px;
+    font-size: 8px;
+  }
+
+  .textCard-button,
+  .tl-card-btn {
+    min-height: 28px !important;
+    padding: 4px 7px;
+    border-radius: 6px;
+    font-size: 8.5px;
+    line-height: 1.1;
+  }
+
+  .textCard-contrib .textCard-button.textCard-contrib-open {
+    min-height: 28px !important;
+    padding: 4px 7px;
+    font-size: 8.5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+  }
+
+  /* Compact header chrome visually; touch pseudo-targets remain available. */
+  .textCard-historyNav {
+    top: 4px;
+    left: 6px;
+    height: 24px;
+  }
+
+  .textCard-historyUtilityGap {
+    width: 4px;
+    flex-basis: 4px;
+  }
+
+  .textCard-historyButton,
+  .selectedTooltipToggle,
+  .textCard-fold {
+    width: 22px;
+    height: 24px;
+    border-radius: 6px;
+  }
+
+  .textCard-close,
+  .tl-card-close {
+    top: 3px;
+    right: 3px;
+    width: 24px;
+    height: 24px;
+    font-size: 15px;
+    border-radius: 6px;
+  }
+
+  .mapViewToggle {
+    top: 3px;
+    right: 28px;
+    min-height: 24px;
+    gap: 3px;
+    font-size: 8px;
+  }
+
+  .mapViewToggle__label {
+    font-size: 8px;
+  }
+
+  .mapViewToggle__track {
+    width: 22px;
+    height: 13px;
+    flex-basis: 22px;
+  }
+
+  .mapViewToggle__thumb {
+    width: 9px;
+    height: 9px;
+  }
+
+  .mapViewToggle.is-on .mapViewToggle__thumb {
+    transform: translateX(9px);
+  }
+
+  .tl-card-header {
+    margin-bottom: 4px;
+  }
+
+  .tl-card-footer {
+    margin-top: 5px;
+    padding-top: 5px;
+  }
+}
+
+
+/* ========================================================================== */
+/* iPhone SE selected-UI polish — Pass 24                                     */
+/* ========================================================================== */
+/*
+ * Presentation-only overrides.  Tablet/desktop and all interaction behavior
+ * remain on the existing stable paths.
+ */
+@media (max-width: 430px) and (max-height: 750px) {
+  :root {
+    --iphone-se-card-width: 188px;
+    --iphone-se-segment-width: 198px;
+    --iphone-se-segment-structure-width: 224px;
+    --iphone-se-info-width: 226px;
+
+    --connection-info-selected-marker-size: 12px;
+    --connection-info-connected-marker-size: 10px;
+    --connection-info-selected-name-font-size: 1em;
+    --connection-info-connected-name-font-size: 0.95em;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Segment / duration inspectors                                           */
+  /* ---------------------------------------------------------------------- */
+  .tl-seg {
+    max-width: var(--iphone-se-segment-width);
+    margin-top: 0;
+    padding: 5px 7px;
+    font-size: 8.5px;
+    line-height: 1.2;
+  }
+
+  .tl-seg.tl-seg--borders-only {
+    width: min(var(--iphone-se-segment-structure-width), calc(100% - 6px));
+    max-width: var(--iphone-se-segment-structure-width);
+    margin-top: 0;
+  }
+
+  .tl-duration {
+    max-width: var(--iphone-se-segment-width);
+    margin-top: 0;
+    padding: 5px 7px;
+    font-size: 8.5px;
+    line-height: 1.2;
+  }
+
+  .tl-seg .tl-tip-title,
+  .tl-duration .tl-tip-title {
+    margin-bottom: 1px;
+    font-size: 9.5px;
+    line-height: 1.12;
+  }
+
+  .tl-seg .tl-tip-sub,
+  .tl-duration .tl-tip-sub {
+    margin-bottom: 1px;
+    font-size: 7.5px;
+    line-height: 1.12;
+  }
+
+  .tl-seg .tl-tip-note,
+  .tl-duration .tl-tip-note {
+    margin-top: 1px;
+    font-size: 7.5px;
+    line-height: 1.2;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Selected cards: resolve header collisions, then loosen reading density. */
+  /* ---------------------------------------------------------------------- */
+  .textCard,
+  .fatherCard {
+    width: var(--iphone-se-card-width) !important;
+    max-width: var(--iphone-se-card-width) !important;
+    padding-left: 16px !important;
+    padding-right: 9px !important;
+    padding-bottom: 12px !important;
+  }
+
+  /* Row 1: history / tooltip / fold controls on the left; close on the right. */
+  .textCard-historyNav {
+    top: 4px;
+    left: 6px;
+    height: 23px;
+    gap: 1px;
+  }
+
+  .textCard-historyUtilityGap {
+    width: 3px;
+    flex-basis: 3px;
+  }
+
+  .textCard-historyButton,
+  .selectedTooltipToggle,
+  .textCard-fold {
+    width: 20px;
+    height: 22px;
+    border-radius: 5px;
+  }
+
+  .textCard-close,
+  .tl-card-close {
+    top: 3px;
+    right: 3px;
+    width: 22px;
+    height: 22px;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+
+  /* Row 2: Map toggle gets its own line instead of colliding with row 1. */
+  .mapViewToggle {
+    top: 28px;
+    left: 6px;
+    right: auto;
+    min-height: 20px;
+    gap: 3px;
+    font-size: 7.5px;
+  }
+
+  .mapViewToggle__label {
+    max-width: 74px;
+    font-size: 7.5px;
+    line-height: 1.05;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mapViewToggle__track {
+    width: 20px;
+    height: 12px;
+    flex-basis: 20px;
+  }
+
+  .mapViewToggle__thumb {
+    width: 8px;
+    height: 8px;
+  }
+
+  .mapViewToggle.is-on .mapViewToggle__thumb {
+    transform: translateX(8px);
+  }
+
+  .textCard-titleCombo {
+    margin-top: 49px;
+    margin-bottom: 6px;
+  }
+
+  /* Give the small type a little more breathing room than Pass 23. */
+  .textCard-row,
+  .tl-card-row {
+    gap: 3px;
+    padding: 3px 0;
+  }
+
+  .textCard-label,
+  .tl-card-label {
+    flex-basis: 64px;
+    font-size: 7.75px;
+    line-height: 1.22;
+  }
+
+  .textCard-value,
+  .tl-card-value {
+    font-size: 8.75px;
+    line-height: 1.3;
+  }
+
+  .textCard-meta {
+    margin: 4px 0 6px;
+    font-size: 8px;
+    line-height: 1.26;
+  }
+
+  .textCard-links,
+  .textCard-connections {
+    margin-top: 7px;
+    padding-top: 5px;
+  }
+
+  .textCard-connectionItem,
+  .textCard-connectionItem--stacked,
+  .textCard-connectionLink,
+  .textCard-connTarget,
+  .textCard-link,
+  .textCard-linkDesc,
+  .textCard-linksEmpty {
+    line-height: 1.28;
+  }
+
+  .textCard-contrib {
+    margin-top: 8px;
+    padding-top: 6px;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Main selected tooltip + connected mini-tooltip                          */
+  /* ---------------------------------------------------------------------- */
+  .tl-selected.tl-text,
+  .tl-text.tl-selected {
+    max-width: 158px;
+    padding: 3px 5px;
+  }
+
+  .tl-selected .tl-tip-title,
+  .tl-text.tl-selected .tl-tip-title {
+    margin-bottom: 1px;
+    font-size: 9px;
+    line-height: 1.1;
+  }
+
+  .tl-text.tl-selected .tl-tip-meta,
+  .tl-mini-tooltip .tl-tip-meta {
+    column-gap: 2px;
+    row-gap: 0;
+    line-height: 1.05;
+  }
+
+  .tl-text.tl-selected .tl-tip-dateLine,
+  .tl-mini-tooltip .tl-tip-dateLine {
+    row-gap: 0;
+  }
+
+  .tl-text.tl-selected .tl-tip-connections {
+    margin-top: 1px;
+    gap: 2px;
+    font-size: 7.5px;
+    line-height: 1.05;
+  }
+
+  .tl-mini-tooltip {
+    max-width: 138px;
+    padding: 2px 4px;
+    font-size: 8px;
+    line-height: 1.08;
+  }
+
+  .tl-mini-tooltip .tl-tip-title {
+    margin-bottom: 1px;
+    font-size: 8.5px;
+    line-height: 1.08;
+  }
+
+  .tl-mini-tooltip .tl-tip-meta {
+    font-size: 7.25px;
+  }
+
+  /* Override the desktop/tablet selected-mode emphasis that otherwise makes
+     dates / locations visually huge on the phone. */
+  .timelineWrap--selected-chronological
+    .tl-text.tl-selected
+    .tl-tip-date,
+  .timelineWrap--selected-chronological
+    .tl-mini-tooltip
+    .tl-tip-date,
+  .timelineWrap--selected-map
+    .tl-text.tl-selected
+    .tl-tip-locationText,
+  .timelineWrap--selected-map
+    .tl-mini-tooltip
+    .tl-tip-locationText {
+    font-size: 7.5px;
+    line-height: 1.05;
+    font-weight: 650;
+    text-underline-offset: 1px;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* Relationship / information window                                       */
+  /* ---------------------------------------------------------------------- */
+  .timelineConnectionInfoHost {
+    top: 5px;
+    left: calc(var(--iphone-se-card-width) + 6px);
+    right: auto;
+    width: var(--iphone-se-info-width);
+    justify-content: flex-start;
+  }
+
+  .timelineConnectionInfo {
+    width: 100%;
+    max-height: 96px;
+    padding: 5px 7px 6px;
+    border-radius: 5px;
+    overflow-y: auto;
+    box-shadow: 0 2px 7px rgba(15, 23, 42, 0.09);
+  }
+
+  .timelineConnectionInfo__entry +
+  .timelineConnectionInfo__entry {
+    margin-top: 4px;
+    padding-top: 4px;
+  }
+
+  .timelineConnectionInfo__statement {
+    column-gap: 2px;
+    row-gap: 1px;
+    font-size: 8.5px;
+    line-height: 1.15;
+    font-weight: 650;
+  }
+
+  .timelineConnectionInfo__entity--selected,
+  .timelineConnectionInfo__entity--connected {
+    gap: 2px;
+  }
+
+  .timelineConnectionInfo__selectedName,
+  .timelineConnectionInfo__connectedName {
+    text-underline-offset: 1px;
+  }
+
+  .timelineConnectionInfo__relationshipText {
+    line-height: 1.12;
+  }
+
+  .timelineConnectionInfo__note {
+    margin-top: 3px;
+    font-size: 7.5px;
+    line-height: 1.22;
+  }
+}
+
+
+/* ========================================================================== */
+/* iPhone SE detail polish — Pass 25                                           */
+/* ========================================================================== */
+@media (max-width: 430px) and (max-height: 750px) {
+  :root {
+    /* Phone-only manual knobs for this pass. */
+    --iphone-se-info-width: 252px;
+    --iphone-se-segment-width: 224px;
+    --iphone-se-segment-structure-width: 250px;
+  }
+
+  /* Wider reading measure; JS Pass 25 owns the smaller anchor gap. */
+  .tl-seg {
+    max-width: var(--iphone-se-segment-width);
+  }
+
+  .tl-seg.tl-seg--borders-only {
+    width: min(var(--iphone-se-segment-structure-width), calc(100% - 6px));
+    max-width: var(--iphone-se-segment-structure-width);
+  }
+
+  .tl-duration {
+    max-width: var(--iphone-se-segment-width);
+  }
+
+  /* Relationship/info panel: wider, without increasing its type or padding. */
+  .timelineConnectionInfoHost {
+    width: var(--iphone-se-info-width);
+  }
+
+  /* Make the visible utility chrome substantially smaller. The coarse-pointer
+     pseudo hit areas remain, so this does not shrink the visual buttons and
+     finger target by the same amount. */
+  .textCard-historyNav {
+    top: 3px;
+    left: 5px;
+    height: 18px;
+    gap: 0;
+  }
+
+  .textCard-historyUtilityGap {
+    width: 2px;
+    flex-basis: 2px;
+  }
+
+  .textCard-historyButton,
+  .selectedTooltipToggle,
+  .textCard-fold {
+    width: 16px;
+    height: 18px;
+    padding: 0;
+    border-radius: 4px;
+  }
+
+  .textCard-historyButton svg,
+  .selectedTooltipToggle svg,
+  .textCard-fold svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  .textCard-close,
+  .tl-card-close {
+    top: 2px;
+    right: 2px;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    border-radius: 4px;
+  }
+
+  /* Geographical Map can remain on the second row as requested. */
+  .mapViewToggle {
+    top: 23px;
+    left: 5px;
+    min-height: 18px;
+  }
+
+  .textCard-titleCombo {
+    margin-top: 43px;
   }
 }

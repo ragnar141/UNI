@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import * as d3 from "d3";
 import durations from "../data/durations.json";
 import "../styles/timeline.css";
+import "../styles/timelineExit.css";
 import TextCard from "./textCard";
 import FatherCard from "./fatherCard";
 import SearchBar from "./searchBar";
@@ -173,7 +174,25 @@ const SEGMENT_DRAG_RELEASE_CLICK_GUARD_MS = 320;
 const BASE_OPACITY = 1;
 const TEXT_BASE_R = 0.4;       // at k=1
 const HOVER_SCALE_DOT = 1.6;   // how much bigger a dot gets on hover
-const HOVER_SCALE_FATHER = 1.6; 
+const HOVER_SCALE_FATHER = 1.6;
+
+/*
+ * Library exit marker.
+ *
+ * This is intentionally a WORLD-POSITIONED but SCREEN-SIZE-STABLE object:
+ * D3 zoom changes where it sits, but never scales the marker itself.
+ *
+ * TWEAK THESE TWO VALUES to move it at the fully zoomed-out view.
+ */
+const TIMELINE_EXIT_WORLD_X = 58;
+const TIMELINE_EXIT_WORLD_Y = 22;
+
+/*
+ * At very deep zoom, suppress the marker even if somebody manages to pan all
+ * the way back to its corner. In ordinary center-focused zooming it naturally
+ * leaves the viewport much earlier because its world position follows D3.
+ */
+const TIMELINE_EXIT_MAX_VISIBLE_ZOOM = 1.8;
 
 /*
  * Touch-only object hit geometry.
@@ -195,7 +214,9 @@ const TOUCH_OBJECT_HIT_RADIUS = 15;
  * with a similar short side.
  *
  * Approximate reference points:
- *   compact tablet / small canvas      -> ~0.90x
+ *   small phone                         -> ~0.68–0.75x
+ *   large phone / tiny canvas           -> ~0.80x
+ *   compact tablet / small canvas       -> ~0.90x
  *   iPad Air (1180 x 820)              -> ~0.94x
  *   laptop browser (~1920 x 900)       -> ~1.00x
  *   full-HD canvas (1920 x 1080)       -> ~1.05x
@@ -207,43 +228,105 @@ const TOUCH_OBJECT_HIT_RADIUS = 15;
  * state machines are intentionally unchanged.
  */
 const OBJECT_VISUAL_SCALE_STOPS = [
-  { effectiveSize: 900, scale: 0.90 },
-  { effectiveSize: 1000, scale: 0.94 },
-  { effectiveSize: 1300, scale: 1.00 },
-  { effectiveSize: 1450, scale: 1.05 },
-  { effectiveSize: 1900, scale: 1.18 },
-  { effectiveSize: 2200, scale: 1.24 },
+  /* Phone: much smaller VISUAL marks; touch hit geometry stays unchanged. */
+  { effectiveSize: 430, scale: 0.40 },
+  { effectiveSize: 520, scale: 0.48 },
+  { effectiveSize: 650, scale: 0.62 },
+  { effectiveSize: 780, scale: 0.76 },
+
+  /* Tablet -> laptop -> large physical display. */
+  { effectiveSize: 980, scale: 0.94 },
+  { effectiveSize: 1200, scale: 1.00 },
+  { effectiveSize: 1450, scale: 1.10 },
+  { effectiveSize: 1750, scale: 1.20 },
+  { effectiveSize: 2100, scale: 1.30 },
 ];
 
 function getResponsiveObjectVisualScale(width, height) {
-  const w = Number(width);
-  const h = Number(height);
+  const fallbackW = Number(width);
+  const fallbackH = Number(height);
+
+  /*
+   * Visual object scale follows the DEVICE / emulated screen rather than the
+   * current browser pane. This keeps a half-width browser on a large monitor
+   * visually "large", while Chrome device emulation reports the phone/tablet
+   * screen and therefore receives the compact scale intended for that device.
+   * The sqrt(area) metric is rotation-invariant.
+   */
+  const screenW =
+    typeof window !== "undefined" && Number.isFinite(Number(window.screen?.width))
+      ? Number(window.screen.width)
+      : fallbackW;
+  const screenH =
+    typeof window !== "undefined" && Number.isFinite(Number(window.screen?.height))
+      ? Number(window.screen.height)
+      : fallbackH;
+
+  const w = screenW > 0 ? screenW : fallbackW;
+  const h = screenH > 0 ? screenH : fallbackH;
 
   if (!Number.isFinite(w) || w <= 0 || !Number.isFinite(h) || h <= 0) {
     return 1;
   }
 
-  // Rotation-invariant measure of overall available drawing area.
   const effectiveSize = Math.sqrt(w * h);
   const first = OBJECT_VISUAL_SCALE_STOPS[0];
   const last =
     OBJECT_VISUAL_SCALE_STOPS[OBJECT_VISUAL_SCALE_STOPS.length - 1];
 
-  if (effectiveSize <= first.effectiveSize) return first.scale;
-  if (effectiveSize >= last.effectiveSize) return last.scale;
+  const interpolateScale = () => {
+    if (effectiveSize <= first.effectiveSize) return first.scale;
+    if (effectiveSize >= last.effectiveSize) return last.scale;
 
-  for (let i = 1; i < OBJECT_VISUAL_SCALE_STOPS.length; i += 1) {
-    const upper = OBJECT_VISUAL_SCALE_STOPS[i];
-    if (effectiveSize > upper.effectiveSize) continue;
+    for (let i = 1; i < OBJECT_VISUAL_SCALE_STOPS.length; i += 1) {
+      const upper = OBJECT_VISUAL_SCALE_STOPS[i];
+      if (effectiveSize > upper.effectiveSize) continue;
 
-    const lower = OBJECT_VISUAL_SCALE_STOPS[i - 1];
-    const span = Math.max(1, upper.effectiveSize - lower.effectiveSize);
-    const progress = (effectiveSize - lower.effectiveSize) / span;
+      const lower = OBJECT_VISUAL_SCALE_STOPS[i - 1];
+      const span = Math.max(1, upper.effectiveSize - lower.effectiveSize);
+      const progress = (effectiveSize - lower.effectiveSize) / span;
 
-    return lower.scale + progress * (upper.scale - lower.scale);
-  }
+      return lower.scale + progress * (upper.scale - lower.scale);
+    }
 
-  return last.scale;
+    return last.scale;
+  };
+
+  const interpolatedScale = interpolateScale();
+
+  /*
+   * Large tablets such as the 12.9/13-inch iPad Pro have enough screen area
+   * to drift very close to the desktop 1.0x stop. Keep coarse-pointer devices
+   * whose physical/emulated dimensions are still unmistakably tablet-shaped
+   * inside the tablet visual regime. Air/Mini are already below this cap, so
+   * their approved sizes remain unchanged.
+   */
+  const shortSide = Math.min(w, h);
+  const longSide = Math.max(w, h);
+  const coarsePointer =
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(any-pointer: coarse)").matches;
+  const tabletEnvelope =
+    coarsePointer &&
+    shortSide >= 700 &&
+    shortSide <= 1100 &&
+    longSide >= 1000 &&
+    longSide <= 1500;
+
+  return tabletEnvelope ? Math.min(interpolatedScale, 0.96) : interpolatedScale;
+}
+
+function isIPhoneSELayoutProfile() {
+  if (typeof window === "undefined") return false;
+
+  const screenW = Number(window.screen?.width || window.innerWidth || 0);
+  const screenH = Number(window.screen?.height || window.innerHeight || 0);
+  const shortSide = Math.min(screenW, screenH);
+  const longSide = Math.max(screenW, screenH);
+
+  // Intentionally narrow: this pass is for the compact iPhone-SE class only.
+  return shortSide > 0 && shortSide <= 430 && longSide > 0 && longSide <= 750;
 }
 
 const ZOOM_THRESHOLD = 4.0;
@@ -389,16 +472,16 @@ const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
 const CIV_TEXT_SCALE = 1.6; // tweak to taste
 
-/*
- * Horizontal historical tracks.
- *
- * durations.json now declares an explicit `track` for every duration/member.
- * A track is the stable vertical historical lane that survives changes of
- * civilization/political ownership (for example Levantine -> Persian ->
- * Hellenistic -> Roman on the same y/h band). Deep Borders Only focus uses
- * this semantic identity instead of inferring continuity from geometry or
- * custom-group names.
- */
+
+
+
+
+
+
+
+
+
+
 const DURATION_TRACK_BY_ID = new Map(
   durations.map((d) => [d.id, String(d.track || d.id)])
 );
@@ -419,13 +502,13 @@ function cleanContextLabel(value) {
     .trim();
 }
 
-/*
- * Historical-context ownership prefixes. These are intentionally based on the
- * explicit source-duration identity rather than on the visible composite name:
- * the native Greek, Iranian/Persian, and Italic/Roman tracks are themselves
- * stored under custom-* ids, so they are excluded from being treated as an
- * imperial overlay on their own home track.
- */
+
+
+
+
+
+
+
 function contextRegimeForDuration(duration) {
   if (!duration) return null;
   const id = String(duration.id || "");
@@ -1738,11 +1821,11 @@ function useDiscoveredConnectionSets() {
         import: "default",
       }) || {};
 
-    /*
-     * A root-level supraclusteral_connections.json has no folder for folderOf()
-     * to recover. Load that exact path as well; object spread de-duplicates it
-     * if the broader glob already matched it.
-     */
+    
+
+
+
+
     const rootSupraclusteralModules =
       import.meta.glob("../data/supraclusteral_connections.json", {
         eager: true,
@@ -1912,11 +1995,11 @@ function normalizeTagLookupKey(value) {
     .toLocaleLowerCase("en-US");
 }
 
-/*
- * Some datasets annotate tag importance inside the tag string itself.
- * Filtering is about membership, so "Education (Secondary)" should still
- * resolve to canonical "Education", while the raw dataset remains untouched.
- */
+
+
+
+
+
 function stripTagImportanceQualifier(value) {
   return String(value ?? "")
     .replace(/\s*\(\s*(?:primary|secondary)\s*\)\s*$/i, "")
@@ -2007,11 +2090,11 @@ function normalizeTagStringToArray(raw, groupKey) {
 
 // === Connections → structured items for cards ===
 
-/*
- * Connection datasets have accumulated a few shorthand category values.
- * Normalize them once so rendering, cards, line styles, and Info Windows all
- * interpret the same relationship vocabulary.
- */
+
+
+
+
+
 function normalizeConnectionCategory(rawCategory) {
   const category = String(rawCategory || "")
     .trim()
@@ -3348,10 +3431,11 @@ function itemPassesFilters(row, type, selectedByGroup) {
 
 
 
-export default function Timeline() {
+export default function Timeline({ onExitLibrary }) {
   
   const wrapRef = useRef(null);
   const svgRef = useRef(null);
+  const timelineExitRef = useRef(null);
   
   const axisRef = useRef(null);
   const gridRef = useRef(null);
@@ -3409,18 +3493,18 @@ export default function Timeline() {
   });
 
 
-  /*
-   * Map View cannot open location branches until geographic clustering has
-   * finished for the newly rendered view. This one-shot flag is consumed by
-   * rebuildGeographicNodePositions after every Map View activation.
-   */
+  
+
+
+
+
   const pendingAutoOpenMapClustersRef = useRef(false);
 
-  /*
-   * The tooltip-sequence effect is declared before the cluster callback.
-   * This ref gives its timers a stable way to fold all branches at the end of
-   * the automatic Map View presentation.
-   */
+  
+
+
+
+
   const closeLocationClusterBranchRef = useRef(() => {});
 
   const hoveredTextIdRef = useRef(null);
@@ -3584,12 +3668,12 @@ function logRenderedCounts(reason = "") {
   const zyRef = useRef(null);
   // clicked/locked active segment id
   const activeSegIdRef = useRef(null);
-  /*
-   * Deep historical structure: while a Segment information box is open, preserve the
-   * source-duration that owns the focused horizontal track. The segment box
-   * is an inspector layered on top of that focus; it must not tear the focus
-   * down merely because pointer ownership temporarily moves to the tooltip.
-   */
+  
+
+
+
+
+
   const activeSegmentStructureFocusSourceIdRef = useRef(null);
 
   // clicked/locked active duration id (zoomed-out)
@@ -3621,11 +3705,11 @@ function logRenderedCounts(reason = "") {
   const [showFathers, setShowFathers] = useState(true);
   const [showConnections, setShowConnections] = useState(true);
 
-  /*
-   * Connection visibility is read by RAF-throttled D3 callbacks. Keep the
-   * latest checkbox value in a ref so a frame scheduled by an older React
-   * render cannot redraw connections after the user has turned them off.
-   */
+  
+
+
+
+
   const showConnectionsRef = useRef(showConnections);
   showConnectionsRef.current = showConnections;
 
@@ -3673,12 +3757,12 @@ const [size, setSize] = useState({ width: 0, height: 0 });
     setTimelineContext(next);
   }, []);
 
-  /*
-   * Mid-zoom context is deliberately semantic rather than historical-period
-   * specific. Timeline identifies the centered horizontal track; SearchBar
-   * translates that stable track id into Mediterranean / West Asia /
-   * South Asia / East Asia.
-   */
+  
+
+
+
+
+
   const publishTimelineMacroContext = useCallback((trackId) => {
     const normalizedTrackId = String(trackId || "").trim();
     if (!normalizedTrackId) return;
@@ -3719,14 +3803,14 @@ const [size, setSize] = useState({ width: 0, height: 0 });
     );
   }
 
-  /*
-   * Shared deep historical-structure mode.
-   *
-   * Borders Only and Civilizations & Periods deliberately converge once the
-   * shared chronology threshold is crossed. Below that threshold they retain
-   * their own presentation; at/above it they use the same track-focused
-   * period structure, chronology, labels, and Segment inspector lifecycle.
-   */
+  
+
+
+
+
+
+
+
   function isDeepHistoricalStructureMode(
     mode = layerModeRef.current,
     k = kRef.current ?? 1
@@ -3928,12 +4012,12 @@ const [size, setSize] = useState({ width: 0, height: 0 });
       const activeTarget = getSelectedFocusTarget();
       const branchLayer = d3.select(locationClusterBranchRef.current);
 
-      /*
-       * Segment data is ordered from the disclosure button downward. Therefore
-       * a hovered lower item must retain every segment whose index is less than
-       * or equal to the hovered item's index. Doing this per branch also avoids
-       * a hovered object in one location brightening a different open branch.
-       */
+      
+
+
+
+
+
       branchLayer
         .selectAll("g.locationClusterBranch")
         .each(function () {
@@ -4869,6 +4953,36 @@ const modalOpen = !!selectedText || !!selectedFather;
 const lastTransformRef = useRef(null);
 
 /*
+ * Keep the Library exit marker attached to one point in Timeline world-space
+ * while preserving a fixed screen-space visual size.
+ *
+ * We DO NOT apply the D3 scale to the marker itself. Instead, we transform only
+ * its anchor point through the current zoom transform and translate the marker
+ * there. This produces the desired behavior:
+ *
+ *   zoomed out -> marker sits in the upper-left of the Timeline
+ *   zoom inward -> its world anchor moves away/offscreen
+ *   marker size -> unchanged
+ */
+function syncTimelineExitWorld(transform = lastTransformRef.current ?? d3.zoomIdentity) {
+  const node = timelineExitRef.current;
+  if (!node) return;
+
+  const t = transform ?? d3.zoomIdentity;
+  const k = Math.max(0.0001, Number(t.k) || 1);
+
+  const screenX = t.applyX(TIMELINE_EXIT_WORLD_X);
+  const screenY = t.applyY(TIMELINE_EXIT_WORLD_Y);
+
+  const visible = k <= TIMELINE_EXIT_MAX_VISIBLE_ZOOM;
+
+  d3.select(node)
+    .attr("transform", `translate(${screenX},${screenY})`)
+    .style("opacity", visible ? 1 : 0)
+    .style("pointer-events", visible ? "all" : "none");
+}
+
+/*
  * Clicking a visible chronological object should not move it merely because
  * selected mode reserves a taller axis area. Store its pre-selection browser
  * anchor and compensate the zoom transform after the new layout is measured.
@@ -5005,11 +5119,11 @@ function prepareDeselectionCameraAnchor(type, row) {
   };
 }
 
-/*
- * Map View is initialized from the current pin position. Default View is
- * translated back to the current map-pin position. This keeps the pin visually
- * stationary in both directions while preserving each view's zoom level.
- */
+
+
+
+
+
 const handleShowMapChange = useCallback((nextValue) => {
   const nextShowMap = Boolean(nextValue);
 
@@ -5031,11 +5145,11 @@ const handleShowMapChange = useCallback((nextValue) => {
   setShowMap(nextShowMap);
 }, []);
 
-/*
- * The main D3 rendering effect runs later in the same commit. Waiting for the
- * next animation frame lets the Default View pin finish receiving its
- * chronological coordinates before the camera translation is calculated.
- */
+
+
+
+
+
 useEffect(() => {
   if (showMap) return undefined;
 
@@ -5114,14 +5228,59 @@ useEffect(() => {
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
+
     const ro = new ResizeObserver((entries) => {
-      const { width, height } = entries[0].contentRect;
-      setSize({ width: Math.max(320, width), height: Math.max(240, height) });
+      const rect = entries[0]?.contentRect;
+      const measuredWidth = Number(rect?.width);
+      const measuredHeight = Number(rect?.height);
+
+      /*
+       * Lazy route mounting can briefly report a 0×0 content box.
+       * Do NOT turn that transient measurement into the old synthetic
+       * 320×240 Timeline: that miniature first layout is what caused the
+       * duration/composite labels to flash in the upper-left corner.
+       */
+      if (
+        !Number.isFinite(measuredWidth) ||
+        !Number.isFinite(measuredHeight) ||
+        measuredWidth <= 1 ||
+        measuredHeight <= 1
+      ) {
+        return;
+      }
+
+      const nextWidth = Math.max(320, measuredWidth);
+      const nextHeight = Math.max(240, measuredHeight);
+
+      setSize((previous) => {
+        if (
+          Math.abs(previous.width - nextWidth) < 0.5 &&
+          Math.abs(previous.height - nextHeight) < 0.5
+        ) {
+          return previous;
+        }
+
+        return {
+          width: nextWidth,
+          height: nextHeight,
+        };
+      });
     });
+
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
   const { width, height } = size;
+
+  const compactPhoneLayout = isIPhoneSELayoutProfile();
+  const timelineAxisBottomHeight = compactPhoneLayout
+    ? 18
+    : TIMELINE_AXIS_BOTTOM_HEIGHT;
+  const selectedTimelineAxisBottomHeight =
+    timelineAxisBottomHeight * SELECTED_TIMELINE_AXIS_HEIGHT_MULTIPLIER;
+  const selectedAxisLabelY = compactPhoneLayout
+    ? { upper: 10, middle: 27, lower: 44 }
+    : SELECTED_AXIS_LABEL_Y;
 
   /* ---- Layout ---- */
 const selectedChronologicalAxisExpanded =
@@ -5131,8 +5290,8 @@ const margin = {
   top: 8,
   right: 0,
   bottom: selectedChronologicalAxisExpanded
-    ? SELECTED_TIMELINE_AXIS_BOTTOM_HEIGHT
-    : TIMELINE_AXIS_BOTTOM_HEIGHT,
+    ? selectedTimelineAxisBottomHeight
+    : timelineAxisBottomHeight,
   left: 0,
 };
 
@@ -5329,11 +5488,11 @@ const axisY = innerHeight;
     return rows;
   }, [durations, innerHeight, outlines]);
 
-  /*
-   * Internal historical-period boundaries, de-duplicated per source duration.
-   * Outer duration edges are already represented by civilization geometry, so
-   * this collection contains only genuinely internal temporal divisions.
-   */
+  
+
+
+
+
   const segmentBoundaries = useMemo(() => {
     const rows = [];
     const bySource = d3.group(segments, (seg) =>
@@ -5406,13 +5565,13 @@ const axisY = innerHeight;
     [segments]
   );
 
-  /*
-   * Chronology hover must resolve to the ACTUAL source duration, not the
-   * visible composite parent. A custom Persian/Hellenistic civilization can
-   * contain several regional member durations whose period boundaries overlap
-   * in time. Giving each source member its own hover geometry prevents those
-   * chronologies from being accidentally unioned together.
-   */
+  
+
+
+
+
+
+
   const durationChronologySources = useMemo(() => {
     const rows = [];
 
@@ -6425,12 +6584,12 @@ let data = hasSelection
       ? allData.filter((d) => touchesNode(d, hoveredType, hoveredId))
       : [];
 
-/*
- * Deep Borders Only track focus does not filter the connection dataset.
- * Connection visibility follows the policy above: ambient when enabled,
- * contextual on hover/selection when disabled. The focused track owns only
- * period structure + synchronized chronology.
- */
+
+
+
+
+
+
 
 if (mapModeActive) {
   const suppressedKeys =
@@ -6590,12 +6749,12 @@ function scheduleCurrentConnectionRender() {
   );
 }
 
-/*
- * Refresh the shared deep historical-structure focus without filtering the
- * rendered object/connection field. Objects stay visible in both modes; this
- * function keeps deep interactivity aligned and paints the focused track's
- * source-duration spine while period structure/chronology update elsewhere.
- */
+
+
+
+
+
+
 function refreshDeepHistoricalStructureFocus() {
   syncSelectedNeighborhoodFocus();
 
@@ -6626,12 +6785,12 @@ function refreshDeepHistoricalStructureFocus() {
       .classed("is-touch-interactive", true);
   }
 
-  /*
-   * Give the focused horizontal track a restrained source-duration spine.
-   * Ordinary faint context outlines remain visible around the world; this
-   * slightly stronger continuous track border identifies the lane whose period
-   * structure and chronology are currently being interrogated.
-   */
+  
+
+
+
+
+
   if (durationChronologyHoverRef.current) {
     d3.select(durationChronologyHoverRef.current)
       .selectAll("rect.durationChronologyHover")
@@ -7033,6 +7192,24 @@ useEffect(() => {
 
   /* ========= Draw/Update ========= */
   useEffect(() => {
+    /*
+     * First-mount guard.
+     *
+     * The component renders once before ResizeObserver has supplied the real
+     * viewport dimensions. Do not create any D3 marks during that 0×0 pass and
+     * especially do not mark the Timeline ready. The first visible paint must
+     * already contain the correctly measured layout.
+     */
+    if (
+      width <= 0 ||
+      height <= 0 ||
+      innerWidth <= 0 ||
+      innerHeight <= 0
+    ) {
+      setIsReady(false);
+      return undefined;
+    }
+
     const svg = d3.select(svgRef.current);
     const gRoot = svg.select("g.chart");
     const gAxis = d3.select(axisRef.current);
@@ -7047,12 +7224,12 @@ useEffect(() => {
     const gFathers = d3.select(fathersRef.current);   // FATHERS: layer
     const gPins = d3.select(pinsRef.current);
 
-    /*
-     * Keep coarse-pointer hit areas perfectly aligned with the timeline's
-     * existing interactivity gates. The visible marks still receive the same
-     * pointer-events values as before; the invisible hit circles merely mirror
-     * whether that object is currently actionable.
-     */
+    
+
+
+
+
+
     const pointerSettingIsInteractive = (setting, node, row) => {
       const value =
         typeof setting === "function"
@@ -7191,14 +7368,14 @@ useEffect(() => {
 function clearActiveSegment() {
   if (!activeSegIdRef.current) return;
 
-  /*
-   * Shared deep-structure lifecycle rule:
-   * closing the Segment inspector removes only the inspector/active-segment
-   * emphasis. The underlying horizontal track focus remains exactly where it
-   * was. Copy the inspector-owned source back to the ordinary hover focus
-   * before releasing the inspector ref, so the structure does not disappear
-   * for a frame while waiting for another pointer/zoom event.
-   */
+  
+
+
+
+
+
+
+
   const preservedStructureFocusSource =
     isDeepHistoricalStructureMode()
       ? activeSegmentStructureFocusSourceIdRef.current
@@ -7237,8 +7414,7 @@ clearActiveSegmentRef.current = clearActiveSegment;
 clearActiveDurationRef.current = clearActiveDuration;
 
 
-    function showTip(sel, html, clientX, clientY, accent) {
-      const wrapRect = wrapEl.getBoundingClientRect();
+    function showTip(sel, html, localX, localY, accent) {
       sel
         .html(html)
         .style("display", "block")
@@ -7249,21 +7425,24 @@ clearActiveDurationRef.current = clearActiveDuration;
       const tw = node.offsetWidth;
       const th = node.offsetHeight;
       const pad = 6;
+      const localWidth = wrapEl.clientWidth || size.width || 0;
+      const localHeight = wrapEl.clientHeight || size.height || 0;
 
-      // center above cursor if possible; otherwise below
-      let x = clientX - wrapRect.left - tw / 2;
-      let y = clientY - wrapRect.top - th - pad;
-      let below = false;
-      if (y < 0) {
-        y = clientY - wrapRect.top + pad;
-        below = true;
-      }
+      // localX/localY are already expressed in the timeline's UNROTATED local
+      // coordinate system. This matters on portrait devices, where .landscape
+      // is CSS-rotated and client-space bounding boxes have swapped axes.
+      let x = localX - tw / 2;
+      let y = localY - th - pad;
 
-      // clamp horizontally
-      const maxX = wrapRect.width - tw - 4;
+      const maxX = Math.max(4, localWidth - tw - 4);
+      const maxY = Math.max(4, localHeight - th - 4);
       x = Math.max(4, Math.min(x, maxX));
+      y = Math.max(4, Math.min(y, maxY));
 
-      sel.style("left", `${x}px`).style("top", `${y}px`).classed("below", below);
+      sel
+        .style("left", `${x}px`)
+        .style("top", `${y}px`)
+        .classed("below", false);
     }
 
     /*
@@ -7390,21 +7569,51 @@ clearActiveDurationRef.current = clearActiveDuration;
           .style("opacity", 0);
       }
 
-      const wrapRect =
-        wrapEl.getBoundingClientRect();
+      const wrapClientRect = wrapEl.getBoundingClientRect();
+      const wrapRect = {
+        left: 0,
+        top: 0,
+        width: wrapEl.clientWidth || size.width || 0,
+        height: wrapEl.clientHeight || size.height || 0,
+      };
+      wrapRect.right = wrapRect.width;
+      wrapRect.bottom = wrapRect.height;
 
-      /*
-       * Connected-object marker rectangles below still come from
-       * getBoundingClientRect(), so they are expressed in CLIENT coordinates.
-       * Keep this helper in client coordinates as well. The selected pin uses
-       * its own chart-local visibility test and does not depend on this helper.
-       */
-      const intersectsViewport = (rect) =>
+      const clampObjectTooltipRect = (rect) => {
+        if (!rect) return rect;
+
+        const pad = 4;
+        const maxLeft = Math.max(pad, wrapRect.width - rect.width - pad);
+        const maxTop = Math.max(pad, wrapRect.height - rect.height - pad);
+        const left = Math.max(pad, Math.min(rect.left, maxLeft));
+        const top = Math.max(pad, Math.min(rect.top, maxTop));
+
+        return addRectDimensions({
+          left,
+          top,
+          right: left + rect.width,
+          bottom: top + rect.height,
+          width: rect.width,
+          height: rect.height,
+        });
+      };
+
+      // Client-space checks are kept only for DOM elements that genuinely live
+      // in client space. Tooltip placement itself uses chart-local coordinates.
+      const intersectsClientViewport = (rect) =>
         (
-          rect.right >= wrapRect.left &&
-          rect.left <= wrapRect.right &&
-          rect.bottom >= wrapRect.top &&
-          rect.top <= wrapRect.bottom
+          rect.right >= wrapClientRect.left &&
+          rect.left <= wrapClientRect.right &&
+          rect.bottom >= wrapClientRect.top &&
+          rect.top <= wrapClientRect.bottom
+        );
+
+      const intersectsLocalViewport = (rect) =>
+        (
+          rect.right >= 0 &&
+          rect.left <= wrapRect.width &&
+          rect.bottom >= 0 &&
+          rect.top <= wrapRect.height
         );
 
       /*
@@ -7472,19 +7681,19 @@ clearActiveDurationRef.current = clearActiveDuration;
       ) => ({
         left:
           clientRect.left -
-          wrapRect.left -
+          wrapClientRect.left -
           padding,
         top:
           clientRect.top -
-          wrapRect.top -
+          wrapClientRect.top -
           padding,
         right:
           clientRect.right -
-          wrapRect.left +
+          wrapClientRect.left +
           padding,
         bottom:
           clientRect.bottom -
-          wrapRect.top +
+          wrapClientRect.top +
           padding,
         width:
           clientRect.width + padding * 2,
@@ -7776,10 +7985,10 @@ clearActiveDurationRef.current = clearActiveDuration;
           ).matrixTransform(matrix);
 
           connectionSegments.push({
-            x1: p1.x - wrapRect.left,
-            y1: p1.y - wrapRect.top,
-            x2: p2.x - wrapRect.left,
-            y2: p2.y - wrapRect.top,
+            x1: p1.x - wrapClientRect.left,
+            y1: p1.y - wrapClientRect.top,
+            x2: p2.x - wrapClientRect.left,
+            y2: p2.y - wrapClientRect.top,
           });
         });
 
@@ -7817,12 +8026,11 @@ clearActiveDurationRef.current = clearActiveDuration;
           return;
         }
 
-        const clientRect =
-          node.getBoundingClientRect();
-
+        const localRect = getSvgNodeLocalRect(node);
         if (
-          clientRect.width <= 0 ||
-          clientRect.height <= 0
+          !localRect ||
+          localRect.width <= 0 ||
+          localRect.height <= 0
         ) {
           return;
         }
@@ -7838,12 +8046,12 @@ clearActiveDurationRef.current = clearActiveDuration;
         if (
           existing &&
           (
-            existing.clientRect.width *
-              existing.clientRect.height
+            existing.localRect.width *
+              existing.localRect.height
           ) >=
             (
-              clientRect.width *
-              clientRect.height
+              localRect.width *
+              localRect.height
             )
         ) {
           return;
@@ -7855,7 +8063,7 @@ clearActiveDurationRef.current = clearActiveDuration;
           id,
           row,
           node,
-          clientRect,
+          localRect,
           forcePlacement,
           label:
             type === "text"
@@ -7882,13 +8090,13 @@ clearActiveDurationRef.current = clearActiveDuration;
           registerMarker(node, "father")
         );
 
-      /*
-       * Co-located markers exist only as branch icons while the branch is
-       * expanded. In Geographical Map mode their mini-tooltips intentionally
-       * sit BELOW the branch icon. This keeps the labels away from the
-       * disclosure button / branch origin and gives every shared-location
-       * object one stable directional rule.
-       */
+      
+
+
+
+
+
+
       if (
         showMapRef.current &&
         locationClusterOpenRef.current
@@ -7919,7 +8127,14 @@ clearActiveDurationRef.current = clearActiveDuration;
       const connectedObjectObstacles = markerEntries.map(
         (entry) =>
           addRectDimensions(
-            toLocalRect(entry.clientRect, 5)
+            addRectDimensions({
+              left: entry.localRect.left - 5,
+              top: entry.localRect.top - 5,
+              right: entry.localRect.right + 5,
+              bottom: entry.localRect.bottom + 5,
+              width: entry.localRect.width + 10,
+              height: entry.localRect.height + 10,
+            })
           )
       );
 
@@ -8176,32 +8391,43 @@ clearActiveDurationRef.current = clearActiveDuration;
         activeSelectedPlacement.placement &&
         pinIsVisible
       ) {
-        selectedTooltipRect = placementRect(
-          pinRect,
-          activeSelectedPlacement.placement,
-          activeSelectedPlacement.width,
-          activeSelectedPlacement.height,
-          selectedTooltipGap
+        selectedTooltipRect = clampObjectTooltipRect(
+          placementRect(
+            pinRect,
+            "top",
+            activeSelectedPlacement.width,
+            activeSelectedPlacement.height,
+            selectedTooltipGap
+          )
         );
 
+        
+
+
+
+
+
         /*
-         * Movement frames must only move the existing tooltip layer. Rewriting
-         * innerHTML and changing left/top on every zoom event forces layout and
-         * can visibly decouple this HTML overlay from the SVG pin. Keep the DOM
-         * stable and move the promoted layer with one compositor transform.
+         * Keep selected-tooltip text crisp during/after drag.
+         *
+         * translate3d() promotes this HTML tooltip to a composited texture. At
+         * fractional drag coordinates Chromium can then resample that texture,
+         * which makes text visibly soft after the first pan. There is only one
+         * main selected tooltip, so ordinary rounded left/top positioning is
+         * inexpensive and avoids that rasterization path entirely.
          */
+        const selectedTooltipLeft = Math.round(selectedTooltipRect.left);
+        const selectedTooltipTop = Math.round(selectedTooltipRect.top);
+
         tipSelected
           .style("--accent", selectedAccent)
           .style("display", "block")
           .style("visibility", "visible")
           .style("opacity", 1)
-          .style("left", "0px")
-          .style("top", "0px")
-          .style("will-change", "transform")
-          .style(
-            "transform",
-            `translate3d(${selectedTooltipRect.left}px, ${selectedTooltipRect.top}px, 0)`
-          )
+          .style("left", `${selectedTooltipLeft}px`)
+          .style("top", `${selectedTooltipTop}px`)
+          .style("will-change", "left, top")
+          .style("transform", "none")
           .attr(
             "data-placement",
             activeSelectedPlacement.placement
@@ -8219,13 +8445,9 @@ clearActiveDurationRef.current = clearActiveDuration;
       };
 
       markerEntries.sort((a, b) => {
-        const aRect = addRectDimensions(
-          toLocalRect(a.clientRect)
-        );
+        const aRect = addRectDimensions(a.localRect);
 
-        const bRect = addRectDimensions(
-          toLocalRect(b.clientRect)
-        );
+        const bRect = addRectDimensions(b.localRect);
 
         const angleA = Math.atan2(
           aRect.cy - selectedPinCenter.y,
@@ -8332,13 +8554,13 @@ clearActiveDurationRef.current = clearActiveDuration;
             (isCardHovered || isIconHovered)
           );
 
-        const currentRect =
-          entry.node.getBoundingClientRect();
+        const currentRect = getSvgNodeLocalRect(entry.node);
 
         const markerIsVisible =
+          !!currentRect &&
           currentRect.width > 0 &&
           currentRect.height > 0 &&
-          intersectsViewport(currentRect);
+          intersectsLocalViewport(currentRect);
 
         /*
          * Direct selected-object hover enlarges ordinary timeline/map markers
@@ -8354,9 +8576,7 @@ clearActiveDurationRef.current = clearActiveDuration;
          * tooltip positioning.
          */
         const directHoverAnchorRect = () => {
-          const liveAnchorRect = addRectDimensions(
-            toLocalRect(currentRect)
-          );
+          const liveAnchorRect = addRectDimensions(currentRect);
 
           if (
             !directSelectionHoverMini ||
@@ -8434,11 +8654,9 @@ clearActiveDurationRef.current = clearActiveDuration;
                 selectedPinCenter.y,
             };
 
-            let placement =
-              entry.forcePlacement ||
-              (directSelectionHoverMini
-                ? "top"
-                : null);
+            // Connected-object mini tooltips use one stable spatial rule:
+            // directly above their object. No viewport-dependent side roulette.
+            let placement = entry.forcePlacement || "top";
 
             if (!placement) {
               const occupied = [
@@ -8528,12 +8746,14 @@ clearActiveDurationRef.current = clearActiveDuration;
         const anchorRect =
           directHoverAnchorRect();
 
-        const labelRect = placementRect(
-          anchorRect,
-          placementCache.placement,
-          placementCache.width,
-          placementCache.height,
-          MINI_TOOLTIP_GAP
+        const labelRect = clampObjectTooltipRect(
+          placementRect(
+            anchorRect,
+            "top",
+            placementCache.width,
+            placementCache.height,
+            MINI_TOOLTIP_GAP
+          )
         );
 
         occupiedMiniRects.push(labelRect);
@@ -8583,7 +8803,12 @@ clearActiveDurationRef.current = clearActiveDuration;
       const anchor = getSegmentAnchorPx(seg);
       if (!anchor) return;
 
-      const wrapRect = wrapEl.getBoundingClientRect();
+      const wrapRect = isIPhoneSELayoutProfile()
+        ? {
+            width: wrapEl.clientWidth || size.width || 0,
+            height: wrapEl.clientHeight || size.height || 0,
+          }
+        : wrapEl.getBoundingClientRect();
 
       tipSeg
         .html(tipHTML(seg.label || "", fmtRange(seg.start, seg.end), seg.note || ""))
@@ -8591,7 +8816,8 @@ clearActiveDurationRef.current = clearActiveDuration;
         .style("opacity", 1)
         .style("--accent", seg.parentColor || "");
 
-      const pad = 8;
+      const phoneSegmentInspector = isIPhoneSELayoutProfile();
+      const pad = phoneSegmentInspector ? 3 : 8;
 
       const k = kRef.current ?? 1;
       const mode = layerModeRef.current;
@@ -8612,13 +8838,13 @@ clearActiveDurationRef.current = clearActiveDuration;
       let below;
 
       if (deepHistoricalStructureMode) {
-        /*
-         * The Segment box explains the track; it should not cover it.
-         * Prefer the free field ABOVE the track. If there is not enough room,
-         * place it entirely BELOW the track. Horizontal anchoring still follows
-         * the clicked segment and is clamped to the viewport.
-         */
-        const gap = 12;
+        
+
+
+
+
+
+        const gap = phoneSegmentInspector ? 4 : 12;
         const aboveY = anchor.yTop - measuredTh - gap;
         const belowY = anchor.yTop + anchor.hPix + gap;
         const canFitAbove = aboveY >= 4;
@@ -8687,7 +8913,13 @@ clearActiveDurationRef.current = clearActiveDuration;
       const anchor = getDurationAnchorPx(outline);
       if (!anchor) return;
 
-      const wrapRect = wrapRef.current.getBoundingClientRect();
+      const durationWrapEl = wrapRef.current;
+      const wrapRect = isIPhoneSELayoutProfile()
+        ? {
+            width: durationWrapEl?.clientWidth || size.width || 0,
+            height: durationWrapEl?.clientHeight || size.height || 0,
+          }
+        : durationWrapEl.getBoundingClientRect();
 
       tipDur
         .html(
@@ -8711,7 +8943,7 @@ clearActiveDurationRef.current = clearActiveDuration;
       const node = tipDur.node();
       const tw = node.offsetWidth;
       const th = node.offsetHeight;
-      const pad = 8;
+      const pad = isIPhoneSELayoutProfile() ? 3 : 8;
 
       // Default positioning: centered below the *anchoring band*
       let x = anchor.xMid - tw / 2;
@@ -8800,11 +9032,11 @@ const setHoveredSegmentId = () => {};
   const OUTLINE_ONLY_STROKE_WIDTH = 1;
   const OUTLINE_ONLY_ACTIVE_STROKE_WIDTH = 1.6;
 
-  /*
-   * The shared deep focus owns the visible period-resolution field. The
-   * chronology source stays exact while its horizontal track is articulated
-   * across civilization/composite handoffs.
-   */
+  
+
+
+
+
   const deepStructureFocusTrackId = getDeepHistoricalStructureFocusTrackId();
 
   const passiveOutlineStrokeOpacity = (d) => {
@@ -9003,11 +9235,11 @@ function updateSegmentPreview() {
   const hoverFill  = inSegmentsZoomBand ? 0.70 : 0.0;
   const activeFill = inSegmentsZoomBand ? 0.90 : 0.0;
 
-  /*
-   * In the merged mode, hovering/clicking the civilization label temporarily
-   * recombines its periods into the old Civilizational Arcs visual state:
-   * all child periods brighten together and their white dividers disappear.
-   */
+  
+
+
+
+
   const focusedDurationId = inSegmentsMode
     ? (activeDurationId || hoveredDurationId)
     : null;
@@ -9192,11 +9424,11 @@ function updateSegmentStructureVisuals() {
       });
   }
 
-  /*
-   * At the shared deep threshold, BOTH information-bearing modes are quiet at
-   * rest and reveal period structure only for the horizontal track currently
-   * owning chronology focus. This is the canonical deep implementation.
-   */
+  
+
+
+
+
   else if (deepHistoricalStructureMode) {
     root.selectAll("line.segmentStructureBoundary")
       .style("display", (d) =>
@@ -9539,12 +9771,12 @@ function onAnyClickClose(ev) {
       zoomDraggingRef.current ||
       now - lastTimelineDragEndAtRef.current <= SEGMENT_DRAG_RELEASE_CLICK_GUARD_MS;
 
-    /*
-     * A completed pan is navigation, not an outside-click dismissal. Preserve
-     * both the Segment inspector and its one-shot close arm; the next genuine
-     * click elsewhere still closes it exactly as before. Swallow the release
-     * click so it cannot accidentally activate a marker/label under the pointer.
-     */
+    
+
+
+
+
+
     if (justFinishedTimelineDrag) {
       ev.preventDefault?.();
       ev.stopPropagation();
@@ -9671,12 +9903,12 @@ function canSyncChronologyFromDurationBand() {
       let newChronologyId = null;
 
       if (deepChronologyMode) {
-        /*
-         * Shared deep mode: look through text/father markers to the actual
-         * source-duration surface underneath. This keeps the temporary track
-         * focus alive while interacting with one of that duration's objects.
-         * Civilization/period labels remain semantic blockers.
-         */
+        
+
+
+
+
+
         const stack = typeof document.elementsFromPoint === "function"
           ? document.elementsFromPoint(se.clientX, se.clientY)
           : [document.elementFromPoint(se.clientX, se.clientY)].filter(Boolean);
@@ -9882,11 +10114,11 @@ function syncContextPanelFromPointer(se) {
     return;
   }
 
-  /*
-   * Level 1: k < 2 -> no specific regional context.
-   * Level 2: 2–threshold -> macro-region follows the centered historical track.
-   * Levels 3/4: threshold+ -> exact region/regime comes from the source duration.
-   */
+  
+
+
+
+
   if (k < CONTEXTUAL_CHRONOLOGY_MIN_ZOOM) {
     if (k < ZOOM_SEGMENT_THRESHOLD) clearTimelineContext();
     else publishViewportMacroContext();
@@ -9983,11 +10215,11 @@ function syncHoverRaf(srcEvt) {
     syncContextPanelFromPointer(srcEvt);
 
     if (mode === "segments" || mode === "none") {
-      /*
-       * Both information-bearing modes can expose civilization-label targets.
-       * Period targets are either the familiar filled rectangles or the new
-       * deep structure labels; each sync helper gates itself by zoom tier.
-       */
+      
+
+
+
+
       syncSegmentHoverFromPointer(srcEvt);
       syncDurationHoverFromPointer(srcEvt);
       return;
@@ -10128,15 +10360,15 @@ const outlineSel = gOut
       });
 
 
-    /*
-     * DEEP DURATION BODY HOVER — chronology + Borders Only object focus.
-     *
-     * This transparent surface lives BELOW period labels and BELOW timeline
-     * objects, so those controls retain priority. Object markers may sit above
-     * it without ending the duration focus; semantic labels still take over.
-     * It is intentionally hover-only: civilization clicking remains owned by
-     * the established padded civilization-label target.
-     */
+    
+
+
+
+
+
+
+
+
     gDurationChronologyHover
       .selectAll("rect.durationChronologyHover")
       .data(durationChronologySources, (d) => d.sourceDurationId)
@@ -10402,15 +10634,15 @@ piesSel
       .selectAll("g.dotSlices")
       .sort((a, b) => (a.when - b.when) || a.durationId.localeCompare(b.durationId));
 
-    /*
-     * Invisible coarse-pointer hit circles for text objects.
-     *
-     * These circles never receive pointer events on a normal mouse. On a
-     * coarse pointer they become active only when the corresponding textDot is
-     * already allowed to be interactive by the current zoom/selection policy.
-     * A tap forwards the existing click behavior to the real textDot, so the
-     * selection/card code has one owner and stays unchanged.
-     */
+    
+
+
+
+
+
+
+
+
     const textTouchHitSel = gTexts
       .selectAll("circle.textTouchHit")
       .data(renderTextRows, (d) => d.id)
@@ -10709,11 +10941,11 @@ function dispatchTimelineObjectHover(type, id, entering) {
   });
 }
 
-/*
- * Tucked Map View objects are rendered in the disclosure branch instead of at
- * their ordinary geographic point. Keep that visible branch icon synchronized
- * with the ONE shared touch-preview target used everywhere else.
- */
+
+
+
+
+
 function syncLocationClusterBranchTouchPreviewVisual(activeTarget) {
   if (!locationClusterBranchRef.current) return;
 
@@ -11076,7 +11308,7 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
         const tooBottom =
           relY >
           wrapRect.height -
-            SELECTED_TIMELINE_AXIS_BOTTOM_HEIGHT -
+            selectedTimelineAxisBottomHeight -
             EDGE_PAD;
 
         const shouldRecenter = (tooLeft || tooRight || tooTop || tooBottom);
@@ -11119,14 +11351,56 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
 
       .attr("opacity", BASE_OPACITY);
 
+    function getSvgNodeLocalRect(node) {
+      if (!node?.getBBox || !node?.getCTM) return null;
+
+      try {
+        const bbox = node.getBBox();
+        const matrix = node.getCTM();
+        if (!matrix) return null;
+
+        const corners = [
+          new DOMPoint(bbox.x, bbox.y),
+          new DOMPoint(bbox.x + bbox.width, bbox.y),
+          new DOMPoint(bbox.x + bbox.width, bbox.y + bbox.height),
+          new DOMPoint(bbox.x, bbox.y + bbox.height),
+        ].map((point) => point.matrixTransform(matrix));
+
+        const xs = corners.map((point) => point.x);
+        const ys = corners.map((point) => point.y);
+        const left = Math.min(...xs);
+        const right = Math.max(...xs);
+        const top = Math.min(...ys);
+        const bottom = Math.max(...ys);
+
+        return {
+          left,
+          top,
+          right,
+          bottom,
+          width: right - left,
+          height: bottom - top,
+          cx: (left + right) / 2,
+          cy: (top + bottom) / 2,
+        };
+      } catch (_error) {
+        return null;
+      }
+    }
+
     function textAnchorClient(el, d) {
       const zx = zxRef.current,
         zy = zyRef.current;
       if (!zx || !zy) return null;
 
+      const localRect = getSvgNodeLocalRect(el);
+      if (localRect) {
+        return { x: localRect.cx, y: localRect.top };
+      }
+
       const chartNode = gRoot.node();
-      const chartScreenMatrix = chartNode?.getScreenCTM?.();
-      if (!chartScreenMatrix) return null;
+      const chartMatrix = chartNode?.getCTM?.();
+      if (!chartMatrix) return null;
 
       const geographicPoint = getGeographicNodePosition("text", d.id);
 
@@ -11146,14 +11420,14 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
         cy = fallback.y;
       }
 
-      const clientPoint = new DOMPoint(
+      const localPoint = new DOMPoint(
         cx,
         cy
-      ).matrixTransform(chartScreenMatrix);
+      ).matrixTransform(chartMatrix);
 
       return {
-        x: clientPoint.x,
-        y: clientPoint.y,
+        x: localPoint.x,
+        y: localPoint.y,
       };
     }
 
@@ -11193,9 +11467,14 @@ function fatherAnchorClient(el, d) {
   const zx = zxRef.current, zy = zyRef.current;
   if (!zx || !zy || !el) return null;
 
+  const localRect = getSvgNodeLocalRect(el);
+  if (localRect) {
+    return { x: localRect.cx, y: localRect.top };
+  }
+
   const chartNode = gRoot.node();
-  const chartScreenMatrix = chartNode?.getScreenCTM?.();
-  if (!chartScreenMatrix) return null;
+  const chartMatrix = chartNode?.getCTM?.();
+  if (!chartMatrix) return null;
 
   const geographicPoint = getGeographicNodePosition("father", d.id);
 
@@ -11215,14 +11494,14 @@ function fatherAnchorClient(el, d) {
     cy = fallback.y;
   }
 
-  const clientPoint = new DOMPoint(
+  const localPoint = new DOMPoint(
     cx,
     cy
-  ).matrixTransform(chartScreenMatrix);
+  ).matrixTransform(chartMatrix);
 
   return {
-    x: clientPoint.x,
-    y: clientPoint.y,
+    x: localPoint.x,
+    y: localPoint.y,
   };
 }
 
@@ -11438,7 +11717,7 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
     const tooBottom =
       relY >
       wrapRect.height -
-        SELECTED_TIMELINE_AXIS_BOTTOM_HEIGHT -
+        selectedTimelineAxisBottomHeight -
         EDGE_PAD;
 
     const shouldRecenter = (tooLeft || tooRight || tooTop || tooBottom);
@@ -11714,7 +11993,7 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
         .selectAll("g.tick text")
         .attr("y", (tickValue) => {
           const entry = axisEntryForTick(tickValue);
-          return SELECTED_AXIS_LABEL_Y[entry?.level || "middle"];
+          return selectedAxisLabelY[entry?.level || "middle"];
         })
         .attr("dy", "0.71em")
         .classed(
@@ -11775,11 +12054,11 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
       );
     };
 
-    /*
-     * Rebuild the geographic one-hop layout in the chart SVG's own
-     * coordinate system. TimelineMap remains the single owner of the map
-     * projection; Timeline only consumes projected browser coordinates.
-     */
+    
+
+
+
+
     function rebuildGeographicNodePositions(zx, zy) {
       const nextTextPositions = new Map();
       const nextFatherPositions = new Map();
@@ -12087,11 +12366,11 @@ if (!hasSel && zx && zy) setTimeout(() => scheduleRenderConnections(zx, zy, kNow
         suppressedConnectionKeys.add(nodeKey);
       }
 
-      /*
-       * Build connected components by projected screen distance. This is more
-       * robust than grouping by location strings and still works when nearby
-       * records use slightly different coordinate precision.
-       */
+      
+
+
+
+
       const parent = remainingCandidates.map((_, index) => index);
 
       const findRoot = (index) => {
@@ -12604,12 +12883,12 @@ labelSel.each(function (d) {
 
       if (best) return { text: best, squeezeTo: null };
 
-      /*
-       * Ultra-narrow fallback: NEVER leave a visible period without a control.
-       * Show its first real character. If even that glyph is wider than the
-       * period, SVG textLength compresses just this one glyph to remain wholly
-       * inside the owning segment instead of spilling into its neighbor.
-       */
+      
+
+
+
+
+
       const firstCharacter = full.match(/\S/)?.[0] || full[0] || "";
       if (!firstCharacter) return { text: "", squeezeTo: null };
 
@@ -12715,13 +12994,13 @@ labelSel.each(function (d) {
       }
     });
   } else {
-    /*
-     * Civilizations & Periods below the shared deep breakpoint keeps its
-     * colored period bands/dividers, but period annotation labels are now a
-     * deep-only feature. Hide BOTH the old top/bottom packed labels and their
-     * hit surfaces here instead of laying them out offscreen/then relying on a
-     * later interactivity pass to suppress them.
-     */
+    
+
+
+
+
+
+
     const hideOuterCivilizationsPeriodLabels =
       layerModeRef.current === "segments" &&
       (kRef.current ?? 1) < CONTEXTUAL_CHRONOLOGY_MIN_ZOOM;
@@ -12883,13 +13162,13 @@ labelSel.each(function (d) {
 
           packedVisible.push(...packed);
         } else {
-          /*
-           * Crowded case: do NOT throw the entire lane away. Let narrow periods
-           * borrow empty annotation space around their own center and keep every
-           * label that can be placed without colliding with the previously kept
-           * one. This is intentionally conservative; omitted labels can surface
-           * naturally as the user zooms further in.
-           */
+          
+
+
+
+
+
+
           let lastRight = trackLeft - SEGMENT_STRUCTURE_LABEL_GAP_PX;
 
           for (const entry of packed) {
@@ -12977,11 +13256,11 @@ labelSel.each(function (d) {
       .attr("y1", Math.min(yA, yB))
       .attr("y2", Math.max(yA, yB));
 
-    /*
-     * Keep the focused-track gate inside the per-frame geometry pass. This
-     * prevents a pan frame from exposing every track before the later hover
-     * styling pass has a chance to run.
-     */
+    
+
+
+
+
     if (dragFrameSelectedNeighborhoodStructureMode) {
       boundary.style(
         "display",
@@ -13263,11 +13542,11 @@ function renderLocationClusterBranch() {
           event.stopPropagation();
         });
 
-      /*
-       * When one branch object is focused, every segment from the disclosure
-       * button down to that object remains highlighted. This preserves a
-       * continuous visual path for the second, third, and later branch items.
-       */
+      
+
+
+
+
       const activeBranchTarget = getSelectedFocusTarget();
       const activeBranchIndex = activeBranchTarget
         ? layoutEntries.findIndex(
@@ -14696,11 +14975,11 @@ fatherPinSel
   renderLocationClusterBranch();
   syncSelectedNeighborhoodFocus();
 
-  /*
-   * Map projection changes already arrive through a requestAnimationFrame.
-   * Rendering map connections synchronously here keeps lines in the same frame
-   * as their projected endpoints instead of letting them trail by one frame.
-   */
+  
+
+
+
+
   if (mapModeForRendering) {
     if (connUpdateRaf.current) {
       cancelAnimationFrame(connUpdateRaf.current);
@@ -14875,12 +15154,12 @@ if (hasSelection) {
     k < CONTEXTUAL_CHRONOLOGY_MIN_ZOOM &&
     !hasSelection;
 
-  /*
-   * Shared structure-only period layer. Civilizations & Periods and Borders
-   * Only now enter it at the exact same breakpoint. The structure remains
-   * hover-gated: at rest it is quiet; a focused track reveals its boundaries
-   * and top labels.
-   */
+  
+
+
+
+
+
   const showDeepSegmentStructure =
     !hasSelection &&
     isDeepHistoricalStructureMode(layerMode, k);
@@ -15411,11 +15690,13 @@ const rangeX1 = x(XMAX);      // innerWidth
 const rangeY0 = 0;
 const rangeY1 = innerHeight;
 
-// Track where a potential drag gesture started (screen coords)
+// Track where a potential touch/mouse camera gesture started.
 let dragStartX = null;
 let dragStartY = null;
+let gestureStartK = null;
 // Squared pixel threshold before we treat it as a drag (≈2px)
 const DRAG_THRESHOLD_SQ = 4;
+const TOUCH_ZOOM_SCALE_DELTA = 0.003;
 
 /*
  * D3 mouse/pointer zoom events expose clientX/clientY directly, while its
@@ -15449,6 +15730,27 @@ const sourceEventClientPoint = (sourceEvent) => {
   return null;
 };
 
+const isTouchLikeCameraSourceEvent = (sourceEvent) => {
+  if (!sourceEvent) return false;
+
+  const type = String(sourceEvent.type || "");
+  if (
+    sourceEvent.pointerType === "touch" ||
+    type.startsWith("touch") ||
+    sourceEvent.touches?.length > 0 ||
+    sourceEvent.changedTouches?.length > 0
+  ) {
+    return true;
+  }
+
+  const coarse =
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(any-pointer: coarse)").matches;
+
+  return coarse && type === "wheel" && !!sourceEvent.ctrlKey;
+};
+
 
 const zoom = (zoomRef.current ?? d3.zoom())
   .scaleExtent([MIN_ZOOM, MAX_ZOOM])
@@ -15468,9 +15770,10 @@ const zoom = (zoomRef.current ?? d3.zoom())
     const onLocationClusterControl =
       t.closest(".tl-pin-cluster-button") ||
       t.closest(".locationClusterBranch");
+    const onTimelineExit = t.closest(".timelineExitWorld");
     const onMark = onText || onFather;
 
-    if (onLocationClusterControl) {
+    if (onLocationClusterControl || onTimelineExit) {
       return false;
     }
 
@@ -15492,6 +15795,10 @@ const zoom = (zoomRef.current ?? d3.zoom())
     // We only flip to "dragging" after we see enough pointer movement in the zoom handler.
     zoomDraggingRef.current = false;
     dragDeepStructureFocusSourceIdRef.current = null;
+    gestureStartK = Math.max(
+      0.0001,
+      Number(event?.transform?.k ?? lastTransformRef.current?.k ?? 1) || 1
+    );
 
     // Remember where the gesture began for mouse OR touch.
     const startPoint = !isWheel
@@ -15520,6 +15827,7 @@ const zoom = (zoomRef.current ?? d3.zoom())
     const t = event.transform;
     lastTransformRef.current = t;
     kRef.current = t.k;
+    syncTimelineExitWorld(t);
 
     // Decide whether this zoom event corresponds to a real drag-pan
     const srcType = event.sourceEvent?.type;
@@ -15528,6 +15836,19 @@ const zoom = (zoomRef.current ?? d3.zoom())
     const currentGesturePoint = !isWheel
       ? sourceEventClientPoint(event.sourceEvent)
       : null;
+
+    if (
+      touchObjectPreviewRef.current &&
+      isTouchLikeCameraSourceEvent(event.sourceEvent) &&
+      Number.isFinite(gestureStartK)
+    ) {
+      const nextK = Math.max(0.0001, Number(t.k) || 1);
+      const scaleDelta = Math.abs(Math.log(nextK / gestureStartK));
+
+      if (scaleDelta > TOUCH_ZOOM_SCALE_DELTA) {
+        clearSharedTouchTargetPreview({ immediate: true });
+      }
+    }
 
     if (currentGesturePoint) {
       // If we haven't yet decided it's a drag, check how far we've moved
@@ -15617,11 +15938,11 @@ if (hasSelection) {
         .classed("zoom-deepest", zoomMode === "deepest");
     }
 
-    /*
-     * Keep the non-pointer context tiers synchronized with camera zoom/pan.
-     * Deep zoom is left to syncContextPanelFromPointer(), which can resolve
-     * the exact historical source duration under the cursor.
-     */
+    
+
+
+
+
     if (!hasSelection && !showMapRef.current) {
       if (t.k < ZOOM_SEGMENT_THRESHOLD) {
         clearTimelineContext();
@@ -15675,6 +15996,7 @@ if (hasSelection) {
     // Always clear dragging state and release the drag-only track lock.
     zoomDraggingRef.current = false;
     dragDeepStructureFocusSourceIdRef.current = null;
+    gestureStartK = null;
 
     // Remove grabbing cursor if it was set
     if (svgRef.current) {
@@ -16002,11 +16324,11 @@ flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
       )
     : [];
 
-  /*
-   * The top Info Window follows the same active connected-object focus used
-   * by the lines and mini-tooltips. Actual timeline/map-object hover takes
-   * priority; otherwise a hovered connection link inside either card drives it.
-   */
+  
+
+
+
+
   const connectionInfoEntries = useMemo(() => {
     const selectedType = selectedText
       ? "text"
@@ -16043,12 +16365,12 @@ flyToRef.current = function flyToDatum(d, type /* "text" | "father" */) {
     cardHoveredTarget?.id,
   ]);
 
-  /*
-   * Shared MarkerIcon metadata for the two endpoints in the Info Window.
-   * This intentionally uses the same timeline rows as the Timeline itself, so
-   * the icon shape/colors match cards and SearchBar without duplicating a
-   * separate symbolic-system lookup table here.
-   */
+  
+
+
+
+
+
   const connectionInfoTextById = useMemo(
     () => new Map((textRows || []).map((row) => [row.id, row])),
     [textRows]
@@ -16307,7 +16629,11 @@ return (
       className={`timelineSvg ${
         showMap && selectedMapAvailable ? "is-map-view" : ""
       } ${modalOpen ? "isModalOpen" : ""}`}
-      style={{ opacity: isReady ? 1 : 0 }}
+      style={{
+        opacity: isReady ? 1 : 0,
+        visibility: isReady ? "visible" : "hidden",
+        pointerEvents: isReady ? undefined : "none",
+      }}
       width={width}
       height={height}
     >
@@ -16350,6 +16676,45 @@ return (
 
 {/* pins ABOVE all nodes */}
 <g ref={pinsRef} className="pins" />
+
+{/* Library exit marker: world-positioned, screen-size-stable. */}
+{onExitLibrary && (
+  <g
+    ref={timelineExitRef}
+    className="timelineExitWorld"
+    transform={`translate(${TIMELINE_EXIT_WORLD_X},${TIMELINE_EXIT_WORLD_Y})`}
+    aria-label="Return to About the Library"
+  >
+    <title>Return to About the Library</title>
+
+    <foreignObject
+      className="timelineExitWorld__foreignObject"
+      x="-14"
+      y="-20"
+      width="150"
+      height="40"
+    >
+      <button
+        xmlns="http://www.w3.org/1999/xhtml"
+        type="button"
+        className="timelineExitWorld__control"
+        onPointerDown={(event) => {
+          event.stopPropagation();
+        }}
+        onPointerMove={(event) => {
+          event.stopPropagation();
+        }}
+        onClick={(event) => {
+          event.stopPropagation();
+          onExitLibrary();
+        }}
+      >
+        <span className="libraryTransition__arrow" aria-hidden="true">←</span>
+        <span>Exit Library</span>
+      </button>
+    </foreignObject>
+  </g>
+)}
 </g>
 
       {/* Unclipped vertical branch attached to a selected map-location cluster. */}

@@ -969,3 +969,579 @@ body.sb-open .sb-wrap.has-context .sb-contextField,
     max-height: calc(100dvh - 140px);
   }
 }
+
+/* ========================================================================== */
+/* RESPONSIVE FOUNDATION PASS 17 — SearchBar follows the logical top edge      */
+/* ========================================================================== */
+/*
+ * Landscape is the canonical timeline orientation: Search stays top-center.
+ * Portrait rotates the SAME horizontal Search + Key pill onto the physical
+ * left edge, which is the top edge of the sideways horizontal timeline.
+ * These rules are orientation-based so an iPad does not accidentally inherit
+ * a phone layout merely because one viewport dimension is narrow.
+ */
+
+@media (orientation: landscape) {
+  .sb-wrap {
+    top: 8px;
+    left: 50%;
+    right: auto;
+    transform-origin: center top;
+    transform: translateX(calc(-50% + 10px));
+  }
+}
+
+/* Short landscape phones: still top-center, simply use a compact width. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .sb-wrap {
+    width: clamp(250px, 58vw, 420px);
+  }
+
+  .sb-shell {
+    height: 40px;
+    min-height: 40px;
+    grid-template-columns: minmax(0, 1fr) 54px;
+  }
+
+  .sb-input {
+    font-size: 13px;
+  }
+}
+
+@media (orientation: portrait) {
+  .sb-wrap {
+    /* Length along the logical horizontal timeline top edge. */
+    --sb-portrait-length: clamp(220px, 42dvh, 340px);
+
+    width: var(--sb-portrait-length);
+    top: calc(50% + var(--sb-portrait-length) / 2);
+    left: 8px;
+    right: auto;
+
+    transform-origin: 0 0;
+    transform: rotate(-90deg);
+  }
+
+  /* In the rotated coordinate system, the normal "below" popover opens
+     physically inward from the left edge. Its HEIGHT becomes physical width,
+     so cap that dimension using the portrait viewport width. */
+  .sb-popover {
+    max-height: calc(100dvw - 24px);
+  }
+
+  .sb-keyPanel {
+    max-height: calc(100dvw - 24px);
+    overflow-y: auto;
+  }
+}
+
+/* Temporary phone treatment: preserve the same orientation rule, just make
+   the chrome a little more compact. Tablet portrait remains untouched. */
+@media (orientation: portrait) and (max-width: 520px) {
+  .sb-wrap {
+    --sb-portrait-length: clamp(210px, 40dvh, 300px);
+  }
+
+  .sb-shell {
+    height: 40px;
+    min-height: 40px;
+    grid-template-columns: minmax(0, 1fr) 48px;
+    border-radius: 11px;
+  }
+
+  .sb-box {
+    gap: 8px;
+    padding: 7px 9px;
+  }
+
+  .sb-input {
+    font-size: 13px;
+  }
+
+  .sb-keyToggle {
+    padding: 0 7px;
+    font-size: 11px;
+  }
+
+  .sb-keyToggleIcon {
+    display: none;
+  }
+
+  /* Context remains available on tablets. On a phone this temporary layout
+     prioritizes Search + Key and avoids a second rotated floating panel. */
+  .sb-contextField {
+    display: none;
+  }
+}
+
+/* ========================================================================== */
+/* RESPONSIVE POLISH PASS 18 — phone/tablet only                              */
+/* ========================================================================== */
+/* Phone portrait: give Search/results more reading width while keeping the
+   temporary left-edge orientation. Smaller result typography prevents the
+   longer bar from becoming visually heavy. */
+@media (orientation: portrait) and (max-width: 520px) {
+  .sb-wrap {
+    --sb-portrait-length: clamp(300px, 52dvh, 360px);
+  }
+
+  .sb-item {
+    padding: 7px 8px;
+  }
+
+  .sb-title-text {
+    font-size: 12px;
+  }
+
+  .sb-line1,
+  .sb-line2,
+  .sb-author,
+  .sb-date,
+  .sb-category {
+    font-size: 10px;
+  }
+
+  .sb-desc {
+    margin-top: 4px;
+    font-size: 10px;
+    line-height: 1.25;
+  }
+
+  .sb-index,
+  .sb-right-meta {
+    font-size: 9px;
+  }
+
+  .sb-inline-icon {
+    width: 13px;
+    height: 13px;
+  }
+}
+
+/* iPad-class portrait devices are the rotated representation of the logical
+   landscape timeline. Preserve the established top-edge position, but restore
+   the longer tablet SearchBar that was comfortable before the phone work. */
+@media (orientation: portrait) and (min-width: 700px) and (max-width: 1000px) {
+  .sb-wrap {
+    --sb-portrait-length: clamp(540px, 56dvh, 680px);
+  }
+}
+
+/* Same tablet width when the device/browser itself is already landscape. */
+@media (orientation: landscape) and (min-width: 700px) and (max-width: 1300px) and (min-height: 600px) and (max-height: 1000px) {
+  .sb-wrap {
+    width: min(680px, 72vw);
+  }
+}
+
+
+/* ========================================================================== */
+/* RESPONSIVE TABLET ENVELOPE PASS 20 — large iPad Pro only                  */
+/* ========================================================================== */
+/*
+ * Air/Mini already land inside the established tablet rules above, so do not
+ * broaden those rules globally. These two coarse-pointer extensions catch the
+ * 12.9/13-inch iPad Pro class (roughly 1024×1366 / 1366×1024) without making
+ * an ordinary 1366×768 laptop inherit tablet SearchBar geometry.
+ */
+@media (orientation: portrait)
+  and (any-pointer: coarse)
+  and (min-width: 1001px)
+  and (max-width: 1100px)
+  and (min-height: 1200px)
+  and (max-height: 1500px) {
+  .sb-wrap {
+    --sb-portrait-length: clamp(540px, 56dvh, 680px);
+  }
+}
+
+@media (orientation: landscape)
+  and (any-pointer: coarse)
+  and (min-width: 1301px)
+  and (max-width: 1400px)
+  and (min-height: 1001px)
+  and (max-height: 1100px) {
+  .sb-wrap {
+    width: min(680px, 72vw);
+  }
+}
+
+/* ========================================================================== */
+/* IPHONE SE COMPACT PASS 21 — SearchBar + Context only                       */
+/* ========================================================================== */
+/*
+ * Phone-only presentation polish. The established tablet/desktop rules above
+ * remain untouched. Portrait phone is the rotated logical landscape timeline:
+ * keep the current bar LENGTH, but reduce its physical thickness and density.
+ */
+@media (orientation: portrait) and (max-width: 520px) {
+  .sb-wrap {
+    /* Preserve the successful Pass-18 length. */
+    --sb-portrait-length: clamp(300px, 52dvh, 360px);
+    --sb-context-gap: 5px;
+  }
+
+  .sb-shell {
+    height: 32px;
+    min-height: 32px;
+    grid-template-columns: minmax(0, 1fr) 42px;
+    border-radius: 9px;
+  }
+
+  .sb-box {
+    gap: 6px;
+    padding: 4px 7px;
+  }
+
+  .sb-icon {
+    width: 13px;
+    height: 14px;
+  }
+
+  .sb-input {
+    font-size: 11px;
+    line-height: 1.2;
+    padding: 0 1px;
+  }
+
+  .sb-keyToggle {
+    padding: 0 5px;
+    font-size: 9px;
+    line-height: 1;
+  }
+
+  /* Restore Context on phone, but keep it intentionally compact. */
+  .sb-contextField {
+    display: flex;
+    width: clamp(145px, 42dvw, 180px);
+    max-width: 180px;
+    height: 32px;
+    min-height: 32px;
+    padding: 0 7px;
+    border-radius: 9px;
+  }
+
+  .sb-contextContent {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .sb-contextPrefix {
+    margin-right: 3px;
+    font-size: 7.5px;
+    letter-spacing: 0;
+  }
+
+  .sb-contextGlobal,
+  .sb-contextMacro {
+    font-size: 8.5px;
+  }
+
+  .sb-contextDelimiter {
+    margin-right: 2px;
+    font-size: 8px;
+  }
+
+  .sb-contextLabel {
+    min-width: 0;
+    font-size: 10px;
+    line-height: 1;
+  }
+
+  /* Results stay the same logical width as SearchBar, but are much denser. */
+  .sb-popover {
+    margin-top: 5px;
+    border-radius: 9px;
+    padding-right: 1px;
+    padding-bottom: 4px;
+  }
+
+  .sb-item {
+    padding: 5px 6px;
+  }
+
+  .sb-title-text {
+    font-size: 10.5px;
+    line-height: 1.15;
+  }
+
+  .sb-line1,
+  .sb-line2,
+  .sb-author,
+  .sb-date,
+  .sb-category,
+  .sb-light {
+    font-size: 8.5px;
+    line-height: 1.15;
+  }
+
+  .sb-line1 + .sb-line2,
+  .sb-author-line + .sb-line3 {
+    margin-top: 2px;
+  }
+
+  .sb-line1 + .sb-line3 {
+    margin-top: 3px;
+  }
+
+  .sb-item .sb-line2 {
+    line-height: 1.15;
+    padding-bottom: 1px;
+  }
+
+  .sb-desc {
+    margin-top: 3px;
+    font-size: 8.5px;
+    line-height: 1.2;
+  }
+
+  .sb-index,
+  .sb-right-meta {
+    font-size: 7.5px;
+  }
+
+  .sb-inline-icon {
+    width: 11px;
+    height: 11px;
+    margin-right: 2px;
+  }
+
+  .sb-sep {
+    width: 3px;
+  }
+
+  .sb-empty {
+    padding: 8px 9px;
+    font-size: 9px;
+  }
+
+  .sb-popover::-webkit-scrollbar {
+    width: 6px;
+  }
+}
+
+/* ========================================================================== */
+/* IPHONE SE ONLY — Context beside SearchBar                                  */
+/* ========================================================================== */
+/*
+ * This intentionally targets the iPhone SE-sized portrait viewport only.
+ * The forced-landscape SearchBar is vertical on-screen; Context becomes a
+ * parallel vertical strip immediately to its physical left.
+ *
+ * TWEAK ONLY THIS VALUE when checking the longest Context string:
+ *   --iphone-se-context-length
+ */
+@media (orientation: portrait)
+  and (min-width: 360px)
+  and (max-width: 390px)
+  and (min-height: 640px)
+  and (max-height: 700px) {
+  .sb-wrap {
+    --iphone-se-context-length: 176px;
+    --iphone-se-context-thickness: 32px;
+    --iphone-se-context-side-gap: 5px;
+
+    /* Make physical room to the left for the parallel Context strip. */
+    left: calc(
+      8px + var(--iphone-se-context-thickness) +
+      var(--iphone-se-context-side-gap)
+    );
+  }
+
+  .sb-contextField {
+    /* Override the ordinary desktop-style left/right sibling placement. */
+    left: 0;
+    right: auto;
+    top: auto;
+    bottom: calc(100% + var(--iphone-se-context-side-gap));
+
+    width: var(--iphone-se-context-length);
+    max-width: var(--iphone-se-context-length);
+    height: var(--iphone-se-context-thickness);
+    min-height: var(--iphone-se-context-thickness);
+  }
+}
+
+
+/* ========================================================================== */
+/* IPHONE SE ONLY — Context LEFT of SearchBar in LOGICAL landscape (21b)     */
+/* ========================================================================== */
+/*
+ * The portrait device frame is displaying the timeline rotated -90deg.
+ * Therefore "left of SearchBar" in the library's logical landscape means
+ * placing Context before SearchBar along the rotated wrapper's local X axis,
+ * NOT physically to the left in the portrait screenshot.
+ *
+ * TWEAK ONLY THIS VALUE for the longest Context string:
+ *   --iphone-se-context-length
+ */
+@media (orientation: portrait)
+  and (min-width: 360px)
+  and (max-width: 390px)
+  and (min-height: 640px)
+  and (max-height: 700px) {
+  .sb-wrap {
+    --iphone-se-context-length: 176px;
+    --iphone-se-context-thickness: 32px;
+    --iphone-se-context-side-gap: 5px;
+
+    /* Restore the successful edge distance from Pass 21. */
+    left: 8px;
+
+    /*
+     * Center Context + gap + Search as ONE logical horizontal group.
+     * Search itself is no longer centered independently, which keeps the
+     * newly restored left-side Context fully on-screen.
+     */
+    top: calc(
+      50% +
+      (
+        var(--sb-portrait-length) -
+        var(--iphone-se-context-length) -
+        var(--iphone-se-context-side-gap)
+      ) / 2
+    );
+  }
+
+  .sb-contextField {
+    /* Logical left sibling of SearchBar before the outer -90deg rotation. */
+    top: 0;
+    bottom: auto;
+    left: auto;
+    right: calc(100% + var(--iphone-se-context-side-gap));
+
+    width: var(--iphone-se-context-length);
+    max-width: var(--iphone-se-context-length);
+    height: var(--iphone-se-context-thickness);
+    min-height: var(--iphone-se-context-thickness);
+  }
+}
+
+/* ========================================================================== */
+/* IPHONE SE ONLY — centered Search + logical-left Context (21c)              */
+/* ========================================================================== */
+/*
+ * FINAL phone geometry override.
+ *
+ * Search is centered INDEPENDENTLY, exactly like the successful pre-21b
+ * placement. Context extends to Search's logical left and never participates
+ * in centering Search itself.
+ *
+ * MANUAL TWEAK KNOBS (iPhone SE only):
+ *   --iphone-se-search-length   = Search + Key length
+ *   --iphone-se-context-length  = Context length; tune this for longest label
+ */
+@media (orientation: portrait)
+  and (min-width: 360px)
+  and (max-width: 390px)
+  and (min-height: 640px)
+  and (max-height: 700px) {
+  .sb-wrap {
+    --iphone-se-search-length: 340px;
+    --iphone-se-context-length: 176px;
+    --iphone-se-context-thickness: 32px;
+    --iphone-se-context-side-gap: 5px;
+
+    /* Search length is explicit and remains centered by itself. */
+    --sb-portrait-length: var(--iphone-se-search-length);
+    width: var(--iphone-se-search-length);
+
+    /* Restore the original successful phone edge position. */
+    left: 8px;
+    right: auto;
+
+    /* Independent Search centering — Context does NOT affect this. */
+    top: calc(50% + var(--iphone-se-search-length) / 2);
+  }
+
+  .sb-contextField {
+    /* Logical-left sibling before the outer -90deg SearchBar rotation. */
+    top: 0;
+    bottom: auto;
+    left: auto;
+    right: calc(100% + var(--iphone-se-context-side-gap));
+
+    width: var(--iphone-se-context-length);
+    max-width: var(--iphone-se-context-length);
+    height: var(--iphone-se-context-thickness);
+    min-height: var(--iphone-se-context-thickness);
+
+    /* IMPORTANT: cancel <=900px fallback's translateX(-50%). */
+    transform: translateY(calc(-100% - var(--sb-context-entry-offset)));
+  }
+
+  .sb-wrap.has-context .sb-contextField {
+    transform: translateY(0);
+  }
+
+  body.sb-open .sb-wrap.has-context .sb-contextField,
+  .sb-wrap.is-key-open.has-context .sb-contextField {
+    transform: translateY(calc(-100% - var(--sb-context-entry-offset)));
+  }
+}
+
+
+/* ========================================================================== */
+/* IPHONE SE ONLY — final Search + Context position tuning (21e)              */
+/* ========================================================================== */
+/*
+ * Search remains on the same physical left edge. Context stays attached to
+ * Search's logical-left side. The COMPLETE pair can now be nudged vertically
+ * in the portrait screenshot without changing either strip's dimensions.
+ *
+ * MANUAL TWEAK KNOBS (iPhone SE only):
+ *   --iphone-se-search-length      = Search + Key length
+ *   --iphone-se-context-length     = Context length
+ *   --iphone-se-context-thickness  = Context thickness
+ *   --iphone-se-context-side-gap   = gap between Context and Search
+ *   --iphone-se-ui-up-offset       = moves BOTH strips UP in the portrait
+ *                                    screenshot as the value increases
+ */
+@media (orientation: portrait)
+  and (min-width: 360px)
+  and (max-width: 390px)
+  and (min-height: 640px)
+  and (max-height: 700px) {
+  .sb-wrap {
+    --iphone-se-search-length: 300px;
+    --iphone-se-context-length: 195px;
+    --iphone-se-context-thickness: 32px;
+    --iphone-se-context-side-gap: 5px;
+    --iphone-se-ui-up-offset: 20px;
+
+    --sb-portrait-length: var(--iphone-se-search-length);
+    width: var(--iphone-se-search-length);
+
+    /* Preserve the successful physical edge distance. */
+    left: 8px;
+    right: auto;
+
+    /* Move the complete rotated pair UP in the portrait screenshot. */
+    top: calc(
+      50% + var(--iphone-se-search-length) / 2 - var(--iphone-se-ui-up-offset)
+    );
+  }
+
+  .sb-contextField {
+    top: 0;
+    bottom: auto;
+    left: auto;
+    right: calc(100% + var(--iphone-se-context-side-gap));
+
+    width: var(--iphone-se-context-length);
+    max-width: var(--iphone-se-context-length);
+    height: var(--iphone-se-context-thickness);
+    min-height: var(--iphone-se-context-thickness);
+
+    transform: translateY(calc(-100% - var(--sb-context-entry-offset)));
+  }
+
+  .sb-wrap.has-context .sb-contextField {
+    transform: translateY(0);
+  }
+
+  body.sb-open .sb-wrap.has-context .sb-contextField,
+  .sb-wrap.is-key-open.has-context .sb-contextField {
+    transform: translateY(calc(-100% - var(--sb-context-entry-offset)));
+  }
+}

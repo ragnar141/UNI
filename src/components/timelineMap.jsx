@@ -859,32 +859,47 @@ const TimelineMap = forwardRef(function TimelineMap(
     const element = containerRef.current;
     if (!element) return undefined;
 
-    const updateSize = () => {
-      const rect = element.getBoundingClientRect();
+    // Measure the map in its LOCAL, pre-transform coordinate system. The
+    // portrait timeline shell is rotated to landscape by CSS; using
+    // getBoundingClientRect() here measures the already-rotated rectangle and
+    // swaps the projection width/height only on phones/tablets.
+    const commitLocalSize = (entry = null) => {
+      const contentRect = entry?.contentRect;
+      const localWidth = Number(contentRect?.width ?? element.clientWidth);
+      const localHeight = Number(contentRect?.height ?? element.clientHeight);
 
-      if (rect.width <= 0 || rect.height <= 0) return;
+      if (
+        !Number.isFinite(localWidth) ||
+        !Number.isFinite(localHeight) ||
+        localWidth <= 0 ||
+        localHeight <= 0
+      ) {
+        return;
+      }
 
       sizeMeasuredRef.current = true;
       setHasMeasuredSize(true);
 
       setSize((previous) => {
         if (
-          Math.abs(previous.width - rect.width) < 0.25 &&
-          Math.abs(previous.height - rect.height) < 0.25
+          Math.abs(previous.width - localWidth) < 0.25 &&
+          Math.abs(previous.height - localHeight) < 0.25
         ) {
           return previous;
         }
 
         return {
-          width: rect.width,
-          height: rect.height,
+          width: localWidth,
+          height: localHeight,
         };
       });
     };
 
-    updateSize();
+    commitLocalSize();
 
-    const observer = new ResizeObserver(updateSize);
+    const observer = new ResizeObserver((entries) => {
+      commitLocalSize(entries?.[0] || null);
+    });
     observer.observe(element);
 
     return () => observer.disconnect();
@@ -1689,10 +1704,19 @@ const TimelineMap = forwardRef(function TimelineMap(
           viewportUserMovedRef.current = true;
         }
 
-        const sourceType = String(event?.sourceEvent?.type || "");
+        const sourceEvent = event?.sourceEvent;
+        const sourceType = String(sourceEvent?.type || "");
+        const coarsePointer =
+          typeof window !== "undefined" &&
+          typeof window.matchMedia === "function" &&
+          window.matchMedia("(any-pointer: coarse)").matches;
+
         viewportGestureIsTouchRef.current =
-          event?.sourceEvent?.pointerType === "touch" ||
-          sourceType.startsWith("touch");
+          sourceEvent?.pointerType === "touch" ||
+          sourceType.startsWith("touch") ||
+          sourceEvent?.touches?.length > 0 ||
+          sourceEvent?.changedTouches?.length > 0 ||
+          (coarsePointer && sourceType === "wheel" && !!sourceEvent?.ctrlKey);
         viewportGestureStartTransformRef.current =
           event?.transform || viewportTransformRef.current || d3.zoomIdentity;
         viewportInteractionNotifiedRef.current = false;

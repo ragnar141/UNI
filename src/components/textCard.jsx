@@ -583,6 +583,16 @@ useEffect(() => {
 
           <button
             type="button"
+            className="textCard-fold"
+            onClick={() => setIsFolded((v) => !v)}
+            aria-label={isFolded ? "Unfold" : "Fold"}
+            title={isFolded ? "Unfold" : "Fold"}
+          >
+            <FoldDensityIcon action={isFolded ? "unfold" : "fold"} />
+          </button>
+
+          <button
+            type="button"
             className={`selectedTooltipToggle ${
               selectedTooltipVisible ? "is-on" : "is-off"
             }`}
@@ -602,16 +612,6 @@ useEffect(() => {
             }
           >
             <TooltipVisibilityIcon visible={selectedTooltipVisible} />
-          </button>
-
-          <button
-            type="button"
-            className="textCard-fold"
-            onClick={() => setIsFolded((v) => !v)}
-            aria-label={isFolded ? "Unfold" : "Fold"}
-            title={isFolded ? "Unfold" : "Fold"}
-          >
-            <FoldDensityIcon action={isFolded ? "unfold" : "fold"} />
           </button>
         </div>
 

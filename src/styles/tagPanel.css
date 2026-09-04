@@ -923,3 +923,315 @@
     opacity: 0.45;
   }
 }
+/* ========================================================================== */
+/* RESPONSIVE POLISH PASS 18 — compact PHONE profile only                     */
+/* ========================================================================== */
+/* The timeline itself is forced into logical landscape on portrait phones.
+   These values therefore compress the drawer in that logical coordinate
+   system without changing the already-good tablet/desktop drawer. */
+@media (orientation: portrait) and (max-width: 520px) {
+  .tagPanelWrap {
+    --panel-w: 154px;
+    --tab-w: 22px;
+    --tag-font-size: 9.5px;
+    --detail-back-gap: 8px;
+  }
+
+  .tagPanel__content {
+    padding: 8px 9px;
+    gap: 4px;
+  }
+
+  .tagPanel__sectionLabel {
+    padding: 3px 0 5px;
+    margin-bottom: 3px;
+    border-bottom-width: 1px;
+    font-size: 10.5px;
+  }
+
+  .tagPanel__radios,
+  .tagPanel__layerMode {
+    gap: 2px;
+    padding: 3px 3px 5px;
+  }
+
+  .tagPanel__visibility {
+    margin-top: 5px;
+    padding-left: 3px;
+    gap: 1px;
+  }
+
+  .tagPanel__btnRow {
+    gap: 3px;
+    margin-left: -3px;
+  }
+
+  .tagPanel__btnRow .tagPanel__btn,
+  .tagPanel__btnRow:has(.tagPanel__resetDot) .tagPanel__btn {
+    width: calc(100% - 22px);
+  }
+
+  .tagPanel__btn {
+    height: 25px;
+    padding: 4px 6px;
+    border-width: 1px;
+    border-radius: 7px;
+    line-height: 1;
+  }
+
+  .tagPanel__radioRow,
+  .tagPanel__radio,
+  .tagPanel__row {
+    min-height: 21px;
+    gap: 1px;
+    line-height: 1.1;
+  }
+
+  .tagPanel__row span {
+    margin-left: 4px;
+  }
+
+  .tagPanel__visibility .tagPanel__row span {
+    margin-left: 1px;
+  }
+
+  .tagPanel__menuTitle {
+    font-size: 10.5px;
+  }
+
+  .tagPanel__detailContent {
+    padding-top: 7px;
+  }
+
+  .tagPanel__detailHeader {
+    gap: 5px;
+    padding: 4px 0 5px;
+    margin-bottom: 2px;
+    border-bottom-width: 1px;
+  }
+
+  .tagPanel__detailCount {
+    font-size: 9px;
+  }
+
+  .tagPanel__detailToolbar {
+    padding: 2px 0 3px;
+  }
+
+  .tagPanel__miniBtn {
+    min-height: 25px;
+    padding: 3px 6px;
+    font-size: 9px;
+    border-radius: 6px;
+  }
+
+  .tagPanel__back {
+    min-height: 27px;
+    gap: 4px;
+    margin-right: 28px;
+    padding: 4px 6px;
+    font-size: 9px;
+  }
+
+  .tagPanel__backArrow {
+    font-size: 13px;
+  }
+
+  .tagPanel__close {
+    width: 28px;
+    height: 28px;
+    font-size: 17px;
+  }
+
+  .tagPanel__panelClosePos {
+    top: 4px;
+    right: 4px;
+  }
+
+  .tagPanel__resetDot {
+    width: 20px;
+    height: 20px;
+    flex-basis: 20px;
+  }
+
+  .tagPanel__resetDot::before {
+    width: 6px;
+    height: 6px;
+  }
+
+  .tagPanel__tab {
+    width: var(--tab-w);
+    height: 92px;
+    border-radius: 7px 0 0 7px;
+    font-size: 9px;
+    letter-spacing: 0.045em;
+    padding: 0;
+  }
+}
+
+/* ========================================================================== */
+/* iPhone SE FINAL PROFILE — consolidated                                     */
+/* ========================================================================== */
+/*
+ * Final compact iPhone-SE presentation. This replaces the former three
+ * successive SE override blocks (density -> correction -> spacing polish)
+ * with their exact effective cascade values in one place.
+ */
+@media (orientation: portrait) and (max-width: 430px) and (max-height: 750px) {
+  .tagPanelWrap {
+    --panel-w: 161px;
+    --tag-font-size: 9.25px;
+    --detail-back-gap: 7px;
+  }
+
+  .tagPanel__content {
+    padding: 7px 9px;
+    gap: 3px;
+  }
+
+  .tagPanel__sectionLabel {
+    padding: 3px 0 4px;
+    margin-bottom: 3px;
+    font-size: 10px;
+    line-height: 1.08;
+  }
+
+  .tagPanel__radios,
+  .tagPanel__layerMode {
+    margin-left: 0;
+    gap: 1px;
+    padding: 2px 3px 4px 1px;
+  }
+
+  .tagPanel__visibility {
+    margin-top: 3px;
+    margin-left: 0;
+    padding-left: 1px;
+    gap: 1px;
+  }
+
+  .tagPanel__btnRow {
+    gap: 3px;
+    margin-left: -3px;
+  }
+
+  .tagPanel__btn {
+    height: 24px;
+    padding: 3px 6px;
+    border-radius: 6px;
+    gap: 4px;
+    font-size: var(--tag-font-size);
+    line-height: 1.05;
+  }
+
+  .tagPanel__btnLabel,
+  .tagPanel__label {
+    font-size: var(--tag-font-size);
+    line-height: 1.08;
+  }
+
+  .tagPanel__radioRow,
+  .tagPanel__radio,
+  .tagPanel__row {
+    min-height: 19px;
+    gap: 1px;
+    font-size: var(--tag-font-size);
+    line-height: 1.08;
+  }
+
+  .tagPanel__row span {
+    margin-left: 4px;
+  }
+
+  .tagPanel__visibility .tagPanel__row span {
+    margin-left: 3px;
+  }
+
+  /* Visible controls stay compact; the surrounding labels remain tappable. */
+  .tagPanel__radioRow input[type="radio"],
+  .tagPanel__radio input[type="radio"],
+  .tagPanel__row input[type="checkbox"] {
+    width: 11px;
+    height: 11px;
+    min-width: 11px;
+    margin: 0;
+    padding: 0;
+    flex: 0 0 11px;
+  }
+
+  .tagPanel__menuTitle {
+    font-size: 10px;
+    line-height: 1.08;
+  }
+
+  .tagPanel__detailContent {
+    padding-top: 6px;
+  }
+
+  .tagPanel__detailHeader {
+    gap: 4px;
+    padding: 3px 0 4px;
+    margin-bottom: 2px;
+  }
+
+  .tagPanel__detailCount {
+    font-size: 8.75px;
+  }
+
+  .tagPanel__detailToolbar {
+    padding: 2px 0 3px;
+    gap: 3px;
+  }
+
+  .tagPanel__detailScrollBody .tagPanel__menuList {
+    gap: 0;
+    row-gap: 0;
+    padding-left: 7px;
+  }
+
+  .tagPanel__miniBtn {
+    min-height: 22px;
+    padding: 2px 5px;
+    font-size: 8.75px;
+    border-radius: 5px;
+  }
+
+  .tagPanel__back {
+    min-height: 24px;
+    gap: 3px;
+    margin-right: 24px;
+    padding: 3px 5px;
+    font-size: 8.75px;
+  }
+
+  .tagPanel__backArrow {
+    font-size: 12px;
+  }
+
+  .tagPanel__close {
+    width: 24px;
+    height: 24px;
+    font-size: 15px;
+  }
+
+  .tagPanel__panelClosePos {
+    top: 3px;
+    right: 3px;
+  }
+
+  .tagPanel__resetDot {
+    width: 18px;
+    height: 18px;
+    flex-basis: 18px;
+  }
+
+  .tagPanel__resetDot::before {
+    width: 5px;
+    height: 5px;
+  }
+
+  .tagPanel__btnRow .tagPanel__btn,
+  .tagPanel__btnRow:has(.tagPanel__resetDot) .tagPanel__btn {
+    width: calc(100% - 20px);
+  }
+}
