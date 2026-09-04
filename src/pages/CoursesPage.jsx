@@ -4,14 +4,14 @@ const preliminaryCourses = [
   {
     title: "On Knowledge and Human History",
     description:
-      "The course is designed to provide a broad starting frame for the subject's further educational journey, examining knowledge as a whole structure, its inherent political charge as well as limitations.",
+      "The course is designed to provide a broad starting frame for the student’s further educational journey, examining knowledge as a structure, its inherent political charge and limitations, as well as the ways history is perceived and made.",
     chapters: 4,
     tone: "history",
   },
   {
     title: "On Mathematics",
     description:
-      "The course dwelves into the roots of the discipline acknowledging it as a first step of differentiation which allows emperical intelligibility of the world.",
+      "The course delves into the roots of the discipline, acknowledging it as a first step in differentiation that allows for the empirical intelligibility of the world.",
     chapters: 5,
     tone: "mathematics",
   },
