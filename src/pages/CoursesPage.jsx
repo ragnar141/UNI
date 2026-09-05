@@ -4,7 +4,7 @@ const preliminaryCourses = [
   {
     title: "On Knowledge and Human History",
     description:
-      "The course is designed to provide a broad starting frame for the student’s further educational journey, examining knowledge as a structure, its inherent political charge and limitations, as well as the ways history is perceived and made.",
+      "The course is designed to provide a broad starting frame for the student’s further educational journey. It approaches knowledge as something implicitly politically charged and inherently unstable. Institutions that produce and organize knowledge inevitably participate both in interpreting the past and in attempting to shape history as it unfolds.",
     chapters: 4,
     tone: "history",
   },
